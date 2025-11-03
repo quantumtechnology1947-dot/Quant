@@ -1,0 +1,484 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/CreditorsDebitors_InDetailView.aspx.txt ===
+
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CreditorsDebitors_InDetailView.aspx.cs" Inherits="Module_Accounts_Transactions_CreditorsDebitors_InDetailView" %>
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+<link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style4
+        { 
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            font-size: 11px;
+            font-style: normal; 
+            line-height: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            color: #FFFFFF;
+            text-decoration: none;
+            height: 21px;
+        }
+        .style5
+        {
+            font-weight: bold;
+        }
+    </style>
+    
+    <title>ERP</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+    <table align="center" style="width: 100%" cellpadding="0" cellspacing="0">       
+            <tr>
+            <td align="center">
+                <CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server"  HasCrystalLogo="False"   BorderStyle="Solid" BorderColor="Black" BorderWidth="1" AutoDataBind="True"  ReportSourceID="CrystalReportSource1" EnableDatabaseLogonPrompt="False" DisplayGroupTree="False" ReuseParameterValuesOnRefresh="True" HyperlinkTarget="_Parent"
+                Height="50px" Width="100%" oninit="CrystalReportViewer1_Init" onload="CrystalReportViewer1_Load"/> 
+                <CR:CrystalReportSource ID="CrystalReportSource1" runat="server" >
+                <Report FileName="~/Module/Accounts/Reports/CreditorsDebitors_InDetailList.rpt"></Report>
+                </CR:CrystalReportSource> 
+            </td>
+            </tr>
+        <tr>
+        <td  align="center" height="28px" valign="middle">       
+          
+            </td>        
+        </tr>
+      
+    </table>
+    </div>
+    </form>
+</body>
+</html>
+
+
+
+    
+    
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/CreditorsDebitors_InDetailView.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+
+public partial class Module_Accounts_Transactions_CreditorsDebitors_InDetailView : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();    
+    SqlConnection con;
+    ReportDocument cryRpt = new ReportDocument();
+
+    int CompId = 0;
+    int FinYearId = 0;
+    string SId = string.Empty;
+    string CDate = string.Empty;
+    string CTime = string.Empty;
+    string connStr = string.Empty;
+    string SupId = string.Empty;
+    string Key = string.Empty;
+    string DTFrm = string.Empty;
+    string DTTo = string.Empty;
+
+    protected void Page_Init(object sender, EventArgs e)
+    {   
+        try
+        {
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            con.Open();
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            CompId = Convert.ToInt32(Session["compid"]);
+            SId = Session["username"].ToString();
+            SupId = Session["SupId"].ToString();
+            Key =Session["Key"].ToString();
+            DTFrm = Session["DtFrm"].ToString();
+            DTTo = Session["DtTo"].ToString();
+            CDate = fun.getCurrDate();
+            CTime = fun.getCurrTime();
+
+            if (!IsPostBack)
+            {
+                this.FillReport(SupId, DTFrm, DTTo);
+            }
+            else
+            {
+                ReportDocument doc = (ReportDocument)Session[Key];
+                CrystalReportViewer1.ReportSource = doc;
+            }
+        }
+        catch(Exception ex)
+        {
+
+        }
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        //try
+        {
+            //connStr = fun.Connection();
+            //con = new SqlConnection(connStr);
+            //con.Open();
+            //FinYearId = Convert.ToInt32(Session["finyear"]);
+            //CompId = Convert.ToInt32(Session["compid"]);
+            //SId = Session["username"].ToString();
+            //SupId = Request.QueryString["SupId"].ToString();
+            //CDate = fun.getCurrDate();
+            //CTime = fun.getCurrTime();
+            //Key = Request.QueryString["Key"].ToString();
+
+            //if (!IsPostBack)
+            //{
+            //    this.FillReport(SupId, DtFrm, DtTo);
+            //}
+            //else
+            //{
+            //    ReportDocument doc = (ReportDocument)Session[Key];
+            //    CrystalReportViewer1.ReportSource = doc;
+            //}
+
+            //con.Close();
+           
+        }
+        //catch(Exception ex)
+        {
+            
+        }
+    }
+
+    public void FillReport(string SupplierId, string FromDate, string ToDate)
+    {
+        try
+        {
+            // For Opening Bal
+
+            string strCredit = fun.select("OpeningAmt","tblACC_Creditors_Master","SupplierId='" + SupId + "' And CompId='" + CompId + "'");
+            SqlCommand cmdCredit = new SqlCommand(strCredit, con);
+            SqlDataReader rdr4 = cmdCredit.ExecuteReader();
+            rdr4.Read();
+
+            double StaticOpBal = 0;
+
+            if (rdr4.HasRows == true)
+            {
+                StaticOpBal = Math.Round(Convert.ToDouble(rdr4["OpeningAmt"]), 2);
+            }
+
+            double PreDateOpBal = 0;
+
+            if (DTFrm != "")
+            {
+                string sql2 = string.Empty;
+
+                sql2 = fun.select("(Case When GQNId !=0 then (Select tblQc_MaterialQuality_Details.AcceptedQty from tblQc_MaterialQuality_Details where tblQc_MaterialQuality_Details.Id=tblACC_BillBooking_Details.GQNId)*(tblMM_PO_Details.Rate - (tblMM_PO_Details.Rate * tblMM_PO_Details.Discount) / 100) Else (Select tblinv_MaterialServiceNote_Details.ReceivedQty As AcceptedQty from tblinv_MaterialServiceNote_Details where tblinv_MaterialServiceNote_Details.Id=tblACC_BillBooking_Details.GSNId)*(tblMM_PO_Details.Rate - (tblMM_PO_Details.Rate * tblMM_PO_Details.Discount) / 100)End)+PFAmt+ExStBasic+ExStEducess+ExStShecess+tblACC_BillBooking_Details.VAT+CST+tblACC_BillBooking_Details.Freight+tblACC_BillBooking_Details.BCDValue+tblACC_BillBooking_Details.EdCessOnCDValue+tblACC_BillBooking_Details.SHEDCessValue As TotalBookedBill,tblACC_BillBooking_Master.Discount,tblACC_BillBooking_Master.DiscountType,tblACC_BillBooking_Master.DebitAmt,tblACC_BillBooking_Master.OtherCharges,tblACC_BillBooking_Master.Id as PVEVId,tblACC_BillBooking_Master.SysDate,tblACC_BillBooking_Master.PVEVNo", " tblACC_BillBooking_Master,tblACC_BillBooking_Details,tblMM_PO_Details,tblMM_PO_Master", "tblACC_BillBooking_Master.CompId='" + CompId + "' AND tblACC_BillBooking_Master.SupplierId='" + SupId + "' AND tblACC_BillBooking_Master.Id=tblACC_BillBooking_Details.MId AND tblACC_BillBooking_Master.FinYearId<='" + FinYearId + "' AND tblMM_PO_Details.Id=tblACC_BillBooking_Details.PODId AND tblMM_PO_Master.Id=tblMM_PO_Details.MId AND tblACC_BillBooking_Master.SysDate < '" + DTFrm + "'");
+
+                SqlCommand sqlcmd2 = new SqlCommand(sql2, con);
+                SqlDataReader sqldr4 = sqlcmd2.ExecuteReader();
+
+                DataTable dt2 = new DataTable();
+
+                dt2.Columns.Add(new System.Data.DataColumn("PVEVId", typeof(int)));//0
+                dt2.Columns.Add(new System.Data.DataColumn("Discount", typeof(double)));//1
+                dt2.Columns.Add(new System.Data.DataColumn("DiscountType", typeof(int)));//2
+                dt2.Columns.Add(new System.Data.DataColumn("DebitAmt", typeof(double)));//3
+                dt2.Columns.Add(new System.Data.DataColumn("OtherCharges", typeof(double)));//4
+                dt2.Columns.Add(new System.Data.DataColumn("TotalBookedBill", typeof(double)));//5
+
+                DataRow sqlrow3;
+
+                while (sqldr4.Read())
+                {
+                    sqlrow3 = dt2.NewRow();
+                    sqlrow3[0] = Convert.ToInt32(sqldr4["PVEVId"]);
+                    sqlrow3[1] = Convert.ToDouble(sqldr4["Discount"]);
+                    sqlrow3[2] = Convert.ToInt32(sqldr4["DiscountType"]);
+                    sqlrow3[3] = Convert.ToDouble(sqldr4["DebitAmt"]);
+                    sqlrow3[4] = Convert.ToDouble(sqldr4["OtherCharges"]);
+                    sqlrow3[5] = Convert.ToDouble(sqldr4["TotalBookedBill"]);
+
+                    dt2.Rows.Add(sqlrow3);
+                    dt2.AcceptChanges();
+                }
+
+                var linq2 = from x2 in dt2.AsEnumerable()
+                            group x2 by new
+                            {
+                                y2 = x2.Field<int>("PVEVId")
+                            } into grp2
+                            let row2 = grp2.First()
+                            select new
+                            {
+                                PVEVId = row2.Field<int>("PVEVId"),
+                                Discount = row2.Field<double>("Discount"),
+                                DiscountType = row2.Field<int>("DiscountType"),
+                                DebitAmt = row2.Field<double>("DebitAmt"),
+                                OtherCharges = row2.Field<double>("OtherCharges"),
+                                TotalBookedBill = grp2.Sum(r2 => r2.Field<double>("TotalBookedBill"))
+                            };
+
+                foreach (var d2 in linq2)
+                {
+                    double CalCrAmt2 = 0;
+
+                    CalCrAmt2 = d2.TotalBookedBill + d2.OtherCharges;
+
+                    if (d2.DiscountType == 0)
+                    {
+                        CalCrAmt2 = CalCrAmt2 - d2.Discount;
+                    }
+                    else if (d2.DiscountType == 1)
+                    {
+                        CalCrAmt2 = CalCrAmt2 - (CalCrAmt2 * d2.Discount / 100);
+                    }
+
+                    CalCrAmt2 = CalCrAmt2 - d2.DebitAmt;
+
+                    PreDateOpBal += CalCrAmt2;
+                }
+
+            }
+
+            
+
+            ///////////////////////////////////////////////
+
+            string SqlParam = string.Empty;
+            string SqlParam2 = string.Empty;
+
+            if (FromDate != "" && ToDate != "" && (Convert.ToDateTime(FromDate) <= Convert.ToDateTime(ToDate)))
+            {
+                SqlParam = " AND tblACC_BillBooking_Master.SysDate Between '" + FromDate + "' AND '" + ToDate + "'";
+                SqlParam2 = " AND tblACC_BankVoucher_Payment_Master.SysDate Between '" + FromDate + "' AND '" + ToDate + "'";
+            }
+
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add(new System.Data.DataColumn("SysDate", typeof(string)));//0
+            dt.Columns.Add(new System.Data.DataColumn("PVEVId", typeof(int)));//1
+            dt.Columns.Add(new System.Data.DataColumn("Discount", typeof(double)));//2
+            dt.Columns.Add(new System.Data.DataColumn("DiscountType", typeof(int)));//3
+            dt.Columns.Add(new System.Data.DataColumn("DebitAmt", typeof(double)));//4
+            dt.Columns.Add(new System.Data.DataColumn("OtherCharges", typeof(double)));//5
+            dt.Columns.Add(new System.Data.DataColumn("TotalBookedBill", typeof(double)));//6
+            dt.Columns.Add(new System.Data.DataColumn("PVEVNo", typeof(string)));//7
+            dt.Columns.Add(new System.Data.DataColumn("DTSort", typeof(DateTime)));//8
+
+            string sql = string.Empty;
+
+            sql = fun.select("(Case When GQNId !=0 then (Select tblQc_MaterialQuality_Details.AcceptedQty from tblQc_MaterialQuality_Details where tblQc_MaterialQuality_Details.Id=tblACC_BillBooking_Details.GQNId)*(tblMM_PO_Details.Rate - (tblMM_PO_Details.Rate * tblMM_PO_Details.Discount) / 100) Else (Select tblinv_MaterialServiceNote_Details.ReceivedQty As AcceptedQty from tblinv_MaterialServiceNote_Details where tblinv_MaterialServiceNote_Details.Id=tblACC_BillBooking_Details.GSNId)*(tblMM_PO_Details.Rate - (tblMM_PO_Details.Rate * tblMM_PO_Details.Discount) / 100)End)+PFAmt+ExStBasic+ExStEducess+ExStShecess+tblACC_BillBooking_Details.VAT+CST+tblACC_BillBooking_Details.Freight+tblACC_BillBooking_Details.BCDValue+tblACC_BillBooking_Details.EdCessOnCDValue+tblACC_BillBooking_Details.SHEDCessValue As TotalBookedBill,tblACC_BillBooking_Master.Discount,tblACC_BillBooking_Master.DiscountType,tblACC_BillBooking_Master.DebitAmt,tblACC_BillBooking_Master.OtherCharges,tblACC_BillBooking_Master.Id as PVEVId,tblACC_BillBooking_Master.SysDate,tblACC_BillBooking_Master.PVEVNo", " tblACC_BillBooking_Master,tblACC_BillBooking_Details,tblMM_PO_Details,tblMM_PO_Master", "tblACC_BillBooking_Master.CompId='" + CompId + "' AND tblACC_BillBooking_Master.SupplierId='" + SupId + "' AND tblACC_BillBooking_Master.Id=tblACC_BillBooking_Details.MId AND tblACC_BillBooking_Master.FinYearId<='" + FinYearId + "' AND tblMM_PO_Details.Id=tblACC_BillBooking_Details.PODId AND tblMM_PO_Master.Id=tblMM_PO_Details.MId " + SqlParam + ";");
+            SqlCommand sqlcmd = new SqlCommand(sql, con);
+            SqlDataReader sqldr = sqlcmd.ExecuteReader();
+
+            DataRow sqlrow;
+
+            while (sqldr.Read())
+            {
+                sqlrow = dt.NewRow();
+                sqlrow[0] = fun.FromDateDMY(sqldr["SysDate"].ToString());
+                sqlrow[1] = Convert.ToInt32(sqldr["PVEVId"]);
+                sqlrow[2] = Convert.ToDouble(sqldr["Discount"]);
+                sqlrow[3] = Convert.ToInt32(sqldr["DiscountType"]);
+                sqlrow[4] = Convert.ToDouble(sqldr["DebitAmt"]);
+                sqlrow[5] = Convert.ToDouble(sqldr["OtherCharges"]);
+                sqlrow[6] = Convert.ToDouble(sqldr["TotalBookedBill"]);
+                sqlrow[7] = sqldr["PVEVNo"].ToString();
+                sqlrow[8] = Convert.ToDateTime(sqldr["SysDate"].ToString());
+
+                dt.Rows.Add(sqlrow);
+                dt.AcceptChanges();
+            }
+
+            var linq = from x in dt.AsEnumerable()
+                       group x by new
+                       {
+                           y = x.Field<int>("PVEVId")
+                       } into grp
+                       let row1 = grp.First()
+                       select new
+                       {
+                           SysDate = row1.Field<string>("SysDate"),
+                           PVEVNo = row1.Field<string>("PVEVNo"),
+                           PVEVId = row1.Field<int>("PVEVId"),
+                           Discount = row1.Field<double>("Discount"),
+                           DiscountType = row1.Field<int>("DiscountType"),
+                           DebitAmt = row1.Field<double>("DebitAmt"),
+                           OtherCharges = row1.Field<double>("OtherCharges"),
+                           TotalBookedBill = grp.Sum(r => r.Field<double>("TotalBookedBill")),
+                           DTSort = row1.Field<DateTime>("DTSort")
+                       };
+
+            DataTable dt1 = new DataTable();
+
+            dt1.Columns.Add(new System.Data.DataColumn("VchDate", typeof(string)));//0
+            dt1.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));//1
+            dt1.Columns.Add(new System.Data.DataColumn("VchNo", typeof(string)));//2
+            dt1.Columns.Add(new System.Data.DataColumn("VchType", typeof(string)));//3
+            dt1.Columns.Add(new System.Data.DataColumn("Particulars", typeof(string)));//4
+            dt1.Columns.Add(new System.Data.DataColumn("Credit", typeof(double)));//5
+            dt1.Columns.Add(new System.Data.DataColumn("Debit", typeof(double)));//6
+            dt1.Columns.Add(new System.Data.DataColumn("OtherCharges", typeof(double)));//7
+            dt1.Columns.Add(new System.Data.DataColumn("VchLinkData", typeof(string)));//8
+            dt1.Columns.Add(new System.Data.DataColumn("DTSort", typeof(DateTime)));//9
+
+            DataRow sqldr1;
+
+            foreach (var d in linq)
+            {
+                sqldr1 = dt1.NewRow();
+                sqldr1[0] = d.SysDate;
+                sqldr1[1] = CompId;
+                sqldr1[2] = d.PVEVNo;
+                sqldr1[3] = "Purchase";
+                sqldr1[4] = "";
+
+                double CalCrAmt = 0;
+
+                CalCrAmt = d.TotalBookedBill + d.OtherCharges;
+
+                if (d.DiscountType == 0)
+                {
+                    CalCrAmt = CalCrAmt - d.Discount;
+                }
+                else if (d.DiscountType == 1)
+                {
+                    CalCrAmt = CalCrAmt - (CalCrAmt * d.Discount / 100);
+                }
+
+                CalCrAmt = CalCrAmt - d.DebitAmt;
+
+                sqldr1[5] = CalCrAmt;
+                sqldr1[6] = 0;
+
+                //sqldr1[8] = "BillBooking_Print_Details.aspx?Id=" + d.PVEVId + "&Key=" + Key + "&f=3&ModId=11&SubModId=62&SupId=" + SupId + "";
+                
+                sqldr1[8] = "BillBooking_Print_Details.aspx?Id=" + d.PVEVId + "&Key=" + Key + "&f=3&ModId=11&SubModId=62&SupId=" + SupId + "";
+
+                sqldr1[9] = Convert.ToDateTime(fun.FromDateDMY(d.SysDate));
+
+                dt1.Rows.Add(sqldr1);
+                dt1.AcceptChanges();
+            }
+
+            ////Debit Amt
+
+            DataRow sqldr2;
+
+            string str = fun.select("*", " tblACC_BankVoucher_Payment_Master ", " CompId='" + CompId + "' AND FinYearId<='" + FinYearId + "' AND PayTo='" + SupId + "'" + SqlParam2 + "");
+
+            SqlCommand cmdCustWo = new SqlCommand(str, con);
+            SqlDataReader rdr = cmdCustWo.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                double DtlsAmt = 0;
+
+                string sqlAmt2 = "Select Sum(Amount)As Amt from tblACC_BankVoucher_Payment_Details inner join tblACC_BankVoucher_Payment_Master on tblACC_BankVoucher_Payment_Details.MId=tblACC_BankVoucher_Payment_Master.Id And CompId='" + CompId + "' AND tblACC_BankVoucher_Payment_Details.MId='" + rdr["Id"].ToString() + "'";
+                SqlCommand cmd6 = new SqlCommand(sqlAmt2, con);
+                SqlDataReader rdr2 = cmd6.ExecuteReader();
+                rdr2.Read();
+
+                if (rdr2.HasRows == true)
+                {
+                    if (rdr2["Amt"] != DBNull.Value)
+                    {
+                        DtlsAmt = Convert.ToDouble(decimal.Parse((rdr2["Amt"]).ToString()).ToString("N3"));
+                    }
+                }
+
+                double PayAmy_M = 0;
+                PayAmy_M = Convert.ToDouble(rdr["PayAmt"]);
+
+                sqldr2 = dt1.NewRow();
+                sqldr2[0] = fun.FromDateDMY(rdr["SysDate"].ToString());
+                sqldr2[1] = CompId;
+                sqldr2[2] = rdr["BVPNo"].ToString();
+                sqldr2[3] = "Payment";
+                sqldr2[4] = "";
+                sqldr2[5] = 0;
+                sqldr2[6] = Math.Round((DtlsAmt + PayAmy_M), 2);
+                sqldr2[8] = "BankVoucher_Advice_print.aspx?Id=" + rdr["Id"].ToString() + "&ModId=11&SubModId=114&Key=" + Key + "&SupId=" + SupId + "&getKey=1";
+                sqldr2[9] = Convert.ToDateTime(rdr["SysDate"].ToString());
+
+                dt1.Rows.Add(sqldr2);
+                dt1.AcceptChanges();
+            }
+
+            ///////        
+            dt1.DefaultView.Sort = "DTSort,VchNo ASC";
+            dt1 = dt1.DefaultView.ToTable();
+
+            DataSet CRDRset = new DataSet();
+            CRDRset.Tables.Add(dt1);
+            CRDRset.AcceptChanges();
+
+            DataSet xsds = new CrDrDetails();
+            xsds.Tables[0].Merge(CRDRset.Tables[0]);
+            xsds.AcceptChanges();
+
+            cryRpt.Load(Server.MapPath("~/Module/Accounts/Reports/CreditorsDebitors_InDetailList.rpt"));
+            cryRpt.SetDataSource(xsds);
+
+            string SupplierName = string.Empty;
+            string Sql = string.Empty;
+
+            Sql = fun.select("SupplierName", "tblMM_Supplier_master", "SupplierId='" + SupId + "'");
+            SqlCommand cmdSql = new SqlCommand(Sql, con);
+            SqlDataReader dsSql = cmdSql.ExecuteReader();
+            dsSql.Read();
+
+            SupplierName = dsSql["SupplierName"].ToString() + " [" + SupId + "]";
+            cryRpt.SetParameterValue("SupplierName", SupplierName);
+
+            //Company Address
+            string CompAdd = fun.select("*", "tblCompany_master", "CompId='" + CompId + "'");
+            SqlCommand cmdCompAdd = new SqlCommand(CompAdd, con);
+            SqlDataReader dsCompAdd = cmdCompAdd.ExecuteReader();
+            dsCompAdd.Read();
+
+            string Address = string.Empty;
+            Address = dsCompAdd["RegdAddress"].ToString() + "," + fun.getCity(Convert.ToInt32(dsCompAdd["RegdCity"]), 1) + ", " + fun.getState(Convert.ToInt32(dsCompAdd["RegdState"]), 1) + ", " + fun.getCountry(Convert.ToInt32(dsCompAdd["RegdCountry"]), 1) + "PIN No.-" + dsCompAdd["RegdPinCode"].ToString() + ".\n" + "Ph No.-" + dsCompAdd["RegdContactNo"].ToString() + ", " + " Fax No.-" + dsCompAdd["RegdFaxNo"].ToString() + "," + "Email No.-" + dsCompAdd["RegdEmail"].ToString();
+
+            cryRpt.SetParameterValue("Address", Address);
+            cryRpt.SetParameterValue("OpBal",(StaticOpBal+PreDateOpBal));
+
+            CrystalReportViewer1.ReportSource = cryRpt;
+            Session[Key] = cryRpt;
+        }
+        catch(Exception ex)
+        {
+        }
+
+    }
+
+    protected void CrystalReportViewer1_Load(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void CrystalReportViewer1_Init(object sender, EventArgs e)
+    {
+
+    }
+
+   
+}

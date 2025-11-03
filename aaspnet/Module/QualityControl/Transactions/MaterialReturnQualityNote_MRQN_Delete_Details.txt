@@ -1,0 +1,348 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/QualityControl/Transactions/MaterialReturnQualityNote_MRQN_Delete_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="MaterialReturnQualityNote_MRQN_Delete_Details.aspx.cs" Inherits="Module_QualityControl_Transactions_MaterialReturnQualityNote_MRQN_Delete_Details" Title="ERP 
+"  Theme ="Default"  %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style2
+        {
+            height: 21px;
+        }
+        .style3
+        {
+            height: 25px;
+        }
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table class="style2" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td  align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;Material Return Quality Note [MRQN] - Delete</b></td>
+        </tr>
+        <tr>
+            <td align="left" >
+                <asp:GridView ID="GridView1" runat="server" CssClass="yui-datatable-theme" 
+                    AllowPaging="True" AutoGenerateColumns="False" Width="100%" 
+                    onrowcommand="GridView1_RowCommand" 
+                    onpageindexchanging="GridView1_PageIndexChanging" PageSize="20" >
+                    <PagerSettings PageButtonCount="40" />
+                <Columns>
+                <asp:TemplateField HeaderText="SN"> <ItemTemplate><%#Container.DataItemIndex+1  %></ItemTemplate><ItemStyle HorizontalAlign="Right" /></asp:TemplateField>
+                 <asp:TemplateField >
+                      <ItemTemplate>
+                          <asp:LinkButton ID="LinkButton1" CommandName="Del"  
+                           OnClientClick=" return confirmationDelete()" Text="Delete" runat="server"></asp:LinkButton>
+                      </ItemTemplate>
+                      <ItemStyle HorizontalAlign="Center" />
+                 </asp:TemplateField>                
+                
+                    
+                <asp:TemplateField HeaderText="Id" Visible="False"><ItemTemplate><asp:Label ID="lblId" runat="server" Text='<%# Eval("Id") %>' Visible="false"></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Right" /></asp:TemplateField>
+                 
+                <asp:TemplateField HeaderText="Item Code" ><ItemTemplate><asp:Label ID="lblItemCode" runat="server" Text='<%# Eval("ItemCode") %>' ></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
+                 
+                  <asp:TemplateField HeaderText="Description" ><ItemTemplate><asp:Label ID="lblDesc" runat="server" Text='<%# Eval("Description") %>' ></asp:Label></ItemTemplate>
+                      <ItemStyle HorizontalAlign="Left" Width="30%" /></asp:TemplateField>
+                   <asp:TemplateField HeaderText="UOM" ><ItemTemplate><asp:Label ID="lblUOMPurchase" runat="server" Text='<%# Eval("UOM") %>' ></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
+                 
+                 
+                <asp:TemplateField HeaderText="Dept" ><ItemTemplate><asp:Label ID="lblDept" runat="server" Text='<%# Eval("Symbol") %>' ></asp:Label></ItemTemplate>
+                    <ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
+                 <asp:TemplateField HeaderText="WO No" ><ItemTemplate><asp:Label ID="lblWONo" runat="server" Text='<%# Eval("WONo") %>' ></asp:Label></ItemTemplate>
+                     <ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
+                  <asp:TemplateField HeaderText="Ret Qty" ><ItemTemplate><asp:Label ID="lblRetQty" runat="server" Text='<%# Eval("RetQty") %>' ></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Right" /></asp:TemplateField>
+                 <asp:TemplateField HeaderText="Accpt Qty" ><ItemTemplate><asp:Label ID="lblAccptQty" runat="server" Text='<%# Eval("AcceptedQty") %>' ></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Right" /></asp:TemplateField>
+                 <asp:TemplateField HeaderText="Remarks" ><ItemTemplate><asp:Label ID="lblRemarks" runat="server" Text='<%# Eval("Remarks") %>' ></asp:Label></ItemTemplate>
+                     <ItemStyle HorizontalAlign="Left" Width="25%" />                 
+                 </asp:TemplateField>
+                 
+<asp:TemplateField HeaderText="Item Id" Visible="false"><ItemTemplate>
+                                                        <asp:Label ID="lblItemId" runat="server" Text='<%#Eval("ItemId") %>' />
+                                                    
+</ItemTemplate>
+
+<ItemStyle HorizontalAlign="Justify" Width="12%"></ItemStyle>
+</asp:TemplateField>
+              </Columns>
+     <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                </asp:GridView>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" class="style3" height="25" valign="bottom">&nbsp;
+                &nbsp;<asp:Label ID="lblmsg" runat="server" 
+                    style="font-weight: 700; color: #FF0000"></asp:Label>
+&nbsp;<asp:Button ID="BtnCancel" runat="server" CssClass="redbox" Text="Cancel" 
+                    onclick="BtnCancel_Click" />
+            </td>
+        </tr>
+    </table>
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/QualityControl/Transactions/MaterialReturnQualityNote_MRQN_Delete_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_QualityControl_Transactions_MaterialReturnQualityNote_MRQN_Delete_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    DataSet DS = new DataSet();
+    string MRNNo = "";
+    string MRQNNo = "";
+    string sId = "";
+    int FyId = 0;
+    int CompId = 0;
+    string MId = "";
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            MId = Request.QueryString["Id"].ToString();
+            MRNNo = Request.QueryString["MRNNo"].ToString();
+            MRQNNo = Request.QueryString["MRQNNo"].ToString();
+            FyId = Convert.ToInt32(Request.QueryString["FYId"]);
+            CompId = Convert.ToInt32(Session["compid"]);
+            sId = Session["username"].ToString();
+
+            if (!IsPostBack)
+            {
+                this.LoadData();
+            }
+        }
+        catch (Exception ex) { }
+    }
+
+    public void LoadData()
+    {
+        try
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            con.Open();
+
+            SqlCommand Cmdgrid = new SqlCommand(fun.select("tblQc_MaterialReturnQuality_Details.Id,tblQc_MaterialReturnQuality_Details.MRNId,tblQc_MaterialReturnQuality_Details.MRQNNo,tblQc_MaterialReturnQuality_Details.AcceptedQty,tblQc_MaterialReturnQuality_Master.MRNId as MSId", "tblQc_MaterialReturnQuality_Details,tblQc_MaterialReturnQuality_Master", "tblQc_MaterialReturnQuality_Master.Id='" + MId + "' AND tblQc_MaterialReturnQuality_Details.MId=tblQc_MaterialReturnQuality_Master.Id  AND tblQc_MaterialReturnQuality_Master.CompId='" + CompId + "'"), con);
+
+            SqlDataReader DS = Cmdgrid.ExecuteReader();
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(Int32)));
+            dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Description", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("UOM", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Symbol", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("RetQty", typeof(float)));
+            dt.Columns.Add(new System.Data.DataColumn("AcceptedQty", typeof(float)));
+            dt.Columns.Add(new System.Data.DataColumn("Remarks", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ItemId", typeof(string)));
+           
+            DataRow dr;
+            
+            while (DS.Read())
+            {
+                dr = dt.NewRow();                                
+                {
+                    dr[0] = Convert.ToInt32(DS["Id"]);
+
+                    SqlCommand cmdrs = new SqlCommand(fun.select("tblInv_MaterialReturn_Details.ItemId,tblInv_MaterialReturn_Details.DeptId,tblInv_MaterialReturn_Details.WONo,tblInv_MaterialReturn_Details.RetQty,tblInv_MaterialReturn_Details.Remarks", "tblInv_MaterialReturn_Details,tblInv_MaterialReturn_Master", "tblInv_MaterialReturn_Details.Id='" + Convert.ToInt32(DS["MRNId"]) + "' AND tblInv_MaterialReturn_Master.CompId='" + CompId + "'AND tblInv_MaterialReturn_Master.Id=tblInv_MaterialReturn_Details.MId"), con);
+
+                    SqlDataReader dsrs = cmdrs.ExecuteReader();
+                    dsrs.Read();
+
+                    if (dsrs.HasRows == true)
+                    {
+                        SqlCommand cmditem = new SqlCommand(fun.select("Id,ItemCode,ManfDesc,UOMBasic", "tblDG_Item_Master", "Id='" + Convert.ToInt32(dsrs["ItemId"]) + "' AND  CompId='" + CompId + "' "), con);
+                        SqlDataReader dsitem = cmditem.ExecuteReader();
+                        dsitem.Read();
+
+                        if (dsitem.HasRows == true)
+                        {
+                            SqlCommand cmdunit = new SqlCommand(fun.select("Symbol As UOM", "Unit_Master", "Id='" + Convert.ToInt32(dsitem["UOMBasic"]) + "'"), con);
+                            SqlDataReader dsunit = cmdunit.ExecuteReader();
+                            dsunit.Read();
+
+                            dr[1] = fun.GetItemCode_PartNo(CompId, Convert.ToInt32(dsrs["ItemId"].ToString()));
+                            dr[2] = dsitem["ManfDesc"].ToString();
+
+                            if (dsunit.HasRows == true)
+                            {
+                                dr[3] = dsunit["UOM"].ToString();
+                            }
+                            if (dsrs["DeptId"].ToString() == "0")
+                            {
+                                dr[4] = "NA";
+                                dr[5] = dsrs["WONo"].ToString();
+                            }
+                            else
+                            {
+                                string dept = fun.select("Symbol", "tblHR_Departments", "Id='" + Convert.ToInt32(dsrs["DeptId"].ToString()) + "'");
+
+                                SqlCommand cmddpt = new SqlCommand(dept, con);
+                                SqlDataReader ds = cmddpt.ExecuteReader();
+                                ds.Read();
+
+                                if (ds.HasRows == true)
+                                {
+                                    dr[4] = ds["Symbol"].ToString();
+                                    dr[5] = "NA";
+                                }
+                            }
+
+                            dr[6] = dsrs["RetQty"].ToString();
+                            dr[7] = DS["AcceptedQty"].ToString();
+                            dr[8] = dsrs["Remarks"].ToString();
+                            dr[9] = dsitem["Id"].ToString();
+
+                            dt.Rows.Add(dr);
+                            dt.AcceptChanges();
+                        }
+                    }
+                }
+            }
+
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
+            con.Close();
+
+        }
+        catch (Exception ex) { }
+    }
+
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+
+        try
+        {
+            con.Open();
+            if (e.CommandName == "Del")
+            {
+                CompId = Convert.ToInt32(Session["compid"]);
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+
+                int Id = Convert.ToInt32(((Label)row.FindControl("lblId")).Text);
+                string ItemId = ((Label)row.FindControl("lblItemId")).Text;
+
+                double StkQty = 0;
+                double AcctQty = 0;
+                double BalStkQty = 0;
+                lblmsg.Text = "";
+
+                string StrStkQty = fun.select("StockQty", "tblDG_Item_Master", "Id='" + ItemId + "' AND CompId='" + CompId + "'");
+                SqlCommand cmdStkQty = new SqlCommand(StrStkQty, con);
+                SqlDataAdapter daStkQty = new SqlDataAdapter(cmdStkQty);
+                DataSet DSStkQty = new DataSet();
+                daStkQty.Fill(DSStkQty);
+
+                StkQty = Convert.ToDouble(DSStkQty.Tables[0].Rows[0][0]);
+                AcctQty = Convert.ToDouble(((Label)row.FindControl("lblAccptQty")).Text);
+
+                if (StkQty >= AcctQty)
+                {
+                    BalStkQty = StkQty - AcctQty;
+
+                    //Generate Log For Transaction Type: MRQN - 1
+                    fun.StkAdjLog(CompId, FyId, sId, 1, MRQNNo, Convert.ToInt32(ItemId), AcctQty);
+
+                    string delStr = fun.delete("tblQc_MaterialReturnQuality_Details", "Id='" + Id + "'");
+                    SqlCommand cmdDel = new SqlCommand(delStr, con);
+                    cmdDel.ExecuteNonQuery();
+
+                    string StrUpStkQty = fun.update("tblDG_Item_Master", "StockQty='" + BalStkQty + "'", "Id='" + ItemId + "' AND CompId='" + CompId + "'");
+                    SqlCommand cmdUpStkQty = new SqlCommand(StrUpStkQty, con);
+                    cmdUpStkQty.ExecuteNonQuery();
+
+                    string StrSql = fun.select("tblQc_MaterialReturnQuality_Details.Id", "tblQc_MaterialReturnQuality_Master,tblQc_MaterialReturnQuality_Details", "tblQc_MaterialReturnQuality_Master.Id='" + MId + "'  AND tblQc_MaterialReturnQuality_Details.MId= tblQc_MaterialReturnQuality_Master.Id AND tblQc_MaterialReturnQuality_Master.CompId='" + CompId + "'");
+
+                    SqlCommand cmd = new SqlCommand(StrSql, con);
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataSet DSsql = new DataSet();
+                    da.Fill(DSsql);
+
+                    if (DSsql.Tables[0].Rows.Count == 0)
+                    {
+                        string delMastr = fun.delete("tblQc_MaterialReturnQuality_Master", "CompId='" + CompId + "'  and Id='" + MId + "'");
+                        SqlCommand cmdMstr = new SqlCommand(delMastr, con);
+                        cmdMstr.ExecuteNonQuery();
+
+                        Response.Redirect("MaterialReturnQualityNote_MRQN_Delete.aspx?MRQNNo=" + MRQNNo + "&ModId=10&SubModId=49");
+
+                    }
+                    else
+                    {
+                        Page.Response.Redirect(Page.Request.Url.ToString(), true);
+                    }
+                }
+                else
+                {
+                    lblmsg.Text = "Stock qty is insufficient to reverse back the GQN transaction!";
+                }
+            }
+        }
+        catch (Exception ex) { }
+        finally
+        { con.Close(); }
+
+    }
+    
+    protected void BtnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("MaterialReturnQualityNote_MRQN_Delete.aspx?ModId=10&SubModId=49");
+    }
+
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            GridView1.PageIndex = e.NewPageIndex;
+            this.LoadData();
+        }
+        catch (Exception ex) { }
+    }
+
+
+}

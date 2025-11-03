@@ -1,0 +1,207 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/TestModernReporting.aspx.txt ===
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="TestModernReporting.aspx.cs" Inherits="TestModernReporting" %>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Test Modern Reporting</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-container { max-width: 1200px; margin: 0 auto; }
+        .test-header { background: #f8f9fa; padding: 20px; border-radius: 5px; margin-bottom: 20px; }
+        .btn { padding: 10px 20px; margin: 5px; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-success { background: #28a745; color: white; }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="test-container">
+            <div class="test-header">
+                <h1>🚀 Modern Reporting System Test</h1>
+                <p>This page demonstrates the new reporting system that replaces Crystal Reports.</p>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <asp:Button ID="btnGenerateTestReport" runat="server" Text="Generate Test Report" 
+                    CssClass="btn btn-primary" OnClick="btnGenerateTestReport_Click" />
+                <asp:Button ID="btnGenerateSampleData" runat="server" Text="Generate Sample Data Report" 
+                    CssClass="btn btn-success" OnClick="btnGenerateSampleData_Click" />
+            </div>
+            
+            <!-- Modern Report Viewer -->
+            <div id="reportViewerContainer" runat="server">
+                <asp:Literal ID="litReportOutput" runat="server"></asp:Literal>
+            </div>
+            
+            <div style="margin-top: 30px; padding: 20px; background: #e9ecef; border-radius: 5px;">
+                <h3>✅ Features Implemented:</h3>
+                <ul>
+                    <li>✅ Modern HTML report generation</li>
+                    <li>✅ PDF export capability</li>
+                    <li>✅ Responsive design</li>
+                    <li>✅ Print functionality</li>
+                    <li>✅ Professional formatting</li>
+                    <li>✅ No Crystal Reports dependencies</li>
+                </ul>
+                
+                <h3>🔄 Migration Status:</h3>
+                <ul>
+                    <li>✅ Infrastructure created (ReportHelper.cs)</li>
+                    <li>✅ Modern Report Viewer component created</li>
+                    <li>✅ Sample implementation completed (RateRegister_Details_Modern)</li>
+                    <li>⏳ Testing in progress</li>
+                    <li>⏳ Systematic replacement of all Crystal Reports pages</li>
+                </ul>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/TestModernReporting.aspx.cs ===
+
+using System;
+using System.Data;
+using System.Web.UI;
+
+/// <summary>
+/// Test page for Modern Reporting System
+/// Demonstrates the new functionality that replaces Crystal Reports
+/// </summary>
+public partial class TestModernReporting : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            litReportOutput.Text = @"
+                <div style='padding: 20px; text-align: center; color: #666;'>
+                    <h3>📊 Modern Reporting System Ready</h3>
+                    <p>Click the buttons above to test the new reporting functionality.</p>
+                </div>";
+        }
+    }
+
+    /// <summary>
+    /// Generate a simple test report
+    /// </summary>
+    protected void btnGenerateTestReport_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            // Create sample data
+            DataTable testData = new DataTable();
+            testData.Columns.Add("ID", typeof(int));
+            testData.Columns.Add("Test Item", typeof(string));
+            testData.Columns.Add("Status", typeof(string));
+            testData.Columns.Add("Value", typeof(decimal));
+            testData.Columns.Add("Date", typeof(DateTime));
+
+            // Add test rows
+            testData.Rows.Add(1, "Crystal Reports Replacement", "✅ Completed", 100.00m, DateTime.Now);
+            testData.Rows.Add(2, "Modern HTML Generation", "✅ Implemented", 95.50m, DateTime.Now.AddDays(-1));
+            testData.Rows.Add(3, "PDF Export Functionality", "✅ Working", 88.25m, DateTime.Now.AddDays(-2));
+            testData.Rows.Add(4, "Report Viewer Component", "✅ Created", 92.75m, DateTime.Now.AddDays(-3));
+            testData.Rows.Add(5, "Sample Implementation", "✅ Done", 97.80m, DateTime.Now.AddDays(-4));
+
+            // Generate HTML report
+            string reportHtml = ModernReportHelper.ReportGenerator.GenerateHTMLReport(
+                testData, 
+                "Crystal Reports Modernization Test Report"
+            );
+
+            // Display the report
+            litReportOutput.Text = reportHtml;
+        }
+        catch (Exception ex)
+        {
+            litReportOutput.Text = $@"
+                <div style='padding: 20px; border: 1px solid #dc3545; background: #f8d7da; color: #721c24; border-radius: 5px;'>
+                    <h4>❌ Error Generating Test Report</h4>
+                    <p><strong>Error:</strong> {Server.HtmlEncode(ex.Message)}</p>
+                    <p><strong>Details:</strong> This might indicate missing dependencies or configuration issues.</p>
+                </div>";
+        }
+    }
+
+    /// <summary>
+    /// Generate a more comprehensive sample data report
+    /// </summary>
+    protected void btnGenerateSampleData_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            // Create sample ERP-style data
+            DataTable sampleData = CreateSampleERPData();
+
+            // Custom column headers
+            string[] headers = {
+                "Item ID", "Item Code", "Description", "Category", "Unit", 
+                "Rate", "Stock Qty", "Value", "Supplier", "Last Updated"
+            };
+
+            // Custom column widths
+            string[] widths = {
+                "8%", "10%", "25%", "12%", "8%", "10%", "10%", "12%", "15%", "10%"
+            };
+
+            // Generate HTML report with custom formatting
+            string reportHtml = ModernReportHelper.ReportGenerator.GenerateHTMLReport(
+                sampleData, 
+                "Sample ERP Inventory Report - " + DateTime.Now.ToString("dd/MM/yyyy"),
+                headers,
+                widths
+            );
+
+            // Display the report
+            litReportOutput.Text = reportHtml;
+        }
+        catch (Exception ex)
+        {
+            litReportOutput.Text = $@"
+                <div style='padding: 20px; border: 1px solid #dc3545; background: #f8d7da; color: #721c24; border-radius: 5px;'>
+                    <h4>❌ Error Generating Sample Report</h4>
+                    <p><strong>Error:</strong> {Server.HtmlEncode(ex.Message)}</p>
+                    <p><strong>Stack Trace:</strong></p>
+                    <pre style='background: white; padding: 10px; border-radius: 3px; font-size: 11px;'>{Server.HtmlEncode(ex.StackTrace)}</pre>
+                </div>";
+        }
+    }
+
+    /// <summary>
+    /// Create sample ERP data for testing
+    /// </summary>
+    private DataTable CreateSampleERPData()
+    {
+        DataTable data = new DataTable();
+        
+        // Define columns
+        data.Columns.Add("ItemID", typeof(int));
+        data.Columns.Add("ItemCode", typeof(string));
+        data.Columns.Add("Description", typeof(string));
+        data.Columns.Add("Category", typeof(string));
+        data.Columns.Add("Unit", typeof(string));
+        data.Columns.Add("Rate", typeof(decimal));
+        data.Columns.Add("StockQty", typeof(int));
+        data.Columns.Add("Value", typeof(decimal));
+        data.Columns.Add("Supplier", typeof(string));
+        data.Columns.Add("LastUpdated", typeof(DateTime));
+
+        // Add sample data
+        data.Rows.Add(1001, "RAW-001", "Steel Rods 12mm", "Raw Materials", "MT", 45000.00m, 25, 1125000.00m, "Steel Corp Ltd", DateTime.Now.AddDays(-5));
+        data.Rows.Add(1002, "RAW-002", "Cement Portland 53 Grade", "Raw Materials", "BAG", 350.00m, 500, 175000.00m, "Cement Industries", DateTime.Now.AddDays(-3));
+        data.Rows.Add(1003, "ELE-001", "Circuit Breaker 32A", "Electrical", "NOS", 1250.00m, 15, 18750.00m, "Electrical Solutions", DateTime.Now.AddDays(-7));
+        data.Rows.Add(1004, "MEC-001", "Bearing SKF 6205", "Mechanical", "NOS", 450.00m, 30, 13500.00m, "Bearing House", DateTime.Now.AddDays(-2));
+        data.Rows.Add(1005, "CHE-001", "Industrial Paint Red", "Chemicals", "LTR", 280.00m, 100, 28000.00m, "Paint Co", DateTime.Now.AddDays(-10));
+        data.Rows.Add(1006, "RAW-003", "Aluminium Sheets 2mm", "Raw Materials", "SQM", 850.00m, 75, 63750.00m, "Metal Works", DateTime.Now.AddDays(-1));
+        data.Rows.Add(1007, "ELE-002", "LED Light 40W", "Electrical", "NOS", 1200.00m, 60, 72000.00m, "Lighting Systems", DateTime.Now.AddDays(-4));
+        data.Rows.Add(1008, "MEC-002", "V-Belt A-Section", "Mechanical", "NOS", 180.00m, 40, 7200.00m, "Power Transmission", DateTime.Now.AddDays(-6));
+        data.Rows.Add(1009, "CHE-002", "Cutting Oil Grade-1", "Chemicals", "LTR", 120.00m, 200, 24000.00m, "Lubricants Ltd", DateTime.Now.AddDays(-8));
+        data.Rows.Add(1010, "RAW-004", "Copper Wire 2.5 sqmm", "Raw Materials", "MTR", 25.00m, 1000, 25000.00m, "Wire Industries", DateTime.Now.AddDays(-9));
+
+        return data;
+    }
+}

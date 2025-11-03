@@ -1,0 +1,384 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Transactions/BOM_Design_Root_Assembly_Copy_WO.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="BOM_Design_Root_Assembly_Copy_WO.aspx.cs" Inherits="Module_Design_Transactions_BOM_Design_Root_Assembly_Copy_WO" Title="ERP" Theme="Default" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table width ="100%" cellpadding="0" cellspacing="0">
+                    
+             <tr>
+            <td style="background:url(../../../images/hdbg.JPG)" class="fontcsswhite" height="21" >&nbsp;<b>BOM Root Assembly Copy From</b></td>
+             </tr>
+
+             <tr>
+            <td class="fontcsswhite" height="25" >
+            
+                <asp:DropDownList ID="DropDownList1" runat="server" Width="200px" 
+                    CssClass="box3"                     
+                    AutoPostBack="True" onselectedindexchanged="DropDownList1_SelectedIndexChanged2" 
+                     >
+                    <asp:ListItem Value="Select">Select</asp:ListItem>
+                    <asp:ListItem Value="0">Customer Name</asp:ListItem>
+                    <asp:ListItem Value="1">Enquiry No</asp:ListItem>
+                     <asp:ListItem Value="2">PO No</asp:ListItem>
+                         <asp:ListItem Value="3">WO No</asp:ListItem>
+                </asp:DropDownList>
+            
+                 <asp:TextBox ID="txtSearchCustomer" runat="server" Width="350px" 
+                    CssClass="box3"></asp:TextBox>
+                 <asp:TextBox ID="TxtSearchValue" Visible="False" runat="server" 
+                    CssClass="box3" Width="350px"></asp:TextBox>
+                      <cc1:autocompleteextender ID="TxtSearchValue_AutoCompleteExtender" 
+                    runat="server" CompletionInterval="100" CompletionSetCount="1" 
+                                            DelimiterCharacters="" Enabled="True" FirstRowSelected="True" 
+                                            MinimumPrefixLength="1" ServiceMethod="sql" ServicePath="" 
+                                            ShowOnlyCurrentWordInCompletionListItem="True" 
+                                            TargetControlID="TxtSearchValue" UseContextKey="True" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                </cc1:autocompleteextender> 
+                    
+                <asp:DropDownList runat="server" AutoPostBack="True" DataTextField="CName" DataValueField="CId" CssClass="box3" ID="DDLTaskWOType" OnSelectedIndexChanged="DDLTaskWOType_SelectedIndexChanged"></asp:DropDownList>
+        <asp:Button ID="btnSearch" runat="server" 
+            Text="Search" CssClass="redbox" onclick="btnSearch_Click"  />
+                        &nbsp;<asp:Button ID="btnCancel" runat="server" CssClass="redbox" 
+                    onclick="btnCancel_Click" Text="Cancel" />
+                        </td>
+             </tr>
+
+             <tr>
+            <td class="fontcss">
+                <asp:Panel ID="Panel1" Height="445px" ScrollBars="Auto"  runat="server">
+               
+                <asp:GridView ID="SearchGridView1" runat="server" AllowPaging="true" Width="100%"
+                    AllowSorting="True" AutoGenerateColumns="False" CssClass="yui-datatable-theme"
+                    DataKeyNames="WONo" RowStyle-HorizontalAlign ="Center"                  
+                    onpageindexchanging="SearchGridView1_PageIndexChanging" 
+                    ShowFooter="false" PageSize="25">
+            
+            <RowStyle />
+            <Columns>
+                
+                <asp:TemplateField HeaderText="SN" ItemStyle-HorizontalAlign="Right">
+                <ItemTemplate>
+                <%#Container.DataItemIndex+1  %>
+                </ItemTemplate>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+                </asp:TemplateField>
+                               
+                                  <asp:BoundField DataField="FinYear" HeaderText="Fin Yrs">
+                                      <ItemStyle HorizontalAlign="Center" Width="9%" />
+                </asp:BoundField>
+                                  <asp:BoundField HeaderText="Customer Name" 
+                    DataField="CustomerName">
+                                      <ItemStyle HorizontalAlign="Left" Width="35%" />
+                                </asp:BoundField>
+                                  <asp:BoundField DataField="CustomerId" HeaderText="Code" />
+                                  <asp:BoundField DataField="EnqId" HeaderText="Enquiry No" >
+                                      <ItemStyle Width="10%" />
+                </asp:BoundField>
+                                  <asp:BoundField DataField="PONo" HeaderText="PO No" >
+                                 <ItemStyle HorizontalAlign="Left" Width="12%" />
+                               </asp:BoundField>
+                                <asp:BoundField DataField="WONo" HeaderText="WONo" />
+                                  <asp:BoundField DataField="SysDate" HeaderText="Gen. Date" >
+                                      <ItemStyle Width="10%" />
+                </asp:BoundField>
+                                  <asp:BoundField DataField="EmployeeName" HeaderText="Gen. By" >
+                            
+                                      <ItemStyle HorizontalAlign="Left" Width="42%" />
+                                </asp:BoundField>
+                            
+            </Columns>
+              <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+        </asp:GridView>
+         </asp:Panel>
+
+    <asp:HiddenField ID="hfSort" runat="server" Value=" " />
+                     
+            <asp:HiddenField ID="hfSearchText" runat="server" />
+
+            </td>
+             </tr>
+              </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Transactions/BOM_Design_Root_Assembly_Copy_WO.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Security.Cryptography;
+public partial class Module_Design_Transactions_BOM_Design_Root_Assembly_Copy_WO : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string WoNoDest = "";
+    int CompId = 0;
+    string sId = "";
+    int FinYearId = 0;
+    string CId2 = "";
+    string Eid = "";
+    int h = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+
+        try
+        {
+            sId = Session["username"].ToString();
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            CompId = Convert.ToInt32(Session["compid"]);
+            WoNoDest = Request.QueryString["WONoDest"].ToString();
+
+            if (!Page.IsPostBack)
+            {
+               // this.BindDataCust(CId2, Eid,h);   
+               
+                    string StrCat = fun.select("CId,Symbol+' - '+CName as Category", "tblSD_WO_Category", "CompId='" + CompId + "'");
+                    SqlCommand Cmd = new SqlCommand(StrCat, con);
+                    DataSet DS = new DataSet();
+                    SqlDataAdapter DA = new SqlDataAdapter(Cmd);
+                    DA.Fill(DS, "tblSD_WO_Category");
+                    DDLTaskWOType.DataSource = DS.Tables["tblSD_WO_Category"];
+                    DDLTaskWOType.DataTextField = "Category";
+                    DDLTaskWOType.DataValueField = "CId";
+                    DDLTaskWOType.DataBind();
+                    DDLTaskWOType.Items.Insert(0, "WO Category");
+                    this.BindDataCust(CId2, Eid, h);
+                
+            
+            for (int i = 0; i < SearchGridView1.Rows.Count; i++)
+            {
+                SearchGridView1.Rows[i].Cells[6].Text = "<a href='BOM_Design_Root_Assembly_Copy_Grid.aspx?WONoSrc=" +SearchGridView1.Rows[i].Cells[6].Text + "&WONoDest=" + WoNoDest + "&ModId=3&SubModId=26'>" + SearchGridView1.Rows[i].Cells[6].Text + "</a>";
+
+            }
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+            con.Close();
+        }
+
+    }
+
+    protected void SearchGridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            SearchGridView1.PageIndex = e.NewPageIndex;
+            this.BindDataCust(CId2, Eid,h);
+        for (int i = 0; i < SearchGridView1.Rows.Count; i++)
+        {
+            SearchGridView1.Rows[i].Cells[6].Text = "<a href='BOM_Design_Root_Assembly_Copy_Grid.aspx?WONoSrc=" + SearchGridView1.Rows[i].Cells[6].Text + "&WONoDest=" + WoNoDest+ "&ModId=3&SubModId=26'>" + SearchGridView1.Rows[i].Cells[6].Text + "</a>";
+        }
+        }
+        catch (Exception ex) { }
+       
+    }
+
+   
+    protected void Button2_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("BOM_Design_WO_TreeView.aspx?WONo=" + WoNoDest + "&ModId=3&SubModId=26");
+    }
+    protected void DropDownList1_SelectedIndexChanged2(object sender, EventArgs e)
+    {
+        try
+        {
+            if (DropDownList1.SelectedValue == "0")
+            {
+                txtSearchCustomer.Visible = false;
+                TxtSearchValue.Visible = true;
+                TxtSearchValue.Text = "";
+                this.BindDataCust(CId2, Eid,h);
+            }
+            if (DropDownList1.SelectedValue == "1" || DropDownList1.SelectedValue == "2" || DropDownList1.SelectedValue == "3" || DropDownList1.SelectedValue == "Select")
+            {
+                txtSearchCustomer.Visible = true;
+                TxtSearchValue.Visible = false;
+                txtSearchCustomer.Text = "";
+                this.BindDataCust(CId2, Eid,h);
+            }
+        }
+        catch (Exception ex)
+        { }
+    }
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            this.BindDataCust(CId2, Eid,h);
+            for (int i = 0; i < SearchGridView1.Rows.Count; i++)
+            {
+                SearchGridView1.Rows[i].Cells[6].Text = "<a href='BOM_Design_Root_Assembly_Copy_Grid.aspx?WONoSrc=" + SearchGridView1.Rows[i].Cells[6].Text + "&WONoDest=" + WoNoDest + "&ModId=3&SubModId=26'>" + SearchGridView1.Rows[i].Cells[6].Text + "</a>";
+
+            }
+        }
+        catch (Exception ex) { }
+    }
+
+    public void BindDataCust(string Cid, string EID, int C)
+    {
+        try
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            DataTable dt = new DataTable();
+            con.Open();
+            string x = "";
+            if (DropDownList1.SelectedValue == "1")
+            {
+                if (txtSearchCustomer.Text != "")
+                {
+                    x = " AND EnqId='" + txtSearchCustomer.Text + "'";
+                }
+            }
+            if (DropDownList1.SelectedValue == "2")
+            {
+                if (txtSearchCustomer.Text != "")
+                {
+                    x = " AND PONo='" + txtSearchCustomer.Text + "'";
+                }
+            }
+
+            if (DropDownList1.SelectedValue == "3")
+            {
+                if (txtSearchCustomer.Text != "")
+                {
+                    x = " AND WONo='" + txtSearchCustomer.Text + "'";
+                }
+            }
+
+            if (DropDownList1.SelectedValue == "Select")
+            {
+                txtSearchCustomer.Visible = true;
+                TxtSearchValue.Visible = false;
+            }
+
+            string y = "";
+            if (DropDownList1.SelectedValue == "0")
+            {
+                if (TxtSearchValue.Text != "")
+                {
+                    string Custid = fun.getCode(TxtSearchValue.Text);
+                    y = " AND CustomerId='" + Custid + "'";
+                }
+            }
+            string Z = "";
+            if (DDLTaskWOType.SelectedValue != "WO Category")
+            {
+
+                Z = " AND CId='" + Convert.ToInt32(DDLTaskWOType.SelectedValue) + "'";
+            }
+            string L = "";
+            SqlDataAdapter da = new SqlDataAdapter("Sp_WONO_NotInBom", con);
+            da.SelectCommand.CommandType = CommandType.StoredProcedure;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@CompId", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@CompId"].Value = CompId;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@FinId", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@FinId"].Value = FinYearId;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@x", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@x"].Value = x;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@y", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@y"].Value = y;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@z", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@z"].Value = Z;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@l", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@l"].Value = L;
+            DataSet DSitem = new DataSet();
+            da.Fill(DSitem);
+            SearchGridView1.DataSource = DSitem;
+            SearchGridView1.DataBind();
+        }
+
+        catch (Exception ex)
+        { }
+    }   
+
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] sql(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        int CompId = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        con.Open();
+        string cmdStr = fun.select("CustomerId,CustomerName", "SD_Cust_master", "CompId='" + CompId + "'");
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds, "SD_Cust_master");
+        con.Close();
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                //if (main.Length == 10)
+                //    break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }
+
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/Design/Transactions/BOM_Design_WO_TreeView.aspx?WONo=" + WoNoDest + "&ModId=3&SubModId=26");
+    }
+
+    protected void DDLTaskWOType_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (DDLTaskWOType.SelectedValue != "WO Category")
+        {
+            int k = Convert.ToInt32(DDLTaskWOType.SelectedValue);
+            this.BindDataCust(CId2, Eid, k);
+        }
+        else
+        {
+            this.BindDataCust(CId2, Eid, h);
+        }
+    }
+}

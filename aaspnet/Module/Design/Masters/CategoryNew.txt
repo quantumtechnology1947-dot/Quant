@@ -1,0 +1,326 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Masters/CategoryNew.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="CategoryNew.aspx.cs" Inherits="Module_Design_Masters_CategoryNew" Title="ERP" Theme="Default"  %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+     <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+ <table cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td>
+    <table cellpadding="0" cellspacing="0" width="70%" align="center">
+        <tr>
+            <td align="center" valign="top">&nbsp;</td>
+        </tr>
+        <tr>
+            <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;Item 
+                Category - New </b></td>
+        </tr>
+        <tr>
+            <td align="center" valign="top">
+                <asp:GridView ID="GridView1" 
+                runat="server" 
+                AllowPaging="True"
+                ShowFooter="True" 
+                AutoGenerateColumns="False" 
+                DataKeyNames="CId" 
+                FooterStyle-Wrap="True"
+                DataSourceID="LocalSqlServer"
+                OnRowCommand="GridView1_RowCommand"
+                CssClass="yui-datatable-theme" Width="100%" PageSize="20">
+<FooterStyle Wrap="True"></FooterStyle>
+                    <Columns >
+                        <asp:TemplateField HeaderText="SN" SortExpression="SN">
+                        <ItemTemplate>
+                        <%# Container.DataItemIndex+1 %>
+                        </ItemTemplate>
+                        <FooterTemplate>
+                        <asp:Button ID="btnInsert" runat="server" Text="Insert" OnClientClick=" return confirmationAdd()" ValidationGroup="A"  CommandName="Add" CssClass="redbox"  />
+                        </FooterTemplate>
+                            <ItemStyle HorizontalAlign="Right" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Category" SortExpression="CName">
+                        <ItemTemplate>
+                        <asp:Label ID="lblCName" runat="server" Text='<%#Eval("CName") %>'>    </asp:Label>
+                        </ItemTemplate>
+                        <FooterTemplate>
+                        <asp:TextBox ID="txtCName" Width="200" CssClass="box3" runat="server">
+                        </asp:TextBox>
+                         <asp:RequiredFieldValidator ID="ReqBissNat0" runat="server"  ValidationGroup="A" ControlToValidate="txtCName"
+                           ErrorMessage="*"></asp:RequiredFieldValidator>
+                        </FooterTemplate>
+                            <HeaderStyle Font-Bold="True" HorizontalAlign="Center" VerticalAlign="Middle" />
+                            <ItemStyle HorizontalAlign="Left" Width="70%" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="Symbol" SortExpression="Symbol">
+                        <ItemTemplate>
+                        <asp:Label ID="lblAbbrivation" runat="server" Text='<%#Eval("Symbol") %>'>    </asp:Label>
+                        </ItemTemplate>                       
+                        <FooterTemplate>
+                        <asp:TextBox  CssClass="box3" Width="100" ID="txtAbb" runat="server" MaxLength="1">
+                        </asp:TextBox>
+                        <asp:RequiredFieldValidator ID="ReqBissNat" runat="server" ValidationGroup="A" ControlToValidate="txtAbb"
+                           ErrorMessage="*"></asp:RequiredFieldValidator>
+                        </FooterTemplate>
+                            <HeaderStyle Font-Bold="True" HorizontalAlign="Center" VerticalAlign="Middle" />
+                            <ItemStyle HorizontalAlign="Left" />
+                        </asp:TemplateField>
+                        
+                        
+                         <asp:TemplateField HeaderText="Has SubCategory" Visible ="false">
+                        <ItemTemplate>
+                        <asp:Label ID="lblsubcatNo" runat="server" Text='<%#Eval("HasSubCat") %>'>    </asp:Label>
+                        </ItemTemplate>                       
+                        <FooterTemplate>
+                            <asp:CheckBox ID="CheckBox1" runat="server" />                        
+                        </FooterTemplate>
+                            <HeaderStyle Font-Bold="True" HorizontalAlign="Center" VerticalAlign="Middle" />
+                            <ItemStyle HorizontalAlign="Left" />
+                        </asp:TemplateField>
+                        
+                        
+                    </Columns>
+                    
+                    <EmptyDataTemplate>
+                    <table  width="100%" border="1" style="border-color:Gray">
+                    <tr>
+                    <td></td>
+                    <td align="center">
+                        <asp:Label ID="Label1" Font-Bold="true" Font-Size="Medium" Font-Names="Times New Roman" runat="server" Text="Category"></asp:Label></td>
+                        
+                        <td align="center">
+                         <asp:Label ID="Label2" runat="server" Font-Size="Medium" Font-Names="Times New Roman"  Font-Bold="true" Text="Symbol"></asp:Label></td>
+                         <td align="center">
+                          <asp:Label ID="Label3" runat="server" Font-Size="Medium"  Font-Names="Times New Roman" Font-Bold="true" Text="Has Sub Cate."></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+            <asp:Button ID="btnInsert" runat="server" Text="Insert" CommandName="Add1" 
+             OnClientClick=" return confirmationAdd()" ValidationGroup="C" CssClass="redbox"  /></td>
+             <td>
+            <asp:TextBox ID="txtCName" Width="85%" CssClass="fontcss" runat="server">
+                        </asp:TextBox>
+                        <asp:RequiredFieldValidator ID="ReqEmptyCat" runat="server"  ValidationGroup="C" ControlToValidate="txtCName"
+                           ErrorMessage="*"></asp:RequiredFieldValidator>
+                        
+                        </td>
+                        <td>
+           <asp:TextBox  CssClass="fontcss" Width="85%" ID="txtAbb" runat="server" MaxLength="1">
+                        </asp:TextBox>
+                        <asp:RequiredFieldValidator ID="ReqEmptySymb" runat="server" ValidationGroup="C" ControlToValidate="txtAbb"
+                           ErrorMessage="*"></asp:RequiredFieldValidator>
+                        </td>
+                        <td>
+                         <asp:CheckBox ID="CheckBox1" runat="server" /> 
+                         </td>
+                    </tr>
+                          </table>
+
+        </EmptyDataTemplate>
+                    <HeaderStyle HorizontalAlign="Center" />
+                    
+              </asp:GridView>
+                
+                <asp:Label ID="lblMessage" runat="server" Font-Bold="True" ForeColor="Red"></asp:Label>
+                
+                <asp:SqlDataSource ID="LocalSqlServer" runat="server" 
+                    ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                    InsertCommand="INSERT INTO [tblDG_Category_Master] ([SysDate],[SysTime],[CompId],[FinYearId],[SessinId],[CName], [Symbol],[HasSubCat]) VALUES (@SysDate,@SysTime,@CompId,@FinYearId,@SessinId,@CName, @Symbol,@HasSubCat)" 
+                    ProviderName="System.Data.SqlClient" 
+                    SelectCommand="SELECT * FROM [tblDG_Category_Master]WHERE (([CompId] = @CompId) AND ([FinYearId] &lt;= @FinYearId)) Order by [CId] desc">                    
+                    <InsertParameters>
+                    <asp:Parameter Name="SysDate" Type="String" />
+                    <asp:Parameter Name="SysTime" Type="String" />
+                    <asp:Parameter Name="CompId" Type="String" />
+                    <asp:Parameter Name="FinYearId" Type="String" />
+                    <asp:Parameter Name="SessinId" Type="String" />
+                        <asp:Parameter Name="CName" Type="String"/>
+                        <asp:Parameter Name="Symbol" Type="String" />
+                        <asp:Parameter Name="HasSubCat" Type="String" />
+                    </InsertParameters>
+                     <SelectParameters>
+                        <asp:SessionParameter Name="CompId" SessionField="compid" Type="Int32" />
+                        <asp:SessionParameter Name="FinYearId" SessionField="finyear" Type="Int32" />
+                    </SelectParameters>
+                </asp:SqlDataSource>
+                
+             
+                
+               </td>
+        </tr>
+        </table>
+            </td>
+        </tr>
+    </table>
+
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Masters/CategoryNew.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_Design_Masters_CategoryNew : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string sysdate = "";
+    string systime = "";
+    string compid = "";
+    string finyrsid = "";
+    string sessionid = "";
+    string connStr = "";
+    SqlConnection con;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {       
+        lblMessage.Text = "";
+        sysdate=fun.getCurrDate();
+        systime=fun.getCurrTime();
+        compid = Session["compid"].ToString();
+        finyrsid=Session["finyear"].ToString();
+        sessionid=Session["username"].ToString();
+        connStr = fun.Connection();
+        con = new SqlConnection(connStr);
+    }
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "Add")
+        {
+
+            string strUnitName = ((TextBox)GridView1.FooterRow.FindControl("txtCName")).Text;
+            string strAbbrivation = ((TextBox)GridView1.FooterRow.FindControl("txtAbb")).Text;
+            string strHasSubCat = "";
+
+
+            if (strUnitName != "" && strAbbrivation != "")
+            {
+                string SqlStr = fun.select("Symbol", "tblDG_Category_Master", "Symbol='" + strAbbrivation + "'And CompId='" + compid + "'");
+                SqlCommand Cmd1 = new SqlCommand(SqlStr, con);
+                SqlDataAdapter DA1 = new SqlDataAdapter(Cmd1);
+                DataSet DSstr = new DataSet();
+                DA1.Fill(DSstr, "tblDG_Category_Master");
+                if (DSstr.Tables[0].Rows.Count == 0)
+                {
+
+                    LocalSqlServer.InsertParameters["SysDate"].DefaultValue = sysdate;
+                    LocalSqlServer.InsertParameters["SysTime"].DefaultValue = systime;
+                    LocalSqlServer.InsertParameters["CompId"].DefaultValue = compid;
+                    LocalSqlServer.InsertParameters["FinYearId"].DefaultValue = finyrsid;
+                    LocalSqlServer.InsertParameters["SessinId"].DefaultValue = sessionid;
+                    LocalSqlServer.InsertParameters["CName"].DefaultValue = strUnitName;
+                    LocalSqlServer.InsertParameters["Symbol"].DefaultValue = strAbbrivation.ToUpper();
+                    if (((CheckBox)GridView1.FooterRow.FindControl("CheckBox1")).Checked == true)
+                    {
+                        strHasSubCat = "1";
+                    }
+                    else
+                    {
+                        strHasSubCat = "0";
+                    }
+                    LocalSqlServer.InsertParameters["HasSubCat"].DefaultValue = strHasSubCat;
+                    LocalSqlServer.Insert();
+                    lblMessage.Text = "Record Inserted.";
+                }
+                else
+                {
+                    string myStringVariable = string.Empty;
+                    string myStringVariable2 = "Category is already exists.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable2 + "');", true);
+
+                }
+            }
+
+        }
+
+        else if (e.CommandName == "Add1")
+        {
+            string strHasSubCat = "";
+            string strUnitName = ((TextBox)GridView1.Controls[0].Controls[0].FindControl("txtCName")).Text;
+            string strAbbrivation = ((TextBox)GridView1.Controls[0].Controls[0].FindControl("txtAbb")).Text;
+            if (strUnitName != "" && strAbbrivation != "")
+            {
+
+                string SqlStr = fun.select("Symbol", "tblDG_Category_Master", "Symbol='" + strAbbrivation + "'And CompId='" + compid + "'");
+                SqlCommand Cmd1 = new SqlCommand(SqlStr, con);
+                SqlDataAdapter DA1 = new SqlDataAdapter(Cmd1);
+                DataSet DSstr = new DataSet();
+                DA1.Fill(DSstr, "tblDG_Item_Master");
+                if (DSstr.Tables[0].Rows.Count == 0)
+                {
+                    LocalSqlServer.InsertParameters["SysDate"].DefaultValue = sysdate;
+                    LocalSqlServer.InsertParameters["SysTime"].DefaultValue = systime;
+                    LocalSqlServer.InsertParameters["CompId"].DefaultValue = compid;
+                    LocalSqlServer.InsertParameters["FinYearId"].DefaultValue = finyrsid;
+                    LocalSqlServer.InsertParameters["SessinId"].DefaultValue = sessionid;
+                    LocalSqlServer.InsertParameters["CName"].DefaultValue = strUnitName;
+                    LocalSqlServer.InsertParameters["Symbol"].DefaultValue = strAbbrivation.ToUpper();
+                    if (((CheckBox)GridView1.Controls[0].Controls[0].FindControl("CheckBox1")).Checked == true)
+                    {
+                        strHasSubCat = "1";
+                    }
+                    else
+                    {
+                        strHasSubCat = "0";
+                    }
+                    LocalSqlServer.InsertParameters["HasSubCat"].DefaultValue = strHasSubCat;
+                    LocalSqlServer.Insert();
+                    lblMessage.Text = "Record Inserted.";
+
+                }
+                else
+                {
+                    string myStringVariable = string.Empty;
+                    string myStringVariable2 = "Category is already exists.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable2 + "');", true);
+
+                }
+            }
+        }
+
+    }
+    
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+
+    }
+
+    protected void G(object sender, GridViewPageEventArgs e)
+    {
+
+    }
+    
+}

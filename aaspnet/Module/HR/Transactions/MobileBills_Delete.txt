@@ -1,0 +1,485 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Transactions/MobileBills_Delete.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="MobileBills_Delete.aspx.cs" Inherits="Module_HR_Transactions_MobileBills_Delete" Title="ERP" Theme ="Default"  %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style2
+        {
+            height: 44px;
+        }
+        .style3
+        {
+            width: 613px;
+        }
+        .style8
+        {
+            width: 224px;
+            height: 30px;
+        }
+        .style9
+        {
+            width: 613px;
+            height: 30px;
+        }
+        .style10
+        {
+            height: 30px;
+        }
+    </style>
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" /> 
+    
+
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table width="100%" >
+         <tr>
+           
+            <td align="left" valign="middle" colspan="3"  style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;Mobile Bill - Delete</b></td>
+           
+        </tr>
+        <tr>
+            <td align="left" colspan="3">
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Month Of Bill&nbsp; </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="True" 
+                    onselectedindexchanged="DropDownList1_SelectedIndexChanged" 
+                    CssClass="box3" Width="100px">
+                  
+                </asp:DropDownList>  
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        </td>
+           
+        </tr>
+        <tr>
+            <td align="center" colspan="3">
+               <asp:GridView ID="GridView1" 
+                runat="server" 
+                AllowPaging="True"
+                ShowFooter="True" 
+                AutoGenerateColumns="False" 
+                DataKeyNames="UserID" 
+                FooterStyle-Wrap="True"               
+                OnRowCommand="GridView1_RowCommand"
+                CssClass="yui-datatable-theme" Width="100%"                      
+                    onpageindexchanging="GridView1_PageIndexChanging" PageSize="20"  
+                   >
+                   
+                <FooterStyle Wrap="True"></FooterStyle>
+
+
+                    <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                    <PagerSettings PageButtonCount="40" />
+                    <Columns>
+                        
+                        <asp:TemplateField HeaderText="SN">
+                        <ItemTemplate>
+                        <%# Container.DataItemIndex+1 %> 
+                        </ItemTemplate>
+                     
+                            <ItemStyle HorizontalAlign="Right" Width="3%" />
+                     
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="UserID" SortExpression="UserID" Visible="False">
+                            
+                            <ItemTemplate>
+                                <asp:Label ID="lblId" runat="server" Text='<%#Eval("UserID") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="CK">
+        <ItemTemplate>
+        <asp:CheckBox ID="CheckBox1" OnCheckedChanged="CheckBox1_CheckedChanged" AutoPostBack="true"  runat="server"/>
+        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="2%" />
+        </asp:TemplateField>
+                        
+                        
+                        <asp:TemplateField HeaderText="Emp Id" SortExpression="EmpId">
+                        <ItemTemplate>
+                        <asp:Label ID="lblEmpId" runat="server" Text='<%#Eval("EmpId") %>'>    </asp:Label>
+                        </ItemTemplate>
+                    
+                            <ItemStyle HorizontalAlign="Center" />
+                    
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="Emp Name" SortExpression="EmployeeName">
+                       <ItemTemplate>
+                        <asp:Label ID="lblEmpName" runat="server" Text='<%#Eval("EmployeeName") %>'>    </asp:Label>
+                        </ItemTemplate>
+                     
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="Mobile No" SortExpression="MobileNo">
+                       <ItemTemplate>
+                        <asp:Label ID="lblMobileNo" runat="server" Text='<%#Eval("MobileNo") %>'>    </asp:Label>
+                        </ItemTemplate>
+                       
+                            <ItemStyle HorizontalAlign="Center" />
+                       
+                        </asp:TemplateField>
+                        
+                        
+                        
+                        <asp:TemplateField HeaderText="Limit Amt" SortExpression="LimitAmt">
+                       <ItemTemplate>
+                        <asp:Label ID="lblLimitAmt" runat="server" Text='<%#Eval("LimitAmt") %>' >    </asp:Label>
+                        </ItemTemplate>
+                    
+                            <ItemStyle HorizontalAlign="Right" />
+                    
+                        </asp:TemplateField>
+                        
+                        
+                        
+                         <asp:TemplateField HeaderText="Bill Amt" SortExpression="BillAmt">
+                        <ItemTemplate>
+                        <asp:Label ID="lblBillAmt" runat="server" Visible="false"> </asp:Label>
+                        <asp:TextBox ID="TxtBillAmt" runat="server"  Visible="false">
+                       
+                        </asp:TextBox>
+                        </ItemTemplate>
+                    
+                       
+                         <FooterTemplate> 
+                  <asp:Button ID="BtnUpdate" runat="server" CssClass="redbox"  Text="Delete" OnClientClick=" return confirmationDelete()" CommandName="Del" />
+                  </FooterTemplate>
+                        
+                       
+                             <ItemStyle HorizontalAlign="Right" />
+                        
+                       
+                          </asp:TemplateField>
+
+                         
+                         <asp:TemplateField HeaderText="Taxes" SortExpression="Taxes">
+                        <ItemTemplate>
+                        <asp:Label ID="lblTaxes" runat="server" >  </asp:Label>
+                        <asp:DropDownList ID="DDLTaxes" runat="server" DataSourceID="SqlDataSource1" Visible="false"
+                        DataTextField="Value"  DataValueField="Id"> 
+                        </asp:DropDownList>
+                        <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+                    ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                    SelectCommand="SELECT [Id], [Value] FROM [tblExciseser_Master]">
+                  </asp:SqlDataSource>
+                        </ItemTemplate>
+                        
+                             <ItemStyle HorizontalAlign="Right" />
+                        
+                         </asp:TemplateField>
+                         
+                         <asp:TemplateField HeaderText="Excess Amount" SortExpression="ExcessAmount">
+                        <ItemTemplate>
+                        <asp:Label ID="lblExcessAmount" runat="server" Visible="false" >    </asp:Label>
+                        </ItemTemplate>
+                        
+                             <ItemStyle HorizontalAlign="Right" />
+                        
+                         </asp:TemplateField>
+                        
+                        
+                    </Columns>
+     
+              </asp:GridView>
+          
+             
+             </td>
+           
+        </tr>
+        <tr>
+            <td align="center" colspan="3">
+              
+                
+                <asp:Label ID="lblMessage" runat="server" Font-Bold="True" ForeColor="Red"></asp:Label>
+                
+                
+            </td>
+           
+        </tr>
+        <tr>
+            <td>
+                &nbsp;</td>
+           
+            <td class="style3">
+                &nbsp;</td>
+           
+            <td>
+                &nbsp;</td>
+           
+        </tr>
+       
+        </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Transactions/MobileBills_Delete.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.IO;
+using System.Collections.Generic;
+using iTextSharp.text;
+using iTextSharp.text.html.simpleparser;
+using iTextSharp.text.pdf;
+
+
+public partial class Module_HR_Transactions_MobileBills_Delete : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        lblMessage.Text = "";
+        if (!IsPostBack)
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            try
+            {
+                DataSet DS = new DataSet();
+                int CompId = Convert.ToInt32(Session["compid"]);
+                int FinYearId = Convert.ToInt32(Session["finyear"]);
+                
+                fun.GetMonth(DropDownList1, CompId, FinYearId);
+            }
+            catch (Exception ex)
+            { }
+
+            lblMessage.Text = "";
+            if (Request.QueryString["m"] != null)
+            {
+                string v = Request.QueryString["m"].ToString();
+                DropDownList1.SelectedValue = v;
+                lblMessage.Text = Request.QueryString["n"].ToString();
+                this.DDLMonth();
+            }
+        }
+
+    }
+
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        string CDate = fun.getCurrDate();
+        string CTime = fun.getCurrTime();
+
+        string sId = Session["username"].ToString();
+        int CompId =Convert.ToInt32(Session["compid"]);
+        int FinYearId = Convert.ToInt32(Session["finyear"]);
+
+        if (e.CommandName == "Del")
+        {
+            con.Open();
+          try
+            {
+                int i = 0;
+                foreach (GridViewRow grv in GridView1.Rows)
+                {
+                     
+                        if (((CheckBox)grv.FindControl("CheckBox1")).Checked == true)
+                        {
+                            string BillAmt = ((TextBox)grv.FindControl("TxtBillAmt")).Text;
+                            int id = Convert.ToInt32(((Label)grv.FindControl("lblId")).Text);
+                            string Tax = ((DropDownList)grv.FindControl("DDLTaxes")).SelectedValue;
+                            string empid = ((Label)grv.FindControl("lblEmpId")).Text;
+
+                            string SelectBillID = fun.select("Id","tblHR_MobileBill","CompId='" + CompId + "' AND FinYearId='" + FinYearId + "' AND EmpId='" + empid + "'And BillMonth='" + DropDownList1.SelectedValue + "'");
+                            SqlCommand cmdBillID = new SqlCommand(SelectBillID, con);
+                            DataSet DSBillID = new DataSet();
+                            SqlDataAdapter DABillID = new SqlDataAdapter(cmdBillID);
+                            DABillID.Fill(DSBillID, "tblHR_MobileBill");
+                            int MobBillId = 0;
+                            if (DSBillID.Tables[0].Rows.Count>0)
+                            {
+                             MobBillId = Convert.ToInt32(DSBillID.Tables[0].Rows[0][0].ToString());
+                            }
+                            string delete = fun.delete("tblHR_MobileBill","CompId='" + CompId + "' AND FinYearId='" + FinYearId + "' AND EmpId='" + empid + "'And BillMonth='" + DropDownList1.SelectedValue + "' AND Id='" + MobBillId + "'");
+                            SqlCommand cmd = new SqlCommand(delete, con);
+                            cmd.ExecuteNonQuery();                           
+                            i++;
+                        }                  
+                }
+
+                if(i>0)
+                {
+                    string s = DropDownList1.SelectedValue;
+                    string g = "Record is Deleted";
+                    Response.Redirect("MobileBills_Delete.aspx?m=" + s + "&n=" + g + "&ModId=12&SubModId=50");
+                }
+            }
+            catch (Exception ex) { }
+            finally
+            {
+                con.Close();
+                
+            }
+        }
+
+    }
+    
+
+    protected void CheckBox1_CheckedChanged(object sender, EventArgs e)
+    {
+
+        foreach (GridViewRow grv1 in GridView1.Rows)
+        {
+
+            if (((CheckBox)grv1.FindControl("CheckBox1")).Checked == true)
+            {
+                ((Label)grv1.FindControl("lblBillAmt")).Visible = true;
+                ((Label)grv1.FindControl("lblTaxes")).Visible = true;
+            }
+          }
+
+    }
+
+
+    protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        this.DDLMonth();
+    }
+
+
+    public void DDLMonth()
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        try
+        {
+            if (DropDownList1.SelectedItem.Text != "Select")
+            {
+                GridView1.Visible = true;
+                int CompId = Convert.ToInt32(Session["compid"]);
+                int FinYearId = Convert.ToInt32(Session["finyear"]);
+                string SelectComd = fun.select("tblHR_OfficeStaff.UserID,tblHR_OfficeStaff.EmpId,tblHR_OfficeStaff.EmployeeName,tblHR_CoporateMobileNo.Id ,tblHR_CoporateMobileNo.MobileNo, tblHR_CoporateMobileNo.LimitAmt", " tblHR_OfficeStaff,tblHR_CoporateMobileNo,tblHR_MobileBill", "tblHR_MobileBill.EmpId=tblHR_OfficeStaff.EmpId and tblHR_OfficeStaff.MobileNo = tblHR_CoporateMobileNo.Id And tblHR_OfficeStaff.MobileNo!=1 and tblHR_MobileBill.BillMonth='" + DropDownList1.SelectedValue + "'and tblHR_MobileBill.FinYearId='" + FinYearId + "'And tblHR_MobileBill.CompId='" + CompId + "'");               
+                SqlCommand cmd2 = new SqlCommand(SelectComd, con);
+                DataSet DS2 = new DataSet();
+                SqlDataAdapter DA2 = new SqlDataAdapter(cmd2);
+                DA2.Fill(DS2);
+                GridView1.DataSource = DS2;
+                GridView1.DataBind();               
+                int mth = Convert.ToInt32(DropDownList1.SelectedValue);
+
+                foreach (GridViewRow grv in GridView1.Rows)
+                {
+                    string empid = ((Label)grv.FindControl("lblEmpId")).Text;
+
+                    string q = fun.select("BillAmt","tblHR_MobileBill","tblHR_MobileBill.BillMonth='" + mth + "' AND CompId='" + CompId + "' AND EmpId='" + empid + "'");
+                    SqlCommand cmd = new SqlCommand(q, con);
+                    DataSet DS1 = new DataSet();
+                    SqlDataAdapter DA1 = new SqlDataAdapter(cmd);
+                    DA1.Fill(DS1, "tblHR_MobileBill");
+
+                    if (DS1.Tables[0].Rows.Count > 0)
+                    {
+                        ((TextBox)grv.FindControl("TxtBillAmt")).Text = DS1.Tables[0].Rows[0][0].ToString();
+                        ((Label)grv.FindControl("lblBillAmt")).Visible = true;
+                        ((TextBox)grv.FindControl("TxtBillAmt")).Visible = false;
+                        ((Label)grv.FindControl("lblExcessAmount")).Visible = true;                       
+                        string SelectBillID = fun.select("Id","tblHR_MobileBill ","CompId='" + CompId + "' AND FinYearId='" + FinYearId + "' AND EmpId='" + empid + "'And BillMonth='" + DropDownList1.SelectedValue + "'");
+                        SqlCommand cmdBillID = new SqlCommand(SelectBillID, con);
+                        DataSet DSBillID = new DataSet();
+                        SqlDataAdapter DABillID = new SqlDataAdapter(cmdBillID);
+                        DABillID.Fill(DSBillID, "tblHR_MobileBill");
+                        int MobBillId = 0;
+                        if (DSBillID.Tables[0].Rows.Count > 0)
+                        {
+                            MobBillId = Convert.ToInt32(DSBillID.Tables[0].Rows[0][0].ToString());
+                        }
+
+                        double Taxes = 0;
+                        string CmdTaxlbl =fun.select("tblExciseser_Master.Value,tblExciseser_Master.Id","tblExciseser_Master,tblHR_MobileBill","tblExciseser_Master.Id=tblHR_MobileBill.Taxes AND tblHR_MobileBill.Id='" + MobBillId + "' ");
+                        SqlCommand Cmdtaxlbl = new SqlCommand(CmdTaxlbl, con);
+                        DataSet DSTaxlbl = new DataSet();
+                        SqlDataAdapter DATaxlbl = new SqlDataAdapter(Cmdtaxlbl);
+                        DATaxlbl.Fill(DSTaxlbl, "tblExciseser_Master");
+                        if (DSTaxlbl.Tables[0].Rows.Count > 0)
+                        {
+                            ((DropDownList)grv.FindControl("DDLTaxes")).SelectedValue = DSTaxlbl.Tables[0].Rows[0]["Id"].ToString();
+                            ((DropDownList)grv.FindControl("DDLTaxes")).SelectedItem.Text = DSTaxlbl.Tables[0].Rows[0]["Value"].ToString();
+
+                            Taxes = Convert.ToDouble(((Label)grv.FindControl("lblTaxes")).Text = DSTaxlbl.Tables[0].Rows[0][0].ToString());
+                        }
+
+                        double LimitAmt = Convert.ToDouble(((Label)grv.FindControl("lblLimitAmt")).Text);
+                        double BillAmt = Convert.ToDouble(((Label)grv.FindControl("lblBillAmt")).Text = DS1.Tables[0].Rows[0][0].ToString());
+                      
+
+
+                        double CalAmt = (((BillAmt) * (100)) / (Taxes + 100));
+                        if ((CalAmt - LimitAmt) > 0)
+                        {
+                            ((Label)grv.FindControl("lblExcessAmount")).Text = Convert.ToString(Math.Round((CalAmt - LimitAmt), 2));
+                        }
+                        else
+                        {
+                            ((Label)grv.FindControl("lblExcessAmount")).Text = "0";
+                        }
+
+                       
+                    }
+                    else
+                    {
+                        ((CheckBox)grv.FindControl("CheckBox1")).Visible = true;
+                    }
+                }
+            }
+            else
+            {
+               
+                GridView1.Visible = false;
+
+            }
+        }
+        catch (Exception ex) { }
+
+    }
+   
+
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView1.PageIndex = e.NewPageIndex;
+        this.DDLMonth();
+    }
+   
+}

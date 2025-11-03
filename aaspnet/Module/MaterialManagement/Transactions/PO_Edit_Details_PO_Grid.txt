@@ -1,0 +1,463 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Transactions/PO_Edit_Details_PO_Grid.aspx.txt ===
+
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="PO_Edit_Details_PO_Grid.aspx.cs" Inherits="Module_MaterialManagement_Transactions_PO_Edit_Details_PO_Grid"  Theme="Default" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>ERP</title>
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</head>
+<body style="margin-bottom:0px;margin-left:0px; margin-right:0px; margin-top:0px;">
+    <form id="form1" runat="server">
+    <div>
+ <table align="center" cellpadding="0" cellspacing="0" width="140%" class="fontcss">
+        <tr>
+            <td valign="top">
+               
+                <asp:GridView ID="GridView2" CssClass="yui-datatable-theme" runat="server" 
+                    Width="100%" AllowPaging="True"
+                    onpageindexchanging="GridView2_PageIndexChanging"  onrowcommand="GridView2_RowCommand" 
+                    onrowdatabound="GridView2_RowDataBound" AutoGenerateColumns="False">
+                    <FooterStyle Wrap="True"></FooterStyle>
+                    <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                    <Columns>
+                        <asp:TemplateField HeaderText="SN" ItemStyle-HorizontalAlign="Right">
+                <ItemTemplate><%#Container.DataItemIndex+1%></ItemTemplate>             
+                <HeaderStyle Font-Size="10pt" />
+                <ItemStyle HorizontalAlign="Right" VerticalAlign="Top" Width="3%" />
+</asp:TemplateField>
+                           <asp:TemplateField>
+                           <ItemTemplate>
+                           <asp:LinkButton ID ="lnkButton" Text="Select" runat ="server" CommandName="sel">
+                           </asp:LinkButton>
+                           </ItemTemplate>
+                               <ItemStyle HorizontalAlign="Center" VerticalAlign="Top" />
+                           </asp:TemplateField>
+                       
+                        <asp:TemplateField HeaderText="PO No">
+                            <ItemTemplate>
+                                <asp:Label ID="lblPONo" runat="server" Text='<%# Eval("PONo") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Top" />
+                        </asp:TemplateField>
+                       
+                        <asp:TemplateField HeaderText="Item Code">
+                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Top" />
+                            <ItemTemplate>
+                            <asp:Label ID="lblItemCode" runat="server" Text='<%# Eval("ItemCode") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                       
+                        <asp:TemplateField HeaderText="Description">
+                        <ItemTemplate>
+                            <asp:Label ID="lblPurchDesc" runat="server" Text='<%# Eval("PurchDesc") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Left" Width="20%" VerticalAlign="Top" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="UOM">
+                        <ItemTemplate>
+                        <asp:Label ID="lblUOMPurch" Text='<%# Eval("UOMPurch") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Top" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Qty">
+                        <ItemTemplate>
+                        <asp:Label ID="lblQty" Text='<%# Eval("Qty") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="5%" VerticalAlign="Top" />
+                        </asp:TemplateField>
+                       
+                        <asp:TemplateField HeaderText="Rate">
+                        <ItemTemplate>
+                        <asp:Label ID="lblRate" Text='<%# Eval("Rate") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="5%" VerticalAlign="Top" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Disc %">
+                        <ItemTemplate>
+                        <asp:Label ID="lblDisc" Text='<%# Eval("Disc") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" VerticalAlign="Top" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="PF">
+                        <ItemTemplate>
+                        <asp:Label ID="lblPF" Text='<%# Eval("PF") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Left" Width="10%" VerticalAlign="Top" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Excise">
+                        <ItemTemplate>
+                        <asp:Label ID="lblExST" Text='<%# Eval("ExST") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Left" Width="10%" VerticalAlign="Top" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="VAT">
+                        <ItemTemplate>
+                        <asp:Label ID="lblVAT" Text='<%# Eval("VAT") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Left" Width="10%" VerticalAlign="Top" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="WONo">
+                        <ItemTemplate>
+                        <asp:Label ID="lblWONo" Text='<%# Eval("WONo") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Top" />
+                        </asp:TemplateField>
+                         <asp:TemplateField HeaderText="BG Group">
+                        <ItemTemplate>
+                        <asp:Label ID="lblDeptId" Text='<%# Eval("DeptId") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Top" />
+                        </asp:TemplateField>
+                         <asp:TemplateField HeaderText="A/c Head">
+                        <ItemTemplate>
+                        <asp:Label ID="lblAHId" Text='<%# Eval("AHId") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Top" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Id" Visible="false">
+                        <ItemTemplate>
+                        <asp:Label ID="lblId" Text='<%# Eval("Id") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle VerticalAlign="Top" />
+                        </asp:TemplateField>
+                       
+                    </Columns>
+                </asp:GridView>
+            </td>
+        </tr>
+        </table>
+      
+      
+    </div>
+    </form>
+</body>
+</html>
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Transactions/PO_Edit_Details_PO_Grid.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+/// <summary>
+/// Last Updated on:18.12.13 By : Krishna
+/// </summary>
+public partial class Module_MaterialManagement_Transactions_PO_Edit_Details_PO_Grid : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string SupCode = "";
+    string po ="";
+    string MId = "";
+    int CompId = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+      try
+        {
+            CompId = Convert.ToInt32(Session["compid"]);
+            SupCode = Request.QueryString["Code"].ToString();
+            po = Request.QueryString["pono"];
+            MId = Request.QueryString["mid"].ToString();
+
+            if (!IsPostBack)
+            {
+                this.LoadSPRData();
+            }
+        }
+        catch (Exception et)
+        {
+        }
+    }
+
+    public void LoadSPRData()
+    {
+        string str = fun.Connection();
+        SqlConnection con = new SqlConnection(str);
+        DataTable dt = new DataTable();
+
+        con.Open();
+        try
+        {
+            string StrSql = fun.select("tblMM_PO_Details.Id,tblMM_PO_Details.PONo,tblMM_PO_Details.PRNo,tblMM_PO_Details.PRId,tblMM_PO_Details.SPRNo,tblMM_PO_Details.SPRId,tblMM_PO_Details.Qty,tblMM_PO_Details.Discount,tblMM_PO_Details.Rate,tblMM_PO_Details.Discount,tblMM_PO_Details.PF,tblMM_PO_Details.ExST,tblMM_PO_Details.VAT,tblMM_PO_Master.PRSPRFlag", "tblMM_PO_Details,tblMM_PO_Master", "tblMM_PO_Master.PONo='" + po + "'  AND tblMM_PO_Master.PONo=tblMM_PO_Details.PONo AND tblMM_PO_Master.Id=tblMM_PO_Details.MId AND tblMM_PO_Details.MId='" + MId + "'And tblMM_PO_Details.Id not in (select POId from tblMM_PO_Amd_Temp) AND tblMM_PO_Master.CompId='" + CompId + "' ");
+            
+            SqlCommand cmdsupId = new SqlCommand(StrSql, con);
+            SqlDataAdapter dasupId = new SqlDataAdapter(cmdsupId);
+            DataSet DSSql = new DataSet();
+            dasupId.Fill(DSSql);
+           
+            dt.Columns.Add(new System.Data.DataColumn("PONo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("PurchDesc", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("UOMPurch", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Qty", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("Rate", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("PF", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ExST", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("VAT", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("DeptId", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("AHId", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Disc", typeof(string)));
+
+            for (int i = 0; i < DSSql.Tables[0].Rows.Count; i++)
+            {
+                DataRow dr;
+
+                //string CheckSql = fun.select("*", "tblMM_PO_Amd_Temp", "PONo='" + DSSql.Tables[0].Rows[i]["PONo"].ToString() + "' AND POId='" + DSSql.Tables[0].Rows[i]["Id"].ToString() + "'");
+
+                //SqlCommand cmdCheck = new SqlCommand(CheckSql, con);
+                //SqlDataAdapter daCheck = new SqlDataAdapter(cmdCheck);
+                //DataSet DSCheck = new DataSet();
+                //daCheck.Fill(DSCheck);
+               
+               // if (DSCheck.Tables[0].Rows.Count == 0)
+                {
+
+                    dr = dt.NewRow();
+                    // For PRNO 
+                    dr[0] = DSSql.Tables[0].Rows[i]["PONo"].ToString();
+                    string ItemCode = "";
+                    string PurchDesc = "";
+                    string UomPurch = "";
+                    string wono = "";
+                    string dept = "";
+                    string AcHead = "";
+
+                    if (DSSql.Tables[0].Rows[i]["PRSPRFlag"].ToString() == "0")
+                    {
+                        string StrFlag = fun.select("tblMM_PR_Details.ItemId,tblMM_PR_Master.WONo,tblMM_PR_Details.AHId", "tblMM_PR_Details,tblMM_PR_Master", "tblMM_PR_Master.PRNo='" + DSSql.Tables[0].Rows[i]["PRNo"].ToString() + "'  AND tblMM_PR_Master.PRNo=tblMM_PR_Details.PRNo AND tblMM_PR_Master.Id=tblMM_PR_Details.MId AND tblMM_PR_Details.Id='" + DSSql.Tables[0].Rows[i]["PRId"].ToString() + "' AND tblMM_PR_Master.CompId='"+CompId+"'");                       
+
+                        SqlCommand cmdFlag = new SqlCommand(StrFlag, con);
+                        SqlDataAdapter daFlag = new SqlDataAdapter(cmdFlag);
+                        DataSet DSFlag = new DataSet();
+                        daFlag.Fill(DSFlag);
+
+                        string StrIcode = fun.select("ItemCode,ManfDesc,UOMBasic", "tblDG_Item_Master", "Id='" + DSFlag.Tables[0].Rows[0]["ItemId"].ToString() + "'  AND CompId='"+CompId+"'");
+                        SqlCommand cmdIcode = new SqlCommand(StrIcode, con);
+                        SqlDataAdapter daIcode = new SqlDataAdapter(cmdIcode);
+                        DataSet DSIcode = new DataSet();
+
+                        daIcode.Fill(DSIcode);
+
+                        if (DSIcode.Tables[0].Rows.Count>0)
+                        {
+                        // For ItemCode
+                            ItemCode = fun.GetItemCode_PartNo(CompId, Convert.ToInt32(DSFlag.Tables[0].Rows[0]["ItemId"].ToString()));
+
+                        // For Purch Desc
+                        PurchDesc = DSIcode.Tables[0].Rows[0]["ManfDesc"].ToString();
+
+                        // for UOM Purchase  from Unit Master table
+                        string sqlPurch = fun.select("Symbol", "Unit_Master", "Id='" + DSIcode.Tables[0].Rows[0]["UOMBasic"].ToString() + "'");
+                        SqlCommand cmdPurch = new SqlCommand(sqlPurch, con);
+                        SqlDataAdapter daPurch = new SqlDataAdapter(cmdPurch);
+                        DataSet DSPurch = new DataSet();
+                        daPurch.Fill(DSPurch);
+                        UomPurch = DSPurch.Tables[0].Rows[0][0].ToString();
+                        }
+
+                        // For WO No
+                        wono = DSFlag.Tables[0].Rows[0]["WONo"].ToString();
+                        dept = "NA";
+                        // For A/c Head
+                        string sql3 = fun.select("AccHead.Symbol AS Head", "AccHead", "AccHead.Id ='" + Convert.ToInt32(DSFlag.Tables[0].Rows[0]["AHId"]) + "' ");
+                        SqlCommand cmd3 = new SqlCommand(sql3, con);
+                        SqlDataAdapter da3 = new SqlDataAdapter(cmd3);
+                        DataSet DS3 = new DataSet();
+                        da3.Fill(DS3);
+                        AcHead = DS3.Tables[0].Rows[0]["Head"].ToString();
+
+                    }
+
+                    else if (DSSql.Tables[0].Rows[i]["PRSPRFlag"].ToString() == "1")
+                    {
+                        string StrFlag1 = fun.select("tblMM_SPR_Details.ItemId,tblMM_SPR_Details.WONo,tblMM_SPR_Details.DeptId,tblMM_SPR_Details.AHId", "tblMM_SPR_Details,tblMM_SPR_Master", "tblMM_SPR_Master.SPRNo='" + DSSql.Tables[0].Rows[i]["SPRNo"].ToString() + "'  AND tblMM_SPR_Master.SPRNo=tblMM_SPR_Details.SPRNo AND tblMM_SPR_Master.Id=tblMM_SPR_Details.MId AND tblMM_SPR_Details.Id='" + DSSql.Tables[0].Rows[i]["SPRId"].ToString() + "'  AND  tblMM_SPR_Master.CompId='"+CompId+"'  ");
+
+                        SqlCommand cmdFlag1 = new SqlCommand(StrFlag1, con);
+                        SqlDataAdapter daFlag1 = new SqlDataAdapter(cmdFlag1);
+                        DataSet DSFlag1 = new DataSet();
+                        daFlag1.Fill(DSFlag1);
+
+                        string StrIcode1 = fun.select("ItemCode,ManfDesc,UOMBasic", "tblDG_Item_Master", "Id='" + DSFlag1.Tables[0].Rows[0]["ItemId"].ToString() + "' And CompId='" + CompId + "' ");
+                        SqlCommand cmdIcode1 = new SqlCommand(StrIcode1, con);
+                        SqlDataAdapter daIcode1 = new SqlDataAdapter(cmdIcode1);
+                        DataSet DSIcode1 = new DataSet();
+                        daIcode1.Fill(DSIcode1);
+
+                        if (DSIcode1.Tables[0].Rows.Count>0)
+                        {
+                            ItemCode = fun.GetItemCode_PartNo(CompId, Convert.ToInt32(DSFlag1.Tables[0].Rows[0]["ItemId"].ToString()));
+
+                        PurchDesc = DSIcode1.Tables[0].Rows[0]["ManfDesc"].ToString();
+
+                        // for UOM Purchase  from Unit Master table
+                        string sqlPurch1 = fun.select("Symbol", "Unit_Master", "Id='" + DSIcode1.Tables[0].Rows[0]["UOMBasic"].ToString() + "'");
+                        SqlCommand cmdPurch1 = new SqlCommand(sqlPurch1, con);
+                        SqlDataAdapter daPurch1 = new SqlDataAdapter(cmdPurch1);
+                        DataSet DSPurch1 = new DataSet();
+                        daPurch1.Fill(DSPurch1);
+                        UomPurch = DSPurch1.Tables[0].Rows[0][0].ToString();
+                        }
+
+                        if (DSFlag1.Tables[0].Rows[0]["DeptId"].ToString() == "0")
+                        {
+                            // For WO No
+                            wono = DSFlag1.Tables[0].Rows[0]["WONo"].ToString();
+                            dept = "NA";
+                            
+                        }
+                        else
+                        {
+                            // For Dept Name
+                            string sqlDeptName = fun.select("Symbol AS Dept", "BusinessGroup", "Id ='" + Convert.ToInt32(DSFlag1.Tables[0].Rows[0]["DeptId"].ToString()) + "' ");
+                            SqlCommand cmdDeptName = new SqlCommand(sqlDeptName, con);
+                            SqlDataAdapter daDeptName = new SqlDataAdapter(cmdDeptName);
+                            DataSet DSDeptName = new DataSet();
+                            daDeptName.Fill(DSDeptName);
+                            if (DSDeptName.Tables[0].Rows.Count > 0)
+                            {
+                                dept = DSDeptName.Tables[0].Rows[0]["Dept"].ToString();
+                                wono = "NA";
+                            }
+                        }
+
+                        // For A/c Head
+                        string sql31 = fun.select("AccHead.Symbol AS Head", "AccHead", "AccHead.Id ='" + Convert.ToInt32(DSFlag1.Tables[0].Rows[0]["AHId"]) + "' ");
+                        SqlCommand cmd31 = new SqlCommand(sql31, con);
+                        SqlDataAdapter da31 = new SqlDataAdapter(cmd31);
+                        DataSet DS31 = new DataSet();
+                        da31.Fill(DS31);
+                        if (DS31.Tables[0].Rows.Count > 0)
+                        {
+                            AcHead = DS31.Tables[0].Rows[0]["Head"].ToString();
+                        }
+                    }
+
+                    // For ItemCode
+                    dr[1] = ItemCode;
+
+                    // For PurchDesc 
+                    dr[2] = PurchDesc;
+
+                    //For UOMPurch 
+                    dr[3] = UomPurch;
+
+                    // For WONo
+                    dr[9] = wono;
+
+                    // For Dept Name
+                    dr[10] = dept;
+
+                    // For A/c Head
+                    dr[11] = AcHead;
+
+                    // For Qty and Rate
+                    dr[4] = Convert.ToDouble(decimal.Parse(DSSql.Tables[0].Rows[i]["Qty"].ToString()).ToString("N3"));
+                    dr[5] =  Convert.ToDouble(decimal.Parse(DSSql.Tables[0].Rows[i]["Rate"].ToString()).ToString("N2"));
+
+
+                    // For PF
+                    string sql6 = fun.select("tblPacking_Master.Terms As PF", "tblPacking_Master", "tblPacking_Master.Id ='" + Convert.ToInt32(DSSql.Tables[0].Rows[i]["PF"]) + "' ");
+                    SqlCommand cmd6 = new SqlCommand(sql6, con);
+                    SqlDataAdapter da6 = new SqlDataAdapter(cmd6);
+                    DataSet DS6 = new DataSet();
+                    da6.Fill(DS6);
+                    if (DS6.Tables[0].Rows.Count > 0)
+                    {
+                        dr[6] = DS6.Tables[0].Rows[0]["PF"].ToString();
+                    }
+                    // For Excise
+                    string sql7 = fun.select("tblExciseser_Master.Terms As ExST", "tblExciseser_Master", "tblExciseser_Master.Id ='" + Convert.ToInt32(DSSql.Tables[0].Rows[i]["ExST"]) + "' ");
+                    SqlCommand cmd7 = new SqlCommand(sql7, con);
+                    SqlDataAdapter da7 = new SqlDataAdapter(cmd7);
+                    DataSet DS7 = new DataSet();
+                    da7.Fill(DS7);
+                    if (DS7.Tables[0].Rows.Count > 0)
+                    {
+                        dr[7] = DS7.Tables[0].Rows[0]["ExST"].ToString();
+                    }
+
+                    // For VAT
+                    string sql8 = fun.select("tblVAT_Master.Terms As VAT", "tblVAT_Master", "tblVAT_Master.Id ='" + Convert.ToInt32(DSSql.Tables[0].Rows[i]["VAT"]) + "' ");
+                    SqlCommand cmd8 = new SqlCommand(sql8, con);
+                    SqlDataAdapter da8 = new SqlDataAdapter(cmd8);
+                    DataSet DS8 = new DataSet();
+                    da8.Fill(DS8);
+                    if (DS8.Tables[0].Rows.Count > 0)
+                    {
+                        dr[8] = DS8.Tables[0].Rows[0]["VAT"].ToString();
+                    }
+                    dr[12] = DSSql.Tables[0].Rows[i]["Id"].ToString();
+                    dr[13] =decimal.Parse( DSSql.Tables[0].Rows[i]["Discount"].ToString()).ToString("N3");
+
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+            }
+
+            GridView2.DataSource = dt;
+            GridView2.DataBind();
+
+        }
+       catch (Exception ex)
+        { }
+       finally
+        {
+            con.Close();
+        }
+    }
+
+    protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView2.PageIndex = e.NewPageIndex;
+        this.LoadSPRData();
+    }
+    
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+        if (e.CommandName == "sel")
+        {
+           GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+           string pono = ((Label)row.FindControl("lblPONo")).Text;
+           string poid = ((Label)row.FindControl("lblId")).Text;
+
+           Response.Redirect("PO_Edit_Details_PO_Select.aspx?mid="+MId+"&pono=" + pono + "&poid=" + poid + "&Code=" + SupCode);
+
+        }
+        }
+       catch (Exception ex)
+        { }
+
+    }
+
+    protected void GridView2_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+
+    }
+   
+}

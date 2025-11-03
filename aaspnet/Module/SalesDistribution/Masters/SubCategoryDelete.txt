@@ -1,0 +1,193 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Masters/SubCategoryDelete.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="SubCategoryDelete.aspx.cs" Inherits="Module_SalesDistribution_Masters_SubCategoryDelete" Title="ERP" Theme="Default" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+<table cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td>
+    <table cellpadding="0" cellspacing="0" width="100%" align="center">
+        
+        <tr >
+            <td  align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;WO SubCategory - Delete</b></td>
+        </tr>
+        <tr>
+            <td align="Left" valign="top">
+                <asp:GridView ID="GridView1" 
+                runat="server" 
+                AllowPaging="True"
+                AutoGenerateColumns="False" 
+                DataKeyNames="SCId" 
+                DataSourceID="LocalSqlServer"
+               CssClass="yui-datatable-theme" onrowdeleted="GridView1_RowDeleted" Width="65%" 
+                    onrowdatabound="GridView1_RowDataBound" PageSize="17">
+               
+<FooterStyle Wrap="True"></FooterStyle>
+                    <Columns>
+                    
+                         <asp:TemplateField HeaderText="SN" SortExpression="SN">
+                        <ItemTemplate>  <%# Container.DataItemIndex+1 %> </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" />
+                        </asp:TemplateField>
+                    
+                         <asp:CommandField ButtonType="Link"   ShowDeleteButton="True" >
+                             <ItemStyle HorizontalAlign="Center" />
+                         </asp:CommandField>
+                         <asp:TemplateField HeaderText="Category" SortExpression="Category">
+                        <ItemTemplate>
+                        <asp:Label ID="LblCategory" runat="server" Text='<%#Eval("catsy") %>'>    </asp:Label>
+                        
+                         <asp:Label ID="LblCId" Visible="false" runat="server" Text='<%#Eval("CId") %>'>    </asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle Width="35%" />
+                        </asp:TemplateField>
+                         <asp:BoundField DataField="SCName" HeaderText="SCName" 
+                             SortExpression="SCName" >
+                             <ItemStyle Width="35%" />
+                         </asp:BoundField>
+                            <asp:TemplateField HeaderText="SCId" Visible="false" >
+                        <ItemTemplate>
+                        <asp:Label ID="lblSCId" runat="server" Text='<%#Eval("SCId") %>'>    </asp:Label>
+                        
+                        
+                        </ItemTemplate>
+                            <ItemStyle Width="35%" />
+                        </asp:TemplateField>
+                         <asp:BoundField DataField="Symbol" HeaderText="Symbol" 
+                             SortExpression="Symbol" />
+                    </Columns>
+                     <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                    <HeaderStyle HorizontalAlign="Center" />
+                    
+              </asp:GridView>
+              
+                <asp:Label ID="lblMessage" runat="server" Font-Bold="true" ForeColor="Red" Text=""></asp:Label>
+              
+                <asp:SqlDataSource ID="LocalSqlServer" runat="server" 
+                    ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                    DeleteCommand="DELETE FROM [tblSD_WO_SubCategory] WHERE [SCId] = @SCId And [CompId] = @CompId " 
+                    ProviderName="System.Data.SqlClient" 
+                    SelectCommand="SELECT [tblSD_WO_SubCategory].[SCId],[tblSD_WO_SubCategory].[CId],[tblSD_WO_SubCategory].SCName,[tblSD_WO_SubCategory].[Symbol],[tblSD_WO_Category].[Symbol] + ' - '+ [tblSD_WO_Category].[CName] as catsy FROM [tblSD_WO_SubCategory],[tblSD_WO_Category] Where [tblSD_WO_SubCategory].[CId]=[tblSD_WO_Category].[CId]And [tblSD_WO_SubCategory].[CompId] = @CompId AND [tblSD_WO_SubCategory].[FinYearId] &lt;= @FinYearId order by [tblSD_WO_SubCategory].[SCId] desc" 
+                    >
+                    <SelectParameters>
+                        <asp:SessionParameter Name="CompId" SessionField="compid" Type="Int32" />
+                        <asp:SessionParameter Name="FinYearId" SessionField="finyear" Type="Int32" />
+                    </SelectParameters>
+                    <DeleteParameters>
+                        <asp:Parameter Name="SCId" Type="Int32" />
+                        <asp:SessionParameter Name="CompId" SessionField="compid" Type="Int32" />                        
+                    </DeleteParameters>
+                </asp:SqlDataSource>
+                <asp:SqlDataSource ID="SqlDataSource1" runat="server"></asp:SqlDataSource>
+               </td>
+        </tr>
+        </table>
+            </td>
+        </tr>
+    </table>
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Masters/SubCategoryDelete.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_SalesDistribution_Masters_SubCategoryDelete : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    SqlConnection con;
+    int CompId = 0;
+    int FinYearId = 0;
+    string SId = "";
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            SId = Session["username"].ToString();
+            lblMessage.Text = "";
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    protected void GridView1_RowDeleted(object sender, GridViewDeletedEventArgs e)
+    {
+        lblMessage.Text = "Record Deleted.";
+    }
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton del = (LinkButton)e.Row.Cells[1].Controls[0];
+                del.Attributes.Add("onclick", "return confirmationDelete();");
+            }
+
+            foreach (GridViewRow row in GridView1.Rows)
+            {
+                string connStr = fun.Connection();
+                SqlConnection con = new SqlConnection(connStr);
+                int CId = Convert.ToInt32(((Label)row.FindControl("LblCId")).Text);
+                int SCId = Convert.ToInt32(((Label)row.FindControl("lblSCId")).Text);
+                string sql98 = "SELECT SD_Cust_WorkOrder_Master.SCId FROM  SD_Cust_WorkOrder_Master where  SD_Cust_WorkOrder_Master.CompId='" + CompId + "' AND SD_Cust_WorkOrder_Master.FinYearId<='" + FinYearId + "' And SD_Cust_WorkOrder_Master.CId='" + CId + "' And SD_Cust_WorkOrder_Master.SCId='" + SCId + "' ";
+                SqlCommand cmd98 = new SqlCommand(sql98, con);
+                SqlDataAdapter da98 = new SqlDataAdapter(cmd98);
+                DataSet ds98 = new DataSet();
+                da98.Fill(ds98);
+                if (ds98.Tables[0].Rows.Count > 0)
+                {
+                    LinkButton del = (LinkButton)row.Cells[1].Controls[0];
+                    del.Visible = false;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+}

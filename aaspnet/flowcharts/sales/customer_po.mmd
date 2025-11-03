@@ -1,0 +1,246 @@
+graph TB
+    %% Customer Purchase Order Module Architecture Diagram
+    
+    subgraph "Customer PO Lifecycle"
+        A[Customer PO Process Flow]
+        A1[CustPO_New<br/>PO creation and entry]
+        A2[CustPO_Edit<br/>PO modification]
+        A3[CustPO_Print<br/>PO documentation]
+        A4[CustPO_Delete<br/>PO cancellation]
+        A5[PO Conversion<br/>To Work Order]
+    end
+    
+    subgraph "PO Creation"
+        B[CustPO_New.aspx]
+        B1[Customer Selection<br/>From quotation or direct]
+        B2[PO Header Information<br/>PO number, dates, terms]
+        B3[Line Item Details<br/>Products and quantities]
+        B4[Delivery Schedule<br/>Timeline and milestones]
+        B5[Terms & Conditions<br/>Commercial terms]
+        B6[Special Instructions<br/>Customer requirements]
+    end
+    
+    subgraph "PO Management"
+        C[CustPO_Edit.aspx]
+        C1[PO Modification<br/>Update existing POs]
+        C2[Status Updates<br/>Progress tracking]
+        C3[Quantity Adjustments<br/>Order changes]
+        C4[Schedule Revisions<br/>Delivery modifications]
+        C5[Price Updates<br/>Rate adjustments]
+        C6[Amendment Tracking<br/>Change history]
+    end
+    
+    subgraph "PO Documentation"
+        D[CustPO_Print.aspx]
+        D1[PO Report Generation<br/>Formatted documents]
+        D2[Customer Communication<br/>Official PO copy]
+        D3[Internal Distribution<br/>Department copies]
+        D4[Archive Management<br/>Document storage]
+        D5[Print Frame<br/>CustPO_PrintFrame.aspx]
+    end
+    
+    subgraph "Database Structure"
+        E[Core Tables]
+        E1[SD_Cust_PO_Master<br/>PO header information]
+        E2[SD_Cust_PO_Details<br/>PO line items]
+        E3[SD_Cust_Quotation_Master<br/>Source quotation link]
+        E4[SD_Cust_Master<br/>Customer information]
+        E5[SD_Cust_WorkOrder_Master<br/>Converted work orders]
+    end
+    
+    subgraph "PO Details Management"
+        F[Line Item Processing]
+        F1[Product Description<br/>Item specifications]
+        F2[Quantity Management<br/>Ordered quantities]
+        F3[Unit Pricing<br/>Rate per unit]
+        F4[Delivery Schedule<br/>Timeline per item]
+        F5[Technical Specifications<br/>Product requirements]
+        F6[Quality Standards<br/>Acceptance criteria]
+    end
+    
+    subgraph "Status Management"
+        G[PO Status Tracking]
+        G1[Draft Status<br/>Initial creation]
+        G2[Confirmed Status<br/>Customer confirmed]
+        G3[In Production<br/>Manufacturing started]
+        G4[Partial Delivery<br/>Staged completion]
+        G5[Completed Status<br/>Fully delivered]
+        G6[Cancelled Status<br/>Order cancelled]
+        G7[Closed Status<br/>Financially closed]
+    end
+    
+    subgraph "Integration Points"
+        H[System Integration]
+        H1[Quotation System<br/>Source quotation reference]
+        H2[Work Order System<br/>Production planning]
+        H3[Inventory Management<br/>Material planning]
+        H4[Financial System<br/>Billing and invoicing]
+        H5[Production Planning<br/>Manufacturing schedule]
+        H6[Quality Management<br/>QC requirements]
+    end
+    
+    subgraph "Business Workflow"
+        I[PO Processing Workflow]
+        I1[Quotation Acceptance<br/>Customer confirms quote]
+        I2[PO Receipt<br/>Customer sends PO]
+        I3[PO Validation<br/>Terms verification]
+        I4[Internal Processing<br/>Order acknowledgment]
+        I5[Production Planning<br/>Manufacturing setup]
+        I6[Delivery Execution<br/>Order fulfillment]
+    end
+    
+    subgraph "Customer Communication"
+        J[Communication Management]
+        J1[PO Acknowledgment<br/>Order confirmation]
+        J2[Delivery Schedule<br/>Timeline communication]
+        J3[Progress Updates<br/>Status notifications]
+        J4[Change Notifications<br/>Amendment alerts]
+        J5[Completion Notice<br/>Delivery confirmation]
+    end
+    
+    subgraph "Validation & Controls"
+        K[Business Controls]
+        K1[Customer Validation<br/>Valid customer check]
+        K2[Credit Verification<br/>Financial approval]
+        K3[Capacity Check<br/>Production feasibility]
+        K4[Technical Review<br/>Specification validation]
+        K5[Commercial Terms<br/>Contract compliance]
+        K6[Delivery Feasibility<br/>Schedule validation]
+    end
+    
+    subgraph "Reporting & Analytics"
+        L[PO Reports]
+        L1[PO Summary Reports<br/>Order overview]
+        L2[Delivery Performance<br/>Timeline analysis]
+        L3[Customer Analysis<br/>Order patterns]
+        L4[Revenue Tracking<br/>Financial metrics]
+        L5[Production Planning<br/>Capacity utilization]
+    end
+    
+    %% Workflow Relationships
+    A1 --> A2
+    A2 --> A3
+    A1 --> A4
+    A2 --> A4
+    A3 --> A5
+    
+    %% Stage Relationships
+    A1 --> B
+    A2 --> C
+    A3 --> D
+    
+    B --> B1
+    B --> B2
+    B --> B3
+    B --> B4
+    B --> B5
+    B --> B6
+    
+    C --> C1
+    C --> C2
+    C --> C3
+    C --> C4
+    C --> C5
+    C --> C6
+    
+    D --> D1
+    D --> D2
+    D --> D3
+    D --> D4
+    D --> D5
+    
+    %% Database Relationships
+    B --> E1
+    B3 --> E2
+    B1 --> E3
+    B1 --> E4
+    A5 --> E5
+    
+    %% Line Item Management
+    B3 --> F
+    F --> F1
+    F --> F2
+    F --> F3
+    F --> F4
+    F --> F5
+    F --> F6
+    
+    %% Status Flow
+    B --> G1
+    I4 --> G2
+    I5 --> G3
+    I6 --> G4
+    I6 --> G5
+    A4 --> G6
+    L4 --> G7
+    
+    %% Integration Flow
+    H1 --> B1
+    H2 --> A5
+    H3 --> I5
+    H4 --> L4
+    H5 --> I5
+    H6 --> F6
+    
+    %% Business Workflow
+    I1 --> I2
+    I2 --> I3
+    I3 --> I4
+    I4 --> I5
+    I5 --> I6
+    
+    I1 --> H1
+    I2 --> B
+    I3 --> K
+    I4 --> J1
+    I5 --> H2
+    I6 --> J5
+    
+    %% Communication Flow
+    J1 --> I4
+    J2 --> B4
+    J3 --> G
+    J4 --> C6
+    J5 --> G5
+    
+    %% Validation Flow
+    K1 --> B1
+    K2 --> I3
+    K3 --> I5
+    K4 --> F5
+    K5 --> B5
+    K6 --> B4
+    
+    %% Reporting Flow
+    L1 --> E1
+    L2 --> G
+    L3 --> E4
+    L4 --> E1
+    L5 --> H5
+    
+    %% Styling
+    classDef workflowClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef creationClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef managementClass fill:#e8eaf6,stroke:#3f51b5,stroke-width:2px
+    classDef documentClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef dbClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef detailsClass fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef statusClass fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    classDef integrationClass fill:#e0f2f1,stroke:#004d40,stroke-width:2px
+    classDef businessClass fill:#f9fbe7,stroke:#827717,stroke-width:2px
+    classDef communicationClass fill:#fff8e1,stroke:#ff6f00,stroke-width:2px
+    classDef validationClass fill:#fafafa,stroke:#424242,stroke-width:2px
+    classDef reportingClass fill:#e3f2fd,stroke:#0d47a1,stroke-width:2px
+    
+    class A,A1,A2,A3,A4,A5 workflowClass
+    class B,B1,B2,B3,B4,B5,B6 creationClass
+    class C,C1,C2,C3,C4,C5,C6 managementClass
+    class D,D1,D2,D3,D4,D5 documentClass
+    class E,E1,E2,E3,E4,E5 dbClass
+    class F,F1,F2,F3,F4,F5,F6 detailsClass
+    class G,G1,G2,G3,G4,G5,G6,G7 statusClass
+    class H,H1,H2,H3,H4,H5,H6 integrationClass
+    class I,I1,I2,I3,I4,I5,I6 businessClass
+    class J,J1,J2,J3,J4,J5 communicationClass
+    class K,K1,K2,K3,K4,K5,K6 validationClass
+    class L,L1,L2,L3,L4,L5 reportingClass

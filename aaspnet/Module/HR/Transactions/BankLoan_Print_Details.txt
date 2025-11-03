@@ -1,0 +1,242 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Transactions/BankLoan_Print_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="BankLoan_Print_Details.aspx.cs" Inherits="Module_HR_Transactions_BankLoan_Print_Details" Title="ERP" Theme="Default"  %>
+
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+    .style2
+    {
+        width: 100%;
+        
+    }
+</style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+ </asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="left" cellpadding="0" cellspacing="0" class="style2">
+    <tr>
+        <td align="Left">
+            <asp:Panel ID="Panel1" runat="server" ScrollBars="Both" Height="460" Width="100%">           
+    <CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" 
+        AutoDataBind="True" Height="50px" ReportSourceID="CrystalReportSource2" 
+        Width="350px" DisplayGroupTree="False" EnableDatabaseLogonPrompt="False" HasCrystalLogo="False"
+        EnableParameterPrompt="False" />
+    <CR:CrystalReportSource ID="CrystalReportSource2" runat="server">
+        <Report FileName="~\Module\HR\Transactions\Reports\BankLoan.rpt">
+        </Report>
+    </CR:CrystalReportSource>
+ </asp:Panel>
+        </td>       
+    </tr>
+    <tr>
+     <td  align="center" valign="middle" height="25">
+            <asp:Button ID="Cancel" runat="server" Text="Cancel" CssClass="redbox" onclick="Cancel_Click" /></td>
+    </tr>
+</table>
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Transactions/BankLoan_Print_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
+
+public partial class Module_HR_Transactions_BankLoan_Print_Details : System.Web.UI.Page
+{
+
+    clsFunctions fun = new clsFunctions();
+
+    int CompId = 0;
+    string Empid = "";
+    string FyId = "";
+    string id = ""; 
+    private ReportDocument report = new ReportDocument();
+    string Key = string.Empty;
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            try
+            {
+                FyId = Session["finyear"].ToString();
+                CompId = Convert.ToInt32(Session["compid"]);
+                Key = Request.QueryString["Key"].ToString();
+                Empid = Request.QueryString["EmpId"].ToString();
+                this.binddata(id);
+            }
+            catch (Exception ess)
+            {
+
+            }
+        }
+
+        else
+        {
+            Key = Request.QueryString["Key"].ToString();
+            ReportDocument doc = (ReportDocument)Session[Key];
+            CrystalReportViewer1.ReportSource = doc;
+           
+        }
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        report = new ReportDocument();
+    }
+    public void binddata(string EmpId)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        DataSet Loan = new DataSet();
+        DataTable dt = new DataTable(); 
+        DataSet ds = new DataSet();
+       try
+        {
+
+            string y = "";
+            if (Empid != "")
+            {
+                y ="And EmpId='"+Empid+"'" ;
+              
+            }
+
+           
+            string sql = fun.select("*", "tblHR_BankLoan", "CompId='" + CompId + "' And FinYearId<='" + FyId + "'" + y + "   Order by EmpId Desc");
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+          
+            da.Fill(ds);
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("EmpId", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("EmployeeName", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("BankName", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Branch", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Amount", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("Installment", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("fromDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ToDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));
+            
+            DataRow dr;
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+
+                dr = dt.NewRow();
+
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    dr[0] =Convert.ToInt32( ds.Tables[0].Rows[i]["Id"]);
+                    dr[1] = ds.Tables[0].Rows[i]["EmpId"].ToString();
+
+                    string sql1 = fun.select("Title + '. ' + EmployeeName As EmployeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "' And EmpId='" + ds.Tables[0].Rows[i]["EmpId"].ToString() + "'");
+                    SqlCommand cmd1 = new SqlCommand(sql1, con);
+                    SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+                    DataSet ds1 = new DataSet();
+                    da1.Fill(ds1);
+                    dr[2] = ds1.Tables[0].Rows[0]["EmployeeName"].ToString();
+                    dr[3] = ds.Tables[0].Rows[i]["BankName"].ToString();
+                    dr[4] = ds.Tables[0].Rows[i]["Branch"].ToString();
+                    dr[5] = Convert.ToDouble(ds.Tables[0].Rows[i]["Amount"]);
+                    dr[6] = Convert.ToDouble(ds.Tables[0].Rows[i]["Installment"]);
+                    dr[7] = fun.FromDateDMY(ds.Tables[0].Rows[i]["fromDate"].ToString());
+                    dr[8] = fun.FromDateDMY(ds.Tables[0].Rows[i]["ToDate"].ToString());
+                    dr[9] = Convert.ToInt32(ds.Tables[0].Rows[i]["CompId"]);
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+
+            }
+
+            Loan.Tables.Add(dt);
+            Loan.AcceptChanges();
+            DataSet xsdds = new BankLoan();
+            xsdds.Tables[0].Merge(Loan.Tables[0]);
+            xsdds.AcceptChanges();
+            string reportPath = Server.MapPath("~/Module/HR/Transactions/Reports/BankLoan.rpt");
+            report.Load(reportPath);
+            report.SetDataSource(xsdds);
+            CrystalReportViewer1.ReportSource = report;
+
+            string Address = fun.CompAdd(CompId);
+            report.SetParameterValue("Address", Address);
+
+            Session[Key] = report;
+
+
+            
+        }
+       catch (Exception ex)
+        {
+        }
+
+       finally
+       {
+           Loan.Clear();
+           Loan.Dispose();
+           dt.Clear();
+           dt.Dispose();
+           ds.Clear();
+           ds.Dispose();
+           con.Close();
+           con.Dispose();
+
+       }
+
+
+
+    }
+    protected void Cancel_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            Response.Redirect("BankLoan_Print.aspx?ModId=12&SubModId=129");
+
+        }
+        catch (Exception dtt)
+        {
+
+        }
+    }
+
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        report.Close();
+        report.Dispose();
+        GC.Collect();
+    }
+
+
+}

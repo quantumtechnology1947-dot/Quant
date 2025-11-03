@@ -1,0 +1,389 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Masters/SupplierMaster_Print_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="SupplierMaster_Print_Details.aspx.cs" Inherits="Module_MaterialManagement_Masters_SupplierMaster_Print_Details" Title="ERP" Theme ="Default" %>
+
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+ <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+    <p><br /></p><p></p>
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table width="100%" >         
+    <tr>
+    <td align="center">
+        <asp:Panel ID="Panel1" runat="server" ScrollBars="Auto" Height="454" Width="100%">
+        
+<CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" HasCrystalLogo="False"
+        AutoDataBind="True" Width="400px" ReportSourceID="CrystalReportSource1" 
+                DisplayGroupTree="False" EnableDatabaseLogonPrompt="False" 
+                EnableParameterPrompt="False" />
+        <CR:CrystalReportSource ID="CrystalReportSource1" runat="server" >
+            <Report FileName="Module\MaterialManagement\Masters\Reports\SupplierPrintReport.rpt">
+            </Report>
+        
+        </CR:CrystalReportSource>   
+       </asp:Panel>
+    </td></tr>
+        <tr>
+    <td align="center" Height="25" valign="middle">
+        <asp:Button ID="Button1" runat="server" onclick="Button1_Click" Text="Cancel" CssClass="redbox" />
+    </td></tr>
+   </table>   
+  
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Masters/SupplierMaster_Print_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+
+public partial class Module_MaterialManagement_Masters_SupplierMaster_Print_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    private ReportDocument report = new ReportDocument();
+    int cId = 0;
+    string Key = string.Empty;
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        string connStr1 = fun.Connection();
+        SqlConnection myConnection = new SqlConnection(connStr1);
+        try
+        {
+            if (!IsPostBack)
+            {
+                myConnection.Open();
+                cId = Convert.ToInt32(Session["compid"]);
+                string str = Request.QueryString["SupplierId"].ToString();
+                string selectQuery = fun.select("*", "tblMM_Supplier_master", "SupplierId='" + str + "'And CompId='" + cId + "'");
+                SqlCommand myCommand = new SqlCommand(selectQuery, myConnection);
+                SqlDataAdapter ad = new SqlDataAdapter(myCommand);
+                DataSet ds = new DataSet();
+                ad.Fill(ds, "tblMM_Supplier_master");
+
+                string reportPath = Server.MapPath("../Reports/SupplierPrintReport.rpt");
+                report.Load(reportPath);
+                report.SetDataSource(ds);
+
+                //Registration Date 
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    string regdate = ds.Tables[0].Rows[0]["SysDate"].ToString();
+                    string RegDate = fun.FromDateDMY(regdate);
+
+                    string RegCity = ds.Tables[0].Rows[0]["RegdCity"].ToString();
+                    string RegState = ds.Tables[0].Rows[0]["RegdState"].ToString();
+                    string RegCountry = ds.Tables[0].Rows[0]["RegdCountry"].ToString();
+                    string WorkCity = ds.Tables[0].Rows[0]["WorkCity"].ToString();
+                    string WorkState = ds.Tables[0].Rows[0]["WorkState"].ToString();
+                    string WorkCountry = ds.Tables[0].Rows[0]["WorkCountry"].ToString();
+                    string DelCity = ds.Tables[0].Rows[0]["MaterialDelCity"].ToString();
+                    string DelState = ds.Tables[0].Rows[0]["MaterialDelState"].ToString();
+                    string DelCountry = ds.Tables[0].Rows[0]["MaterialDelCountry"].ToString();
+                    string SerCoverage = ds.Tables[0].Rows[0]["ServiceCoverage"].ToString();
+                    string getPFId = ds.Tables[0].Rows[0]["PF"].ToString();
+                    string getExSTId = ds.Tables[0].Rows[0]["ExST"].ToString();
+                    string getVATId = ds.Tables[0].Rows[0]["VAT"].ToString();
+
+                    // for Business Type checkbox list..
+                    string BusinessType = "";
+                    DataSet DS2 = new DataSet();
+                    string cmdStr2 = fun.select1("*", "tblMM_Supplier_BusinessType");
+                    SqlCommand cmd2 = new SqlCommand(cmdStr2, myConnection);
+                    SqlDataAdapter DA2 = new SqlDataAdapter(cmd2);
+                    DA2.Fill(DS2, "tblMM_Supplier_BusinessType");
+                    string shree = ds.Tables[0].Rows[0]["BusinessType"].ToString();
+                    string[] split = shree.Split(new Char[] { ',' });
+                    for (int f = 0; f < split.Length; f++)
+                    {
+                        string val = split[f];
+                        if (val != "")
+                        {
+                            int p = Convert.ToInt32(val);
+                            BusinessType += DS2.Tables[0].Rows[p]["Type"] + ",".ToString();
+                        }
+                    }
+
+                    //for Business Nature checkbox list..
+                    string BusinessNature = string.Empty;
+                                        
+                    string cmdStr3 = fun.select1("*", "tblMM_Supplier_BusinessNature");
+                    SqlCommand cmd3 = new SqlCommand(cmdStr3, myConnection);
+                    SqlDataAdapter DA3 = new SqlDataAdapter(cmd3);
+                    DataSet DS3 = new DataSet();
+                    DA3.Fill(DS3, "tblMM_Supplier_BusinessNature");
+                   
+                    string shree1 = ds.Tables[0].Rows[0]["BusinessNature"].ToString();
+                    string[] split1 = shree1.Split(new Char[] { ',' });
+                    for (int f = 0; f < split1.Length; f++)
+                    {
+                        string val = split1[f];
+                        if (val != "")
+                        {
+                            int p = Convert.ToInt32(val);
+                            if (DS3.Tables[0].Rows.Count > 0)
+                            {
+
+                                BusinessNature += DS3.Tables[0].Rows[p]["Nature"] + ",".ToString();
+                            }
+                        }
+                    }
+                    //for Service Coverage dropdown list..
+                    string selectSerCov = fun.select("Type", "tblMM_Supplier_ServiceCoverage", "Id='" + SerCoverage + "'");
+                    SqlCommand myCmdsc = new SqlCommand(selectSerCov, myConnection);
+                    SqlDataReader Dssc = myCmdsc.ExecuteReader();
+                    Dssc.Read();
+                    
+                    string ServiceCoverage = "";
+                    if (Dssc.HasRows == true)
+                    {
+                        ServiceCoverage = Dssc["Type"].ToString();
+                    }
+                    
+                    //for ModVat Applicable..
+                    string ModVatApplicable = "";
+                    if (Convert.ToInt32(ds.Tables[0].Rows[0]["ModVatApplicable"]) > 0)
+                    { ModVatApplicable = "Yes"; }
+                    else { ModVatApplicable = "No"; }
+
+                    //for ModVat Invoice..
+                    string ModVatInvoice = "";
+                    if (Convert.ToInt32(ds.Tables[0].Rows[0]["ModVatInvoice"]) > 0)
+                    { ModVatInvoice = "Yes"; }
+                    else { ModVatInvoice = "No"; }
+
+                    //Regd
+                    string selectregCt = fun.select("CityName", "tblCity", "CityId='" + RegCity + "' ");
+                    SqlCommand myCmdct = new SqlCommand(selectregCt, myConnection);
+                    SqlDataReader Dsct = myCmdct.ExecuteReader();
+                    Dsct.Read();
+                                        
+                    string regcity = "";
+                    if (Dsct.HasRows == true)
+                    {
+                        regcity = Dsct["CityName"].ToString();
+                    }
+
+                    string selectregSt = fun.select("StateName", "tblState", "SId='" + RegState + "' ");
+                    SqlCommand myCmdst = new SqlCommand(selectregSt, myConnection);
+                    SqlDataReader Dsst = myCmdst.ExecuteReader();
+                    Dsst.Read();
+
+                    string regstate = "";
+                    if (Dsst.HasRows == true)
+                    {
+                        regstate = Dsst["StateName"].ToString();
+                    }
+
+                    string selectregCnt = fun.select("CountryName", "tblCountry", "CId='" + RegCountry + "' ");
+                    SqlCommand myCmdcnt = new SqlCommand(selectregCnt, myConnection);
+                    SqlDataReader Dscnt = myCmdcnt.ExecuteReader();
+                    Dscnt.Read();
+
+                    string regcountry = "";
+                    if (Dscnt.HasRows == true)
+                    {
+                        regcountry = Dscnt["CountryName"].ToString();
+                    }
+                    //Work 
+                    
+                    string selectregCt1 = fun.select("CityName", "tblCity", "CityId='" + WorkCity + "' ");
+                    SqlCommand myCmdct1 = new SqlCommand(selectregCt1, myConnection);
+                    SqlDataReader Dsct1 = myCmdct1.ExecuteReader();
+                    Dsct1.Read();
+                    
+                    string workcity = "";
+                    if (Dsct1.HasRows == true)
+                    {
+                        workcity = Dsct1["CityName"].ToString();
+                    }
+
+                    string selectregSt1 = fun.select("StateName", "tblState", "SId='" + WorkState + "' ");
+                    SqlCommand myCmdst1 = new SqlCommand(selectregSt1, myConnection);
+                    SqlDataReader Dsst1 = myCmdst1.ExecuteReader();
+                    Dsst1.Read();
+
+                    string workstate = "";
+                    if (Dsst1.HasRows == true)
+                    {
+                        workstate = Dsst1["StateName"].ToString();
+                    }
+
+                    string selectregCnt1 = fun.select("CountryName", "tblCountry", "CId='" + WorkCountry + "' ");
+                    SqlCommand myCmdcnt1 = new SqlCommand(selectregCnt1, myConnection);
+                    SqlDataReader Dscnt1 = myCmdcnt1.ExecuteReader();
+                    Dscnt1.Read();
+
+                    string workcountry = "";
+                    if (Dscnt1.HasRows==true)
+                    {
+                        workcountry = Dscnt1["CountryName"].ToString();
+                    }
+                    // Del
+
+                    string selectregCt2 = fun.select("CityName", "tblCity", "CityId='" + DelCity + "'");
+                    SqlCommand myCmdct2 = new SqlCommand(selectregCt2, myConnection);
+                    SqlDataReader Dsct2 = myCmdct2.ExecuteReader();
+                    Dsct2.Read();
+
+                    string delcity = string.Empty;
+                    if (Dsct2.HasRows==true)
+                    {
+                        delcity = Dsct2["CityName"].ToString();
+                    }
+
+                    string selectregSt2 = fun.select("StateName", "tblState", "SId='" + DelState + "'");
+                    SqlCommand myCmdst2 = new SqlCommand(selectregSt2, myConnection);
+                    SqlDataReader Dsst2 = myCmdst2.ExecuteReader();
+                    Dsst2.Read();
+
+                    string delstate = string.Empty;
+                    if (Dsst2.HasRows == true)
+                    {
+                        delstate = Dsst2["StateName"].ToString();
+                    }
+
+                    string selectregCnt2 = fun.select("CountryName", "tblCountry", "CId='" + DelCountry + "'");
+                    SqlCommand myCmdcnt2 = new SqlCommand(selectregCnt2, myConnection);
+                    SqlDataReader Dscnt2 = myCmdcnt2.ExecuteReader();
+                    Dscnt2.Read();
+
+                    string delcountry = string.Empty;
+                    if (Dscnt2.HasRows == true)
+                    {
+                        delcountry = Dscnt2["CountryName"].ToString();
+                    }
+
+                    report.SetParameterValue("RegCity", regcity);
+                    report.SetParameterValue("RegState", regstate);
+                    report.SetParameterValue("RegCountry", regcountry);
+
+                    report.SetParameterValue("WrkCity", workcity);
+                    report.SetParameterValue("WrkState", workstate);
+                    report.SetParameterValue("WrkCountry", workcountry);
+
+                    report.SetParameterValue("DelCity", delcity);
+                    report.SetParameterValue("DelState", delstate);
+                    report.SetParameterValue("DelCountry", delcountry);
+
+                    report.SetParameterValue("RegDate", RegDate);
+                    string Company = fun.getCompany(cId);
+                    report.SetParameterValue("Company", Company);
+                    string Address = fun.CompAdd(cId);
+                    report.SetParameterValue("Address", Address);
+
+                    report.SetParameterValue("ModVatApplicable", ModVatApplicable);
+                    report.SetParameterValue("ModVatInvoice", ModVatInvoice);
+
+                    report.SetParameterValue("BusinessType", BusinessType);
+                    report.SetParameterValue("BusinessNature", BusinessNature);
+                    report.SetParameterValue("ServiceCoverage", ServiceCoverage);
+                    report.SetParameterValue("VAT", ServiceCoverage);
+
+                    string selectPF = fun.select("Terms", "tblPacking_Master", "Id='" + getPFId + "'");
+                    SqlCommand CmdPF = new SqlCommand(selectPF, myConnection);
+                    SqlDataReader DsPF = CmdPF.ExecuteReader();
+                    DsPF.Read();
+                    
+                    string PF = string.Empty;
+                    if (DsPF.HasRows == true)
+                    {
+                        PF = DsPF["Terms"].ToString();
+                    }
+                    report.SetParameterValue("PF", PF);
+
+                    string selectExST = fun.select("Terms", "tblExciseser_Master", "Id='" + getExSTId + "'");
+                    SqlCommand CmdExST = new SqlCommand(selectExST, myConnection);
+                    SqlDataReader DsExST = CmdExST.ExecuteReader();
+                    DsExST.Read();
+
+                    string ExST = string.Empty;
+                    if (DsExST.HasRows == true)
+                    {
+                        ExST = DsExST["Terms"].ToString();
+                    }
+                    report.SetParameterValue("ExST", ExST);
+
+                    string selectVAT = fun.select("Terms", "tblVAT_Master", "Id='" + getVATId + "'");
+                    SqlCommand CmdVAT = new SqlCommand(selectVAT, myConnection);
+                    SqlDataReader DsVAT = CmdVAT.ExecuteReader();
+                    DsVAT.Read();
+
+                    string VAT = string.Empty;
+                    if (DsVAT.HasRows == true)
+                    {
+                        VAT = DsVAT["Terms"].ToString();
+                    }
+                    report.SetParameterValue("VAT", VAT);
+
+                    CrystalReportViewer1.ReportSource = report;
+                    Session[Key] = report;
+
+                }
+            }
+            else
+            {
+                ReportDocument doc = (ReportDocument)Session[Key];
+                CrystalReportViewer1.ReportSource = doc;
+            }
+
+        }
+       catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            myConnection.Close();
+        }
+    }
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        report.Close();
+        report.Dispose();
+        GC.Collect();
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        report = new ReportDocument();
+    }
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("SupplierMaster_Print.aspx?ModId=6&SubModId=22");
+    }
+
+
+
+}

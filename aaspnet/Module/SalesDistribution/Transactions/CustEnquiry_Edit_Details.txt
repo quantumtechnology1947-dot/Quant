@@ -1,0 +1,718 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Transactions/CustEnquiry_Edit_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="CustEnquiry_Edit_Details.aspx.cs" Inherits="Module_SalesDistribution_Transactions_CustEnquiry_Edit_Details" Title="ERP" Theme="Default" %>
+
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+    
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+   
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table cellpadding="0" cellspacing="0" class="box3" width="100%" align="center" >
+        <tr>
+            <td>
+
+<table width="100%"  border="0" align="center" cellpadding="0" cellspacing="0" Class="fontcss">
+  <tr valign="top"  >
+    <th height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" colspan="4" style="background:url(../../../images/hdbg.JPG)">
+        <b>&nbsp;Customer Enquiry - Edit</b></th>
+  </tr>
+  <tr valign="top"  >
+    <th width="17%" height="22" align="left" valign="middle"  scope="col" 
+          class="fontcss">&nbsp;Enquiry Id</th>
+    <th colspan="2" align="left" valign="middle"  scope="col">
+        <asp:Label ID="hfEnqId" runat="server"></asp:Label>
+      </th>
+    <th align="right" valign="middle"  scope="col">
+        <asp:Button ID="Update" runat="server" Text="Update" CssClass="redbox" 
+            onclick="Update_Click" onclientclick="return confirmationUpdate()" 
+            ValidationGroup="A" />
+        <asp:Button ID="btncancel" runat="server" CssClass="redbox" 
+            onclick="btncancel_Click" Text="Cancel" />
+      </th>
+    </tr>
+  <tr valign="top"  >
+    <th width="17%" height="22" align="left" valign="middle"  scope="col" 
+          class="fontcss">&nbsp;Customer's Name</th>
+    <th colspan="2" align="left" valign="middle"  scope="col">
+        <asp:Label ID="lblCustName" runat="server" Text="lblCustName"></asp:Label>
+        [<asp:Label ID="hfCustId" runat="server" Text="hfCustId"></asp:Label>
+        ]</th>
+    <th align="right" valign="middle"  scope="col">
+        &nbsp;</th>
+    </tr>
+  <tr valign="top"  >
+    <th width="17%" height="23" align="center" valign="middle"  scope="col" style="background-color:silver">Address/Details</th>
+    <th width="27%" align="center" valign="middle"  scope="col"   scope="col" style="background-color:silver">REGD. OFFICE</th>
+    <th width="28%" align="center" valign="middle"  scope="col"   scope="col" style="background-color:silver">WORKS/FACTORY</th>
+    <th width="28%" align="center" valign="middle"  scope="col"   scope="col" style="background-color:silver">MATERIAL DELIVERY</th>
+  </tr>
+  <tr valign="top"  >
+    <th height="28" align="left" valign="top"  scope="col" class="fontcss">&nbsp;Address</th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:TextBox ID="txtEditRegdAdd" runat="server" TextMode="MultiLine" CssClass="box3" 
+            Width="230px" ValidationGroup="A"></asp:TextBox>
+        <asp:RequiredFieldValidator ID="ReqRegdAdd" runat="server" 
+            ControlToValidate="txtEditRegdAdd" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+      </th>
+    <th width="28%" align="left" valign="middle"  scope="col">
+        <asp:TextBox ID="txtEditWorkAdd" runat="server" TextMode="MultiLine" CssClass="box3" 
+            Width="230px"></asp:TextBox>    
+        <asp:RequiredFieldValidator ID="ReqworkAdd" runat="server" 
+            ControlToValidate="txtEditWorkAdd" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+      </th>
+    <th width="28%" align="left" valign="middle"  scope="col">
+        <asp:TextBox ID="txtEditMaterialDelAdd" runat="server" TextMode="MultiLine" CssClass="box3" 
+            Width="230px"></asp:TextBox>    
+        <asp:RequiredFieldValidator ID="ReqMateAdd" runat="server" 
+            ControlToValidate="txtEditMaterialDelAdd" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+      </th>
+  </tr>
+  <tr valign="top"  >
+    <th height="23" align="left" valign="middle"  scope="col" class="fontcss">&nbsp;Country</th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:DropDownList ID="DDListEditRegdCountry" runat="server" CssClass="box3" 
+            AutoPostBack="True" 
+            onselectedindexchanged="DDListEditRegdCountry_SelectedIndexChanged"></asp:DropDownList>
+        <asp:RequiredFieldValidator ID="ReqRegdCountry" runat="server" 
+            ControlToValidate="DDListEditRegdCountry" ErrorMessage="*" 
+            InitialValue="Select" ValidationGroup="A"></asp:RequiredFieldValidator>
+      </th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:DropDownList ID="DDListEditWorkCountry" runat="server" CssClass="box3" 
+            AutoPostBack="True" 
+            onselectedindexchanged="DDListEditWorkCountry_SelectedIndexChanged"></asp:DropDownList>    
+        <asp:RequiredFieldValidator ID="ReqWorkContry" runat="server" 
+            ControlToValidate="DDListEditWorkCountry" ErrorMessage="*" 
+            InitialValue="Select" ValidationGroup="A"></asp:RequiredFieldValidator>
+      </th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:DropDownList ID="DDListEditMaterialDelCountry" runat="server" 
+            CssClass="box3" AutoPostBack="True" 
+            onselectedindexchanged="DDListEditMaterialDelCountry_SelectedIndexChanged"></asp:DropDownList>    
+        <asp:RequiredFieldValidator ID="ReqMateCountry" runat="server" 
+            ControlToValidate="DDListEditMaterialDelCountry" ErrorMessage="*" 
+            InitialValue="Select" ValidationGroup="A"></asp:RequiredFieldValidator>
+      </th>
+  </tr>
+  <tr valign="top"  >
+    <th height="23" align="left" valign="middle"  scope="col" class="fontcss">&nbsp;State</th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:DropDownList ID="DDListEditRegdState" runat="server" CssClass="box3" 
+            AutoPostBack="True" 
+            onselectedindexchanged="DDListEditRegdState_SelectedIndexChanged"></asp:DropDownList>    
+        <asp:RequiredFieldValidator ID="ReqRegdState" runat="server" 
+            ControlToValidate="DDListEditRegdState" ErrorMessage="*" InitialValue="Select" 
+            ValidationGroup="A"></asp:RequiredFieldValidator>
+      </th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:DropDownList ID="DDListEditWorkState" runat="server" CssClass="box3" 
+            AutoPostBack="True" 
+            onselectedindexchanged="DDListEditWorkState_SelectedIndexChanged"></asp:DropDownList>    
+        <asp:RequiredFieldValidator ID="ReqWorkState" runat="server" 
+            ControlToValidate="DDListEditWorkState" ErrorMessage="*" InitialValue="Select" 
+            ValidationGroup="A"></asp:RequiredFieldValidator>
+      </th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:DropDownList ID="DDListEditMaterialDelState" runat="server" 
+            CssClass="box3" AutoPostBack="True" 
+            onselectedindexchanged="DDListEditMaterialDelState_SelectedIndexChanged"></asp:DropDownList>    
+        <asp:RequiredFieldValidator ID="ReqMaterialState" runat="server" 
+            ControlToValidate="DDListEditMaterialDelState" ErrorMessage="*" 
+            InitialValue="Select" ValidationGroup="A"></asp:RequiredFieldValidator>
+      </th>
+  </tr>
+  <tr valign="top"  >
+    <th height="23" align="left" valign="middle"  scope="col" class="fontcss">&nbsp;City</th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:DropDownList ID="DDListEditRegdCity" runat="server" CssClass="box3" 
+            onselectedindexchanged="DDListEditRegdCity_SelectedIndexChanged"></asp:DropDownList>    
+        <asp:RequiredFieldValidator ID="ReqRegdCity" runat="server" 
+            ControlToValidate="DDListEditRegdCity" ErrorMessage="*" InitialValue="Select" 
+            ValidationGroup="A"></asp:RequiredFieldValidator>
+      </th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:DropDownList ID="DDListEditWorkCity" runat="server" CssClass="box3" 
+            Height="18px"></asp:DropDownList>    
+        <asp:RequiredFieldValidator ID="ReqWorkCity" runat="server" 
+            ControlToValidate="DDListEditWorkCity" ErrorMessage="*" InitialValue="Select" 
+            ValidationGroup="A"></asp:RequiredFieldValidator>
+      </th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:DropDownList ID="DDListEditMaterialDelCity" runat="server" CssClass="box3"></asp:DropDownList>    
+        <asp:RequiredFieldValidator ID="ReqMateCity" runat="server" 
+            ControlToValidate="DDListEditMaterialDelCity" ErrorMessage="*" 
+            InitialValue="Select" ValidationGroup="A"></asp:RequiredFieldValidator>
+      </th>
+  </tr>
+  <tr valign="top"  >
+    <th height="23" align="left" valign="middle"  scope="col" class="fontcss">&nbsp;PIN No.</th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:TextBox ID="txtEditRegdPinNo" runat="server" CssClass="box3"></asp:TextBox>    
+        <asp:RequiredFieldValidator ID="ReqRegdPin" runat="server" 
+            ControlToValidate="txtEditRegdPinNo" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+      </th>
+    <th align="left" valign="middle"  scope="col" >
+        <asp:TextBox ID="txtEditWorkPinNo" runat="server" CssClass="box3"></asp:TextBox>    
+        <asp:RequiredFieldValidator ID="ReqWorkPIN" runat="server" 
+            ControlToValidate="txtEditWorkPinNo" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+      </th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:TextBox ID="txtEditMaterialDelPinNo" runat="server" CssClass="box3"></asp:TextBox>    
+        <asp:RequiredFieldValidator ID="ReqMatePIN" runat="server" 
+            ControlToValidate="txtEditMaterialDelPinNo" ErrorMessage="*" 
+            ValidationGroup="A"></asp:RequiredFieldValidator>
+      </th>
+  </tr>
+  <tr valign="top"  >
+    <th height="23" align="left" valign="middle"  scope="col" class="fontcss">&nbsp;Contact No.</th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:TextBox ID="txtEditRegdContactNo" runat="server" CssClass="box3"></asp:TextBox>    
+        <asp:RequiredFieldValidator ID="ReqRegdContNo" runat="server" 
+            ControlToValidate="txtEditRegdContactNo" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+      </th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:TextBox ID="txtEditWorkContactNo" runat="server" CssClass="box3"></asp:TextBox>    
+        <asp:RequiredFieldValidator ID="ReqWorkContNo" runat="server" 
+            ControlToValidate="txtEditWorkContactNo" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+      </th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:TextBox ID="txtEditMaterialDelContactNo" runat="server" CssClass="box3"></asp:TextBox>    
+        <asp:RequiredFieldValidator ID="ReqMateContNo" runat="server" 
+            ControlToValidate="txtEditMaterialDelContactNo" ErrorMessage="*" 
+            ValidationGroup="A"></asp:RequiredFieldValidator>
+      </th>
+  </tr>
+  <tr valign="top"  >
+    <th height="23" align="left" valign="middle"  scope="col" class="fontcss">&nbsp;Fax No.</th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:TextBox ID="txtEditRegdFaxNo" runat="server" CssClass="box3"></asp:TextBox>    
+        <asp:RequiredFieldValidator ID="ReqRegdFaxNO" runat="server" 
+            ControlToValidate="txtEditRegdFaxNo" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+      </th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:TextBox ID="txtEditWorkFaxNo" runat="server" CssClass="box3"></asp:TextBox>    
+        <asp:RequiredFieldValidator ID="ReqWorkFax" runat="server" 
+            ControlToValidate="txtEditWorkFaxNo" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+      </th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:TextBox ID="txtEditMaterialDelFaxNo" runat="server" CssClass="box3"></asp:TextBox>    
+        <asp:RequiredFieldValidator ID="ReqFaxNo" runat="server" 
+            ControlToValidate="txtEditMaterialDelFaxNo" ErrorMessage="*" 
+            ValidationGroup="A"></asp:RequiredFieldValidator>
+      </th>
+  </tr>
+  
+  <tr valign="top"  >
+    <th height="23" colspan="4" align="left" valign="top"  scope="col">
+    <table width="100%" border="0" cellspacing="0" cellpadding="1">
+      <tr>
+        <td height="23" align="left" valign="middle" class="fontcss">&nbsp;Contact person</td>
+        <td align="left" valign="middle"><asp:TextBox ID="txtEditContactPerson" 
+                runat="server" CssClass="box3"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="ReqContPerson" runat="server" 
+                ControlToValidate="txtEditContactPerson" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+          </td>
+        <td align="left" valign="middle" class="fontcss">E-mail</td>
+        <td align="left" valign="middle"><asp:TextBox ID="txtEditEmail" runat="server" 
+                CssClass="box3"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="ReqEmail" runat="server" 
+                ControlToValidate="txtEditEmail" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+            <asp:RegularExpressionValidator ID="RegEmail" runat="server" 
+                ControlToValidate="txtEditEmail" ErrorMessage="*" 
+                ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" 
+                ValidationGroup="A"></asp:RegularExpressionValidator>
+          </td>
+        <td align="left" valign="middle" class="fontcss">Contact No.</td>
+        <td align="left" valign="middle">
+            <asp:TextBox ID="txtEditContactNo" runat="server" CssClass="box3"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="ReqContNo" runat="server" 
+                ControlToValidate="txtEditContactNo" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+          </td>
+      </tr>
+      <tr>
+        <td width="17%" height="23" align="left" valign="middle" class="fontcss">&nbsp;Juridiction Code</td>
+        <td width="21%" align="left" valign="middle">
+            <asp:TextBox ID="txtEditJuridictionCode" runat="server" CssClass="box3"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="ReqJuriCode" runat="server" 
+                ControlToValidate="txtEditJuridictionCode" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+          </td>
+        <td width="10%" align="left" valign="middle" class="fontcss">ECC.No.</td>
+        <td width="20%" align="left" valign="middle">
+            <asp:TextBox ID="txtEditEccNo" runat="server" CssClass="box3"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="ReqEcc" runat="server" 
+                ControlToValidate="txtEditEccNo" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+          </td>
+        <td width="10%" align="left" valign="middle" class="fontcss">Range&nbsp;</td>
+        <td width="22%" align="left" valign="middle">
+            <asp:TextBox ID="txtEditRange" runat="server" CssClass="box3"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="ReqRange" runat="server" 
+                ControlToValidate="txtEditRange" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+          </td>
+      </tr>
+      <tr>
+        <td height="23" align="left" valign="middle" class="fontcss">&nbsp;Commissionurate&nbsp; </td>
+        <td align="left" valign="middle">
+            <asp:TextBox ID="txtEditCommissionurate" runat="server" CssClass="box3"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="ReqCommisunerate" runat="server" 
+                ControlToValidate="txtEditCommissionurate" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+          </td>
+        <td align="left" valign="middle" class="fontcss">Divn</td>
+        <td align="left" valign="middle">
+            <asp:TextBox ID="txtEditDivn" runat="server" CssClass="box3"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="ReqDiv" runat="server" 
+                ControlToValidate="txtEditDivn" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+          </td>
+        <td align="left" valign="middle" class="fontcss">PAN No.</td>
+        <td align="left" valign="middle">
+            <asp:TextBox ID="txtEditPanNo" runat="server" CssClass="box3"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="ReqPanNo" runat="server" 
+                ControlToValidate="txtEditPanNo" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+          </td>
+      </tr>
+      <tr>
+        <td height="23" align="left" valign="middle" class="fontcss">&nbsp;TIN/VAT No.</td>
+        <td align="left" valign="middle">
+            <asp:TextBox ID="txtEditTinVatNo" runat="server" CssClass="box3"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="ReqTinVat" runat="server" 
+                ControlToValidate="txtEditTinVatNo" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+          </td>
+        <td align="left" valign="middle" class="fontcss">TIN/CST No.</td>
+        <td align="left" valign="middle">
+            <asp:TextBox ID="txtEditTinCstNo" runat="server" CssClass="box3"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="ReqTinCst" runat="server" 
+                ControlToValidate="txtEditTinCstNo" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+          </td>
+        <td align="left" valign="middle" class="fontcss">TDS Code.</td>
+        <td align="left" valign="middle">
+            <asp:TextBox ID="txtEditTdsCode" runat="server" CssClass="box3"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="ReqTds" runat="server" 
+                ControlToValidate="txtEditTdsCode" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+          </td>
+      </tr>
+      
+    </table></th>
+  </tr>
+  
+  <tr valign="top"  >
+    <th height="23" align="left" valign="top"  scope="col" class="fontcss"> &nbsp;Remarks&nbsp;</th>
+    <th colspan="2" align="left" valign="middle"  scope="col">
+        <asp:TextBox ID="txtEditRemark" runat="server" TextMode="MultiLine" 
+            CssClass="box3"></asp:TextBox>    
+      </th>
+    <th align="right" valign="top"  scope="col">
+        &nbsp;</th>
+  </tr>
+ 
+  <tr valign="top"  >
+    <th height="23" align="left" valign="top"  scope="col" class="fontcss"> Enquiry For </th>
+    <th colspan="3" align="left" valign="middle"  scope="col">
+                                <asp:TextBox ID="txtEditEnquiryFor" runat="server" TextMode="MultiLine" 
+                                    Width="500" Height="100" CssClass="box3"></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="ReqEnqFor" runat="server" 
+                                    ControlToValidate="txtEditEnquiryFor" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+      </th>
+  </tr>
+  
+  <tr valign="top"  >
+    <th height="23" align="left" valign="top"  scope="col" class="fontcss"> &nbsp;Attachment</th>
+    <th colspan="3" align="left" valign="middle"  scope="col">
+      <asp:FileUpload ID="FileUpload1" runat="server" class="multi" CssClass="box3" />
+                                &nbsp;<asp:RequiredFieldValidator ID="ReqAttach" 
+            runat="server" ControlToValidate="FileUpload1" ErrorMessage="*" 
+            ValidationGroup="B"></asp:RequiredFieldValidator>
+&nbsp;<asp:Button ID="Button1" runat="server" Height="21px" onclick="Button1_Click" 
+            Text="Upload" Width="81px" CssClass="redbox" 
+            onclientclick="return confirmationUpload()" ValidationGroup="B" />
+        <br />
+      </th>
+       
+     <tr>
+      <td height="auto" align="center" valign="top"  scope="col" 
+          colspan="4"> 
+            <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+                ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                
+                SelectCommand="SELECT [FileName], [FileSize], [ContentType], [FileData], [Id] FROM [SD_Cust_Enquiry_Attach_Master] WHERE (([CompId] = @CompId) AND ([EnqId] = @EnqId) AND ([FinYearId] = @FinYearId))" 
+                ProviderName="System.Data.SqlClient" 
+                DeleteCommand="DELETE FROM [SD_Cust_Enquiry_Attach_Master] WHERE [Id] = @Id" 
+                InsertCommand="INSERT INTO [SD_Cust_Enquiry_Attach_Master] ([FileName], [FileSize], [ContentType], [FileData]) VALUES (@FileName, @FileSize, @ContentType, @FileData)" 
+                UpdateCommand="UPDATE [SD_Cust_Enquiry_Attach_Master] SET [FileName] = @FileName, [FileSize] = @FileSize, [ContentType] = @ContentType, [FileData] = @FileData WHERE [Id] = @Id">
+                <SelectParameters>
+                    <asp:SessionParameter Name="CompId" SessionField="compid" Type="Int32" />
+                    <asp:ControlParameter ControlID="hfEnqId" Name="EnqId" PropertyName="Text" 
+                        Type="Int32" />
+                    <asp:SessionParameter Name="FinYearId" SessionField="finyear" Type="Int32" />
+                </SelectParameters>
+                <DeleteParameters>
+                    <asp:Parameter Name="Id" Type="Int32" />
+                </DeleteParameters>
+                <UpdateParameters>
+                    <asp:Parameter Name="FileName" Type="String" />
+                    <asp:Parameter Name="FileSize" Type="Double" />
+                    <asp:Parameter Name="ContentType" Type="String" />
+                    <asp:Parameter Name="FileData" Type="Object" />
+                    <asp:Parameter Name="Id" Type="Int32" />
+                </UpdateParameters>
+                <InsertParameters>
+                    <asp:Parameter Name="FileName" Type="String" />
+                    <asp:Parameter Name="FileSize" Type="Double" />
+                    <asp:Parameter Name="ContentType" Type="String" />
+                    <asp:Parameter Name="FileData" Type="Object" />
+                </InsertParameters>
+            </asp:SqlDataSource>
+          <asp:GridView 
+                ID="GridView1" runat="server" PageSize="10" AllowPaging="True"  Width="71%" 
+                CssClass="yui-datatable-theme" AutoGenerateColumns="False" 
+                DataKeyNames="Id" DataSourceID="SqlDataSource1" 
+                onrowdatabound="GridView1_RowDataBound">
+              <Columns>
+               <asp:CommandField ShowDeleteButton="True" ButtonType="Link" HeaderText="Delete" />
+              <asp:TemplateField HeaderText="SN">
+              <ItemTemplate >
+              <%# Container.DataItemIndex+1 %>
+              </ItemTemplate>
+              </asp:TemplateField>
+                 
+                  <asp:BoundField DataField="FileName" HeaderText="FileName" 
+                      SortExpression="FileName" />
+                  <asp:BoundField DataField="FileSize" HeaderText="FileSize" 
+                      SortExpression="FileSize" />
+                  <asp:BoundField DataField="ContentType" HeaderText="ContentType" 
+                      SortExpression="ContentType" />
+                  <asp:HyperLinkField DataNavigateUrlFields="Id"  
+                      
+                      DataNavigateUrlFormatString="~/Controls/DownloadFile.aspx?Id={0}&amp;tbl=SD_Cust_Enquiry_Attach_Master&amp;qfd=FileData&amp;qfn=FileName&amp;qct=ContentType" 
+                      Text="DownLoad" />
+                 
+              </Columns>
+              <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+            </asp:GridView>
+            
+      </td>
+      </tr>
+      
+      
+  </tr>
+  <tr valign="top"  >
+    <th height="23" align="left" valign="top"  scope="col" class="fontcss" 
+          colspan="4"> &nbsp;</th>
+  </tr>
+  
+</table>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Transactions/CustEnquiry_Edit_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.IO;
+
+public partial class Module_SalesDistribution_Transactions_CustEnquiry_Edit_Details : System.Web.UI.Page
+{
+
+    clsFunctions fun = new clsFunctions();
+    DataSet DS = new DataSet();
+    string CustCode ="";
+    int EnqId = 0;
+    int CId = 0;
+    string sId = "";   
+    int FinYearId = 0;
+    string CDate = "";
+    string CTime = "";
+    string connStr = "";
+    SqlConnection con;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        try
+        {
+
+            CDate = fun.getCurrDate();
+            CTime = fun.getCurrTime();
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            CId = Convert.ToInt32(Session["compid"]);
+            sId = Session["username"].ToString();
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            hfCustId.Text = Request.QueryString["CustomerId"].ToString();
+            CustCode = hfCustId.Text;
+            hfEnqId.Text = Request.QueryString["EnqId"].ToString();
+            EnqId = Convert.ToInt32(hfEnqId.Text);
+            DataSet DSEnq = new DataSet();
+            string cmdStrEnq = fun.select("CustomerName", "SD_Cust_Enquiry_Master", "CompId='" + CId + "'AND EnqId='" + EnqId + "'");
+            SqlCommand cmdEnq = new SqlCommand(cmdStrEnq, con);
+            SqlDataAdapter DAEnq = new SqlDataAdapter(cmdEnq);
+            DAEnq.Fill(DSEnq, "SD_Cust_Enquiry_Master");
+            // Regd Country 
+            if (DSEnq.Tables[0].Rows.Count > 0)
+            {
+                lblCustName.Text = DSEnq.Tables[0].Rows[0]["CustomerName"].ToString();
+
+            }
+
+            if (!IsPostBack)
+            {
+                fun.dropdownCountry(DDListEditRegdCountry, DDListEditRegdState);
+                fun.dropdownCountry(DDListEditWorkCountry, DDListEditWorkState);
+                fun.dropdownCountry(DDListEditMaterialDelCountry, DDListEditMaterialDelState);
+
+                {
+                    DataSet DS = new DataSet();
+                    string cmdStr = fun.select("*","SD_Cust_Enquiry_Master","CompId='" + CId + "' AND EnqId='" + EnqId + "'");
+                    SqlCommand cmd = new SqlCommand(cmdStr, con);
+                    SqlDataAdapter DA = new SqlDataAdapter(cmd);
+                    DA.Fill(DS, "SD_Cust_Enquiry_Master");
+                    if (DS.Tables[0].Rows.Count > 0)
+                    {
+                        // Regd Country 
+                        txtEditRegdAdd.Text = DS.Tables[0].Rows[0]["RegdAddress"].ToString();
+                        fun.dropdownCountrybyId(DDListEditRegdCountry, DDListEditRegdState, "CId='" + DS.Tables[0].Rows[0]["RegdCountry"].ToString() + "'");
+                        DDListEditRegdCountry.SelectedIndex = 0;
+                        fun.dropdownCountry(DDListEditRegdCountry, DDListEditRegdState);
+                        DDListEditRegdCountry.SelectedValue = DS.Tables[0].Rows[0]["RegdCountry"].ToString();
+                        // Regd State
+                        fun.dropdownState(DDListEditRegdState, DDListEditRegdCity, DDListEditRegdCountry);
+                        fun.dropdownStatebyId(DDListEditRegdState, "CId='" + DS.Tables[0].Rows[0]["RegdCountry"].ToString() + "' AND SId='" + DS.Tables[0].Rows[0]["RegdState"].ToString() + "'");
+                        
+                        DDListEditRegdState.SelectedValue = DS.Tables[0].Rows[0]["RegdState"].ToString();
+
+                        // Regd City
+                        fun.dropdownCity(DDListEditRegdCity, DDListEditRegdState);
+                        fun.dropdownCitybyId(DDListEditRegdCity, "SId='" + DS.Tables[0].Rows[0]["RegdState"].ToString() + "' AND CityId='" + DS.Tables[0].Rows[0]["RegdCity"].ToString() + "'");
+                        
+
+                        DDListEditRegdCity.SelectedValue = DS.Tables[0].Rows[0]["RegdCity"].ToString();
+
+                        txtEditRegdPinNo.Text = DS.Tables[0].Rows[0]["RegdPinNo"].ToString();
+                        txtEditRegdContactNo.Text = DS.Tables[0].Rows[0]["RegdContactNo"].ToString();
+                        txtEditRegdFaxNo.Text = DS.Tables[0].Rows[0]["RegdFaxNo"].ToString();
+
+                        // Work Country 
+                        txtEditWorkAdd.Text = DS.Tables[0].Rows[0]["WorkAddress"].ToString();
+                        fun.dropdownCountrybyId(DDListEditWorkCountry, DDListEditWorkState, "CId='" + DS.Tables[0].Rows[0]["WorkCountry"].ToString() + "'");
+                        DDListEditWorkCountry.SelectedIndex = 0;
+                        fun.dropdownCountry(DDListEditWorkCountry, DDListEditWorkState);
+                        DDListEditWorkCountry.SelectedValue = DS.Tables[0].Rows[0]["WorkCountry"].ToString();
+                        // Work State
+                        fun.dropdownState(DDListEditWorkState, DDListEditWorkCity, DDListEditWorkCountry);
+                        fun.dropdownStatebyId(DDListEditWorkState, "CId='" + DS.Tables[0].Rows[0]["WorkCountry"].ToString() + "' AND SId='" + DS.Tables[0].Rows[0]["WorkState"].ToString() + "'");
+                        
+
+                        DDListEditWorkState.SelectedValue = DS.Tables[0].Rows[0]["WorkState"].ToString();
+
+                        // Work City
+                        fun.dropdownCity(DDListEditWorkCity, DDListEditWorkState);
+                        fun.dropdownCitybyId(DDListEditWorkCity, "SId='" + DS.Tables[0].Rows[0]["WorkState"].ToString() + "' AND CityId='" + DS.Tables[0].Rows[0]["WorkCity"].ToString() + "'");
+                       
+
+                        DDListEditWorkCity.SelectedValue = DS.Tables[0].Rows[0]["WorkCity"].ToString();
+
+                        txtEditWorkPinNo.Text = DS.Tables[0].Rows[0]["WorkPinNo"].ToString();
+                        txtEditWorkContactNo.Text = DS.Tables[0].Rows[0]["WorkContactNo"].ToString();
+                        txtEditWorkFaxNo.Text = DS.Tables[0].Rows[0]["WorkFaxNo"].ToString();
+
+                        // Material Country
+                        txtEditMaterialDelAdd.Text = DS.Tables[0].Rows[0]["MaterialDelAddress"].ToString();
+                        fun.dropdownCountrybyId(DDListEditMaterialDelCountry, DDListEditMaterialDelState, "CId='" + DS.Tables[0].Rows[0]["MaterialDelCountry"].ToString() + "'");
+                        DDListEditMaterialDelCountry.SelectedIndex = 0;
+                        fun.dropdownCountry(DDListEditMaterialDelCountry, DDListEditMaterialDelState);
+                        DDListEditMaterialDelCountry.SelectedValue = DS.Tables[0].Rows[0]["MaterialDelCountry"].ToString();
+                        // Material State
+                        fun.dropdownState(DDListEditMaterialDelState, DDListEditMaterialDelCity, DDListEditMaterialDelCountry);
+                        fun.dropdownStatebyId(DDListEditMaterialDelState, "CId='" + DS.Tables[0].Rows[0]["MaterialDelCountry"].ToString() + "' AND SId='" + DS.Tables[0].Rows[0]["MaterialDelState"].ToString() + "'");
+                        
+                        DDListEditMaterialDelState.SelectedValue = DS.Tables[0].Rows[0]["MaterialDelState"].ToString();
+
+                        // Material City
+                        fun.dropdownCity(DDListEditMaterialDelCity, DDListEditMaterialDelState);
+                        fun.dropdownCitybyId(DDListEditMaterialDelCity, "SId='" + DS.Tables[0].Rows[0]["MaterialDelState"].ToString() + "' AND CityId='" + DS.Tables[0].Rows[0]["MaterialDelCity"].ToString() + "'");
+                        
+
+                        DDListEditMaterialDelCity.SelectedValue = DS.Tables[0].Rows[0]["MaterialDelCity"].ToString();
+
+                        txtEditMaterialDelPinNo.Text = DS.Tables[0].Rows[0]["MaterialDelPinNo"].ToString();
+                        txtEditMaterialDelContactNo.Text = DS.Tables[0].Rows[0]["MaterialDelContactNo"].ToString();
+                        txtEditMaterialDelFaxNo.Text = DS.Tables[0].Rows[0]["MaterialDelFaxNo"].ToString();
+
+                        txtEditContactPerson.Text = DS.Tables[0].Rows[0]["ContactPerson"].ToString();
+                        txtEditJuridictionCode.Text = DS.Tables[0].Rows[0]["JuridictionCode"].ToString();
+                        txtEditCommissionurate.Text = DS.Tables[0].Rows[0]["Commissionurate"].ToString();
+                        txtEditTinVatNo.Text = DS.Tables[0].Rows[0]["TinVatNo"].ToString();
+                        txtEditEmail.Text = DS.Tables[0].Rows[0]["Email"].ToString();
+                        txtEditEccNo.Text = DS.Tables[0].Rows[0]["EccNo"].ToString();
+                        txtEditDivn.Text = DS.Tables[0].Rows[0]["Divn"].ToString();
+                        txtEditTinCstNo.Text = DS.Tables[0].Rows[0]["TinCstNo"].ToString();
+                        txtEditContactNo.Text = DS.Tables[0].Rows[0]["ContactNo"].ToString();
+                        txtEditRange.Text = DS.Tables[0].Rows[0]["Range"].ToString();
+                        txtEditPanNo.Text = DS.Tables[0].Rows[0]["PanNo"].ToString();
+                        txtEditTdsCode.Text = DS.Tables[0].Rows[0]["TDSCode"].ToString();
+                        txtEditRemark.Text = DS.Tables[0].Rows[0]["Remark"].ToString();
+                        txtEditEnquiryFor.Text = DS.Tables[0].Rows[0]["EnquiryFor"].ToString();
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    protected void Update_Click(object sender, EventArgs e)
+    {        
+        try
+        {
+            con.Open();
+            if (txtEditRegdAdd.Text != "" && DDListEditRegdCountry.SelectedValue != "Select" && DDListEditRegdState.SelectedValue != "Select" && DDListEditRegdCity.SelectedValue != "Select" && txtEditRegdPinNo.Text != "" && txtEditRegdContactNo.Text != "" && txtEditRegdFaxNo.Text != "" && txtEditWorkAdd.Text != "" && DDListEditWorkCountry.SelectedValue != "Select" && DDListEditWorkState.SelectedValue != "" && DDListEditWorkCity.SelectedValue != "Select" && txtEditWorkPinNo.Text != "" && txtEditWorkContactNo.Text != "" && txtEditWorkFaxNo.Text != "" && txtEditMaterialDelAdd.Text != "" && DDListEditMaterialDelCountry.SelectedValue != "Select" && DDListEditMaterialDelState.SelectedValue != "Select" && DDListEditMaterialDelCity.SelectedValue != "Select" && txtEditMaterialDelPinNo.Text != "" && txtEditMaterialDelContactNo.Text != "" && txtEditMaterialDelFaxNo.Text != "" && txtEditContactPerson.Text != "" && txtEditJuridictionCode.Text != "" && txtEditCommissionurate.Text != "" && txtEditTinVatNo.Text != "" && fun.EmailValidation(txtEditEmail.Text) == true && txtEditEmail.Text != "" && txtEditEccNo.Text != "" && txtEditDivn.Text != "" && txtEditTinCstNo.Text != "" && txtEditContactNo.Text != "" && txtEditRange.Text != "" && txtEditPanNo.Text != "" && txtEditTdsCode.Text != "" && txtEditEnquiryFor.Text != "")
+            {
+                string cmdstr = fun.update("SD_Cust_Enquiry_Master",
+                         "SysDate='" + CDate.ToString() + "',SysTime='" + CTime.ToString() + "',SessionId='" + sId.ToString() + "',RegdAddress='" + txtEditRegdAdd.Text + "',RegdCountry='" + DDListEditRegdCountry.SelectedValue + "',RegdState='" + DDListEditRegdState.SelectedValue + "',RegdCity='" + DDListEditRegdCity.SelectedValue + "',RegdPinNo='" + txtEditRegdPinNo.Text + "',RegdContactNo='" + txtEditRegdContactNo.Text + "',RegdFaxNo='" + txtEditRegdFaxNo.Text + "',WorkAddress='" + txtEditWorkAdd.Text + "',WorkCountry='" + DDListEditWorkCountry.SelectedValue + "',WorkState='" + DDListEditWorkState.SelectedValue + "',WorkCity='" + DDListEditWorkCity.SelectedValue + "',WorkPinNo='" + txtEditWorkPinNo.Text + "',WorkContactNo='" + txtEditWorkContactNo.Text + "',WorkFaxNo='" + txtEditWorkFaxNo.Text + "',MaterialDelAddress='" + txtEditMaterialDelAdd.Text + "' ,MaterialDelCountry='" + DDListEditMaterialDelCountry.SelectedValue + "',MaterialDelState='" + DDListEditMaterialDelState.SelectedValue + "',MaterialDelCity='" + DDListEditMaterialDelCity.SelectedValue + "',MaterialDelPinNo='" + txtEditMaterialDelPinNo.Text + "',MaterialDelContactNo='" + txtEditMaterialDelContactNo.Text + "',MaterialDelFaxNo='" + txtEditMaterialDelFaxNo.Text + "',ContactPerson='" + txtEditContactPerson.Text + "',JuridictionCode='" + txtEditJuridictionCode.Text + "',Commissionurate='" + txtEditCommissionurate.Text + "',TinVatNo='" + txtEditTinVatNo.Text + "',Email='" + txtEditEmail.Text + "',EccNo='" + txtEditEccNo.Text + "',Divn='" + txtEditDivn.Text + "',TinCstNo='" + txtEditTinCstNo.Text + "',ContactNo='" + txtEditContactNo.Text + "',Range='" + txtEditRange.Text + "',PanNo='" + txtEditPanNo.Text + "',TDSCode='" + txtEditTdsCode.Text + "',Remark='" + txtEditRemark.Text + "',EnquiryFor='" + txtEditEnquiryFor.Text + "'", "CustomerId='" + CustCode + "' and EnqId=" + EnqId + " and CompId=" + CId + "");
+
+                SqlCommand cmd = new SqlCommand(cmdstr, con);
+                cmd.ExecuteNonQuery();
+                Response.Redirect("CustEnquiry_Edit.aspx?ModId=2&SubModId=10");
+            }
+        }
+
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+            con.Close();           
+        }
+    }
+
+    protected void DDListEditRegdCountry_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        fun.dropdownState(DDListEditRegdState, DDListEditRegdCity, DDListEditRegdCountry);
+    }
+    protected void DDListEditWorkCountry_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        fun.dropdownState(DDListEditWorkState, DDListEditWorkCity, DDListEditWorkCountry);
+    }
+    protected void DDListEditWorkState_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        fun.dropdownCity(DDListEditWorkCity, DDListEditWorkState);
+    }
+    protected void DDListEditRegdState_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        fun.dropdownCity(DDListEditRegdCity, DDListEditRegdState);
+    }
+    protected void DDListEditMaterialDelCountry_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        fun.dropdownState(DDListEditMaterialDelState, DDListEditMaterialDelCity, DDListEditMaterialDelCountry);
+    }
+    protected void DDListEditMaterialDelState_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        fun.dropdownCity(DDListEditMaterialDelCity, DDListEditMaterialDelState);
+    }
+   
+    protected void DDListEditRegdCity_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void Button1_Click(object sender, EventArgs e)//Upload Image/File
+    {
+        try
+        {
+            string strfilename = "";
+            HttpPostedFile myfile = FileUpload1.PostedFile;
+            Byte[] mydata = null;
+
+            if (FileUpload1.PostedFile != null)
+            {
+                Stream fs = FileUpload1.PostedFile.InputStream;
+                BinaryReader br = new BinaryReader(fs);
+                mydata = br.ReadBytes((Int32)fs.Length);
+                strfilename = Path.GetFileName(myfile.FileName);
+
+                if (strfilename != "")
+                {
+                    string strinsert = fun.insert("SD_Cust_Enquiry_Attach_Master", "EnqId,CompId,SessionId,FinYearId,FileName,FileSize,ContentType,FileData", "" + EnqId + ",'" + CId + "','" + sId + "','" + FinYearId + "','" + strfilename + "','" + mydata.Length + "','" + myfile.ContentType + "',@TransStr");
+
+                    using (SqlCommand cmdinsert = new SqlCommand(strinsert, con))
+                    {
+                        cmdinsert.Parameters.Add("@TransStr", SqlDbType.VarBinary).Value = mydata;
+                        con.Open();
+                        cmdinsert.ExecuteNonQuery();
+                        con.Close();
+                    }
+
+                    Page.Response.Redirect(Page.Request.Url.ToString(), true);
+                }
+            }
+        }
+        catch (Exception exx)
+        {
+
+        }
+    }
+
+    protected void btncancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("CustEnquiry_Edit.aspx?ModId=2&SubModId=10");
+    }
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton del = (LinkButton)e.Row.Cells[0].Controls[0];
+                del.Attributes.Add("onclick", "return confirmationDelete();");
+
+            }
+
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                HyperLink del1 = (HyperLink)e.Row.Cells[5].Controls[0];
+                del1.Attributes.Add("onclick", "return confirmation();");
+            }
+        }
+        catch (Exception ex) { }
+    }
+}

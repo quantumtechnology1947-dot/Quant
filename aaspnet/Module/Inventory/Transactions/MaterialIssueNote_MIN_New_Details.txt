@@ -1,0 +1,685 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Transactions/MaterialIssueNote_MIN_New_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="MaterialIssueNote_MIN_New_Details.aspx.cs" Inherits="Module_Inventory_Transactions_MaterialIssueNote_MIN_New_Details" Title="ERP"  Theme ="Default"%>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+      <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    
+    <style type="text/css">
+        .style2
+        {
+            width: 100%;
+        }
+    
+        </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+<script type="text/javascript">
+var prm = Sys.WebForms.PageRequestManager.getInstance();
+//Raised before processing of an asynchronous postback starts and the postback request is sent to the server.
+prm.add_beginRequest(BeginRequestHandler);
+// Raised after an asynchronous postback is finished and control has been returned to the browser.
+prm.add_endRequest(EndRequestHandler);
+function BeginRequestHandler(sender, args) {
+//Shows the modal popup - the update progress
+var popup = $find('<%= modalPopup.ClientID %>');
+if (popup != null) {
+popup.show();
+}
+}
+
+function EndRequestHandler(sender, args) {
+//Hide the modal popup - the update progress
+var popup = $find('<%= modalPopup.ClientID %>');
+if (popup != null) {
+popup.hide();
+}
+}
+</script>
+    
+<div>   
+    <asp:UpdateProgress ID="UpdateProgress" runat="server">
+<ProgressTemplate>
+<asp:Image ID="Image1" ImageUrl="~/images/spinner-big.gif" AlternateText="Processing" runat="server" />
+</ProgressTemplate>
+</asp:UpdateProgress>
+<cc1:ModalPopupExtender ID="modalPopup" runat="server" TargetControlID="UpdateProgress"
+PopupControlID="UpdateProgress" BackgroundCssClass="modalPopup" />
+<asp:UpdatePanel ID="pnlData" runat="server" UpdateMode="Conditional">
+   <ContentTemplate>  
+   
+    <table align="left" cellpadding="0" cellspacing="0" class="style2">
+        <tr>
+            <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;Material Issue Note [MIN] - New</b></td>
+        </tr>
+        <tr>
+            <td> 
+                <asp:Panel ID="Panel1" Height="445px" ScrollBars="Auto" runat="server">
+              
+            <asp:GridView runat="server" AutoGenerateColumns="False" 
+                                            ShowFooter="false" CssClass="yui-datatable-theme" Width="100%" ID="GridView3" 
+                                            OnPageIndexChanging="GridView3_PageIndexChanging" PageSize="15">
+                                            <PagerSettings PageButtonCount="40" />
+                                            <Columns>
+<asp:TemplateField HeaderText="SN"><ItemTemplate>
+                                                        <%# Container.DataItemIndex + 1%>
+                                                    
+</ItemTemplate>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField><ItemTemplate>
+                                                        <asp:CheckBox ID="ck" runat="server" />
+                                                    
+</ItemTemplate>
+
+<ItemStyle HorizontalAlign="Center" Width="4%"></ItemStyle>
+</asp:TemplateField>
+
+<asp:TemplateField HeaderText="Item Id" Visible="false"><ItemTemplate>
+<asp:Label ID="lblitemid" runat="server" Text='<%# Eval("ItemId") %>'></asp:Label>
+                                                    
+</ItemTemplate>
+</asp:TemplateField>
+
+<asp:TemplateField HeaderText="Item Code"><ItemTemplate>
+                                                        <asp:Label ID="ItemCode" runat="server" Text='<%# Eval("ItemCode") %>'></asp:Label>
+                                                    
+</ItemTemplate>
+
+<ItemStyle Width="13%" HorizontalAlign="Center"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Description"><ItemTemplate>
+                                                        <asp:Label ID="ManfDesc" runat="server" Text='<%# Eval("ManfDesc") %>'></asp:Label>
+                                                    
+</ItemTemplate>
+
+<ItemStyle HorizontalAlign="Left" Width="30%"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="UOM"><ItemTemplate>
+                                                        <asp:Label ID="UOMBasic" runat="server" Text='<%# Eval("UOMBasic") %>'></asp:Label>
+                                                    
+</ItemTemplate>
+
+<ItemStyle HorizontalAlign="Center" Width="5%"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="BG Group"><ItemTemplate>
+                                                        <asp:Label ID="lbldept" runat="server" Text='<%# Eval("Dept") %>'></asp:Label>
+                                                    
+</ItemTemplate>
+
+<ItemStyle HorizontalAlign="Center" Width="7%"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="WO No"><ItemTemplate>
+                                                        <asp:Label ID="lblWONO" runat="server" Text='<%# Eval("WONo") %>'></asp:Label>
+                                                        
+                                                    
+</ItemTemplate>
+
+<ItemStyle HorizontalAlign="Center" Width="7%"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Stk Qty"><ItemTemplate>
+                                                        <asp:Label ID="lblstkqty" runat="server" Text='<%# Eval("StockQty") %>'></asp:Label>
+                                                    
+</ItemTemplate>
+
+<ItemStyle HorizontalAlign="Right" Width="7%"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Req. Qty"><ItemTemplate>
+                                                        <asp:Label ID="lblreqty" runat="server" Text='<%# Eval("ReqQty") %>'></asp:Label>
+                                                        
+                                                    
+</ItemTemplate>
+
+<ItemStyle Width="7%" HorizontalAlign="Right"></ItemStyle>
+</asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Issued Qty">
+                                            <ItemTemplate>
+                                                        <asp:Label ID="lblissty" runat="server" Text='<%# Eval("IssQty") %>'></asp:Label>
+                                                        
+                                                    
+</ItemTemplate>
+                                                <ItemStyle HorizontalAlign="Right" Width="8%" />
+                                            </asp:TemplateField>
+<asp:TemplateField HeaderText="Remarks"><ItemTemplate>
+                                                       <asp:Label ID="lblremrk" runat="server" Text='<%# Eval("Remarks") %>'></asp:Label> 
+                                                    
+                                                    
+</ItemTemplate>
+<FooterTemplate>
+                                                    
+                                                    
+</FooterTemplate>
+    <ItemStyle Width="20%" />
+</asp:TemplateField>
+
+<asp:TemplateField HeaderText="Id" Visible="False"><ItemTemplate>
+                                                       <asp:Label ID="lblId" runat="server" Text='<%# Eval("Id") %>'></asp:Label> 
+                                                    
+</ItemTemplate>
+</asp:TemplateField>
+</Columns>
+<EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+</asp:GridView>  
+                </asp:Panel>
+
+            </td>
+        </tr>
+        <tr>
+            <td align="center" height="25" valign="middle">&nbsp; <asp:Button ID="btnProceed" 
+                    runat="server" CssClass="redbox" Text="Generate MIN" OnClientClick="return confirmationAdd()
+" 
+                    onclick="btnProceed_Click" />&nbsp;<asp:Button ID="btnCancel" 
+                    runat="server" CssClass="redbox" Text="Cancel" onclick="btnCancel_Click" />&nbsp;</td>
+        </tr>
+    </table>
+    
+    </ContentTemplate>
+    </asp:UpdatePanel>
+</div>
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Transactions/MaterialIssueNote_MIN_New_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Web.Mail;
+
+public partial class Module_Inventory_Transactions_MaterialIssueNote_MIN_New_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    MailMessage msg = new MailMessage();
+    string fyid = "";
+    string mrsno = "";
+    string connStr = "";
+    SqlConnection con;
+    int CompId = 0;
+    string Sid = "";
+    int FinYearId = 0;
+    string CDate = "";
+    string CTime = "";
+    string MId = "";
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            fyid = Request.QueryString["fyid"].ToString();
+            mrsno = Request.QueryString["mrsno"].ToString();
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            CompId = Convert.ToInt32(Session["compid"]);
+            Sid = Session["username"].ToString();
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            MId = Request.QueryString["Id"].ToString();
+            CDate = fun.getCurrDate();
+            CTime = fun.getCurrTime();
+
+            if (!IsPostBack)
+            {
+                this.loadgrid();
+            }
+
+            foreach (GridViewRow grv1 in GridView3.Rows)
+            {
+                double ReqQty = Convert.ToDouble(decimal.Parse(((Label)grv1.FindControl("lblreqty")).Text).ToString("N3")) - Convert.ToDouble(decimal.Parse(((Label)grv1.FindControl("lblissty")).Text).ToString("N3"));
+
+                double StockQty = Convert.ToDouble(decimal.Parse(((Label)grv1.FindControl("lblstkqty")).Text).ToString("N3"));
+               
+                if (ReqQty == 0 || StockQty == 0)
+                {
+                    ((CheckBox)grv1.FindControl("ck")).Visible = false;
+                }
+            }
+        }
+        catch (Exception es)
+        {
+
+        }
+    }
+
+    public void loadgrid()
+    {
+        try
+        {
+            con.Open();
+            string StrSql = fun.select("tblInv_MaterialRequisition_Details.Id,tblInv_MaterialRequisition_Details.ItemId,tblInv_MaterialRequisition_Details.DeptId,tblInv_MaterialRequisition_Details.WONo,tblInv_MaterialRequisition_Details.ReqQty,tblInv_MaterialRequisition_Details.Remarks", "tblInv_MaterialRequisition_Master,tblInv_MaterialRequisition_Details", "tblInv_MaterialRequisition_Master.CompId='" + CompId + "' AND tblInv_MaterialRequisition_Master.Id=tblInv_MaterialRequisition_Details.MId AND tblInv_MaterialRequisition_Master.Id='" + MId + "'");
+
+            SqlCommand cmdsupId = new SqlCommand(StrSql, con);
+            //SqlDataAdapter dasupId = new SqlDataAdapter(cmdsupId);
+            //DataSet DSSql = new DataSet();
+            SqlDataReader rdr = cmdsupId.ExecuteReader();
+            DataTable dt = new DataTable();
+            // dasupId.Fill(DSSql);
+            dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ManfDesc", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("UOMBasic", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("StockQty", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("Dept", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ReqQty", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("Remarks", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("IssQty", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("ItemId", typeof(string)));
+            DataRow dr;
+            string ItemCode = "";
+            string ManfDesc = "";
+            string UomBasic = "";
+            double StockQty = 0;
+            double ReqQty = 0;
+            string Remark = "";
+            while (rdr.Read())
+            //for (int i = 0; i < DSSql.Tables[0].Rows.Count; i++)
+            {
+                dr = dt.NewRow();
+
+                string StrIcode = fun.select("ItemCode,ManfDesc,UOMBasic,StockQty", "tblDG_Item_Master", "Id='" + rdr["ItemId"].ToString() + "' AND CompId='" + CompId + "'");
+                SqlCommand cmdIcode = new SqlCommand(StrIcode, con);
+                SqlDataAdapter daIcode = new SqlDataAdapter(cmdIcode);
+                DataSet DSIcode = new DataSet();
+                daIcode.Fill(DSIcode);
+
+                // For ItemCode
+                if (DSIcode.Tables[0].Rows.Count > 0)
+                {
+                    ItemCode = fun.GetItemCode_PartNo(CompId, Convert.ToInt32(rdr["ItemId"].ToString()));
+
+                    // For Purch Desc
+                    ManfDesc = DSIcode.Tables[0].Rows[0]["ManfDesc"].ToString();
+                    // For Manf. Desc
+                    StockQty = Convert.ToDouble(decimal.Parse((DSIcode.Tables[0].Rows[0]["StockQty"]).ToString()).ToString("N3"));
+                    // for UOM Purchase  from Unit Master table
+
+                    string sqlPurch = fun.select("Symbol", "Unit_Master", "Id='" + DSIcode.Tables[0].Rows[0]["UOMBasic"].ToString() + "'");
+
+                    SqlCommand cmdPurch = new SqlCommand(sqlPurch, con);
+                    SqlDataAdapter daPurch = new SqlDataAdapter(cmdPurch);
+                    DataSet DSPurch = new DataSet();
+                    daPurch.Fill(DSPurch);
+                    if (DSPurch.Tables[0].Rows.Count > 0)
+                    {
+                        UomBasic = DSPurch.Tables[0].Rows[0][0].ToString();
+                    }
+                }
+                // for Department from Dept Master table
+                string sqlDept = fun.select("Symbol", "BusinessGroup", "Id='" + rdr["DeptId"].ToString() + "'");
+                SqlCommand cmdDept = new SqlCommand(sqlDept, con);
+                SqlDataAdapter daDept = new SqlDataAdapter(cmdDept);
+                DataSet DSDept = new DataSet();
+                daDept.Fill(DSDept);
+                if (DSDept.Tables[0].Rows.Count > 0)
+                {
+                    dr[4] = DSDept.Tables[0].Rows[0][0].ToString();
+                    dr[5] = "NA";
+                }
+                else
+                {
+                    dr[4] = "NA";
+                    dr[5] = rdr["WONo"].ToString();
+                }
+                dr[0] = ItemCode;
+                dr[1] = ManfDesc;
+                dr[2] = UomBasic;
+
+                //For StockQty 
+                if (StockQty == 0)
+                {
+                    dr[3] = 0;
+                }
+                else
+                {
+                    dr[3] = StockQty;
+                }
+                ReqQty = Convert.ToDouble(decimal.Parse((rdr["ReqQty"]).ToString()).ToString("N3"));
+                dr[6] = ReqQty;
+                Remark = rdr["Remarks"].ToString();
+                dr[7] = Remark;
+                dr[8] = rdr["Id"].ToString();
+
+                string sqlmindetails = fun.select("sum(tblInv_MaterialIssue_Details.IssueQty) as sum_IssuedQty", "tblInv_MaterialIssue_Master,tblInv_MaterialIssue_Details", "tblInv_MaterialIssue_Master.CompId='" + CompId + "' AND tblInv_MaterialIssue_Master.Id=tblInv_MaterialIssue_Details.MId AND tblInv_MaterialIssue_Details.MRSId='" + rdr["Id"].ToString() + "'");
+
+                SqlCommand cmdmindetails = new SqlCommand(sqlmindetails, con);
+                SqlDataAdapter damindetails = new SqlDataAdapter(cmdmindetails);
+                DataSet DSmindetails = new DataSet();
+                damindetails.Fill(DSmindetails);
+
+                if (DSmindetails.Tables[0].Rows[0]["sum_IssuedQty"] != DBNull.Value)
+                {
+                    dr[9] = Convert.ToDouble(decimal.Parse((DSmindetails.Tables[0].Rows[0]["sum_IssuedQty"]).ToString()).ToString("N3"));
+                }
+                else
+                {
+                    dr[9] = "0";
+                }
+
+                dr[10] = rdr["ItemId"].ToString();
+
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }
+            GridView3.DataSource = dt;
+            GridView3.DataBind();
+        }
+        catch (Exception es) { }
+        finally
+        {
+            con.Close();
+        }
+
+    }
+
+    protected void GridView3_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            GridView3.PageIndex = e.NewPageIndex;
+            this.loadgrid();
+        }
+        catch (Exception ex) { }
+
+    }
+    
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("MaterialIssueNote_MIN_New.aspx?ModId=9&SubModId=41");
+    }
+
+    //    protected void btnProceed_Click(object sender, EventArgs e)
+//    {
+//        try
+//        {
+//            string sqlmin = fun.select("MINNo", "tblInv_MaterialIssue_Master", "CompId='" + CompId + "' AND FinYearId='" + FinYearId + "' Order by MINNo Desc");
+
+//            SqlCommand cmdmin = new SqlCommand(sqlmin, con);
+//            SqlDataAdapter damin = new SqlDataAdapter(cmdmin);
+//            DataSet DSmin = new DataSet();
+//            damin.Fill(DSmin, "tblInv_MaterialIssue_Master");
+
+//            string MINno = "";
+//            if (DSmin.Tables[0].Rows.Count > 0)
+//            {
+//                int MINstr = Convert.ToInt32(DSmin.Tables[0].Rows[0][0].ToString()) + 1;
+//                MINno = MINstr.ToString("D4");
+//            }
+//            else
+//            {
+//                MINno = "0001";
+//            }
+
+//            int u = 1; string MyId = "";
+//            double StkQty = 0;
+//            con.Open();
+
+//            foreach (GridViewRow grv in GridView3.Rows)
+//            {
+//                if (((CheckBox)grv.FindControl("ck")).Checked == true)
+//                {
+//                    int ItemId = Convert.ToInt32(((Label)grv.FindControl("lblitemid")).Text);
+//                    int Id = Convert.ToInt32(((Label)grv.FindControl("lblId")).Text);
+//                    double ReqQty = Convert.ToDouble(decimal.Parse((((Label)grv.FindControl("lblreqty")).Text).ToString()).ToString("N3")) - Convert.ToDouble(decimal.Parse((((Label)grv.FindControl("lblissty")).Text).ToString()).ToString("N3"));
+
+//                    string StrIcode = fun.select("StockQty", "tblDG_Item_Master", "Id='" + ItemId + "'");
+//                    SqlCommand cmdIcode = new SqlCommand(StrIcode, con);
+//                    SqlDataAdapter daIcode = new SqlDataAdapter(cmdIcode);
+//                    DataSet DSIcode = new DataSet();
+//                    daIcode.Fill(DSIcode);
+//                    // For ItemCode
+//                    if (DSIcode.Tables[0].Rows.Count > 0)
+//                    {
+//                        StkQty = Convert.ToDouble(decimal.Parse((DSIcode.Tables[0].Rows[0]["StockQty"]).ToString()).ToString("N3"));
+//                    }
+//                    if (StkQty > 0 && ReqQty > 0)
+//                    {
+//                        double BalStkQty = 0;
+//                        double IssueQty = 0;
+
+//                        if (StkQty >= ReqQty)
+//                        {
+//                            BalStkQty = StkQty - ReqQty;
+//                            IssueQty = ReqQty;
+//                        }
+//                        else
+//                        {
+//                            BalStkQty = 0;
+//                            IssueQty = StkQty;
+//                        }
+
+//                        if (u == 1)
+//                        {
+//                            string insert = fun.insert("tblInv_MaterialIssue_Master", "SysDate,SysTime,CompId,FinYearId,SessionId,MINNo,MRSNo,MRSId", "'" + CDate + "','" + CTime + "','" + CompId + "','" + FinYearId + "','" + Sid + "','" + MINno + "','" + mrsno + "','" + MId + "'");
+//                            SqlCommand cmd = new SqlCommand(insert, con);
+//                            cmd.ExecuteNonQuery();
+//                            u = 0;
+
+//                            string StrTot = fun.select("Id", "tblInv_MaterialIssue_Master", "CompId='" + CompId + "' Order by Id Desc");
+//                            SqlCommand cmdTot = new SqlCommand(StrTot, con);
+//                            SqlDataAdapter daTot = new SqlDataAdapter(cmdTot);
+//                            DataSet DSTot = new DataSet();
+//                            daTot.Fill(DSTot);
+
+//                            MyId = DSTot.Tables[0].Rows[0]["Id"].ToString();
+//                        }
+
+//                        string insert2 = fun.insert("tblInv_MaterialIssue_Details", "MId,MINNo,MRSId,IssueQty", "'" + MyId + "','" + MINno + "','" + Id + "','" + IssueQty + "'");
+//                        SqlCommand cmd2 = new SqlCommand(insert2, con);
+//                        cmd2.ExecuteNonQuery();
+
+//                        string update = fun.update("tblDG_Item_Master", "StockQty='" + BalStkQty + "'", "CompId='" + CompId + "' AND Id='" + ItemId + "'");
+//                        SqlCommand cmd4 = new SqlCommand(update, con);
+//                        cmd4.ExecuteNonQuery();
+//                    }
+//                }
+//            }
+
+//            Page.Response.Redirect(Page.Request.Url.ToString(), true);
+
+//        }
+//        catch (Exception ex) { }
+//        finally
+//        {
+//            con.Close();
+//        }
+//    }
+
+    protected void btnProceed_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            string sqlmin = fun.select("MINNo", "tblInv_MaterialIssue_Master", "CompId='" + CompId + "' AND FinYearId='" + FinYearId + "' Order by MINNo Desc");
+
+            SqlCommand cmdmin = new SqlCommand(sqlmin, con);
+            SqlDataAdapter damin = new SqlDataAdapter(cmdmin);
+            DataSet DSmin = new DataSet();
+            damin.Fill(DSmin, "tblInv_MaterialIssue_Master");
+
+            string MINno = "";
+            if (DSmin.Tables[0].Rows.Count > 0)
+            {
+                int MINstr = Convert.ToInt32(DSmin.Tables[0].Rows[0][0].ToString()) + 1;
+                MINno = MINstr.ToString("D4");
+            }
+            else
+            {
+                MINno = "0001";
+            }
+
+            int u = 1;
+            string MyId = "";
+            int cnt = 0;
+            int k = 0;
+            con.Open();
+            string str = string.Empty;
+
+            foreach (GridViewRow grv in GridView3.Rows)
+            {
+                if (((CheckBox)grv.FindControl("ck")).Checked == true)
+                {
+                    double StkQty = 0;
+                    double StkQty2 = 0;
+                    double ReqQty = 0;
+                    int ItemId = Convert.ToInt32(((Label)grv.FindControl("lblitemid")).Text);
+                    int Id = Convert.ToInt32(((Label)grv.FindControl("lblId")).Text);
+                   
+                    ReqQty = Math.Round((Convert.ToDouble(decimal.Parse((((Label)grv.FindControl("lblreqty")).Text).ToString()).ToString("N3")) - Convert.ToDouble(decimal.Parse((((Label)grv.FindControl("lblissty")).Text).ToString()).ToString("N3"))), 5);
+
+                    string StrIcode = fun.select("StockQty", "tblDG_Item_Master", "Id='" + ItemId + "'");
+                    SqlCommand cmdIcode = new SqlCommand(StrIcode, con);
+                    SqlDataReader rdr = cmdIcode.ExecuteReader();
+
+                    //SqlDataAdapter daIcode = new SqlDataAdapter(cmdIcode);
+                    //DataSet DSIcode = new DataSet();
+                    //daIcode.Fill(DSIcode);
+
+                    // For ItemCode
+                    while (rdr.Read())
+                    {
+                        StkQty = Math.Round(Convert.ToDouble(decimal.Parse((rdr["StockQty"]).ToString()).ToString("N3")), 5);
+                    }
+
+                    if (StkQty > 0 && ReqQty > 0)
+                    {
+                        double BalStkQty = 0;
+                        double IssueQty = 0;
+
+                        if (StkQty >= ReqQty)
+                        {
+                            BalStkQty = Math.Round((StkQty - ReqQty), 5);
+                            IssueQty = ReqQty;
+                        }
+                        else
+                        {
+                            BalStkQty = 0;
+                            IssueQty = StkQty;
+                        }
+
+                        if (u == 1)
+                        {
+                            string insert = fun.insert("tblInv_MaterialIssue_Master", "SysDate,SysTime,CompId,FinYearId,SessionId,MINNo,MRSNo,MRSId", "'" + CDate + "','" + CTime + "','" + CompId + "','" + FinYearId + "','" + Sid + "','" + MINno + "','" + mrsno + "','" + MId + "'");
+                            SqlCommand cmd = new SqlCommand(insert, con);
+                            cmd.ExecuteNonQuery();
+                            u = 0;
+
+                            string StrTot = fun.select("Id", "tblInv_MaterialIssue_Master", "CompId='" + CompId + "' Order by Id Desc");
+                            SqlCommand cmdTot = new SqlCommand(StrTot, con);
+                            SqlDataReader rdr1 = cmdTot.ExecuteReader();
+                            rdr1.Read();
+
+                            //SqlDataAdapter daTot = new SqlDataAdapter(cmdTot);
+                            //DataSet DSTot = new DataSet();
+                            //daTot.Fill(DSTot);
+
+                            MyId = rdr1["Id"].ToString();
+                        }
+
+                        string insert2 = fun.insert("tblInv_MaterialIssue_Details", "MId,MINNo,MRSId,IssueQty", "'" + MyId + "','" + MINno + "','" + Id + "','" + IssueQty + "'");
+                        SqlCommand cmd2 = new SqlCommand(insert2, con);
+                        cmd2.ExecuteNonQuery();
+
+                        string update = fun.update("tblDG_Item_Master", "StockQty='" + BalStkQty + "'", "Id='" + ItemId + "'");
+                        SqlCommand cmd4 = new SqlCommand(update, con);
+                        cmd4.ExecuteNonQuery();
+                        k++;
+                        string StrIcode2 = fun.select("StockQty,ItemCode", "tblDG_Item_Master", "Id='" + ItemId + "'");
+                        SqlCommand cmdIcode2 = new SqlCommand(StrIcode2, con);
+                        SqlDataReader rdr2 = cmdIcode2.ExecuteReader();
+                        
+                        //SqlDataAdapter daIcode2 = new SqlDataAdapter(cmdIcode2);
+                        //DataSet DSIcode2 = new DataSet();
+                        //daIcode2.Fill(DSIcode2);
+                       
+                        // For ItemCode
+                        while (rdr2.Read())
+                        {
+                            StkQty2 = Math.Round(Convert.ToDouble(decimal.Parse((rdr2["StockQty"]).ToString()).ToString("N3")), 5);
+
+                            double xsd = 0;
+                            xsd = StkQty2 - BalStkQty;
+                            
+                            if (xsd != 0)
+                            {
+                                str += "ItemCode:" + rdr2["ItemCode"].ToString() + "StockQty:" + StkQty2 + ";";
+                                cnt++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (cnt > 0)
+            {
+                string ErpMail = "";
+                string sqlmailserverip = fun.select("MailServerIp,ErpSysmail", "tblCompany_master", "CompId = '" + CompId + "'");
+                SqlCommand cmd4 = new SqlCommand(sqlmailserverip, con);
+                SqlDataReader rdr4 = cmd4.ExecuteReader();
+rdr4.Read();
+                //SqlDataAdapter da4 = new SqlDataAdapter(cmd4);
+                //DataSet ds4 = new DataSet();
+                //da4.Fill(ds4);    
+                
+                //if (ds4.Tables[0].Rows.Count > 0)
+                {
+                    SmtpMail.SmtpServer = rdr4["MailServerIp"].ToString();
+                    ErpMail = rdr4["ErpSysmail"].ToString();
+                    msg.From = ErpMail;
+                    msg.To = "ashish@sapl.com";
+                    msg.Subject = "Stock Tracing If wrong operation in MIN";
+                    msg.Body = str + "\n" + "Dear Sir, This is Auto generated mail by ERP system, please do not reply.<br><br> Thank you.";
+                    msg.BodyFormat = MailFormat.Html;
+                    SmtpMail.Send(msg);
+                }
+            }
+            System.Threading.Thread.Sleep(1000);
+            if (k > 0)
+            {
+                Response.Redirect("~/Module/Inventory/Transactions/MaterialIssueNote_MIN_New.aspx?ModId=9&SubModId=41");
+            }
+        }
+        catch (Exception ex) { }
+        finally
+        {
+            con.Close();
+        }
+    }
+
+
+
+}

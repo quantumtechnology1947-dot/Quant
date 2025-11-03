@@ -1,0 +1,626 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Reports/InwardOutwardRegister.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="InwardOutwardRegister.aspx.cs" Inherits="Module_Inventory_Reports_InwardOutwardRegister" Title="ERP" Theme="Default" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />    
+    <style type="text/css">
+        .style3
+        {
+            width: 100%;
+            float: left;
+        }
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+ 
+    <table align="left" class="style3" cellpadding="0" cellspacing="0">
+           <tr>
+            <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)">
+        &nbsp;<b>Inward/Outward Register</b></td>
+        </tr>
+        </tr>
+        <tr>
+            <td height="27">
+                &nbsp;
+                <asp:Label runat="server" Text="Enter Date: From" ID="Label2"></asp:Label>
+                &nbsp;<asp:TextBox runat="server" CssClass="box3" Width="100px" ID="TxtFromDt"></asp:TextBox>
+                <cc1:CalendarExtender runat="server" CssClass="cal_Theme2" Format="dd-MM-yyyy" 
+                    Enabled="True" TargetControlID="TxtFromDt" ID="TxtFromDt_CalendarExtender">
+                </cc1:CalendarExtender>
+                <asp:RegularExpressionValidator runat="server" 
+                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                    ControlToValidate="TxtFromDt" ErrorMessage="*" ValidationGroup="A" 
+                    ID="ReqTDate"></asp:RegularExpressionValidator>
+                &nbsp;<asp:Label runat="server" Text="- To " ID="Label4"></asp:Label>
+                <asp:TextBox runat="server" CssClass="box3" Width="100px" ID="TxtToDt"></asp:TextBox>
+                <cc1:CalendarExtender runat="server" CssClass="cal_Theme2" Format="dd-MM-yyyy" 
+                    Enabled="True" TargetControlID="TxtToDt" ID="CalendarExtender1">
+                </cc1:CalendarExtender>
+                <asp:RegularExpressionValidator runat="server" 
+                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                    ControlToValidate="TxtToDt" ErrorMessage="*" ValidationGroup="A" 
+                    ID="RegularExpressionValidator1"></asp:RegularExpressionValidator>
+                &nbsp;
+                <asp:Button runat="server" Text="Search" ValidationGroup="A" CssClass="redbox" 
+                    ID="Button1" OnClick="Button1_Click"></asp:Button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" 
+                    Height="400px" Width="100%">
+                    <cc1:TabPanel runat="server" HeaderText="GIN/GRR/GSN" ID="TabPanel1">
+                        <ContentTemplate><table align="left" cellpadding="0" cellspacing="0" class="style3"><tr><td height="22" width="33%" style="text-align: left; background:url(../../../images/hdbg.JPG)" class="fontcsswhite">&nbsp;<asp:Label ID="Label5" runat="server" style="font-weight: 700"  Text="GIN"></asp:Label></td><td height="22" width="33%" 
+                                        style="text-align: left; background:url(../../../images/hdbg.JPG); width: 0%;" 
+                                        class="fontcsswhite">&nbsp;<asp:Label ID="Label1" runat="server" style="font-weight: 700" Text="GRR"></asp:Label></td><td class="fontcsswhite" height="22" 
+                                        style="text-align: left; background: url(../../../images/hdbg.JPG); width: 25%;" 
+                                        width="33%">&#160;<asp:Label ID="Label3" runat="server" style="font-weight: 700" Text="GSN"></asp:Label></td></tr><tr><td valign="top" width="33%"><asp:Panel ID="Panel1" runat="server" Height="360px" Width="99%" 
+                                    ScrollBars="Auto"><asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" 
+                                                CssClass="yui-datatable-theme" Width="100%"><Columns><asp:TemplateField HeaderText="SN"><ItemTemplate>
+                              
+                                        </ItemTemplate></asp:TemplateField><asp:BoundField HeaderText="Date" DataField="RDate"><ItemStyle HorizontalAlign="Center" /></asp:BoundField><asp:BoundField HeaderText="GIN No" DataField="GINNo"><ItemStyle HorizontalAlign="Center" /></asp:BoundField><asp:BoundField HeaderText="Amt" DataField="GINAmt"><ItemStyle HorizontalAlign="Right" /></asp:BoundField></Columns></asp:GridView></asp:Panel></td><td valign="top" width="33%"><asp:Panel ID="Panel2" runat="server" Width="99%" Height="360px" 
+                                    ScrollBars="Auto"><asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" 
+                                                CssClass="yui-datatable-theme" Width="100%"><Columns><asp:TemplateField HeaderText="SN"></asp:TemplateField><asp:BoundField 
+                                                HeaderText="Date" DataField="RDate"><ItemStyle HorizontalAlign="Center" /></asp:BoundField><asp:BoundField 
+                                                HeaderText="GRR No" DataField="GRRNo"><ItemStyle HorizontalAlign="Center" /></asp:BoundField><asp:BoundField 
+                                                HeaderText="Amt" DataField="GRRAmt"><ItemStyle HorizontalAlign="Right" /></asp:BoundField></Columns></asp:GridView></asp:Panel></td><td valign="top" width="33%"><asp:Panel ID="Panel3" runat="server" Width="99%" Height="360px" 
+                                    ScrollBars="Auto"><asp:GridView ID="GridView3" runat="server" AutoGenerateColumns="False" 
+                                                CssClass="yui-datatable-theme" Width="100%"><Columns><asp:TemplateField HeaderText="SN"></asp:TemplateField><asp:BoundField 
+                                                HeaderText="Date" DataField="RDate"><ItemStyle HorizontalAlign="Center" /></asp:BoundField><asp:BoundField 
+                                                HeaderText="GSN No" DataField="GSNNo"><ItemStyle HorizontalAlign="Center" /></asp:BoundField><asp:BoundField 
+                                                HeaderText="Amt" DataField="GSNAmt"><ItemStyle HorizontalAlign="Right" /></asp:BoundField></Columns></asp:GridView></asp:Panel></td></tr><tr><td align="right" height="25" valign="middle" width="33%"><asp:Label ID="Label6" runat="server" style="font-weight: 700" Text="Total: "></asp:Label><asp:Label ID="lblGINTot" runat="server" style="font-weight: 700" Text="0"></asp:Label></td><td align="right" valign="middle" width="33%">&#160;&nbsp;<asp:Label ID="Label8" runat="server" style="font-weight: 700" Text="Total: "></asp:Label><asp:Label ID="lblGRRTot" runat="server" style="font-weight: 700" Text="0"></asp:Label>&#160;</td><td align="right" valign="middle" width="33%"><asp:Label ID="Label7" runat="server" style="font-weight: 700" Text="Total: "></asp:Label><asp:Label ID="lblGSNTot" runat="server" style="font-weight: 700" Text="0"></asp:Label></td></tr></table>
+                        
+                        
+                    </ContentTemplate>
+                    
+</cc1:TabPanel>
+                    <cc1:TabPanel ID="TabPanel2" runat="server" HeaderText="MRS/MIN">
+                        <HeaderTemplate>MRS/MIN
+                        </HeaderTemplate>
+                        <ContentTemplate><table align="left" cellpadding="0" cellspacing="0" class="style3"><tr><td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)">&#160;<b>MRS</b></td><td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)">&#160;<b>MIN</b></td></tr><tr><td valign="top" width="50%"><asp:Panel 
+            ID="Panel4" runat="server" Height="360px" Width="99%" ScrollBars="Auto"><asp:GridView 
+                                    ID="GridView4" runat="server" AutoGenerateColumns="False" 
+                                                CssClass="yui-datatable-theme" Width="99%"><Columns><asp:TemplateField HeaderText="SN"><ItemTemplate></ItemTemplate><ItemStyle HorizontalAlign="Right" /></asp:TemplateField><asp:BoundField 
+                    HeaderText="Date" DataField="RDate"><ItemStyle HorizontalAlign="Center" /></asp:BoundField><asp:BoundField HeaderText="MRS No" DataField="MRSNo"><ItemStyle HorizontalAlign="Center" /></asp:BoundField><asp:BoundField HeaderText="Amt" DataField="MRSAmt"><ItemStyle HorizontalAlign="Right" /></asp:BoundField></Columns></asp:GridView></asp:Panel></td><td valign="top" width="50%"><asp:Panel 
+                                        ID="Panel5" runat="server" Height="360px" Width="99%" 
+                                    ScrollBars="Auto"><asp:GridView 
+                                        ID="GridView5" runat="server" AutoGenerateColumns="False" 
+                                                CssClass="yui-datatable-theme" Width="99%"><Columns><asp:TemplateField HeaderText="SN"><ItemTemplate></ItemTemplate><ItemStyle HorizontalAlign="Right" /></asp:TemplateField><asp:BoundField HeaderText="Date" DataField="RDate"><ItemStyle HorizontalAlign="Center" /></asp:BoundField><asp:BoundField HeaderText="MIN No" DataField="MINNo"><ItemStyle HorizontalAlign="Center" /></asp:BoundField><asp:BoundField HeaderText="Amt" DataField="MINAmt"><ItemStyle HorizontalAlign="Right" /></asp:BoundField></Columns></asp:GridView></asp:Panel></td></tr><tr><td align="right" valign="top"><asp:Label ID="Label9" runat="server" style="font-weight: 700" Text="Total: "></asp:Label><asp:Label ID="lblMRSTot" runat="server" style="font-weight: 700" Text="0"></asp:Label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td align="right" valign="top"><asp:Label ID="Label10" runat="server" style="font-weight: 700" Text="Total: "></asp:Label><asp:Label ID="lblMINTot" runat="server" style="font-weight: 700" Text="0"></asp:Label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr></table>
+                        
+                    </ContentTemplate>
+                    
+</cc1:TabPanel>
+                    <cc1:TabPanel ID="TabPanel3" runat="server" HeaderText="WIS">
+                        <HeaderTemplate>WIS</HeaderTemplate>
+                        
+<ContentTemplate><table align="left" cellpadding="0" cellspacing="1" width="40%"><tr><td><asp:Panel ID="Panel6" runat="server" Width="99%" Height="380px" 
+        ScrollBars="Auto"><asp:GridView ID="GridView6" runat="server" AutoGenerateColumns="False" 
+                                                CssClass="yui-datatable-theme" Width="100%"><Columns><asp:TemplateField HeaderText="SN"><ItemTemplate></ItemTemplate><ItemStyle HorizontalAlign="Right" /></asp:TemplateField><asp:BoundField HeaderText="Date" DataField="RDate"><ItemStyle HorizontalAlign="Center" /></asp:BoundField><asp:BoundField HeaderText="WIS No" DataField="WISNo"><ItemStyle HorizontalAlign="Center" /></asp:BoundField><asp:BoundField HeaderText="Amt" DataField="WISAmt"><ItemStyle HorizontalAlign="Right" /></asp:BoundField></Columns></asp:GridView></asp:Panel></td></tr><tr><td align="right"><asp:Label ID="Label11" runat="server" style="font-weight: 700" Text="Total: "></asp:Label><asp:Label ID="lblWISTot" runat="server" style="font-weight: 700" Text="0"></asp:Label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr></table>
+                        
+                        
+                    </ContentTemplate>
+                    
+</cc1:TabPanel>
+                </cc1:TabContainer>
+            </td>
+        </tr>
+        </table>
+ 
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Reports/InwardOutwardRegister.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Globalization;
+
+public partial class Module_Inventory_Reports_InwardOutwardRegister : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+
+    int CompId = 0;
+    int FinYearId = 0;
+    
+    string Fdt = string.Empty;
+    string Tdt = string.Empty;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            if (!IsPostBack)
+            {
+                Fdt = fun.FromDateDMY(fun.getCurrDate());
+                Tdt = fun.FromDateDMY(fun.getCurrDate());
+
+                TxtFromDt.Text = Fdt;
+                TxtToDt.Text = Tdt;
+            }
+
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            CompId = Convert.ToInt32(Session["compid"]);
+
+            lblGINTot.Text = "0";
+            lblGSNTot.Text = "0";
+
+            this.calc();
+
+        }
+        catch (Exception et)
+        {
+
+        }
+    }
+
+    public void calc()
+    {
+        try
+        {
+
+            DataTable MRSdt = new DataTable();
+            MRSdt = this.getMRSDetails(TxtFromDt.Text, TxtToDt.Text);
+
+            GridView4.DataSource = MRSdt;
+            GridView4.DataBind();
+
+            object mrstotal;
+            mrstotal = MRSdt.Compute("Sum(MRSAmt)", "");
+
+            if (mrstotal.ToString() != "")
+            {
+                lblMRSTot.Text = Math.Round(Convert.ToDouble(mrstotal.ToString()), 2).ToString();
+            }
+            else
+            {
+                lblMRSTot.Text = "0";
+            }
+
+
+            DataTable MINdt = new DataTable();
+            MINdt = this.getMINDetails(TxtFromDt.Text, TxtToDt.Text);
+
+            GridView5.DataSource = MINdt;
+            GridView5.DataBind();
+
+            object mintotal;
+            mintotal = MINdt.Compute("Sum(MINAmt)", "");
+
+            if (mintotal.ToString() != "")
+            {
+                lblMINTot.Text = Math.Round(Convert.ToDouble(mintotal.ToString()), 2).ToString();
+            }
+            else
+            {
+                lblMINTot.Text = "0";
+            }
+
+
+            DataTable WISdt = new DataTable();
+            WISdt = this.getWISDetails(TxtFromDt.Text, TxtToDt.Text);
+
+            GridView6.DataSource = WISdt;
+            GridView6.DataBind();
+
+            object wistotal;
+            wistotal = WISdt.Compute("Sum(WISAmt)", "");
+
+            if (wistotal.ToString() != "")
+            {
+                lblWISTot.Text = Math.Round(Convert.ToDouble(wistotal.ToString()), 2).ToString();
+            }
+            else
+            {
+                lblWISTot.Text = "0";
+            }
+
+
+            DataTable GINdt = new DataTable();
+            GINdt = this.getGINDetails(TxtFromDt.Text, TxtToDt.Text);
+
+            GridView1.DataSource = GINdt;
+            GridView1.DataBind();
+
+            object gintotal;
+            gintotal = GINdt.Compute("Sum(GINAmt)", "");
+
+            if (gintotal.ToString() != "")
+            {
+                lblGINTot.Text = Math.Round(Convert.ToDouble(gintotal.ToString()), 2).ToString();
+            }
+            else
+            {
+                lblGINTot.Text = "0";
+            }
+
+
+            DataTable GRRdt = new DataTable();
+            GRRdt = this.getGRRDetails(TxtFromDt.Text, TxtToDt.Text);
+
+            GridView2.DataSource = GRRdt;
+            GridView2.DataBind();
+
+            object grrtotal;
+            grrtotal = GRRdt.Compute("Sum(GRRAmt)", "");
+
+            if (grrtotal.ToString() != "")
+            {
+                lblGRRTot.Text = Math.Round(Convert.ToDouble(grrtotal.ToString()), 2).ToString();
+            }
+            else
+            {
+                lblGRRTot.Text = "0";
+            }
+
+            DataTable GSNdt = new DataTable();
+            GSNdt = this.getGSNDetails(TxtFromDt.Text, TxtToDt.Text);
+
+            GridView3.DataSource = GSNdt;
+            GridView3.DataBind();
+
+            object gsntotal;
+            gsntotal = GSNdt.Compute("Sum(GSNAmt)", "");
+
+            if (gsntotal.ToString() != "")
+            {
+                lblGSNTot.Text = Math.Round(Convert.ToDouble(gsntotal.ToString()), 2).ToString();
+            }
+            else
+            {
+                lblGSNTot.Text = "0";
+            }            
+
+        }
+        catch (Exception et)
+        {
+
+        }
+    }
+
+    public DataTable getMRSDetails(string fdt, string tdt)
+    {
+        DataTable dtMRS = new DataTable();
+
+        try
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            con.Open();
+                        
+            dtMRS.Columns.Add(new System.Data.DataColumn("MRSNo", typeof(string)));//0  
+            dtMRS.Columns.Add(new System.Data.DataColumn("MRSAmt", typeof(double)));//1
+            dtMRS.Columns.Add(new System.Data.DataColumn("RDate", typeof(string)));//2
+
+            string sql = "SELECT  MRSNo,Sum(Amt) As Amt,SysDate FROM View_MRS_InOutReg WHERE SysDate between '" + fun.FromDate(fdt) + "' AND '" + fun.FromDate(tdt) + "' AND FinYearid='" + FinYearId + "' Group by MRSNo,SysDate Order by MRSNo DESC";
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataReader sdr = cmd.ExecuteReader();
+
+            DataRow drMRS;
+
+            while (sdr.Read())
+            {
+                drMRS = dtMRS.NewRow();
+
+                drMRS[0] = sdr["MRSNo"].ToString();
+
+                if (sdr["Amt"].ToString() != "")
+                {
+                    drMRS[1] = Math.Round(Convert.ToDouble(sdr["Amt"].ToString()), 2).ToString();
+                }
+                else
+                {
+                    drMRS[1] = "0";
+                }
+
+                drMRS[2] = fun.FromDateDMY(sdr["SysDate"].ToString());
+
+                dtMRS.Rows.Add(drMRS);
+                dtMRS.AcceptChanges();
+            }
+
+            con.Close();
+
+            return dtMRS;
+        }
+        catch (Exception et)
+        {
+
+        }
+        return dtMRS;
+    }
+
+    public DataTable getMINDetails(string fdt, string tdt)
+    {
+        DataTable dtMIN = new DataTable();
+
+        try
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            con.Open();
+                       
+            dtMIN.Columns.Add(new System.Data.DataColumn("MINNo", typeof(string)));//0  
+            dtMIN.Columns.Add(new System.Data.DataColumn("MINAmt", typeof(double)));//1
+            dtMIN.Columns.Add(new System.Data.DataColumn("RDate", typeof(string)));//2
+
+            string sql = "select  MINNo,Sum(Amt) As Amt,SysDate FROM View_MIN_InOutReg_Details WHERE SysDate between '" + fun.FromDate(fdt) + "' AND '" + fun.FromDate(tdt) + "' AND FinYearId='" + FinYearId + "' Group by MINNo,SysDate Order by MINNo DESC";
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataReader sdr = cmd.ExecuteReader();
+
+            DataRow drMIN;
+
+            while (sdr.Read())
+            {
+                drMIN = dtMIN.NewRow();
+
+                drMIN[0] = sdr["MINNo"].ToString();
+
+                if (sdr["Amt"].ToString() != "")
+                {
+                    drMIN[1] = Math.Round(Convert.ToDouble(sdr["Amt"].ToString()), 2).ToString();
+                }
+                else
+                {
+                    drMIN[1] = "0";
+                }
+
+                drMIN[2] = fun.FromDateDMY(sdr["SysDate"].ToString());
+
+                dtMIN.Rows.Add(drMIN);
+                dtMIN.AcceptChanges();
+            }
+
+            con.Close();
+            return dtMIN;
+        }
+        catch (Exception et)
+        {
+
+        }
+        return dtMIN;
+    }
+
+    public DataTable getWISDetails(string fdt, string tdt)
+    {
+        DataTable dtWIS = new DataTable();
+
+        try
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            con.Open();
+
+            dtWIS.Columns.Add(new System.Data.DataColumn("WISNo", typeof(string)));//0  
+            dtWIS.Columns.Add(new System.Data.DataColumn("WISAmt", typeof(double)));//1
+            dtWIS.Columns.Add(new System.Data.DataColumn("RDate", typeof(string)));//2
+
+            string sql = "select  WISNo,Sum(Amt) As Amt,SysDate FROM View_WIS_InOutReg WHERE SysDate between '" + fun.FromDate(fdt) + "' AND '" + fun.FromDate(tdt) + "' AND FinYearId='" + FinYearId + "' Group by WISNo,SysDate Order by WISNo DESC";
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataReader sdr = cmd.ExecuteReader();
+
+            DataRow drWIS;
+
+            while (sdr.Read())
+            {
+                drWIS = dtWIS.NewRow();
+
+                drWIS[0] = sdr["WISNo"].ToString();
+
+                if (sdr["Amt"].ToString() != "")
+                {
+                    drWIS[1] = Math.Round(Convert.ToDouble(sdr["Amt"].ToString()), 2).ToString();
+                }
+                else
+                {
+                    drWIS[1] = "0";
+                }
+
+                drWIS[2] = fun.FromDateDMY(sdr["SysDate"].ToString());
+
+                dtWIS.Rows.Add(drWIS);
+                dtWIS.AcceptChanges();
+            }
+
+            con.Close();
+            return dtWIS;
+        }
+        catch (Exception et)
+        {
+
+        }
+        return dtWIS;
+    }
+        
+    public DataTable getGINDetails(string fdt, string tdt)
+    {
+        DataTable dtGIN = new DataTable();
+
+        try
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            con.Open();
+
+            dtGIN.Columns.Add(new System.Data.DataColumn("GINNo", typeof(string)));//0  
+            dtGIN.Columns.Add(new System.Data.DataColumn("GINAmt", typeof(double)));//1
+            dtGIN.Columns.Add(new System.Data.DataColumn("RDate", typeof(string)));//2
+
+            string sql = "select GINNo,Sum(Amt) As Amt,GINDate FROM View_GIN_InOutReg_Details WHERE GINDate between '" + fun.FromDate(fdt) + "' AND '" + fun.FromDate(tdt) + "' AND FinYearId='" + FinYearId + "' Group by GINNo,GINDate Order by GINNo DESC";
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataReader sdr = cmd.ExecuteReader();
+
+            DataRow drGIN;
+
+            while (sdr.Read())
+            {
+                drGIN = dtGIN.NewRow();
+
+                drGIN[0] = sdr["GINNo"].ToString();
+
+                if (sdr["Amt"].ToString() != "")
+                {
+                    drGIN[1] = Math.Round(Convert.ToDouble(sdr["Amt"].ToString()), 2).ToString();
+                }
+                else
+                {
+                    drGIN[1] = "0";
+                }
+
+                drGIN[2] = fun.FromDateDMY(sdr["GINDate"].ToString());
+
+                dtGIN.Rows.Add(drGIN);
+                dtGIN.AcceptChanges();
+            }
+
+            con.Close();
+            return dtGIN;
+        }
+        catch (Exception et)
+        {
+
+        }
+        return dtGIN;
+    }
+
+    public DataTable getGRRDetails(string fdt, string tdt)
+    {
+        DataTable dtGRR = new DataTable();
+
+       try
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            con.Open();
+
+            dtGRR.Columns.Add(new System.Data.DataColumn("GRRNo", typeof(string)));//0  
+            dtGRR.Columns.Add(new System.Data.DataColumn("GRRAmt", typeof(double)));//1
+            dtGRR.Columns.Add(new System.Data.DataColumn("RDate", typeof(string)));//2
+
+            string sql = "select GRRNo,Sum(Amt) As Amt,GRRDate FROM View_GRR_InOutReg_Details WHERE GRRDate between '" + fun.FromDate(fdt) + "' AND '" + fun.FromDate(tdt) + "' AND FinYearId='" + FinYearId + "' Group by GRRNo,GRRDate Order by GRRNo DESC";
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataReader sdr = cmd.ExecuteReader();
+
+            DataRow drGRR;
+
+            while (sdr.Read())
+            {
+                drGRR = dtGRR.NewRow();
+
+                drGRR[0] = sdr["GRRNo"].ToString();
+
+                if (sdr["Amt"].ToString() != "")
+                {
+                    drGRR[1] = Math.Round(Convert.ToDouble(sdr["Amt"].ToString()), 2).ToString();
+                }
+                else
+                {
+                    drGRR[1] = "0";
+                }
+
+                drGRR[2] = fun.FromDateDMY(sdr["GRRDate"].ToString());
+
+                dtGRR.Rows.Add(drGRR);
+                dtGRR.AcceptChanges();
+            }
+
+            con.Close();
+            return dtGRR;
+        }
+       catch (Exception et)
+        {
+
+        }
+       return dtGRR;
+    }
+
+    public DataTable getGSNDetails(string fdt, string tdt)
+    {
+        DataTable dtGSN = new DataTable();
+
+        try
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            con.Open();
+
+            dtGSN.Columns.Add(new System.Data.DataColumn("GSNNo", typeof(string)));//0  
+            dtGSN.Columns.Add(new System.Data.DataColumn("GSNAmt", typeof(double)));//1
+            dtGSN.Columns.Add(new System.Data.DataColumn("RDate", typeof(string)));//2
+
+            string sql = "select GSNNo,Sum(Amt) As Amt,GSNDate FROM View_GSN_InOutReg_Details WHERE GSNDate between '" + fun.FromDate(fdt) + "' AND '" + fun.FromDate(tdt) + "' AND FinYearId='" + FinYearId + "' Group by GSNNo,GSNDate Order by GSNNo DESC";
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataReader sdr = cmd.ExecuteReader();
+
+            DataRow drGSN;
+
+            while (sdr.Read())
+            {
+                drGSN = dtGSN.NewRow();
+
+                drGSN[0] = sdr["GSNNo"].ToString();
+
+                if (sdr["Amt"].ToString() != "")
+                {
+                    drGSN[1] = Math.Round(Convert.ToDouble(sdr["Amt"].ToString()), 2).ToString();
+                }
+                else
+                {
+                    drGSN[1] = "0";
+                }
+
+                drGSN[2] = fun.FromDateDMY(sdr["GSNDate"].ToString());
+
+                dtGSN.Rows.Add(drGSN);
+                dtGSN.AcceptChanges();
+            }
+
+            con.Close();
+            return dtGSN;
+        }
+        catch (Exception et)
+        {
+
+        }
+        return dtGSN;
+    }
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        this.calc();
+    }
+
+
+}

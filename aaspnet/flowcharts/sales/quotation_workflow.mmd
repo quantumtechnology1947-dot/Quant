@@ -1,0 +1,228 @@
+graph TB
+    %% Quotation Workflow Module Architecture Diagram
+    
+    subgraph "Quotation Lifecycle"
+        A[Quotation Process Flow]
+        A1[Quotation_New<br/>Initial creation]
+        A2[Quotation_Check<br/>Technical review]
+        A3[Quotation_Approve<br/>Management approval]
+        A4[Quotation_Authorize<br/>Final authorization]
+        A5[Quotation_Print<br/>Document generation]
+    end
+    
+    subgraph "Creation Stage"
+        B[Quotation_New.aspx]
+        B1[Customer Selection<br/>Link to enquiry or new]
+        B2[Header Information<br/>Quotation details]
+        B3[Line Items<br/>Products and pricing]
+        B4[Terms & Conditions<br/>Business terms]
+        B5[Attachment Support<br/>Supporting documents]
+    end
+    
+    subgraph "Review Stage"
+        C[Quotation_Check.aspx]
+        C1[Technical Review<br/>Engineering validation]
+        C2[Cost Verification<br/>Pricing accuracy]
+        C3[Specification Check<br/>Requirement compliance]
+        C4[Quality Assurance<br/>Standard compliance]
+        C5[Check Status Update<br/>Mark as checked]
+    end
+    
+    subgraph "Approval Stage"
+        D[Quotation_Approve.aspx]
+        D1[Management Review<br/>Business approval]
+        D2[Financial Validation<br/>Margin verification]
+        D3[Risk Assessment<br/>Commercial evaluation]
+        D4[Bulk Approval<br/>Multiple quotation processing]
+        D5[Approval Status Update<br/>Mark as approved]
+    end
+    
+    subgraph "Authorization Stage"
+        E[Quotation_Authorize.aspx]
+        E1[Final Authorization<br/>Executive approval]
+        E2[Legal Compliance<br/>Contract terms review]
+        E3[Authority Validation<br/>Signatory verification]
+        E4[Release Preparation<br/>Customer communication]
+        E5[Authorization Status Update<br/>Mark as authorized]
+    end
+    
+    subgraph "Database Structure"
+        F[Core Tables]
+        F1[SD_Cust_Quotation_Master<br/>Quotation headers]
+        F2[SD_Cust_Quotation_Details_Temp<br/>Line items temporary]
+        F3[SD_Cust_Quotation_Details<br/>Final line items]
+        F4[SD_Cust_Enquiry_Master<br/>Source enquiry link]
+        F5[SD_Cust_Master<br/>Customer information]
+    end
+    
+    subgraph "Status Management"
+        G[Workflow States]
+        G1[Draft Status<br/>Initial creation]
+        G2[Check Status<br/>Under technical review]
+        G3[Approve Status<br/>Management approval]
+        G4[Authorize Status<br/>Final authorization]
+        G5[Sent Status<br/>Customer communication]
+        G6[Converted Status<br/>Order received]
+    end
+    
+    subgraph "Line Item Management"
+        H[Quotation Details]
+        H1[Item Description<br/>Product/service details]
+        H2[Quantity<br/>Required quantities]
+        H3[Unit of Measure<br/>Measurement units]
+        H4[Rate<br/>Unit pricing]
+        H5[Discount<br/>Discount percentages]
+        H6[Total Calculation<br/>Line total computation]
+    end
+    
+    subgraph "User Roles & Permissions"
+        I[Role-Based Access]
+        I1[Sales Team<br/>Create and edit quotations]
+        I2[Technical Team<br/>Check and validate]
+        I3[Management<br/>Approve quotations]
+        I4[Executives<br/>Authorize quotations]
+        I5[Admin<br/>Full access and reports]
+    end
+    
+    subgraph "Dashboard Integration"
+        J[Workflow Dashboards]
+        J1[Quotation_Dashboard<br/>Overall status view]
+        J2[Quotation_Check_Dashboard<br/>Pending checks]
+        J3[Quotation_Approve_Dashboard<br/>Pending approvals]
+        J4[Quotation_Authorize_Dashboard<br/>Pending authorizations]
+    end
+    
+    subgraph "Document Management"
+        K[Document Generation]
+        K1[Quotation Print<br/>Formatted quotation]
+        K2[Terms & Conditions<br/>Standard clauses]
+        K3[Company Branding<br/>Logo and formatting]
+        K4[Digital Signatures<br/>Authorization stamps]
+        K5[PDF Generation<br/>Final document]
+    end
+    
+    subgraph "Integration Points"
+        L[System Integration]
+        L1[Customer Enquiry<br/>Source enquiry reference]
+        L2[Customer PO<br/>Order conversion]
+        L3[Work Order<br/>Production planning]
+        L4[Cost Sheet<br/>Cost calculations]
+        L5[Reports<br/>Business intelligence]
+    end
+    
+    %% Relationships - Workflow Flow
+    A1 --> A2
+    A2 --> A3
+    A3 --> A4
+    A4 --> A5
+    
+    %% Stage Relationships
+    A1 --> B
+    A2 --> C
+    A3 --> D
+    A4 --> E
+    
+    B --> B1
+    B --> B2
+    B --> B3
+    B --> B4
+    B --> B5
+    
+    C --> C1
+    C --> C2
+    C --> C3
+    C --> C4
+    C --> C5
+    
+    D --> D1
+    D --> D2
+    D --> D3
+    D --> D4
+    D --> D5
+    
+    E --> E1
+    E --> E2
+    E --> E3
+    E --> E4
+    E --> E5
+    
+    %% Database Relationships
+    B --> F1
+    B3 --> F2
+    C5 --> F1
+    D5 --> F1
+    E5 --> F1
+    B1 --> F4
+    B1 --> F5
+    
+    %% Status Flow
+    B --> G1
+    C --> G2
+    D --> G3
+    E --> G4
+    A5 --> G5
+    L2 --> G6
+    
+    %% Line Item Flow
+    B3 --> H
+    H --> H1
+    H --> H2
+    H --> H3
+    H --> H4
+    H --> H5
+    H --> H6
+    
+    %% Role Access
+    I1 --> B
+    I2 --> C
+    I3 --> D
+    I4 --> E
+    I5 --> J
+    
+    %% Dashboard Integration
+    J1 --> A
+    J2 --> C
+    J3 --> D
+    J4 --> E
+    
+    %% Document Flow
+    A5 --> K
+    K --> K1
+    K --> K2
+    K --> K3
+    K --> K4
+    K --> K5
+    
+    %% System Integration
+    L1 --> B1
+    A5 --> L2
+    L2 --> L3
+    B3 --> L4
+    A --> L5
+    
+    %% Styling
+    classDef workflowClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef creationClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef reviewClass fill:#e8eaf6,stroke:#3f51b5,stroke-width:2px
+    classDef approvalClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef authClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef dbClass fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef statusClass fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    classDef itemClass fill:#e0f2f1,stroke:#004d40,stroke-width:2px
+    classDef roleClass fill:#f9fbe7,stroke:#827717,stroke-width:2px
+    classDef dashboardClass fill:#fff8e1,stroke:#ff6f00,stroke-width:2px
+    classDef docClass fill:#fafafa,stroke:#424242,stroke-width:2px
+    classDef integrationClass fill:#e3f2fd,stroke:#0d47a1,stroke-width:2px
+    
+    class A,A1,A2,A3,A4,A5 workflowClass
+    class B,B1,B2,B3,B4,B5 creationClass
+    class C,C1,C2,C3,C4,C5 reviewClass
+    class D,D1,D2,D3,D4,D5 approvalClass
+    class E,E1,E2,E3,E4,E5 authClass
+    class F,F1,F2,F3,F4,F5 dbClass
+    class G,G1,G2,G3,G4,G5,G6 statusClass
+    class H,H1,H2,H3,H4,H5,H6 itemClass
+    class I,I1,I2,I3,I4,I5 roleClass
+    class J,J1,J2,J3,J4 dashboardClass
+    class K,K1,K2,K3,K4,K5 docClass
+    class L,L1,L2,L3,L4,L5 integrationClass

@@ -1,0 +1,1097 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Reports/Cash_Bank_Register.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Cash_Bank_Register.aspx.cs" Inherits="Module_Accounts_Reports_Cash_Bank_Register" Title="ERP" Theme="Default"   Culture="en-GB"  %>
+
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+ 
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+  
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    
+    <style type="text/css">
+        .style2
+        {
+            font-weight: bold;
+        }
+        .style3
+        {
+            text-align: center;
+        }
+    .box3 {
+border: 1px solid #C5C5C5;
+
+}
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table cellpadding="0" cellspacing="0" class="fontcss" width="100%">
+        <tr>
+             <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)">
+        &nbsp;<b>Cash/Bank Register</b></td>
+        </tr>
+        <tr>
+            <td class="style3" height="25">
+                &nbsp;<asp:Label ID="Label2" runat="server" CssClass="style2" Text="Date From:"></asp:Label>
+                &nbsp;<asp:TextBox ID="txtFD" runat="server" CssClass="box3" Width="80px" 
+                    ValidationGroup="A"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
+                    ControlToValidate="txtFD" ErrorMessage="*"></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator ID="RegularExpressionValidator5" runat="server" 
+                            ControlToValidate="txtFD" ErrorMessage="*" 
+                            ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                            ValidationGroup="A"></asp:RegularExpressionValidator>
+                <cc1:CalendarExtender CssClass="cal_Theme2" ID="txtFD_CalendarExtender" runat="server" Enabled="True" 
+                    Format="dd-MM-yyyy" TargetControlID="txtFD">
+                </cc1:CalendarExtender>
+&nbsp;-&nbsp;
+                <asp:Label ID="Label3" runat="server" CssClass="style2" Text="To:"></asp:Label>
+                <asp:TextBox ID="txtTo" runat="server" CssClass="box3" Width="80px"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
+                    ControlToValidate="txtTo" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" 
+                            ControlToValidate="txtTo" ErrorMessage="*" 
+                            ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                            ValidationGroup="A"></asp:RegularExpressionValidator>
+                <cc1:CalendarExtender CssClass="cal_Theme2" ID="txtTo_CalendarExtender" runat="server" Enabled="True" 
+                    Format="dd-MM-yyyy" TargetControlID="txtTo">
+                </cc1:CalendarExtender>
+&nbsp; <asp:DropDownList 
+        runat="server" AutoPostBack="true" CssClass="box3" ID="DropDownList3">
+    </asp:DropDownList>&nbsp;
+                <asp:Button ID="Button1" runat="server" CssClass="redbox" 
+                    onclick="Button1_Click" Text="Search" ValidationGroup="A" />               
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+            <asp:Panel Height="420px" runat="server" Width="100%" ScrollBars="Auto">
+                <CR:CrystalReportViewer ID="CrystalReportViewer1" Visible="False"   
+                    runat="server" AutoDataBind="True" ReportSourceID="CrystalReportSource1" HasCrystalLogo="False"
+                    DisplayGroupTree="False" EnableDatabaseLogonPrompt="False" 
+                    EnableParameterPrompt="False" />
+                    <CR:CrystalReportSource ID="CrystalReportSource1" runat="server">
+                        <Report FileName="~/Module/Accounts/Reports/Cash_Bank_Register.rpt">
+                        </Report>
+                    </CR:CrystalReportSource>
+                    </asp:Panel>
+                    </td>
+        </tr>
+    </table>
+    <%--<asp:SqlDataSource runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" ProviderName="System.Data.SqlClient" SelectCommand="SELECT DISTINCT * FROM [tblACC_Bank] order by OrdNo Asc" ID="SqlDataSource5">
+    </asp:SqlDataSource>--%>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">    
+</asp:Content>
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Reports/Cash_Bank_Register.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Collections.Generic;
+using CrystalDecisions.CrystalReports.Engine;
+
+public partial class Module_Accounts_Reports_Cash_Bank_Register : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    SqlConnection con;
+    int CompId = 0;
+    int FyId = 0;
+    ReportDocument cryRpt;
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        try
+        {
+            string connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+
+            if (!IsPostBack)
+            {
+                DateTime x = DateTime.Now;
+
+                txtFD.Text = x.Date.ToShortDateString().Replace('/', '-');
+                txtTo.Text = x.Date.ToShortDateString().Replace('/', '-');
+
+                /* DateTime x = fun.FirstDateInCurrMonth();
+                txtFD.Text = x.Date.ToShortDateString().Replace('/', '-');
+                DateTime x2 = fun.LastDateInCurrMonth();
+                txtTo.Text = x2.Date.ToShortDateString().Replace('/', '-');*/
+
+                this.FillGrid();
+
+            }
+            else
+            {
+                ReportDocument doc = (ReportDocument)Session["ReportDocument"];
+                CrystalReportViewer1.ReportSource = doc;
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+       
+    }
+
+    public void FillGrid()
+    {
+        try
+        {
+            con.Open();
+
+            List<string> AccBankCash = new List<string>();
+ 
+            string sql = fun.select1("Id,Name", "tblACC_Bank order by OrdNo Asc");
+            SqlCommand cmdsql = new SqlCommand(sql, con);
+            SqlDataReader dssql = cmdsql.ExecuteReader();
+          
+            DropDownList3.DataSource = dssql;
+            DropDownList3.DataTextField = "Name";
+            DropDownList3.DataValueField= "Id";
+            
+            DropDownList3.DataBind();
+
+            DropDownList3.Items.Insert(0, "Select");
+            DropDownList3.Items.Insert(7, "IOU");
+            DropDownList3.Items.Insert(8, "Contra");
+
+
+            con.Close();
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        /*
+         This code is run only on indexing nos. of dropdown not on the basis of db id in tblacc_bank.         
+         */
+        try
+        {
+
+            CrystalReportViewer1.Visible = true;
+
+            con.Open();
+
+            FyId = Convert.ToInt32(Session["finyear"]);
+            CompId = Convert.ToInt32(Session["compid"]);
+
+            string FD = string.Empty;
+            string TD = string.Empty;
+            int DRP = 0;
+
+            FD = fun.FromDate(txtFD.Text);
+            TD = fun.FromDate(txtTo.Text);
+
+            DRP = Convert.ToInt32(DropDownList3.SelectedIndex);
+
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add(new System.Data.DataColumn("SysDate", typeof(string)));//0 
+            dt.Columns.Add(new System.Data.DataColumn("PaidTo", typeof(string)));//1 
+            dt.Columns.Add(new System.Data.DataColumn("VchType", typeof(string)));//2 
+            dt.Columns.Add(new System.Data.DataColumn("VchNo", typeof(string)));//3 
+            dt.Columns.Add(new System.Data.DataColumn("Op", typeof(double)));//4             
+            dt.Columns.Add(new System.Data.DataColumn("Debit", typeof(double)));//5
+            dt.Columns.Add(new System.Data.DataColumn("TransType", typeof(int)));//6
+            dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));//7
+            dt.Columns.Add(new System.Data.DataColumn("Particulars", typeof(string)));//8
+            dt.Columns.Add(new System.Data.DataColumn("Credit", typeof(double)));//9
+            
+            switch (DRP)
+            {
+                case 0:
+                    CrystalReportViewer1.Visible = false;
+                    break;
+                case 1: //Cash
+
+                    // Cash Payment
+
+                    DataRow dr;
+
+                    double OpCash = 0;
+                    OpCash = this.getCashEntryAmt("<", FD, CompId, FyId);
+
+                    SqlDataReader CashCurrentdr = this.getCashPayCurrentBalAmt(FD, TD, CompId, FyId);
+
+                    while (CashCurrentdr.Read())
+                    {
+                        dr = dt.NewRow();
+                        dr[0] = fun.FromDate(CashCurrentdr["SysDate"].ToString());
+
+                        string SqlReceivedBy = fun.select("EmployeeName + '['+ EmpId +']' as Name", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + CashCurrentdr["ReceivedBy"].ToString() + "'");
+                        SqlCommand cmdReceivedBy = new SqlCommand(SqlReceivedBy, con);
+                        SqlDataReader DSReceivedBy = cmdReceivedBy.ExecuteReader();
+                        DSReceivedBy.Read();
+
+                        dr[1] = DSReceivedBy["Name"].ToString();
+                        dr[2] = "Payment";
+                        dr[3] = CashCurrentdr["CVPNo"].ToString();
+                        dr[4] = OpCash;
+                        dr[5] = 0;
+                        dr[6] = 1;
+                        dr[7] = CompId;
+                        dr[8] = CashCurrentdr["PaidTo"].ToString();
+                        dr[9] = Convert.ToDouble(CashCurrentdr["Amount"].ToString());
+
+                        dt.Rows.Add(dr);
+                        dt.AcceptChanges();
+                    }
+
+                    // Cash Receipt
+
+                    DataRow dr2;
+                    SqlDataReader CashRecCurrentdr = getCashRecCurrentBalAmt(FD, TD, CompId, FyId);
+
+                    while (CashRecCurrentdr.Read())
+                    {
+                        dr2 = dt.NewRow();
+                        dr2[0] = fun.FromDate(CashRecCurrentdr["SysDate"].ToString());
+
+                        string SqlReceivedBy = string.Empty;
+
+                        switch (Convert.ToInt32(CashRecCurrentdr["CodeTypeRB"].ToString()))
+                        {
+                            case 1: // Employee
+                                SqlReceivedBy = fun.select("EmployeeName + '['+ EmpId +']' as Name", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + CashRecCurrentdr["CashReceivedBy"].ToString() + "'");
+                                break;
+                            case 2: // Customer
+                                SqlReceivedBy = fun.select("CustomerName + '['+ CustomerId +']' as Name", "SD_Cust_master", "CompId='" + CompId + "' AND CustomerId='" + CashRecCurrentdr["CashReceivedBy"].ToString() + "'");
+                                break;
+                            case 3: // Supplier
+                                SqlReceivedBy = fun.select("SupplierName + '['+ SupplierId +']' as Name", "tblMM_Supplier_master", "CompId='" + CompId + "' AND SupplierId='" + CashRecCurrentdr["CashReceivedBy"].ToString() + "'");
+                                break;
+                        }
+
+                        SqlCommand cmdReceivedBy = new SqlCommand(SqlReceivedBy, con);
+                        SqlDataReader DSReceivedBy = cmdReceivedBy.ExecuteReader();
+                        DSReceivedBy.Read();
+
+
+                        string SqlReceivedAgainst = string.Empty;
+
+                        switch (Convert.ToInt32(CashRecCurrentdr["CodeTypeRA"].ToString()))
+                        {
+                            case 1: // Employee
+                                SqlReceivedAgainst = fun.select("EmployeeName + '['+ EmpId +']' as Name", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + CashRecCurrentdr["CashReceivedAgainst"].ToString() + "'");
+                                break;
+                            case 2: // Customer
+                                SqlReceivedAgainst = fun.select("CustomerName + '['+ CustomerId +']' as Name", "SD_Cust_master", "CompId='" + CompId + "' AND CustomerId='" + CashRecCurrentdr["CashReceivedAgainst"].ToString() + "'");
+                                break;
+                            case 3: // Supplier
+                                SqlReceivedAgainst = fun.select("SupplierName + '['+ SupplierId +']' as Name", "tblMM_Supplier_master", "CompId='" + CompId + "' AND SupplierId='" + CashRecCurrentdr["CashReceivedAgainst"].ToString() + "'");
+                                break;
+                        }
+
+                        SqlCommand cmdReceivedAgainst = new SqlCommand(SqlReceivedAgainst, con);
+                        SqlDataReader DSReceivedAgainst = cmdReceivedAgainst.ExecuteReader();
+                        DSReceivedAgainst.Read();
+
+                        dr2[1] = DSReceivedAgainst["Name"].ToString();
+                        dr2[2] = "Receipt";
+                        dr2[3] = CashRecCurrentdr["CVRNo"].ToString();
+                        dr2[5] = Convert.ToDouble(CashRecCurrentdr["Amount"].ToString());
+                        dr2[6] = 1;
+                        dr2[7] = CompId;
+                        dr2[8] = DSReceivedBy["Name"].ToString();
+                        dr2[9] = 0;
+
+                        dt.Rows.Add(dr2);
+                        dt.AcceptChanges();
+                    }
+
+                    break;
+                case 2: // IDBI Bank                                 
+                    dt = this.getBankPayRecCurrentAmt(FD, TD, CompId, FyId, Convert.ToInt32(DropDownList3.SelectedValue), 2);
+                    break;
+                case 3: // PNB Bank 
+                    dt = this.getBankPayRecCurrentAmt(FD, TD, CompId, FyId, Convert.ToInt32(DropDownList3.SelectedValue), 3); break;
+                case 4:// Dena Bank 1
+                    dt = this.getBankPayRecCurrentAmt(FD, TD, CompId, FyId, Convert.ToInt32(DropDownList3.SelectedValue), 4);
+                    break;
+                case 5:// Dena Bank 2
+                    dt = this.getBankPayRecCurrentAmt(FD, TD, CompId, FyId, Convert.ToInt32(DropDownList3.SelectedValue), 5);
+                    break;
+                case 6: //Axis Bank
+                    dt = this.getBankPayRecCurrentAmt(FD, TD, CompId, FyId, Convert.ToInt32(DropDownList3.SelectedValue), 6);
+
+                    break;
+
+                case 7: // IOU
+
+                    //double IOUPayOp = 0;
+                    //IOUPayOp = this.getIOUPayOpBalAmt("<", FD, CompId, FyId);
+
+                    DataRow dr3;
+
+                    SqlDataReader IOUPayCurrent;
+                    IOUPayCurrent = this.getIOUPayCurrentBalAmt(FD, TD, CompId, FyId);
+
+                    while (IOUPayCurrent.Read())
+                    {
+                        dr3 = dt.NewRow();
+
+                        dr3[0] = fun.FromDate(IOUPayCurrent["PaymentDate"].ToString());
+
+                        string SqlIOUPayCurrent = fun.select("EmployeeName + '['+ EmpId +']' as Name", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + IOUPayCurrent["EmpId"].ToString() + "'");
+                        SqlCommand cmdIOUPayCurrent = new SqlCommand(SqlIOUPayCurrent, con);
+                        SqlDataReader DSIOUPayCurrent = cmdIOUPayCurrent.ExecuteReader();
+                        DSIOUPayCurrent.Read();
+
+                        dr3[1] = DSIOUPayCurrent["Name"].ToString();
+                        dr3[2] = "IOU";
+                        dr3[3] = IOUPayCurrent["Id"].ToString();
+                        dr3[6] = 7;
+                        dr3[7] = CompId;
+                        dr3[8] = IOUPayCurrent["Narration"].ToString();
+                        dr3[9] = Convert.ToDouble(IOUPayCurrent["Amount"].ToString());
+
+                        dt.Rows.Add(dr3);
+                        dt.AcceptChanges();
+                    }
+
+                    //double IOURecOp = 0;
+                    //IOURecOp = this.getIOURecOpBalAmt("<", FD, CompId, FyId);
+
+                    //SqlDataReader IOURecCurrent;
+                    //IOURecCurrent = this.getIOURecCurrentBalAmt(FD, TD, CompId, FyId);
+
+                    break;
+                case 8: // Contra
+
+                    // Cr
+                    DataRow dr1;
+                    SqlDataReader ContraCr = this.getContraCurrentBalAmt(FD, TD, CompId, FyId);
+
+                    while (ContraCr.Read())
+                    {
+                        dr1 = dt.NewRow();
+                        dr1[0] = fun.FromDate(ContraCr["Date"].ToString());
+
+                        string SqlContraDr = fun.select("*", "tblACC_Bank", "Id='" + ContraCr["Dr"].ToString() + "'");
+                        SqlCommand cmdContraDr = new SqlCommand(SqlContraDr, con);
+                        SqlDataReader DSContraDr = cmdContraDr.ExecuteReader();
+                        DSContraDr.Read();
+
+                        string SqlContraCr = fun.select("*", "tblACC_Bank", "Id='" + ContraCr["Cr"].ToString() + "'");
+                        SqlCommand cmdContraCr = new SqlCommand(SqlContraCr, con);
+                        SqlDataReader DSContraCr = cmdContraCr.ExecuteReader();
+                        DSContraCr.Read();
+
+                        dr1[1] = DSContraDr["Name"].ToString();
+                        dr1[2] = "Contra";
+                        dr1[3] = ContraCr["Id"].ToString();
+                        dr1[6] = 8;
+                        dr1[7] = CompId;
+                        dr1[8] = DSContraCr["Name"].ToString();
+
+                        if (ContraCr["Cr"].ToString() == "4" || ContraCr["Dr"].ToString() != "4")
+                        {
+                            dr1[9] = Convert.ToDouble(ContraCr["Amount"].ToString());
+                        }
+                        else
+                        {
+                            dr1[5] = Convert.ToDouble(ContraCr["Amount"].ToString());
+                        }
+
+                        dt.Rows.Add(dr1);
+                        dt.AcceptChanges();
+                    }
+
+                    break;
+
+                case 9: //Axis Bank
+                    dt = this.getBankPayRecCurrentAmt(FD, TD, CompId, FyId, Convert.ToInt32(DropDownList3.SelectedValue), 9);
+
+                    break;
+            }
+
+            //Crystal Report
+
+            if (dt.Rows.Count > 0)
+            {
+                DataSet xsd1 = new Cash_Bank_Register();
+                xsd1.Tables[0].Merge(dt);
+                xsd1.AcceptChanges();
+
+                cryRpt = new ReportDocument();
+                cryRpt.Load(Server.MapPath("~/Module/Accounts/Reports/Cash_Bank_Register.rpt"));
+                cryRpt.SetDataSource(xsd1);
+
+                string Address = fun.CompAdd(CompId);
+                cryRpt.SetParameterValue("Address", Address);
+
+                CrystalReportViewer1.ReportSource = cryRpt;
+                Session["ReportDocument"] = cryRpt;
+            }
+            else
+            {
+                CrystalReportViewer1.Visible = false;
+            }
+
+        }
+        catch (Exception et)
+        {
+        }
+        finally
+        {
+            con.Close();
+        }
+
+    }
+
+    public double getCashEntryAmt(string CField, string Date, int CompId, int FyId)
+    {
+        double Amt = 0;
+
+        try
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+        
+            string sql = fun.select("sum(Amt) as sum_cash", "tblACC_CashAmt_Master", "CompId='" + CompId + "' AND FinYearId<='" + FyId + "' AND SysDate" + CField + "'" + Date + "'");
+            SqlCommand cmdsql = new SqlCommand(sql, con);
+            SqlDataAdapter DAsql = new SqlDataAdapter(cmdsql);
+            DataSet DSsql = new DataSet();
+            DAsql.Fill(DSsql, "tblACC_CashAmt_Master");
+
+            if (DSsql.Tables[0].Rows.Count > 0 && DSsql.Tables[0].Rows[0][0] != DBNull.Value)
+            {
+                Amt = Convert.ToDouble(DSsql.Tables[0].Rows[0][0]);
+            }
+            return Convert.ToDouble(decimal.Parse((Amt).ToString()).ToString("N2"));
+        }
+        catch (Exception et)
+        {
+        }
+        return Convert.ToDouble(decimal.Parse((Amt).ToString()).ToString("N2"));
+    }
+
+    public double getCashPayOPBalAmt(string CField, string Date, int CompId, int FyId)
+    {
+
+        double CashPayAmt = 0;
+
+        try
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+
+            con.Open();
+
+            //Cash Payment
+
+            string sqlCVPay = fun.select("sum(tblACC_CashVoucher_Payment_Details.Amount) as sum_cvpay", "tblACC_CashVoucher_Payment_Master,tblACC_CashVoucher_Payment_Details", "tblACC_CashVoucher_Payment_Master.CompId='" + CompId + "' AND tblACC_CashVoucher_Payment_Master.Id=tblACC_CashVoucher_Payment_Details.MId AND tblACC_CashVoucher_Payment_Master.FinYearId<='" + FyId + "' AND tblACC_CashVoucher_Payment_Master.SysDate" + CField + "'" + Date + "' ");
+
+            SqlCommand cmdCVPay = new SqlCommand(sqlCVPay, con);
+            SqlDataReader DSCVPay = cmdCVPay.ExecuteReader();
+            DSCVPay.Read();
+
+            if (DSCVPay["sum_cvpay"] != DBNull.Value)
+            {
+                CashPayAmt = Convert.ToDouble(DSCVPay["sum_cvpay"].ToString());
+            }
+            return CashPayAmt;
+        }
+        catch (Exception et)
+        {
+        }
+        return CashPayAmt;
+    }
+
+    public SqlDataReader getCashPayCurrentBalAmt(string FD, string TD, int CompId, int FyId)
+    {
+
+        double CashPayAmt = 0;
+        SqlDataReader DSCVPay;
+               
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+
+            //Cash Payment
+
+            con.Open();
+
+
+            string sqlCVPay = fun.select("tblACC_CashVoucher_Payment_Master.CVPNo,tblACC_CashVoucher_Payment_Master.PaidTo,tblACC_CashVoucher_Payment_Master.ReceivedBy,tblACC_CashVoucher_Payment_Master.SysDate,tblACC_CashVoucher_Payment_Details.Particulars,tblACC_CashVoucher_Payment_Details.Amount", "tblACC_CashVoucher_Payment_Master,tblACC_CashVoucher_Payment_Details", "tblACC_CashVoucher_Payment_Master.CompId='" + CompId + "' AND tblACC_CashVoucher_Payment_Master.Id=tblACC_CashVoucher_Payment_Details.MId AND tblACC_CashVoucher_Payment_Master.FinYearId<='" + FyId + "' AND tblACC_CashVoucher_Payment_Master.SysDate Between '" + FD + "' AND '" + TD + "'");
+
+            SqlCommand cmdCVPay = new SqlCommand(sqlCVPay, con);
+            DSCVPay = cmdCVPay.ExecuteReader();
+
+            return DSCVPay;
+       
+        
+    }
+
+    public SqlDataReader getCashRecCurrentBalAmt(string FD, string TD, int CompId, int FyId)
+    {
+       
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            con.Open();
+
+            //Cash Receipt
+
+            string sqlCVRec = fun.select("*", "tblACC_CashVoucher_Receipt_Master", "CompId='" + CompId + "' AND FinYearId<='" + FyId + "' AND SysDate Between '" + FD + "' AND '" + TD + "'");
+
+            SqlCommand cmdCVRec = new SqlCommand(sqlCVRec, con);
+            SqlDataReader drCVRec = cmdCVRec.ExecuteReader();
+          
+        return drCVRec;
+    }
+
+    public SqlDataReader getContraCurrentBalAmt(string FD, string TD, int CompId, int FyId)
+    {      
+
+            //Contra Cash Cr
+
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+
+            con.Open();
+
+            string sqlcontra = fun.select("*", "tblACC_Contra_Entry", "CompId='" + CompId + "' AND FinYearId<='" + FyId + "' AND Date Between '" + FD + "' AND '" + TD + "'");
+
+            SqlCommand cmdcontrasql = new SqlCommand(sqlcontra, con);
+            SqlDataReader DScontrasql = cmdcontrasql.ExecuteReader();
+
+           
+        return DScontrasql;
+    }
+
+    public double getIOUPayOpBalAmt(string CField, string Date, int CompId, int FyId)
+    {
+        
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+
+            //IOU Payment
+
+            con.Open();
+
+            double IOUPaymentAmt = 0;
+
+            string sqlIOU = fun.select("sum(Amount) as sum_iou", "tblACC_IOU_Master", "CompId='" + CompId + "' AND FinYearId<='" + FyId + "' AND SysDate" + CField + "'" + Date + "' AND Authorize='1'");
+            SqlCommand cmdIOUsql = new SqlCommand(sqlIOU, con);
+            SqlDataReader DSIOUsql = cmdIOUsql.ExecuteReader();
+            DSIOUsql.Read();
+
+            IOUPaymentAmt = Convert.ToDouble(DSIOUsql["sum_iou"].ToString());
+
+           
+        return IOUPaymentAmt;
+    }
+
+    public SqlDataReader getIOUPayCurrentBalAmt(string FD, string TD, int CompId, int FyId)
+    {
+      
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+
+            //IOU Payment
+
+            con.Open();
+
+            string sqlIOU = fun.select("*", "tblACC_IOU_Master", "CompId='" + CompId + "' AND FinYearId<='" + FyId + "' AND AuthorizedDate Between '" + FD + "' AND '" + TD + "' AND Authorize='1'");
+            SqlCommand cmdIOUsql = new SqlCommand(sqlIOU, con);
+            SqlDataReader sdr = cmdIOUsql.ExecuteReader();
+           
+        return sdr;
+    }
+
+    public double getIOURecOpBalAmt(string CField, string Date, int CompId, int FyId)
+    {
+        
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            con.Open();
+
+            //IOU Receipt
+
+            double IOURecAmt = 0;
+
+            string sqlIOURec = fun.select("sum(tblACC_IOU_Receipt.RecievedAmount) as sum_iourec", "tblACC_IOU_Master,tblACC_IOU_Receipt", "tblACC_IOU_Master.CompId='" + CompId + "' AND tblACC_IOU_Receipt.FinYearId<='" + FyId + "' AND tblACC_IOU_Receipt.ReceiptDate" + CField + "'" + Date + "' AND tblACC_IOU_Master.Id=tblACC_IOU_Receipt.MId");
+            SqlCommand cmdIOURec = new SqlCommand(sqlIOURec, con);
+            SqlDataReader DSIOURec = cmdIOURec.ExecuteReader();
+            DSIOURec.Read();
+
+            IOURecAmt = Convert.ToDouble(DSIOURec["sum_iourec"]);
+           
+
+        return IOURecAmt;
+    }
+
+    public SqlDataReader getIOURecCurrentBalAmt(string FD, string TD, int CompId, int FyId)
+    {
+       
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+
+            //IOU Payment
+
+            con.Open();
+
+            double IOURecAmt = 0;
+
+            string sqlIOURec = fun.select("sum(tblACC_IOU_Receipt.RecievedAmount) as sum_iourec", "tblACC_IOU_Master,tblACC_IOU_Receipt", "tblACC_IOU_Master.CompId='" + CompId + "' AND tblACC_IOU_Receipt.FinYearId<='" + FyId + "' AND tblACC_IOU_Receipt.ReceiptDate Between '" + FD + "' AND '" + TD + "' AND tblACC_IOU_Master.Id=tblACC_IOU_Receipt.MId");
+
+            SqlCommand cmdIOURec = new SqlCommand(sqlIOURec, con);
+            SqlDataReader DSIOURec = cmdIOURec.ExecuteReader();
+          
+
+        return DSIOURec;
+    }
+
+    public double getBankEntryAmt(string CField, string Date, int CompId, int FyId, int BankId)
+    {
+            double Amt = 0;
+
+        try
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+
+            con.Open();
+
+            string sql = fun.select("sum(Amt) as sum_bank", "tblACC_BankAmt_Master", " BankId='" + BankId + "'And CompId='" + CompId + "' AND FinYearId<='" + FyId + "' AND SysDate" + CField + "'" + Date + "'");
+            SqlCommand cmdsql = new SqlCommand(sql, con);
+            SqlDataReader DSsql = cmdsql.ExecuteReader();
+            DSsql.Read();
+
+            Amt = Math.Round(Convert.ToDouble(decimal.Parse(DSsql["sum_bank"].ToString()).ToString("N2")), 5);
+            return Amt;
+        }
+        catch (Exception et)
+        {
+        }
+        return Amt;
+    }
+
+    public DataTable getBankPayRecCurrentAmt(string FD, string TD, int CompId, int FyId, int BKId, int TransType)
+    {
+            DataTable dt5 = new DataTable();
+        try
+        {
+
+            //Bank Payment
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+
+            con.Open();
+
+
+            dt5.Columns.Add(new System.Data.DataColumn("SysDate", typeof(string)));//0 
+            dt5.Columns.Add(new System.Data.DataColumn("PaidTo", typeof(string)));//1 
+            dt5.Columns.Add(new System.Data.DataColumn("VchType", typeof(string)));//2 
+            dt5.Columns.Add(new System.Data.DataColumn("VchNo", typeof(string)));//3 
+            dt5.Columns.Add(new System.Data.DataColumn("Op", typeof(double)));//4             
+            dt5.Columns.Add(new System.Data.DataColumn("Debit", typeof(double)));//5
+            dt5.Columns.Add(new System.Data.DataColumn("TransType", typeof(int)));//6
+            dt5.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));//7
+            dt5.Columns.Add(new System.Data.DataColumn("Particulars", typeof(string)));//8
+            dt5.Columns.Add(new System.Data.DataColumn("Credit", typeof(double)));//9
+
+            DataRow dr4;
+
+            string sqlBVPay = string.Empty;
+
+            sqlBVPay = fun.select("Id,BVPNo,ECSType,PayTo,PayAmt,ChequeDate", "tblACC_BankVoucher_Payment_Master", "CompId='" + CompId + "' AND FinYearId<='" + FyId + "' AND ChequeDate Between '" + FD + "' AND '" + TD + "' AND Bank='" + BKId + "'");
+
+            SqlCommand cmdBVPay = new SqlCommand(sqlBVPay, con);
+            SqlDataReader DSBVPay = cmdBVPay.ExecuteReader();
+
+            while (DSBVPay.Read())
+            {
+                dr4 = dt5.NewRow();
+
+                dr4[0] = fun.FromDateDMY(DSBVPay["ChequeDate"].ToString());
+
+                string SqlECSType = string.Empty;
+
+                switch (DSBVPay["ECSType"].ToString()) //ECSType: 1-Employee, 2-Customer, 3-Supplier
+                {
+                    case "1":
+
+                        SqlECSType = fun.select("EmployeeName + '['+ EmpId +']' as Name", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + DSBVPay["PayTo"].ToString() + "'");
+
+                        break;
+                    case "2":
+
+                        SqlECSType = fun.select("CustomerName + '['+ CustomerId +']' as Name", "SD_Cust_master", "CompId='" + CompId + "' AND CustomerId='" + DSBVPay["PayTo"].ToString() + "'");
+
+                        break;
+                    case "3":
+
+                        SqlECSType = fun.select("SupplierName + '['+ SupplierId +']' as Name", "tblMM_Supplier_master", "CompId='" + CompId + "' AND SupplierId='" + DSBVPay["PayTo"].ToString() + "'");
+                        break;
+                }
+
+                SqlCommand cmdECSType = new SqlCommand(SqlECSType, con);
+                SqlDataReader DSECSType = cmdECSType.ExecuteReader();
+                DSECSType.Read();
+
+                dr4[1] = DSECSType["Name"].ToString();
+                dr4[2] = "Payment";
+                dr4[3] = DSBVPay["BVPNo"].ToString();
+                dr4[6] = TransType;
+                dr4[7] = CompId;
+
+                string SqlCr = fun.select("*", "tblACC_Bank", "Id='" + BKId + "'");
+                SqlCommand cmdCr = new SqlCommand(SqlCr, con);
+                SqlDataReader DSCr = cmdCr.ExecuteReader();
+                DSCr.Read();
+
+                dr4[8] = DSCr["Name"].ToString();
+
+                double MasterAmt = 0;
+                double DetailsAmt = 0;
+
+                MasterAmt = Convert.ToDouble(DSBVPay["PayAmt"].ToString());
+
+                string sqlBVPay1 = string.Empty;
+
+                sqlBVPay1 = fun.select("Sum(Amount) as Sum_Amt", "tblACC_BankVoucher_Payment_Details", "MId='" + DSBVPay["Id"].ToString() + "'");
+                SqlCommand cmdBVPay1 = new SqlCommand(sqlBVPay1, con);
+                SqlDataReader DSBVPay1 = cmdBVPay1.ExecuteReader();
+                DSBVPay1.Read();
+
+                if (DSBVPay1["Sum_Amt"] != DBNull.Value)
+                {
+                    DetailsAmt = Convert.ToDouble(DSBVPay1["Sum_Amt"]);
+                }
+
+                dr4[9] = MasterAmt + DetailsAmt;
+
+                dt5.Rows.Add(dr4);
+                dt5.AcceptChanges();
+            }
+
+
+            DataRow dr5;
+
+            string sqlBVRec = string.Empty;
+
+            sqlBVRec = fun.select("*", "tblACC_BankVoucher_Received_Masters", "CompId='" + CompId + "' AND FinYearId<='" + FyId + "' AND ChequeClearanceDate Between '" + FD + "' AND '" + TD + "' AND DrawnAt='" + BKId + "'");
+            SqlCommand cmdBVRec = new SqlCommand(sqlBVRec, con);
+            SqlDataReader DSBVRec = cmdBVRec.ExecuteReader();
+
+            while (DSBVRec.Read())
+            {
+                dr5 = dt5.NewRow();
+
+                dr5[0] = fun.FromDateDMY(DSBVRec["ChequeClearanceDate"].ToString());
+
+                string SqlReceiveType = string.Empty;
+
+                switch (DSBVRec["ReceiveType"].ToString()) //ECSType: 1-Employee, 2-Customer, 3-Supplier
+                {
+                    case "1":
+
+                        SqlReceiveType = fun.select("EmployeeName + '['+ EmpId +']' as Name", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + DSBVRec["ReceivedFrom"].ToString() + "'");
+
+                        break;
+                    case "2":
+
+                        SqlReceiveType = fun.select("CustomerName + '['+ CustomerId +']' as Name", "SD_Cust_master", "CompId='" + CompId + "' AND CustomerId='" + DSBVRec["ReceivedFrom"].ToString() + "'");
+
+                        break;
+                    case "3":
+
+                        SqlReceiveType = fun.select("SupplierName + '['+ SupplierId +']' as Name", "tblMM_Supplier_master", "CompId='" + CompId + "' AND SupplierId='" + DSBVRec["ReceivedFrom"].ToString() + "'");
+                        break;
+                }
+
+                SqlCommand cmdReceiveType = new SqlCommand(SqlReceiveType, con);
+                SqlDataReader DSReceiveType = cmdReceiveType.ExecuteReader();
+                DSReceiveType.Read();
+
+                string SqlDr = fun.select("*", "tblACC_Bank", "Id='" + DSBVRec["DrawnAt"].ToString() + "'");
+                SqlCommand cmdDr = new SqlCommand(SqlDr, con);
+                SqlDataReader DSDr = cmdDr.ExecuteReader();
+                DSDr.Read();
+
+                dr5[1] = DSDr["Name"].ToString();
+                dr5[2] = "Receipt";
+                dr5[3] = DSBVRec["BVRNo"].ToString();
+                dr5[5] = Convert.ToDouble(DSBVRec["Amount"]);
+                dr5[6] = TransType;
+                dr5[7] = CompId;
+                dr5[8] = DSBVRec["BankName"].ToString();
+
+                dt5.Rows.Add(dr5);
+                dt5.AcceptChanges();
+            }
+            return dt5;
+        }
+        catch (Exception et)
+        {
+        }
+        return dt5;
+    }
+
+    
+
+    //public double getCashOpBalAmt(string CField, string Date, int CompId, int FyId)
+    //{
+   
+    //    //Tour
+
+    //    double TIOpEmpAdvAmt = 0;
+
+    //    string sqlTI = "SELECT SUM(tblACC_TourAdvance_Details.Amount) as SUM_Amt FROM  tblACC_TourIntimation_Master INNER JOIN tblACC_TourAdvance_Details ON tblACC_TourIntimation_Master.Id = tblACC_TourAdvance_Details.MId AND tblACC_TourIntimation_Master.FinYearId<='" + FyId + "' AND tblACC_TourIntimation_Master.SysDate" + CField + "'" + Date + "' Group By tblACC_TourAdvance_Details.MId";
+
+    //    SqlCommand sqlTIcmd = new SqlCommand(sqlTI, con);
+    //    SqlDataAdapter DAsqlTI = new SqlDataAdapter(sqlTIcmd);
+    //    DataSet DSsqlTI = new DataSet();
+    //    DAsqlTI.Fill(DSsqlTI);
+
+    //    if (DSsqlTI.Tables[0].Rows.Count > 0 && DSsqlTI.Tables[0].Rows[0][0] != DBNull.Value)
+    //    {
+    //        TIOpEmpAdvAmt = Convert.ToDouble(DSsqlTI.Tables[0].Rows[0]["SUM_Amt"]);
+    //    }
+
+    //    double TIOpOtherAdvAmt = 0;
+
+    //    string sqlOtherTI = "SELECT SUM(tblACC_TourAdvance.Amount) as SUM_Amt FROM  tblACC_TourIntimation_Master INNER JOIN tblACC_TourAdvance ON tblACC_TourIntimation_Master.Id = tblACC_TourAdvance.MId AND tblACC_TourIntimation_Master.FinYearId<='" + FyId + "' AND tblACC_TourIntimation_Master.SysDate" + CField + "'" + Date + "' Group By tblACC_TourAdvance.MId";
+
+    //    SqlCommand sqlOtherTIcmd = new SqlCommand(sqlOtherTI, con);
+    //    SqlDataAdapter DAsqlOtherTI = new SqlDataAdapter(sqlOtherTIcmd);
+    //    DataSet DSsqlOtherTI = new DataSet();
+    //    DAsqlOtherTI.Fill(DSsqlOtherTI);
+
+    //    if (DSsqlOtherTI.Tables[0].Rows.Count > 0 && DSsqlOtherTI.Tables[0].Rows[0][0] != DBNull.Value)
+    //    {
+    //        TIOpOtherAdvAmt = Convert.ToDouble(DSsqlOtherTI.Tables[0].Rows[0]["SUM_Amt"]);
+    //    }
+
+    //    double CalCashOpQty = 0;
+
+    //    //CalCashOpQty = Convert.ToDouble(decimal.Parse(((OpCash + IOURecAmt + CVRecAmt + ContraAmtDr) - (ContraAmt + IOUPaymentAmt + CVpayAmt)).ToString()).ToString("N2"));
+    //    CalCashOpQty = Math.Round(Convert.ToDouble(decimal.Parse(((OpCash + IOURecAmt + CVRecAmt + ContraAmtDr) - (ContraAmt + IOUPaymentAmt + CVpayAmt + TIOpEmpAdvAmt + TIOpOtherAdvAmt)).ToString()).ToString("N2")), 5);
+
+    //    return CalCashOpQty;
+
+    //}
+
+    //public double getCashClBalAmt(string CField, string Date, int CompId, int FyId)
+    //{
+    //    string connStr = fun.Connection();
+    //    SqlConnection con = new SqlConnection(connStr);
+       
+    //    double CalCashClQty = 0;
+
+    //    //Current Cash Trans
+    //    double CashEntry = 0;
+    //    CashEntry = fun.getCashEntryAmt("=", fun.getCurrDate(), CompId, FyId);
+    
+    //    double TIClEmpAmt = 0;
+
+    //    string sqlTIEmp = "SELECT SUM(tblACC_TourAdvance_Details.Amount) as SUM_Amt FROM  tblACC_TourIntimation_Master INNER JOIN tblACC_TourAdvance_Details ON tblACC_TourIntimation_Master.Id = tblACC_TourAdvance_Details.MId AND tblACC_TourIntimation_Master.FinYearId<='" + FyId + "' AND tblACC_TourIntimation_Master.SysDate" + CField + "'" + Date + "'  Group By tblACC_TourAdvance_Details.MId";
+
+    //    SqlCommand sqlTIEmpcmd = new SqlCommand(sqlTIEmp, con);
+    //    SqlDataAdapter DAsqlEmpTI = new SqlDataAdapter(sqlTIEmpcmd);
+    //    DataSet DSsqlEmpTI = new DataSet();
+    //    DAsqlEmpTI.Fill(DSsqlEmpTI);
+
+    //    if (DSsqlEmpTI.Tables[0].Rows.Count > 0 && DSsqlEmpTI.Tables[0].Rows[0][0] != DBNull.Value)
+    //    {
+    //        TIClEmpAmt = Convert.ToDouble(DSsqlEmpTI.Tables[0].Rows[0]["SUM_Amt"]);
+    //    }
+
+    //    double TIClOtherAmt = 0;
+
+    //    string sqlTIOther = "SELECT SUM(tblACC_TourAdvance.Amount) as SUM_Amt FROM  tblACC_TourIntimation_Master INNER JOIN tblACC_TourAdvance ON tblACC_TourIntimation_Master.Id = tblACC_TourAdvance.MId AND tblACC_TourIntimation_Master.FinYearId<='" + FyId + "' AND tblACC_TourIntimation_Master.SysDate" + CField + "'" + Date + "'  Group By tblACC_TourAdvance.MId";
+
+    //    SqlCommand sqlTIOthercmd = new SqlCommand(sqlTIOther, con);
+    //    SqlDataAdapter DAsqlOtherTI = new SqlDataAdapter(sqlTIOthercmd);
+    //    DataSet DSsqlOtherTI = new DataSet();
+    //    DAsqlOtherTI.Fill(DSsqlOtherTI);
+
+    //    if (DSsqlOtherTI.Tables[0].Rows.Count > 0 && DSsqlOtherTI.Tables[0].Rows[0][0] != DBNull.Value)
+    //    {
+    //        TIClOtherAmt = Convert.ToDouble(DSsqlOtherTI.Tables[0].Rows[0]["SUM_Amt"]);
+    //    }
+
+    //    //CalCashClQty = Convert.ToDouble(decimal.Parse(((OpCash + IOURecAmt + CVRecAmt + ContraAmtDr + CashEntry) - (ContraAmt + IOUPaymentAmt + CVpayAmt)).ToString()).ToString("N2"));
+    //    CalCashClQty = Math.Round(Convert.ToDouble(decimal.Parse(((OpCash + IOURecAmt + CVRecAmt + ContraAmtDr + CashEntry) - (ContraAmt + IOUPaymentAmt + CVpayAmt + TIClEmpAmt + TIClOtherAmt)).ToString()).ToString("N2")), 5);
+
+    //    return CalCashClQty;
+
+
+    //}
+
+    ////////////////////////////////////////////////////////////////////// Bank
+
+    
+    //public double getBankOpBalAmt(string CField, string Date, int CompId, int FyId, int BankId)
+    //{
+    //    string connStr = fun.Connection();
+    //    SqlConnection con = new SqlConnection(connStr);
+    //    //OP Bank
+    //    double OpBank = 0;
+    //    OpBank = fun.getBankEntryAmt("<", fun.getCurrDate(), CompId, FyId, BankId);
+
+       
+
+    //    //Bank Receipt
+    //    double BVRecAmt = 0;
+
+    //    string sqlBVRec = fun.select("sum(tblACC_BankVoucher_Received_Masters.Amount) as sum_cvrec", "tblACC_BankVoucher_Received_Masters", "tblACC_BankVoucher_Received_Masters.CompId='" + CompId + "'AND tblACC_BankVoucher_Received_Masters.DrawnAt='" + BankId + "' AND tblACC_BankVoucher_Received_Masters.FinYearId<='" + FyId + "' AND tblACC_BankVoucher_Received_Masters.ChequeClearanceDate" + CField + "'" + Date + "'");
+
+    //    SqlCommand cmdBVRec = new SqlCommand(sqlBVRec, con);
+    //    SqlDataAdapter DABVRec = new SqlDataAdapter(cmdBVRec);
+    //    DataSet DSBVRec = new DataSet();
+    //    DABVRec.Fill(DSBVRec, "tblACC_BankVoucher_Received_Masters");
+
+    //    if (DSBVRec.Tables[0].Rows.Count > 0 && DSBVRec.Tables[0].Rows[0][0] != DBNull.Value)
+    //    {
+    //        BVRecAmt = Convert.ToDouble(DSBVRec.Tables[0].Rows[0][0]);
+    //    }
+
+    //    //Contra Bank
+    //    double ContraAmt = 0;
+
+    //    string sqlcontra = fun.select("sum(Amount) as sum_contra", "tblACC_Contra_Entry", "CompId='" + CompId + "' AND FinYearId<='" + FyId + "' AND Date" + CField + "'" + Date + "' AND Cr!='4' And Cr='" + BankId + "'");
+    //    SqlCommand cmdcontrasql = new SqlCommand(sqlcontra, con);
+    //    SqlDataAdapter DAcontrasql = new SqlDataAdapter(cmdcontrasql);
+    //    DataSet DScontrasql = new DataSet();
+
+    //    DAcontrasql.Fill(DScontrasql, "tblACC_Contra_Entry");
+
+    //    if (DScontrasql.Tables[0].Rows.Count > 0 && DScontrasql.Tables[0].Rows[0][0] != DBNull.Value)
+    //    {
+    //        ContraAmt = Convert.ToDouble(DScontrasql.Tables[0].Rows[0][0]);
+    //    }
+
+    //    double ContraAmtDr = 0;
+
+    //    string sqlcontraDr = fun.select("sum(Amount) as sum_contra", "tblACC_Contra_Entry", "CompId='" + CompId + "' AND FinYearId<='" + FyId + "' AND Date" + CField + "'" + Date + "' AND Dr!='4' And Dr='" + BankId + "'");
+    //    SqlCommand cmdcontrasqlDr = new SqlCommand(sqlcontraDr, con);
+    //    SqlDataAdapter DAcontrasqlDr = new SqlDataAdapter(cmdcontrasqlDr);
+    //    DataSet DScontrasqlDr = new DataSet();
+
+    //    DAcontrasqlDr.Fill(DScontrasqlDr, "tblACC_Contra_Entry");
+
+    //    if (DScontrasqlDr.Tables[0].Rows.Count > 0 && DScontrasqlDr.Tables[0].Rows[0][0] != DBNull.Value)
+    //    {
+    //        ContraAmtDr = Convert.ToDouble(DScontrasqlDr.Tables[0].Rows[0][0]);
+    //    }
+
+    //    return Math.Round(Convert.ToDouble(decimal.Parse(((OpBank + BVRecAmt + ContraAmtDr) - (BVpayAmt + ContraAmt)).ToString()).ToString("N2")), 5);
+
+
+    //}
+
+
+    //public double getBankClBalAmt(string CField, string Date, int CompId, int FyId, int BankId)
+    //{
+    //    string connStr = fun.Connection();
+    //    SqlConnection con = new SqlConnection(connStr);
+
+    //    //OP Bank
+
+    //    double OpBank = 0;
+    //    OpBank = fun.getBankOpBalAmt("<", fun.getCurrDate(), CompId, FyId, BankId);
+
+    //    //Bank Payment
+    //    double BVpayAmt = 0;
+    //    string sqlBVPay = fun.select("sum(tblACC_BankVoucher_Payment_Details.Amount) as sum_bvpay", "tblACC_BankVoucher_Payment_Master,tblACC_BankVoucher_Payment_Details,tblACC_BankRecanciliation", "tblACC_BankVoucher_Payment_Master.Bank='" + BankId + "' And tblACC_BankVoucher_Payment_Master.CompId='" + CompId + "' AND tblACC_BankVoucher_Payment_Master.Id=tblACC_BankVoucher_Payment_Details.MId AND tblACC_BankVoucher_Payment_Master.FinYearId<='" + FyId + "' AND tblACC_BankVoucher_Payment_Master.Id =tblACC_BankRecanciliation.BVPId AND tblACC_BankRecanciliation.BankDate" + CField + "'" + Date + "'");
+    //    SqlCommand cmdBVPay = new SqlCommand(sqlBVPay, con);
+    //    SqlDataAdapter DABVPay = new SqlDataAdapter(cmdBVPay);
+    //    DataSet DSBVPay = new DataSet();
+
+    //    DABVPay.Fill(DSBVPay);
+
+    //    if (DSBVPay.Tables[0].Rows.Count > 0 && DSBVPay.Tables[0].Rows[0][0] != DBNull.Value)
+    //    {
+    //        BVpayAmt = Convert.ToDouble(DSBVPay.Tables[0].Rows[0][0]);
+    //    }
+
+    //    //Bank Recreipt
+    //    double BVRecAmt = 0;
+
+    //    string sqlBVRec = fun.select("sum(tblACC_BankVoucher_Received_Masters.Amount) as sum_cvrec", "tblACC_BankVoucher_Received_Masters", "tblACC_BankVoucher_Received_Masters.CompId='" + CompId + "'AND tblACC_BankVoucher_Received_Masters.DrawnAt='" + BankId + "' AND tblACC_BankVoucher_Received_Masters.FinYearId<='" + FyId + "' AND tblACC_BankVoucher_Received_Masters.ChequeClearanceDate" + CField + "'" + Date + "'");
+
+
+    //    SqlCommand cmdBVRec = new SqlCommand(sqlBVRec, con);
+    //    SqlDataAdapter DABVRec = new SqlDataAdapter(cmdBVRec);
+    //    DataSet DSBVRec = new DataSet();
+    //    DABVRec.Fill(DSBVRec, "tblACC_BankVoucher_Received_Masters");
+
+    //    if (DSBVRec.Tables[0].Rows.Count > 0 && DSBVRec.Tables[0].Rows[0][0] != DBNull.Value)
+    //    {
+    //        BVRecAmt = Convert.ToDouble(DSBVRec.Tables[0].Rows[0][0]);
+    //    }
+
+    //    //Contra Bank
+
+    //    double ContraAmt = 0;
+
+    //    string sqlcontra = fun.select("sum(Amount) as sum_contra", "tblACC_Contra_Entry", "CompId='" + CompId + "' AND FinYearId<='" + FyId + "' AND Date" + CField + "'" + Date + "' AND Cr!='4' And Cr='" + BankId + "'");
+    //    SqlCommand cmdcontrasql = new SqlCommand(sqlcontra, con);
+    //    SqlDataAdapter DAcontrasql = new SqlDataAdapter(cmdcontrasql);
+    //    DataSet DScontrasql = new DataSet();
+    //    DAcontrasql.Fill(DScontrasql, "tblACC_Contra_Entry");
+
+    //    if (DScontrasql.Tables[0].Rows.Count > 0 && DScontrasql.Tables[0].Rows[0][0] != DBNull.Value)
+    //    {
+    //        ContraAmt = Convert.ToDouble(DScontrasql.Tables[0].Rows[0][0]);
+    //    }
+
+    //    double ContraAmtDr = 0;
+
+    //    string sqlcontraDr = fun.select("sum(Amount) as sum_contra", "tblACC_Contra_Entry", "CompId='" + CompId + "' AND FinYearId<='" + FyId + "' AND Date" + CField + "'" + Date + "' AND Dr!='4'And Dr='" + BankId + "'");
+    //    SqlCommand cmdcontrasqlDr = new SqlCommand(sqlcontraDr, con);
+    //    SqlDataAdapter DAcontrasqlDr = new SqlDataAdapter(cmdcontrasqlDr);
+    //    DataSet DScontrasqlDr = new DataSet();
+    //    DAcontrasqlDr.Fill(DScontrasqlDr, "tblACC_Contra_Entry");
+
+    //    if (DScontrasqlDr.Tables[0].Rows.Count > 0 && DScontrasqlDr.Tables[0].Rows[0][0] != DBNull.Value)
+    //    {
+    //        ContraAmtDr = Convert.ToDouble(DScontrasqlDr.Tables[0].Rows[0][0]);
+    //    }
+
+    //    //Current Bank Trans
+    //    //   change fun to  this  in  Class.cs file..
+    //    double BankEntry = 0;
+    //    BankEntry = fun.getBankEntryAmt("=", fun.getCurrDate(), CompId, FyId, BankId);
+
+    //    return Math.Round(Convert.ToDouble(decimal.Parse(((OpBank + BVRecAmt + ContraAmtDr + BankEntry) - (ContraAmt + BVpayAmt)).ToString()).ToString("N2")), 5);
+
+    //}
+
+
+
+
+
+}

@@ -1,0 +1,235 @@
+graph TB
+    %% Customer Enquiry Module Architecture Diagram
+    
+    subgraph "Presentation Layer"
+        A[CustEnquiry_New.aspx<br/>Customer Enquiry Creation]
+        A1[Master Page<br/>MasterPage.master]
+        A2[CSS & JavaScript<br/>StyleSheet.css, PopUpMsg.js]
+        A3[AJAX Controls<br/>AjaxControlToolkit TabContainer]
+        A4[AutoComplete Extender<br/>Customer name suggestions]
+    end
+    
+    subgraph "Code-Behind Layer"
+        B[CustEnquiry_New.aspx.cs<br/>Customer Enquiry Processing]
+        B1[Page_Load Event]
+        B2[Submit_Click Event]
+        B3[RadioButton Events<br/>New vs Existing customer]
+        B4[Dropdown Events<br/>Cascading address fields]
+        B5[File Upload Events<br/>Attachment handling]
+        B6[Customer Search Events<br/>Existing customer lookup]
+    end
+    
+    subgraph "Customer Selection"
+        C[Customer Type Selection]
+        C1[New Customer<br/>Radio button selection]
+        C2[Existing Customer<br/>Radio button selection]
+        C3[Customer Name Input<br/>Text input for new]
+        C4[Customer Search<br/>AutoComplete for existing]
+        C5[Customer Validation<br/>Required field validation]
+    end
+    
+    subgraph "Address Management"
+        D[Three Address Types]
+        D1[Registered Office<br/>Primary business address]
+        D2[Works/Factory<br/>Manufacturing location]
+        D3[Material Delivery<br/>Delivery address]
+        D4[Cascading Dropdowns<br/>Country → State → City]
+        D5[Address Validation<br/>All fields required]
+    end
+    
+    subgraph "Business Information"
+        E[Company & Contact Details]
+        E1[Contact Person<br/>Primary contact name]
+        E2[Email Address<br/>Business email with validation]
+        E3[Contact Numbers<br/>Phone numbers for each address]
+        E4[Fax Numbers<br/>Fax for each address]
+        E5[Tax Information<br/>PAN, TIN, VAT, CST, TDS]
+        E6[Legal Details<br/>Jurisdiction, ECC, Range, etc.]
+    end
+    
+    subgraph "Enquiry Details"
+        F[Enquiry Specific Information]
+        F1[Enquiry For<br/>Product/service description]
+        F2[Remarks<br/>Additional notes]
+        F3[Enquiry ID<br/>Auto-generated unique ID]
+        F4[System Information<br/>Date, time, user, company]
+    end
+    
+    subgraph "Attachment System"
+        G[File Management]
+        G1[File Upload Control<br/>Document attachment]
+        G2[File Validation<br/>Required field validation]
+        G3[File Storage<br/>tblFile_Attachment table]
+        G4[File Grid Display<br/>Uploaded files list]
+        G5[Download Links<br/>File retrieval system]
+        G6[File Deletion<br/>Remove attachments]
+    end
+    
+    subgraph "Tab Container"
+        H[Tabbed Interface]
+        H1[Details Tab<br/>Main enquiry information]
+        H2[Attachments Tab<br/>File upload and management]
+        H3[Tab Navigation<br/>User interface organization]
+    end
+    
+    subgraph "Data Access Layer"
+        I[Database Operations]
+        I1[INSERT Enquiry<br/>SD_Cust_Enquiry_Master]
+        I2[Customer Lookup<br/>SD_Cust_Master queries]
+        I3[Geographic Data<br/>Country, State, City]
+        I4[File Operations<br/>tblFile_Attachment CRUD]
+        I5[AutoComplete Service<br/>Customer name suggestions]
+    end
+    
+    subgraph "Database Layer"
+        J[(Core Tables)]
+        J1[SD_Cust_Enquiry_Master<br/>Main enquiry table]
+        J2[SD_Cust_Master<br/>Customer master data]
+        J3[tblFile_Attachment<br/>Document storage]
+        J4[tblCountry, tblState, tblCity<br/>Geographic hierarchy]
+        J5[System Tables<br/>Company, Financial Year]
+    end
+    
+    subgraph "Validation Framework"
+        K[Comprehensive Validation]
+        K1[Required Field Validators<br/>All mandatory fields]
+        K2[Email Format Validation<br/>Regular expression]
+        K3[Dropdown Validation<br/>Selection requirements]
+        K4[File Upload Validation<br/>Attachment requirements]
+        K5[Business Logic Validation<br/>Customer existence checks]
+    end
+    
+    subgraph "Workflow Integration"
+        L[Process Flow]
+        L1[Enquiry Creation<br/>Initial customer request]
+        L2[Enquiry Review<br/>Internal processing]
+        L3[Quotation Generation<br/>Response preparation]
+        L4[Customer Communication<br/>Follow-up process]
+        L5[Conversion Tracking<br/>Success metrics]
+    end
+    
+    %% Relationships
+    A --> A1
+    A --> A2
+    A --> A3
+    A --> A4
+    A --> B
+    A --> H
+    
+    B --> B1
+    B --> B2
+    B --> B3
+    B --> B4
+    B --> B5
+    B --> B6
+    
+    C --> C1
+    C --> C2
+    C --> C3
+    C --> C4
+    C --> C5
+    
+    D --> D1
+    D --> D2
+    D --> D3
+    D --> D4
+    D --> D5
+    
+    E --> E1
+    E --> E2
+    E --> E3
+    E --> E4
+    E --> E5
+    E --> E6
+    
+    F --> F1
+    F --> F2
+    F --> F3
+    F --> F4
+    
+    G --> G1
+    G --> G2
+    G --> G3
+    G --> G4
+    G --> G5
+    G --> G6
+    
+    H --> H1
+    H --> H2
+    H --> H3
+    
+    I --> I1
+    I --> I2
+    I --> I3
+    I --> I4
+    I --> I5
+    
+    J --> J1
+    J --> J2
+    J --> J3
+    J --> J4
+    J --> J5
+    
+    K --> K1
+    K --> K2
+    K --> K3
+    K --> K4
+    K --> K5
+    
+    L --> L1
+    L --> L2
+    L --> L3
+    L --> L4
+    L --> L5
+    
+    H1 --> C
+    H1 --> D
+    H1 --> E
+    H1 --> F
+    H2 --> G
+    
+    B3 --> C1
+    B3 --> C2
+    B4 --> D4
+    B5 --> G1
+    B6 --> C4
+    
+    B2 --> I1
+    I1 --> J1
+    I2 --> J2
+    I3 --> J4
+    I4 --> J3
+    
+    C4 --> I5
+    A4 --> I5
+    
+    L1 --> F
+    L2 --> J1
+    L3 --> L4
+    
+    %% Styling
+    classDef presentationClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef codeClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef customerClass fill:#e8eaf6,stroke:#3f51b5,stroke-width:2px
+    classDef addressClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef businessClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef enquiryClass fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef attachmentClass fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    classDef tabClass fill:#e0f2f1,stroke:#004d40,stroke-width:2px
+    classDef dataClass fill:#f9fbe7,stroke:#827717,stroke-width:2px
+    classDef dbClass fill:#fff8e1,stroke:#ff6f00,stroke-width:2px
+    classDef validationClass fill:#fafafa,stroke:#424242,stroke-width:2px
+    classDef workflowClass fill:#e3f2fd,stroke:#0d47a1,stroke-width:2px
+    
+    class A,A1,A2,A3,A4 presentationClass
+    class B,B1,B2,B3,B4,B5,B6 codeClass
+    class C,C1,C2,C3,C4,C5 customerClass
+    class D,D1,D2,D3,D4,D5 addressClass
+    class E,E1,E2,E3,E4,E5,E6 businessClass
+    class F,F1,F2,F3,F4 enquiryClass
+    class G,G1,G2,G3,G4,G5,G6 attachmentClass
+    class H,H1,H2,H3 tabClass
+    class I,I1,I2,I3,I4,I5 dataClass
+    class J,J1,J2,J3,J4,J5 dbClass
+    class K,K1,K2,K3,K4,K5 validationClass
+    class L,L1,L2,L3,L4,L5 workflowClass

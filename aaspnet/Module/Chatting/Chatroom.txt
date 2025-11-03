@@ -1,0 +1,594 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Chatting/Chatroom.aspx.txt ===
+
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Chatroom.aspx.cs" MasterPageFile="~/MasterPage.master" Inherits="LinqChat.Chatroom" Theme="Theme1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+<title>ERP</title>   
+    <link href="../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script language="javascript" type="text/javascript">       
+       
+        function SetScrollPosition()
+        {
+
+            var div = document.getElementById('divMessages');
+            div.scrollTop = 100000000000;
+        }
+        
+       function SetCursorToTextEnd(textControlID) 
+        {
+        var text = document.getElementById(textControlID);
+        if (text != null && text.value.length > 0)
+        {
+                if (text.createTextRange) 
+                {
+                        var range = text.createTextRange();
+                        range.moveStart('character', text.value.length);
+                                range.collapse();
+                                range.select();
+                }
+                else if (text.setSelectionRange) 
+                {
+                        var textLength = text.value.length;
+                        text.setSelectionRange(textLength, textLength);
+                }
+        }
+        }    
+
+               
+        function ReplaceChars() 
+        {
+            var txt = document.getElementById('txtMessage').value;
+            var out = "<"; // replace this
+            var add = ""; // with this
+            var temp = "" + txt; // temporary holder
+
+            while (temp.indexOf(out)>-1) 
+            {
+                pos= temp.indexOf(out);
+                temp = "" + (temp.substring(0, pos) + add + 
+                temp.substring((pos + out.length), temp.length));
+            }
+            
+            document.getElementById('txtMessage').value = temp;
+           
+        }
+        
+        function LogOutUser(result, context)
+        {
+            // don't do anything here
+        }
+        
+        function LogMeOut()
+        {
+            LogOutUserCallBack('LogOut');   
+        }
+        
+        function FocusThisWindow(result, context)
+        {
+            // don't do anything here
+        }
+        
+        function FocusMe()
+        {
+            FocusThisWindowCallBack('FocusThisWindow');   
+        }        
+      
+    </script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+    <p><br /></p><p></p>
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+   
+    
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<body style="background-color:#DCDCDC;">
+    
+    <table width="100%">
+    <tr>
+    <td align="center">
+    <div>
+        
+        <asp:Label Id="lblRoomName" Font-Size="18px" runat="server" /><br /><br />
+        <asp:Label Id="lblRoomId" Visible="false" runat="server" />
+        <asp:UpdatePanel Id="UpdatePanel1" runat="server">
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlId="Timer1" />
+            </Triggers>
+            <ContentTemplate>
+                <asp:Timer Id="Timer1" Interval="7000" OnTick="Timer1_OnTick" runat="server" />
+                <table border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td style="width: 500px;">
+                            <div id="divMessages" style="background-color: White; border-color:Black;border-width:1px;border-style:solid;height:300px;width:592px;overflow-y:scroll; font-size: 11px; padding: 4px 4px 4px 4px;"  onresize="SetScrollPosition()">
+                                <asp:Literal Id="litMessages" runat="server" />
+                            </div>
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <div id="divUsers" style="background-color: White; border-color:Black;border-width:1px;border-style:solid;height:300px;width:150px;overflow-y:scroll; font-size: 11px;  padding: 4px 4px 4px 4px;">
+                               <asp:Literal Id="litUsers" runat="server" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="0px;">
+                            <asp:Panel Id="pnlChatNow" Visible="false" BackColor="#DCDCDC" CssClass="chatNowPanel" runat="server">
+                                <div class="chatNowPanelTitle">Private Message</div>
+                                <br /><asp:Label Id="lblChatNowUser" Text="MyGoodFellow" runat="server" />
+                                <br />wants to chat with you. <br /><br />
+                                 <asp:Button Id="btnChatNow" Text="Chat Now" CausesValidation="false" runat="server" OnClick="BtnChatNow_Click" />
+                                 <asp:Button Id="btnCancel" Text="Cancel" CausesValidation="false" runat="server" OnClick="BtnCancel_Click" />
+                            </asp:Panel>  
+                        </td>
+                        <td colspan="2"></td>
+                    </tr>
+                    <tr>
+                    
+                        <td colspan="3">                       
+                            <asp:TextBox Id="txtMessage"  onkeyup="ReplaceChars();" onclick="FocusMe()"  onfocus="SetCursorToTextEnd(this.id)" runat="server" MaxLength="100" Width="500px" />
+                            <asp:Button Id="btnSend"  runat="server" Text="Send" CssClass="redbox" OnClientClick="SetScrollPosition()" OnClick="BtnSend_Click" />
+                            &nbsp;
+                            <%--<b>Color:</b> <asp:DropDownList Id="ddlColor" runat="server">
+                                <asp:ListItem Value="Black" Selected="true">Black</asp:ListItem>
+                                <asp:ListItem Value="Blue">Blue</asp:ListItem>
+                                <asp:ListItem Value="Navy">Navy</asp:ListItem>
+                                <asp:ListItem Value="Red">Red</asp:ListItem>
+                                <asp:ListItem Value="Orange">Orange</asp:ListItem>
+                                <asp:ListItem Value="#666666">Gray</asp:ListItem>
+                                <asp:ListItem Value="Green">Green</asp:ListItem>
+                                <asp:ListItem Value="#FF00FF">Pink</asp:ListItem>
+                            </asp:DropDownList>
+                            &nbsp;--%>
+                           <%-- <asp:Button Id="btnLogOut" Text="Log Out" runat="server" OnClick="BtnLogOut_Click" />--%>
+                        </td>
+                    </tr>
+                </table>                
+            </ContentTemplate>
+        </asp:UpdatePanel> 
+    </div>
+    </td></tr></table>
+   
+</body>
+
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+    <p>
+        &nbsp;</p>
+</asp:Content>
+
+
+
+
+
+
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Chatting/Chatroom.aspx.cs ===
+
+﻿using System;
+using System.Configuration;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+
+namespace LinqChat
+{
+    public partial class Chatroom : System.Web.UI.Page, System.Web.UI.ICallbackEventHandler
+    {
+        clsFunctions fun = new clsFunctions();
+
+        private string _callBackStatus;
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+         
+            try
+            {
+                if (!IsPostBack)
+                {
+                    // for simplity's sake we're going to assume that a
+                    // roomId was passed in the query string and that
+                    // it is an integer
+                    // note: in reality you would check if the roomId is empty
+                    // and is an integer
+                    string roomId = (string)Request["roomId"];
+                    lblRoomId.Text = roomId;
+                    this.clearmessage();
+                    this.GetRoomInformation();
+                    this.GetLoggedInUsers();
+                    this.InsertMessage(ConfigurationManager.AppSettings["ChatLoggedInText"] + " " + DateTime.Now.ToString());
+                    this.GetMessages();
+
+                    this.FocusThisWindow();
+
+                    // create a call back reference so we can log-out user when user closes the browser
+                    string callBackReference = Page.ClientScript.GetCallbackEventReference(this, "arg", "LogOutUser", "");
+                    string logOutUserCallBackScript = "function LogOutUserCallBack(arg, context) { " + callBackReference + "; }";
+                    Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "LogOutUserCallBack", logOutUserCallBackScript, true);
+
+                    // create a call back reference so that we can refocus to this window when the cursor is placed in the message text box
+                    string focusWindowCallBackReference = Page.ClientScript.GetCallbackEventReference(this, "arg", "FocusThisWindow", "");
+                    string focusThisWindowCallBackScript = "function FocusThisWindowCallBack(arg, context) { " + focusWindowCallBackReference + "; }";
+                    Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "FocusThisWindowCallBack", focusThisWindowCallBackScript, true);
+                }
+
+               
+
+            }
+            catch(Exception ex)
+            {
+            }
+        }
+
+        private void clearmessage()
+        {
+
+
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            con.Open();
+            SqlCommand cmd9 = new SqlCommand("Delete Message Where DATEDIFF(day, TimeStamp, getdate()) > 0", con);
+            cmd9.ExecuteNonQuery();
+            
+            con.Close();
+
+        }
+       
+
+        
+
+        private void GetRoomInformation()
+        {
+
+            
+            try
+            {
+                // get the room information from the database
+                // we're going to set this up so that we can use
+                // many rooms if we want to
+                LinqChatDataContext db = new LinqChatDataContext();
+
+                var room = (from r in db.Rooms
+                            where r.RoomID == Convert.ToInt32(lblRoomId.Text)
+                            select r).SingleOrDefault();
+
+                lblRoomId.Text = room.RoomID.ToString();
+                lblRoomName.Text = room.Name;
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        protected void BtnSend_Click(object sender, EventArgs e)
+        {
+            try
+        {
+            if (txtMessage.Text.Length > 0)
+            {
+                this.InsertMessage(null);
+                this.GetMessages();
+                txtMessage.Text = String.Empty;
+                this.GetPrivateMessages();
+                this.FocusThisWindow();
+
+                //ScriptManager1.SetFocus(txtMessage.ClientID);
+            }
+        }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        protected void Timer1_OnTick(object sender, EventArgs e)
+        {
+
+            try
+            {
+            this.GetLoggedInUsers();
+            this.GetMessages();
+            this.GetPrivateMessages();
+
+            if (Session["DefaultWindow"] != null)
+            {
+                if (Session["DefaultWindow"].ToString() == "MainWindow")
+                {
+                    this.FocusThisWindow();
+                }
+            }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        /// <summary>
+        /// This will insert the passed text to the message table in the database
+        /// </summary>
+        private void InsertMessage(string text)
+        {
+
+            try
+            {
+            LinqChatDataContext db = new LinqChatDataContext();
+
+            Message message = new Message();
+            message.RoomID = Convert.ToInt32(lblRoomId.Text);
+            message.UserID= Convert.ToInt32(Session["ChatUserID"]);
+
+            if (String.IsNullOrEmpty(text))
+            {
+                message.Text = txtMessage.Text.Replace("<", "");
+                //message.Color = ddlColor.SelectedValue;
+            }
+            else
+            {
+                message.Text = text;
+               // message.Color = "gray";
+            }
+
+            message.ToUserID = null;            // in the future, we will use this value for private messages
+            message.TimeStamp = DateTime.Now;
+            db.Messages.InsertOnSubmit(message);
+            db.SubmitChanges();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void GetLoggedInUsers()
+        {
+
+            try
+            
+            {
+            LinqChatDataContext db = new LinqChatDataContext();
+
+            // let's check if this authenticated user exist in the
+            // LoggedInUser table (means user is logged-in to this room)
+            var user = (from u in db.LoggedInUsers
+                        where u.UserID == Convert.ToInt32(Session["ChatUserID"])
+                        && u.RoomID == Convert.ToInt32(lblRoomId.Text)
+                        select u).SingleOrDefault();
+
+            // if user does not exist in the LoggedInUser table
+            // then let's add/insert the user to the table
+            if (user == null)
+            {
+                LoggedInUser loggedInUser = new LoggedInUser();
+                loggedInUser.UserID = Convert.ToInt32(Session["ChatUserID"]);
+                loggedInUser.RoomID = Convert.ToInt32(lblRoomId.Text);
+                db.LoggedInUsers.InsertOnSubmit(loggedInUser);
+                db.SubmitChanges();
+            }
+
+            string userIcon;
+            StringBuilder sb = new StringBuilder();
+
+            // get all logged in users to this room
+            var loggedInUsers = from l in db.LoggedInUsers
+                                where l.RoomID == Convert.ToInt32(lblRoomId.Text)
+                                select l;
+
+            // list all logged in chat users in the user list
+            foreach (var loggedInUser in loggedInUsers)
+            {
+                // show user icon based on sex
+                if (loggedInUser.User.Gender.ToString().ToLower() == "m")
+                {
+                    userIcon = "<img src='../../images/manIcon.gif' style='vertical-align:middle' alt=''>  ";
+                }
+                else
+                    userIcon = "<img src='../../images/womanIcon.gif' style='vertical-align:middle' alt=''>  ";
+
+                // open the chat window when the logged-in user clicks another user in the list
+                if (loggedInUser.User.EmpId != (string)Session["ChatUsername"])
+                {
+                    sb.Append(userIcon + "<a href=# onclick=\"window.open('ChatWindow.aspx?FromUserId=" + Session["ChatUserID"] +
+                            "&ToUserId=" + loggedInUser.User.UserID + "&Username=" + loggedInUser.User.EmployeeName +
+                            "','','width=400,height=200,scrollbars=no,toolbars=no,titlebar=no,menubar=no'); isLostFocus = 'true';\">" +
+                            loggedInUser.User.EmployeeName + "</a><br>");
+                }
+                else
+                {
+                    sb.Append(userIcon + "<b>" + loggedInUser.User.EmployeeName + "</b><br>");
+                }
+            }
+
+            // holds the names of the users shown in the chatroom
+            litUsers.Text = sb.ToString();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        /// <summary>
+        /// Get the last 20 messages for this room
+        /// </summary>
+        private void GetMessages()
+        {
+            try
+            {
+            LinqChatDataContext db = new LinqChatDataContext();
+
+            var messages = (from m in db.Messages
+                           where m.RoomID == Convert.ToInt32(lblRoomId.Text)
+                           orderby m.TimeStamp descending
+                           select m).Take(20);
+
+            if (messages != null)
+            {
+                StringBuilder sb = new StringBuilder();
+                int ctr = 0;    // toggle counter for alternating color
+
+                foreach (var message in messages)
+                {
+                    // alternate background color on messages
+                    if (ctr == 0)
+                    {
+                        sb.Append("<div style='padding: 10px;'>");
+                        ctr = 1;
+                    }
+                    else
+                    {
+                        sb.Append("<div style='background-color: #EFEFEF; padding: 10px;'>");
+                        ctr = 0;
+                    }
+
+                    if (message.User.Gender.ToString().ToLower() == "m")
+                    {
+                        sb.Append("<img src='../../images/manIcon.gif' style='vertical-align:middle' alt=''> <span style='color: black; font-weight: bold;'>" + message.User.EmployeeName + ":</span>  " + message.Text + "</div>");
+                    }
+                    else
+                        sb.Append("<img src='../../images/womanIcon.gif' style='vertical-align:middle' alt=''> <span style='color: black; font-weight: bold;'>" + message.User.EmployeeName + ":</span>  " + message.Text + "</div>");
+                }
+
+               
+                litMessages.Text = sb.ToString();
+            }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+ 
+        /// <summary>
+        /// Check if anyone invited me to chat privately
+        /// </summary>
+        private void GetPrivateMessages()
+        {
+            try
+            {
+            LinqChatDataContext db = new LinqChatDataContext();
+
+            var privateMessage = (from pm in db.PrivateMessages
+                                  where pm.ToUserID == Convert.ToInt32(Session["ChatUserID"])
+                                  select pm).SingleOrDefault();
+
+            if (privateMessage != null)
+            {
+                lblChatNowUser.Text = privateMessage.User.EmployeeName;
+                btnChatNow.OnClientClick = 
+                    "window.open('ChatWindow.aspx?FromUserId=" + Session["ChatUserID"] + 
+                    "&ToUserId=" + privateMessage.UserID + "&Username=" + privateMessage.User.EmployeeName + 
+                    "&IsReply=yes','','width=400,height=200,scrollbars=no,toolbars=no,titlebar=no,menubar=no'); isLostFocus = 'true';";
+
+                pnlChatNow.Visible = true;
+
+
+                db.PrivateMessages.DeleteOnSubmit(privateMessage);
+                db.SubmitChanges();
+            }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        protected void BtnChatNow_Click(object sender, EventArgs e)
+        {
+            pnlChatNow.Visible = false;
+        }
+
+        protected void BtnCancel_Click(object sender, EventArgs e)
+        {
+            pnlChatNow.Visible = false;
+        }
+
+        private void FocusThisWindow()
+        {
+            try
+            {
+            //form1.DefaultButton = "btnSend";
+           // form1.DefaultFocus = "txtMessage";
+
+           txtMessage.Focus();
+
+           //int pos = Cursor.Position;
+
+           //int num = txtMessage.GetCharIndexFromPosition(pos);
+
+          
+           // btnSend.Focus();
+            Session["DefaultWindow"] = "MainWindow";
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+ 
+        #region ICallbackEventHandler Members
+
+        string  System.Web.UI.ICallbackEventHandler.GetCallbackResult()
+        {
+            return _callBackStatus;
+        }
+
+        /// <summary>
+        /// We're doing 2 things here now so we want to validate whether we're trying to "LogOut" or "FocusThisWindow"
+        /// based on the eventArgument parameter that is passed via a JavaScript callback method
+        /// </summary>
+        void  System.Web.UI.ICallbackEventHandler.RaiseCallbackEvent(string eventArgument)
+        {
+
+            try
+            {
+            _callBackStatus = "failed";
+
+            if (!String.IsNullOrEmpty(eventArgument))
+            {
+                // put back the focus on this window
+                if (eventArgument == "FocusThisWindow")
+                {
+                    this.FocusThisWindow();
+                }
+            }
+            
+            if (!String.IsNullOrEmpty(eventArgument))
+            {
+                if (eventArgument == "LogOut")
+                {
+                    // log out the user by deleting from the LoggedInUser table
+                    LinqChatDataContext db = new LinqChatDataContext();
+
+                    var loggedInUser = (from l in db.LoggedInUsers
+                                        where l.UserID == Convert.ToInt32(Session["ChatUserID"])
+                                        && l.RoomID == Convert.ToInt32(lblRoomId.Text)
+                                        select l).SingleOrDefault();
+
+                    db.LoggedInUsers.DeleteOnSubmit(loggedInUser);
+                    db.SubmitChanges();
+
+                    // insert a message that this user has logged out
+                    this.InsertMessage("Just logged out! " + DateTime.Now.ToString());
+                }
+            }
+
+            _callBackStatus = "success";
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        #endregion
+    }
+}

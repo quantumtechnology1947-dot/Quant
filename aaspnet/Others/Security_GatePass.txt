@@ -1,0 +1,348 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Others/Security_GatePass.aspx.txt ===
+
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Security_GatePass.aspx.cs" Inherits="Others_Security_GatePass" Theme="Default" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>ERP</title>
+    <link href="../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../Css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../Javascript/JScript.js" type="text/javascript"></script>
+    <script src="../Javascript/MaxLength.min.js" type="text/javascript"></script>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div class="fontcss">    
+        <asp:GridView ID="GridView1" runat="server" CssClass="yui-datatable-theme" 
+            onpageindexchanging="GridView1_PageIndexChanging" AllowPaging="true" PageSize="7" 
+            AutoGenerateColumns="False" Width="100%">
+            <Columns>
+                <asp:TemplateField HeaderText="SN">
+                <ItemTemplate> <%# Container.DataItemIndex + 1%></ItemTemplate>
+                    <ItemStyle HorizontalAlign="Right" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderStyle-VerticalAlign="Top">  
+                <ItemTemplate>            
+                             <asp:Image  ID="Image1" Height="120px" Width="110px" runat="server" 
+                    ImageUrl = '<%# Eval("ImageUrl") %>' /> 
+                </ItemTemplate>  
+                    <ItemStyle HorizontalAlign="Center" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="GP No">
+                <ItemTemplate>
+                    <asp:Label ID="lblGPNo" runat="server" Text='<%# Eval("GPNo") %>'></asp:Label><br />
+                                        
+                </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Center" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Date" >
+                <ItemTemplate>
+                    <asp:Label ID="lblDate" runat="server" Text='<%# Eval("FromDate") %>'></asp:Label>
+                </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Center" />
+                </asp:TemplateField> 
+                <asp:TemplateField HeaderText="Name of Employee" >    
+                <ItemTemplate>
+                    <asp:Label ID="lblSelfEId" runat="server" Text='<%# Eval("SelfEId") %>'></asp:Label><br />
+                    [<asp:Label ID="lblEmpId" runat="server" Text='<%# Eval("EmpId") %>'></asp:Label>]
+                </ItemTemplate> 
+                    <ItemStyle HorizontalAlign="Left" />
+                </asp:TemplateField>               
+                <asp:TemplateField HeaderText="From Time" >
+                <ItemTemplate>
+                    <asp:Label ID="lblFromTime" runat="server" Text='<%# Eval("FromTime") %>'></asp:Label>
+                </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Center" />
+                </asp:TemplateField>                
+                <asp:TemplateField HeaderText="To Time">
+                <ItemTemplate>
+                    <asp:Label ID="lblToTime" runat="server" Text='<%# Eval("ToTime") %>'></asp:Label>
+                </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Center" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Type" >
+                <ItemTemplate>
+                    <asp:Label ID="lblType" runat="server" Text='<%# Eval("Type") %>'></asp:Label>
+                </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Left" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Type For" >
+                <ItemTemplate>
+                    <asp:Label ID="lblTypeFor" runat="server" Text='<%# Eval("TypeFor") %>'></asp:Label>
+                </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Left" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Reason" >
+                <ItemTemplate>
+                    <asp:Label ID="lblReason" runat="server" Text='<%# Eval("Reason") %>'></asp:Label>
+                </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Left" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Place">
+                <ItemTemplate>
+                    <asp:Label ID="lblPlace" runat="server" Text='<%# Eval("Place") %>'></asp:Label>
+                </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Left" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Contact Person" >
+                 <ItemTemplate>
+                    <asp:Label ID="lblContactPerson" runat="server" Text='<%# Eval("ContactPerson") %>'></asp:Label><br />
+                    <asp:Label ID="lblContactNo" runat="server" Text='<%# Eval("ContactNo") %>'></asp:Label>
+                </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Left" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Contact No" Visible="false">
+                <ItemTemplate>
+                    
+                </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Left" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Auth. By" >
+                 <ItemTemplate>
+                    <asp:Label ID="lblAuthBy" runat="server" Text='<%# Eval("AuthorizedBy") %>'></asp:Label><br />
+                    <asp:Label ID="lblAuthDate" runat="server" Text='<%# Eval("AuthorizeDate") %>'></asp:Label><br />
+                    <asp:Label ID="lblAuthTime" runat="server" Text='<%# Eval("AuthorizeTime") %>'></asp:Label>
+                </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Left" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Date" Visible="false" >
+                <ItemTemplate>
+                    
+                </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Center" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Time" Visible="false">
+                <ItemTemplate>
+                    
+                </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Center" />
+                </asp:TemplateField>
+            </Columns>
+        </asp:GridView>    
+       
+                  
+                    
+    </div>
+    </form>
+</body>
+</html>
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Others/Security_GatePass.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+
+public partial class Others_Security_GatePass : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+
+    public void fillgrid()
+    {
+        string str = fun.Connection();
+        SqlConnection con = new SqlConnection(str);
+        con.Open();
+
+        try
+        {
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("FinYear", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("GPNo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("FromDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("FromTime", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ToTime", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Type", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("TypeFor", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Reason", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("AuthorizedBy", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("AuthorizeDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("AuthorizeTime", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Feedback", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("DId", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("SelfEId", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Authorize", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("Place", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ContactPerson", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ContactNo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Empother", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("ToDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ImageUrl", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("EmpId", typeof(string)));
+
+            string sqlInv = fun.select("tblGate_Pass.SessionId,tblGate_Pass.CompId,tblGate_Pass.SysDate,tblGate_Pass.Authorize,tblGate_Pass.EmpId As SelfEId,tblGate_Pass.Id,tblGate_Pass.FinYearId,tblGate_Pass.GPNo,tblGate_Pass.Authorize,tblGate_Pass.AuthorizedBy,tblGate_Pass.AuthorizeDate,tblGate_Pass.AuthorizeTime,tblGatePass_Details.FromDate,tblGatePass_Details.TypeOf,tblGatePass_Details.FromTime,tblGatePass_Details.ToTime,tblGatePass_Details.Type,tblGatePass_Details.TypeFor,tblGatePass_Details.Reason,tblGatePass_Details.Feedback,tblGatePass_Details.Id As DId,tblGatePass_Details.EmpId As OtherEId,tblGatePass_Details.Place,tblGatePass_Details.ContactPerson,tblGatePass_Details.ContactNo", "tblGate_Pass,tblGatePass_Details", "tblGate_Pass.Id=tblGatePass_Details.MId AND tblGate_Pass.Authorize='1' AND tblGatePass_Details.FromDate='" + fun.getCurrDate() + "'  order by tblGate_Pass.Id");
+            
+            SqlCommand cmdInv = new SqlCommand(sqlInv, con);
+            SqlDataReader DSInv = cmdInv.ExecuteReader();
+            DataRow dr;
+
+            while (DSInv.Read())
+            {
+                dr = dt.NewRow();
+                
+                string AuthBy = string.Empty;
+                string AuthDate = string.Empty;
+                string AuthTime = string.Empty;
+                string TypeOf = string.Empty;
+
+                string sqlFin = fun.select("FinYear", "tblFinancial_master", "FinYearId='" + DSInv["FinYearId"].ToString() + "'");
+                SqlCommand cmdFinYr = new SqlCommand(sqlFin, con);
+                SqlDataReader DSFin = cmdFinYr.ExecuteReader();
+                DSFin.Read();
+
+                dr[0] = DSInv["Id"].ToString();
+                dr[1] = fun.FromDateDMY(DSInv["SysDate"].ToString());
+                dr[2] = DSInv["GPNo"].ToString();
+                dr[3] = fun.FromDate(DSInv["FromDate"].ToString());
+                dr[4] = DSInv["FromTime"].ToString();
+                dr[5] = DSInv["ToTime"].ToString();
+
+                if (DSInv["TypeOf"].ToString() == "1")
+                {
+                    TypeOf = "WONo :" + DSInv["TypeFor"].ToString();
+                }
+                else if (DSInv["TypeOf"].ToString() == "2")
+                {
+                    TypeOf = "Enquiry :" + DSInv["TypeFor"].ToString();
+                }
+                else if (DSInv["TypeOf"].ToString() == "3")
+                {
+                    TypeOf = DSInv["TypeFor"].ToString();
+                }
+
+                dr[7] = TypeOf;
+                dr[8] = DSInv["Reason"].ToString();
+
+                string sql1 = fun.select("*", "tblGatePass_Reason", "Id='" + DSInv["Type"].ToString() + "'");
+                SqlCommand cmd1 = new SqlCommand(sql1, con);
+                SqlDataReader DS1 = cmd1.ExecuteReader();
+                DS1.Read();
+
+                dr[6] = DS1["Reason"].ToString();
+
+                if (Convert.ToInt32(DSInv["Authorize"]) == 1)
+                {
+                    string StrEmp = fun.select("Title,EmployeeName", "tblHR_OfficeStaff", "EmpId='" + DSInv["AuthorizedBy"].ToString() + "'");
+                    SqlCommand CmdEmp = new SqlCommand(StrEmp, con);
+                    SqlDataReader DSEmp = CmdEmp.ExecuteReader();
+                    DSEmp.Read();
+
+                    AuthBy = DSEmp["Title"].ToString() + ". " + DSEmp["EmployeeName"].ToString();
+                    AuthDate = fun.FromDateDMY(DSInv["AuthorizeDate"].ToString());
+                    AuthTime = DSInv["AuthorizeTime"].ToString();
+                }
+
+                dr[9] = AuthBy;
+                dr[10] = AuthDate;
+                dr[11] = AuthTime;
+                
+                string feed = "";
+                if (DSInv["Feedback"] != DBNull.Value)
+                {
+                    feed = DSInv["Feedback"].ToString();
+                }
+
+                dr[12] = DSInv["Feedback"].ToString();
+                dr[13] = DSInv["DId"].ToString();
+
+                string EmpSelf = string.Empty;
+                string EMOther = string.Empty;
+                string BGGroup = string.Empty;
+                string EmpId = string.Empty;
+                     
+                if (DSInv["SelfEId"] != DBNull.Value)
+                {
+                    string StrEmpSelf = fun.select("tblHR_OfficeStaff.Title,tblHR_OfficeStaff.EmployeeName,tblHR_OfficeStaff.EmpId,BusinessGroup.Symbol,tblHR_OfficeStaff.PhotoFileName,tblHR_OfficeStaff.PhotoSize,tblHR_OfficeStaff.PhotoContentType,tblHR_OfficeStaff.PhotoData", "tblHR_OfficeStaff,BusinessGroup", "tblHR_OfficeStaff.EmpId='" + DSInv["SelfEId"].ToString() + "'And tblHR_OfficeStaff.BGGroup=BusinessGroup.Id ");                   
+                    SqlCommand CmdEmpSelf = new SqlCommand(StrEmpSelf, con);
+                    SqlDataReader DSEmpSelf = CmdEmpSelf.ExecuteReader();
+                    DSEmpSelf.Read();
+
+                    if (DSEmpSelf.HasRows == true)
+                    {
+                        EmpSelf = DSEmpSelf["Title"].ToString() + ". " + DSEmpSelf["EmployeeName"].ToString();
+                        BGGroup = DSEmpSelf["Symbol"].ToString();
+                        dr[22] = String.Format("Handler.ashx?EmpId={0}", DSInv["SelfEId"].ToString());
+                        dr[23] = DSInv["SelfEId"].ToString();         
+                    }
+                }
+                else
+                {
+                    string StrOtherEId = fun.select("tblHR_OfficeStaff.Title,tblHR_OfficeStaff.EmployeeName,tblHR_OfficeStaff.EmpId,BusinessGroup.Symbol,tblHR_OfficeStaff.PhotoFileName,tblHR_OfficeStaff.PhotoSize,tblHR_OfficeStaff.PhotoContentType,tblHR_OfficeStaff.PhotoData", "tblHR_OfficeStaff,BusinessGroup", "EmpId='" + DSInv["OtherEId"].ToString() + "'And tblHR_OfficeStaff.BGGroup=BusinessGroup.Id ");
+
+                    SqlCommand CmdOtherEId = new SqlCommand(StrOtherEId, con);
+                    SqlDataReader DSOtherEId = CmdOtherEId.ExecuteReader();
+                    DSOtherEId.Read();
+
+                    if (DSOtherEId.HasRows == true)
+                    {
+                        EMOther = DSOtherEId["Title"].ToString() + ". " + DSOtherEId["EmployeeName"].ToString();
+                        BGGroup = DSOtherEId["Symbol"].ToString();
+                        dr[22] = String.Format("Handler.ashx?EmpId={0}", DSInv["OtherEId"].ToString());
+                        dr[23] = DSInv["OtherEId"].ToString();         
+                    }
+                }
+
+                dr[14] = EmpSelf + EMOther;
+                dr[15] = DSInv["Authorize"].ToString();
+                dr[16] = DSInv["Place"].ToString();
+                dr[17] = DSInv["ContactPerson"].ToString();
+                dr[18] = DSInv["ContactNo"].ToString();
+
+                string StrEmp5 = fun.select("Title,EmployeeName,EmpId", "tblHR_OfficeStaff", "EmpId='" + DSInv["Sessionid"].ToString() + "'");
+                SqlCommand CmdEmp5 = new SqlCommand(StrEmp5, con);
+                SqlDataReader DSEmp5 = CmdEmp5.ExecuteReader();
+                DSEmp5.Read();
+
+                dr[19] = DSEmp5["Title"].ToString() + ". " + DSEmp5["EmployeeName"].ToString();
+                dr[20] = Convert.ToInt32(DSInv["CompId"]);
+                dr[21] = BGGroup;
+
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }
+
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            this.fillgrid();
+        }
+    }
+
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView1.PageIndex = e.NewPageIndex;
+        this.fillgrid();
+    }
+
+
+}

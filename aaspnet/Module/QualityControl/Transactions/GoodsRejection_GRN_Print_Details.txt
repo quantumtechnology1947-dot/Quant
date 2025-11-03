@@ -1,0 +1,397 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/QualityControl/Transactions/GoodsRejection_GRN_Print_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="GoodsRejection_GRN_Print_Details.aspx.cs" Inherits="Module_Inventory_Transactions_GoodsRejection_GRN_Print" Title="ERP" %>
+
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+    .style2
+    {
+        width: 100%;
+    }
+</style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="left" cellpadding="0" cellspacing="0" class="style2">
+    <tr>
+        <td align="center">
+            <asp:Panel ID="Panel1" runat="server" ScrollBars="Auto" Height="450">
+                <CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" 
+                AutoDataBind="true" 
+    DisplayGroupTree="False" EnableDatabaseLogonPrompt="False" 
+    EnableParameterPrompt="False" ReportSourceID="CrystalReportSource1" />
+            </asp:Panel>
+            <CR:CrystalReportSource ID="CrystalReportSource1" runat="server">
+                <Report FileName="~\Module\QualityControl\Transactions\Reports\GRN.rpt">
+                </Report>
+            </CR:CrystalReportSource>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <asp:Button ID="btnCancel" runat="server" CssClass="redbox" Text="Cancel" 
+                onclick="btnCancel_Click" />
+        </td>
+    </tr>
+</table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/QualityControl/Transactions/GoodsRejection_GRN_Print_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using CrystalDecisions.CrystalReports.Engine;
+using System.Data.SqlClient;
+
+public partial class Module_Inventory_Transactions_GoodsRejection_GRN_Print : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    ReportDocument cryRpt = new ReportDocument();
+
+    string poNo = "";
+    string GINNo = "";
+    string GQNNo = "";
+    string FyId = "";
+    string SupplierNo = "";
+    string sId = "";
+    int FinYearId = 0;
+    int CompId = 0;
+    string GRRNo = "";
+    string Id = "";
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+
+
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            DataTable dt = new DataTable();
+            con.Open();
+            try
+            {
+                GRRNo = Request.QueryString["GRRNo"].ToString();
+                GINNo = Request.QueryString["GINNo"].ToString();
+                poNo = Request.QueryString["PONo"].ToString();
+                FyId = Request.QueryString["FyId"].ToString();
+                sId = Session["username"].ToString();
+                Id = Request.QueryString["Id"].ToString();
+
+                FinYearId = Convert.ToInt32(Session["finyear"]);
+                CompId = Convert.ToInt32(Session["compid"]);
+
+                string StrSql = fun.select("Id,FinYearId,GQNNo,GRRNo,SysDate", "tblQc_MaterialQuality_Master", "CompId='" + CompId + "' And Id='" + Id + "'");
+
+                SqlCommand cmdsupId = new SqlCommand(StrSql, con);
+                SqlDataAdapter dasupId = new SqlDataAdapter(cmdsupId);
+                DataSet DSSql = new DataSet();
+                dasupId.Fill(DSSql, "tblQc_MaterialQuality_Master");
+
+                if (DSSql.Tables[0].Rows.Count > 0)
+                {
+                    GQNNo = DSSql.Tables[0].Rows[0]["GQNNo"].ToString();
+                }
+
+                string StrGQN = fun.select("tblQc_MaterialQuality_Details.Id,tblQc_MaterialQuality_Details.AcceptedQty,tblQc_MaterialQuality_Details.RejectedQty,tblQc_MaterialQuality_Details.RejectionReason,tblQc_MaterialQuality_Details.Remarks,tblQc_MaterialQuality_Master.GRRNo,tblQc_MaterialQuality_Master.GRRId,tblQc_MaterialQuality_Details.GRRId as DGRRId,tblQc_MaterialQuality_Master.FinYearId", "tblQc_MaterialQuality_Master,tblQc_MaterialQuality_Details", "tblQc_MaterialQuality_Master.CompId='" + CompId + "' AND tblQc_MaterialQuality_Master.Id='" + Id + "' AND tblQc_MaterialQuality_Master.Id=tblQc_MaterialQuality_Details.MId  AND tblQc_MaterialQuality_Details.RejectedQty > 0");
+
+                SqlCommand cmdGQN = new SqlCommand(StrGQN, con);
+                SqlDataAdapter daGQN = new SqlDataAdapter(cmdGQN);
+                DataSet DSGQN = new DataSet();
+                daGQN.Fill(DSGQN);
+
+                dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+                dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("PurchDesc", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("UOMPurch", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("POQty", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("InvQty", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("RecedQty", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));
+                dt.Columns.Add(new System.Data.DataColumn("AcceptedQty", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("RejReason", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Remarks", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("RejectedQty", typeof(double)));
+
+                string ItemCode = "";
+
+                string UomPurch = "";
+                string ManfPurch = "";
+
+                DataSet Grr = new DataSet();
+                DataRow dr;
+                string chNo = "";
+                string ChallanDate = "";
+
+                for (int i = 0; i < DSGQN.Tables[0].Rows.Count; i++)
+                {
+                    dr = dt.NewRow();
+
+                    string StrSql36 = fun.select("tblinv_MaterialReceived_Master.GINNo,tblinv_MaterialReceived_Master.GINId,tblinv_MaterialReceived_Details.ReceivedQty,tblinv_MaterialReceived_Details.POId", "tblinv_MaterialReceived_Master,tblinv_MaterialReceived_Details", "tblinv_MaterialReceived_Master.CompId='" + CompId + "' AND tblinv_MaterialReceived_Master.Id='" + DSGQN.Tables[0].Rows[i]["GRRId"].ToString() + "' AND tblinv_MaterialReceived_Master.Id=tblinv_MaterialReceived_Details.MId AND tblinv_MaterialReceived_Details.Id='" + DSGQN.Tables[0].Rows[i]["DGRRId"].ToString() + "'");
+
+                    SqlCommand cmdsupId36 = new SqlCommand(StrSql36, con);
+                    SqlDataAdapter dasupId36 = new SqlDataAdapter(cmdsupId36);
+                    DataSet DSSql36 = new DataSet();
+                    dasupId36.Fill(DSSql36);
+
+                    if (DSSql36.Tables[0].Rows.Count > 0)
+                    {
+                        string StrSql2 = fun.select("tblInv_Inward_Master.PONo,tblInv_Inward_Details.POId,tblInv_Inward_Master.ChallanNo,tblInv_Inward_Master.ChallanDate,tblInv_Inward_Details.ReceivedQty", "tblInv_Inward_Master,tblInv_Inward_Details", "CompId='" + CompId + "' AND tblInv_Inward_Master.Id=tblInv_Inward_Details.GINId AND tblInv_Inward_Master.Id='" + DSSql36.Tables[0].Rows[0]["GINId"].ToString() + "' AND tblInv_Inward_Details.POId='" + DSSql36.Tables[0].Rows[0]["POId"].ToString() + "'");
+
+                        SqlCommand cmdsupId2 = new SqlCommand(StrSql2, con);
+                        SqlDataAdapter dasupId2 = new SqlDataAdapter(cmdsupId2);
+                        DataSet DSSql2 = new DataSet();
+                        dasupId2.Fill(DSSql2);
+
+                        chNo = DSSql2.Tables[0].Rows[0]["ChallanNo"].ToString();
+                        ChallanDate = fun.FromDateDMY(DSSql2.Tables[0].Rows[0]["ChallanDate"].ToString());
+
+
+                        if (DSSql2.Tables[0].Rows.Count > 0)
+                        {
+                            string StrSql3 = fun.select("tblMM_PO_Details.Id,tblMM_PO_Details.PONo,tblMM_PO_Details.PRNo,tblMM_PO_Details.Qty,tblMM_PO_Details.PRId,tblMM_PO_Details.SPRNo,tblMM_PO_Details.SPRId,tblMM_PO_Details.Qty,tblMM_PO_Master.PRSPRFlag,tblMM_PO_Master.FinYearId,tblMM_PO_Master.SupplierId", "tblMM_PO_Details,tblMM_PO_Master", "tblMM_PO_Master.PONo='" + DSSql2.Tables[0].Rows[0]["PONo"].ToString() + "' AND tblMM_PO_Master.PONo=tblMM_PO_Details.PONo AND tblMM_PO_Master.CompId='" + CompId + "' AND tblMM_PO_Master.Id=tblMM_PO_Details.MId AND tblMM_PO_Details.Id='" + DSSql2.Tables[0].Rows[0]["POId"].ToString() + "'");
+
+                            SqlCommand cmdsupId3 = new SqlCommand(StrSql3, con);
+                            SqlDataAdapter dasupId3 = new SqlDataAdapter(cmdsupId3);
+                            DataSet DSSql3 = new DataSet();
+                            dasupId3.Fill(DSSql3);
+
+                            if (DSSql3.Tables[0].Rows.Count > 0)
+                            {
+                                SupplierNo = DSSql3.Tables[0].Rows[0]["SupplierId"].ToString();
+
+                                if (DSSql3.Tables[0].Rows[0]["PRSPRFlag"].ToString() == "0")
+                                {
+                                    string StrFlag = fun.select("tblMM_PR_Details.ItemId,tblMM_PR_Master.WONo,tblMM_PR_Details.AHId", "tblMM_PR_Master,tblMM_PR_Details", "tblMM_PR_Master.PRNo='" + DSSql3.Tables[0].Rows[0]["PRNo"].ToString() + "'  AND tblMM_PR_Master.PRNo=tblMM_PR_Details.PRNo AND tblMM_PR_Details.Id='" + DSSql3.Tables[0].Rows[0]["PRId"].ToString() + "' AND tblMM_PR_Master.CompId='" + CompId + "' AND tblMM_PR_Master.Id=tblMM_PR_Details.MId");
+
+                                    SqlCommand cmdFlag = new SqlCommand(StrFlag, con);
+                                    SqlDataAdapter daFlag = new SqlDataAdapter(cmdFlag);
+                                    DataSet DSFlag = new DataSet();
+                                    daFlag.Fill(DSFlag);
+
+                                    if (DSFlag.Tables[0].Rows.Count > 0)
+                                    {
+                                        string StrIcode = fun.select("ItemCode,ManfDesc,UOMBasic", "tblDG_Item_Master", "Id='" + DSFlag.Tables[0].Rows[0]["ItemId"].ToString() + "' AND CompId='" + CompId + "'");
+                                        SqlCommand cmdIcode = new SqlCommand(StrIcode, con);
+                                        SqlDataAdapter daIcode = new SqlDataAdapter(cmdIcode);
+                                        DataSet DSIcode = new DataSet();
+                                        daIcode.Fill(DSIcode);
+
+                                        // For ItemCode
+                                        if (DSIcode.Tables[0].Rows.Count > 0)
+                                        {
+                                            ItemCode = fun.GetItemCode_PartNo(CompId, Convert.ToInt32(DSFlag.Tables[0].Rows[0]["ItemId"].ToString()));
+
+                                            // For Manf. Desc
+                                            ManfPurch = DSIcode.Tables[0].Rows[0]["ManfDesc"].ToString();
+                                            // for UOM Purchase  from Unit Master table
+                                            string sqlPurch = fun.select("Symbol", "Unit_Master", "Id='" + DSIcode.Tables[0].Rows[0]["UOMBasic"].ToString() + "'");
+                                            SqlCommand cmdPurch = new SqlCommand(sqlPurch, con);
+                                            SqlDataAdapter daPurch = new SqlDataAdapter(cmdPurch);
+                                            DataSet DSPurch = new DataSet();
+                                            daPurch.Fill(DSPurch);
+                                            if (DSPurch.Tables[0].Rows.Count > 0)
+                                            {
+                                                UomPurch = DSPurch.Tables[0].Rows[0][0].ToString();
+                                            }
+                                        }
+                                    }
+
+                                }
+                                else if (DSSql3.Tables[0].Rows[0]["PRSPRFlag"].ToString() == "1")
+                                {
+
+                                    string StrFlag1 = fun.select("tblMM_SPR_Details.ItemId,tblMM_SPR_Details.WONo,tblMM_SPR_Details.DeptId,tblMM_SPR_Details.AHId", "tblMM_SPR_Master,tblMM_SPR_Details", "tblMM_SPR_Master.SPRNo='" + DSSql3.Tables[0].Rows[0]["SPRNo"].ToString() + "'  AND tblMM_SPR_Master.SPRNo=tblMM_SPR_Details.SPRNo AND tblMM_SPR_Details.Id='" + DSSql3.Tables[0].Rows[0]["SPRId"].ToString() + "' AND tblMM_SPR_Master.CompId='" + CompId + "' AND tblMM_SPR_Master.Id=tblMM_SPR_Details.MId");
+
+                                    SqlCommand cmdFlag1 = new SqlCommand(StrFlag1, con);
+                                    SqlDataAdapter daFlag1 = new SqlDataAdapter(cmdFlag1);
+                                    DataSet DSFlag1 = new DataSet();
+                                    daFlag1.Fill(DSFlag1);
+
+                                    if (DSFlag1.Tables[0].Rows.Count > 0)
+                                    {
+                                        string StrIcode1 = fun.select("ItemCode,ManfDesc,UOMBasic", "tblDG_Item_Master", "Id='" + DSFlag1.Tables[0].Rows[0]["ItemId"].ToString() + "' AND CompId='" + CompId + "'");
+                                        SqlCommand cmdIcode1 = new SqlCommand(StrIcode1, con);
+                                        SqlDataAdapter daIcode1 = new SqlDataAdapter(cmdIcode1);
+                                        DataSet DSIcode1 = new DataSet();
+                                        daIcode1.Fill(DSIcode1);
+
+                                        if (DSIcode1.Tables[0].Rows.Count > 0)
+                                        {
+                                            ItemCode = fun.GetItemCode_PartNo(CompId, Convert.ToInt32(DSFlag1.Tables[0].Rows[0]["ItemId"].ToString()));
+                                            ManfPurch = DSIcode1.Tables[0].Rows[0]["ManfDesc"].ToString();
+
+
+                                            // for UOM Purchase  from Unit Master table
+                                            string sqlPurch1 = fun.select("Symbol", "Unit_Master", "Id='" + DSIcode1.Tables[0].Rows[0]["UOMBasic"].ToString() + "'");
+                                            SqlCommand cmdPurch1 = new SqlCommand(sqlPurch1, con);
+                                            SqlDataAdapter daPurch1 = new SqlDataAdapter(cmdPurch1);
+                                            DataSet DSPurch1 = new DataSet();
+                                            daPurch1.Fill(DSPurch1);
+                                            if (DSPurch1.Tables[0].Rows.Count > 0)
+                                            {
+                                                UomPurch = DSPurch1.Tables[0].Rows[0][0].ToString();
+                                            }
+
+                                        }
+                                    }
+
+                                }
+
+                                if (DSSql3.Tables[0].Rows[0]["Qty"].ToString() == "")
+                                {
+                                    dr[4] = "0";
+                                }
+                                else
+                                {
+                                    dr[4] = Convert.ToDouble(decimal.Parse((DSSql3.Tables[0].Rows[0]["Qty"]).ToString()).ToString("N3"));
+                                }
+
+                                if (DSSql2.Tables[0].Rows[0]["ReceivedQty"].ToString() == "")
+                                {
+                                    dr[5] = "0";
+                                }
+                                else
+                                {
+                                    dr[5] = Convert.ToDouble(decimal.Parse((DSSql2.Tables[0].Rows[0]["ReceivedQty"]).ToString()).ToString("N3"));
+
+                                }
+
+                                if (DSSql36.Tables[0].Rows[0]["ReceivedQty"].ToString() == "")
+                                {
+                                    dr[6] = "0";
+                                }
+                                else
+                                {
+                                    dr[6] = Convert.ToDouble(decimal.Parse((DSSql36.Tables[0].Rows[0]["ReceivedQty"]).ToString()).ToString("N3"));
+
+                                }
+
+                                if (DSGQN.Tables[0].Rows[i]["AcceptedQty"].ToString() == "")
+                                {
+                                    dr[8] = "0";
+                                }
+                                else
+                                {
+                                    dr[8] = Convert.ToDouble(decimal.Parse((DSGQN.Tables[0].Rows[i]["AcceptedQty"]).ToString()).ToString("N3"));
+                                }
+
+                                string sqlreason = fun.select("Symbol", "tblQc_Rejection_Reason", "Id='" + DSGQN.Tables[0].Rows[i]["RejectionReason"].ToString() + "'");
+                                SqlCommand cmdreason = new SqlCommand(sqlreason, con);
+                                SqlDataAdapter dareason = new SqlDataAdapter(cmdreason);
+                                DataSet DSreason = new DataSet();
+                                dareason.Fill(DSreason);
+
+                                if (DSreason.Tables[0].Rows.Count > 0)
+                                {
+                                    dr[9] = DSreason.Tables[0].Rows[0]["Symbol"].ToString();
+                                }
+
+                                dr[10] = DSGQN.Tables[0].Rows[i]["Remarks"].ToString();
+
+                                if (DSGQN.Tables[0].Rows[i]["RejectedQty"].ToString() == "0")
+                                {
+                                    dr[11] = "0";
+                                }
+                                else
+                                {
+                                    dr[11] = Convert.ToDouble(decimal.Parse((DSGQN.Tables[0].Rows[i]["RejectedQty"]).ToString()).ToString("N3"));
+                                }
+
+                                dr[7] = CompId;
+                                dr[0] = Convert.ToInt32(DSGQN.Tables[0].Rows[i]["Id"]);
+                                dr[1] = ItemCode.ToString();
+                                dr[2] = ManfPurch.ToString();
+                                dr[3] = UomPurch.ToString();
+
+                                dt.Rows.Add(dr);
+                                dt.AcceptChanges();
+                            }
+                        }
+                    }
+
+                }
+
+                Grr.Tables.Add(dt);
+                DataSet xsdds = new GRN();
+                //xsdds.Clear();
+                xsdds.Tables[0].Merge(Grr.Tables[0]);
+                xsdds.AcceptChanges();
+                cryRpt.Load(Server.MapPath("~/Module/QualityControl/Transactions/Reports/GRN.rpt"));
+                cryRpt.SetDataSource(xsdds);
+
+                //For supplier Name 
+                string SupName = fun.select("SupplierName", "tblMM_Supplier_master", "SupplierId='" + SupplierNo + "' AND CompId='" + CompId + "'");
+                SqlCommand cmdSupName = new SqlCommand(SupName, con);
+                SqlDataAdapter daSupName = new SqlDataAdapter(cmdSupName);
+                DataSet DSSupName = new DataSet();
+                daSupName.Fill(DSSupName);
+                string SupplierName = "";
+                SupplierName = DSSupName.Tables[0].Rows[0][0].ToString();
+                cryRpt.SetParameterValue("SupplierName", SupplierName);
+
+                // For ChallanDate
+
+                cryRpt.SetParameterValue("ChallanNo", chNo);
+                cryRpt.SetParameterValue("ChallanDate", ChallanDate);
+                cryRpt.SetParameterValue("GRRNO", GRRNo);
+                cryRpt.SetParameterValue("GINNO", GINNo);
+                cryRpt.SetParameterValue("GQNNO", GQNNo);
+
+                // For Address
+                string Address = fun.CompAdd(CompId);
+                cryRpt.SetParameterValue("Address", Address);
+                CrystalReportViewer1.ReportSource = cryRpt; Session["ReportDocument"] = cryRpt;
+            }
+            catch (Exception ex)
+            {
+
+            }
+           
+        }
+
+        else
+        {
+            ReportDocument doc = (ReportDocument)Session["ReportDocument"];
+            CrystalReportViewer1.ReportSource = doc;
+        }
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        
+    }
+
+  
+   
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("GoodsRejection_GRN.aspx?ModId=10&SubModId=");
+    }
+}

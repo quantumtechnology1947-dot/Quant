@@ -1,0 +1,387 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Masters/CategoryEdit.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="CategoryEdit.aspx.cs" Inherits="Module_SalesDistribution_Masters_CategoryEdit" Title="ERP" Theme="Default" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style2
+        {
+            height: 24px;
+        }
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+<table cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td>
+    <table cellpadding="0" cellspacing="0" width="100%" align="center">
+        
+        <tr>
+            <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;      WO Category - Edit</b></td>
+        </tr>
+        <tr>
+            <td align="Left" valign="top">
+                <asp:GridView ID="GridView1" 
+                runat="server" 
+                AllowPaging="True"
+                AutoGenerateColumns="False" 
+                DataKeyNames="CId" 
+              
+                CssClass="yui-datatable-theme" Width="50%" 
+                    onrowdatabound="GridView1_RowDataBound" 
+                    onrowupdated="GridView1_RowUpdated" onrowcommand="GridView1_RowCommand" 
+                    PageSize="17" onrowediting="GridView1_RowEditing" 
+                    onrowcancelingedit="GridView1_RowCancelingEdit" 
+                    onrowupdating="GridView1_RowUpdating" 
+                    onpageindexchanging="GridView1_PageIndexChanging">
+
+                    <Columns>
+                        <asp:TemplateField HeaderText="SN" SortExpression="SN">
+                        <ItemTemplate>
+                        <%# Container.DataItemIndex+1 %>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="40px"/>
+                        </asp:TemplateField>                        
+                        <asp:CommandField  ButtonType="Link" ShowEditButton="True" ValidationGroup="c" >                        
+                            <ItemStyle HorizontalAlign="Center" Width="40px"/>
+                        </asp:CommandField>
+                        <asp:TemplateField HeaderText="CId" Visible="false">
+                        <ItemTemplate>
+                            <asp:Label ID="Label1" runat="server" Text='<% #Eval("CId") %>'></asp:Label>
+                        </ItemTemplate>
+                        <EditItemTemplate>
+                                <asp:Label ID="lblCid" runat="server" Text='<% #Eval("CId") %>'></asp:Label>  
+                            </EditItemTemplate>
+                            
+                            <ItemStyle HorizontalAlign="Right" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="Category" SortExpression="CName">
+                            <EditItemTemplate>
+                                <asp:TextBox ID="txtCate" runat="server" Width="150px" Text='<%# Bind("CName") %>'></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="ReqCat" runat="server"  ValidationGroup="c" ControlToValidate="txtCate"
+                           ErrorMessage="*"></asp:RequiredFieldValidator>
+                            </EditItemTemplate>
+                            <ItemTemplate>
+                                <asp:Label ID="Label2" runat="server" Text='<%# Bind("CName") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Left" Width="45%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Symbol" SortExpression="Symbol">
+                            <EditItemTemplate>
+                                <asp:Label ID="Label3" runat="server" Text='<%# Bind("Symbol") %>'></asp:Label>
+                                
+                            </EditItemTemplate>
+                            <ItemTemplate>
+                                <asp:Label ID="Label3" runat="server" Text='<%# Bind("Symbol") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Has SubCategory" Visible ="false">
+                        <ItemTemplate>
+                        <asp:Label ID="lblsubcatNo" runat="server" Text='<%#Eval("HasSubCat") %>'>    </asp:Label>
+                        </ItemTemplate>  
+                        
+                         <EditItemTemplate>
+                                <asp:CheckBox ID="CheckBox1" runat="server" /> 
+                                <asp:Label ID="lblsubcatNo" runat="server" Visible="False"  Text='<%#Eval("HasSubCat") %>'>    </asp:Label>
+                         </EditItemTemplate>                     
+                        
+                            <HeaderStyle Font-Bold="True" HorizontalAlign="Center" VerticalAlign="Middle" />
+                            <ItemStyle HorizontalAlign="center" />
+                        </asp:TemplateField>
+                        
+                        
+                        
+                    </Columns>
+                     <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label11" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                    
+              </asp:GridView>
+                
+                <asp:Label ID="lblMessage" runat="server" Font-Bold="True" ForeColor="Red"></asp:Label>
+                
+                              
+             
+                
+               </td>
+        </tr>
+        </table>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Masters/CategoryEdit.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_SalesDistribution_Masters_CategoryEdit : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string sysdate = "";
+    string systime = "";
+    string compid = "";
+    string finyrsid = "";
+    string sessionid = "";
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        try
+        {
+            lblMessage.Text = "";
+            sysdate = fun.getCurrDate();
+            systime = fun.getCurrTime();
+            compid = Session["compid"].ToString();
+            finyrsid = Session["finyear"].ToString();
+            sessionid = Session["username"].ToString();
+            if (!IsPostBack)
+            {
+                this.fillGrid();
+
+            }
+        }
+
+        catch (Exception ex)
+        {
+        }
+    }
+
+    public void fillGrid()
+    {
+        try
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            con.Open();
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add(new System.Data.DataColumn("CId", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("CName", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Symbol", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("HasSubCat", typeof(string)));
+          
+
+            string sql = fun.select("*", "tblSD_WO_Category", "CompId='" + compid + "' AND FinYearId<='" + finyrsid + "' Order by CId desc");
+
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+
+            DataRow dr;
+
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                dr = dt.NewRow();
+                dr[0] = Convert.ToInt32(ds.Tables[0].Rows[i]["CId"].ToString());
+                dr[1] = ds.Tables[0].Rows[i]["CName"].ToString();
+                dr[2] = ds.Tables[0].Rows[i]["Symbol"].ToString();
+                if (ds.Tables[0].Rows[i]["HasSubCat"].ToString() == "1")
+                {
+                    dr[3] = "Yes";
+                }
+                else
+                {
+                    dr[3] = "No";
+                }                
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }
+
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
+            con.Close();
+
+           
+        }
+
+       catch (Exception ex)
+        {
+        }
+
+    }
+
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+
+        string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            LinkButton upd = (LinkButton)e.Row.Cells[1].Controls[0];
+            upd.Attributes.Add("onclick", "return confirmationUpdate();");
+        }
+
+        foreach (GridViewRow row in GridView1.Rows)
+        {
+            int CId = Convert.ToInt32(((Label)row.FindControl("Label1")).Text);
+
+            string sql98 = "SELECT SD_Cust_WorkOrder_Master.CId FROM  SD_Cust_WorkOrder_Master where  SD_Cust_WorkOrder_Master.CompId='" + compid + "' AND SD_Cust_WorkOrder_Master.FinYearId<='" + finyrsid + "' And SD_Cust_WorkOrder_Master.CId='" + CId + "'";
+            SqlCommand cmd98 = new SqlCommand(sql98,con );
+            SqlDataAdapter da98 = new SqlDataAdapter(cmd98);
+            DataSet ds98 = new DataSet();
+            da98.Fill(ds98);
+            if (ds98.Tables[0].Rows.Count > 0)
+            {
+                LinkButton del = (LinkButton)row.Cells[1].Controls[0];
+                del.Visible = false;
+            }
+        }
+    }
+    protected void GridView1_RowUpdated(object sender, GridViewUpdatedEventArgs e)
+    {
+        lblMessage.Text = "Record Updated.";
+    }
+
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "Update")
+        {
+           try
+            {
+                string connStr = fun.Connection();
+                SqlConnection con = new SqlConnection(connStr);
+                string strHasSubCat = "";
+                string UseForFormula = "";
+                int rowIndex = Convert.ToInt32(e.CommandArgument);
+                GridViewRow row = GridView1.Rows[rowIndex];
+                string CName = ((TextBox)row.FindControl("txtCate")).Text;
+                //string CSymbol = ((TextBox)row.FindControl("txtSymb")).Text;
+                string SubCat = ((Label)row.FindControl("lblsubcatNo")).Text;
+               
+                int CId = Convert.ToInt32(((Label)row.FindControl("lblCid")).Text);
+
+                if (((CheckBox)row.FindControl("CheckBox1")).Checked == true)
+                {
+                    strHasSubCat = "1";
+                }
+                else
+                {
+                    strHasSubCat = "0";
+                }
+
+               
+
+                int x = 0;
+                // For Sub-Category
+                if (SubCat == "Yes")
+                {
+                    string sql97 = "SELECT  tblSD_WO_SubCategory.SCId FROM tblSD_WO_SubCategory INNER JOIN tblSD_WO_Category ON tblSD_WO_SubCategory.CId = tblSD_WO_Category.CId And tblSD_WO_Category.CId='" + CId + "'";
+                    SqlCommand cmd97 = new SqlCommand(sql97, con);
+                    SqlDataAdapter da97 = new SqlDataAdapter(cmd97);
+                    DataSet ds97 = new DataSet();
+                    da97.Fill(ds97);
+                    x = ds97.Tables[0].Rows.Count;
+                }
+
+              
+              
+               
+
+                if ( x == 0)
+                {
+
+                    string UpdateCommand = fun.update("tblSD_WO_Category", " CName='" + CName + "',HasSubCat='" + strHasSubCat + "'", "CId = '" + CId + "'");
+                    SqlCommand cmd = new SqlCommand(UpdateCommand, con);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                    Page.Response.Redirect(Request.Url.ToString(), true);
+
+                }
+                else
+                {
+                    string mystring = string.Empty;
+                    mystring = "You canot edit this record,it is being used.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);  
+
+                }
+
+            }
+           catch (Exception ex)
+            {
+
+            }
+
+        }
+    }
+
+    protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+      try
+        {
+            GridView1.EditIndex = e.NewEditIndex;
+            this.fillGrid();
+            int rowIndex = Convert.ToInt32(GridView1.EditIndex);
+            GridViewRow grv = GridView1.Rows[rowIndex];
+
+            if (((Label)grv.FindControl("lblsubcatNo")).Text == "Yes")
+            {
+                ((CheckBox)grv.FindControl("CheckBox1")).Checked = true;
+            }
+           
+        }
+
+
+
+       catch (Exception ex) { }
+    }
+
+    protected void GridView1_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    {
+
+        GridView1.EditIndex = -1;
+        this.fillGrid();
+    }
+    protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+
+    }
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView1.PageIndex = e.NewPageIndex;
+        GridView1.EditIndex = -1;
+        this.fillGrid();
+    }
+}

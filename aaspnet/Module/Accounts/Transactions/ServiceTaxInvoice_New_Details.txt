@@ -1,0 +1,1223 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/ServiceTaxInvoice_New_Details.aspx.txt ===
+
+﻿
+<%@ Page Language="C#" MasterPageFile="~/MasterPage.master"  AutoEventWireup="true"   CodeFile="ServiceTaxInvoice_New_Details.aspx.cs" Inherits="Module_Accounts_Transactions_ServiceTaxInvoice_New_Details" Title="ERP" Theme="Default" %>
+
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+<%@ Register assembly="TimePicker" namespace="MKB.TimePicker" tagprefix="MKB" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    
+        function OnChanged(sender, args)
+        {
+            ServerUtilities.SetTabIndex(sender.get_activeTabIndex());
+        }
+    </script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+    
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    
+    
+    <table align="left" cellpadding="0" cellspacing="0" class="style2" width="100%">
+        <tr>
+            <td style="background:url(../../../images/hdbg.JPG); height:21px" 
+                class="fontcsswhite" colspan="4" >&nbsp;<b>Service Tax Invoice - New</b></td>
+        </tr>
+        <tr>
+            <td width="20%" height="24">
+                &nbsp; Ser. Tax Invoice No.&nbsp;<asp:TextBox ID="TxtInvNo" CssClass="box3" runat="server" ValidationGroup="A"></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="ReqInVNo" runat="server" 
+                                ControlToValidate="TxtInvNo" ErrorMessage="*" ValidationGroup="A">
+                                </asp:RequiredFieldValidator>
+                       
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidatorInv" runat="server" ValidationGroup="A"
+                            ControlToValidate="TxtInvNo" ErrorMessage="*"  ValidationExpression="^\d{1,15}(\.\d{0,3})?$">
+            				</asp:RegularExpressionValidator>
+            </td>
+            <td width="12%">
+                            Date :
+                            <asp:Label ID="LblInvDate" runat="server" 
+                    style="font-weight: 700"></asp:Label>
+            </td>
+            <td width="20%">
+                            <asp:SqlDataSource ID="SqlCat" runat="server" 
+                    ConnectionString="<%$ connectionStrings:LocalSqlServer %>" 
+                     ProviderName="System.Data.SqlClient" 
+                    SelectCommand="SELECT *  FROM [tblACC_Service_Category] order by [Id] desc"></asp:SqlDataSource>
+                            
+            </td>
+            <td width="20%">
+                            
+                        <asp:SqlDataSource ID="SqlTaxableServices" runat="server" 
+                    ConnectionString="<%$ connectionStrings:LocalSqlServer %>" 
+                     ProviderName="System.Data.SqlClient" 
+                    SelectCommand="SELECT *  FROM [tblACC_TaxableServices] order by [Id] desc">
+                    </asp:SqlDataSource>                            
+                            
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" height="24">
+                &nbsp; PO No. :&nbsp;<asp:Label ID="LblPONo" runat="server" 
+                    style="font-weight: 700"></asp:Label>
+            </td>
+            <td>
+                            Date :
+                            <asp:Label ID="LblPODate" runat="server" 
+                    style="font-weight: 700"></asp:Label>
+            </td>
+            <td width="20%">
+                            WO No. :
+                            <asp:Label ID="LblWONo" runat="server" Text="Label" 
+                    style="font-weight: 700"></asp:Label>
+            </td>
+            <td width="20%">
+                &nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="4" width="7%">
+                <table align="left" cellpadding="0" cellspacing="0" class="style2" width="100%">
+                    <tr>
+                        <td height="25" width="20%">
+                            &nbsp;&nbsp;Category</td>
+                        <td class="style9" width="18%">
+                            <asp:DropDownList ID="DrpCategory" runat="server" DataSourceID="SqlCat" 
+                                DataTextField="Description" DataValueField="Id">
+                            
+                            </asp:DropDownList>
+                            
+                        </td>
+                        <td width="20%">
+                            Rate of Duty</td>
+                        <td>
+                            <asp:TextBox ID="TxtDutyRate" 
+                                runat="server" ValidationGroup="A" CssClass="box3"></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="Reqrateofduty" runat="server" 
+                                ControlToValidate="TxtDutyRate" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="25">
+                            &nbsp;&nbsp;Taxable Services</td>
+                        <td class="style9">
+                            <asp:DropDownList ID="DrpTaxableServices" runat="server" DataSourceID="SqlTaxableServices" 
+                                DataTextField="Description" DataValueField="Id">                            
+                            </asp:DropDownList>
+                            
+                     </td>
+                        <td width="10%">                             
+                            &nbsp;</td>
+                        <td>
+                            &nbsp;</td>
+                    </tr>
+                   
+                    <tr>
+                        <td class="style8" height="25">
+                            &nbsp;
+                            Date Of Issue Of Invoice</td>
+                        <td class="style9">
+                            <asp:TextBox ID="TxtDateofIssueInvoice" runat="server" ValidationGroup="A" 
+                                CssClass="box3"></asp:TextBox>
+                            <cc1:CalendarExtender ID="TxtDateofIssueInvoice_CalendarExtender" 
+                                runat="server" Enabled="True" Format="dd-MM-yyyy" 
+                                TargetControlID="TxtDateofIssueInvoice">
+                            </cc1:CalendarExtender>
+                            <asp:RequiredFieldValidator ID="ReqDateofinvoce" runat="server" 
+                                ControlToValidate="TxtDateofIssueInvoice" ErrorMessage="*" 
+                                ValidationGroup="A"></asp:RequiredFieldValidator>
+<asp:RegularExpressionValidator runat="server" 
+                                ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                ControlToValidate="TxtDateofIssueInvoice" ErrorMessage="*" ValidationGroup="A" 
+                                ID="RegDateOfIssInvoice"></asp:RegularExpressionValidator>
+                        </td>
+                        <td width="12%">
+                            Time of Issue of Invoice</td>
+                        <td>
+                           
+                            <MKB:TimeSelector ID="TimeSelector1" runat="server" AmPm="AM" 
+                                MinuteIncrement="1">
+                            </MKB:TimeSelector>
+                        </td>
+                    </tr>
+                   
+                    </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <cc1:TabContainer ID="TabContainer1"  runat="server" ActiveTabIndex="0" 
+                    Height="300px" Width="100%" 
+                    onactivetabchanged="TabContainer1_ActiveTabChanged">
+                    <cc1:TabPanel runat="server" HeaderText="Buyer" ID="TabPanel1">
+                        <ContentTemplate><table align="left" cellpadding="0" cellspacing="0" class="style2" width="100%"><tr><td><table align="left" cellpadding="0" cellspacing="0" class="style2" width="100%"><tr>
+                            <td class="style15" width="12%" height="25">Name</td><td><asp:TextBox 
+                                ID="TxtBYName" runat="server" ValidationGroup="A" CssClass="box3" 
+                                Width="42%"></asp:TextBox>
+                           <cc1:AutoCompleteExtender ID="TxtSearchValue_AutoCompleteExtender" 
+                    runat="server" CompletionInterval="100" CompletionSetCount="1" 
+                                            DelimiterCharacters="" Enabled="True" FirstRowSelected="True" 
+                                            MinimumPrefixLength="1" ServiceMethod="sql" ServicePath="" 
+                                            ShowOnlyCurrentWordInCompletionListItem="True" 
+                                            TargetControlID="TxtBYName" UseContextKey="True" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                </cc1:AutoCompleteExtender> 
+                            <asp:RequiredFieldValidator ID="ReqByName" runat="server" 
+                                ControlToValidate="TxtBYName" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>&nbsp;&nbsp;<asp:Button
+                                    ID="Button3" runat="server" Text="Search" CssClass="redbox" 
+                                onclick="Button3_Click" /></td></tr><tr>
+                                <td class="style15" valign="top">Adderss</td><td>
+                                <asp:TextBox 
+                                    ID="TxtByAddress" runat="server" ValidationGroup="A" CssClass="box3" 
+                                    TextMode="MultiLine" Width="42%" Height="125px"></asp:TextBox><asp:RequiredFieldValidator ID="ReqByAddress" runat="server" 
+                                    ControlToValidate="TxtByAddress" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></td></tr></table></td></tr><tr><td><table align="left" cellpadding="0" cellspacing="0" class="style2" width="100%"><tr>
+                                <td 
+                                    class="style13" width="15%" height="25">Country</td><td class="style13" 
+                                    width="20%"><asp:DropDownList 
+                                        ID="DrpByCountry" runat="server" AutoPostBack="True" 
+                                        onselectedindexchanged="DrpByCountry_SelectedIndexChanged"></asp:DropDownList>
+                                </td><td class="style13" width="10%">State</td><td class="style13" width="19%"><asp:DropDownList 
+                                    ID="DrpByState" runat="server" AutoPostBack="True" 
+                                    onselectedindexchanged="DrpByState_SelectedIndexChanged"></asp:DropDownList></td>
+                                <td class="style13" width="9%">City</td><td class="style13"><asp:DropDownList 
+                                    ID="DrpByCity" runat="server" AutoPostBack="True"></asp:DropDownList></td></tr><tr>
+                                    <td class="style21" height="25">Contact person</td><td class="style22">
+                                    <asp:TextBox 
+                                        ID="TxtByCName" runat="server" ValidationGroup="A" CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator  runat="server"  ID="ReqByCName" 
+                                        ControlToValidate="TxtByCName" ErrorMessage="*" ValidationGroup="A" ></asp:RequiredFieldValidator></td><td class="style23">Phone No.</td><td class="style24">
+                                    <asp:TextBox 
+                                        ID="TxtByPhone" runat="server" ValidationGroup="A" CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqByPhone" runat="server" 
+                                        ControlToValidate="TxtByPhone" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></td><td class="style23">Mobile No.</td><td>
+                                    <asp:TextBox 
+                                        ID="TxtByMobile" runat="server" ValidationGroup="A" CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqByMobile" runat="server" 
+                                        ControlToValidate="TxtByMobile" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></td></tr><tr>
+                                    <td class="style21" height="25">E-mail</td><td class="style22">
+                                    <asp:TextBox 
+                                        ID="TxtByEmail" runat="server" ValidationGroup="A" CssClass="box3" 
+                                        Width="160px"></asp:TextBox><asp:RequiredFieldValidator ID="ReqByEmail" runat="server" 
+                                        ControlToValidate="TxtByEmail" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+                                    <asp:RegularExpressionValidator ID="RegEmailvalBuyer" runat="server" 
+                                        ControlToValidate="TxtByEmail" ErrorMessage="*" 
+                                        ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" 
+                                        ValidationGroup="A"></asp:RegularExpressionValidator>
+                                    </td><td class="style23">Fax No.</td><td class="style24">
+                                    <asp:TextBox 
+                                        ID="TxtByFaxNo" runat="server" ValidationGroup="A" CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqFaxNo" runat="server" 
+                                        ControlToValidate="TxtByFaxNo" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></td><td class="style23">TIN / VAT No</td>
+                                    <td height="25">
+                                        <asp:TextBox ID="TxtByTINVATNo" runat="server" ValidationGroup="A" 
+                                            CssClass="box3" Width="150px"></asp:TextBox><asp:RequiredFieldValidator ID="ReqByTinVatNo" runat="server" 
+                                            ControlToValidate="TxtByTINVATNo" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></td></tr><tr>
+                                    <td height="24">Customer&#39;s ECC.No.</td><td class="style22">
+                                    <asp:TextBox 
+                                    ID="TxtByECCNo" runat="server" ValidationGroup="A" CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqCustEccNo" runat="server" 
+                                        ControlToValidate="TxtByECCNo" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></td><td class="style23">TIN / CST No.</td><td class="style24">
+                                    <asp:TextBox 
+                                    ID="TxtByTINCSTNo" runat="server" ValidationGroup="A" CssClass="box3" 
+                                        Width="150px"></asp:TextBox><asp:RequiredFieldValidator ID="ReqByTInCStNo" runat="server" 
+                                            ControlToValidate="TxtByTINCSTNo" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></td><td class="style23">
+                                        &nbsp;</td><td>
+                                        <asp:Button ID="BtnBuy" runat="server" CssClass="redbox" OnClick="BtnBuy_Click" 
+                                            Text=" Next " />
+                                        <asp:Button ID="Button1" runat="server" CssClass="redbox" 
+                                            onclick="Button1_Click" Text="Cancel" />
+                                    </td></tr></table></td></tr></table>
+                        </ContentTemplate>
+                    </cc1:TabPanel>
+                    <cc1:TabPanel ID="TabPanel2" runat="server" HeaderText="Consignee">
+                        <ContentTemplate><table align="left" cellpadding="0" cellspacing="0" width="100%" ><tr><td><table align="left" cellpadding="0" cellspacing="0" width="100%"><tr>
+                            <td class="style19" width="12%" height="25">Name</td><td><asp:TextBox 
+                                ID="TxtCName" runat="server" ValidationGroup="A" CssClass="box3" 
+                                Width="42%"></asp:TextBox>
+                            <cc1:AutoCompleteExtender ID="AutoCompleteExtender1" 
+                    runat="server" CompletionInterval="100" CompletionSetCount="1" 
+                                            DelimiterCharacters="" Enabled="True" FirstRowSelected="True" 
+                                            MinimumPrefixLength="1" ServiceMethod="sql" ServicePath="" 
+                                            ShowOnlyCurrentWordInCompletionListItem="True" 
+                                            TargetControlID="TxtCName" UseContextKey="True" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                </cc1:AutoCompleteExtender> 
+                            <asp:RequiredFieldValidator ID="ReqCName" runat="server" 
+                                ControlToValidate="TxtCName" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>&nbsp;&nbsp;<asp:Button
+                                    ID="Button6" runat="server" Text="Search" CssClass="redbox" 
+                                onclick="Button6_Click" />&nbsp;&nbsp;<asp:Button
+                                        ID="Button5" runat="server" Text="Copy from Buyer" 
+                                CssClass="redbox" onclick="Button5_Click" /></td></tr><tr>
+                                <td class="style19" height="25" valign="top">Adderss</td><td>
+                                <asp:TextBox 
+                                    ID="TxtCAddress" runat="server" ValidationGroup="A" CssClass="box3" 
+                                    TextMode="MultiLine" Width="42%" Height="125px"></asp:TextBox><asp:RequiredFieldValidator ID="ReqCaddress" runat="server" 
+                                    ControlToValidate="TxtCAddress" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></td></tr></table></td></tr><tr><td><table align="left" cellpadding="0" cellspacing="0" width="100%"><tr>
+                                <td class="style20" width="15%" height="25">Country</td><td class="style15" 
+                                    width="20%"><asp:DropDownList 
+                                    ID="DrpCoCountry" runat="server" AutoPostBack="True" 
+                                    onselectedindexchanged="DrpCoCountry_SelectedIndexChanged"></asp:DropDownList></td><td class="style16" width="12%">State </td><td class="style17" width="19%"><asp:DropDownList 
+                                    ID="DrpCoState" runat="server" AutoPostBack="True" 
+                                    onselectedindexchanged="DrpCoState_SelectedIndexChanged"></asp:DropDownList></td>
+                                <td class="style18" width="12%">City</td><td><asp:DropDownList 
+                                    ID="DrpCoCity" runat="server" AutoPostBack="True"></asp:DropDownList></td></tr><tr>
+                                    <td class="style20" height="25">Contact person </td><td class="style15">
+                                    <asp:TextBox 
+                                        ID="TxtCoPersonName" runat="server" ValidationGroup="A" CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqCoperson" runat="server" 
+                                        ControlToValidate="TxtCoPersonName" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></td><td class="style16">Phone No. </td><td class="style17">
+                                    <asp:TextBox 
+                                        ID="TxtCoPhoneNo" runat="server" ValidationGroup="A" CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqCPhoneno" runat="server" 
+                                        ControlToValidate="TxtCoPhoneNo" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></td><td class="style18">Mobile No. </td><td>
+                                    <asp:TextBox 
+                                        ID="TxtCoMobileNo" runat="server" ValidationGroup="A" CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqCMobileno" runat="server" 
+                                        ControlToValidate="TxtCoMobileNo" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></td></tr><tr>
+                                    <td class="style20" height="25">E-mail </td><td class="style15">
+                                    <asp:TextBox 
+                                        ID="TxtCoEmail" runat="server" ValidationGroup="A" CssClass="box3" 
+                                        Width="160px"></asp:TextBox><asp:RequiredFieldValidator ID="ReqCEmail" runat="server" 
+                                        ControlToValidate="TxtCoEmail" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+                                    <asp:RegularExpressionValidator ID="RegEmailvalConsignee" runat="server" 
+                                        ControlToValidate="TxtCoEmail" ErrorMessage="*" 
+                                        ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" 
+                                        ValidationGroup="A"></asp:RegularExpressionValidator>
+                                    </td><td class="style16">Fax No. </td><td class="style17">
+                                    <asp:TextBox 
+                                        ID="TxtCoFaxNo" runat="server" ValidationGroup="A" CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqCFaxNo" runat="server" 
+                                        ControlToValidate="TxtCoFaxNo" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></td><td class="style18">
+                                        TIN / VAT No.</td><td>
+                                    <asp:TextBox ID="TxtCoTinVatNo" runat="server" ValidationGroup="A" 
+                                        CssClass="box3" Width="160px"></asp:TextBox><asp:RequiredFieldValidator ID="ReqCTinVatno" runat="server" 
+                                            ControlToValidate="TxtCoTinVatNo" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></td></tr><tr>
+                                    <td class="style20" height="25">Customer&#39;s ECC.No.</td><td class="style15">
+                                    <asp:TextBox 
+                                        ID="TxtECoCCNo" runat="server" ValidationGroup="A" CssClass="box3" 
+                                        Width="160px"></asp:TextBox><asp:RequiredFieldValidator ID="ReqCECCNo" runat="server" 
+                                        ControlToValidate="TxtECoCCNo" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></td><td class="style16">TIN / CST No.</td><td class="style17">
+                                    <asp:TextBox 
+                                        ID="TxtCoTinCSTNo" runat="server" ValidationGroup="A" CssClass="box3" 
+                                        Width="160px"></asp:TextBox><asp:RequiredFieldValidator ID="ReqCTINcstno" runat="server" 
+                                        ControlToValidate="TxtCoTinCSTNo" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></td><td class="style18">
+                                        &nbsp;</td><td>
+                                        <asp:Button ID="BtnCNext" runat="server" CssClass="redbox" 
+                                            OnClick="BtnCNext_Click" Text=" Next " />
+                                        <asp:Button ID="Button2" runat="server" CssClass="redbox" 
+                                            onclick="Button2_Click" Text="Cancel" />
+                                    </td></tr></table></td></tr></table>
+                        </ContentTemplate>
+                    </cc1:TabPanel>
+                    <cc1:TabPanel ID="TabPanel3"    runat="server" HeaderText="Goods">
+                        <ContentTemplate><table align="left" cellpadding="0" cellspacing="0" class="style2" 
+                                width="100%"><tr><td width="100%">                                
+                                <asp:Panel ID="Panel1" runat="server" Height="290px" ScrollBars="Auto">
+                                    <asp:SqlDataSource ID="SqlUnitQty" runat="server" 
+                                        ConnectionString="<%$ connectionStrings:LocalSqlServer %>" 
+                                        ProviderName="System.Data.SqlClient" 
+                                        SelectCommand="SELECT *  FROM [Unit_Master] order by [Id] ASC">
+                                    </asp:SqlDataSource>
+                                    <asp:SqlDataSource ID="SqlUnit" runat="server" 
+                                        ConnectionString="<%$ connectionStrings:LocalSqlServer %>" 
+                                        ProviderName="System.Data.SqlClient" 
+                                        SelectCommand="SELECT *  FROM [Unit_Master] order by [Id] ASC">
+                                    </asp:SqlDataSource>
+                                    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" 
+                                        CssClass="yui-datatable-theme" 
+                                        OnPageIndexChanging="GridView1_PageIndexChanging" 
+                                        OnRowCommand="GridView1_RowCommand" Width="98%">
+                                        <Columns>
+                                            <asp:TemplateField HeaderText="SN">
+                                                <ItemTemplate>
+                                                    <%#Container.DataItemIndex+1 %>
+                                                </ItemTemplate>
+                                                <ItemStyle HorizontalAlign="Right" Width="3%" />
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Description">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblDesc" runat="server" Text='<%#Eval("ItemDesc") %>'></asp:Label>
+                                                </ItemTemplate>
+                                                <ItemStyle HorizontalAlign="Left" Width="25%" />
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Unit">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblUnit" runat="server" Text='<%#Eval("Symbol") %>'> </asp:Label>
+                                                </ItemTemplate>
+                                                <ItemStyle HorizontalAlign="Center" Width="5%" />
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Id" Visible="False">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblId" runat="server" Text='<%#Eval("Id") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Qty">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblQty" runat="server" Text='<%#Eval("TotalQty") %>'> </asp:Label>
+                                                </ItemTemplate>
+                                                <ItemStyle HorizontalAlign="Right" Width="5%" />
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Remn Qty">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblRemnQty" runat="server" Text='<%#Eval("RemainingQty") %>'></asp:Label>
+                                                </ItemTemplate>
+                                                <ItemStyle HorizontalAlign="Right" Width="8%" />
+                                            </asp:TemplateField>
+                                            <asp:TemplateField>
+                                                <ItemTemplate>
+                                                    <asp:CheckBox ID="ck" runat="server" ValidationGroup="B" />
+                                                </ItemTemplate>
+                                                <ItemStyle HorizontalAlign="Center" Width="2%" />
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Unit Of Qty">
+                                                <ItemTemplate>
+                                                    <asp:DropDownList ID="DrpUnitQty" runat="server" CssClass="box3" 
+                                                        DataSourceID="SqlUnitQty" DataTextField="Symbol" DataValueField="Id" 
+                                                        Width="100%">
+                                                    </asp:DropDownList>
+                                                </ItemTemplate>
+                                                <ItemStyle Width="6%" />
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Req Qty">
+                                                <ItemTemplate>
+                                                    <asp:TextBox ID="TxtReqQty" runat="server" CssClass="box3">
+                                                    </asp:TextBox>
+                                                    <asp:RequiredFieldValidator ID="ReqQty" runat="server" 
+                                                        ControlToValidate="TxtReqQty" ErrorMessage="*" ValidationGroup="B">
+                                                    </asp:RequiredFieldValidator>
+                                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator12" 
+                                                        runat="server" ControlToValidate="TxtReqQty" ErrorMessage="*" 
+                                                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="B">
+                                                    </asp:RegularExpressionValidator>
+                                                </ItemTemplate>
+                                                <ItemStyle Width="10%" />
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Rate">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblRate" runat="server" Text='<%#Eval("Rate") %>'></asp:Label>
+                                                </ItemTemplate>
+                                                <ItemStyle HorizontalAlign="Right" Width="5%" />
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Amt in (%)">
+                                                <ItemTemplate>
+                                                    <asp:TextBox ID="TxtAmt" runat="Server" CssClass="box3" Text="100">
+                                                    </asp:TextBox>
+                                                    <asp:RequiredFieldValidator ID="ReqAmt" runat="server" 
+                                                        ControlToValidate="TxtAmt" ErrorMessage="*" ValidationGroup="B">
+                                                    </asp:RequiredFieldValidator>
+                                                    <asp:RegularExpressionValidator ID="RegularExpressionValidatoramt" 
+                                                        runat="server" ControlToValidate="TxtAmt" ErrorMessage="*" 
+                                                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="B">
+                                                    </asp:RegularExpressionValidator>
+                                                </ItemTemplate>
+                                                <ItemStyle Width="10%" />
+                                            </asp:TemplateField>
+                                        </Columns>
+                                        <EmptyDataTemplate>
+                                            <table class="fontcss" width="100%">
+                                                <tr>
+                                                    <td align="center">
+                                                        <asp:Label ID="Label1" runat="server" Font-Size="Larger" ForeColor="maroon" 
+                                                            Text="No data to display !"> </asp:Label>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </EmptyDataTemplate>
+                                    </asp:GridView>
+                                </asp:Panel>
+                    
+                    
+                    </td></tr><tr><td align="center"><asp:Button ID="Btngoods" runat="server"   
+                                    onclick="Btngoods_Click"  Text=" Next " CssClass="redbox" />
+                                <asp:Button ID="Button7" runat="server" CssClass="redbox" 
+                                    OnClick="Button2_Click" Text="Cancel" />
+                                </td></tr></table>
+                        </ContentTemplate>
+                    </cc1:TabPanel>
+                    <cc1:TabPanel ID="TabPanel4" runat="server" HeaderText="Taxation">
+                        <ContentTemplate><table align="left" cellpadding="0" cellspacing="0" class="style2" width="100%">
+                            <tr>
+                                <td height="25" width="10%">
+                                    Add</td>
+                                <td height="25" width="16%">
+                                    <asp:TextBox ID="TxtAdd" runat="server" CssClass="box3" ValidationGroup="A"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="ReqAdd" runat="server" 
+                                        ControlToValidate="TxtAdd" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" 
+                                        ControlToValidate="TxtAdd" ErrorMessage="*" 
+                                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="A"></asp:RegularExpressionValidator>
+                                </td>
+                                <td height="25">
+                                    <asp:DropDownList ID="DrpAdd" runat="server" CssClass="box3">
+                                        <asp:ListItem Text="Amt(Rs)" Value="0"></asp:ListItem>
+                                        <asp:ListItem Text="Per(%)" Value="1"></asp:ListItem>
+                                    </asp:DropDownList>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td height="25" width="10%">
+                                    Deduction</td>
+                                <td height="25" width="16%">
+                                    <asp:TextBox ID="TxtDeduct" runat="server" CssClass="box3" ValidationGroup="A"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="ReqDed" runat="server" 
+                                        ControlToValidate="TxtDeduct" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" 
+                                        ControlToValidate="TxtDeduct" ErrorMessage="*" 
+                                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="A"></asp:RegularExpressionValidator>
+                                </td>
+                                <td height="25">
+                                    <asp:DropDownList ID="DrpDed" runat="server" CssClass="box3">
+                                        <asp:ListItem Text="Amt(Rs)" Value="0"></asp:ListItem>
+                                        <asp:ListItem Text="Per(%)" Value="1"></asp:ListItem>
+                                    </asp:DropDownList>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td height="25" width="10%">
+                                    Service Tax</td>
+                                <td height="25" width="16%">
+                                    <asp:DropDownList ID="DrpServiceTax" runat="server" CssClass="box3" 
+                                        DataSourceID="SqlServiceTax" DataTextField="Terms" DataValueField="Id" 
+                                        Width="133px">
+                                    </asp:DropDownList>
+                                    <asp:SqlDataSource ID="SqlServiceTax" runat="server" 
+                                        ConnectionString="<%$ connectionStrings:LocalSqlServer %>" 
+                                        ProviderName="System.Data.SqlClient" 
+                                        SelectCommand="SELECT *  FROM [tblExciseser_Master] order by [Id] desc">
+                                    </asp:SqlDataSource>
+                                </td>
+                                <td height="25">
+                                    <asp:Button ID="BtnSubmit" runat="server" CssClass="redbox" 
+                                        OnClick="BtnSubmit_Click" OnClientClick=" return confirmationAdd()" 
+                                        Text="Submit" ValidationGroup="A" />
+                                    <asp:Button ID="BtnCancel" runat="server" CssClass="redbox" 
+                                        OnClick="BtnCancel_Click" Text="Cancel" />
+                                </td>
+                            </tr>
+
+                            
+                            
+                            
+                            </td></tr>
+                            </table>
+                        </ContentTemplate>
+                    </cc1:TabPanel>
+                </cc1:TabContainer>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/ServiceTaxInvoice_New_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using iTextSharp.text;
+using MKB.TimePicker;
+
+public partial class Module_Accounts_Transactions_ServiceTaxInvoice_New_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string CDate = "";
+    string CTime = "";
+    string sId = "";
+    int CompId = 0;
+    int FinYearId = 0;
+    string WN = "";
+    string PN = "";
+    string CCode = "";
+    string pdate = "";
+    string POId = "";
+    SqlConnection con;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        string connStr = fun.Connection();
+        con = new SqlConnection(connStr);
+
+        try
+        {
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            CompId = Convert.ToInt32(Session["compid"]);
+            WN = fun.Decrypt(Request.QueryString["wn"].ToString());
+            PN = fun.Decrypt(Request.QueryString["pn"].ToString());
+            POId = fun.Decrypt(Request.QueryString["poid"].ToString());
+            CCode = fun.Decrypt(Request.QueryString["cid"].ToString());
+            pdate = fun.Decrypt(Request.QueryString["date"].ToString());
+            string dt = fun.getCurrDate();
+            LblInvDate.Text = fun.FromDateDMY(dt);
+            LblPODate.Text = pdate;
+            LblPONo.Text = PN;            
+            DataSet ds = new DataSet();
+            
+            con.Open();
+            string[] split = WN.Split(new Char[] { ',' });
+            string WoNO = "";
+            for (int d = 0; d < split.Length - 1; d++)
+            {
+
+                string sqlWoNo = fun.select("WONo", "SD_Cust_WorkOrder_Master", "Id='" + split[d] + "'  AND CompId='" + CompId + "'");
+                SqlCommand cmdWoNo = new SqlCommand(sqlWoNo, con);
+                SqlDataAdapter daWoNo = new SqlDataAdapter(cmdWoNo);
+                DataSet dsWoNo = new DataSet();
+                daWoNo.Fill(dsWoNo);
+
+                if (dsWoNo.Tables[0].Rows.Count > 0)
+                {
+                    WoNO += dsWoNo.Tables[0].Rows[0][0].ToString() + ",";
+                }
+                LblWONo.Text = WoNO;
+            }
+
+
+
+            CDate = fun.getCurrDate();
+            CTime = fun.getCurrTime();
+            sId = Session["username"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            if (!IsPostBack)
+            {
+
+
+                string cmdStr = fun.select("InvoiceNo", "tblACC_ServiceTaxInvoice_Master", "CompId='" + CompId + "' AND FinYearId='" + FinYearId + "' order by InvoiceNo desc");
+
+                SqlCommand cmd11 = new SqlCommand(cmdStr, con);
+                SqlDataAdapter da = new SqlDataAdapter(cmd11);
+                DataSet DS = new DataSet();
+                da.Fill(DS, "tblACC_ServiceTaxInvoice_Master");
+                string InvNo = "";
+
+                if (DS.Tables[0].Rows.Count > 0)
+                {
+                    InvNo = (Convert.ToInt32(DS.Tables[0].Rows[0]["InvoiceNo"]) + 1).ToString("D4");
+                }
+                else
+                {
+                    InvNo = "0001";
+                }
+                TxtInvNo.Text = InvNo;
+
+
+
+                fun.dropdownCountry(DrpByCountry, DrpByState);
+                fun.dropdownCountry(DrpCoCountry, DrpCoState);
+                this.fillgrid();
+
+                // For Service Tax
+                String sqlServiceTax = fun.select("Id", "tblExciseser_Master", "LiveSerTax='1'");
+                SqlCommand cmdServiceTax = new SqlCommand(sqlServiceTax, con);
+                SqlDataAdapter daServiceTax = new SqlDataAdapter(cmdServiceTax);
+                DataSet dsServiceTax = new DataSet();
+                daServiceTax.Fill(dsServiceTax);
+                if (dsServiceTax.Tables[0].Rows.Count > 0)
+                {
+                    DrpServiceTax.SelectedValue = dsServiceTax.Tables[0].Rows[0]["Id"].ToString();
+                }
+
+                // For Buyer
+                String sqlcus = fun.select("CustomerName+' ['+CustomerId+']' As Customer,MaterialDelAddress,MaterialDelCountry,MaterialDelState,MaterialDelCity,MaterialDelContactNo,MaterialDelFaxNo,ContactPerson,Email,TinVatNo,EccNo,ContactNo,TinCstNo", "SD_Cust_master", "CustomerId='" + CCode + "' And CompId='" + CompId + "'");
+                SqlCommand cmdcus = new SqlCommand(sqlcus, con);
+                SqlDataAdapter dacus = new SqlDataAdapter(cmdcus);
+                DataSet dscus = new DataSet();
+                dacus.Fill(dscus);
+                if (dscus.Tables[0].Rows.Count > 0)
+                {
+                    TxtBYName.Text = dscus.Tables[0].Rows[0]["Customer"].ToString();
+                    TxtByAddress.Text = dscus.Tables[0].Rows[0]["MaterialDelAddress"].ToString();
+                    //Buyer Country  
+                    fun.dropdownCountrybyId(DrpByCountry, DrpByState, "CId='" + dscus.Tables[0].Rows[0]["MaterialDelCountry"].ToString() + "'");
+                    DrpByCountry.SelectedIndex = 0;
+                    fun.dropdownCountry(DrpByCountry, DrpByState);
+                    // Buyer State
+                    fun.dropdownState(DrpByState, DrpByCity, DrpByCountry);
+                    fun.dropdownStatebyId(DrpByState, "CId='" + dscus.Tables[0].Rows[0]["MaterialDelCountry"].ToString() + "' AND SId='" + dscus.Tables[0].Rows[0]["MaterialDelState"].ToString() + "'");
+                    //DrpByState.SelectedIndex = DrpByState.Items.Count - 1;
+                    DrpByState.SelectedValue = dscus.Tables[0].Rows[0]["MaterialDelState"].ToString();
+                    // Buyer City
+                    fun.dropdownCity(DrpByCity, DrpByState);
+                    fun.dropdownCitybyId(DrpByCity, "SId='" + dscus.Tables[0].Rows[0]["MaterialDelState"].ToString() + "' AND CityId='" + dscus.Tables[0].Rows[0]["MaterialDelCity"].ToString() + "'");
+                    // DrpByCity.SelectedIndex = DrpByCity.Items.Count - 1;
+                    DrpByCity.SelectedValue = dscus.Tables[0].Rows[0]["MaterialDelCity"].ToString();
+
+                    TxtByCName.Text = dscus.Tables[0].Rows[0]["ContactPerson"].ToString();
+                    TxtByPhone.Text = dscus.Tables[0].Rows[0]["MaterialDelContactNo"].ToString();
+                    TxtByFaxNo.Text = dscus.Tables[0].Rows[0]["MaterialDelFaxNo"].ToString();
+                    TxtByTINCSTNo.Text = dscus.Tables[0].Rows[0]["TinCstNo"].ToString();
+                    TxtByTINVATNo.Text = dscus.Tables[0].Rows[0]["TinVatNo"].ToString();
+                    TxtByMobile.Text = dscus.Tables[0].Rows[0]["ContactNo"].ToString();
+                    TxtByEmail.Text = dscus.Tables[0].Rows[0]["Email"].ToString();
+                    TxtByECCNo.Text = dscus.Tables[0].Rows[0]["EccNo"].ToString();
+                }
+
+                //// For Consignee
+                //String sqlcust1 = fun.select("CustomerId,ShippingAdd,ShippingCountry,ShippingState,ShippingCity,ShippingContactPerson1,ShippingEmail1,ShippingContactNo1,ShippingFaxNo,ShippingEccNo,ShippingTinCstNo,ShippingTinVatNo", "SD_Cust_WorkOrder_Master", "WONo='" + WN + "' And CompId='" + CompId + "'");
+                //SqlCommand cmdcust1 = new SqlCommand(sqlcust1, con);
+                //SqlDataAdapter dacust1 = new SqlDataAdapter(cmdcust1);
+                //DataSet dscust1 = new DataSet();
+                //dacust1.Fill(dscust1);
+                //if (dscust1.Tables[0].Rows.Count > 0)
+                //{
+                //    SqlCommand cmcname = new SqlCommand(fun.select("CustomerName", "SD_Cust_master", "CustomerId='" + dscust1.Tables[0].Rows[0]["CustomerId"] + "' And CompId='" + CompId + "'"), con);
+                //    SqlDataAdapter dacname = new SqlDataAdapter(cmcname);
+                //    DataSet dscname = new DataSet();
+                //    dacname.Fill(dscname);
+
+                //    if (dscname.Tables[0].Rows.Count > 0)
+                //    {
+                //        TxtCName.Text = dscname.Tables[0].Rows[0]["CustomerName"].ToString();
+                //    }
+
+                //    TxtCAddress.Text = dscust1.Tables[0].Rows[0]["ShippingAdd"].ToString();
+                //    TxtCoPersonName.Text = dscust1.Tables[0].Rows[0]["ShippingContactPerson1"].ToString();
+                //    TxtCoPhoneNo.Text = dscust1.Tables[0].Rows[0]["ShippingContactNo1"].ToString();
+                //    //  TxtCoMobileNo.Text = dsinv.Tables[0].Rows[0]["Cong_mob"].ToString();
+                //    TxtCoFaxNo.Text = dscust1.Tables[0].Rows[0]["ShippingFaxNo"].ToString();
+                //    TxtCoEmail.Text = dscust1.Tables[0].Rows[0]["ShippingEmail1"].ToString();
+                //    TxtCoTinCSTNo.Text = dscust1.Tables[0].Rows[0]["ShippingTinCstNo"].ToString();
+                //    TxtCoTinVatNo.Text = dscust1.Tables[0].Rows[0]["ShippingTinVatNo"].ToString();
+                //    TxtECoCCNo.Text = dscust1.Tables[0].Rows[0]["ShippingEccNo"].ToString();
+
+                //    //Consignee Country  
+                //    fun.dropdownCountrybyId(DrpCoCountry, DrpCoState, "CId='" + dscust1.Tables[0].Rows[0]["ShippingCountry"].ToString() + "'");
+                //    DrpCoCountry.SelectedIndex = 0;
+                //    fun.dropdownCountry(DrpCoCountry, DrpCoState);
+                //    // Consignee State
+                //    fun.dropdownState(DrpCoState, DrpCoCity, DrpCoCountry);
+                //    fun.dropdownStatebyId(DrpCoState, "CId='" + dscust1.Tables[0].Rows[0]["ShippingCountry"].ToString() + "' AND SId='" + dscust1.Tables[0].Rows[0]["ShippingState"].ToString() + "'");
+                //    //DrpCoState.SelectedIndex = DrpCoState.Items.Count - 1;
+                //    DrpCoState.SelectedValue = dscust1.Tables[0].Rows[0]["ShippingState"].ToString();
+                //    // Consignee City
+                //    fun.dropdownCity(DrpCoCity, DrpCoState);
+                //    fun.dropdownCitybyId(DrpCoCity, "SId='" + dscust1.Tables[0].Rows[0]["ShippingState"].ToString() + "' AND CityId='" + dscust1.Tables[0].Rows[0]["ShippingCity"].ToString() + "'");
+                //    //DrpCoCity.SelectedIndex = DrpCoCity.Items.Count - 1;
+                //    DrpCoCity.SelectedValue = dscust1.Tables[0].Rows[0]["ShippingCity"].ToString();
+                //}
+
+            }
+            TabContainer1.OnClientActiveTabChanged = "OnChanged";
+            TabContainer1.ActiveTabIndex = Convert.ToInt32(Session["TabIndex"] ?? "0");
+        }
+        catch (Exception ex) { }
+    }
+
+    public void fillgrid()
+    {
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+
+        con.Open();
+        DataTable dt = new DataTable();
+        string sqlpo = fun.select("SD_Cust_PO_Master.POId,SD_Cust_PO_Details.Id,SD_Cust_PO_Details.ItemDesc,SD_Cust_PO_Details.TotalQty,SD_Cust_PO_Details.Unit,SD_Cust_PO_Details.Rate", "SD_Cust_PO_Master,SD_Cust_PO_Details", " SD_Cust_PO_Master.PONo='" + PN + "' AND SD_Cust_PO_Details.POId=SD_Cust_PO_Master.POId And SD_Cust_PO_Master.CompId='" + CompId + "' AND SD_Cust_PO_Master.POId='" + POId + "'");
+
+
+        SqlCommand cmdpo = new SqlCommand(sqlpo, con);
+        SqlDataAdapter dapo = new SqlDataAdapter(cmdpo);
+        DataSet dspo = new DataSet();
+        dapo.Fill(dspo);
+
+        dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+        dt.Columns.Add(new System.Data.DataColumn("ItemDesc", typeof(string)));
+        dt.Columns.Add(new System.Data.DataColumn("TotalQty", typeof(float)));
+        dt.Columns.Add(new System.Data.DataColumn("Symbol", typeof(string)));
+        dt.Columns.Add(new System.Data.DataColumn("Rate", typeof(float)));
+        dt.Columns.Add(new System.Data.DataColumn("RemainingQty", typeof(float)));
+
+        if (dspo.Tables[0].Rows.Count > 0)
+        {
+            DataRow dr;
+            for (int i = 0; i < dspo.Tables[0].Rows.Count; i++)
+            {
+                dr = dt.NewRow();
+                double reqty = 0;
+                double rmnqty = 0;
+                double qty = 0;
+
+                string sqlUnit = fun.select("Id,Symbol", "Unit_Master", "Id='" + dspo.Tables[0].Rows[0]["Unit"].ToString() + "'");
+                SqlCommand cmdUnit = new SqlCommand(sqlUnit, con);
+                SqlDataAdapter daUnit = new SqlDataAdapter(cmdUnit);
+                DataSet dsUnit = new DataSet();
+                daUnit.Fill(dsUnit);
+                int y1 = 0;
+                string sqlrmn = fun.select(" Sum(tblACC_ServiceTaxInvoice_Details.ReqQty) as ReqQty", "tblACC_ServiceTaxInvoice_Master,tblACC_ServiceTaxInvoice_Details,SD_Cust_PO_Master,SD_Cust_PO_Details", "tblACC_ServiceTaxInvoice_Details.MId=tblACC_ServiceTaxInvoice_Master.Id  And  tblACC_ServiceTaxInvoice_Master.CompId='" + CompId + "' AND SD_Cust_PO_Master.POId=SD_Cust_PO_Details.POId  And tblACC_ServiceTaxInvoice_Details.ItemId=SD_Cust_PO_Details.Id ANd tblACC_ServiceTaxInvoice_Master.POId=SD_Cust_PO_Master.POId  AND tblACC_ServiceTaxInvoice_Master.POId='" + dspo.Tables[0].Rows[i]["POId"].ToString() + "' AND tblACC_ServiceTaxInvoice_Details.ItemId='" + dspo.Tables[0].Rows[i]["Id"].ToString() + "' Group By tblACC_ServiceTaxInvoice_Details.ItemId");
+                SqlCommand cmdmn = new SqlCommand(sqlrmn, con);
+                SqlDataAdapter darmn = new SqlDataAdapter(cmdmn);
+                DataSet dsrmn = new DataSet();
+                darmn.Fill(dsrmn);
+                if (dsrmn.Tables[0].Rows.Count > 0 && dsrmn.Tables[0].Rows[0]["ReqQty"] != DBNull.Value)
+                {
+                    reqty = Convert.ToDouble(decimal.Parse((dsrmn.Tables[0].Rows[0]["ReqQty"]).ToString()).ToString("N3"));
+
+
+                }
+                qty = Convert.ToDouble(decimal.Parse((dspo.Tables[0].Rows[i]["TotalQty"]).ToString()).ToString("N3"));
+                rmnqty = qty - reqty;
+                if (rmnqty > 0)
+                {
+                    y1++;
+                }
+                if (y1 > 0)
+                {
+                    dr[0] = dspo.Tables[0].Rows[i]["Id"].ToString();
+                    dr[1] = dspo.Tables[0].Rows[i]["ItemDesc"].ToString();
+                    dr[2] = dspo.Tables[0].Rows[i]["TotalQty"].ToString();
+                    dr[3] = dsUnit.Tables[0].Rows[0]["Symbol"].ToString();
+                    dr[4] = dspo.Tables[0].Rows[i]["Rate"].ToString();
+                    dr[5] = rmnqty;
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+            }
+
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
+        }
+    }
+
+    protected void BtnBuy_Click(object sender, EventArgs e)
+    {
+        TabContainer1.ActiveTab = TabContainer1.Tabs[1];
+    }
+
+    protected void BtnSubmit_Click(object sender, EventArgs e)
+    {
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+
+        try
+        {
+            string InvNo = TxtInvNo.Text;
+            int j = 1;
+            string mid = "";
+            double ReqQty = 0;
+            double rmnqty = 0;
+            double Qty = 0;
+            double Amt = 0;
+            int Id = 0;
+            int z = 1;
+            int h = 1;
+            con.Open();
+
+            if (DrpByCountry.SelectedIndex != 0 && DrpByState.SelectedIndex != 0 && DrpByCity.SelectedIndex != 0 && DrpCoCountry.SelectedIndex != 0 && DrpCoState.SelectedIndex != 0 && DrpCoCity.SelectedIndex != 0 && TxtDateofIssueInvoice.Text != "" && fun.DateValidation(TxtDateofIssueInvoice.Text) == true && fun.EmailValidation(TxtByEmail.Text) == true && fun.EmailValidation(TxtCoEmail.Text) == true && TxtAdd.Text != "" && fun.NumberValidationQty(TxtAdd.Text) == true && TxtDeduct.Text != "" && fun.NumberValidationQty(TxtDeduct.Text) == true)
+            {
+
+                foreach (GridViewRow grv in GridView1.Rows)
+                {
+                    if (((CheckBox)grv.FindControl("ck")).Checked == true && ((TextBox)grv.FindControl("TxtAmt")).Text != "" && ((TextBox)grv.FindControl("TxtReqQty")).Text != "" && Convert.ToDouble(((TextBox)grv.FindControl("TxtReqQty")).Text) > 0 && TxtInvNo.Text != "")
+                    {
+                        Id = Convert.ToInt32(((Label)grv.FindControl("lblId")).Text);
+                        Qty = Convert.ToDouble(decimal.Parse(((Label)grv.FindControl("lblQty")).Text).ToString("N2"));
+                        ReqQty = Convert.ToDouble(decimal.Parse((((TextBox)grv.FindControl("TxtReqQty")).Text).ToString()).ToString("N3"));
+                        Amt = Convert.ToDouble(decimal.Parse((((TextBox)grv.FindControl("TxtAmt")).Text).ToString()).ToString("N2"));
+
+                        string sqlrmn = fun.select("Sum(tblACC_ServiceTaxInvoice_Details.ReqQty) as ReqQty", "tblACC_ServiceTaxInvoice_Master,tblACC_ServiceTaxInvoice_Details", "tblACC_ServiceTaxInvoice_Details.MId=tblACC_ServiceTaxInvoice_Master.Id  And  tblACC_ServiceTaxInvoice_Master.CompId='" + CompId + "'  And tblACC_ServiceTaxInvoice_Details.ItemId='" + Id + "'  Group By tblACC_ServiceTaxInvoice_Details.ItemId");
+
+
+                        SqlCommand cmdmn = new SqlCommand(sqlrmn, con);
+                        SqlDataAdapter darmn = new SqlDataAdapter(cmdmn);
+                        DataSet dsrmn = new DataSet();
+                        darmn.Fill(dsrmn);
+
+                        double TotInvQty = 0;
+                        if (dsrmn.Tables[0].Rows.Count > 0)
+                        {
+                            TotInvQty = Convert.ToDouble(decimal.Parse((dsrmn.Tables[0].Rows[0]["ReqQty"]).ToString()).ToString("N3"));
+                        }
+
+                        rmnqty = Qty - TotInvQty;
+
+                        if (rmnqty >= ReqQty)//&& Amt <= RemnAmt
+                        {
+                            z = z * h;
+                        }
+                        else
+                        {
+                            h = 0;
+                            z = 0;
+                        }
+                    }
+                }
+
+                if (z > 0)
+                {
+
+                    foreach (GridViewRow grv in GridView1.Rows)
+                    {
+                        if (((CheckBox)grv.FindControl("ck")).Checked == true && ((TextBox)grv.FindControl("TxtAmt")).Text != "" && ((TextBox)grv.FindControl("TxtReqQty")).Text != "" && Convert.ToDouble(((TextBox)grv.FindControl("TxtReqQty")).Text) > 0 && TxtInvNo.Text != "")
+                        {
+                            Id = Convert.ToInt32(((Label)grv.FindControl("lblId")).Text);
+                            Qty = Convert.ToDouble(decimal.Parse(((Label)grv.FindControl("lblQty")).Text).ToString("N3"));
+                            ReqQty = Convert.ToDouble(decimal.Parse((((TextBox)grv.FindControl("TxtReqQty")).Text).ToString()).ToString("N3"));
+                            Amt = Convert.ToDouble(decimal.Parse((((TextBox)grv.FindControl("TxtAmt")).Text).ToString()).ToString("N2"));
+
+                            string sqlrmn = fun.select("Sum(tblACC_ServiceTaxInvoice_Details.ReqQty) as ReqQty", "tblACC_ServiceTaxInvoice_Master,tblACC_ServiceTaxInvoice_Details", "tblACC_ServiceTaxInvoice_Details.MId=tblACC_ServiceTaxInvoice_Master.Id  And  tblACC_ServiceTaxInvoice_Master.CompId='" + CompId + "'  And tblACC_ServiceTaxInvoice_Details.ItemId='" + Id + "'  Group By tblACC_ServiceTaxInvoice_Details.ItemId");
+                            SqlCommand cmdmn = new SqlCommand(sqlrmn, con);
+                            SqlDataAdapter darmn = new SqlDataAdapter(cmdmn);
+                            DataSet dsrmn = new DataSet();
+                            darmn.Fill(dsrmn);
+                            double TotInvQty = 0;
+                            if (dsrmn.Tables[0].Rows.Count > 0)
+                            {
+                                TotInvQty = Convert.ToDouble(decimal.Parse((dsrmn.Tables[0].Rows[0]["ReqQty"]).ToString()).ToString("N3"));
+                            }
+
+                            rmnqty = Qty - TotInvQty;
+
+                            if (rmnqty >= ReqQty)
+                            {
+                                if (TxtDateofIssueInvoice.Text != "" && TxtDutyRate.Text != "" && TxtBYName.Text != "" && TxtByAddress.Text != "" && TxtByCName.Text != "" && TxtByPhone.Text != "" && TxtByEmail.Text != "" && TxtByECCNo.Text != "" && TxtByTINCSTNo.Text != "" && TxtByMobile.Text != "" && TxtByFaxNo.Text != "" && TxtByTINVATNo.Text != "" && TxtCName.Text != "" && TxtCAddress.Text != "" && TxtCoPersonName.Text != "" && TxtCoPhoneNo.Text != "" && TxtCoEmail.Text != "" && TxtECoCCNo.Text != "" && TxtCoTinCSTNo.Text != "" && TxtCoMobileNo.Text != "" && TxtCoFaxNo.Text != "" && TxtCoTinVatNo.Text != "" && TxtAdd.Text != "" && TxtDeduct.Text != "")
+                                {
+                                    if (j > 0)
+                                    {
+                                        string TimeSelector = TimeSelector1.Hour.ToString("D2") + ":" + TimeSelector1.Minute.ToString("D2") + ":" + TimeSelector1.Second.ToString("D2") + " " + TimeSelector1.AmPm.ToString();
+
+                                        string sqlsub = fun.insert("tblACC_ServiceTaxInvoice_Master", " SysDate,SysTime,CompId,FinYearId, SessionId,InvoiceNo,POId,PONo,WONo,DateOfIssueInvoice ,TimeOfIssueInvoice,DutyRate,CustomerCode,CustomerCategory,Buyer_name,  Buyer_add,Buyer_country,Buyer_state, Buyer_city,Buyer_cotper,Buyer_ph,Buyer_email,Buyer_ecc,Buyer_tin  ,Buyer_mob  ,Buyer_fax,Buyer_vat,Cong_name ,Cong_add,Cong_Country,Cong_state,Cong_city,Cong_cotper ,  Cong_ph  ,  Cong_email  ,  Cong_ecc  ,Cong_tin,Cong_mob,Cong_fax,Cong_vat,AddType,AddAmt,DeductionType,Deduction,ServiceTax,TaxableServices ", "'" + CDate + "','" + CTime + "','" + CompId + "','" + FinYearId + "','" + sId + "','" + InvNo + "','" + POId + "','" + PN + "','" + WN + "','" + fun.FromDate(TxtDateofIssueInvoice.Text) + "','" + TimeSelector + "','" + TxtDutyRate.Text + "','" + CCode + "','" + DrpCategory.SelectedValue + "','" + TxtBYName.Text + "','" + TxtByAddress.Text + "','" + DrpByCountry.SelectedValue + "','" + DrpByState.SelectedValue + "','" + DrpByCity.SelectedValue + "','" + TxtByCName.Text + "','" + TxtByPhone.Text + "','" + TxtByEmail.Text + "','" + TxtByECCNo.Text + "','" + TxtByTINCSTNo.Text + "','" + TxtByMobile.Text + "','" + TxtByFaxNo.Text + "','" + TxtByTINVATNo.Text + "','" + TxtCName.Text + "','" + TxtCAddress.Text + "','" + DrpCoCountry.SelectedValue + "','" + DrpCoState.SelectedValue + "','" + DrpCoCity.SelectedValue + "','" + TxtCoPersonName.Text + "','" + TxtCoPhoneNo.Text + "','" + TxtCoEmail.Text + "','" + TxtECoCCNo.Text + "','" + TxtCoTinCSTNo.Text + "','" + TxtCoMobileNo.Text + "','" + TxtCoFaxNo.Text + "','" + TxtCoTinVatNo.Text + "','" + DrpAdd.SelectedValue + "','" + TxtAdd.Text + "','" + DrpDed.SelectedValue + "','" + TxtDeduct.Text + "','" + DrpServiceTax.SelectedValue + "','" + DrpTaxableServices.SelectedValue + "'");
+
+                                        SqlCommand cmd = new SqlCommand(sqlsub, con);
+                                        cmd.ExecuteNonQuery();
+
+                                        string cmdStr2 = fun.select1("Id", "tblACC_ServiceTaxInvoice_Master order by Id desc");
+                                        SqlCommand cmd12 = new SqlCommand(cmdStr2, con);
+                                        SqlDataAdapter da2 = new SqlDataAdapter(cmd12);
+                                        DataSet DS2 = new DataSet();
+                                        da2.Fill(DS2, "tblACC_ServiceTaxInvoice_Master");
+                                        mid = DS2.Tables[0].Rows[0]["Id"].ToString();
+
+                                    }
+
+                                    double rate = Convert.ToDouble(((Label)grv.FindControl("lblRate")).Text);
+                                    string unit = ((DropDownList)grv.FindControl("DrpUnitQty")).SelectedValue;
+                                    string sqltemp = fun.insert("tblACC_ServiceTaxInvoice_Details", "MId,InvoiceNo,ItemId,Unit,Qty,ReqQty,AmtInPer,Rate", "'" + mid + "','" + InvNo + "','" + Id + "','" + unit + "','" + Convert.ToDouble(decimal.Parse(Qty.ToString()).ToString("N3")) + "','" + ReqQty + "','" + Amt + "','" + Convert.ToDouble(decimal.Parse(rate.ToString()).ToString("N2")) + "'");
+                                    SqlCommand cmdtemp = new SqlCommand(sqltemp, con);
+                                    cmdtemp.ExecuteNonQuery();
+                                    j = 0;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            string mystring = string.Empty;
+                            mystring = "Goods input data is invalid.";
+                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+                        }
+                    }
+
+
+                }
+                else
+                {
+                    string mystring = string.Empty;
+                    mystring = "Input data is invalid.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+                }
+                if (j == 0)
+                {
+                    Response.Redirect("ServiceTaxInvoice_New.aspx?ModId=11&SubModId=52");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+            con.Close();
+        }
+
+    }
+
+    protected void Btngoods_Click(object sender, EventArgs e)
+    {
+        TabContainer1.ActiveTab = TabContainer1.Tabs[3];
+    }
+    protected void BtnCNext_Click(object sender, EventArgs e)
+    {
+        TabContainer1.ActiveTab = TabContainer1.Tabs[2];
+    }
+    protected void DrpByCountry_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        fun.dropdownState(DrpByState, DrpByCity, DrpByCountry);
+        TabContainer1.ActiveTab = TabContainer1.Tabs[0];
+    }
+    protected void DrpByState_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        fun.dropdownCity(DrpByCity, DrpByState);
+        TabContainer1.ActiveTab = TabContainer1.Tabs[0];
+    }
+    protected void DrpCoCountry_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        fun.dropdownState(DrpCoState, DrpCoCity, DrpCoCountry);
+        TabContainer1.ActiveTab = TabContainer1.Tabs[1];
+    }
+    protected void DrpCoState_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        fun.dropdownCity(DrpCoCity, DrpCoState);
+        TabContainer1.ActiveTab = TabContainer1.Tabs[1];
+    }
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+    }
+
+    protected void TabContainer1_ActiveTabChanged(object sender, EventArgs e)
+    {
+        Session.Remove("TabIndex");
+    }
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView1.PageIndex = e.NewPageIndex;
+        this.fillgrid();
+    }
+    protected void BtnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("ServiceTaxInvoice_New.aspx?ModId=11&SubModId=52");
+    }
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("ServiceTaxInvoice_New.aspx?ModId=11&SubModId=52");
+    }
+    protected void Button2_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("ServiceTaxInvoice_New.aspx?ModId=11&SubModId=52");
+    }
+
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] sql(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        int CompId = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        con.Open();
+        string cmdStr = fun.select("CustomerId,CustomerName", "SD_Cust_master", "CompId='" + CompId + "'");
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds, "SD_Cust_master");
+        con.Close();
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                //if (main.Length == 10)
+                //    break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }
+
+
+
+    protected void Button3_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            string CustCode = fun.getCode(TxtBYName.Text);
+
+            string sqlcus = fun.select("MaterialDelAddress,MaterialDelCountry,MaterialDelState,MaterialDelCity,MaterialDelContactNo,MaterialDelFaxNo,ContactPerson,Email,TinVatNo,EccNo,ContactNo,TinCstNo", "SD_Cust_master", "CustomerId='" + CustCode + "' And CompId='" + CompId + "'");
+
+            SqlCommand cmdcus = new SqlCommand(sqlcus, con);
+            SqlDataAdapter dacus = new SqlDataAdapter(cmdcus);
+            DataSet dscus = new DataSet();
+            dacus.Fill(dscus);
+
+            if (dscus.Tables[0].Rows.Count > 0)
+            {
+                TxtByAddress.Text = dscus.Tables[0].Rows[0]["MaterialDelAddress"].ToString();
+
+                fun.dropdownCountrybyId(DrpByCountry, DrpByState, "CId='" + dscus.Tables[0].Rows[0]["MaterialDelCountry"].ToString() + "'");
+                DrpByCountry.SelectedIndex = 0;
+                fun.dropdownCountry(DrpByCountry, DrpByState);
+
+                //State
+                fun.dropdownState(DrpByState, DrpByCity, DrpByCountry);
+                fun.dropdownStatebyId(DrpByState, "CId='" + dscus.Tables[0].Rows[0]["MaterialDelCountry"].ToString() + "' AND SId='" + dscus.Tables[0].Rows[0]["MaterialDelState"].ToString() + "'");
+                DrpByState.SelectedValue = dscus.Tables[0].Rows[0]["MaterialDelState"].ToString();
+
+                //City
+                fun.dropdownCity(DrpByCity, DrpByState);
+                fun.dropdownCitybyId(DrpByCity, "SId='" + dscus.Tables[0].Rows[0]["MaterialDelState"].ToString() + "' AND CityId='" + dscus.Tables[0].Rows[0]["MaterialDelCity"].ToString() + "'");
+
+                DrpByCity.SelectedValue = dscus.Tables[0].Rows[0]["MaterialDelCity"].ToString();
+                TxtByFaxNo.Text = dscus.Tables[0].Rows[0]["MaterialDelFaxNo"].ToString();
+                TxtByCName.Text = dscus.Tables[0].Rows[0]["ContactPerson"].ToString();
+                TxtByPhone.Text = dscus.Tables[0].Rows[0]["MaterialDelContactNo"].ToString();
+                TxtByTINCSTNo.Text = dscus.Tables[0].Rows[0]["TinCstNo"].ToString();
+                TxtByTINVATNo.Text = dscus.Tables[0].Rows[0]["TinVatNo"].ToString();
+                TxtByMobile.Text = dscus.Tables[0].Rows[0]["ContactNo"].ToString();
+                TxtByEmail.Text = dscus.Tables[0].Rows[0]["Email"].ToString();
+                TxtByECCNo.Text = dscus.Tables[0].Rows[0]["EccNo"].ToString();
+            }
+            else
+            {
+                TxtBYName.Text = "";
+                TxtByAddress.Text = "";
+                TxtByFaxNo.Text = "";
+                TxtByCName.Text = "";
+                TxtByPhone.Text = "";
+                TxtByTINCSTNo.Text = "";
+                TxtByTINVATNo.Text = "";
+                TxtByMobile.Text = "";
+                TxtByEmail.Text = "";
+                TxtByECCNo.Text = "";
+
+                string mystring = string.Empty;
+                mystring = "Invalid selection of Customer data.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+            }
+        }
+        catch (Exception et)
+        {
+
+        }
+    }
+    protected void Button5_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            string CustCode = fun.getCode(TxtBYName.Text);
+
+            string sqlcus = fun.select("CustomerName+' ['+CustomerId+']' As Customer,MaterialDelAddress,MaterialDelCountry,MaterialDelState,MaterialDelCity,MaterialDelContactNo,MaterialDelFaxNo,ContactPerson,Email,TinVatNo,EccNo,ContactNo,TinCstNo", "SD_Cust_master", "CustomerId='" + CustCode + "' And CompId='" + CompId + "'");
+            SqlCommand cmdcus = new SqlCommand(sqlcus, con);
+            SqlDataAdapter dacus = new SqlDataAdapter(cmdcus);
+            DataSet dscus = new DataSet();
+            dacus.Fill(dscus);
+
+            if (dscus.Tables[0].Rows.Count > 0)
+            {
+
+                TxtCName.Text = dscus.Tables[0].Rows[0]["Customer"].ToString();
+                TxtCAddress.Text = dscus.Tables[0].Rows[0]["MaterialDelAddress"].ToString();
+                fun.dropdownCountrybyId(DrpCoCountry, DrpCoState, "CId='" + dscus.Tables[0].Rows[0]["MaterialDelCountry"].ToString() + "'");
+                DrpCoCountry.SelectedIndex = 0;
+                fun.dropdownCountry(DrpCoCountry, DrpCoState);
+
+                //State
+                fun.dropdownState(DrpCoState, DrpCoCity, DrpCoCountry);
+                fun.dropdownStatebyId(DrpCoState, "CId='" + dscus.Tables[0].Rows[0]["MaterialDelCountry"].ToString() + "' AND SId='" + dscus.Tables[0].Rows[0]["MaterialDelState"].ToString() + "'");
+                DrpCoState.SelectedValue = dscus.Tables[0].Rows[0]["MaterialDelState"].ToString();
+
+                //City
+                fun.dropdownCity(DrpCoCity, DrpCoState);
+                fun.dropdownCitybyId(DrpCoCity, "SId='" + dscus.Tables[0].Rows[0]["MaterialDelState"].ToString() + "' AND CityId='" + dscus.Tables[0].Rows[0]["MaterialDelCity"].ToString() + "'");
+
+                DrpCoCity.SelectedValue = dscus.Tables[0].Rows[0]["MaterialDelCity"].ToString();
+                TxtCoFaxNo.Text = dscus.Tables[0].Rows[0]["MaterialDelFaxNo"].ToString();
+                TxtCoPersonName.Text = dscus.Tables[0].Rows[0]["ContactPerson"].ToString();
+                TxtCoPhoneNo.Text = dscus.Tables[0].Rows[0]["MaterialDelContactNo"].ToString();
+                TxtCoTinCSTNo.Text = dscus.Tables[0].Rows[0]["TinCstNo"].ToString();
+                TxtCoTinVatNo.Text = dscus.Tables[0].Rows[0]["TinVatNo"].ToString();
+                TxtCoMobileNo.Text = dscus.Tables[0].Rows[0]["ContactNo"].ToString();
+                TxtCoEmail.Text = dscus.Tables[0].Rows[0]["Email"].ToString();
+                TxtECoCCNo.Text = dscus.Tables[0].Rows[0]["EccNo"].ToString();
+            }
+            else
+            {
+                TxtCName.Text = "";
+                string mystring = string.Empty;
+                mystring = "Invalid selection of Customer data.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+            }
+        }
+        catch (Exception et)
+        {
+
+        }
+    }
+    protected void Button4_Click(object sender, EventArgs e)
+    {
+
+    }
+
+
+    protected void Button6_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            string CustCode = fun.getCode(TxtCName.Text);
+
+            string sqlcus = fun.select("MaterialDelAddress,MaterialDelCountry,MaterialDelState,MaterialDelCity,MaterialDelContactNo,MaterialDelFaxNo,ContactPerson,Email,TinVatNo,EccNo,ContactNo,TinCstNo", "SD_Cust_master", "CustomerId='" + CustCode + "' And CompId='" + CompId + "'");
+
+            SqlCommand cmdcus = new SqlCommand(sqlcus, con);
+            SqlDataAdapter dacus = new SqlDataAdapter(cmdcus);
+            DataSet dscus = new DataSet();
+            dacus.Fill(dscus);
+
+            if (dscus.Tables[0].Rows.Count > 0)
+            {
+                TxtCAddress.Text = dscus.Tables[0].Rows[0]["MaterialDelAddress"].ToString();
+
+                fun.dropdownCountrybyId(DrpCoCountry, DrpCoState, "CId='" + dscus.Tables[0].Rows[0]["MaterialDelCountry"].ToString() + "'");
+                DrpCoCountry.SelectedIndex = 0;
+                fun.dropdownCountry(DrpCoCountry, DrpCoState);
+
+                //State
+                fun.dropdownState(DrpCoState, DrpCoCity, DrpCoCountry);
+                fun.dropdownStatebyId(DrpCoState, "CId='" + dscus.Tables[0].Rows[0]["MaterialDelCountry"].ToString() + "' AND SId='" + dscus.Tables[0].Rows[0]["MaterialDelState"].ToString() + "'");
+                DrpCoState.SelectedValue = dscus.Tables[0].Rows[0]["MaterialDelState"].ToString();
+
+                //City
+                fun.dropdownCity(DrpCoCity, DrpCoState);
+                fun.dropdownCitybyId(DrpCoCity, "SId='" + dscus.Tables[0].Rows[0]["MaterialDelState"].ToString() + "' AND CityId='" + dscus.Tables[0].Rows[0]["MaterialDelCity"].ToString() + "'");
+
+                DrpCoCity.SelectedValue = dscus.Tables[0].Rows[0]["MaterialDelCity"].ToString();
+                TxtCoFaxNo.Text = dscus.Tables[0].Rows[0]["MaterialDelFaxNo"].ToString();
+                TxtCoPersonName.Text = dscus.Tables[0].Rows[0]["ContactPerson"].ToString();
+                TxtCoPhoneNo.Text = dscus.Tables[0].Rows[0]["MaterialDelContactNo"].ToString();
+                TxtCoTinCSTNo.Text = dscus.Tables[0].Rows[0]["TinCstNo"].ToString();
+                TxtCoTinVatNo.Text = dscus.Tables[0].Rows[0]["TinVatNo"].ToString();
+                TxtCoMobileNo.Text = dscus.Tables[0].Rows[0]["ContactNo"].ToString();
+                TxtCoEmail.Text = dscus.Tables[0].Rows[0]["Email"].ToString();
+                TxtECoCCNo.Text = dscus.Tables[0].Rows[0]["EccNo"].ToString();
+            }
+            else
+            {
+                TxtCName.Text = "";
+                TxtCAddress.Text = "";
+                TxtCoFaxNo.Text = "";
+                TxtCoPersonName.Text = "";
+                TxtCoPhoneNo.Text = "";
+                TxtCoTinCSTNo.Text = "";
+                TxtCoTinVatNo.Text = "";
+                TxtCoMobileNo.Text = "";
+                TxtCoEmail.Text = "";
+                TxtECoCCNo.Text = "";
+
+                string mystring = string.Empty;
+                mystring = "Invalid selection of Customer data.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+            }
+        }
+        catch (Exception et)
+        {
+
+        }
+    }
+
+
+}

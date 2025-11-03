@@ -1,0 +1,337 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/Acc_Sundry_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Acc_Sundry_Details.aspx.cs" Inherits="Module_Accounts_Transactions_Acc_Sundry_Details" Title="ERP" Theme="Default" %>
+<%@ Register Assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"
+    Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
+    
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+    
+    <table width="100%">
+   
+   <tr>
+   <td align="center">
+    <asp:Panel ID="Panel1" ScrollBars="Auto"  Width="100%" Height="460px"  runat="server">
+   
+     <CR:CrystalReportViewer ID="CrystalReportViewer1"    HasCrystalLogo="False"
+             AutoDataBind="True" 
+        ReportSourceID="CrystalReportSource1" runat="server" 
+        EnableDatabaseLogonPrompt="true" DisplayGroupTree="False" 
+        ReuseParameterValuesOnRefresh="True"  Width="100%" 
+             />
+    <CR:CrystalReportSource  ID="CrystalReportSource1"   runat="server">
+        <Report FileName="Acc_Sundry_Dr_Details.rpt">
+        </Report>
+    </CR:CrystalReportSource>  
+    </asp:Panel>
+   </td>
+   </tr>
+   
+   <tr>
+   <td  align="center" style="height:25px; ">   
+       <asp:Button ID="Button1" runat="server" CssClass="redbox" Text="Cancel" 
+           onclick="btnCancel_Click" /></td>
+   </tr>
+   
+   </table>   
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/Acc_Sundry_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+
+public partial class Module_Accounts_Transactions_Acc_Sundry_Details : System.Web.UI.Page
+{
+    ACC_CurrentAssets ACA = new ACC_CurrentAssets();
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    int CompId = 0;
+    int FinYearId = 0;
+    string sId = "";
+    string CustCode = string.Empty;
+    ReportDocument rpt = new ReportDocument();
+    string Key = string.Empty;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        Key = Request.QueryString["Key"].ToString();
+    }
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        try
+        {
+            if (!string.IsNullOrEmpty(Request.QueryString["CustId"]))
+            {
+                CustCode = Request.QueryString["CustId"].ToString();
+            }
+
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            sId = Session["username"].ToString();
+
+            Key = Request.QueryString["Key"].ToString();
+
+            if (!IsPostBack)
+            {
+                DataSet Xads = new Acc_Sundry_Dr();
+                Xads.Tables[0].Merge(this.TotInvQty2(CompId,FinYearId,CustCode));
+                Xads.AcceptChanges();
+                rpt = new ReportDocument();
+                rpt.Load(Server.MapPath("~/Module/Accounts/Reports/Acc_Sundry_Dr_Details.rpt"));
+                rpt.SetDataSource(Xads);
+                string CompAdd = fun.CompAdd(CompId);
+                rpt.SetParameterValue("CompAdd", CompAdd);
+
+                //Opening Bal
+                double y = 0;
+                y = Math.Round(fun.DebitorsOpeningBal(CompId, CustCode),2);
+                rpt.SetParameterValue("OpBal", y);
+
+                //Credit Bal
+                double x = 0;
+                x = Math.Round(fun.getDebitorCredit(CompId, FinYearId, CustCode), 2);
+                rpt.SetParameterValue("CreditBal", x);
+
+                CrystalReportViewer1.ReportSource = rpt;
+                Session[Key] = rpt;
+            }
+            else
+            {
+                ReportDocument doc = (ReportDocument)Session[Key];
+                CrystalReportViewer1.ReportSource = doc;
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }        
+    }
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        //this.CrystalReportViewer1.Dispose();
+        //this.CrystalReportViewer1 = null;
+        //rpt.Close();
+        //rpt.Dispose();
+        GC.Collect();
+    }
+
+    public DataTable TotInvQty2(int CompId, int FinId, string CustCode)
+    {
+        DataTable dt = new DataTable();
+        
+        try
+        {
+            con.Open();
+
+            string StrSql = fun.select("CustomerName+'['+CustomerId+']' As Customer, CustomerId", "SD_Cust_master", "CompId='" + CompId + "' AND FinYearId<='" + FinId + "' AND CustomerId='" + CustCode + "'");
+
+            SqlCommand Cmdgrid = new SqlCommand(StrSql, con);
+            SqlDataReader rdr = Cmdgrid.ExecuteReader();
+            dt.Columns.Add(new System.Data.DataColumn("CustName", typeof(string)));//0
+            dt.Columns.Add(new System.Data.DataColumn("TotAmt", typeof(double)));//1
+            dt.Columns.Add(new System.Data.DataColumn("CustCode", typeof(string)));//2
+            dt.Columns.Add(new System.Data.DataColumn("InvoiceNo", typeof(string)));//3
+            dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));//4
+            dt.Columns.Add(new System.Data.DataColumn("Credit", typeof(double)));//5
+            dt.Columns.Add(new System.Data.DataColumn("Path", typeof(string)));//6
+
+
+            DataRow dr;
+            while (rdr.Read())
+            {
+                string strInv = "select Id,InvoiceNo,OtherAmt from tblACC_SalesInvoice_Master where tblACC_SalesInvoice_Master.CustomerCode='" + rdr["CustomerId"] + "'";
+                SqlCommand cmdInv = new SqlCommand(strInv, con);
+                SqlDataReader rdrInv = cmdInv.ExecuteReader();
+
+                while (rdrInv.Read())
+                {
+
+                    dr = dt.NewRow();
+                    double fdapExp1Ins = 0;
+                    double OtherAmt = 0;
+                    double totQty = 0;
+                    double finaltot = 0;
+                    double deduction = 0;
+                    double addition = 0;
+                    double fda = 0;
+                    double pf = 0;
+                    double excise = 0;
+                    double fdap = 0;
+                    double fdapEx = 0;
+                    double fdapExp = 0;
+                    double p = 0;
+                    double p1 = 0;
+                    double fdapExp1 = 0;
+                    double Insurance = 0;
+                    /// Calculate Basic                  
+                    string strAmt = "select sum(case when Unit_Master.EffectOnInvoice=1 then (ReqQty*(AmtInPer/100)*Rate) Else (ReqQty*Rate) End) As Amt from tblACC_SalesInvoice_Details inner join tblACC_SalesInvoice_Master on tblACC_SalesInvoice_Master.Id=tblACC_SalesInvoice_Details.MId inner join  Unit_Master on tblACC_SalesInvoice_Details.Unit=Unit_Master.Id And tblACC_SalesInvoice_Master.CustomerCode='" + rdr["CustomerId"] + "' And tblACC_SalesInvoice_Master.InvoiceNo='" + rdrInv["InvoiceNo"] + "' ";
+                    SqlCommand cmdAmt = new SqlCommand(strAmt, con);
+                    SqlDataReader rdrAmt = cmdAmt.ExecuteReader();
+                    rdrAmt.Read();
+                    totQty += Convert.ToDouble(rdrAmt["Amt"]);
+
+                    /// Calculate Addition 
+                    string strdeduct1 = "select Sum(case when AddType=0 then AddAmt Else ((" + totQty + " *AddAmt)/100)End) As AddAmt from tblACC_SalesInvoice_Master where tblACC_SalesInvoice_Master.CustomerCode='" + rdr["CustomerId"] + "'And tblACC_SalesInvoice_Master.InvoiceNo='" + rdrInv["InvoiceNo"] + "' ";
+                    SqlCommand cmdded1 = new SqlCommand(strdeduct1, con);
+                    SqlDataReader rdr31 = cmdded1.ExecuteReader();
+                    rdr31.Read();
+                    addition = Convert.ToDouble(rdr31["AddAmt"]);
+                    finaltot += totQty + addition;
+
+                    /// Calculate deduction 
+                    string strdeduct = "select Sum(case when DeductionType=0 then Deduction Else ((" + finaltot + " *Deduction)/100)End) As deduct from tblACC_SalesInvoice_Master where tblACC_SalesInvoice_Master.CustomerCode='" + rdr["CustomerId"] + "'And tblACC_SalesInvoice_Master.InvoiceNo='" + rdrInv["InvoiceNo"] + "' ";
+                    SqlCommand cmdded = new SqlCommand(strdeduct, con);
+                    SqlDataReader rdr3 = cmdded.ExecuteReader();
+                    rdr3.Read();
+                    deduction = Convert.ToDouble(rdr3["deduct"]);
+                    fda += (finaltot - deduction);
+
+                    /// Calculate Packing And Forwarding (PF)
+                    string strpf = "select Sum(case when PFType=0 then PF Else ((" + fda + " *PF)/100)End) As pf from  tblACC_SalesInvoice_Master where tblACC_SalesInvoice_Master.CustomerCode='" + rdr["CustomerId"] + "'And tblACC_SalesInvoice_Master.InvoiceNo='" + rdrInv["InvoiceNo"] + "'";
+                    SqlCommand cmdpf = new SqlCommand(strpf, con);
+                    SqlDataReader rdr4 = cmdpf.ExecuteReader();
+                    rdr4.Read();
+                    pf = Convert.ToDouble(rdr4["pf"]);
+                    fdap += (fda + pf);
+
+                    /// Calculate Excise (CENVAT)
+                    string strEx = "select Sum((" + fdap + ")*((tblExciseser_Master.AccessableValue)/100) + ((" + fdap + ")*((tblExciseser_Master.AccessableValue)/100)*tblExciseser_Master.EDUCess/100)+((" + fdap + ")*((tblExciseser_Master.AccessableValue)/100)*tblExciseser_Master.SHECess/100)) As Ex from  tblACC_SalesInvoice_Master inner join tblExciseser_Master on tblExciseser_Master.Id=tblACC_SalesInvoice_Master.CENVAT where tblACC_SalesInvoice_Master.CustomerCode='" + rdr["CustomerId"] + "'And tblACC_SalesInvoice_Master.InvoiceNo='" + rdrInv["InvoiceNo"] + "'";
+                    SqlCommand cmdEx = new SqlCommand(strEx, con);
+                    SqlDataReader rdr5 = cmdEx.ExecuteReader();
+                    rdr5.Read();
+                    excise = Convert.ToDouble(rdr5["Ex"]);
+                    fdapEx += (fdap + excise);
+
+                    /// Calculate CSTVAT (within/out Maharashtra)               
+                    string strCSTVAT = "select FreightType,Freight,InvoiceMode,CST,VAT from  tblACC_SalesInvoice_Master where tblACC_SalesInvoice_Master.CustomerCode='" + rdr["CustomerId"] + "'And tblACC_SalesInvoice_Master.InvoiceNo='" + rdrInv["InvoiceNo"] + "'";
+                    SqlCommand cmdCSTVAT = new SqlCommand(strCSTVAT, con);
+                    SqlDataReader rdr6 = cmdCSTVAT.ExecuteReader();
+                    while (rdr6.Read())
+                    {
+                        double f = Convert.ToDouble(rdr6["Freight"].ToString());
+                        double v = 0;
+                        if (rdr6["InvoiceMode"].ToString() == "2")
+                        {
+                            if (rdr6["FreightType"].ToString() == "0")
+                            {
+                                p = f;
+                            }
+                            else
+                            {
+                                p = fdapEx * (f / 100);
+                            }
+                            string SqlCst = fun.select("Value", "tblVAT_Master", "Id='" + rdr6["VAT"].ToString() + "'");
+                            SqlCommand cmdSqlCst = new SqlCommand(SqlCst, con);
+                            SqlDataReader rdr7 = cmdSqlCst.ExecuteReader();
+                            while (rdr7.Read())
+                            {
+                                v = Convert.ToDouble(rdr7["Value"]);
+                            }
+                            p1 = (fdapEx + p) * (v / 100);
+
+                        }
+                        else if (rdr6["InvoiceMode"].ToString() == "3")
+                        {
+                            string SqlCst = fun.select("Value", "tblVAT_Master", "Id='" + rdr6["CST"].ToString() + "'");
+                            SqlCommand cmdSqlCst = new SqlCommand(SqlCst, con);
+                            SqlDataReader rdr7 = cmdSqlCst.ExecuteReader();
+                            while (rdr7.Read())
+                            {
+                                v = Convert.ToDouble(rdr7["Value"]);
+                            }
+                            p = fdapEx * (v / 100);
+                            if (rdr6["FreightType"].ToString() == "0")
+                            {
+                                p1 = f;
+                            }
+                            else
+                            {
+                                p1 = (fdapEx + p) * (f / 100);
+                            }
+
+                        }
+
+                    }
+                    fdapExp += fdapEx + p;
+                    fdapExp1 += fdapExp + p1;
+                    /// Calculate Insurance (LIC)
+                    string strInc = "select Sum(case when InsuranceType=0 then Insurance Else ((" + fdapExp1 + " *Insurance)/100)End) As Insurance from  tblACC_SalesInvoice_Master where tblACC_SalesInvoice_Master.CustomerCode='" + rdr["CustomerId"] + "'And tblACC_SalesInvoice_Master.InvoiceNo='" + rdrInv["InvoiceNo"] + "'";
+                    SqlCommand cmdInc = new SqlCommand(strInc, con);
+                    SqlDataReader rdr8 = cmdInc.ExecuteReader();
+                    rdr8.Read();
+                    Insurance = Convert.ToDouble(rdr8["Insurance"]);
+                  //  fdapExp1Ins += fdapExp1 + Insurance;
+
+                    /// Calculate Other Amount  
+                    if (rdrInv["OtherAmt"] != DBNull.Value)
+                    {
+                        OtherAmt = Math.Round(Convert.ToDouble(rdrInv["OtherAmt"]), 2);
+                    }
+                    fdapExp1Ins += fdapExp1 + Insurance + OtherAmt;
+
+                    dr[0] = rdr["Customer"];
+                    dr[1] = Math.Round(fdapExp1Ins, 2);
+                    dr[2] = rdr["CustomerId"];
+
+                    //InvoiceNo link
+                    dr[3] = rdrInv["InvoiceNo"];
+                    dr[4] = CompId;
+                    string getRandomKey = fun.GetRandomAlphaNumeric();
+                    dr[6] = "/erp/Module/Accounts/Transactions/SalesInvoice_Print_Details.aspx?InvNo=" + rdrInv["InvoiceNo"] + "&InvId=" + rdrInv["Id"] + "&cid=" + rdr["CustomerId"] + "&PT=ORIGINAL FOR BUYER&ModId=11&SubModId=51&Key=" + getRandomKey + "&K=" + Key + "&T=1";
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+            }
+        }
+        catch (Exception ex) { }
+         finally
+        {
+            con.Close();
+        }
+        return dt;
+    }
+    
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/Accounts/Transactions/Acc_Sundry_CustList.aspx");
+    }
+
+}

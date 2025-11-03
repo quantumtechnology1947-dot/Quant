@@ -1,0 +1,400 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/BankVoucher_Print_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="BankVoucher_Print_Details.aspx.cs" Inherits="Module_Accounts_Transactions_BankVoucher_Print_Details" Title="ERP" Theme="Default" %>
+
+<%@ Register Assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"
+    Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
+
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+<link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+<link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+<script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+<script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">         
+          
+          
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+   
+   <table width="100%">
+   <tr>
+   <td align="center">
+  <asp:Panel ID="Panel1" ScrollBars="Auto" Width="100%" Height="420px" runat="server">
+    
+       <%--<asp:UpdatePanel ID="UpdatePanel1" UpdateMode="Always" runat="server">
+       <Triggers>           
+            <asp:PostBackTrigger ControlID="CrystalReportViewer1"  />
+        </Triggers>
+       <ContentTemplate>--%>
+   
+    <CR:CrystalReportViewer ID="CrystalReportViewer1" HasCrystalLogo="False"   BorderStyle="Solid" 
+            BorderColor="Black" BorderWidth="1"  AutoDataBind="True" 
+        ReportSourceID="CrystalReportSource1" runat="server" 
+        EnableDatabaseLogonPrompt="False" DisplayGroupTree="False" 
+        ReuseParameterValuesOnRefresh="True" Height="50px" Width="100%" 
+            oninit="CrystalReportViewer1_Init" onload="CrystalReportViewer1_Load"  />
+    <CR:CrystalReportSource  ID="CrystalReportSource1"  runat="server">
+        <Report FileName="~/Module/Accounts/Reports/BankVoucher_Payment_Print.rpt">
+        </Report>
+    </CR:CrystalReportSource> 
+    <%--</ContentTemplate>
+    </asp:UpdatePanel>--%>
+    </asp:Panel>
+   </td>
+   </tr>
+   
+   
+   
+   <tr>
+   <td  align="center" style="height:25px; ">   
+       <asp:Button ID="btnCancel" runat="server" CssClass="redbox" Text="Cancel" 
+           onclick="btnCancel_Click" /></td>
+   </tr>
+   
+   </table>     
+    
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/BankVoucher_Print_Details.aspx.cs ===
+
+﻿
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.CrystalReports.ViewerObjectModel;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Text.RegularExpressions;
+
+public partial class Module_Accounts_Transactions_BankVoucher_Print_Details : System.Web.UI.Page
+{
+
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    int CompId = 0;
+    int FinYearId = 0;
+    string sId = "";
+    int Id = 0;
+    ReportDocument cryRpt = new ReportDocument();
+    string Key = string.Empty;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        cryRpt = new ReportDocument();
+    }
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        cryRpt.Close();
+        cryRpt.Dispose();
+        GC.Collect();
+    }
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        connStr = fun.Connection();
+        con = new SqlConnection(connStr);
+        Key = Request.QueryString["Key"].ToString();
+        try
+        {
+            
+            if (!IsPostBack)
+            {
+
+                
+                CompId = Convert.ToInt32(Session["compid"]);
+                FinYearId = Convert.ToInt32(Session["finyear"]);
+                sId = Session["username"].ToString();
+
+                if (!string.IsNullOrEmpty(Request.QueryString["Id"]))
+                {
+                    Id = Convert.ToInt32(Request.QueryString["Id"]);
+                }
+
+                DataTable dt = new DataTable();
+                string str = fun.select("*", "tblACC_BankVoucher_Payment_Master", "CompId='" + CompId + "' And Id='" + Id + "' And FinYearId<='" + FinYearId + "' Order By Id desc");
+
+                SqlCommand cmdCustWo = new SqlCommand(str, con);
+                SqlDataAdapter daCustWo = new SqlDataAdapter(cmdCustWo);
+                DataSet DSCustWo = new DataSet();
+                daCustWo.Fill(DSCustWo);
+
+                dt.Columns.Add(new System.Data.DataColumn("PaidTo", typeof(string)));//0
+                dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(Int32)));//1
+                dt.Columns.Add(new System.Data.DataColumn("ChequeDate", typeof(string)));//2
+                dt.Columns.Add(new System.Data.DataColumn("Amount", typeof(double)));//3
+                dt.Columns.Add(new System.Data.DataColumn("Address", typeof(string)));//4
+                dt.Columns.Add(new System.Data.DataColumn("BVPNo", typeof(string)));//5
+                dt.Columns.Add(new System.Data.DataColumn("ChequeNo", typeof(string)));//6
+                dt.Columns.Add(new System.Data.DataColumn("SysDate", typeof(string)));//7
+                dt.Columns.Add(new System.Data.DataColumn("BillNo", typeof(string)));//8
+                dt.Columns.Add(new System.Data.DataColumn("TypeECS", typeof(string)));//9
+                dt.Columns.Add(new System.Data.DataColumn("ECS", typeof(string)));//10
+                dt.Columns.Add(new System.Data.DataColumn("InvoiceNo", typeof(string))); //11
+                dt.Columns.Add(new System.Data.DataColumn("Particular", typeof(string)));  //12
+                dt.Columns.Add(new System.Data.DataColumn("InvDate", typeof(string)));  //13
+                dt.Columns.Add(new System.Data.DataColumn("D1", typeof(string)));//14
+                dt.Columns.Add(new System.Data.DataColumn("D2", typeof(string)));//15
+                dt.Columns.Add(new System.Data.DataColumn("M1", typeof(string)));//16
+                dt.Columns.Add(new System.Data.DataColumn("M2", typeof(string)));//17
+                dt.Columns.Add(new System.Data.DataColumn("Y1", typeof(string)));//18
+                dt.Columns.Add(new System.Data.DataColumn("Y2", typeof(string)));//19
+                dt.Columns.Add(new System.Data.DataColumn("Y3", typeof(string)));//20
+                dt.Columns.Add(new System.Data.DataColumn("Y4", typeof(string)));//21
+
+                dt.Columns.Add(new System.Data.DataColumn("AddAmt", typeof(double)));//22
+                dt.Columns.Add(new System.Data.DataColumn("TransactionType", typeof(int)));//23
+                dt.Columns.Add(new System.Data.DataColumn("PaidType", typeof(string)));//24
+
+                DataRow dr;
+
+                if (DSCustWo.Tables[0].Rows.Count > 0)
+                {
+
+                    dr = dt.NewRow();
+                    string Abc;
+                    int num1;
+
+                   if (DSCustWo.Tables[0].Rows[0]["NameOnCheque"].ToString() == "" || DSCustWo.Tables[0].Rows[0]["NameOnCheque"]==DBNull.Value)
+                    {
+                        if (int.TryParse(DSCustWo.Tables[0].Rows[0]["PaidType"].ToString(), out num1))
+                        {
+
+                            string stre = fun.select("*", "tblACC_PaidType", "Id='" + Convert.ToInt32(DSCustWo.Tables[0].Rows[0]["PaidType"]) + "'");
+                            SqlCommand cmde = new SqlCommand(stre, con);
+                            SqlDataAdapter dae = new SqlDataAdapter(cmde);
+                            DataSet DSe = new DataSet();
+                            dae.Fill(DSe);
+                            Abc = DSe.Tables[0].Rows[0]["Particulars"].ToString();
+
+                        }
+                        else
+                        {
+
+                            Abc = fun.ECSNames(Convert.ToInt32(DSCustWo.Tables[0].Rows[0]["ECSType"].ToString()), DSCustWo.Tables[0].Rows[0]["PayTo"].ToString(), CompId);
+                        }
+
+
+                    }
+
+                  
+                  else
+                    {
+
+                        Abc = DSCustWo.Tables[0].Rows[0]["NameOnCheque"].ToString();
+                    }
+
+               
+                    dr[0] = Abc;
+                    dr[1] = CompId;
+                    
+                    string st1 = "SELECT * FROM tblACC_BankVoucher_Payment_Details INNER JOIN tblACC_BankVoucher_Payment_Master ON tblACC_BankVoucher_Payment_Details.MId =tblACC_BankVoucher_Payment_Master.Id And tblACC_BankVoucher_Payment_Master.Id='" + Id + "' ";
+                    SqlCommand cmd1 = new SqlCommand(st1, con);
+                    SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+                    DataSet DS1 = new DataSet();
+                    da1.Fill(DS1);
+                    double DtlsAmt = 0;
+                    for (int i = 0; i < DS1.Tables[0].Rows.Count; i++)
+                    {  
+                        DtlsAmt += Convert.ToDouble(decimal.Parse((DS1.Tables[0].Rows[i]["Amount"]).ToString()).ToString("N3"));
+
+                                               
+                        //int ac = Convert.ToInt32(DSCustWo.Tables[0].Rows[0]["Type"]);
+                        //switch (ac)
+                        //{
+                        //    case 1:
+                        //        dr[8] = "-";
+                        //        dr[11] = DS1.Tables[0].Rows[i]["ProformaInvNo"].ToString();
+
+                        //        break;
+                        //    case 2:
+                        //        dr[8] = "-";
+                        //        dr[11] = "-";
+                        //        break;
+                        //    case 3:
+                        //        dr[8] = "-";
+                        //        dr[11] = "-";
+
+                        //        break;
+                        //    case 4:
+                        //        string billNo = "";
+                        //        if (DS1.Tables[0].Rows.Count > 0)
+                        //        {
+
+                        //            string st = "SELECT tblACC_BillBooking_Master.BillNo FROM tblACC_BillBooking_Details INNER JOIN tblACC_BillBooking_Master ON tblACC_BillBooking_Details.MId =tblACC_BillBooking_Master.Id And tblACC_BillBooking_Master.Id='" + DS1.Tables[0].Rows[i]["PVEVNO"].ToString() + "' ";
+                        //            SqlCommand cmd = new SqlCommand(st, con);
+                        //            SqlDataAdapter da = new SqlDataAdapter(cmd);
+                        //            DataSet DS = new DataSet();
+                        //            da.Fill(DS);
+                        //            if (DS.Tables[0].Rows.Count > 0)
+                        //            {
+                        //                billNo = DS.Tables[0].Rows[0][0].ToString();
+                        //            }
+
+                        //        }
+                        //        dr[8] = billNo;
+                        //        dr[11] = "-";
+                        //        break;
+                        //}
+
+                    }
+
+                        //int ac1 = Convert.ToInt32(DSCustWo.Tables[0].Rows[0]["ECSType"]);
+                        //switch (ac1)
+                        //{
+                        //    case 1:
+                        //        dr[9] = "Employee";
+                        //        break;
+                        //    case 2:
+                        //        dr[9] = "Customer";
+                        //        break;
+
+                        //    case 3:
+
+                        //        dr[9] = "Supplier";
+                        //        break;
+                        //}
+
+                        dr[10] = DSCustWo.Tables[0].Rows[0]["PayTo"].ToString();
+
+
+                        string DMY = Regex.Replace(fun.FromDateDMY(DSCustWo.Tables[0].Rows[0]["ChequeDate"].ToString()), "[^0-9a-zA-Z]+", "");
+
+                        //Dena Bank 462,//Dena Bank CC A/C 074413001028,//IDBI Bank. A/c 0007658400000222
+                        if (Convert.ToInt32(DSCustWo.Tables[0].Rows[0]["Bank"]) == 1 || Convert.ToInt32(DSCustWo.Tables[0].Rows[0]["Bank"]) == 2 || Convert.ToInt32(DSCustWo.Tables[0].Rows[0]["Bank"]) == 5)
+                        {
+                            dr[14] = DMY.Substring(0, 1);
+                            dr[15] = DMY.Substring(1, 1);
+                            dr[16] = DMY.Substring(2, 1);
+                            dr[17] = DMY.Substring(3, 1);
+                            dr[18] = DMY.Substring(4, 1);
+                            dr[19] = DMY.Substring(5, 1);
+                            dr[20] = DMY.Substring(6, 1);
+                            dr[21] = DMY.Substring(7, 1);
+
+                            //dr[2] = fun.FromDateDMY(DSCustWo.Tables[0].Rows[0]["ChequeDate"].ToString());
+                        }
+                        else if (Convert.ToInt32(DSCustWo.Tables[0].Rows[0]["Bank"]) == 3)
+                        {
+                            //Axis Bank Ltd. A/C 910020027801730.
+                            dr[2] = fun.FromDateDMY(DSCustWo.Tables[0].Rows[0]["ChequeDate"].ToString());
+                        }
+
+                         double PayAmy_M = 0;
+                          double AddAmt=0;
+                           PayAmy_M = Convert.ToDouble(DSCustWo.Tables[0].Rows[0]["PayAmt"]);
+                           AddAmt = Convert.ToDouble(DSCustWo.Tables[0].Rows[0]["AddAmt"]);
+
+                        int num;
+                        if (int.TryParse(DSCustWo.Tables[0].Rows[0]["PaidType"].ToString(), out num))
+                        {
+                            dr[3] = DtlsAmt + PayAmy_M + AddAmt;
+                        }
+
+                        else
+                        {
+                            dr[3] = DtlsAmt + PayAmy_M;
+                        }
+
+
+                       // dr[3] = DtlsAmt; 
+                        dr[4] = fun.ECSAddress(Convert.ToInt32(DSCustWo.Tables[0].Rows[0]["ECSType"].ToString()), DSCustWo.Tables[0].Rows[0]["PayTo"].ToString(), CompId);
+
+                        //dr[5] = DSCustWo.Tables[0].Rows[0]["BVPNo"].ToString();
+                        //dr[6] = DSCustWo.Tables[0].Rows[0]["ChequeNo"].ToString();
+                        //dr[7] = fun.FromDateDMY(DSCustWo.Tables[0].Rows[0]["SysDate"].ToString());
+
+                        dt.Rows.Add(dr);
+                        dt.AcceptChanges();
+                    
+                }
+                DataSet Xads = new BankVoucher();
+                Xads.Tables[0].Merge(dt);
+                Xads.AcceptChanges();
+                cryRpt = new ReportDocument();
+
+                switch (Convert.ToInt32(DSCustWo.Tables[0].Rows[0]["Bank"]))
+                {
+
+                       
+                    case 1: //Dena Bank 462.
+                        cryRpt.Load(Server.MapPath("~/Module/Accounts/Reports/BankVoucher_Payment_Dena_Print.rpt"));
+                        break;
+                    case 2: //Dena Bank CC A/C 074413001028.
+                        cryRpt.Load(Server.MapPath("~/Module/Accounts/Reports/BankVoucher_Payment_Dena_Print.rpt"));
+                        break;
+                    case 3: //Axis Bank Ltd. A/C 910020027801730.
+                        cryRpt.Load(Server.MapPath("~/Module/Accounts/Reports/BankVoucher_Payment_Axis_Print.rpt"));
+                        break;
+                    case 5: //IDBI Bank.   A/c 0007658400000222.
+                        cryRpt.Load(Server.MapPath("~/Module/Accounts/Reports/BankVoucher_Payment_IDBI_Print.rpt"));
+                        break;
+                }
+                
+                cryRpt.SetDataSource(Xads);
+                CrystalReportViewer1.ReportSource = cryRpt;
+                Session[Key] = cryRpt;
+                CrystalReportViewer1.DisplayGroupTree = false;
+                CrystalReportViewer1.DisplayToolbar = true;
+                CrystalReportViewer1.EnableDrillDown = false;
+                CrystalReportViewer1.SeparatePages = true;
+
+            }
+            else
+            {
+                ReportDocument doc = (ReportDocument)Session[Key];
+                CrystalReportViewer1.ReportSource = doc;
+            }
+
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+            con.Close();
+        }
+
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/Accounts/Transactions/BankVoucher_print.aspx?ModId=11&SubModId=114");
+
+    }
+
+    protected void CrystalReportViewer1_Load(object sender, EventArgs e)
+    {
+        
+    }
+    protected void CrystalReportViewer1_Init(object sender, EventArgs e)
+    {
+
+    }
+
+  
+
+   
+  
+}
+

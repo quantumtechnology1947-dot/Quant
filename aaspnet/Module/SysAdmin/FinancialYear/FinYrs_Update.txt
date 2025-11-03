@@ -1,0 +1,278 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SysAdmin/FinancialYear/FinYrs_Update.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="FinYrs_Update.aspx.cs" Inherits="Module_SysAdmin_FinancialYear_Update" Title="ERP"EnableEventValidation="false" Theme ="Default"  %>
+
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td height="320" align="center" valign="center" >
+                <table cellpadding="0" cellspacing="0" class="fontcss" width="100%">
+                    <tr>
+                        <td>
+                            <table border="0" align="center" cellpadding="0" width="400" cellspacing="0" class="box3">
+                                <tr>
+                                    <td height="20" colspan="3" align="left" valign="center" class="fontcsswhite" style="background-image:url('../../../images/hdbg.jpg')">
+                                        &nbsp;<b>Financial Year - Edit</b></td>
+                                </tr>
+                                <tr>
+                                    <td width="7" height="25" align="left" valign="top">
+                                        &nbsp;</td>
+                                    <td width="70" align="left" valign="middle">
+                                        Company</td>
+                                    <td width="250" align="left" valign="middle">
+                                        : 
+                                        <asp:DropDownList ID="DropDownUpFYCName" 
+                            runat="server" CssClass="box3" AutoPostBack="True" 
+                                            onselectedindexchanged="DropDownUpFYCName_SelectedIndexChanged">
+                                        </asp:DropDownList>
+                                        <asp:RequiredFieldValidator ID="ReqCompName" runat="server" 
+                                            ControlToValidate="DropDownUpFYCName" ErrorMessage="*" InitialValue="Select" 
+                                            ValidationGroup="A"></asp:RequiredFieldValidator>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="25" align="left" valign="top">
+                                        &nbsp;</td>
+                                    <td align="left" valign="top">
+                                        Financial Year</td>
+                                    <td align="left" valign="middle">
+                                        &nbsp; 
+                                        <asp:ListBox ID="ListBoxUpFinYear" runat="server" Width="170" 
+                                            CssClass="box3" AutoPostBack="True" onselectedindexchanged="ListBoxUpFinYear_SelectedIndexChanged"  
+                                            >
+                                        </asp:ListBox>
+                                        <asp:RequiredFieldValidator ID="ReqFinYr" runat="server" 
+                                            ControlToValidate="ListBoxUpFinYear" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="25" align="left" valign="top">
+                                        &nbsp;</td>
+                                    <td align="right" valign="middle">
+                                        Date From</td>
+                                    <td align="left" valign="middle">
+                                        : 
+                                  <asp:TextBox ID="txtFDate" runat="server" CssClass="box3" Width="80px"></asp:TextBox>
+                           
+                                        <cc1:CalendarExtender ID="txtFDate_CalendarExtender" runat="server" CssClass="cal_Theme2" PopupPosition="BottomRight"
+                                            Enabled="True" TargetControlID="txtFDate" Format="dd-MM-yyyy">
+                                        </cc1:CalendarExtender>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
+                                       ValidationGroup="A"    ControlToValidate="txtFDate"  ErrorMessage="*"></asp:RequiredFieldValidator>
+                           
+                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" 
+                                            ControlToValidate="txtFDate" ErrorMessage="*" 
+                                            ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                            ValidationGroup="A"></asp:RegularExpressionValidator>
+                           
+                                </td>
+                                </tr>
+                                <tr>
+                                    <td height="25" align="left" valign="top">
+                                        &nbsp;</td>
+                                    <td align="right" valign="middle">
+                                        Date To</td>
+                                    <td align="left" valign="middle">
+                                        : 
+                              <asp:TextBox ID="txtTDate" runat="server" CssClass="box3" Width="80px">
+                            </asp:TextBox>
+                           
+                                        <cc1:CalendarExtender ID="txtTDate_CalendarExtender" runat="server" CssClass="cal_Theme2" PopupPosition="BottomRight"
+                                            Enabled="True" TargetControlID="txtTDate" Format="dd-MM-yyyy">
+                                        </cc1:CalendarExtender>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
+                                     ControlToValidate="txtTDate" ValidationGroup="A"         ErrorMessage="*"></asp:RequiredFieldValidator>
+                           
+                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" 
+                                            ControlToValidate="txtTDate" ErrorMessage="*" 
+                                            ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                            ValidationGroup="A"></asp:RegularExpressionValidator>
+                           
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="10" colspan="3" align="center" valign="middle">
+                                        <asp:Label ID="Label1" runat="server" ForeColor="Red"></asp:Label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="25" colspan="3" align="center" valign="middle">
+                                        <asp:Button ID="Update" runat="server" Text="Update" CssClass="redbox" 
+                                         ValidationGroup="A"   OnClientClick=" return confirmationUpdate()"   onclick="Update_Click"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SysAdmin/FinancialYear/FinYrs_Update.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_SysAdmin_FinancialYear_Update : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    DataSet DS = new DataSet();
+    string msg = "";
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            if (!IsPostBack)
+            {
+                fun.dropdownCompany(DropDownUpFYCName);
+            }
+
+            Label1.Text = "";
+
+            if (!String.IsNullOrEmpty(Request.QueryString["msg"]))
+            {
+                Label1.Text = Request.QueryString["msg"];
+            }
+            txtFDate.Attributes.Add("readonly", "readonly");
+            txtTDate.Attributes.Add("readonly", "readonly");
+        }
+        catch(Exception ex)
+        {}
+    }
+   
+    protected void Update_Click(object sender, EventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);        
+        //msg = "";
+      try
+        {
+            Label1.Text = "";
+            con.Open();
+            DateTime dd = DateTime.Now;
+            string CDate = dd.ToString("yyyy-MM-dd");
+            DateTime dt = DateTime.Now;
+            string CTime = dt.ToString("T");
+            string sId =Session["username"].ToString();
+            string FD = fun.FromDate(txtFDate.Text);
+            string TD = fun.ToDate(txtTDate.Text);
+            string fd = fun.fYear(txtFDate.Text);
+            string td = fun.tYear(txtTDate.Text);
+            string fYear = string.Concat(fd, td);
+
+
+            if (ListBoxUpFinYear.SelectedValue != "" && DropDownUpFYCName.SelectedValue != "Select" && txtFDate.Text != "" && txtTDate.Text != "" && fun.DateValidation(txtFDate.Text) == true && fun.DateValidation(txtTDate.Text) == true)
+          {
+            string cmdstr = fun.update("tblFinancial_master",
+                     "SysDate='" + CDate.ToString() + "',SysTime='" + CTime.ToString() + "',SessionId='" +sId.ToString() + "',FinYearFrom='" +FD.ToString()+ "',FinYearTo='" +TD.ToString() + "',FinYear='"+fYear.ToString()+"'",
+                    "CompId='" + DropDownUpFYCName.SelectedValue + "'and FinYearId='"+ListBoxUpFinYear.SelectedValue+"'");
+            SqlCommand cmd = new SqlCommand(cmdstr, con);
+            cmd.ExecuteNonQuery();
+            msg = "Financial year is Updated successfully.";
+            Page.Response.Redirect("FinYrs_Update.aspx?msg=" + msg + "&ModId=1&SubModId=1");
+          }
+                   
+        }
+
+       catch (Exception ex) { }
+       
+       finally
+        {
+            con.Close();
+           
+        }
+       
+    }
+   
+   
+    protected void ListBoxUpFinYear_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            msg = "";
+            Label1.Text = "";
+            DataSet DS = new DataSet();
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            string cmdStr = "Select * from tblFinancial_master where CompId=" + DropDownUpFYCName.SelectedValue.ToString() + " AND FinYearId="+ListBoxUpFinYear.SelectedValue+" ";
+            SqlCommand cmd = new SqlCommand(cmdStr, con);
+            SqlDataAdapter DA = new SqlDataAdapter(cmd);
+            DA.Fill(DS, "Financial");                  
+             string upFYF=DS.Tables[0].Rows[0]["FinYearFrom"].ToString();
+             string upFYT=DS.Tables[0].Rows[0]["FinYearTo"].ToString();
+             string FD = fun.FromDate(upFYF);
+             string TD = fun.ToDate(upFYT);
+             txtFDate.Text = FD;
+             txtTDate.Text = TD;
+        }
+        catch (Exception ex) { }
+    }
+    protected void DropDownUpFYCName_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            msg = "";
+            Label1.Text = "";
+            DataSet DS = new DataSet();
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            string cmdStr = "Select * from tblFinancial_master where CompId=" + DropDownUpFYCName.SelectedValue.ToString() + "";
+            SqlCommand cmd = new SqlCommand(cmdStr, con);
+            SqlDataAdapter DA = new SqlDataAdapter(cmd);
+            DA.Fill(DS, "Financial");
+            ListBoxUpFinYear.Items.Clear();
+            for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
+            {
+                string FinYearFrD = DS.Tables[0].Rows[i]["FinYearFrom"].ToString();
+                string FDY = fun.FromDateYear(FinYearFrD);
+                string FinYearToD = DS.Tables[0].Rows[i]["FinYearTo"].ToString();
+                string TDY = fun.ToDateYear(FinYearToD);
+                string finYear = string.Concat(FDY, TDY);               
+                string FinYearId = DS.Tables[0].Rows[i][0].ToString();
+                ListItem L = new ListItem();
+                L.Text = finYear;
+                L.Value = FinYearId;
+                ListBoxUpFinYear.Items.Add(L);
+
+            }
+
+       }
+        catch (Exception ex) {}
+    }
+}

@@ -1,0 +1,328 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Chatting/ChatWindow.aspx.txt ===
+
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ChatWindow.aspx.cs" Inherits="LinqChat.ChatWindow" Theme="Theme1" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head id="Head1" runat="server">
+    <title>Private Chat</title>
+    
+    <link href="../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    
+    <script type="text/javascript">    
+        function SetScrollPosition()
+        {
+            var div = document.getElementById('divMessages');
+            div.scrollTop = 100000000000;
+        }
+        
+       function SetCursorToTextEnd(textControlID) 
+{
+        var text = document.getElementById(textControlID);
+        if (text != null && text.value.length > 0)
+        {
+                if (text.createTextRange) 
+                {
+                        var range = text.createTextRange();
+                        range.moveStart('character', text.value.length);
+                                range.collapse();
+                                range.select();
+                }
+                else if (text.setSelectionRange) 
+                {
+                        var textLength = text.value.length;
+                        text.setSelectionRange(textLength, textLength);
+                }
+        }
+
+
+}    
+               
+        function ReplaceChars() 
+        {
+            var txt = document.getElementById('txtMessage').value;
+            var out = "<"; // replace this
+            var add = ""; // with this
+            var temp = "" + txt; // temporary holder
+
+            while (temp.indexOf(out)>-1) 
+            {
+                pos= temp.indexOf(out);
+                temp = "" + (temp.substring(0, pos) + add + temp.substring((pos + out.length), temp.length));
+            }
+            
+            document.getElementById('txtMessage').value = temp;        
+                       
+            
+        }
+        
+        function FocusThisWindow(result, context)
+        {
+            // don't do anything here
+        }
+        
+        function FocusMe()
+        {
+            FocusThisWindowCallBack('FocusThisWindow');   
+        }
+    </script>
+</head>
+<body style="background-color:#DCDCDC; margin: 0 0 0 0;" onload="SetScrollPosition()">
+    <form id="form1" runat="server" >
+    <div>
+        <asp:Label Id="lblFromUserId" Visible="false" runat="server" />
+        <asp:Label Id="lblToUserId" Visible="false" runat="server" />
+        <asp:Label Id="lblFromUsername" Visible="false" runat="server" />
+        <asp:Label Id="lblMessageSent" Visible="false" runat="server" />
+        <asp:ScriptManager Id="ScriptManager1" runat="server" />
+        
+        <asp:UpdatePanel Id="UpdatePanel1" runat="server">
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlId="Timer1" />
+            </Triggers>
+            <ContentTemplate>
+                <asp:Timer Id="Timer1" Interval="7000" OnTick="Timer1_OnTick" runat="server" />
+                <div id="divMessages" style="background-color: White; border-color:Black;border-width:1px;border-style:solid;height:160px;width:388px;overflow-y:scroll; font-size: 11px; padding: 4px 4px 4px 4px;" onresize="SetScrollPosition()">
+                    <asp:Literal Id="litMessages" runat="server" />
+                </div>  
+                <asp:TextBox Id="txtMessage" onkeyup="ReplaceChars();" onclick="FocusMe()" onfocus="SetCursorToTextEnd(this.id)" runat="server" Width="320px" />
+                <asp:Button Id="btnSend" runat="server" CssClass="redbox" Text="Send" OnClientClick="SetScrollPosition()" OnClick="BtnSend_Click" />           
+            </ContentTemplate>
+        </asp:UpdatePanel>  
+    </div>
+    </form>
+</body>
+</html>
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Chatting/ChatWindow.aspx.cs ===
+
+﻿using System;
+using System.Configuration;
+using System.Linq;
+using System.Text;
+
+namespace LinqChat
+{
+    public partial class ChatWindow : System.Web.UI.Page, System.Web.UI.ICallbackEventHandler
+    {
+        private string _callBackStatus="";
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+            try
+            {
+            Page.Title = lblFromUsername.Text + " - Private Message ..................................................................";
+
+            if (!IsPostBack)
+            {
+                lblFromUsername.Text = (string)Request["Username"];
+                Page.Title = lblFromUsername.Text + " - Private Message ..................................................................";
+                lblFromUserId.Text = (string)Request["FromUserId"];
+                lblToUserId.Text = (string)Request["ToUserId"];
+                string isReply = (string)Request["IsReply"];
+
+                if (isReply == "yes")
+                {
+                    lblMessageSent.Text = ConfigurationManager.AppSettings["ChatWindowMessageSent"];
+                }
+
+                // focus this window
+                string chatWindowToFocus = lblFromUserId.Text + "_" + lblToUserId.Text;
+                Session["DefaultWindow"] = chatWindowToFocus;
+                this.FocusThisWindow();
+
+                // create a call back reference so that we can refocus to this window when the cursor is placed in the message text box
+                string focusWindowCallBackReference = Page.ClientScript.GetCallbackEventReference(this, "arg", "FocusThisWindow", "");
+                string focusThisWindowCallBackScript = "function FocusThisWindowCallBack(arg, context) { " + focusWindowCallBackReference + "; }";
+                Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "FocusThisWindowCallBack", focusThisWindowCallBackScript, true);
+            }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        protected void BtnSend_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+            if (txtMessage.Text.Length > 0)
+            {
+                this.InsertPrivateMessage();
+                this.InsertMessage();
+                this.GetPrivateMessages();
+                txtMessage.Text = String.Empty;
+                this.FocusThisWindow();
+
+                ScriptManager1.SetFocus(txtMessage.ClientID);
+            }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        // This is where we send a private chat invitation to other chatters
+        private void InsertPrivateMessage()
+        {
+
+            try
+            {
+            // if the private message is sent to this user already, 
+            // don't send it again
+            if (String.IsNullOrEmpty(lblMessageSent.Text))
+            {
+                // if any private message is found based on the 
+                // from user id, or the to user id, then this 
+                // private message will not be inserted
+                PrivateMessage privateMessage = new PrivateMessage();
+                privateMessage.UserID = Convert.ToInt32(lblFromUserId.Text);
+                privateMessage.ToUserID = Convert.ToInt32(lblToUserId.Text);
+
+                LinqChatDataContext db = new LinqChatDataContext();
+                db.PrivateMessages.InsertOnSubmit(privateMessage);
+                db.SubmitChanges();
+
+                // make sure to assign any value to this label
+                // to confirm that a message is sent to this user
+                lblMessageSent.Text = ConfigurationManager.AppSettings["ChatWindowMessageSent"];
+            }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        /// <summary>
+        /// Because of the existence of the ToUserID (the user that we want to privately chat with)
+        /// we are only retrieving private messages between two (2) users
+        /// </summary>
+        private void InsertMessage()
+        {
+            try
+            {
+            Message message = new Message();
+            message.UserID = Convert.ToInt32(lblFromUserId.Text);
+            message.ToUserID = Convert.ToInt32(lblToUserId.Text);
+            message.TimeStamp = DateTime.Now;
+            message.Text = txtMessage.Text.Replace("<", "");
+           
+            LinqChatDataContext db = new LinqChatDataContext();
+            db.Messages.InsertOnSubmit(message);
+            db.SubmitChanges();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void GetPrivateMessages()
+        {
+            try
+            {
+            LinqChatDataContext db = new LinqChatDataContext();
+            var privateMessages = (from m in db.Messages
+                                  where
+                                  (m.UserID == Convert.ToInt32(lblFromUserId.Text) && m.ToUserID == Convert.ToInt32(lblToUserId.Text))
+                                  ||
+                                  (m.UserID == Convert.ToInt32(lblToUserId.Text) && m.ToUserID == Convert.ToInt32(lblFromUserId.Text))
+                                  orderby m.TimeStamp descending
+                                  select m).Take(20);
+
+            if (privateMessages != null)
+            {
+                StringBuilder sb = new StringBuilder();
+                int ctr = 0;    // toggle counter for alternating color
+
+                foreach (Message message in privateMessages)
+                {
+                    // alternate background color on messages
+                    if (ctr == 0)
+                    {
+                        sb.Append("<div style='padding: 10px;'>");
+                        ctr = 1;
+                    }
+                    else
+                    {
+                        sb.Append("<div style='background-color: #EFEFEF; padding: 10px;'>");
+                        ctr = 0;
+                    }
+
+                    sb.Append("<span style='color: black; font-weight: bold;'>" + message.User.EmployeeName + ":</span>  " + message.Text + "</div>");  
+                }
+
+                litMessages.Text = sb.ToString();
+            }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        protected void Timer1_OnTick(object sender, EventArgs e)
+        {
+
+            try
+            {
+            this.GetPrivateMessages();
+
+            if (Session["DefaultWindow"] != null)
+            {
+                this.FocusThisWindow();
+            }
+            }
+            catch (Exception ex)
+            {
+            }
+            
+        }
+
+        private void FocusThisWindow()
+        {
+            try
+            {
+            string chatWindowToFocus = lblFromUserId.Text + "_" + lblToUserId.Text;
+
+            if (Session["DefaultWindow"].ToString() == chatWindowToFocus)
+            {
+                form1.DefaultButton = "btnSend";
+                form1.DefaultFocus = "txtMessage";
+            }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        #region ICallbackEventHandler Members
+
+        string System.Web.UI.ICallbackEventHandler.GetCallbackResult()
+        {
+            return _callBackStatus;
+        }
+
+        void System.Web.UI.ICallbackEventHandler.RaiseCallbackEvent(string eventArgument)
+        {
+            try
+            {
+            if (!String.IsNullOrEmpty(eventArgument))
+            {
+                if (eventArgument == "FocusThisWindow")
+                {
+                    string chatWindowToFocus = lblFromUserId.Text + "_" + lblToUserId.Text;
+                    Session["DefaultWindow"] = chatWindowToFocus;
+                    this.FocusThisWindow();
+                }
+            }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        #endregion
+    }
+}

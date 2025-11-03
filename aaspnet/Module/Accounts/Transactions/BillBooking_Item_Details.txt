@@ -1,0 +1,2289 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/BillBooking_Item_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="BillBooking_Item_Details.aspx.cs" Inherits="Module_Accounts_Transactions_BillBooking_Item_Details" Theme="Default" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>ERP</title>
+ <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style16
+        {
+            font-weight: bold;
+        }
+               
+        .style21
+        {
+            text-align: right;
+        }
+        .style22
+        {
+            width: 100%;
+            float: left;
+        }
+        .style29
+        {
+            background-color: #993300;
+        }
+        .style30
+        {
+            text-align: left;
+            background-color: #993300;
+        }
+        .style31
+        {
+            color: #FFFFFF;
+        }
+        .style32
+        {
+            background-color: #CCFFFF;
+        }
+        .style33
+        {
+            text-align: left;
+            background-color: #CCFFFF;
+        }
+        .style35
+        {
+            background-color: #FFFFCC;
+        }
+        .style36
+        {
+            text-align: left;
+            background-color: #FFFFCC;
+        }
+        .style37
+        {
+            background-color: #993300;
+            text-align: right;
+        }
+        .style38
+        {
+            background-color: #CCFFFF;
+            text-align: right;
+        }
+        .style39
+        {
+            background-color: #FFFFCC;
+            text-align: right;
+        }
+        .style40
+        {
+            background-color: #CCFFFF;
+            text-align: right;
+            font-weight: bold;
+        }
+        .style41
+        {
+            background-color: #FFFFCC;
+            text-align: right;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body style="margin-bottom:0px; margin-left:0px; margin-right:0px; margin-top:0px;">
+    <form id="form1" runat="server">
+    
+    
+        <table align="left" cellpadding="0" cellspacing="0" class="style22">
+            <tr>
+                <td valign="top">
+                    <table cellpadding="0" cellspacing="0" width="100%" class="fontcss">
+                        <tr>
+                            <td width="200" height="22">
+                    <asp:Label ID="lblGNo" runat="server" CssClass="style16"></asp:Label>
+                                <span lang="en-us"><b>:</b> </span>
+                    <asp:Label ID="lblGqnGsnNo" runat="server"></asp:Label>
+                            </td>
+                            <td>
+                    <b>Item Code:<span lang="en-us"> </span></b>
+                    <asp:Label ID="lblItemcode" runat="server"></asp:Label>
+                            </td>
+                            <td>
+                    <b>Unit :</b><asp:Label ID="lblUnit" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="30" valign="top">
+                    <b>Description</b></td>
+                            <td colspan="2" valign="top">
+                    <asp:Label ID="lblDiscription" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+    
+    
+        <table align="left" cellpadding="0" cellspacing="1" width="950px" 
+            class="fontcss">
+            <tr>
+                <td width="20">
+                    &nbsp;</td>
+                <td width="170">
+                    &nbsp;</td>
+                <td width="200">
+                    &nbsp;</td>
+                <td class="style21">
+                    <asp:Label ID="Label2" runat="server" CssClass="style16" 
+                        Text="Tariff Class./Entry No."></asp:Label>
+                    <span lang="en-us">&nbsp;&nbsp; </span></td>
+                <td width="170">
+                    <asp:TextBox ID="txtTCEntryNo" runat="server" CssClass="box3">0</asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator20" runat="server" 
+                        ControlToValidate="txtTCEntryNo" ErrorMessage="*" ValidationGroup="B"></asp:RequiredFieldValidator>
+                </td>
+            </tr>
+            <tr bgcolor="#CCFFFF" class="style31">
+                <td height="22" class="style37">
+                    &nbsp;</td>
+                <td height="22" class="style29">
+                    &nbsp;</td>
+                <td class="style29">
+                    <asp:Label ID="Label9" runat="server" CssClass="style16" Text="As Per PO Terms"></asp:Label>
+                </td>
+                <td class="style30">
+                    <span lang="en-us">&nbsp;</span><asp:Label ID="Label10" runat="server" CssClass="style16" Text="New Terms"></asp:Label>
+                    </td>
+                <td class="style29">
+                    <asp:Label ID="Label11" runat="server" CssClass="style16" Text="Cal. Amt."></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td height="22" class="style38">
+                    &nbsp;</td>
+                <td height="22" class="style32">
+                    <span lang="en-us">
+                    &nbsp;<asp:Label ID="lblRate" runat="server" CssClass="style16" Text="Rate"></asp:Label>
+                    </span>
+                </td>
+                <td class="style32">
+                    <asp:Label ID="lblRateAmt" runat="server"></asp:Label>
+                </td>
+                <td class="style33">
+                    <span lang="en-us">
+                    <asp:CheckBox ID="CkRate" runat="server" AutoPostBack="True" 
+                        oncheckedchanged="CkRate_CheckedChanged" />
+                    </span><asp:TextBox ID="txtRate" runat="server" CssClass="box3" Enabled="False" 
+                        Width="100px">0</asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator21" runat="server" 
+                        ControlToValidate="txtRate" ErrorMessage="*" ValidationGroup="B"></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator ID="RegularExpressionValidator14" 
+                        runat="server" ControlToValidate="txtRate" ErrorMessage="*" 
+                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="B"></asp:RegularExpressionValidator>
+                </td>
+                <td class="style32">
+                    &nbsp;</td>
+            </tr>
+            <tr>
+                <td height="22" class="style39">
+                    &nbsp;</td>
+                <td height="22" class="style35">
+                    <span lang="en-us">
+                    &nbsp;<asp:Label ID="lblDisc" runat="server" CssClass="style16" Text="Discount"></asp:Label>
+                    </span>
+                </td>
+                <td class="style35">
+                    <asp:Label ID="lblDiscAmt" runat="server"></asp:Label>
+                </td>
+                <td class="style36">
+                    <span lang="en-us">
+                    <asp:CheckBox ID="CkDisc" runat="server" AutoPostBack="True" 
+                        oncheckedchanged="CkDisc_CheckedChanged" />
+                    </span><asp:TextBox ID="txtDisc" runat="server" CssClass="box3" Enabled="False" 
+                        Width="50px">0</asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator22" runat="server" 
+                        ControlToValidate="txtDisc" ErrorMessage="*" ValidationGroup="B"></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator ID="RegularExpressionValidator15" 
+                        runat="server" ControlToValidate="txtDisc" ErrorMessage="*" 
+                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="B"></asp:RegularExpressionValidator>
+                </td>
+                <td class="style35">
+                    &nbsp;</td>
+            </tr>
+            
+            
+            <tr>
+                <td height="22" class="style38">
+                    &nbsp;</td>
+                <td height="22" class="style32">
+                    <span lang="en-us">&nbsp;</span><asp:Label ID="lblGQty" runat="server" CssClass="style16"></asp:Label>
+                </td>
+                <td class="style32">
+                    <asp:Label ID="lblGqnGsnQty" runat="server" Text="0"></asp:Label>
+                </td>
+                <td class="style33">
+                    &nbsp;</td>
+                <td class="style32">
+                    &nbsp;</td>
+            </tr>
+            
+            
+            <tr>
+                <td height="22" class="style41">
+                    <span lang="en-us">A]</span></td>
+                <td height="22" class="style35">
+                    <span lang="en-us">
+                    &nbsp;<asp:Label ID="lblGAmt" runat="server" style="font-weight: 700"></asp:Label>
+                    </span>
+                </td>
+                <td class="style35">
+                    <asp:Label ID="lblGqnGsnAmt" runat="server">0</asp:Label>
+                </td>
+                <td class="style36">
+                    <asp:CheckBox ID="CKDebit" runat="server" AutoPostBack="True" 
+                        CssClass="style16" oncheckedchanged="CKDebit_CheckedChanged" Text=" Debit" />
+                    <span lang="en-us">&nbsp;<asp:TextBox ID="txtDebit" runat="server" 
+                        CssClass="box3" Enabled="False" Width="120px">0</asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator23" runat="server" 
+                        ControlToValidate="txtDebit" ErrorMessage="*" ValidationGroup="B"></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator ID="RegularExpressionValidator16" 
+                        runat="server" ControlToValidate="txtDebit" ErrorMessage="*" 
+                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="B"></asp:RegularExpressionValidator>
+&nbsp;<asp:DropDownList ID="DrpType" runat="server" AutoPostBack="True" CssClass="box3" 
+                        onselectedindexchanged="DrpType_SelectedIndexChanged">
+                        <asp:ListItem Selected="True" Value="1">Amt</asp:ListItem>
+                        <asp:ListItem Value="2">%</asp:ListItem>
+                    </asp:DropDownList>
+                    </span>
+                    </td>
+                <td class="style35">
+                    <asp:TextBox ID="txtDebitAmt" runat="server" CssClass="box3" Enabled="False">0</asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator24" runat="server" 
+                        ControlToValidate="txtDebitAmt" ErrorMessage="*" ValidationGroup="B"></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator ID="RegularExpressionValidator13" 
+                        runat="server" ControlToValidate="txtDebitAmt" ErrorMessage="*" 
+                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="B"></asp:RegularExpressionValidator>
+                </td>
+            </tr>
+            
+            
+            <tr>
+                <td height="22" class="style40">
+                    <span lang="en-us">B]</span></td>
+                <td height="22" class="style32">
+                    <span lang="en-us">&nbsp;</span><asp:Label ID="Label1" runat="server" CssClass="style16" Text="P&amp;F"></asp:Label>
+                </td>
+                <td class="style32">
+                    <asp:Label ID="lblPF" runat="server"></asp:Label>
+                </td>
+                <td class="style33">
+                    <asp:CheckBox ID="CkPf" runat="server" AutoPostBack="True" 
+                        oncheckedchanged="CkPf_CheckedChanged" />
+                    <asp:DropDownList ID="DDLPF" runat="server" DataSourceID="SqlDataSource1" 
+                            DataTextField="Terms" DataValueField="Id" CssClass="box3" 
+                        Enabled="False" AutoPostBack="True" 
+                        onselectedindexchanged="DDLPF_SelectedIndexChanged">
+                    </asp:DropDownList>
+                                <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+                        ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                        SelectCommand="SELECT [Id], [Terms] FROM [tblPacking_Master]">
+                    </asp:SqlDataSource>
+                    </td>
+                <td class="style32">
+                    <asp:TextBox ID="txtPF" runat="server" CssClass="box3" Enabled="False">0</asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator12" runat="server" 
+                        ControlToValidate="txtPF" ErrorMessage="*" ValidationGroup="B"></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator runat="server" 
+                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ControlToValidate="txtPF" 
+                        ErrorMessage="*" ValidationGroup="B" ID="RegularExpressionValidator5"></asp:RegularExpressionValidator>
+                </td>
+            </tr>
+            <tr>
+                <td class="style41" height="22">
+                    <span lang="en-us">C]</span></td>
+                <td class="style35" height="22">
+                    <span lang="en-us">&nbsp;</span><asp:Label ID="Label12" runat="server" CssClass="style16" Text="BCD"></asp:Label>
+                </td>
+                <td class="style35">
+                    &nbsp;</td>
+                <td class="style35">
+                    <asp:CheckBox ID="CkBCD" runat="server" AutoPostBack="True" 
+                        oncheckedchanged="CkBCD_CheckedChanged" />
+                    <asp:TextBox ID="txtBCD" runat="server" CssClass="box3" Width="75px" 
+                        Enabled="False">0</asp:TextBox>
+                    <span lang="en-us">
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator25" runat="server" 
+                        ControlToValidate="txtBCD" ErrorMessage="*" ValidationGroup="B"></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator ID="RegularExpressionValidator17" 
+                        runat="server" ControlToValidate="txtBCD" ErrorMessage="*" 
+                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="B"></asp:RegularExpressionValidator>
+                &nbsp;</span><asp:DropDownList ID="drpBCD" runat="server" AutoPostBack="True" 
+                        Enabled="False" onselectedindexchanged="drpBCD_SelectedIndexChanged">
+                        <asp:ListItem Value="1">Amt</asp:ListItem>
+                        <asp:ListItem Value="2">%</asp:ListItem>
+                    </asp:DropDownList>
+                    </td>
+                <td class="style35">
+                    <asp:TextBox ID="txtCalBCD" runat="server" CssClass="box3" Enabled="False">0</asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td class="style40" height="22">
+                    &nbsp;</td>
+                <td class="style32" height="22">
+                    <span lang="en-us">&nbsp;</span><asp:Label ID="Label13" runat="server" CssClass="style16" Text="Value for CVD"></asp:Label>
+                </td>
+                <td class="style32">
+                    &nbsp;</td>
+                <td class="style32">
+                    &nbsp;</td>
+                <td class="style32">
+                    <asp:TextBox ID="txtValCVD" runat="server" CssClass="box3" Enabled="False">0</asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td class="style41">
+                    &nbsp;</td>
+                <td class="style35">
+                    <span lang="en-us">&nbsp;</span><asp:Label ID="Label3" runat="server" CssClass="style16" 
+                        Text="Excise/Service Tax"></asp:Label>
+                </td>
+                <td class="style35">
+                    <asp:Label ID="lblExServiceTax" runat="server"></asp:Label>
+                </td>
+                <td class="style35">
+                    <asp:CheckBox ID="CkExcise" runat="server" AutoPostBack="True" 
+                        oncheckedchanged="CkExcise_CheckedChanged" />
+                    <asp:DropDownList ID="DDLExcies" runat="server" DataSourceID="SqlDataSource2" 
+                        DataTextField="Terms" DataValueField="Id" CssClass="box3" Enabled="False" 
+                        AutoPostBack="True" onselectedindexchanged="DDLExcies_SelectedIndexChanged">
+                    </asp:DropDownList>
+                    <asp:SqlDataSource ID="SqlDataSource2" runat="server" 
+                        ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                        SelectCommand="SELECT [Id], [Terms] FROM [tblExciseser_Master]">
+                    </asp:SqlDataSource>
+                    </td>
+                <td class="style35">
+                    <asp:Label ID="lblExciseServiceTax" runat="server"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td height="22" class="style40">
+                    D<span lang="en-us">]</span></td>
+                <td height="22" class="style32">
+                    <span lang="en-us">&nbsp;</span><asp:Label ID="Label4" runat="server" Text="Basic Excise(%)" CssClass="style16"></asp:Label>
+                </td>
+                <td class="style32">
+                    <asp:Label ID="lblBasicExcise" runat="server"></asp:Label>
+                    </td>
+                <td class="style32">
+                    <span lang="en-us">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+                    <asp:TextBox ID="txtBasicExcise" runat="server" CssClass="box3" Enabled="False">0</asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator9" runat="server" 
+                        ControlToValidate="txtBasicExcise" ErrorMessage="*" ValidationGroup="B"></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator runat="server" 
+                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ControlToValidate="txtBasicExcise" 
+                        ErrorMessage="*" ValidationGroup="B" ID="RegularExpressionValidator2"></asp:RegularExpressionValidator>                  
+                    
+                    </td>
+                <td class="style32">
+                    <asp:TextBox ID="txtBasicExciseAmt" runat="server" CssClass="box3" 
+                        Enabled="False">0</asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator14" runat="server" 
+                        ControlToValidate="txtBasicExciseAmt" ErrorMessage="*" ValidationGroup="B"></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator runat="server" 
+                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ControlToValidate="txtBasicExciseAmt" 
+                        ErrorMessage="*" ValidationGroup="B" ID="RegularExpressionValidator7"></asp:RegularExpressionValidator></td>
+            </tr>
+            <tr>
+                <td height="22" class="style41">
+                    E<span lang="en-us">]</span></td>
+                <td height="22" class="style35">
+                    <span lang="en-us">&nbsp;</span><asp:Label ID="Label5" runat="server" CssClass="style16" Text="EDU Cess(%)"></asp:Label>
+                </td>
+                <td class="style35">
+                    <asp:Label ID="lblEDUCess" runat="server"></asp:Label>
+                    </td>
+                <td class="style35">
+                    <span lang="en-us">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+                    <asp:TextBox ID="txtEDUCess" runat="server" CssClass="box3" Enabled="False">0</asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator10" runat="server" 
+                        ControlToValidate="txtEDUCess" ErrorMessage="*" ValidationGroup="B"></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator runat="server" 
+                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ControlToValidate="txtSHECess" 
+                        ErrorMessage="*" ValidationGroup="B" ID="RegularExpressionValidator3"></asp:RegularExpressionValidator></td>
+                <td class="style35">
+                    <asp:TextBox ID="txtEDUCessAmt" runat="server" CssClass="box3" Enabled="False">0</asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator15" runat="server" 
+                        ControlToValidate="txtEDUCessAmt" ErrorMessage="*" ValidationGroup="B"></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator runat="server" 
+                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ControlToValidate="txtEDUCessAmt" 
+                        ErrorMessage="*" ValidationGroup="B" ID="RegularExpressionValidator8"></asp:RegularExpressionValidator></td>
+            </tr>
+            <tr>
+                <td height="22" class="style40">
+                    <span lang="en-us">F]</span></td>
+                <td height="22" class="style32">
+                    <span lang="en-us">&nbsp;</span><asp:Label ID="Label6" runat="server" CssClass="style16" Text="SHE Cess(%)"></asp:Label>
+                </td>
+                <td class="style32">
+                    <asp:Label ID="lblSHECess" runat="server"></asp:Label>
+                    </td>
+                <td class="style32">
+                    <span lang="en-us">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+                    <asp:TextBox ID="txtSHECess" runat="server" CssClass="box3" Enabled="False">0</asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator11" runat="server" 
+                        ControlToValidate="txtSHECess" ErrorMessage="*" ValidationGroup="B"></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator runat="server" 
+                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ControlToValidate="txtBasicExcise" 
+                        ErrorMessage="*" ValidationGroup="B" ID="RegularExpressionValidator4"></asp:RegularExpressionValidator></td>
+                <td class="style32">
+                    <asp:TextBox ID="txtSHECessAmt" runat="server" CssClass="box3" Enabled="False">0</asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator16" runat="server" 
+                        ControlToValidate="txtSHECessAmt" ErrorMessage="*" ValidationGroup="B"></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator runat="server" 
+                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ControlToValidate="txtSHECessAmt" 
+                        ErrorMessage="*" ValidationGroup="B" ID="RegularExpressionValidator9"></asp:RegularExpressionValidator></td>
+            </tr>
+            <tr>
+                <td height="22" class="style41">
+                    <span lang="en-us">G]</span></td>
+                <td height="22" class="style35">
+                    <span lang="en-us">&nbsp;</span><asp:Label ID="Label14" runat="server" CssClass="style16" 
+                        Text="Value for Ed Cess CD"></asp:Label>
+                </td>
+                <td class="style35">
+                    &nbsp;</td>
+                <td class="style35">
+                    &nbsp;</td>
+                <td class="style35">
+                    <asp:TextBox ID="txtValEdCessCD" runat="server" CssClass="box3" Enabled="False">0</asp:TextBox>
+                                </td>
+            </tr>
+            <tr>
+                <td height="22" class="style40">
+                    <span lang="en-us">H]</span></td>
+                <td height="22" class="style32">
+                    <span lang="en-us">&nbsp;</span><asp:Label ID="Label15" runat="server" CssClass="style16" Text="Ed. Cess on CD"></asp:Label>
+                </td>
+                <td class="style32">
+                    &nbsp;</td>
+                <td class="style32">
+                    <asp:CheckBox ID="CkEdCessCD" runat="server" AutoPostBack="True" 
+                        oncheckedchanged="CkEdCessCD_CheckedChanged" />
+                    <span lang="en-us">&nbsp;</span><asp:TextBox ID="txtEdCessCD" runat="server" 
+                        CssClass="box3" Width="75px" Enabled="False">0</asp:TextBox>
+                    <span lang="en-us">
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator26" runat="server" 
+                        ControlToValidate="txtEdCessCD" ErrorMessage="*" ValidationGroup="B"></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator ID="RegularExpressionValidator18" 
+                        runat="server" ControlToValidate="txtEdCessCD" ErrorMessage="*" 
+                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="B"></asp:RegularExpressionValidator>
+                &nbsp;<asp:DropDownList ID="drpEdCessCD" runat="server" AutoPostBack="True" 
+                        Enabled="False" onselectedindexchanged="drpEdCessCD_SelectedIndexChanged">
+                        <asp:ListItem Value="1">Amt</asp:ListItem>
+                        <asp:ListItem Value="2">%</asp:ListItem>
+                    </asp:DropDownList>
+                    </span></td>
+                <td class="style32">
+                    <asp:TextBox ID="txtEdCessOnCD" runat="server" CssClass="box3" Enabled="False">0</asp:TextBox>
+                                </td>
+            </tr>
+            <tr>
+                <td height="22" class="style41">
+                    <span lang="en-us">I]</span></td>
+                <td height="22" class="style35">
+                    <span lang="en-us">&nbsp;</span><asp:Label ID="Label16" runat="server" CssClass="style16" 
+                        Text="S &amp; H Ed Cess"></asp:Label>
+                </td>
+                <td class="style35">
+                    &nbsp;</td>
+                <td class="style35">
+                    <asp:CheckBox ID="CkSHEdCess" runat="server" AutoPostBack="True" 
+                        oncheckedchanged="CkSHEdCess_CheckedChanged" />
+                    <span lang="en-us">&nbsp;</span><asp:TextBox ID="txtSHEdCess" runat="server" 
+                        CssClass="box3" Width="75px" Enabled="False">0</asp:TextBox>
+                    <span lang="en-us">
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator27" runat="server" 
+                        ControlToValidate="txtSHEdCess" ErrorMessage="*" ValidationGroup="B"></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator ID="RegularExpressionValidator19" 
+                        runat="server" ControlToValidate="txtSHEdCess" ErrorMessage="*" 
+                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="B"></asp:RegularExpressionValidator>
+                &nbsp;<asp:DropDownList ID="drpSHEdCess" runat="server" AutoPostBack="True" 
+                        Enabled="False" onselectedindexchanged="drpSHEdCess_SelectedIndexChanged">
+                        <asp:ListItem Value="1">Amt</asp:ListItem>
+                        <asp:ListItem Value="2">%</asp:ListItem>
+                    </asp:DropDownList>
+                    </span></td>
+                <td class="style35">
+                    <asp:TextBox ID="txtSHEdCessAmt" runat="server" CssClass="box3" Enabled="False">0</asp:TextBox>
+                                </td>
+            </tr>
+            <tr>
+                <td height="22" class="style40">
+                    <span lang="en-us">J]</span></td>
+                <td height="22" class="style32">
+                    <span lang="en-us">&nbsp;</span><asp:Label ID="Label17" runat="server" CssClass="style16" Text="Total Duty"></asp:Label>
+                </td>
+                <td class="style32">
+                    &nbsp;</td>
+                <td class="style32">
+                    &nbsp;</td>
+                <td class="style32">
+                    <asp:TextBox ID="txtTotDuty" runat="server" CssClass="box3" Enabled="False">0</asp:TextBox>
+                                </td>
+            </tr>
+            <tr>
+                <td height="22" class="style41">
+                    <span lang="en-us">K]</span></td>
+                <td height="22" class="style35">
+                    <span lang="en-us">&nbsp;</span><asp:Label ID="Label18" runat="server" CssClass="style16" 
+                        Text="Total Duty ED &amp; S.H. ED"></asp:Label>
+                </td>
+                <td class="style35">
+                    &nbsp;</td>
+                <td class="style35">
+                    &nbsp;</td>
+                <td class="style35">
+                    <asp:TextBox ID="txtEDSHED" runat="server" CssClass="box3" Enabled="False">0</asp:TextBox>
+                                </td>
+            </tr>
+            <tr>
+                <td height="22" class="style40">
+                    <span lang="en-us">P]</span></td>
+                <td height="22" class="style32">
+                    <span lang="en-us">&nbsp;</span><asp:Label ID="Label7" runat="server" Text="Freight" CssClass="style16"></asp:Label>
+                </td>
+                <td class="style32">
+                    <asp:Label ID="lblFreight" runat="server"></asp:Label>
+                </td>
+                <td class="style32">
+                    &nbsp;</td>
+                <td class="style32">
+                    <asp:Label ID="txtFreight" runat="server"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td height="22" class="style41">
+                    <span lang="en-us">Q]</span></td>
+                <td height="22" class="style35">
+                    <span lang="en-us">&nbsp;</span><asp:Label ID="Label19" runat="server" CssClass="style16" Text="Insurance"></asp:Label>
+                </td>
+                <td class="style35">
+                    &nbsp;</td>
+                <td class="style35">
+                    &nbsp;</td>
+                <td class="style35">
+                     <asp:TextBox ID="txtInsurance" runat="server" CssClass="box3">0</asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator28" runat="server" 
+                        ControlToValidate="txtInsurance" ErrorMessage="*" ValidationGroup="B"></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator runat="server" 
+                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ControlToValidate="txtInsurance" 
+                        ErrorMessage="*" ValidationGroup="B" ID="RegularExpressionValidator20"></asp:RegularExpressionValidator>
+                                </td>
+            </tr>
+            <tr>
+                <td height="22" class="style40">
+                    <span lang="en-us">L]</span></td>
+                <td height="22" class="style32">
+                    <span lang="en-us">&nbsp;</span><asp:Label ID="Label20" runat="server" CssClass="style16" 
+                        Text="Value with Duty"></asp:Label>
+                </td>
+                <td class="style32">
+                    &nbsp;</td>
+                <td class="style32">
+                    &nbsp;</td>
+                <td class="style32">
+                     <asp:TextBox ID="txtValDuty" runat="server" CssClass="box3" Enabled="False">0</asp:TextBox>
+                                </td>
+            </tr>
+            <tr>
+                <td height="22" class="style41">
+                    <span lang="en-us">N]</span></td>
+                <td height="22" class="style35">
+                    <span lang="en-us">&nbsp;</span><asp:Label ID="lblVatCst" runat="server" CssClass="style16"></asp:Label>
+                </td>
+                <td class="style35">
+                    <asp:Label ID="lblVat" runat="server"></asp:Label>
+                </td>
+                <td class="style35">
+                    <asp:CheckBox ID="CkVat" runat="server" AutoPostBack="True" 
+                        oncheckedchanged="CkVat_CheckedChanged" />
+                    <asp:DropDownList ID="DDLVat" runat="server" DataSourceID="SqlDataSource3" 
+                        DataTextField="Terms" DataValueField="Id" CssClass="box3" Enabled="False" 
+                        AutoPostBack="True" onselectedindexchanged="DDLVat_SelectedIndexChanged">
+                    </asp:DropDownList>
+                    <asp:SqlDataSource ID="SqlDataSource3" runat="server" 
+                        ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                        SelectCommand="SELECT [Id], [Terms] FROM [tblVAT_Master]">
+                    </asp:SqlDataSource>
+                    </td>
+                <td class="style35">
+                     <asp:TextBox ID="txtVatCstAmt" runat="server" CssClass="box3" Enabled="False">0</asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator19" runat="server" 
+                        ControlToValidate="txtVatCstAmt" ErrorMessage="*" ValidationGroup="B"></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator runat="server" 
+                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ControlToValidate="txtVatCstAmt" 
+                        ErrorMessage="*" ValidationGroup="B" ID="RegularExpressionValidator12"></asp:RegularExpressionValidator></td>
+            </tr>
+            <tr>
+                <td>
+                    &nbsp;</td>
+                <td>
+                    &nbsp;</td>
+                <td>
+                    &nbsp;</td>
+                <td>
+                    <asp:Button ID="Button1" runat="server" CssClass="redbox" Text="Calculate" 
+                        onclick="Button1_Click" />
+                    <span lang="en-us">&nbsp;</span><asp:Button ID="btnAdd" runat="server" 
+                        CssClass="redbox" onclick="btnAdd_Click" Text="Add" 
+                        Width="57px" ValidationGroup="B" />
+                    <span lang="en-us">&nbsp;</span><asp:Button ID="BtnCancel" runat="server" 
+                        CssClass="redbox" onclick="BtnCancel_Click" Text="Cancel" /></td>
+                <td height="30">
+                    <span lang="en-us">&nbsp;</span></td>
+            </tr>
+        </table>
+    
+    
+                    </td>
+                </tr>
+            </table>
+    
+    
+    </form>
+</body>
+</html>
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/BillBooking_Item_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_Accounts_Transactions_BillBooking_Item_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string SId = "";
+    int CompId = 0;
+    int GQNId = 0;
+    int GSNId = 0;
+    string SupplierNo = "";
+    double FGT = 0;
+    int PId = 0;
+    int PoId = 0;
+    double GQNAmt = 0;
+    double GSNAmt = 0;
+    int FyId = 0;
+    int ItemId = 0;
+    double bAmt = 0;
+    double TAmt = 0;
+    double vatVal = 0;
+    double CstVal = 0;
+    double vatVal1 = 0;
+    double CstVal1 = 0;
+    int PfId = 0;
+    int ExStId = 0;
+    int VatCstId = 0;
+    int frieghtId = 0;
+    double GQNQty = 0;
+    double GSNQty = 0;
+    double Rate = 0;
+    double Disc = 0;
+    double Qty = 0;
+    string ItemCode = "";
+    string PurchDesc = "";
+    string UomPurch = "";
+    string Pf = "";
+    string Exst = "";
+    string vat = "";
+    int Isvat = 0;
+    int Iscst = 0;
+    double PfVal = 0;
+    double ExstVal = 0;
+    double basic = 0;
+    double Educess = 0;
+    double shecess = 0;
+    string frieght = "";
+    int ST = 0;
+    int ACHead = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            con.Open();
+
+            FyId = Convert.ToInt32(Request.QueryString["FYId"]);
+            SupplierNo = Request.QueryString["SUPId"].ToString();
+            GQNId = Convert.ToInt32(Request.QueryString["GQNId"].ToString());
+            GSNId = Convert.ToInt32(Request.QueryString["GSNId"].ToString());
+            FGT = Convert.ToDouble(Request.QueryString["FGT"].ToString());
+            GQNAmt = Convert.ToDouble(Request.QueryString["GQNAmt"].ToString());
+            GSNAmt = Convert.ToDouble(Request.QueryString["GSNAmt"]);
+            GQNQty = Convert.ToDouble(Request.QueryString["GQNQty"].ToString());
+            GSNQty = Convert.ToDouble(Request.QueryString["GSNQty"]);
+            SId = Session["username"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+            PoId = Convert.ToInt32(Request.QueryString["POId"]);
+            ST = Convert.ToInt32(Request.QueryString["ST"]);
+
+            if (GQNQty == 0)
+            {
+                Qty = GSNQty;
+            }
+            else
+            {
+                Qty = GQNQty;
+            }
+
+            //if (!IsPostBack)
+            {
+                string StrSql3 = fun.select("tblMM_PO_Details.Id,tblMM_PO_Master.Freight,tblMM_PO_Details.PF,tblMM_PO_Details.ExST,tblMM_PO_Details.VAT,tblMM_PO_Details.PONo,tblMM_PO_Details.PRNo,tblMM_PO_Details.PRId,tblMM_PO_Details.SPRNo,tblMM_PO_Details.SPRId,tblMM_PO_Details.Qty,tblMM_PO_Details.Rate,tblMM_PO_Details.Discount,tblMM_PO_Details.PF,tblMM_PO_Details.ExST,tblMM_PO_Details.VAT,tblMM_PO_Master.PRSPRFlag", "tblMM_PO_Details,tblMM_PO_Master", "tblMM_PO_Details.Id='" + PoId + "' AND tblMM_PO_Master.PONo=tblMM_PO_Details.PONo AND tblMM_PO_Master.Id=tblMM_PO_Details.MId  AND tblMM_PO_Master.CompId='" + CompId + "'");
+                SqlCommand cmdsupId3 = new SqlCommand(StrSql3, con);
+                SqlDataAdapter dasupId3 = new SqlDataAdapter(cmdsupId3);
+                DataSet DSSql3 = new DataSet();
+                dasupId3.Fill(DSSql3);
+
+                //for (int i = 0; i < DSSql3.Tables[0].Rows.Count; i++)
+                {
+                    if (DSSql3.Tables[0].Rows[0]["PRSPRFlag"].ToString() == "0")
+                    {
+                        string StrFlag = fun.select("tblMM_PR_Details.ItemId,tblMM_PR_Master.WONo,tblMM_PR_Details.AHId", "tblMM_PR_Details,tblMM_PR_Master", "tblMM_PR_Master.PRNo='" + DSSql3.Tables[0].Rows[0]["PRNo"].ToString() + "'  AND tblMM_PR_Master.PRNo=tblMM_PR_Details.PRNo AND tblMM_PR_Master.Id=tblMM_PR_Details.MId AND tblMM_PR_Details.Id='" + DSSql3.Tables[0].Rows[0]["PRId"].ToString() + "' AND tblMM_PR_Master.CompId='" + CompId + "'");
+                        SqlCommand cmdFlag = new SqlCommand(StrFlag, con);
+                        SqlDataAdapter daFlag = new SqlDataAdapter(cmdFlag);
+                        DataSet DSFlag = new DataSet();
+                        daFlag.Fill(DSFlag);
+
+                        if (DSFlag.Tables[0].Rows.Count > 0)
+                        {
+                            string StrIcode = fun.select("ItemCode,ManfDesc,UOMBasic", "tblDG_Item_Master", "Id='" + DSFlag.Tables[0].Rows[0]["ItemId"].ToString() + "' AND CompId='" + CompId + "'");
+                            SqlCommand cmdIcode = new SqlCommand(StrIcode, con);
+                            SqlDataAdapter daIcode = new SqlDataAdapter(cmdIcode);
+                            DataSet DSIcode = new DataSet();
+                            daIcode.Fill(DSIcode);
+
+                            // For ItemCode
+                            if (DSIcode.Tables[0].Rows.Count > 0)
+                            {
+                                ItemCode = DSIcode.Tables[0].Rows[0]["ItemCode"].ToString();
+                                // For Purch Desc
+                                PurchDesc = DSIcode.Tables[0].Rows[0]["ManfDesc"].ToString();
+                                // for UOM Purchase  from Unit Master table
+                                string sqlPurch = fun.select("Symbol", "Unit_Master", "Id='" + DSIcode.Tables[0].Rows[0]["UOMBasic"].ToString() + "'");
+                                SqlCommand cmdPurch = new SqlCommand(sqlPurch, con);
+                                SqlDataAdapter daPurch = new SqlDataAdapter(cmdPurch);
+                                DataSet DSPurch = new DataSet();
+                                daPurch.Fill(DSPurch);
+                                if (DSPurch.Tables[0].Rows.Count > 0)
+                                {
+                                    UomPurch = DSPurch.Tables[0].Rows[0][0].ToString();
+                                }
+
+                            }
+                        }
+                        ItemId = Convert.ToInt32(DSFlag.Tables[0].Rows[0]["ItemId"]);
+                        ACHead = Convert.ToInt32(DSFlag.Tables[0].Rows[0]["AHId"]);
+                    }
+                    else if (DSSql3.Tables[0].Rows[0]["PRSPRFlag"].ToString() == "1")
+                    {
+                        string StrFlag1 = fun.select("tblMM_SPR_Details.ItemId,tblMM_SPR_Details.WONo,tblMM_SPR_Details.DeptId,tblMM_SPR_Details.AHId", "tblMM_SPR_Details,tblMM_SPR_Master", "tblMM_SPR_Master.SPRNo='" + DSSql3.Tables[0].Rows[0]["SPRNo"].ToString() + "'  AND tblMM_SPR_Master.SPRNo=tblMM_SPR_Details.SPRNo AND tblMM_SPR_Master.Id=tblMM_SPR_Details.MId AND tblMM_SPR_Details.Id='" + DSSql3.Tables[0].Rows[0]["SPRId"].ToString() + "'  AND  tblMM_SPR_Master.CompId='" + CompId + "'");
+
+                        SqlCommand cmdFlag1 = new SqlCommand(StrFlag1, con);
+                        SqlDataAdapter daFlag1 = new SqlDataAdapter(cmdFlag1);
+                        DataSet DSFlag1 = new DataSet();
+                        daFlag1.Fill(DSFlag1);
+
+                        if (DSFlag1.Tables[0].Rows.Count > 0)
+                        {
+                            string StrIcode1 = fun.select("ItemCode,ManfDesc,UOMBasic", "tblDG_Item_Master", "Id='" + DSFlag1.Tables[0].Rows[0]["ItemId"].ToString() + "'");
+                            SqlCommand cmdIcode1 = new SqlCommand(StrIcode1, con);
+                            SqlDataAdapter daIcode1 = new SqlDataAdapter(cmdIcode1);
+                            DataSet DSIcode1 = new DataSet();
+                            daIcode1.Fill(DSIcode1);
+
+                            if (DSIcode1.Tables[0].Rows.Count > 0)
+                            {
+                                ItemCode = DSIcode1.Tables[0].Rows[0]["ItemCode"].ToString();
+                                PurchDesc = DSIcode1.Tables[0].Rows[0]["ManfDesc"].ToString();
+                                // for UOM Purchase  from Unit Master table
+                                string sqlPurch1 = fun.select("Symbol", "Unit_Master", "Id='" + DSIcode1.Tables[0].Rows[0]["UOMBasic"].ToString() + "'");
+                                SqlCommand cmdPurch1 = new SqlCommand(sqlPurch1, con);
+                                SqlDataAdapter daPurch1 = new SqlDataAdapter(cmdPurch1);
+                                DataSet DSPurch1 = new DataSet();
+                                daPurch1.Fill(DSPurch1);
+                                if (DSPurch1.Tables[0].Rows.Count > 0)
+                                {
+                                    UomPurch = DSPurch1.Tables[0].Rows[0][0].ToString();
+                                }
+                            }
+                        }
+                        ItemId = Convert.ToInt32(DSFlag1.Tables[0].Rows[0]["ItemId"]);
+                        ACHead = Convert.ToInt32(DSFlag1.Tables[0].Rows[0]["AHId"]);
+                    }
+
+                    string StrPF = fun.select("Id,Terms,Value", "tblPacking_Master", "tblPacking_Master.Id='" + DSSql3.Tables[0].Rows[0]["PF"].ToString() + "'");
+                    SqlCommand cmdPF = new SqlCommand(StrPF, con);
+                    SqlDataAdapter daPF = new SqlDataAdapter(cmdPF);
+                    DataSet DSPF = new DataSet();
+                    daPF.Fill(DSPF);
+                    if (DSPF.Tables[0].Rows.Count > 0)
+                    {
+                        Pf = DSPF.Tables[0].Rows[0][1].ToString();
+
+                        if (!IsPostBack)
+                        {
+                            DDLPF.SelectedValue = DSPF.Tables[0].Rows[0][0].ToString();
+                        }
+
+                        PfVal = Convert.ToDouble(decimal.Parse((DSPF.Tables[0].Rows[0][2]).ToString()).ToString("N2"));
+                        PfId = Convert.ToInt32(DSPF.Tables[0].Rows[0][0]);
+                    }
+
+                    string StrExst = fun.select("Terms,Value,AccessableValue,EDUCess,SHECess,Id", "tblExciseser_Master", "tblExciseser_Master.Id='" + DSSql3.Tables[0].Rows[0]["ExST"].ToString() + "'");
+                    SqlCommand cmdExst = new SqlCommand(StrExst, con);
+                    SqlDataAdapter daExst = new SqlDataAdapter(cmdExst);
+                    DataSet DSExst = new DataSet();
+                    daExst.Fill(DSExst);
+
+                    if (DSExst.Tables[0].Rows.Count > 0)
+                    {
+                        Exst = DSExst.Tables[0].Rows[0][0].ToString();
+
+                        if (!IsPostBack)
+                        {
+                            DDLExcies.SelectedValue = DSExst.Tables[0].Rows[0][5].ToString();
+                        }
+
+                        ExstVal = Convert.ToDouble(decimal.Parse(DSExst.Tables[0].Rows[0][1].ToString()).ToString("N2"));
+                        basic = Convert.ToDouble(decimal.Parse(DSExst.Tables[0].Rows[0][2].ToString()).ToString("N2"));
+                        shecess = Convert.ToDouble(decimal.Parse(DSExst.Tables[0].Rows[0][4].ToString()).ToString("N2"));
+                        Educess = Convert.ToDouble(decimal.Parse(DSExst.Tables[0].Rows[0][3].ToString()).ToString("N2"));
+                        ExStId = Convert.ToInt32(DSExst.Tables[0].Rows[0][5]);
+                        
+                        if (ExStId == 2 || ExStId == 3)
+                        {
+                            txtBasicExcise.Enabled = true;
+                            txtBasicExciseAmt.Enabled = true;
+                            txtEDUCess.Enabled = true;
+                            txtEDUCessAmt.Enabled = true;
+                            txtSHECess.Enabled = true;
+                            txtSHECessAmt.Enabled = true;
+                        }
+                    }                    
+
+                    string StrVat = fun.select("Id,Terms,Value,IsVAT,IsCST", "tblVAT_Master", "tblVAT_Master.Id='" + DSSql3.Tables[0].Rows[0]["VAT"].ToString() + "'");
+                    SqlCommand cmdVat = new SqlCommand(StrVat, con);
+                    SqlDataAdapter daVat = new SqlDataAdapter(cmdVat);
+                    DataSet DSVat = new DataSet();
+                    daVat.Fill(DSVat);
+
+                    if (DSVat.Tables[0].Rows.Count > 0)
+                    {
+                        vat = DSVat.Tables[0].Rows[0][1].ToString();
+
+                        if (!IsPostBack)
+                        {
+                            DDLVat.SelectedValue = DSVat.Tables[0].Rows[0][0].ToString();
+                        }
+
+                        Isvat = Convert.ToInt32(DSVat.Tables[0].Rows[0][3]);
+                        Iscst = Convert.ToInt32(DSVat.Tables[0].Rows[0][4]);
+                        vatVal = Convert.ToDouble(decimal.Parse((DSVat.Tables[0].Rows[0][2]).ToString()).ToString("N2"));
+                        VatCstId = Convert.ToInt32(DSVat.Tables[0].Rows[0][0]);
+                    }
+
+                    string StrFrieght = fun.select("Id,Terms", "tblFreight_Master", "tblFreight_Master.Id='" + DSSql3.Tables[0].Rows[0]["Freight"].ToString() + "'");
+                    SqlCommand cmdFrieght = new SqlCommand(StrFrieght, con);
+                    SqlDataAdapter daFrieght = new SqlDataAdapter(cmdFrieght);
+                    DataSet DSFrieght = new DataSet();
+                    daFrieght.Fill(DSFrieght);
+
+                    if (DSFrieght.Tables[0].Rows.Count > 0)
+                    {
+                        frieght = DSFrieght.Tables[0].Rows[0][1].ToString();
+                        frieghtId = Convert.ToInt32(DSFrieght.Tables[0].Rows[0][0]);
+                    }
+                }
+
+                double SumTempQty = 0;
+
+                string SqlTemp = fun.select("sum(GQNAmt+GSNAmt+PFAmt+ExStBasic+ExStEducess+ExStShecess) As Sum_GQN_Excise", "tblACC_BillBooking_Details_Temp", "SessionId='" + SId + "' AND CompId='" + CompId + "'");
+                SqlCommand cmdTemp = new SqlCommand(SqlTemp, con);
+                SqlDataAdapter daTemp = new SqlDataAdapter(cmdTemp);
+                DataSet DSTemp = new DataSet();
+                daTemp.Fill(DSTemp, "tblACC_BillBooking_Details_Temp");
+
+                if (DSTemp.Tables[0].Rows.Count > 0 && DSTemp.Tables[0].Rows[0]["Sum_GQN_Excise"] != DBNull.Value)
+                {
+                    for (int k = 0; k < DSTemp.Tables[0].Rows.Count; k++)
+                    {
+                        SumTempQty += Convert.ToDouble(DSTemp.Tables[0].Rows[0][0].ToString());
+                    }
+                }
+
+                if (GQNId != 0)
+                {
+                    CkVat.Enabled = true;
+
+                    string Strgqn = fun.select("tblQc_MaterialQuality_Master.GQNNo", "tblQc_MaterialQuality_Master,tblQc_MaterialQuality_Details", "tblQc_MaterialQuality_Master.Id=tblQc_MaterialQuality_Details.MId AND tblQc_MaterialQuality_Details.Id='" + GQNId + "' AND tblQc_MaterialQuality_Master.CompId='" + CompId + "'");
+
+                    SqlCommand cmdgqn = new SqlCommand(Strgqn, con);
+                    SqlDataAdapter dagqn = new SqlDataAdapter(cmdgqn);
+                    DataSet DSgqn = new DataSet();
+                    dagqn.Fill(DSgqn);
+
+                    lblGNo.Text = "GQN No";
+
+                    if (DSgqn.Tables[0].Rows.Count > 0)
+                    {
+                        lblGqnGsnNo.Text = DSgqn.Tables[0].Rows[0]["GQNNo"].ToString();
+                    }
+
+                    lblGQty.Text = "GQN Qty";
+                    lblGAmt.Text = "GQN Amt";
+                    lblGqnGsnAmt.Text = GQNAmt.ToString();
+                    lblGqnGsnQty.Text = GQNQty.ToString();
+                    txtDebitAmt.Text = GQNAmt.ToString();
+
+                    double BasicAmt = 0;
+                    BasicAmt = Convert.ToDouble(txtDebitAmt.Text);
+                    
+                    double PfAmt = 0;
+                    PfAmt = Convert.ToDouble(decimal.Parse((BasicAmt * PfVal / 100).ToString()).ToString("N2"));
+                    
+                    double ExserAmt = 0; 
+                    ExserAmt = Convert.ToDouble(decimal.Parse(((BasicAmt + PfAmt) * ExstVal / 100).ToString()).ToString("N2"));                    
+                    lblExciseServiceTax.Text = ExserAmt.ToString();
+
+                    double ExserBasic = 0;
+                    ExserBasic = Convert.ToDouble(decimal.Parse(((BasicAmt + PfAmt) * basic / 100).ToString()).ToString("N2"));
+
+                    double EduAmt = 0;
+                    EduAmt = Convert.ToDouble(decimal.Parse((ExserBasic * Educess / 100).ToString()).ToString("N2"));
+                    
+                    double SheAmt = 0;
+                    SheAmt = Convert.ToDouble(decimal.Parse((ExserBasic * shecess / 100).ToString()).ToString("N2"));
+
+                    double Freight = 0;
+
+                    if (FGT > 0 && SumTempQty > 0)
+                    {
+                        double GQNAmt_PF_Excise = 0;
+
+                        GQNAmt_PF_Excise = Convert.ToDouble(BasicAmt + PfAmt + ExserAmt);
+                        
+                        Freight = Convert.ToDouble(decimal.Parse((FGT * Convert.ToDouble(GQNAmt_PF_Excise) / (SumTempQty + GQNAmt_PF_Excise)).ToString()).ToString("N2"));
+                    }
+                    else
+                    {
+                        Freight = FGT;
+                    }
+
+                    if (!IsPostBack)
+                    {
+                        txtFreight.Text = Freight.ToString();
+                        txtPF.Text = PfAmt.ToString();
+                        txtBasicExciseAmt.Text = ExserBasic.ToString();
+                        txtEDUCessAmt.Text = EduAmt.ToString();
+                        txtSHECessAmt.Text = SheAmt.ToString();
+                        txtBasicExcise.Text = basic.ToString();
+                        txtEDUCess.Text = Educess.ToString();
+                        txtSHECess.Text = shecess.ToString();
+                    }
+
+                    lblBasicExcise.Text = basic.ToString();
+                    lblEDUCess.Text = Educess.ToString();
+                    lblSHECess.Text = shecess.ToString();
+                    Rate = Convert.ToDouble(DSSql3.Tables[0].Rows[0]["Rate"]);
+                    lblRateAmt.Text = decimal.Parse(Rate.ToString()).ToString("N2");
+                    Disc = Convert.ToDouble(DSSql3.Tables[0].Rows[0]["Discount"]);
+                    lblDiscAmt.Text = decimal.Parse(Disc.ToString()).ToString("N2");
+                    lblItemcode.Text = ItemCode;
+                    lblUnit.Text = UomPurch;
+                    lblDiscription.Text = PurchDesc;
+                    lblFreight.Text = frieght;
+                    lblPF.Text = Pf;
+                    lblVat.Text = vat;
+                    lblExServiceTax.Text = Exst;
+
+                    //For Supplier State              
+
+                    //string cmdStr = "Select RegdState from tblMM_Supplier_master where SupplierId='" + SupplierNo + "'And CompId='" + CompId + "'";
+                    //SqlCommand cmd = new SqlCommand(cmdStr, con);
+                    //SqlDataAdapter DA = new SqlDataAdapter(cmd);
+                    //DataSet DS = new DataSet();
+                    //DA.Fill(DS, "tblMM_Supplier_master");
+                    //if (DS.Tables[0].Rows.Count > 0)
+                    //{
+                    //    Maharashtra state Id is 21 
+                    //    int StateId = Convert.ToInt32(DS.Tables[0].Rows[0]["RegdState"].ToString());
+
+                    if (Isvat == 1)
+                    {
+                        lblVatCst.Text = "VAT";
+                        bAmt = ((Convert.ToDouble(GQNAmt)) + PfAmt + ExserAmt + Freight);
+                        double vat1 = ((bAmt * vatVal) / 100);
+                        TAmt = bAmt + vat1;
+
+                        txtVatCstAmt.Text = Math.Round(vat1, 2).ToString();
+
+                        vatVal1 = Convert.ToDouble(decimal.Parse(txtVatCstAmt.Text).ToString("N2"));
+                    }
+                    else if (Iscst == 1)
+                    {
+                        lblVatCst.Text = "CST";
+                        bAmt = ((Convert.ToDouble(GQNAmt)) + PfAmt + ExserAmt);
+                        double vat2 = ((bAmt * vatVal) / 100);
+                        double cst = bAmt + vat2;
+
+                        TAmt = cst + Freight;
+                        txtVatCstAmt.Text = Math.Round(vat2, 2).ToString();
+                        CstVal1 = Convert.ToDouble(decimal.Parse(txtVatCstAmt.Text).ToString("N2"));
+                    }
+                    // }
+                }
+                else if (GSNId != 0)
+                {
+                    CkVat.Enabled = false;
+
+                    string Strgsn = fun.select("tblinv_MaterialServiceNote_Master.GSNNo", "tblinv_MaterialServiceNote_Master,tblinv_MaterialServiceNote_Details", "tblinv_MaterialServiceNote_Details.Id='" + GSNId + "' AND tblinv_MaterialServiceNote_Master.CompId='" + CompId + "' AND tblinv_MaterialServiceNote_Master.Id=tblinv_MaterialServiceNote_Details.MId");
+                    SqlCommand cmdgsn = new SqlCommand(Strgsn, con);
+                    SqlDataAdapter dagsn = new SqlDataAdapter(cmdgsn);
+                    DataSet DSgsn = new DataSet();
+                    dagsn.Fill(DSgsn);
+
+                    lblGNo.Text = "GSN No :";
+
+                    if (DSgsn.Tables[0].Rows.Count > 0)
+                    {
+                        lblGqnGsnNo.Text = DSgsn.Tables[0].Rows[0]["GSNNo"].ToString();
+                    }
+
+                    lblGQty.Text = "GSN Qty";
+                    lblGAmt.Text = "GSN Amt :";
+                    lblGqnGsnAmt.Text = GSNAmt.ToString();
+                    lblGqnGsnQty.Text = GSNQty.ToString();
+                    txtDebitAmt.Text = GSNAmt.ToString();
+
+                    //double PfAmt = 0;
+                    //PfAmt = Convert.ToDouble(decimal.Parse(((Convert.ToDouble(GSNAmt)) * PfVal / 100).ToString()).ToString("N2"));
+                    //double ExserAmt = 0;
+                    //ExserAmt = Convert.ToDouble(decimal.Parse((((Convert.ToDouble(GSNAmt)) + PfAmt) * ExstVal / 100).ToString()).ToString("N2"));
+                    //lblExciseServiceTax.Text = ExserAmt.ToString();
+
+                    //double BasicAmt = 0;
+                    //BasicAmt = Convert.ToDouble(decimal.Parse((((Convert.ToDouble(GSNAmt)) + PfAmt) * basic / 100).ToString()).ToString("N2"));
+
+                    //double EduAmt = 0;
+                    //EduAmt = Convert.ToDouble(decimal.Parse((BasicAmt * (Educess / 100)).ToString()).ToString("N2"));
+                    
+                    //double SheAmt = 0;
+                    //SheAmt = Convert.ToDouble(decimal.Parse((BasicAmt * (shecess / 100)).ToString()).ToString("N2"));
+
+                    //double Freight = 0;
+                    
+                    double BasicAmt = 0;
+                    BasicAmt = Convert.ToDouble(txtDebitAmt.Text);
+
+                    double PfAmt = 0;
+                    PfAmt = Convert.ToDouble(decimal.Parse((BasicAmt * PfVal / 100).ToString()).ToString("N2"));
+
+                    double ExserAmt = 0;
+                    ExserAmt = Convert.ToDouble(decimal.Parse(((BasicAmt + PfAmt) * ExstVal / 100).ToString()).ToString("N2"));
+                    lblExciseServiceTax.Text = ExserAmt.ToString();
+
+                    double ExserBasic = 0;
+                    ExserBasic = Convert.ToDouble(decimal.Parse(((BasicAmt + PfAmt) * basic / 100).ToString()).ToString("N2"));
+                    double EduAmt = 0;
+                    EduAmt = Convert.ToDouble(decimal.Parse((ExserBasic * Educess / 100).ToString()).ToString("N2"));
+
+                    double SheAmt = 0;
+                    SheAmt = Convert.ToDouble(decimal.Parse((ExserBasic * shecess / 100).ToString()).ToString("N2"));
+
+                    double Freight = 0;
+
+                    if (FGT > 0 && SumTempQty > 0)
+                    {
+                        Freight = Convert.ToDouble(decimal.Parse((FGT * (Convert.ToDouble(GSNAmt) / SumTempQty)).ToString()).ToString("N2"));
+                        double GSNAmt_PF_Excise = 0;
+                        GSNAmt_PF_Excise = Convert.ToDouble(GSNAmt + PfAmt + ExserAmt);
+
+                        Freight = Convert.ToDouble(decimal.Parse((FGT * Convert.ToDouble(GSNAmt_PF_Excise) / (SumTempQty + GSNAmt_PF_Excise)).ToString()).ToString("N2"));
+
+                    }
+                    else
+                    {
+                        Freight = FGT;
+                    }
+
+                    if (!IsPostBack)
+                    {
+                        txtFreight.Text = Freight.ToString();
+                        txtPF.Text = PfAmt.ToString();
+                        txtBasicExciseAmt.Text = ExserBasic.ToString();
+                        txtEDUCessAmt.Text = EduAmt.ToString();
+                        txtSHECessAmt.Text = SheAmt.ToString();
+                        txtBasicExcise.Text = basic.ToString();
+                        txtEDUCess.Text = Educess.ToString();
+                        txtSHECess.Text = shecess.ToString();
+                    }
+
+                    lblBasicExcise.Text = basic.ToString();
+                    lblEDUCess.Text = Educess.ToString();
+                    lblSHECess.Text = shecess.ToString();
+                    txtFreight.Text = Freight.ToString();
+                    Rate = Convert.ToDouble(DSSql3.Tables[0].Rows[0]["Rate"]);
+                    lblRateAmt.Text = decimal.Parse(Rate.ToString()).ToString("N2");
+                    Disc = Convert.ToDouble(DSSql3.Tables[0].Rows[0]["Discount"]);
+                    lblDiscAmt.Text = decimal.Parse(Disc.ToString()).ToString("N2");
+                    lblItemcode.Text = ItemCode;
+                    lblUnit.Text = UomPurch;
+                    lblDiscription.Text = PurchDesc;
+                    lblPF.Text = Pf;
+                    lblVat.Text = vat;
+                    lblFreight.Text = frieght;
+                    lblExServiceTax.Text = Exst;
+
+                    // For Supplier State
+                    //string cmdStr = fun.select("RegdState","tblMM_Supplier_master ","SupplierId='" + SupplierNo + "'And CompId='" + CompId + "'");                    
+                    //SqlCommand cmd = new SqlCommand(cmdStr, con);
+                    //SqlDataAdapter DA = new SqlDataAdapter(cmd);
+                    //DataSet DS = new DataSet();
+                    //DA.Fill(DS, "tblMM_Supplier_master");
+
+                    //if (DS.Tables[0].Rows.Count > 0)
+                    //{
+                    //    // Maharastra state Id is 21 
+                    //    double StateId = Convert.ToDouble(DS.Tables[0].Rows[0]["RegdState"].ToString());
+                    if (Isvat == 1)
+                    {
+                        lblVatCst.Text = "VAT";
+                        bAmt = ((Convert.ToDouble(GSNAmt)) + PfAmt + ExserAmt + Freight);
+                        double vat1 = ((bAmt * vatVal) / 100);
+                        TAmt = bAmt + vat1;
+
+                        txtVatCstAmt.Text = Math.Round(vat1, 2).ToString();
+                        vatVal1 = Convert.ToDouble(decimal.Parse(txtVatCstAmt.Text).ToString("N2"));
+                    }
+                    else if (Iscst == 1)
+                    {
+                        lblVatCst.Text = "CST";
+                        bAmt = ((Convert.ToDouble(GSNAmt)) + PfAmt + ExserAmt);
+                        double vat2 = ((bAmt * vatVal) / 100);
+                        double cst = bAmt + vat2;
+                        TAmt = cst;
+
+                        txtVatCstAmt.Text = Math.Round(vat2, 2).ToString();
+                        CstVal1 = Convert.ToDouble(decimal.Parse(txtVatCstAmt.Text).ToString("N2"));
+                    }
+                    //}
+                }
+            }
+        }
+         catch (Exception ex) { }
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("BillBooking_ItemGrid.aspx?SUPId=" + SupplierNo + "&POId=" + PoId + "&PId=" + PId + "&FGT=" + FGT + "&FyId=" + FyId + "&ST=" + ST + "&ModId=11&SubModId=62");
+    }
+
+    protected void btnAdd_Click(object sender, EventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+
+        con.Open();
+        
+        try
+        {
+            this.Calculation();
+
+            if (txtVatCstAmt.Text != "" && txtPF.Text != "" && txtBasicExcise.Text != "" && txtEDUCess.Text != "" && txtSHECess.Text != "" && txtBasicExciseAmt.Text != "" && txtEDUCessAmt.Text != "" && txtSHECessAmt.Text != "" && txtTCEntryNo.Text != "" && fun.NumberValidationQty(txtPF.Text) == true && fun.NumberValidationQty(txtBasicExcise.Text) == true && fun.NumberValidationQty(txtEDUCess.Text) == true && fun.NumberValidationQty(txtSHECess.Text) == true && fun.NumberValidationQty(txtBasicExciseAmt.Text) == true && fun.NumberValidationQty(txtEDUCessAmt.Text) == true && fun.NumberValidationQty(txtSHECessAmt.Text) == true && fun.NumberValidationQty(txtVatCstAmt.Text) == true && fun.NumberValidationQty(txtDebit.Text) == true && fun.NumberValidationQty(txtDebitAmt.Text) == true && fun.NumberValidationQty(txtRate.Text) == true && fun.NumberValidationQty(txtDisc.Text) == true)
+            {
+                double disc_amt = 0;
+                double rate_amt = 0;
+                int pf_selected = 0;
+                int excise_selected = 0;
+                int vatcst_selected = 0;
+                int rate_selected=0;                
+                int disc_selected = 0;                
+                int CKPF = 0;
+                int CKEX = 0;
+                int CKVATCST = 0;
+                int CKDebite=0;
+                double DebitValue=0;
+                int SelDebitType=0;
+                double DebitAmt=0;
+                double GetFreight=0;
+
+                GetFreight = FGT;
+                
+                if (CkPf.Checked == true)
+                {
+                    pf_selected = Convert.ToInt32(DDLPF.SelectedValue);
+                    CKPF = 1;
+                }
+                else
+                {
+                    pf_selected = PfId;
+                    CKPF = 0;
+                }
+
+                if (CkExcise.Checked == true)
+                {
+                    excise_selected = Convert.ToInt32(DDLExcies.SelectedValue);                    
+                    CKEX = 1;
+                }
+                else
+                {
+                    excise_selected = ExStId;
+                    CKEX = 0;
+                }
+
+                if (CkVat.Checked == true)
+                {
+                    vatcst_selected = Convert.ToInt32(DDLVat.SelectedValue);                    
+                    CKVATCST = 1;                  
+                }
+                else
+                {
+                    vatcst_selected = VatCstId;
+                    CKVATCST = 0;
+                }
+
+                double VatValue = 0;
+                double CstValue=0;
+
+                switch (lblVatCst.Text)
+                {
+                    case "VAT":
+                        VatValue = Convert.ToDouble(txtVatCstAmt.Text);
+                        break;
+                    case "CST":
+                        CstValue = Convert.ToDouble(txtVatCstAmt.Text);
+                        break;
+                }
+
+
+                if(CkRate.Checked == true)
+                {
+                    rate_selected = 1;
+                    rate_amt=Convert.ToDouble(txtRate.Text);
+                }
+
+                if (CkDisc.Checked == true)
+                {
+                    disc_selected = 1;
+                    disc_amt = Convert.ToDouble(txtDisc.Text);
+                }
+
+                if(CKDebit.Checked == true)
+                {  
+                    CKDebite=1;
+                    DebitValue=Convert.ToDouble(txtDebit.Text);
+                    SelDebitType=Convert.ToInt32(DrpType.SelectedValue);
+                    DebitAmt=Convert.ToDouble(txtDebitAmt.Text);
+                }
+
+                int   BCDtype=0;
+                double BCDVal=0;
+                double CalBCD = 0;
+                
+                double ValueForCVD = 0;
+                double ValueForEdCessCD = 0;
+                
+                int EdCessCDType = 0;
+                double EdCessCDVal = 0;
+                double CalEdCessCD = 0;
+
+                int SHEdCessType = 0;
+                double SHEdCessVal = 0;
+                double CalSHEdCess = 0;
+
+                double TotDuty = 0;
+                double EDSHED = 0;
+                double Insurance = 0;
+                Insurance = Convert.ToDouble(txtInsurance.Text);
+                double ValueWithDuty = 0;
+                
+                if (CkBCD.Checked == true)
+                {
+                    BCDtype = Convert.ToInt32(drpBCD.SelectedValue);
+                    BCDVal = Convert.ToDouble(txtBCD.Text);
+                    CalBCD = Convert.ToDouble(txtCalBCD.Text);
+
+                    ValueForCVD = Convert.ToDouble(txtValCVD.Text);
+                    ValueForEdCessCD = Convert.ToDouble(txtValEdCessCD.Text);
+
+                    if (CkEdCessCD.Checked == true)
+                    {
+                        EdCessCDType = Convert.ToInt32(drpEdCessCD.SelectedValue);
+                        EdCessCDVal = Convert.ToDouble(txtEdCessCD.Text);
+                        CalEdCessCD = Convert.ToDouble(txtEdCessOnCD.Text);
+                    }
+
+                    if (CkSHEdCess.Checked == true)
+                    {
+                        SHEdCessType = Convert.ToInt32(drpSHEdCess.SelectedValue);
+                        SHEdCessVal = Convert.ToDouble(txtSHEdCess.Text);
+                        CalSHEdCess = Convert.ToDouble(txtSHEdCessAmt.Text);
+                    }
+
+                    TotDuty = Convert.ToDouble(txtTotDuty.Text);
+                    EDSHED = Convert.ToDouble(txtEDSHED.Text);
+                    ValueWithDuty = Convert.ToDouble(txtValDuty.Text);
+                }
+
+
+                double gsnamt = 0;
+                double gqnamt = 0;
+
+                if (GQNId != 0)
+                {
+                    gqnamt =Math.Round( Convert.ToDouble(txtDebitAmt.Text),2);
+                }
+                else if (GSNId != 0)
+                {
+                    gsnamt =Math.Round( Convert.ToDouble(txtDebitAmt.Text),2);
+                }
+                
+                string getPOIdSql = "SELECT tblMM_PO_Master.Id FROM tblMM_PO_Master INNER JOIN tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId AND tblMM_PO_Master.CompId='" + CompId + "' AND tblMM_PO_Details.Id='" + PoId + "'";
+                SqlCommand getPOIdCmd = new SqlCommand(getPOIdSql, con);
+                SqlDataReader getPOIdRd = getPOIdCmd.ExecuteReader();
+                getPOIdRd.Read();
+                
+                if ((Isvat == 1 && ST == 0) || (Iscst == 1 && ST == 1) || (Iscst == 0 && Isvat == 0))
+                {
+
+                        string StrInsert = fun.insert("tblACC_BillBooking_Details_Temp", "SessionId,CompId,POId,PODId,GQNId,GQNAmt,GSNId,GSNAmt,ItemId,RateOpt,Rate,DiscOpt,Disc,CKDebit,DebitValue,DebitType,DebitAmt,CKPF,PFOpt,PFAmt,CKEX,ExciseOpt,ExStBasicInPer,ExStEducessInPer,ExStShecessInPer,ExStBasic,ExStEducess,ExStShecess,CKVATCST,VATCSTOpt,VAT,CST,TarrifNo,BCDOpt,BCD,BCDValue,ValueForCVD,ValueForEdCessCD,EdCessOnCDOpt,EdCessOnCD,EdCessOnCDValue,SHEDCessOpt,SHEDCess,SHEDCessValue,TotDuty,TotDutyEDSHED,Insurance,ValueWithDuty,ACHead", "'" + SId + "','" + CompId + "','" + Convert.ToInt32(getPOIdRd["Id"]) + "','" + PoId + "','" + GQNId + "','" + gqnamt + "','" + GSNId + "','" + gsnamt + "','" + ItemId + "','" + rate_selected + "','" + rate_amt + "','" + disc_selected + "','" + disc_amt + "','" + CKDebite + "','" + DebitValue + "','" + SelDebitType + "','" + DebitAmt + "','" + CKPF + "','" + pf_selected + "','" + txtPF.Text + "','" + CKEX + "','" + excise_selected + "','" + txtBasicExcise.Text + "','" + txtEDUCess.Text + "','" + txtSHECess.Text + "','" + txtBasicExciseAmt.Text + "','" + txtEDUCessAmt.Text + "','" + txtSHECessAmt.Text + "','" + CKVATCST + "','" + vatcst_selected + "','" + VatValue + "','" + CstValue + "','" + txtTCEntryNo.Text + "','" + BCDtype + "','" + BCDVal + "','" + CalBCD + "','" + ValueForCVD + "','" + ValueForEdCessCD + "','" + EdCessCDType + "','" + EdCessCDVal + "','" + CalEdCessCD + "','" + SHEdCessType + "','" + SHEdCessVal + "','" + CalSHEdCess + "','" + TotDuty + "','" + EDSHED + "','" + Insurance + "','" + ValueWithDuty + "','" + ACHead + "'");
+
+                        SqlCommand cmd = new SqlCommand(StrInsert, con);
+                        cmd.ExecuteNonQuery();
+
+
+                        ////Freight Calculation
+
+                        double SumTempQty1 = 0;
+
+                        string SqlTemp = fun.select("GQNAmt+GSNAmt As Sum_GQNGSN_Amt,PFAmt,ExStBasic+ExStEducess+ExStShecess As Excise_Amt,DebitType,DebitValue,BCDValue,EdCessOnCDValue,SHEDCessValue", "tblACC_BillBooking_Details_Temp", "SessionId='" + SId + "' AND CompId='" + CompId + "'");
+                        SqlCommand cmdTemp = new SqlCommand(SqlTemp, con);
+                        SqlDataAdapter daTemp = new SqlDataAdapter(cmdTemp);
+                        DataSet DSTemp = new DataSet();
+                        daTemp.Fill(DSTemp, "tblACC_BillBooking_Details_Temp");
+
+                        for (int k = 0; k < DSTemp.Tables[0].Rows.Count; k++)
+                        {
+                            double xGQNGSNAmt = 0;
+                            double xPFAmt = 0;
+                            double xExciseAmt = 0;
+                            double xDebitValue = 0;
+                            double Calx = 0;
+                            double BCDValue = 0;
+                            double EdCessOnCDValue = 0;
+                            double SHEDCessValue = 0;
+
+                            xGQNGSNAmt = Convert.ToDouble(DSTemp.Tables[0].Rows[k]["Sum_GQNGSN_Amt"]);
+                            xPFAmt = Convert.ToDouble(DSTemp.Tables[0].Rows[k]["PFAmt"]);
+                            xExciseAmt = Convert.ToDouble(DSTemp.Tables[0].Rows[k]["Excise_Amt"]);
+                            xDebitValue = Convert.ToDouble(DSTemp.Tables[0].Rows[k]["DebitValue"]);
+                            BCDValue = Convert.ToDouble(DSTemp.Tables[0].Rows[k]["BCDValue"]);
+                            EdCessOnCDValue = Convert.ToDouble(DSTemp.Tables[0].Rows[k]["EdCessOnCDValue"]);
+                            SHEDCessValue = Convert.ToDouble(DSTemp.Tables[0].Rows[k]["SHEDCessValue"]);
+
+                            switch (Convert.ToInt32(DSTemp.Tables[0].Rows[k]["DebitType"]))
+                            {
+                                case 1:
+                                    Calx = xGQNGSNAmt - xDebitValue;
+                                    break;
+                                case 2:
+                                    Calx = xGQNGSNAmt - (xGQNGSNAmt * xDebitValue / 100);
+                                    break;
+                                case 0:
+                                    Calx = xGQNGSNAmt;
+                                    break;
+                            }
+
+                            SumTempQty1 += Calx + xPFAmt + xExciseAmt + BCDValue + EdCessOnCDValue + SHEDCessValue;
+                        }
+
+                        double SumTempQty2 = 0;
+                        string SqlTemp2 = fun.select("*", "tblACC_BillBooking_Details_Temp", "SessionId='" + SId + "' AND CompId='" + CompId + "'");
+                        SqlCommand cmdTemp2 = new SqlCommand(SqlTemp2, con);
+                        SqlDataAdapter daTemp2 = new SqlDataAdapter(cmdTemp2);
+                        DataSet DSTemp2 = new DataSet();
+                        daTemp2.Fill(DSTemp2, "tblACC_BillBooking_Details_Temp");
+
+                        if (DSTemp2.Tables[0].Rows.Count > 0 && DSTemp2.Tables[0].Rows[0][0] != DBNull.Value)
+                        {
+                            for (int y = 0; y < DSTemp2.Tables[0].Rows.Count; y++)
+                            {
+                                double UpFreight = 0;
+                                double UpVAT = 0;
+                                double UpCST = 0;
+                                double UpVATValue = 0;
+
+                                string StrVat99 = fun.select("Value,IsVAT,IsCST", "tblVAT_Master", "Id='" + DSTemp2.Tables[0].Rows[y]["VATCSTOpt"].ToString() + "'");
+                                SqlCommand cmdVat99 = new SqlCommand(StrVat99, con);
+                                SqlDataAdapter daVat99 = new SqlDataAdapter(cmdVat99);
+                                DataSet DSVat99 = new DataSet();
+                                daVat99.Fill(DSVat99);
+
+                                UpVATValue = Convert.ToDouble(DSVat99.Tables[0].Rows[0][0]);
+
+                                int IsVat = 0;
+                                int IsCst = 0;
+
+                                IsVat = Convert.ToInt32(DSVat99.Tables[0].Rows[0]["IsVAT"]);
+                                IsCst = Convert.ToInt32(DSVat99.Tables[0].Rows[0]["IsCST"]);
+
+                                if (DSTemp2.Tables[0].Rows[y]["GQNId"].ToString() != "0")
+                                {
+                                    double GQNAmt_PF_Excise = 0;
+
+                                    double a = 0;
+                                    a = Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["GQNAmt"].ToString());
+
+                                    //switch (Convert.ToInt32(DSTemp2.Tables[0].Rows[y]["DebitType"]))
+                                    //{
+                                    //    case 1:
+                                    //        a = Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["GQNAmt"].ToString()) - Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["DebitValue"]);
+
+                                    //        break;
+                                    //    case 2:
+                                    //        a = Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["GQNAmt"].ToString()) - (Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["GQNAmt"].ToString()) * Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["DebitValue"]) / 100);
+                                    //        break;
+
+                                    //    case 0:
+                                    //        a = Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["GQNAmt"].ToString());
+                                    //        break;
+                                    //}
+
+                                    GQNAmt_PF_Excise = a + Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["PFAmt"]) + Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["ExStBasic"]) + Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["ExStEducess"]) + Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["ExStShecess"]) + Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["BCDValue"]) + Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["EdCessOnCDValue"]) + Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["SHEDCessValue"]);
+
+                                    if (SumTempQty1 > 0)
+                                    {
+                                        UpFreight = Math.Round((GetFreight * GQNAmt_PF_Excise / SumTempQty1), 2);
+                                    }
+                                    else
+                                    {
+                                        UpFreight = GetFreight;
+                                    }
+
+                                    if (IsVat == 1)
+                                    {
+                                        bAmt = GQNAmt_PF_Excise + UpFreight;
+                                        double vat1 = ((bAmt * UpVATValue) / 100);
+                                        UpVAT = Math.Round(vat1, 2);
+                                    }
+                                    else if (IsCst == 1)
+                                    {
+                                        bAmt = GQNAmt_PF_Excise;
+                                        double vat2 = ((bAmt * UpVATValue) / 100);
+                                        UpCST = Math.Round(vat2, 2);
+                                    }
+                                    else
+                                    {
+                                        bAmt = GQNAmt_PF_Excise + UpFreight;
+                                    }
+
+                                }
+                                else if (DSTemp2.Tables[0].Rows[y]["GSNId"].ToString() != "0")
+                                {
+                                    double GSNAmt_PF_Excise = 0;
+
+                                    double b = 0;
+                                    b = Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["GSNAmt"].ToString());
+
+                                    //switch (Convert.ToInt32(DSTemp2.Tables[0].Rows[y]["DebitType"]))
+                                    //{
+                                    //    case 1:
+                                    //        b = Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["GSNAmt"].ToString()) - Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["DebitValue"]);
+                                    //        break;
+                                    //    case 2:
+                                    //        b = Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["GSNAmt"].ToString()) - (Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["GSNAmt"].ToString()) * Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["DebitValue"]) / 100);
+                                    //        break;
+                                    //    case 0:
+                                    //        b = Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["GSNAmt"].ToString());
+                                    //        break;
+                                    //}
+
+                                    GSNAmt_PF_Excise = b + Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["PFAmt"].ToString()) + Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["ExStBasic"].ToString()) + Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["ExStEducess"].ToString()) + Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["ExStShecess"].ToString()) + Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["BCDValue"]) + Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["EdCessOnCDValue"]) + Convert.ToDouble(DSTemp2.Tables[0].Rows[y]["SHEDCessValue"]);
+
+                                    if (SumTempQty1 > 0)
+                                    {
+                                        UpFreight = Math.Round((GetFreight * GSNAmt_PF_Excise / SumTempQty1), 2);
+                                    }
+                                    else
+                                    {
+                                        UpFreight = GetFreight;
+                                    }
+
+                                    if (IsVat == 1)
+                                    {
+                                        bAmt = GSNAmt_PF_Excise + UpFreight;
+                                        double vat1 = ((bAmt * UpVATValue) / 100);
+                                        UpVAT = Math.Round(vat1, 2);
+                                    }
+                                    else if (IsCst == 1)
+                                    {
+                                        bAmt = GSNAmt_PF_Excise;
+                                        double vat2 = ((bAmt * UpVATValue) / 100);
+                                        UpCST = Math.Round(vat2 + UpFreight, 2);
+                                    }
+                                    else
+                                    {
+                                        bAmt = GSNAmt_PF_Excise + UpFreight;
+                                    }
+
+                                }
+
+                                string StrUpdate = fun.update("tblACC_BillBooking_Details_Temp", "VAT='" + UpVAT + "',CST='" + UpCST + "',Freight='" + UpFreight + "'", "SessionId='" + SId + "' AND CompId='" + CompId + "' AND Id='" + DSTemp2.Tables[0].Rows[y]["Id"].ToString() + "'");
+
+
+
+                                SqlCommand cmdUpdate = new SqlCommand(StrUpdate, con);
+                                cmdUpdate.ExecuteNonQuery();
+                            }
+                        }
+                          Response.Redirect("BillBooking_ItemGrid.aspx?SUPId=" + SupplierNo + "&FGT=" + FGT + "&FyId=" + FyId + "&ST=" + ST + "&ModId=11&SubModId=62");
+
+                   
+                }
+                else
+                {
+                    string stateM = string.Empty;
+                    
+                    if (ST == 0)
+                    {
+                        stateM = "within MH";
+                    }
+                    else
+                    {
+                        stateM = "OMS";
+                    }
+
+                    string mystring = string.Empty;
+                    mystring = "Invoice is " + stateM;
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+                }
+            }
+        }
+        catch (Exception ex) { }
+    }
+
+    protected void BtnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("BillBooking_ItemGrid.aspx?SUPId=" + SupplierNo + "&POId=" + PoId + "&PId=" + PId + "&FGT=" + FGT + "&FyId=" + FyId + "&ST=" + ST + "&ModId=11&SubModId=62");
+    }
+
+    protected void CkRate_CheckedChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (CkRate.Checked == true)
+            {
+                txtRate.Enabled = true;
+            }
+            else
+            {
+                txtRate.Enabled = false;
+                txtRate.Text = "0";
+            }
+
+            this.Calculation();
+        }
+        catch (Exception et)
+        {
+
+        }
+
+    }
+
+    protected void CkDisc_CheckedChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (CkDisc.Checked == true)
+            {
+                txtDisc.Enabled = true;
+            }
+            else
+            {
+                txtDisc.Text = "0";
+                txtDisc.Enabled = false;
+            }
+            this.Calculation();
+
+        }
+        catch (Exception et)
+        {
+
+        }
+    }
+
+    protected void CkPf_CheckedChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (CkPf.Checked == true)
+            {
+                DDLPF.Enabled = true;
+                txtPF.Enabled = true;
+            }
+            else
+            {
+                DDLPF.Enabled = false;
+                txtPF.Enabled = false;
+                DDLPF.SelectedValue = PfId.ToString();
+            }
+            this.Calculation();
+
+        }
+        catch (Exception et)
+        {
+
+        }
+    }
+
+    protected void CkExcise_CheckedChanged(object sender, EventArgs e)
+    {
+        try
+        {
+
+            if (CkExcise.Checked == true)
+            {
+                DDLExcies.Enabled = true;
+
+                if (DDLExcies.SelectedValue == "2" || DDLExcies.SelectedValue == "3" || DDLExcies.SelectedValue == "4")
+                {
+                    txtBasicExcise.Enabled = true;
+                    txtBasicExciseAmt.Enabled = true;
+                    txtEDUCess.Enabled = true;
+                    txtEDUCessAmt.Enabled = true;
+                    txtSHECess.Enabled = true;
+                    txtSHECessAmt.Enabled = true;
+                }
+                else
+                {
+                    txtBasicExcise.Enabled = false;
+                    txtBasicExciseAmt.Enabled = false;
+                    txtEDUCess.Enabled = false;
+                    txtEDUCessAmt.Enabled = false;
+                    txtSHECess.Enabled = false;
+                    txtSHECessAmt.Enabled = false;                    
+                }
+            }
+            else
+            {
+                DDLExcies.SelectedValue = ExStId.ToString();
+                DDLExcies.Enabled = false;
+                txtBasicExcise.Enabled = false;
+                txtBasicExciseAmt.Enabled = false;
+                txtEDUCess.Enabled = false;
+                txtEDUCessAmt.Enabled = false;
+                txtSHECess.Enabled = false;
+                txtSHECessAmt.Enabled = false;
+
+                txtBasicExcise.Text = "0";
+                txtBasicExciseAmt.Text = "0";
+                txtEDUCess.Text = "0";
+                txtEDUCessAmt.Text = "0";
+                txtSHECess.Text = "0";
+                txtSHECessAmt.Text = "0";
+            }
+            this.Calculation();
+
+        }
+        catch (Exception et)
+        {
+
+        }
+    }
+
+    protected void DDLExcies_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (DDLExcies.Enabled == true)
+            {
+                if (DDLExcies.SelectedValue == "2" || DDLExcies.SelectedValue == "3" || DDLExcies.SelectedValue == "4")
+                {
+                    txtBasicExcise.Enabled = true;
+                    txtBasicExcise.Text = "0";
+                    txtBasicExciseAmt.Enabled = true;
+                    txtBasicExciseAmt.Text = "0";
+
+                    txtEDUCess.Enabled = true;
+                    txtEDUCess.Text = "0";
+                    txtEDUCessAmt.Enabled = true;
+                    txtEDUCessAmt.Text = "0";
+
+                    txtSHECess.Enabled = true;
+                    txtSHECess.Text = "0";
+                    txtSHECessAmt.Enabled = true;
+                    txtSHECessAmt.Text = "0";
+                }
+                else
+                {
+                    txtBasicExcise.Enabled = false;
+                    txtBasicExciseAmt.Enabled = false;
+
+                    txtEDUCess.Enabled = false;
+                    txtEDUCessAmt.Enabled = false;
+
+                    txtSHECess.Enabled = false;
+                    txtSHECessAmt.Enabled = false;
+                }
+            }
+            
+            this.Calculation();
+
+        }
+        catch (Exception et)
+        {
+
+        }
+    }
+
+    protected void CkVat_CheckedChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (CkVat.Checked == true)
+            {
+                DDLVat.Enabled = true;
+            }
+            else
+            {
+                DDLVat.Enabled = false;
+                DDLVat.SelectedValue = VatCstId.ToString();
+            }
+            this.Calculation();
+        }
+        catch (Exception et)
+        {
+
+        }
+    }
+
+    protected void DDLVat_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            this.Calculation();
+        }
+        catch (Exception et)
+        {
+
+        }
+    }
+
+    protected void CKDebit_CheckedChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (CKDebit.Checked == true)
+            {
+                txtDebit.Enabled = true;
+            }
+            else
+            {
+                txtDebit.Enabled = false;
+                txtDebit.Text="0";
+            }
+
+            this.Calculation();
+        }
+        catch (Exception et)
+        {
+
+        }
+    }
+
+    public double Calculation()
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+
+        con.Open();
+
+        double retVal = 0;
+        double Amt = 0;
+        double getRate = 0;
+        double getDisc = 0;
+        double getPf = 0;
+        double getExcise = 0;
+        double getExciseBasic = 0;
+        double getExciseEDU = 0;
+        double getExciseSHE = 0;
+        double getFreight = 0;
+        double getVatCst = 0;
+        double PFCal = 0;
+        double ExCal = 0;
+        double ExBasicCal = 0;
+        double ExEDUCal = 0;
+        double ExSHECal = 0;
+        double VatCst = 0;
+        double BCDValue = 0;
+        double CalBCDValue = 0;
+        string BCDType = string.Empty;
+        double CVDValue = 0;
+        double ValEDCessCD = 0;
+        double ValEDCessOnCD = 0;
+        double EDCessOnCDValue = 0;
+        double SHEDCessValue = 0;
+        double CalSHEDCess = 0;
+        double TotDuty = 0;
+        double TotEDSHED = 0;
+        double M = 0;
+        double ValueWithDuty = 0;
+
+        try
+        {
+            //Rate
+            if (CkRate.Checked == true)
+            {
+                getRate = Convert.ToDouble(txtRate.Text);
+            }
+            else
+            {
+                getRate = Rate;
+            }
+
+            // Disc
+            if (CkDisc.Checked == true)
+            {
+                getDisc = Convert.ToDouble(txtDisc.Text);
+            }
+            else
+            {
+                getDisc = Disc;
+            }
+
+            //Debit
+
+            double CalAmt = 0;
+
+            if (CKDebit.Checked == true)
+            {
+                CalAmt = Math.Round((Qty * (getRate - (getRate * getDisc / 100))), 2);
+
+                switch (DrpType.SelectedValue)
+                {
+                    case "1":
+                        Amt = Math.Round((CalAmt - Convert.ToDouble(txtDebit.Text)), 2);
+                        txtDebitAmt.Text = Amt.ToString();
+                        break;
+                    case "2":
+                        Amt = Math.Round((CalAmt - (CalAmt * Convert.ToDouble(txtDebit.Text) / 100)), 2);
+                        txtDebitAmt.Text = Amt.ToString();
+                        break;
+                }
+            }
+            else
+            {
+                Amt = Math.Round((Qty * (getRate - (getRate * getDisc / 100))), 2);
+                txtDebitAmt.Text = Amt.ToString();
+            }
+
+
+            //PF
+            if (CkPf.Checked == true)
+            {
+                string StrPF = fun.select("Id,Terms,Value", "tblPacking_Master", "Id='" + DDLPF.SelectedValue.ToString() + "'");
+                SqlCommand cmdPF = new SqlCommand(StrPF, con);
+                SqlDataAdapter daPF = new SqlDataAdapter(cmdPF);
+                DataSet DSPF = new DataSet();
+                daPF.Fill(DSPF);
+
+                if (DSPF.Tables[0].Rows.Count > 0)
+                {
+                    getPf = Math.Round(Convert.ToDouble((DSPF.Tables[0].Rows[0][2])), 2);
+                }
+            }
+            else
+            {
+                getPf = PfVal;
+            }
+
+            //Excise
+            if (CkExcise.Checked == true)
+            {
+                string StrExst = fun.select("Terms,Value,AccessableValue,EDUCess,SHECess,Id", "tblExciseser_Master", "tblExciseser_Master.Id='" + DDLExcies.SelectedValue.ToString() + "'");
+                SqlCommand cmdExst = new SqlCommand(StrExst, con);
+                SqlDataAdapter daExst = new SqlDataAdapter(cmdExst);
+                DataSet DSExst = new DataSet();
+                daExst.Fill(DSExst);
+
+                if (DSExst.Tables[0].Rows.Count > 0)
+                {
+                    getExcise = Convert.ToDouble(DSExst.Tables[0].Rows[0][1]);
+                    getExciseBasic = Convert.ToDouble(DSExst.Tables[0].Rows[0][2]);
+                    getExciseEDU = Convert.ToDouble(DSExst.Tables[0].Rows[0][3]);
+                    getExciseSHE = Convert.ToDouble(DSExst.Tables[0].Rows[0][4]);
+                }
+            }
+            else
+            {
+                getExcise = ExstVal;
+                getExciseBasic = basic;
+                getExciseEDU = Educess;
+                getExciseSHE = shecess;
+            }
+
+            getFreight = Convert.ToDouble(txtFreight.Text);
+
+            //VAT
+
+            if (CkVat.Checked == true)
+            {
+                string StrVat = fun.select("Id,Terms,Value,IsVAT,IsCST", "tblVAT_Master", "tblVAT_Master.Id='" + DDLVat.SelectedValue.ToString() + "'");
+                SqlCommand cmdVat = new SqlCommand(StrVat, con);
+                SqlDataAdapter daVat = new SqlDataAdapter(cmdVat);
+                DataSet DSVat = new DataSet();
+                daVat.Fill(DSVat);
+
+                if (DSVat.Tables[0].Rows.Count > 0)
+                {
+                    getVatCst = Convert.ToDouble(DSVat.Tables[0].Rows[0][2]);
+                    Isvat = Convert.ToInt32(DSVat.Tables[0].Rows[0][3]);
+                    Iscst = Convert.ToInt32(DSVat.Tables[0].Rows[0][4]);
+                }
+            }
+            else
+            {
+                string StrVat = fun.select("Id,Terms,Value,IsVAT,IsCST", "tblVAT_Master", "tblVAT_Master.Id='" + VatCstId + "'");
+                SqlCommand cmdVat = new SqlCommand(StrVat, con);
+                SqlDataAdapter daVat = new SqlDataAdapter(cmdVat);
+                DataSet DSVat = new DataSet();
+                daVat.Fill(DSVat);
+
+                if (DSVat.Tables[0].Rows.Count > 0)
+                {
+                    getVatCst = Convert.ToDouble(DSVat.Tables[0].Rows[0][2]);
+                    Isvat = Convert.ToInt32(DSVat.Tables[0].Rows[0][3]);
+                    Iscst = Convert.ToInt32(DSVat.Tables[0].Rows[0][4]);
+                }
+            }
+
+            //Calculations
+
+            PFCal = Math.Round((Amt * getPf / 100), 2);
+
+            // BCD  - Import Material Calculation.
+
+            if (CkBCD.Checked == true)
+            {
+                BCDValue = Convert.ToDouble(txtBCD.Text);
+                BCDType = drpBCD.SelectedValue;
+
+                if (BCDType == "1")
+                {
+                    CalBCDValue = Math.Round(BCDValue, 2);
+                    txtCalBCD.Text = CalBCDValue.ToString();
+                }
+                else if (BCDType == "2")
+                {
+                    CalBCDValue = Math.Round(((Amt + PFCal) * BCDValue / 100), 2);
+                    txtCalBCD.Text = CalBCDValue.ToString();
+                }
+
+                //Value for CVD
+
+                CVDValue = Math.Round((Amt + PFCal + Convert.ToDouble(txtCalBCD.Text)), 2);
+                txtValCVD.Text = CVDValue.ToString();
+
+                //Excise
+
+                ExCal = Math.Round((CVDValue * getExcise / 100), 2);
+                ExBasicCal = Math.Round((CVDValue * getExciseBasic / 100), 2);
+                ExEDUCal = Math.Round((ExBasicCal * getExciseEDU / 100), 2);
+                ExSHECal = Math.Round((ExBasicCal * getExciseSHE / 100), 2);
+
+                //Value for Ed Cess CD
+
+                ValEDCessCD = CalBCDValue + ExCal;
+                txtValEdCessCD.Text = Math.Round(ValEDCessCD, 2).ToString();
+
+                //Ed. Cess on CD
+
+                EDCessOnCDValue = Math.Round(Convert.ToDouble(txtEdCessCD.Text), 2);
+
+                if (drpEdCessCD.SelectedValue == "1")
+                {
+                    ValEDCessOnCD = EDCessOnCDValue;
+                    txtEdCessOnCD.Text = ValEDCessOnCD.ToString();
+                }
+                else if (drpEdCessCD.SelectedValue == "2")
+                {
+                    ValEDCessOnCD = Math.Round(ValEDCessCD * Convert.ToDouble(txtEdCessCD.Text) / 100, 2);
+                    txtEdCessOnCD.Text = ValEDCessOnCD.ToString();
+                }
+
+                //S & H Ed Cess
+
+                SHEDCessValue = Math.Round(Convert.ToDouble(txtSHEdCess.Text), 2);
+
+                if (drpSHEdCess.SelectedValue == "1")
+                {
+                    CalSHEDCess = SHEDCessValue;
+                    txtSHEdCessAmt.Text = CalSHEDCess.ToString();
+                }
+                else if (drpSHEdCess.SelectedValue == "2")
+                {
+                    CalSHEDCess = Math.Round(ValEDCessCD * SHEDCessValue / 100, 2);
+                    txtSHEdCessAmt.Text = CalSHEDCess.ToString();
+                }
+
+                TotDuty = Math.Round(CalBCDValue + ExBasicCal, 2);
+                txtTotDuty.Text = TotDuty.ToString();
+
+                TotEDSHED = Math.Round(ValEDCessOnCD + CalSHEDCess + ExEDUCal + ExSHECal, 2);
+                txtEDSHED.Text = TotEDSHED.ToString();
+
+                M = TotDuty + TotEDSHED;
+                ValueWithDuty = Amt + PFCal + M;
+                txtValDuty.Text = ValueWithDuty.ToString();
+
+                if (Isvat == 1)
+                {
+                    VatCst = Math.Round((((ValueWithDuty + getFreight) * getVatCst) / 100), 2);
+                }
+                else if (Iscst == 1)
+                {
+                    VatCst = Math.Round(((ValueWithDuty * getVatCst) / 100), 2);
+                }
+            }
+            else
+            {
+                ExCal = Math.Round(((Amt + PFCal) * getExcise / 100), 2);
+                ExBasicCal = Math.Round(((Amt + PFCal) * getExciseBasic / 100), 2);
+                ExEDUCal = Math.Round((ExBasicCal * getExciseEDU / 100), 2);
+                ExSHECal = Math.Round((ExBasicCal * getExciseSHE / 100), 2);
+
+                //If Excise is "Extra As Applicable."
+
+                if (DDLExcies.SelectedValue == "3" || ExStId == 3)
+                {
+                    ExCal = Convert.ToDouble(txtBasicExciseAmt.Text) + Convert.ToDouble(txtEDUCessAmt.Text) + Convert.ToDouble(txtSHECessAmt.Text);
+                }
+
+                if (Isvat == 1)
+                {
+                    VatCst = Math.Round((((Amt + PFCal + ExCal + getFreight) * getVatCst) / 100), 2); 
+                }
+                else if (Iscst == 1)
+                {
+                    VatCst = Math.Round((((Amt + PFCal + ExCal) * getVatCst) / 100), 2);
+                }
+
+            }
+           
+            lblGqnGsnAmt.Text = (Qty * (getRate - (getRate * getDisc / 100))).ToString();
+            txtPF.Text = PFCal.ToString();
+            txtVatCstAmt.Text = VatCst.ToString();
+           
+            if (DDLExcies.SelectedValue == "2" || DDLExcies.SelectedValue == "3" || DDLExcies.SelectedValue == "4")
+            {
+                if (!IsPostBack)
+                {
+
+                    lblExciseServiceTax.Text = ExCal.ToString();
+                    txtBasicExcise.Text = getExciseBasic.ToString();
+                    txtBasicExciseAmt.Text = ExBasicCal.ToString();
+                    txtEDUCess.Text = getExciseEDU.ToString();
+                    txtEDUCessAmt.Text = ExEDUCal.ToString();
+                    txtSHECess.Text = getExciseSHE.ToString();
+                    txtSHECessAmt.Text = ExSHECal.ToString();
+
+                }
+            }
+            else
+            {
+                lblExciseServiceTax.Text = ExCal.ToString();
+                txtBasicExcise.Text = getExciseBasic.ToString();
+                txtBasicExciseAmt.Text = ExBasicCal.ToString();
+                txtEDUCess.Text = getExciseEDU.ToString();
+                txtEDUCessAmt.Text = ExEDUCal.ToString();
+                txtSHECess.Text = getExciseSHE.ToString();
+                txtSHECessAmt.Text = ExSHECal.ToString();
+            }
+
+            return retVal;
+        }
+        catch (Exception et)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+
+        return retVal;
+    }
+
+    protected void DDLPF_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            this.Calculation();
+        }
+        catch (Exception et)
+        {
+
+        }
+    }
+    
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            this.Calculation();
+        }
+        catch (Exception et)
+        {
+
+        }
+    }
+
+    protected void DrpType_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            this.Calculation();
+        }
+        catch (Exception et)
+        {
+
+        }
+    }
+
+    protected void CkBCD_CheckedChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (CkBCD.Checked == true)
+            {
+                txtBCD.Enabled = true;
+                drpBCD.Enabled = true;
+            }
+            else
+            {
+                txtBCD.Enabled = false;
+                drpBCD.Enabled = false;
+                txtBCD.Text = "0";
+                txtCalBCD.Text = "0";
+                txtValCVD.Text = "0";
+                txtValEdCessCD.Text = "0";
+                txtTotDuty.Text = "0";
+                txtEDSHED.Text = "0";
+
+            }
+            this.Calculation();
+        }
+        catch (Exception et)
+        {
+
+        }
+    }
+
+    protected void CkEdCessCD_CheckedChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (CkEdCessCD.Checked == true)
+            {
+                txtEdCessCD.Enabled = true;
+                drpEdCessCD.Enabled = true;
+            }
+            else
+            {
+                txtEdCessCD.Enabled = false;
+                drpEdCessCD.Enabled = false;
+                txtEdCessCD.Text = "0";
+                txtEdCessOnCD.Text = "0";
+            }
+            this.Calculation();
+        }
+        catch (Exception et)
+        {
+
+        }
+    }
+
+    protected void CkSHEdCess_CheckedChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (CkSHEdCess.Checked == true)
+            {
+                txtSHEdCess.Enabled = true;
+                drpSHEdCess.Enabled = true;
+            }
+            else
+            {
+                txtSHEdCess.Enabled = false;
+                drpSHEdCess.Enabled = false;
+                txtSHEdCess.Text = "0";
+                txtSHEdCess.Text = "0";
+                txtSHEdCessAmt.Text = "0";
+            }
+            this.Calculation();
+        }
+        catch (Exception et)
+        {
+
+        }
+    }
+
+    protected void drpBCD_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            this.Calculation();
+        }
+        catch (Exception et)
+        {
+
+        }
+    }
+   
+    protected void drpEdCessCD_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            this.Calculation();
+        }
+        catch (Exception et)
+        {
+
+        }
+    }
+    
+    protected void drpSHEdCess_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            this.Calculation();
+        }
+        catch (Exception et)
+        {
+
+        }
+    }
+
+
+
+}

@@ -1,0 +1,466 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/Advice_Delete.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Advice_Delete.aspx.cs" Inherits="Module_Accounts_Transactions_Advice_Delete" Title="ERP" Theme="Default"  %>
+
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+<table  width="100%">
+        <tr>
+            <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;AdVice</b></td>
+        </tr>
+        <tr>
+            <td>
+                <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" 
+                    AutoPostBack="true"
+                    Width="100%" >
+                    <cc1:TabPanel runat="server" HeaderText="Payment" ID="Add">  
+                    
+                    <ContentTemplate>
+                    <asp:Panel ID="Panel1" ScrollBars="Auto" runat="server" >
+                     <asp:GridView ID="GridView3"  
+                runat="server" 
+                AutoGenerateColumns="False" 
+                DataKeyNames="Id" CssClass="yui-datatable-theme" Width="100%" 
+                    AllowPaging="True" 
+                             onrowdeleting="GridView3_RowDeleting" 
+                            onpageindexchanging="GridView3_PageIndexChanging"><Columns><asp:TemplateField ShowHeader="False"><ItemTemplate><asp:LinkButton ID="LinkButton3" runat="server" OnClientClick="return confirmationDelete();" CausesValidation="False" 
+                                   CommandName="Delete" Text="Delete"> </asp:LinkButton></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="4%" /></asp:TemplateField>
+                                   
+                                   <asp:TemplateField HeaderText="SN" SortExpression="Id"><ItemTemplate> <%#Container.DataItemIndex+1  %></ItemTemplate><ItemStyle HorizontalAlign="Right" Width="3%" /></asp:TemplateField> 
+                                   
+                                   <asp:TemplateField HeaderText="AD No">
+                                   <ItemTemplate><asp:Label ID="lblBvbNo" runat="server" Text='<%#Eval("ADNo") %>'> </asp:Label></ItemTemplate>
+                                       <ItemStyle HorizontalAlign="Center" Width="5%" />
+                                   </asp:TemplateField>
+                         
+                         <asp:TemplateField HeaderText="Id" Visible="False"  >
+                         <ItemTemplate>
+                         <asp:Label ID="lblId" runat="server" Text='<%#Eval("Id") %>'> </asp:Label>
+                         </ItemTemplate>
+                         <ItemStyle HorizontalAlign="Left" Width="3%" />
+                         </asp:TemplateField>
+                      
+                      <asp:TemplateField HeaderText="Type">
+                      <ItemTemplate>
+                       <asp:Label ID="lblType" runat="server" Text='<%#Eval("TypeOfVoucher") %>'> </asp:Label>
+                      </ItemTemplate>
+                      <ItemStyle HorizontalAlign="Center" Width="4%" />
+                      </asp:TemplateField>
+                      
+                      <asp:TemplateField HeaderText="Paid To">
+                      <ItemTemplate>
+                       <asp:Label ID="lblPaidTo" runat="server" Text='<%#Eval("PaidTo") %>'> </asp:Label>
+                      </ItemTemplate>
+                      <ItemStyle HorizontalAlign="Left" Width="15%" />
+                      </asp:TemplateField>
+                      
+                      <asp:TemplateField HeaderText="Cheque No">
+                      <ItemTemplate>
+                       <asp:Label ID="lblchqNo" runat="server" Text='<%#Eval("ChequeNo") %>'> </asp:Label>
+                      </ItemTemplate>
+                      <ItemStyle HorizontalAlign="Center" Width="5%" />
+                      </asp:TemplateField>
+                      
+                       <asp:TemplateField HeaderText="Cheque Date">
+                      <ItemTemplate>
+                       <asp:Label ID="lblChqDt" runat="server" Text='<%#Eval("ChequeDate") %>'> </asp:Label>
+                      </ItemTemplate>
+                      <ItemStyle HorizontalAlign="Center" Width="5%" />
+                      </asp:TemplateField>
+                      
+                       <asp:TemplateField HeaderText="Bank Name">
+                      <ItemTemplate>
+                       <asp:Label ID="lblBank" runat="server" Text='<%#Eval("Bank") %>'> </asp:Label>
+                      </ItemTemplate>
+                      <ItemStyle HorizontalAlign="Left" Width="8%" />
+                      </asp:TemplateField>
+                      
+                      <asp:TemplateField HeaderText="Amount">
+                      <ItemTemplate>
+                       <asp:Label ID="lblAmt" runat="server" Text='<%#Eval("Amount") %>'> </asp:Label>
+                      </ItemTemplate>
+                      <ItemStyle HorizontalAlign="Right" Width="5%" />
+                      </asp:TemplateField>
+                      
+                      </Columns>
+                      <EmptyDataTemplate><table width="100%" class="fontcss"><tr><td align="center"><asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon"> </asp:Label></td></tr></table>
+                      </EmptyDataTemplate>
+                  </asp:GridView>
+                    </asp:Panel>
+                    </ContentTemplate></cc1:TabPanel>
+                    <cc1:TabPanel ID="View" runat="server" HeaderText="Receipt">
+                            
+                        <ContentTemplate><asp:Panel ID="Panel2" ScrollBars="Auto" runat="server">
+                            <asp:GridView ID="GridView6" runat="server" AutoGenerateColumns="False" 
+                                CssClass="yui-datatable-theme" DataKeyNames="Id" 
+                                onrowcommand="GridView6_RowCommand" PageSize="15" Width="100%">
+                                <Columns>
+                                    <asp:TemplateField HeaderText="SN">
+                                        <ItemTemplate>
+                                            <%#Container.DataItemIndex+1%>
+                                        </ItemTemplate>
+                                        <HeaderStyle Font-Size="10pt" />
+                                        <ItemStyle HorizontalAlign="Right" VerticalAlign="Top" Width="3%" />
+                                    </asp:TemplateField>
+                                    <asp:TemplateField>
+                                        <ItemTemplate>
+                                            <asp:LinkButton ID="LinkButton1" runat="server" CommandName="Del" 
+                                                OnClientClick="confirmationDelete()"> Delete</asp:LinkButton>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField Visible="False">
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblIdR" runat="server" Text='<%#Eval("Id")%>'></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:BoundField DataField="FinYear" HeaderText="Fin Year" 
+                                        SortExpression="FinYearId" />
+                                    <asp:BoundField DataField="ADRNo" HeaderText="ADRNo" SortExpression="ADRNo">
+                                        <ItemStyle HorizontalAlign="Center" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="Types" HeaderText="Receipt Against" 
+                                        SortExpression="Types" />
+                                    <asp:BoundField DataField="ReceivedFrom" HeaderText="Received From" 
+                                        SortExpression="ReceivedFrom" />
+                                    <asp:BoundField DataField="InvoiceNo" HeaderText="Invoice No" 
+                                        SortExpression="InvoiceNo">
+                                        <ItemStyle HorizontalAlign="Center" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="ChequeNo" HeaderText="Cheque No" 
+                                        SortExpression="ChequeNo">
+                                        <ItemStyle HorizontalAlign="Center" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="ChequeDate" HeaderText="Cheque Date" 
+                                        SortExpression="ChequeDate">
+                                        <ItemStyle HorizontalAlign="Center" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="ChequeReceivedBy" HeaderText="Cheque Recd By" 
+                                        SortExpression="ChequeReceivedBy">
+                                        <ItemStyle Width="15%" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="BankName" HeaderText="Bank Name" 
+                                        SortExpression="BankName" />
+                                    <asp:BoundField DataField="BankAccNo" HeaderText="Bank AccNo" 
+                                        SortExpression="BankAccNo" />
+                                    <asp:BoundField DataField="ChequeClearanceDate" HeaderText="Clearance Date" 
+                                        SortExpression="ChequeClearanceDate">
+                                        <ItemStyle HorizontalAlign="Center" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="Narration" HeaderText="Narration" 
+                                        SortExpression="Narration" />
+                                    <asp:BoundField DataField="Amount" HeaderText="Amount" SortExpression="Amount">
+                                        <ItemStyle HorizontalAlign="Right" />
+                                    </asp:BoundField>
+                                </Columns>
+                                <EmptyDataTemplate>
+                                    <table class="fontcss" width="100%">
+                                        <tr>
+                                            <td align="center">
+                                                <asp:Label ID="Label2" runat="server" Font-Size="Larger" ForeColor="maroon" 
+                                                    Text="No data to display !"> </asp:Label>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </EmptyDataTemplate>
+                            </asp:GridView>
+                            </asp:Panel>
+                           
+                    </ContentTemplate></cc1:TabPanel>
+                </cc1:TabContainer>              
+                
+                
+            </td>
+        </tr>
+        
+        </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/Advice_Delete.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_Accounts_Transactions_Advice_Delete : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    int CompId = 0;
+    int FinYearId = 0;
+    string sId = "";
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            sId = Session["username"].ToString();
+            if (!Page.IsPostBack)
+            {
+                this.FillGrid_Creditors();
+                this.Loaddata();
+            }
+
+        }
+      catch (Exception ex)
+        {
+        }
+    }
+    protected void GridView3_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+      try
+        {
+            int id = Convert.ToInt32(GridView3.DataKeys[e.RowIndex].Value);
+            SqlCommand cmd = new SqlCommand(fun.delete("tblACC_Advice_Payment_Details", "MId='" + id + "'"), con);
+            con.Open();
+            cmd.ExecuteNonQuery();
+            con.Close();
+            string str = fun.select("*", "tblACC_Advice_Payment_Details", "MId='" + id + "'");
+            SqlCommand cmd1 = new SqlCommand(str, con);
+            SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+            DataSet DS1 = new DataSet();
+            da1.Fill(DS1);
+            if (DS1.Tables[0].Rows.Count == 0)
+            {
+                SqlCommand cmd2 = new SqlCommand(fun.delete("tblACC_Advice_Payment_Master", "Id='" + id + "'"), con);
+                con.Open();
+                cmd2.ExecuteNonQuery();
+                con.Close();
+            }
+
+
+            this.FillGrid_Creditors();
+        }
+       catch (Exception er) { }
+    }
+
+    public void FillGrid_Creditors()
+    {
+        try
+        {
+
+            DataTable dt = new DataTable();
+
+            string str = "SELECT * FROM tblACC_Advice_Payment_Master where CompId='" + CompId + "' And FinYearId<='" + FinYearId + "' Order By Id desc";
+            SqlCommand cmdCustWo = new SqlCommand(str, con);
+            SqlDataAdapter daCustWo = new SqlDataAdapter(cmdCustWo);
+            DataSet DSCustWo = new DataSet();
+            daCustWo.Fill(DSCustWo);
+            dt.Columns.Add(new System.Data.DataColumn("ADNo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("TypeOfVoucher", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("PaidTo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(Int32)));
+            dt.Columns.Add(new System.Data.DataColumn("ChequeNo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ChequeDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Amount", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("Bank", typeof(string)));
+            DataRow dr;
+            for (int i = 0; i < DSCustWo.Tables[0].Rows.Count; i++)
+            {
+
+                dr = dt.NewRow();
+
+                dr[0] = DSCustWo.Tables[0].Rows[i]["ADNo"].ToString();
+
+                int ac = Convert.ToInt32(DSCustWo.Tables[0].Rows[i]["Type"]);
+                switch (ac)
+                {
+                    case 1:
+                        dr[1] = "Advance";
+                        break;
+                    case 2:
+                        dr[1] = "Salary";
+                        break;
+                    case 3:
+                        dr[1] = "Others";
+
+                        break;
+                    case 4:
+                        dr[1] = "Creditors";
+                        break;
+                }
+
+                dr[2] = fun.EmpCustSupplierNames(Convert.ToInt32(DSCustWo.Tables[0].Rows[i]["ECSType"].ToString()), DSCustWo.Tables[0].Rows[i]["PayTo"].ToString(), CompId);
+
+                dr[3] = DSCustWo.Tables[0].Rows[i]["Id"].ToString();
+                dr[5] = fun.FromDateDMY(DSCustWo.Tables[0].Rows[i]["ChequeDate"].ToString());
+                dr[4] = DSCustWo.Tables[0].Rows[i]["ChequeNo"].ToString();
+
+                double DtlsAmt = 0;
+                string sqlAmt2 = "Select Sum(Amount)As Amt from tblACC_Advice_Payment_Details inner join tblACC_Advice_Payment_Master on tblACC_Advice_Payment_Details.MId=tblACC_Advice_Payment_Master.Id And CompId='" + CompId + "' AND tblACC_Advice_Payment_Details.MId='" + DSCustWo.Tables[0].Rows[i]["Id"].ToString() + "' And tblACC_Advice_Payment_Master.Type='" + Convert.ToInt32(DSCustWo.Tables[0].Rows[i]["Type"]) + "'";
+                SqlCommand cmd6 = new SqlCommand(sqlAmt2, con);
+                SqlDataAdapter dastk6 = new SqlDataAdapter(cmd6);
+                DataSet dsstk6 = new DataSet();
+                dastk6.Fill(dsstk6);
+                if (dsstk6.Tables[0].Rows.Count > 0 && dsstk6.Tables[0].Rows[0]["Amt"] != DBNull.Value)
+                {
+                    DtlsAmt = Convert.ToDouble(decimal.Parse((dsstk6.Tables[0].Rows[0]["Amt"]).ToString()).ToString("N3"));
+                }
+
+                dr[6] = DtlsAmt;
+
+
+                string sqlBank = "Select Name from tblACC_Bank inner join tblACC_Advice_Payment_Master on tblACC_Bank.Id=tblACC_Advice_Payment_Master.Bank And tblACC_Advice_Payment_Master.CompId='" + CompId + "'";
+                SqlCommand cmdBank = new SqlCommand(sqlBank, con);
+                SqlDataAdapter daBank = new SqlDataAdapter(cmdBank);
+                DataSet dsBank = new DataSet();
+                daBank.Fill(dsBank);
+                if (dsBank.Tables[0].Rows.Count > 0 && dsBank.Tables[0].Rows[0][0] != DBNull.Value)
+                {
+                    dr[7] = dsBank.Tables[0].Rows[0]["Name"].ToString();
+                }
+
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }
+
+            GridView3.DataSource = dt;
+            GridView3.DataBind();
+        }
+
+      catch (Exception ex)
+        { }
+
+
+    }
+
+    protected void GridView3_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView3.PageIndex = e.NewPageIndex;
+        this.FillGrid_Creditors();
+    }
+
+
+    protected void GridView6_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "Del")
+        {
+
+            try
+            {
+                con.Open();
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                string Id = ((Label)row.FindControl("lblIdR")).Text;
+                string Str = fun.delete("tblACC_Advice_Received_Masters", " Id='" + Id + "'");
+                SqlCommand cmd = new SqlCommand(Str, con);
+                cmd.ExecuteNonQuery();
+                this.Loaddata();
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+
+    }
+    public void Loaddata()
+    {
+        try
+        {
+
+            DataTable dt = new DataTable();
+            string StrSql = fun.select("*", "tblACC_Advice_Received_Masters", " FinYearId<='" + FinYearId + "'  And  CompId='" + CompId + "'");
+            SqlCommand cmdSql = new SqlCommand(StrSql, con);
+            SqlDataAdapter daSql = new SqlDataAdapter(cmdSql);
+            DataSet DSSql = new DataSet();
+            daSql.Fill(DSSql);
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("FinYear", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ADRNo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Types", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ReceivedFrom", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("InvoiceNo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ChequeNo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ChequeDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ChequeReceivedBy", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("BankName", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("BankAccNo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ChequeClearanceDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Narration", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Amount", typeof(double)));
+
+            DataRow dr;
+            for (int i = 0; i < DSSql.Tables[0].Rows.Count; i++)
+            {
+                dr = dt.NewRow();
+                if (DSSql.Tables[0].Rows.Count > 0)
+                {
+
+                    string sqlFin = fun.select("FinYear", "tblFinancial_master", "FinYearId='" + DSSql.Tables[0].Rows[i]["FinYearId"].ToString() + "'");
+                    SqlCommand cmdFinYr = new SqlCommand(sqlFin, con);
+                    SqlDataAdapter daFin = new SqlDataAdapter(cmdFinYr);
+                    DataSet DSFin = new DataSet();
+                    daFin.Fill(DSFin);
+                    dr[0] = DSSql.Tables[0].Rows[i]["Id"].ToString();
+                    if (DSFin.Tables[0].Rows.Count > 0)
+                    {
+                        dr[1] = DSFin.Tables[0].Rows[0]["FinYear"].ToString();
+                    }
+                    dr[2] = DSSql.Tables[0].Rows[i]["ADRNo"].ToString();
+
+                    string Sqltyp = fun.select("Description", "tblACC_ReceiptAgainst", "Id='" + DSSql.Tables[0].Rows[i]["Types"].ToString() + "'");
+                    SqlCommand cmdtyp = new SqlCommand(Sqltyp, con);
+                    SqlDataAdapter datyp = new SqlDataAdapter(cmdtyp);
+                    DataSet DStyp = new DataSet();
+                    datyp.Fill(DStyp);
+                    if (DStyp.Tables[0].Rows.Count > 0)
+                    {
+                        dr[3] = DStyp.Tables[0].Rows[0]["Description"].ToString();
+                    }
+                    dr[4] = DSSql.Tables[0].Rows[i]["ReceivedFrom"].ToString();
+                    dr[5] = DSSql.Tables[0].Rows[i]["InvoiceNo"].ToString();
+                    dr[6] = DSSql.Tables[0].Rows[i]["ChequeNo"].ToString();
+                    dr[7] = fun.FromDateDMY(DSSql.Tables[0].Rows[i]["ChequeDate"].ToString());
+                    dr[8] = fun.EmpCustSupplierNames(1, DSSql.Tables[0].Rows[i]["ChequeReceivedBy"].ToString(), CompId);
+                    dr[9] = DSSql.Tables[0].Rows[i]["BankName"].ToString();
+                    dr[10] = DSSql.Tables[0].Rows[i]["BankAccNo"].ToString();
+                    dr[11] = fun.FromDateDMY(DSSql.Tables[0].Rows[i]["ChequeClearanceDate"].ToString());
+                    dr[12] = (DSSql.Tables[0].Rows[i]["Narration"].ToString());
+                    dr[13] = Convert.ToDouble(DSSql.Tables[0].Rows[i]["Amount"]);
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+            }
+            GridView6.DataSource = dt;
+            GridView6.DataBind();
+        }
+        catch (Exception ex) { }
+
+    }
+}

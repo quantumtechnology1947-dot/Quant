@@ -1,0 +1,451 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Reports/InwardOutwardRegister.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="InwardOutwardRegister.aspx.cs" Inherits="Module_MaterialManagement_Reports_InwardOutwardRegister" Title="ERP" Theme="Default" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <style type="text/css">
+        .style2
+        {
+            width: 100%;
+            float: left;
+        }
+        .style3
+        {
+            width: 100%;
+        }
+        </style>
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="left" cellpadding="0" cellspacing="0" class="style2">
+        <tr>
+            <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)">
+        &nbsp;<b>Inward/Outward Register</b></td>
+        </tr>
+        <tr>
+            <td height="27" valign="middle">
+                &nbsp;
+                <asp:Label ID="Label2" runat="server" Text="Enter Date: From"></asp:Label>
+&nbsp;<asp:TextBox ID="TxtFromDt" runat="server" CssClass="box3" Width="100px"></asp:TextBox>
+<cc1:CalendarExtender runat="server" Format="dd-MM-yyyy" Enabled="True" 
+                        TargetControlID="TxtFromDt" ID="TxtFromDt_CalendarExtender" CssClass="cal_Theme2"></cc1:CalendarExtender>
+<asp:RegularExpressionValidator runat="server" 
+                        ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                        ControlToValidate="TxtFromDt" ErrorMessage="*" ValidationGroup="A" 
+                        ID="ReqTDate"></asp:RegularExpressionValidator>
+                        
+&nbsp;<asp:Label ID="Label4" runat="server" Text="- To "></asp:Label>
+                <asp:TextBox ID="TxtToDt" runat="server" CssClass="box3" Width="100px"></asp:TextBox>
+               <cc1:CalendarExtender runat="server" Format="dd-MM-yyyy" Enabled="True" 
+                        TargetControlID="TxtToDt" ID="CalendarExtender1" CssClass="cal_Theme2" ></cc1:CalendarExtender>
+<asp:RegularExpressionValidator runat="server" 
+                        ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                        ControlToValidate="TxtToDt" ErrorMessage="*" ValidationGroup="A" 
+                        ID="RegularExpressionValidator1"></asp:RegularExpressionValidator>
+&nbsp; <asp:Button ID="Button1" runat="server" CssClass="redbox" Text="Search" 
+                    ValidationGroup="A" onclick="Button1_Click" />
+            </td>
+        </tr>
+        <tr>
+            <td>            
+                <table cellpadding="0" cellspacing="0" class="style3">
+                    <tr>
+<td height="22" width="33%" style="text-align: left; background:url(../../../images/hdbg.JPG)" class="fontcsswhite">
+&nbsp;<asp:Label ID="Label5" runat="server" style="font-weight: 700" Text="PR "></asp:Label>
+                        </td>
+<td width="33%" style="text-align: left; background:url(../../../images/hdbg.JPG)" class="fontcsswhite">
+&nbsp;<asp:Label ID="Label6" runat="server" style="font-weight: 700" Text="SPR"></asp:Label>
+                        </td>
+<td width="34%" style="text-align: left; background:url(../../../images/hdbg.JPG)" class="fontcsswhite">
+&nbsp;<asp:Label ID="Label7" runat="server" style="font-weight: 700" Text="PO"></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top">
+                            <asp:Panel ID="Panel1" runat="server" Height="390px" ScrollBars="Auto" 
+                                Width="99%">
+                                <asp:GridView ID="GridView2" runat="server" 
+    AutoGenerateColumns="False" CssClass="yui-datatable-theme" Width="99%">
+                                    <Columns>
+                                        <asp:TemplateField HeaderText="SN">
+                                            <ItemTemplate>
+                                                 <%#Container.DataItemIndex+1  %>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Right" />
+                                        </asp:TemplateField>
+                                        <asp:BoundField DataField="RDate" HeaderText="Date">
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="PRNo" HeaderText="PR No">
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="PRAmt" HeaderText="Amt">
+                                            <ItemStyle HorizontalAlign="Right" />
+                                        </asp:BoundField>
+                                    </Columns>
+                                </asp:GridView>
+                            </asp:Panel>
+                        </td>
+                        <td valign="top">
+                            <asp:Panel ID="Panel2" runat="server" Height="390px" ScrollBars="Auto" 
+                                Width="99%">
+                                <asp:GridView ID="GridView3" runat="server" 
+    AutoGenerateColumns="False" Width="99%" CssClass="yui-datatable-theme">
+                                    <Columns>
+                                        <asp:TemplateField HeaderText="SN">
+                                            <ItemTemplate>
+                                                <%# Container.DataItemIndex+1 %>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Right" />
+                                        </asp:TemplateField>
+                                        <asp:BoundField DataField="RDate" HeaderText="Date">
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="SPRNo" HeaderText="SPR No">
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="SPRAmt" HeaderText="Amt">
+                                            <ItemStyle HorizontalAlign="Right" />
+                                        </asp:BoundField>
+                                    </Columns>
+                                </asp:GridView>
+                            </asp:Panel>
+                        </td>
+                        <td valign="top">
+                            <asp:Panel ID="Panel3" runat="server" Height="390px" ScrollBars="Auto" 
+                                Width="99%">
+                                <asp:GridView ID="GridView4" runat="server" AutoGenerateColumns="False" 
+                                    CssClass="yui-datatable-theme" Width="99%">
+                                    <Columns>
+                                        <asp:TemplateField HeaderText="SN">
+                                         <ItemTemplate>
+                                         <%#Container.DataItemIndex+1 %>
+                                         </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Right" />
+                                        </asp:TemplateField>
+                                        <asp:BoundField DataField="RDate" HeaderText="Date">
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:BoundField>
+                                        <asp:BoundField  DataField="PONo" HeaderText="PO No">
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:BoundField>
+                                        <asp:BoundField  DataField="POAmt" HeaderText="Amt">
+                                            <ItemStyle HorizontalAlign="Right" />
+                                        </asp:BoundField>
+                                    </Columns>
+                                </asp:GridView>
+                            </asp:Panel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="middle" height="27" style="text-align: right">
+                            <asp:Label ID="Label8" runat="server" Text="Total : " style="font-weight: 700"></asp:Label>
+                            <asp:Label ID="lblPRTot" runat="server" style="font-weight: 700"></asp:Label>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </td>
+                        <td valign="middle" style="text-align: right">
+                            <asp:Label ID="Label9" runat="server" Text="Total : " style="font-weight: 700"></asp:Label>
+                            <asp:Label ID="lblSPRTot" runat="server" style="font-weight: 700"></asp:Label>
+&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+                        <td valign="middle" style="text-align: right">
+                            <asp:Label ID="Label10" runat="server" Text="Total : " style="font-weight: 700"></asp:Label>
+                            <asp:Label ID="lblPOTot" runat="server" style="font-weight: 700"></asp:Label>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Reports/InwardOutwardRegister.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Globalization;
+
+public partial class Module_MaterialManagement_Reports_InwardOutwardRegister : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+
+    int CompId = 0;
+    int FinYearId = 0;
+
+    DataTable dtPR = new DataTable();
+    DataTable dtSPR = new DataTable();
+    DataTable dtPO = new DataTable();
+
+    string Fdt = string.Empty;
+    string Tdt = string.Empty;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            if (!IsPostBack)
+            {
+                Fdt = fun.FromDateDMY(fun.getCurrDate());
+                Tdt = fun.FromDateDMY(fun.getCurrDate());
+
+                TxtFromDt.Text = Fdt;
+                TxtToDt.Text = Tdt;
+            }
+
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            CompId = Convert.ToInt32(Session["compid"]);
+
+            lblPRTot.Text = "0";
+            lblSPRTot.Text = "0";
+
+            this.calc();
+        }
+        catch (Exception et)
+        {
+
+        }
+    }
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        this.calc();
+    }
+
+    public void calc()
+    {
+        try
+        {
+            DataTable PRdt = new DataTable();
+            PRdt = this.getPRDetails(TxtFromDt.Text, TxtToDt.Text);
+
+            GridView2.DataSource = PRdt;
+            GridView2.DataBind();
+
+            object prtotal;
+            prtotal = PRdt.Compute("Sum(PRAmt)", "");
+
+            if (prtotal.ToString() != "")
+            {
+                lblPRTot.Text = Math.Round(Convert.ToDouble(prtotal.ToString()), 2).ToString();
+            }
+            else
+            {
+                lblPRTot.Text = "0";
+            }
+
+            DataTable SPRdt = new DataTable();
+            SPRdt = this.getSPRDetails(TxtFromDt.Text, TxtToDt.Text);
+
+            GridView3.DataSource = SPRdt;
+            GridView3.DataBind();
+
+            object sprtotal;
+            sprtotal = SPRdt.Compute("Sum(SPRAmt)", "");
+
+            if (sprtotal.ToString() != "")
+            {
+                lblSPRTot.Text = Math.Round(Convert.ToDouble(sprtotal.ToString()), 2).ToString();
+            }
+            else
+            {
+                lblSPRTot.Text = "0";
+            }
+
+            DataTable POdt = new DataTable();
+            POdt = this.getPODetails(TxtFromDt.Text, TxtToDt.Text);
+
+            GridView4.DataSource = POdt;
+            GridView4.DataBind();
+
+            object pototal;
+            pototal = POdt.Compute("Sum(POAmt)", "");
+
+            if (pototal.ToString() != "")
+            {
+                lblPOTot.Text = Math.Round(Convert.ToDouble(pototal.ToString()), 2).ToString();
+            }
+            else
+            {
+                lblPOTot.Text = "0";
+            }
+        }
+        catch (Exception et)
+        {
+
+        }
+    }
+
+    public DataTable getPRDetails(string fdt, string tdt)
+    {
+        try
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            con.Open();
+
+            dtPR.Columns.Add(new System.Data.DataColumn("PRNo", typeof(string)));//0 
+            dtPR.Columns.Add(new System.Data.DataColumn("PRAmt", typeof(double)));//1 
+            dtPR.Columns.Add(new System.Data.DataColumn("RDate", typeof(string)));//2
+
+            string sql = "SELECT tblMM_PR_Master.SysDate,tblMM_PR_Master.PRNo, Sum((tblMM_PR_Details.Qty * (tblMM_PR_Details.Rate -(tblMM_PR_Details.Rate*tblMM_PR_Details.Discount/100)))) As Amt FROM tblMM_PR_Details INNER JOIN tblMM_PR_Master ON tblMM_PR_Details.MId = tblMM_PR_Master.Id AND tblMM_PR_Master.FinYearId='" + FinYearId + "' AND tblMM_PR_Master.CompId='" + CompId + "' AND tblMM_PR_Master.SysDate between '" + fun.FromDate(fdt) + "' AND '" + fun.FromDate(tdt) + "' Group by tblMM_PR_Master.PRNo,tblMM_PR_Master.SysDate Order by tblMM_PR_Master.SysDate Desc;";
+
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataReader sdr = cmd.ExecuteReader();
+
+            DataRow drPR;
+
+            while (sdr.Read())
+            {
+                drPR = dtPR.NewRow();
+
+                drPR[0] = sdr["PRNo"].ToString();
+                if (sdr["Amt"].ToString() != "")
+                {
+                    drPR[1] = Math.Round(Convert.ToDouble(sdr["Amt"].ToString()), 2).ToString();
+                }
+                else
+                {
+                    drPR[1] = "0";
+                }
+                drPR[2] = fun.FromDateDMY(sdr["SysDate"].ToString());
+
+                dtPR.Rows.Add(drPR);
+                dtPR.AcceptChanges();
+            }
+
+            con.Close();
+            return dtPR;
+        }
+        catch (Exception et)
+        {
+
+        }
+        return dtPR;
+    }
+
+    public DataTable getSPRDetails(string fdt, string tdt)
+    {
+        try
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            con.Open();
+
+            dtSPR.Columns.Add(new System.Data.DataColumn("SPRNo", typeof(string)));//0
+            dtSPR.Columns.Add(new System.Data.DataColumn("SPRAmt", typeof(double)));//1
+            dtSPR.Columns.Add(new System.Data.DataColumn("RDate", typeof(string)));//2
+
+            string sql = "SELECT tblMM_SPR_Master.SysDate,tblMM_SPR_Master.SPRNo, Sum((tblMM_SPR_Details.Qty * (tblMM_SPR_Details.Rate -(tblMM_SPR_Details.Rate*tblMM_SPR_Details.Discount/100)))) As Amt FROM tblMM_SPR_Details INNER JOIN tblMM_SPR_Master ON tblMM_SPR_Details.MId = tblMM_SPR_Master.Id AND tblMM_SPR_Master.FinYearId='" + FinYearId + "' AND tblMM_SPR_Master.CompId='" + CompId + "' AND tblMM_SPR_Master.SysDate between '" + fun.FromDate(fdt) + "' AND '" + fun.FromDate(tdt) + "' Group by tblMM_SPR_Master.SPRNo,tblMM_SPR_Master.SysDate Order by tblMM_SPR_Master.SysDate Desc;";
+
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataReader sdr = cmd.ExecuteReader();
+            DataRow drSPR;
+
+            while (sdr.Read())
+            {
+                drSPR = dtSPR.NewRow();
+
+                drSPR[0] = sdr["SPRNo"].ToString();
+
+                if (sdr["Amt"].ToString() != "")
+                {
+                    drSPR[1] = Math.Round(Convert.ToDouble(sdr["Amt"].ToString()), 2).ToString();
+                }
+                else
+                {
+                    drSPR[1] = "0";
+                }
+
+                drSPR[2] = fun.FromDateDMY(sdr["SysDate"].ToString());
+
+                dtSPR.Rows.Add(drSPR);
+                dtSPR.AcceptChanges();
+            }
+
+            con.Close();
+            return dtSPR;
+        }
+        catch (Exception et)
+        {
+
+        }
+        return dtSPR;
+    }
+
+    public DataTable getPODetails(string fdt, string tdt)
+    {
+        try
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            con.Open();
+
+            dtPO.Columns.Add(new System.Data.DataColumn("PONo", typeof(string)));//0
+            dtPO.Columns.Add(new System.Data.DataColumn("POAmt", typeof(double)));//1
+            dtPO.Columns.Add(new System.Data.DataColumn("RDate", typeof(string)));//2
+
+            string sql = "SELECT tblMM_PO_Master.SysDate, tblMM_PO_Master.PONo,Sum((tblMM_PO_Details.Qty*(tblMM_PO_Details.Rate-(tblMM_PO_Details.Rate*tblMM_PO_Details.Discount/100)))) As Amt  FROM tblMM_PO_Master INNER JOIN tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId AND tblMM_PO_Master.FinYearId='" + FinYearId + "' AND tblMM_PO_Master.CompId='" + CompId + "' AND tblMM_PO_Master.SysDate between '" + fun.FromDate(fdt) + "' AND '" + fun.FromDate(tdt) + "' Group by tblMM_PO_Master.PONo,tblMM_PO_Master.SysDate Order by tblMM_PO_Master.SysDate Desc;";
+
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataReader sdr = cmd.ExecuteReader();
+
+            DataRow drPO;
+
+            while (sdr.Read())
+            {
+                drPO = dtPO.NewRow();
+
+                drPO[0] = sdr["PONo"].ToString();
+                
+                if (sdr["Amt"].ToString() != "")
+                {
+                    drPO[1] = Math.Round(Convert.ToDouble(sdr["Amt"].ToString()), 2).ToString();
+                }
+                else
+                {
+                    drPO[1] = "0";
+                }
+
+                drPO[2] = fun.FromDateDMY(sdr["SysDate"].ToString());
+                dtPO.Rows.Add(drPO);
+                dtPO.AcceptChanges();
+            }
+
+            con.Close();
+            return dtPO;
+        }
+        catch (Exception et)
+        {
+
+        }
+        return dtPO;
+    }
+    
+}

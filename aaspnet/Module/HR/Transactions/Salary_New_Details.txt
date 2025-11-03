@@ -1,0 +1,887 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Transactions/Salary_New_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Salary_New_Details.aspx.cs" Inherits="Module_HR_Transactions_Salary_New_Details" Title="ERP" Theme="Default" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    
+    </asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+    <table align="center" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+        <td align="left" valign="middle" 
+            style="background:url(../../../images/hdbg.JPG)" height="21" 
+            class="fontcsswhite" colspan="14"><b>&nbsp;PayRoll - New</b></td>
+    </tr>
+    <tr>
+    <td>
+     <table align="center" width="99%">
+
+    <tr> <td colspan="2" width="30%">&nbsp; Salary for the Month of
+        <asp:DropDownList ID="ddlMonth" runat="server" CssClass="box3" 
+            onselectedindexchanged="ddlMonth_SelectedIndexChanged" AutoPostBack="True">
+        </asp:DropDownList>
+        </td> <td colspan="3" width="10%">Days of Month : <asp:Label ID="lblDaysM" 
+                runat="server" style="font-weight: 700"></asp:Label>
+        </td> <td colspan="2" width="20%">Sundays : <asp:Label ID="lblSunM" runat="server" 
+                style="font-weight: 700"></asp:Label>
+        </td> <td colspan="3" width="20%">Holidays : <asp:Label ID="lblHolidayM" 
+                runat="server" style="font-weight: 700"></asp:Label>
+        </td> <td colspan="2" width="30%">Working Days : <asp:Label ID="lblWDayM" 
+                runat="server" style="font-weight: 700"></asp:Label>
+        </td></tr>
+    <tr bgcolor="#CCCCCC"> <td align="center" colspan="3" width="32%" height="20px" 
+            
+            
+            style="border-left-style: solid; border-left-color: #C0C0C0; border-right-style: solid; border-right-color: #C0C0C0;"><b>Employee 
+        Details</b></td> 
+        <td align="center" colspan="3" width="31%" 
+            style="border-right-style: solid; border-right-color: #C0C0C0"><b>Attendance Details</b></td> 
+        <td align="center" colspan="6" width="36%" 
+            style="border-right-style: solid; border-right-color: #C0C0C0"><b>Miscellanies</b></td></tr>
+    <tr> 
+        <td width="14%" 
+            style="border-left-style: solid; border-left-color: #C0C0C0" rowspan="4" 
+            valign="top">     
+                 &nbsp;&nbsp;           
+                 <asp:Image ID="Image1" runat="server" Height="100px" Width="80px" />                      
+        </td> 
+        <td colspan="2" width="18%" 
+            style="border-right-style: solid; border-right-color: #C0C0C0">
+        <asp:Label 
+            ID="lblNameOfEmployee" runat="server" style="font-weight: 700"></asp:Label>
+        </td> <td width="15%">&nbsp; Present</td> 
+        <td colspan="2" width="16%" 
+            style="border-right-style: solid; border-right-color: #C0C0C0">:
+        <asp:TextBox ID="txtPresent" runat="server" CssClass="box3" Width="70px">0</asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="ReqtxtPresent" runat="server" 
+                                        ControlToValidate="txtPresent" ErrorMessage="*" 
+                ValidationGroup="A"></asp:RequiredFieldValidator>
+                                    <asp:RegularExpressionValidator ID="RegtxtPresent" runat="server" 
+                                        ControlToValidate="txtPresent" ErrorMessage="*" 
+                                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" 
+                ValidationGroup="A"></asp:RegularExpressionValidator>
+        </td> <td colspan="2" width="10%">&nbsp; Bank Loan</td> <td colspan="4" 
+            style="border-right-style: solid; border-right-color: #C0C0C0" width="90%">:
+        <asp:Label ID="lblBLoan" runat="server" style="font-weight: 700"></asp:Label>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Inst. Paid :
+            <asp:Label ID="lblBalance" runat="server" style="font-weight: 700"></asp:Label>
+        </td> </tr>
+    <tr>  
+        <td colspan="2" style="border-right-style: solid; border-right-color: #C0C0C0">Swap Card No:
+        <asp:Label ID="lblSCNo" runat="server"></asp:Label>
+        </td> <td>&nbsp; Absent</td> <td colspan="2" 
+            style="border-right-style: solid; border-right-color: #C0C0C0">:
+        <asp:TextBox ID="txtAbsent" runat="server" CssClass="box3" Width="70px">0</asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="ReqtxtAbsent" runat="server" 
+                                        ControlToValidate="txtAbsent" ErrorMessage="*" 
+            ValidationGroup="A"></asp:RequiredFieldValidator>
+                                    <asp:RegularExpressionValidator ID="RegtxtAbsent" runat="server" 
+                                        ControlToValidate="txtAbsent" ErrorMessage="*" 
+                                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" 
+            ValidationGroup="A"></asp:RegularExpressionValidator>
+        </td> <td colspan="2">&nbsp; Installment</td> 
+        <td colspan="4" 
+            style="border-right-style: solid; border-right-color: #C0C0C0">:
+            <asp:TextBox ID="txtInstallment" runat="server" CssClass="box3" Width="100px">0</asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="ReqtxtInstallment" runat="server" 
+                                        ControlToValidate="txtInstallment" 
+                ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+                                    <asp:RegularExpressionValidator ID="RegtxtInstallment" runat="server" 
+                                        ControlToValidate="txtInstallment" ErrorMessage="*" 
+                                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" 
+                ValidationGroup="A"></asp:RegularExpressionValidator>
+        </td></tr>
+    <tr>  
+        <td colspan="2" style="border-right-style: solid; border-right-color: #C0C0C0">
+            Department:
+        <asp:Label ID="lblDept" runat="server"></asp:Label>
+        </td> <td>&nbsp; Late In</td> <td colspan="2" 
+            style="border-right-style: solid; border-right-color: #C0C0C0">:
+        <asp:TextBox ID="txtLateIn" runat="server" CssClass="box3" Width="70px">0</asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="ReqtxtLateIn" runat="server" 
+                                        ControlToValidate="txtLateIn" ErrorMessage="*" 
+            ValidationGroup="A"></asp:RequiredFieldValidator>
+                                    <asp:RegularExpressionValidator ID="RegtxtLateIn" runat="server" 
+                                        ControlToValidate="txtLateIn" ErrorMessage="*" 
+                                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" 
+            ValidationGroup="A"></asp:RegularExpressionValidator>
+        </td> <td colspan="2">&nbsp; Mobile Bill</td> <td colspan="4" 
+            style="border-right-style: solid; border-right-color: #C0C0C0">: Limit :
+        <asp:Label ID="lblLimit" runat="server" style="font-weight: 700"></asp:Label>
+        &nbsp;Bill Amt :
+            <asp:Label ID="lblBill" runat="server" style="font-weight: 700"></asp:Label>
+        &nbsp; Exe.Amt :
+        <asp:TextBox ID="txtMobExeAmt" runat="server" CssClass="box3" Width="50px">0</asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="ReqtxtMobExeAmt" runat="server" 
+                                        ControlToValidate="txtMobExeAmt" 
+            ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+                                    <asp:RegularExpressionValidator ID="RegtxtMobExeAmt" runat="server" 
+                                        ControlToValidate="txtMobExeAmt" ErrorMessage="*" 
+                                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" 
+            ValidationGroup="A"></asp:RegularExpressionValidator>
+        </td> </tr>
+    <tr>  
+        <td colspan="2" style="border-right-style: solid; border-right-color: #C0C0C0">&nbsp;</td> <td>&nbsp; Half Day</td> <td colspan="2" 
+            style="border-right-style: solid; border-right-color: #C0C0C0">:
+        <asp:TextBox ID="txtHalfDay" runat="server" CssClass="box3" Width="70px">0</asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="ReqtxtHalfDay" runat="server" 
+                                        ControlToValidate="txtHalfDay" 
+            ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+                                    <asp:RegularExpressionValidator ID="RegtxtHalfDay" runat="server" 
+                                        ControlToValidate="txtHalfDay" ErrorMessage="*" 
+                                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" 
+            ValidationGroup="A"></asp:RegularExpressionValidator>
+        </td> <td colspan="2">&nbsp; Addition</td> 
+        <td colspan="4" 
+            style="border-right-style: solid; border-right-color: #C0C0C0">&nbsp;
+        <asp:TextBox ID="txtAddition" runat="server" CssClass="box3" Width="100px">0</asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="ReqtxtAddition" runat="server" 
+                                        ControlToValidate="txtAddition" ErrorMessage="*" 
+                ValidationGroup="A"></asp:RequiredFieldValidator>
+                                    <asp:RegularExpressionValidator ID="RegtxtAddition" runat="server" 
+                                        ControlToValidate="txtAddition" ErrorMessage="*" 
+                                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" 
+                ValidationGroup="A"></asp:RegularExpressionValidator>
+        </td></tr>
+    <tr> <td height="25px" style="border-left-style: solid; border-left-color: #C0C0C0">&nbsp; Desigation</td> 
+        <td colspan="2" style="border-right-style: solid; border-right-color: #C0C0C0">:
+        <asp:Label ID="lblDesig" runat="server"></asp:Label>
+        </td> <td>&nbsp; Sunday</td> <td colspan="2" 
+            style="border-right-style: solid; border-right-color: #C0C0C0">:
+        <asp:TextBox ID="txtSunday" runat="server" CssClass="box3" Width="70px">0</asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="ReqtxtSunday" runat="server" 
+                                        ControlToValidate="txtSunday" ErrorMessage="*" 
+            ValidationGroup="A"></asp:RequiredFieldValidator>
+                                    <asp:RegularExpressionValidator ID="RegtxtSunday" runat="server" 
+                                        ControlToValidate="txtSunday" ErrorMessage="*" 
+                                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" 
+            ValidationGroup="A"></asp:RegularExpressionValidator>
+        </td> <td colspan="2">&nbsp; Remarks</td> 
+        <td colspan="4" rowspan="2" 
+            style="border-right-style: solid; border-right-color: #C0C0C0" 
+            valign="top">&nbsp;
+        <asp:TextBox ID="txtRemarks1" runat="server" CssClass="box3" Height="45px" 
+            TextMode="MultiLine" Width="250px"></asp:TextBox>
+        </td></tr>
+    <tr> <td height="25px" style="border-left-style: solid; border-left-color: #C0C0C0">&nbsp; Grade</td> 
+        <td colspan="2" style="border-right-style: solid; border-right-color: #C0C0C0">:
+        <asp:Label ID="lblGrade" runat="server"></asp:Label>
+        </td> <td>&nbsp; C-off</td> <td colspan="2" 
+            style="border-right-style: solid; border-right-color: #C0C0C0">:
+        <asp:TextBox ID="txtCoff" runat="server" CssClass="box3" Width="70px">0</asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="ReqtxtCoff" runat="server" 
+                                        ControlToValidate="txtCoff" ErrorMessage="*" 
+            ValidationGroup="A"></asp:RequiredFieldValidator>
+                                    <asp:RegularExpressionValidator ID="RegtxtCoff" runat="server" 
+                                        ControlToValidate="txtCoff" ErrorMessage="*" 
+                                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" 
+            ValidationGroup="A"></asp:RegularExpressionValidator>
+        </td> <td colspan="2">&nbsp;</td></tr>
+    <tr> <td height="25px" style="border-left-style: solid; border-left-color: #C0C0C0">&nbsp; Status</td> 
+        <td colspan="2" style="border-right-style: solid; border-right-color: #C0C0C0">:
+        <asp:Label ID="lblStatus" runat="server"></asp:Label>
+        </td> <td>&nbsp; PL</td> <td colspan="2" 
+            style="border-right-style: solid; border-right-color: #C0C0C0">:
+        <asp:TextBox ID="txtPL" runat="server" CssClass="box3" Width="70px">0</asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="ReqtxtPL" runat="server" 
+                                        ControlToValidate="txtPL" ErrorMessage="*" 
+            ValidationGroup="A"></asp:RequiredFieldValidator>
+                                    <asp:RegularExpressionValidator ID="RegtxtPL" runat="server" 
+                                        ControlToValidate="txtPL" ErrorMessage="*" 
+                                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" 
+            ValidationGroup="A"></asp:RegularExpressionValidator>
+        </td> <td colspan="2">&nbsp;&nbsp;Deduction</td> 
+        <td colspan="4" 
+            style="border-right-style: solid; border-right-color: #C0C0C0" 
+            valign="top">&nbsp;&nbsp;
+        <asp:TextBox ID="txtDeduction" runat="server" CssClass="box3" Width="100px">0</asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="ReqtxtDeduction" runat="server" 
+                                        ControlToValidate="txtDeduction" ErrorMessage="*" 
+                ValidationGroup="A"></asp:RequiredFieldValidator>
+                                    <asp:RegularExpressionValidator ID="RegtxtDeduction" runat="server" 
+                                        ControlToValidate="txtDeduction" ErrorMessage="*" 
+                                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" 
+                ValidationGroup="A"></asp:RegularExpressionValidator>
+        </td></tr>
+    <tr> <td height="25px" style="border-left-style: solid; border-left-color: #C0C0C0">&nbsp; Duty Hrs.</td> 
+        <td colspan="2" style="border-right-style: solid; border-right-color: #C0C0C0">:
+        <asp:Label ID="lblDutyHrs" runat="server"></asp:Label>
+        </td> <td>&nbsp; Over Time Hrs.</td> <td colspan="2" 
+            style="border-right-style: solid; border-right-color: #C0C0C0">:
+        <asp:TextBox ID="txtOverTimeHrs" runat="server" CssClass="box3" Width="70px">0</asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="ReqtxtOverTimeHrs" runat="server" 
+                                        ControlToValidate="txtOverTimeHrs" 
+            ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+                                    <asp:RegularExpressionValidator ID="RegtxtOverTimeHrs" runat="server" 
+                                        ControlToValidate="txtOverTimeHrs" ErrorMessage="*" 
+                                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" 
+            ValidationGroup="A"></asp:RegularExpressionValidator>
+        </td> <td colspan="2">&nbsp;Remarks</td> 
+        <td colspan="4" 
+            style="border-right-style: solid; border-right-color: #C0C0C0" rowspan="2">&nbsp;
+        <asp:TextBox ID="txtRemarks2" runat="server" CssClass="box3" Height="45px" 
+            TextMode="MultiLine" Width="250px"></asp:TextBox>
+            &nbsp;
+        </td></tr>
+    <tr> <td height="25px" style="border-left-style: solid; border-left-color: #C0C0C0">&nbsp; Over Time Hrs.</td> 
+        <td colspan="2" style="border-right-style: solid; border-right-color: #C0C0C0">:
+        <asp:Label ID="lblEOTHrs" runat="server"></asp:Label>
+        </td> <td>&nbsp; Over Time Rate</td> <td colspan="2" 
+            style="border-right-style: solid; border-right-color: #C0C0C0">:
+        <asp:Label ID="lblOverTimeRate" runat="server"></asp:Label>
+        </td> <td colspan="2">&nbsp;</td> </tr>
+    <tr> <td height="25px" style="border-left-style: solid; border-left-color: #C0C0C0">&nbsp; A/C No.</td> 
+        <td colspan="2" style="border-right-style: solid; border-right-color: #C0C0C0">:
+        <asp:Label ID="lblACNo" runat="server"></asp:Label>
+        </td> <td>&nbsp;</td> <td colspan="2" 
+            style="border-right-style: solid; border-right-color: #C0C0C0">&nbsp;</td> 
+        <td colspan="6" rowspan="4" 
+            style="border-right-style: solid; border-right-color: #C0C0C0" valign="top">
+            <asp:Panel ID="Panel1" runat="server" Height="120px" Width="100%" 
+                ScrollBars="Auto">
+            
+ <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" 
+DataKeyNames="Id" CssClass="yui-datatable-theme" Width ="99%">
+<PagerSettings PageButtonCount="20" />
+<Columns>
+
+
+ <asp:TemplateField HeaderText="SN">
+<ItemTemplate><%# Container.DataItemIndex+1 %></ItemTemplate>
+<ItemStyle HorizontalAlign="Right" Width="3%" />                                      
+</asp:TemplateField>
+
+<asp:TemplateField HeaderText="Include In">
+  <ItemTemplate>
+  <asp:Label ID="lblIncludesInId" runat="server" Text='<%#Eval("IncludesIn")%>' Visible="false"></asp:Label>
+  <asp:Label ID="lblIncludesIn" runat="server"></asp:Label></ItemTemplate>
+
+    <ItemStyle Width="20%" />
+
+  </asp:TemplateField>
+  
+<asp:BoundField DataField="Id" HeaderText="Id" InsertVisible="False" 
+    ReadOnly="True" SortExpression="Id" Visible="False">
+</asp:BoundField>
+
+  <asp:TemplateField HeaderText="Perticulars" SortExpression="Perticulars">
+
+      <ItemTemplate>
+          <asp:Label ID="Label3" runat="server" Text='<%# Bind("Perticulars") %>'></asp:Label>
+      </ItemTemplate>
+      
+      <ItemStyle Width="40%" />
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Qty" SortExpression="Qty">
+  
+    <ItemTemplate>
+        <asp:Label ID="Label1" runat="server" Text='<%# Bind("Qty") %>'></asp:Label>
+    </ItemTemplate>
+    
+    
+    <ItemStyle Width="13%" HorizontalAlign="Right" />
+    
+</asp:TemplateField>
+
+
+
+<asp:TemplateField HeaderText="Amount" SortExpression="Amount">
+  
+    <ItemTemplate>
+        <asp:Label ID="Label2" runat="server" Text='<%# Bind("Amount") %>'></asp:Label>
+    </ItemTemplate>
+   
+    
+    <ItemStyle Width="12%" HorizontalAlign="Right" />
+    
+</asp:TemplateField>
+
+  <asp:TemplateField HeaderText="Total" SortExpression="Total">
+      <ItemTemplate>
+          <asp:Label ID="Label4" runat="server" Text='<%# Bind("Total") %>'></asp:Label>
+      </ItemTemplate>
+        <ItemStyle Width="12%" HorizontalAlign="Right" />
+</asp:TemplateField>
+</Columns>
+<EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+</asp:GridView>
+            
+            
+            </asp:Panel>
+        </td></tr>
+    <tr> <td height="25px" style="border-left-style: solid; border-left-color: #C0C0C0">&nbsp; PF No.</td> 
+        <td colspan="2" style="border-right-style: solid; border-right-color: #C0C0C0">:
+        <asp:Label ID="lblPFNo" runat="server"></asp:Label>
+        </td> <td>&nbsp;</td> <td colspan="2" 
+            style="border-right-style: solid; border-right-color: #C0C0C0">&nbsp;</td> </tr>
+    <tr> <td height="25px" style="border-left-style: solid; border-left-color: #C0C0C0">&nbsp; PAN No.</td> 
+        <td colspan="2" style="border-right-style: solid; border-right-color: #C0C0C0">:
+        <asp:Label ID="lblPANNo" runat="server"></asp:Label>
+        </td> <td>&nbsp;</td> <td colspan="2" 
+            style="border-right-style: solid; border-right-color: #C0C0C0">&nbsp;</td> </tr>
+    <tr> 
+        <td height="25px" 
+            style="border-left-style: solid; border-left-color: #C0C0C0; ">&nbsp; Email</td> 
+        <td colspan="2" 
+            style="border-right-style: solid; border-right-color: #C0C0C0;">&nbsp;:
+        <asp:Label ID="lblEmail" runat="server"></asp:Label>
+        </td> <td>&nbsp;</td> 
+        <td colspan="2" 
+            style="border-right-style: solid; border-right-color: #C0C0C0;">
+            <asp:HiddenField ID="HFInc" runat="server" />
+        </td> </tr>
+    <tr> <td height="25px" 
+            style="border-left-style: solid; border-left-color: #C0C0C0; border-bottom-style: solid; border-bottom-color: #C0C0C0">&nbsp; Mobile No.</td> 
+        <td colspan="2" 
+            style="border-bottom-style: solid; border-bottom-color: #C0C0C0; border-right-style: solid; border-right-color: #C0C0C0;">
+            :
+        <asp:Label ID="lblMobNo" runat="server"></asp:Label>
+        </td> <td style="border-bottom-style: solid; border-bottom-color: #C0C0C0;">&nbsp;</td> 
+        <td colspan="2" 
+            style="border-bottom-style: solid; border-bottom-color: #C0C0C0; border-right-style: solid; border-right-color: #C0C0C0;">
+            &nbsp;</td> <td colspan="2" 
+            style="border-bottom-style: solid; border-bottom-color: #C0C0C0;">&nbsp;</td> 
+        <td 
+            
+            style="border-bottom-style: solid; border-bottom-color: #C0C0C0; ">
+            &nbsp;</td> 
+        <td colspan="2" 
+            
+            style="border-bottom-style: solid; border-bottom-color: #C0C0C0; ">
+            &nbsp;</td> 
+        <td 
+            
+            
+            style="border-bottom-style: solid; border-bottom-color: #C0C0C0; border-right-style: solid; border-right-color: #C0C0C0;">
+            &nbsp;</td></tr>
+    <tr> <td align="center" colspan="12" height="30px" valign="middle">
+        <asp:Button ID="btnProceed" runat="server" CssClass="redbox" Text="Proceed" 
+            ValidationGroup="A" onclick="btnProceed_Click" />
+&nbsp;<asp:Button ID="btnCancel" runat="server" CssClass="redbox" 
+            onclick="btnCancel_Click" Text="Cancel" />
+        </td></tr>
+        
+    </table>
+     </td>
+    </tr>
+    </table>
+   
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Transactions/Salary_New_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.IO;
+using System.Text.RegularExpressions;
+using System.Collections.Generic;
+
+public partial class Module_HR_Transactions_Salary_New_Details : System.Web.UI.Page
+{
+    SqlConnection con;
+    clsFunctions fun = new clsFunctions();
+
+    string MonthId = "";
+    string EId = "";
+    string sId = "";
+    int CompId = 0;
+    int FinYearId = 0;
+    string CDate = "";
+    string CTime = "";
+    string constr = "";
+    int CountSun = 0;
+    int NoOfDays = 0;
+    int OfferId = 0;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            constr = fun.Connection();
+            con = new SqlConnection(constr);
+            EId = Request.QueryString["EmpId"];
+            sId = Session["username"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            CDate = fun.getCurrDate();
+            CTime = fun.getCurrTime();
+
+          
+            con.Open();
+
+            if (!IsPostBack)
+            {
+                fun.GetMonth(ddlMonth, CompId, FinYearId);
+                                
+                string sg = "";
+                sg = ddlMonth.SelectedValue;
+
+                int g = Convert.ToInt32(ddlMonth.SelectedValue);                
+                int g1 = fun.SalYrs(FinYearId, g, CompId);
+
+                // Sunday
+                CountSun = fun.CountSundays(g1, g);
+                lblSunM.Text = CountSun.ToString();
+
+                // Day of Month
+                NoOfDays = DateTime.DaysInMonth(g1, g);
+                lblDaysM.Text = NoOfDays.ToString();
+
+                // Holiday
+                lblHolidayM.Text = fun.GetHoliday(g, CompId, FinYearId).ToString();
+
+                //Working Days
+                lblWDayM.Text = fun.WorkingDays(FinYearId, g).ToString();
+               
+                if (fun.WorkingDays(FinYearId, g)==0)
+                {
+                    btnProceed.Visible = false;
+
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Working days is not found for selected month.');", true);
+                    
+                }
+                else
+                {
+                    btnProceed.Visible = true;
+                }
+
+                //BillAmt No
+                lblBill.Text = fun.MobileBillDetails(EId, FinYearId, CompId, g, 1).ToString();
+
+                //Limit
+                lblLimit.Text = fun.MobileBillDetails(EId, FinYearId, CompId, g, 2).ToString();
+
+                //Excess Amt
+                txtMobExeAmt.Text = fun.MobileBillDetails(EId, FinYearId, CompId, g, 3).ToString();
+
+                this.SalaryData(sg);
+                this.FillAccegrid(OfferId);
+            }
+        }
+        catch (Exception ex) { }
+    }
+
+    protected void ddlMonth_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            string sg = "";
+            sg = ddlMonth.SelectedValue;
+
+            int g = Convert.ToInt32(ddlMonth.SelectedValue);
+            
+            int g1 = fun.SalYrs(FinYearId, g, CompId);
+
+            // Sunday
+            CountSun = fun.CountSundays(g1, g);
+            lblSunM.Text = CountSun.ToString();
+
+            // Day of Month
+            NoOfDays = DateTime.DaysInMonth(g1, g);
+            lblDaysM.Text = NoOfDays.ToString();
+
+            //Holiday
+            lblHolidayM.Text = fun.GetHoliday(g, CompId, FinYearId).ToString();
+
+            //Working Days
+            lblWDayM.Text = fun.WorkingDays(FinYearId, g).ToString();
+            
+            if (fun.WorkingDays(FinYearId, g) == 0)
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Working days is not found for selected month.');", true);
+                btnProceed.Visible = false;
+            }
+            else
+            {
+                btnProceed.Visible = true;
+            }
+
+
+            //BillAmt No
+            lblBill.Text = fun.MobileBillDetails(EId, FinYearId, CompId, g, 1).ToString();
+
+            //Limit
+            lblLimit.Text = fun.MobileBillDetails(EId, FinYearId, CompId, g, 2).ToString();
+
+            //Excess Amt
+            txtMobExeAmt.Text = fun.MobileBillDetails(EId, FinYearId, CompId, g, 3).ToString();
+
+            this.SalaryData(sg);
+            this.FillAccegrid(OfferId);
+
+            string StrEmp1 = fun.select("*", "tblHR_Salary_Master", "CompId='" + CompId + "' And FinYearId='" + FinYearId + "' AND EmpId='" + EId + "' AND FMonth='" + sg + "'");
+            SqlCommand cmdEmp1 = new SqlCommand(StrEmp1, con);
+            SqlDataAdapter DAEmp1 = new SqlDataAdapter(cmdEmp1);
+            DataSet DSEmp1 = new DataSet();
+            DAEmp1.Fill(DSEmp1, "tblHR_Salary_Master");
+
+            if (DSEmp1.Tables[0].Rows.Count > 0)
+            {
+                //ddlMonth.Items.Remove(ddlMonth.Items.FindByValue(DSEmp1.Tables[0].Rows[k][0].ToString()));
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Salary for the selected month is already found.');", true);
+                btnProceed.Visible = false;
+            }
+        }
+        catch (Exception ex) { }
+
+    }
+
+    public void SalaryData(string MonthId)
+    {
+       try
+        {
+
+            string sql = fun.select("UserID,EmpId,OfferId,FinYearId,CompId,Title,EmployeeName,SwapCardNo,Department,Designation,Grade,MobileNo,CompanyEmail,BankAccountNo,PFNo,PANNo,PhotoData,PhotoFileName", "tblHR_OfficeStaff", "CompId='" + CompId + "'  and EmpId='" + EId + "'");
+
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet DS = new DataSet();
+            da.Fill(DS);
+
+            if (DS.Tables[0].Rows.Count > 0)
+            {
+                OfferId = Convert.ToInt32(DS.Tables[0].Rows[0]["OfferId"]);
+                string stMobileNo = fun.select("MobileNo", "tblHR_CoporateMobileNo", "Id='" + DS.Tables[0].Rows[0]["MobileNo"].ToString() + "'");
+                SqlCommand cmdMobileNo = new SqlCommand(stMobileNo, con);
+                SqlDataAdapter daMobileNo = new SqlDataAdapter(cmdMobileNo);
+                DataSet dsMobileNo = new DataSet();
+                daMobileNo.Fill(dsMobileNo, "tblHR_CoporateMobileNo");
+
+                if (dsMobileNo.Tables[0].Rows.Count > 0)
+                {
+                    lblMobNo.Text = dsMobileNo.Tables[0].Rows[0]["MobileNo"].ToString();
+                }
+
+                if ((DS.Tables[0].Rows[0]["PhotoData"]) != DBNull.Value && DS.Tables[0].Rows[0]["PhotoFileName"].ToString() != "")
+                {
+                    Image1.ImageUrl = String.Format("~/Handler1.ashx?EmpId={0}&CompId={1}", EId, CompId);
+                }
+                else
+                {
+                    Image1.ImageUrl = "~/images/User.jpg";
+                }
+
+                string StrName = fun.select("Title+'.'+' '+EmployeeName  as Name", "tblHR_OfficeStaff", "EmpId='" + DS.Tables[0].Rows[0]["EmpId"].ToString() + "'");
+                SqlCommand cmdName = new SqlCommand(StrName, con);
+                SqlDataAdapter daName = new SqlDataAdapter(cmdName);
+                DataSet dsName = new DataSet();
+                daName.Fill(dsName);
+
+                if (dsName.Tables[0].Rows.Count > 0)
+                {
+                    lblNameOfEmployee.Text = dsName.Tables[0].Rows[0]["Name"].ToString() + " [" + DS.Tables[0].Rows[0]["EmpId"].ToString() + "]";
+                }
+
+                string stSwapcardNo = fun.select("SwapCardNo", "tblHR_SwapCard", "Id='" + DS.Tables[0].Rows[0]["SwapCardNo"].ToString() + "'");
+                SqlCommand cmdSwapcardNo = new SqlCommand(stSwapcardNo, con);
+                SqlDataAdapter daSwapcardNo = new SqlDataAdapter(cmdSwapcardNo);
+                DataSet dsSwapcardNo = new DataSet();
+                daSwapcardNo.Fill(dsSwapcardNo, "tblHR_SwapCard");
+                if (dsSwapcardNo.Tables[0].Rows.Count > 0)
+                {
+                    lblSCNo.Text = dsSwapcardNo.Tables[0].Rows[0]["SwapCardNo"].ToString();
+                }
+
+                string StrDept = fun.select("Description+' [ '+Symbol+' ]' AS Dept", "tblHR_Departments", "Id='" + DS.Tables[0].Rows[0]["Department"].ToString() + "'");
+                SqlCommand cmdStrDept = new SqlCommand(StrDept, con);
+                SqlDataAdapter daStrDept = new SqlDataAdapter(cmdStrDept);
+                DataSet dsStrDept = new DataSet();
+                daStrDept.Fill(dsStrDept, "tblHR_Departments");
+                if (dsStrDept.Tables[0].Rows.Count > 0)
+                {
+                    lblDept.Text = dsStrDept.Tables[0].Rows[0]["Dept"].ToString();
+                }
+
+                string StrDesig = fun.select("Type+' [ '+Symbol+' ]' AS Designation", "tblHR_Designation", "Id='" + DS.Tables[0].Rows[0]["Designation"].ToString() + "'");
+                SqlCommand cmdStrDesig = new SqlCommand(StrDesig, con);
+                SqlDataAdapter daStrDesig = new SqlDataAdapter(cmdStrDesig);
+                DataSet dsStrDesig = new DataSet();
+                daStrDesig.Fill(dsStrDesig, "tblHR_Designation");
+                if (dsStrDesig.Tables[0].Rows.Count > 0)
+                {
+                    lblDesig.Text = dsStrDesig.Tables[0].Rows[0]["Designation"].ToString();
+                }
+
+                string StrGrade = fun.select("Symbol AS Grade", "tblHR_Grade", "Id='" + DS.Tables[0].Rows[0]["Grade"].ToString() + "'");
+                SqlCommand cmdStrGrade = new SqlCommand(StrGrade, con);
+                SqlDataAdapter daStrGrade = new SqlDataAdapter(cmdStrGrade);
+                DataSet dsStrGrade = new DataSet();
+                daStrGrade.Fill(dsStrGrade, "tblHR_Grade");
+                if (dsStrGrade.Tables[0].Rows.Count > 0)
+                {
+                    lblGrade.Text = dsStrGrade.Tables[0].Rows[0]["Grade"].ToString();
+                }
+
+                lblACNo.Text = DS.Tables[0].Rows[0]["BankAccountNo"].ToString();
+                lblPFNo.Text = DS.Tables[0].Rows[0]["PFNo"].ToString();
+                lblPANNo.Text = DS.Tables[0].Rows[0]["PANNo"].ToString();
+                lblEmail.Text = DS.Tables[0].Rows[0]["CompanyEmail"].ToString();
+
+                string StrOfferM = fun.select("StaffType,TypeOf,DutyHrs,OTHrs,salary,OverTime,Increment", "tblHR_Offer_Master", "OfferId='" + DS.Tables[0].Rows[0]["OfferId"].ToString() + "'");
+                SqlCommand cmdOfferM = new SqlCommand(StrOfferM, con);
+                SqlDataAdapter daOfferM = new SqlDataAdapter(cmdOfferM);
+                DataSet dsOfferM = new DataSet();
+                daOfferM.Fill(dsOfferM, "tblHR_Offer_Master");
+               
+                if (dsOfferM.Tables[0].Rows.Count > 0)
+                {
+                    //--------------------------------- Increment ----------------------------------------                    
+                       HFInc.Value = dsOfferM.Tables[0].Rows[0]["Increment"].ToString();
+                    //-------------------------------------------------------------------------------------
+
+                    string StrEmpType = fun.select("Description", "tblHR_EmpType", "Id='" + dsOfferM.Tables[0].Rows[0]["StaffType"].ToString() + "'");
+                    SqlCommand cmdEmpType = new SqlCommand(StrEmpType, con);
+                    SqlDataAdapter daEmpType = new SqlDataAdapter(cmdEmpType);
+                    DataSet dsEmpType = new DataSet();
+                    daEmpType.Fill(dsEmpType, "tblHR_EmpType");
+                   
+                    if (dsEmpType.Tables[0].Rows.Count > 0)
+                    {
+                        string Status = "";
+
+                        if (Convert.ToInt32(dsOfferM.Tables[0].Rows[0]["TypeOf"]) == 1)
+                        {
+                            Status = "SAPL - " + dsEmpType.Tables[0].Rows[0]["Description"].ToString();
+                        }
+                        else if (Convert.ToInt32(dsOfferM.Tables[0].Rows[0]["TypeOf"]) == 2)
+                        {
+                            Status = "NEHA - " + dsEmpType.Tables[0].Rows[0]["Description"].ToString();
+                        }
+
+                        lblStatus.Text = Status;
+                    }
+
+                    string StrDutyHrs = fun.select("Hours", "tblHR_DutyHour", "Id='" + dsOfferM.Tables[0].Rows[0]["DutyHrs"].ToString() + "'");
+                    SqlCommand cmdDutyHrs = new SqlCommand(StrDutyHrs, con);
+                    SqlDataAdapter daDutyHrs = new SqlDataAdapter(cmdDutyHrs);
+                    DataSet dsDutyHrs = new DataSet();
+                    daDutyHrs.Fill(dsDutyHrs, "tblHR_DutyHour");
+                    if (dsDutyHrs.Tables[0].Rows.Count > 0)
+                    {
+                        lblDutyHrs.Text = dsDutyHrs.Tables[0].Rows[0]["Hours"].ToString();
+                    }
+
+                    string StrOTHrs = fun.select("Hours", "tblHR_OTHour", "Id='" + dsOfferM.Tables[0].Rows[0]["OTHrs"].ToString() + "'");
+                    SqlCommand cmdOTHrs = new SqlCommand(StrOTHrs, con);
+                    SqlDataAdapter daOTHrs = new SqlDataAdapter(cmdOTHrs);
+                    DataSet dsOTHrs = new DataSet();
+                    daOTHrs.Fill(dsOTHrs, "tblHR_OTHour");
+                    if (dsOTHrs.Tables[0].Rows.Count > 0)
+                    {
+                        lblEOTHrs.Text = dsOTHrs.Tables[0].Rows[0]["Hours"].ToString();
+                    }
+
+                    // For Bank Loan
+
+                    double LoanAmt = 0;
+                    double InstAmt = 0;
+                    double InstPaidAmt = 0;
+
+                    string StrBankLoan = fun.select("Sum(Amount) as LoanAmt,Sum(Installment) as InstAmt", "tblHR_BankLoan", "CompId='" + CompId + "' And FinYearId<='" + FinYearId + "' And EmpId='" + EId + "'");
+                    SqlCommand cmdBankLoan = new SqlCommand(StrBankLoan, con);
+                    SqlDataAdapter daBankLoan = new SqlDataAdapter(cmdBankLoan);
+                    DataSet dsBankLoan = new DataSet();
+                    daBankLoan.Fill(dsBankLoan);
+
+                    if (dsBankLoan.Tables[0].Rows.Count > 0 && (dsBankLoan.Tables[0].Rows[0]["LoanAmt"]) != DBNull.Value && (dsBankLoan.Tables[0].Rows[0]["InstAmt"]) != DBNull.Value)
+                    {
+                        LoanAmt = Convert.ToDouble(dsBankLoan.Tables[0].Rows[0]["LoanAmt"]);
+                        InstAmt = Convert.ToDouble(dsBankLoan.Tables[0].Rows[0]["InstAmt"]);
+                    }
+                    string StrInstPaidAmt = fun.select("Sum(tblHR_Salary_Details.Installment) as Installment", "tblHR_Salary_Details,tblHR_Salary_Master", "tblHR_Salary_Master.Id= tblHR_Salary_Details.MId And tblHR_Salary_Master.CompId='" + CompId + "' And tblHR_Salary_Master.FinYearId<='" + FinYearId + "' And tblHR_Salary_Master.EmpId='" + EId + "'");
+                    SqlCommand cmdInstPaidAmt = new SqlCommand(StrInstPaidAmt, con);
+                    SqlDataAdapter daInstPaidAmt = new SqlDataAdapter(cmdInstPaidAmt);
+                    DataSet dsInstPaidAmt = new DataSet();
+                    daInstPaidAmt.Fill(dsInstPaidAmt);
+
+                    if (dsInstPaidAmt.Tables[0].Rows.Count > 0 && (dsInstPaidAmt.Tables[0].Rows[0]["Installment"]) != DBNull.Value)
+                    {
+                        InstPaidAmt = Convert.ToDouble(dsInstPaidAmt.Tables[0].Rows[0]["Installment"]);
+                    }
+
+                    lblBLoan.Text = LoanAmt.ToString();
+
+                    if ((LoanAmt - InstPaidAmt) > 0)
+                    {
+                        txtInstallment.Text = InstAmt.ToString();
+                    }
+                    else
+                    {
+                        txtInstallment.Text = "0";
+                    }
+                   
+                    lblBalance.Text = InstPaidAmt.ToString();
+
+                    // OT Rate 
+
+                    string StrOverTime = fun.select("Description", "tblHR_OverTime", "Id='" + dsOfferM.Tables[0].Rows[0]["OverTime"].ToString() + "'");
+                    SqlCommand cmdOverTime = new SqlCommand(StrOverTime, con);
+                    SqlDataAdapter DAOverTime = new SqlDataAdapter(cmdOverTime);
+                    DataSet DSOverTime = new DataSet();
+                    DAOverTime.Fill(DSOverTime, "tblHR_OverTime");
+
+                    string OTApplicable = "";
+
+                    if (DSOverTime.Tables[0].Rows.Count > 0)
+                    {
+                        if (Convert.ToInt32(dsOfferM.Tables[0].Rows[0]["OverTime"]) == 2)
+                        {
+                            double OTR = 0;
+                            
+                            OTR = Math.Round((fun.OTRate(Convert.ToDouble(dsOfferM.Tables[0].Rows[0]["salary"]), Convert.ToDouble(dsOTHrs.Tables[0].Rows[0]["Hours"]), Convert.ToDouble(dsDutyHrs.Tables[0].Rows[0]["Hours"].ToString()), NoOfDays)),2);
+
+                            OTApplicable = OTR.ToString();
+                        }
+                        else
+                        {
+                            OTApplicable = DSOverTime.Tables[0].Rows[0]["Description"].ToString();
+                        }
+                    }
+
+                    lblOverTimeRate.Text = OTApplicable;
+
+                }
+            }
+        }
+       catch (Exception ex) { }
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Page.Response.Redirect("Salary_New.aspx?ModId=12&SubModId=133");
+    }
+
+    protected void btnProceed_Click(object sender, EventArgs e)
+    {
+        try
+        {
+         
+            if (ddlMonth.SelectedValue != "0")
+            {
+
+                string strInsert = fun.insert("tblHR_Salary_Master", "SysDate,SysTime,SessionId,CompId,FinYearId,EmpId ,FMonth,Increment", "'" + CDate + "','" + CTime + "','" + sId + "','" + CompId + "','" + FinYearId + "','" + EId + "','" + ddlMonth.SelectedValue + "','" + Convert.ToInt32(HFInc.Value )+ "'");
+                SqlCommand cmd1 = new SqlCommand(strInsert, con);
+                cmd1.ExecuteNonQuery();
+                string strp = fun.select("Id", "tblHR_Salary_Master", "CompId='" + CompId + "' And FinYearId<='" + FinYearId + "' order by Id DESC");
+                SqlCommand cmdp = new SqlCommand(strp, con);
+                SqlDataAdapter dap = new SqlDataAdapter(cmdp);
+                DataSet dsp = new DataSet();
+                dap.Fill(dsp, "tblHR_Salary_Master");
+
+
+                if (dsp.Tables[0].Rows.Count > 0)
+                {
+                    if (txtPresent.Text != "" && fun.NumberValidationQty(txtPresent.Text) == true && txtAbsent.Text != "" && fun.NumberValidationQty(txtAbsent.Text) == true && txtLateIn.Text != "" && fun.NumberValidationQty(txtLateIn.Text) == true && txtHalfDay.Text != "" && fun.NumberValidationQty(txtHalfDay.Text) == true && txtSunday.Text != "" && fun.NumberValidationQty(txtSunday.Text) == true && txtCoff.Text != "" && fun.NumberValidationQty(txtCoff.Text) == true && txtPL.Text != "" && fun.NumberValidationQty(txtPL.Text) == true && txtOverTimeHrs.Text != "" && fun.NumberValidationQty(txtOverTimeHrs.Text) == true && txtInstallment.Text != "" && fun.NumberValidationQty(txtInstallment.Text) == true && txtMobExeAmt.Text != "" && fun.NumberValidationQty(txtMobExeAmt.Text) == true && txtAddition.Text != "" && fun.NumberValidationQty(txtAddition.Text) == true && txtDeduction.Text != "" && fun.NumberValidationQty(txtDeduction.Text) == true)
+                    {
+                        double OTRate = 0;
+
+                        if (fun.NumberValidationQty(lblOverTimeRate.Text) == true)
+                        {
+                            OTRate = Convert.ToDouble(lblOverTimeRate.Text);
+                        }
+
+                        string strIns = fun.insert("tblHR_Salary_Details", "MId,Present,Absent,LateIn,HalfDay,Sunday,Coff,PL,OverTimeHrs, OverTimeRate,Installment,MobileExeAmt,Addition,Remarks1,Deduction ,Remarks2", "'" + Convert.ToInt32(dsp.Tables[0].Rows[0]["Id"]) + "','" + Convert.ToDouble(txtPresent.Text) + "','" + Convert.ToDouble(txtAbsent.Text) + "','" + Convert.ToDouble(txtLateIn.Text) + "','" + Convert.ToDouble(txtHalfDay.Text) + "','" + Convert.ToDouble(txtSunday.Text) + "','" + Convert.ToDouble(txtCoff.Text) + "','" + Convert.ToDouble(txtPL.Text) + "','" + Convert.ToDouble(txtOverTimeHrs.Text) + "','" + OTRate + "','" + Convert.ToDouble(txtInstallment.Text) + "','" + Convert.ToDouble(txtMobExeAmt.Text) + "','" + Convert.ToDouble(txtAddition.Text) + "','" + txtRemarks1.Text + "','" + Convert.ToDouble(txtDeduction.Text) + "','" + txtRemarks2.Text + "'");
+                        SqlCommand cmdIns = new SqlCommand(strIns, con);
+                        cmdIns.ExecuteNonQuery();
+                         Response.Redirect("Salary_New.aspx?ModId=12&SubModId=133");
+
+                    }
+                    else
+                    {
+                        string myStringVariable = string.Empty;
+                        myStringVariable = "Invalid data entry.";
+                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable + "');", true);
+                    }
+
+
+                }
+            }
+            else
+            {
+                string myStringVariable = string.Empty;
+                myStringVariable = "Please Select Month";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable + "');", true);
+            }
+        }
+        catch (Exception ex) { }
+
+    }
+
+    public void FillAccegrid(int OfferId)
+    {
+        try
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            DataTable dt = new DataTable();
+            string sql = fun.select("[Id],[MId],[Perticulars],[Qty],[Amount],Round(([Qty]*[Amount]),2)As Total,IncludesIn", "tblHR_Offer_Accessories", "MId='" + OfferId + "' Order by Id DESC");
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            GridView1.DataSource = ds;
+            GridView1.DataBind();
+
+            foreach (GridViewRow grv in GridView1.Rows)
+            {
+                string id = ((Label)grv.FindControl("lblIncludesInId")).Text;
+                string sql1 = fun.select("*", "tblHR_IncludesIn", "Id='" + id + "'");
+
+                SqlCommand cmd1 = new SqlCommand(sql1, con);
+                SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+                DataSet ds1 = new DataSet();
+                da1.Fill(ds1);
+                ((Label)grv.FindControl("lblIncludesIn")).Text = ds1.Tables[0].Rows[0]["IncludesIn"].ToString();
+            }
+
+
+        }
+        catch (Exception ex) { }
+    }
+
+
+
+
+
+}
+
+

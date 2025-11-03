@@ -1,0 +1,191 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/News_Scrolling_Data.aspx.txt ===
+
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="News_Scrolling_Data.aspx.cs" Inherits="Module_News_Scrolling_Data" Title="ERP" %>
+
+<html id="Html1" runat="server">
+<head>
+    <link href="../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../Javascript/JScript.js" type="text/javascript"></script>
+        </head>
+<body>
+
+    <form id="form1" runat="server">
+
+<div id="datacontainer" style="position:absolute;left:1px;top:10px;width:100%" onMouseover="scrollspeed=0" onMouseout="scrollspeed=cache">
+
+<!-- ADD YOUR SCROLLER CONTENT INSIDE HERE -->
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+<!-- END SCROLLER CONTENT -->
+    <asp:Table ID="Table1" runat="server" CssClass="fontcss" Width="100%">
+        
+    </asp:Table>
+</div>
+</form>
+
+</body>
+</html>
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/News_Scrolling_Data.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Drawing;
+
+public partial class Module_News_Scrolling_Data : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        
+        con.Open();
+
+       try
+        {
+            string cmdgrid = fun.select("*", "tblHR_News_Notices","Flag=0");
+            SqlCommand cmd = new SqlCommand(cmdgrid, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+
+            DateTime CDate = DateTime.Now;         
+            string currDate = Convert.ToDateTime(CDate).ToString("yyyy-MM-dd");
+
+            for (int k = 0; k < ds.Tables[0].Rows.Count; k++) // Total No. of news
+            {
+                string recDate = ds.Tables[0].Rows[k]["ToDate"].ToString();
+                 
+                if (Convert.ToDateTime(currDate) > Convert.ToDateTime(recDate))
+                {
+                    SqlCommand upcmd = new SqlCommand(fun.update("tblHR_News_Notices", "Flag='1'", "Id='" + ds.Tables[0].Rows[k]["Id"].ToString() + "'"), con);
+                   upcmd.ExecuteNonQuery();
+                }                
+            }
+
+            this.loadData();
+        }
+   catch (Exception ex)
+        {
+
+        }
+
+        con.Close();
+    }
+
+    public void loadData()
+    {
+
+string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        
+        con.Open();
+
+        try
+        {
+            string cmdgrid =  fun.select("*", "tblHR_News_Notices","Flag=0");
+            SqlCommand cmd = new SqlCommand(cmdgrid, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+
+            Table1.Controls.Clear();
+
+            for (int k = 0; k < ds.Tables[0].Rows.Count; k++) // Total No. of news
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    TableRow rowNew = new TableRow();
+                    Table1.Controls.Add(rowNew);
+
+                    if (i % 2 == 0)
+                    {
+                        //Title & Attachment 
+
+                        TableCell cellNew1 = new TableCell();
+                        cellNew1.Width = 100;
+                        cellNew1.VerticalAlign = VerticalAlign.Top;
+                        
+                        HyperLink lb1 = new HyperLink();
+                        lb1.Text = ds.Tables[0].Rows[k]["Title"].ToString();
+                        lb1.Target = "_blank";
+                        lb1.Attributes.Add("onclick","javascript:window.open('PopUpNews.aspx?Id=" + ds.Tables[0].Rows[k]["Id"] +"','','width=700, height=340, left=340,top=180'); return false;");
+                        lb1.Font.Size = 9;
+                        lb1.ForeColor = Color.DarkBlue;
+                        lb1.Font.Bold = true;
+                        lb1.Font.Underline = true;
+                        cellNew1.Controls.Add(lb1);
+                        rowNew.Controls.Add(cellNew1);
+
+                        TableCell cellNew2 = new TableCell();
+                        cellNew2.Width = 2;
+
+                        if (ds.Tables[0].Rows[k]["FileName"].ToString() != null && ds.Tables[0].Rows[k]["FileName"].ToString() != "")
+                        {
+                            cellNew2.VerticalAlign = VerticalAlign.Top;
+                            HyperLink hyp = new HyperLink();
+                            hyp.ImageUrl = "~/images/attachment.png";
+
+                            hyp.NavigateUrl = "~/Controls/DownloadFile.aspx?Id=" + ds.Tables[0].Rows[k]["Id"] + "&tbl=tblHR_News_Notices&qfd=FileData&qfn=FileName&qct=ContentType";
+
+                            cellNew2.Controls.Add(hyp);
+                        }
+
+                        rowNew.Controls.Add(cellNew2);
+
+                    }
+                    else
+                    {
+                        //News
+
+                        TableCell cellNew4 = new TableCell();
+                        cellNew4.VerticalAlign = VerticalAlign.Top;
+                        Label lb3 = new Label();
+                        lb3.Font.Italic = true;
+
+                        string msg = "";
+                        
+                        if (ds.Tables[0].Rows[k]["InDetails"].ToString().Length > 100)
+                        {
+                            msg = ds.Tables[0].Rows[k]["InDetails"].ToString().Substring(0, 400)+ "....";
+                            
+                        }else
+                        {
+                            msg = ds.Tables[0].Rows[k]["InDetails"].ToString();
+                        }
+                        
+                        lb3.Text = msg;
+
+                        cellNew4.Controls.Add(lb3);
+                        rowNew.Controls.Add(cellNew4);
+
+                        TableCell cellNew5 = new TableCell();
+                        cellNew5.Height = 30;
+                        rowNew.Controls.Add(cellNew5);
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+        con.Close();
+    }
+    }
+

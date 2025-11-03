@@ -1,0 +1,431 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Reports/ABCAnalysis_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ABCAnalysis_Details.aspx.cs" Inherits="Module_Inventory_Reports_ABCAnalysis_Details" Theme="Default" Title="ERP" %>
+
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    </asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+   
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)">
+        &nbsp;<b> ABC Analysis</b></td>
+        </tr>
+        <tr>
+            <td align="center">
+                       <asp:Panel ID="Panel1" runat="server" ScrollBars="Auto" Height="445">                       
+                       <CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" HasCrystalLogo="False"
+        AutoDataBind="True" DisplayGroupTree="False" EnableDatabaseLogonPrompt="False" 
+        EnableParameterPrompt="False" ReportSourceID="CrystalReportSource1" Height="50px" 
+                           Width="350px" ReuseParameterValuesOnRefresh="True" />
+                    <CR:CrystalReportSource ID="CrystalReportSource1" runat="server">
+                        <Report FileName="Stock_Statement.rpt"></Report>  
+                    </CR:CrystalReportSource>
+                    </asp:Panel>
+                    </td>
+                </tr> 
+        <tr>
+            <td align="center">
+                       <asp:Button ID="Button1" runat="server" CssClass="redbox" Text="Cancel" 
+                           onclick="Button1_Click" />
+                    </td>
+                </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Reports/ABCAnalysis_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using CrystalDecisions.CrystalReports.Engine;
+using System.Data.SqlClient;
+
+public partial class Module_Inventory_Reports_ABCAnalysis_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    int CompId = 0;
+    string Fdate = "";
+    string Tdate = "";
+    int CID = 0;
+    int SCId = 0;
+    int RadVal = 0;
+    int FinYearId = 0;
+    int FinAcc = 0;
+    string Openingdate = "";
+    double TotAmount = 0;
+    double A = 0;
+    double B = 0;
+    double C = 0;
+    string Key = string.Empty;
+
+    ReportDocument cryRpt = new ReportDocument();
+    DataSet Stock = new DataSet();
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            con.Open();
+            DataTable dt = new DataTable();
+           try
+            {
+                
+                CompId = Convert.ToInt32(Session["compid"]);
+                FinYearId = Convert.ToInt32(Session["finyear"]);
+                CID = Convert.ToInt32(fun.Decrypt(Request.QueryString["Cid"].ToString()));
+                Key = Request.QueryString["Key"].ToString();
+
+                A = Convert.ToDouble(Request.QueryString["A"]);
+                B = Convert.ToDouble(Request.QueryString["B"]);
+                C = Convert.ToDouble(Request.QueryString["C"]);            
+
+                Fdate = fun.Decrypt(Request.QueryString["FDate"].ToString());
+                Tdate = fun.Decrypt(Request.QueryString["TDate"].ToString());
+                Openingdate = fun.Decrypt(Request.QueryString["OpeningDt"].ToString());
+                RadVal = Convert.ToInt32(fun.Decrypt(Request.QueryString["RadVal"].ToString()));
+                string x = "";
+
+                if (CID != 0)
+                {
+                    x = " AND CId='" + CID + "'";
+                }
+
+                else
+                {
+                    x = "";
+                }
+                // to  carry forward Acess to each user for next year
+                string StrAcc = fun.select("FinYearId", "tblFinancial_master", "CompId='" + CompId + "'Order By FinYearId Desc");
+
+                SqlCommand cmdAcc = new SqlCommand(StrAcc, con);
+                DataSet DSAcc = new DataSet();
+                SqlDataAdapter daAcc = new SqlDataAdapter(cmdAcc);
+                daAcc.Fill(DSAcc, "tblFinancial_master");
+
+                if (DSAcc.Tables[0].Rows.Count > 0)
+                {
+
+                    FinAcc = Convert.ToInt32(DSAcc.Tables[0].Rows[0]["FinYearId"]);
+                }
+                string xyz1 = fun.FromDate(Convert.ToDateTime(fun.FromDate(Fdate)).AddDays(-1).ToShortDateString().Replace("/", "-"));
+                string[] abc1 = xyz1.Split('-');
+                string str1 = Convert.ToInt32(abc1[1]).ToString("D2") + "-" + Convert.ToInt32(abc1[2]).ToString("D2") + "-" + Convert.ToInt32(abc1[0]).ToString("D2");
+
+                string x1 = "";
+                string y1 = "";
+                switch (RadVal)
+                {
+                    case 0: // MAX
+                        x1 = " max(Rate-(Rate*(Discount/100))) As rate ";
+
+                        break;
+
+                    case 1: //MIN
+                        x1 = " min(Rate-(Rate*(Discount/100))) As rate ";
+                        break;
+
+                    case 2: //Average
+                        x1 = " avg(Rate-(Rate*(Discount/100))) As rate ";
+                        break;
+
+                    case 3: //Latest
+                        x1 = " Top 1 Rate-(Rate*(Discount/100)) As rate ";
+                        y1 = " Order by Id Desc";
+                        break;
+
+                    case 4: //Atual
+                        x1 = " Top 1 Rate-(Rate*(Discount/100)) As rate ";
+                        y1 = " Order by Id Desc";
+                        break;
+                }                
+                
+                dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+                dt.Columns.Add(new System.Data.DataColumn("Category", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("SubCategory", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));//3
+                dt.Columns.Add(new System.Data.DataColumn("ManfDesc", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("UOM", typeof(string)));//5
+                dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));//6
+                dt.Columns.Add(new System.Data.DataColumn("GQNQTY", typeof(double)));//7
+                dt.Columns.Add(new System.Data.DataColumn("ISSUEQTY", typeof(double)));//8
+                dt.Columns.Add(new System.Data.DataColumn("OPENINGQTY", typeof(double)));//9
+                dt.Columns.Add(new System.Data.DataColumn("CLOSINGQTY", typeof(double)));//10
+                dt.Columns.Add(new System.Data.DataColumn("RateReg", typeof(double)));//11
+                dt.Columns.Add(new System.Data.DataColumn("Amount", typeof(double)));//12
+                dt.Columns.Add(new System.Data.DataColumn("Type", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("AP", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("CP", typeof(double)));
+                DataRow dr;                
+                    SqlCommand StoredPro = new SqlCommand("Get_Stock_Report", con);
+                    StoredPro.CommandType = CommandType.StoredProcedure;
+                    StoredPro.Parameters.Add(new SqlParameter("@x1", SqlDbType.VarChar));
+                    StoredPro.Parameters["@x1"].Value = x1;                
+                    StoredPro.Parameters.Add(new SqlParameter("@y1", SqlDbType.VarChar));
+                    StoredPro.Parameters["@y1"].Value = y1;               
+                    StoredPro.Parameters.Add(new SqlParameter("@OpeningDate", SqlDbType.VarChar));
+                    StoredPro.Parameters["@OpeningDate"].Value = Openingdate;              
+                    StoredPro.Parameters.Add(new SqlParameter("@FDate", SqlDbType.VarChar));
+                    StoredPro.Parameters["@FDate"].Value = fun.FromDate(Fdate);              
+                    StoredPro.Parameters.Add(new SqlParameter("@TDate", SqlDbType.VarChar));
+                    StoredPro.Parameters["@TDate"].Value = fun.FromDate(Tdate);               
+                    StoredPro.Parameters.Add(new SqlParameter("@str1", SqlDbType.VarChar));
+                    StoredPro.Parameters["@str1"].Value = fun.FromDate(str1);               
+                    StoredPro.Parameters.Add(new SqlParameter("@x", SqlDbType.VarChar));
+                    StoredPro.Parameters["@x"].Value = x;               
+                    string p = string.Empty;
+                    string r = string.Empty;
+                    StoredPro.Parameters.Add(new SqlParameter("@p", SqlDbType.VarChar));
+                    StoredPro.Parameters["@p"].Value = p;              
+                    StoredPro.Parameters.Add(new SqlParameter("@r", SqlDbType.VarChar));
+                    StoredPro.Parameters["@r"].Value = r;               
+                    SqlDataReader DAItem = null;   
+                    StoredPro.CommandTimeout = 0;
+                    DAItem = StoredPro.ExecuteReader();                    
+                    while (DAItem.Read())
+                    {
+                        double GqnQty = 0;
+                        dr = dt.NewRow();
+                        dr[0] = (int)DAItem["Id"];
+                        dr[3] = DAItem["ItemCode"].ToString();
+                        dr[4] = DAItem["Description"].ToString();
+                        dr[5] = DAItem["UOM"].ToString();
+                        dr[6] = CompId;
+                        double OpenQty = 0;
+                        double ClosingQty = 0;
+                        double WisIssuQty = 0;
+                        string ItemId = DAItem["Id"].ToString();
+                        if (DAItem["INQty"] != DBNull.Value)
+                        {                            
+                            GqnQty = Math.Round(Convert.ToDouble(DAItem["INQty"]), 2);
+                            dr[7] = GqnQty;
+                        }
+                        else
+                        {                            
+                            dr[7] = GqnQty;
+                        }                      
+                        if (DAItem["WIPQty"] != DBNull.Value)
+                        {
+                            
+                            WisIssuQty = Math.Round(Convert.ToDouble(DAItem["WIPQty"]), 2);
+                            dr[8] = WisIssuQty;
+                        }
+                        else
+                        {
+                            dr[8] = WisIssuQty;
+                        }                                            
+                        if (FinAcc == FinYearId)
+                        {
+
+                            if (Convert.ToDateTime(Openingdate) == Convert.ToDateTime(fun.FromDate(Fdate)))
+                            {
+                                  OpenQty = Convert.ToDouble(DAItem["OpeningBalQty"]); 
+                            }
+                            else if (Convert.ToDateTime(fun.FromDate(Fdate)) >= Convert.ToDateTime(Openingdate) && Convert.ToDateTime(fun.FromDate(Fdate)) <= Convert.ToDateTime(fun.FromDate(Tdate)))
+                            {
+                                double TotIssueQty = 0;
+                                double TotINQty = 0;                                
+                                if (DAItem["PrvINQty"] != DBNull.Value)
+                                {
+                                    TotINQty = Math.Round(Convert.ToDouble(DAItem["PrvINQty"]), 2);
+                                }
+                                if (DAItem["PrevWIPQty"] != DBNull.Value)
+                                {
+                                    TotIssueQty = Math.Round(Convert.ToDouble(DAItem["PrevWIPQty"]), 2);
+                                } 
+                                double OpenBalQty = 0;                                
+                                OpenBalQty = Convert.ToDouble(DAItem["OpeningBalQty"]);
+                                OpenQty = Math.Round((OpenBalQty + ((TotINQty))) - (TotIssueQty), 5);
+                                
+                            }
+                            ClosingQty = Math.Round((OpenQty + GqnQty) - (WisIssuQty), 5);   
+
+                        }
+
+                        else
+                        {
+                            string StropQty1 = fun.select("OpeningQty,OpeningDate", "tblDG_Item_Master_Clone", "ItemId='" + ItemId + "' And CompId='" + CompId + "' AND FinYearId='" + FinYearId + "'");
+                            SqlCommand CmdopQty1 = new SqlCommand(StropQty1, con);
+                            SqlDataReader rdrOpBal = null;
+                            rdrOpBal = CmdopQty1.ExecuteReader();
+                            while (rdrOpBal.Read())
+                            {
+                                if (Convert.ToDateTime(rdrOpBal["OpeningDate"]) == Convert.ToDateTime(fun.FromDate(Fdate)))
+                                {
+                                    OpenQty = Convert.ToDouble(decimal.Parse((rdrOpBal["OpeningQty"]).ToString()).ToString("N3")); 
+                                }
+                                else if (Convert.ToDateTime(fun.FromDate(Fdate)) >= Convert.ToDateTime(rdrOpBal["OpeningDate"]) && Convert.ToDateTime(fun.FromDate(Fdate)) <= Convert.ToDateTime(fun.FromDate(Tdate)))
+                                {
+                                    
+                                    double OpenBalQty = 0;
+                                    OpenBalQty = Convert.ToDouble(rdrOpBal["OpeningQty"]);                                   
+                                    double TotIssueQty = 0;
+                                    double TotINQty = 0;                                    
+                                    if (DAItem["PrvINQty"] != DBNull.Value)
+                                    {
+                                        TotINQty = Math.Round(Convert.ToDouble(DAItem["PrvINQty"]), 2);
+                                    }
+                                    if (DAItem["PrevWIPQty"] != DBNull.Value)
+                                    {
+                                        TotIssueQty = Math.Round(Convert.ToDouble(DAItem["PrevWIPQty"]), 2);
+                                    } 
+                                  
+                                    OpenQty = Math.Round((OpenBalQty + ((TotINQty))) - (TotIssueQty), 5);
+                                    
+                                }
+                                ClosingQty = Math.Round((OpenQty + GqnQty) - (WisIssuQty), 5);   
+                            }
+                        }
+                
+                    if (ClosingQty > 0)
+                    {
+
+                        // to Get Rate 
+                        double Rate = 0;
+                        if (DAItem["rate"] != DBNull.Value)
+                        {                           
+                            Rate = Convert.ToDouble(DAItem["rate"]);                            
+                        }
+                        dr[11] = Rate;
+                        dr[9] = OpenQty;
+                        dr[10] = ClosingQty;
+                        double Amount = 0;
+                        Amount = Convert.ToDouble(decimal.Parse((WisIssuQty * Rate).ToString()).ToString("N2"));
+                       
+                        dr[12] = Amount;
+                        TotAmount += Amount;
+                        // To Disable item with closing qty zero from Reports.
+                        dt.Rows.Add(dr);
+                        dt.AcceptChanges();
+                    }
+                }
+                for (int k = 0; k < dt.Rows.Count; k++)
+                {
+                    double AP = 0;
+                    double amt1 = 0;
+                    amt1 = Convert.ToDouble(decimal.Parse(dt.Rows[k]["Amount"].ToString()).ToString("N2"));
+
+                   
+                    if (amt1 > 0)
+                    {                        
+                        AP = Math.Round(Convert.ToDouble(((amt1 * 100) / TotAmount)),2);                       
+                    }
+                    dt.Rows[k]["AP"] = AP;
+                    dt.AcceptChanges();
+                }
+
+                DataView dataView = new DataView(dt);
+                dataView.Sort = "AP DESC";
+                Stock.Tables.Add(dataView.ToTable());
+                double CP = 0;
+                for (int f = 0; f < Stock.Tables[0].Rows.Count; f++)
+                {
+                    CP += Convert.ToDouble(decimal.Parse(Stock.Tables[0].Rows[f]["AP"].ToString()).ToString("N2"));
+                    Stock.Tables[0].Rows[f]["CP"] = CP;
+
+                    if (CP <= A)
+                    {
+                        Stock.Tables[0].Rows[f]["Type"] = "A";
+                    }
+                    else
+                    {
+                        if (CP <= (B + A))
+                        {
+                            Stock.Tables[0].Rows[f]["Type"] = "B";
+                        }
+                        else
+                        {
+                            
+                            Stock.Tables[0].Rows[f]["Type"] = "C";                           
+                        }
+                    }
+
+                    Stock.AcceptChanges();
+                }
+
+                DataSet xsdds = new ABCAnalysis();
+                xsdds.Tables[0].Merge(Stock.Tables[0]);
+                xsdds.AcceptChanges();
+                string reportPath = Server.MapPath("~/Module/Inventory/Reports/ABCAnalysis.rpt");
+                cryRpt.Load(reportPath);
+                cryRpt.SetDataSource(xsdds);
+                string Add = fun.CompAdd(CompId);
+                cryRpt.SetParameterValue("CompAdd", Add);
+                cryRpt.SetParameterValue("Fdate", Fdate);
+                cryRpt.SetParameterValue("Tdate", Tdate);
+                CrystalReportViewer1.ReportSource = cryRpt;
+                Session[Key] = cryRpt;
+
+
+            }
+
+            catch (Exception ex) { }
+            finally
+            {
+                Stock.Clear();
+                Stock.Dispose();
+                dt.Clear();
+                dt.Dispose();
+                con.Close();
+                con.Dispose();
+
+            }
+        }
+
+        else
+        {
+            Key = Request.QueryString["Key"].ToString();
+            ReportDocument doc = (ReportDocument)Session[Key];
+            CrystalReportViewer1.ReportSource = doc;
+        }
+    }    
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        cryRpt = new ReportDocument();
+       
+    }
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Abcanalysis.aspx?ModId=9");
+    }
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        cryRpt.Close();
+        cryRpt.Dispose();
+        GC.Collect();
+    }
+}
+ 

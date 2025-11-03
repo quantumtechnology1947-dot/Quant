@@ -1,0 +1,417 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Reports/MaterialForecasting.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="MaterialForecasting.aspx.cs" Inherits="Module_MaterialManagement_Reports_MaterialForecasting" Title="ERP" Theme ="Default" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" /> 
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+     <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+         <style type="text/css">
+        .style2
+        {
+            width: 100%;
+            height: 335px;
+        }
+    </style>
+   
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+       <table align="left" cellpadding="0" cellspacing="0" class="style2">
+        <tr>
+            <td valign="top">
+                <table align="center" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)" colspan="2">&nbsp;<b>Material Forecasting</b></td>
+                    </tr>                    
+                    <tr>
+                        <td height="25">
+                       &nbsp; <asp:DropDownList runat="server" AutoPostBack="True" DataTextField="CName" DataValueField="CId" CssClass="box3" ID="DDLTaskWOType" OnSelectedIndexChanged="DDLTaskWOType_SelectedIndexChanged"></asp:DropDownList>&nbsp; <asp:DropDownList runat="server" AutoPostBack="True" CssClass="box3" ID="DropDownList_Trans">
+                                <asp:ListItem Text="Open Transaction" Value="1" ></asp:ListItem>
+                                <asp:ListItem Text="Close Transaction" Value="2"></asp:ListItem>
+                                <asp:ListItem Text="Both Transaction" Value="3"></asp:ListItem>
+                                </asp:DropDownList>&nbsp;<asp:DropDownList ID="DropDownList2"  runat="server"><asp:ListItem Text="Bought Out Items"  Value="1"/><asp:ListItem Text="Manufacturing Items"  Value="2"/></asp:DropDownList>&nbsp;<asp:DropDownList ID="drpfield" runat="server" CssClass="box3" 
+                                AutoPostBack="True" onselectedindexchanged="drpfield_SelectedIndexChanged">
+                                <asp:ListItem Value="0">Customer</asp:ListItem>
+                                <asp:ListItem Value="1">WO No</asp:ListItem>
+                                <asp:ListItem Value="2">Project Title</asp:ListItem>
+                            </asp:DropDownList>
+&nbsp;<asp:TextBox ID="txtSupplier" runat="server" CssClass="box3"  Width="250px"></asp:TextBox>
+                            <cc1:AutoCompleteExtender ID="txtSupplier_AutoCompleteExtender" runat="server" 
+                                DelimiterCharacters="" Enabled="True" ServiceMethod="GetCompletionList" 
+                                ServicePath="" TargetControlID="txtSupplier" UseContextKey="True" CompletionInterval="100" CompletionSetCount="2" FirstRowSelected="True" MinimumPrefixLength="1" ShowOnlyCurrentWordInCompletionListItem="True" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                            </cc1:AutoCompleteExtender>
+                            &nbsp;<asp:TextBox ID="txtPONo" runat="server" Visible="False" CssClass="box3" 
+                                Width="250px"></asp:TextBox>
+                        &nbsp;<asp:CheckBox ID="SelectAll" runat="server" Text="Select All Work Order"  AutoPostBack="True" 
+                                oncheckedchanged="SelectAll_CheckedChanged" />&nbsp;
+                &nbsp;<asp:Button ID="Button1" runat="server" CssClass="redbox" Text="Search" onclick="Button1_Click" />  &nbsp;                   </td>
+                     
+                    </tr>
+                    
+                    <tr>
+                        <td colspan="2">                       
+                            <asp:Panel ID="Panel1" runat="server" Height="422px" ScrollBars="Auto">
+                <asp:GridView ID="GridView1" runat="server"  
+                                    AutoGenerateColumns="False" 
+                    CssClass="yui-datatable-theme" DataKeyNames="WOId"  Width="98%">
+                    <PagerSettings PageButtonCount="40" />
+                    <Columns>
+                        <asp:TemplateField HeaderText="SN" >
+                            <ItemTemplate>
+                    <%# Container.DataItemIndex+1 %>
+                            </ItemTemplate>      
+                             <ItemStyle HorizontalAlign="Right" Width="2%" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:CheckBox ID="CheckBox1" runat="server" />
+                            </ItemTemplate>
+                          <ItemStyle HorizontalAlign="Center" Width="2%" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="WOId" SortExpression="Id" Visible="false">
+                            <ItemTemplate>
+                                <asp:Label ID="lblWOId" runat="server" Text='<%#Eval("WOId") %>'> </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="4%" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="WO No"  >
+                            <ItemTemplate>
+                                <asp:Label ID="lblWONo" runat="server" Text='<%#Eval("WONo") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="6%" />
+                        </asp:TemplateField>
+
+                    
+                    
+                        <asp:TemplateField HeaderText="Project Title" >
+                            <ItemTemplate>
+                                <asp:Label ID="lblProjectTitle" runat="server" Text='<%#Eval("ProjectTitle") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Left" Width="40%" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="Customer Name" >
+                            <ItemTemplate>
+                                <asp:Label ID="lblCustomerName" runat="server" Text='<%#Eval("CustomerName") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Left" Width="30%" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="Code" >
+                            <ItemTemplate>
+                                <asp:Label ID="lblCode" runat="server" Text='<%#Eval("Code") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="5%" />
+                        </asp:TemplateField>
+      
+                    </Columns>
+                    <EmptyDataTemplate>
+                        <table class="fontcss" width="100%">
+                            <tr>
+                                <td align="center">
+                                    <asp:Label ID="Label1" runat="server" Font-Bold="true" Font-Names="Calibri" 
+                                        ForeColor="red" Text="No  data found to display"></asp:Label>
+                                </td>
+                            </tr>
+                        </table>
+                    </EmptyDataTemplate>
+                    <FooterStyle Wrap="True" />
+                </asp:GridView>
+                
+                
+               </asp:Panel>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+          <tr>
+            <td align="center" height="25px" valign="middle">
+                <asp:Button ID="btnPrint" runat="server" CssClass="redbox" Text="Proceed" 
+                    onclick="btnPrint_Click" />
+              </td>
+        </tr>
+    </table> 
+                
+  
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Reports/MaterialForecasting.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Collections.Generic;
+
+public partial class Module_MaterialManagement_Reports_MaterialForecasting : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    SqlConnection con;
+    string connStr = "";
+    string sid = "";
+    int CompId = 0;
+    int FinYearId = 0;
+    int h = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+         try
+        {
+            sid =Session["username"].ToString();         
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            CompId = Convert.ToInt32(Session["compid"]);
+           
+            connStr = fun.Connection();
+            DataSet ds = new DataSet();
+            con = new SqlConnection(connStr);
+
+            if (!Page.IsPostBack)
+            {
+
+                string StrCat = fun.select("CId,Symbol+' - '+CName as Category", "tblSD_WO_Category", "CompId='" + CompId + "'");
+                SqlCommand Cmd = new SqlCommand(StrCat, con);
+                SqlDataAdapter DA = new SqlDataAdapter(Cmd);
+                DataSet DS = new DataSet();
+                DA.Fill(DS, "tblSD_WO_Category");
+                DDLTaskWOType.DataSource = DS.Tables["tblSD_WO_Category"];
+                DDLTaskWOType.DataTextField = "Category";
+                DDLTaskWOType.DataValueField = "CId";
+                DDLTaskWOType.DataBind();
+                DDLTaskWOType.Items.Insert(0, "WO Category");
+                this.loaddata(h);                
+            }
+
+        }
+         catch (Exception ex)
+        { }
+    }
+
+    public void loaddata(int c)
+    {
+        try
+        {
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            string x = "";
+            if (drpfield.SelectedValue == "0")
+            {
+                if (txtSupplier.Text != "")
+                {
+                    string CustCode = fun.getCode(txtSupplier.Text);
+                    x = " AND SD_Cust_WorkOrder_Master.CustomerId='" + CustCode + "'";
+                }
+            }
+
+            string y = "";
+            if (drpfield.SelectedValue == "1")
+            {
+                if (txtPONo.Text != "")
+                {
+                    y = " AND SD_Cust_WorkOrder_Master.WONo='" + txtPONo.Text + "'";
+                }
+            }
+
+            if (drpfield.SelectedValue == "2")
+            {
+                if (txtPONo.Text != "")
+                {
+                    y = " AND SD_Cust_WorkOrder_Master.TaskProjectTitle Like '%" + txtPONo.Text + "%'";
+                }
+            }
+
+            string Z = "";
+            if (DDLTaskWOType.SelectedValue != "WO Category")
+            {
+                Z = " AND SD_Cust_WorkOrder_Master.CId='" + Convert.ToInt32(DDLTaskWOType.SelectedValue) + "'";
+            }
+
+            SqlDataAdapter da = new SqlDataAdapter("Sp_ForeCast", con);
+            da.SelectCommand.CommandType = CommandType.StoredProcedure;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@CompId", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@CompId"].Value = CompId;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@FinId", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@FinId"].Value = FinYearId;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@x", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@x"].Value = x;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@y", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@y"].Value = y;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@z", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@z"].Value = Z;
+            DataSet DSitem = new DataSet();
+            da.Fill(DSitem);
+            GridView1.DataSource = DSitem;
+            GridView1.DataBind();
+
+        }
+        catch (Exception ex) { }
+
+    } 
+
+    protected void DDLTaskWOType_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (DDLTaskWOType.SelectedValue != "WO Category")
+        {
+            int k = Convert.ToInt32(DDLTaskWOType.SelectedValue);
+            this.loaddata(k);           
+        }
+        else
+        {
+            this.loaddata(h);
+        }
+
+    }
+
+    protected void drpfield_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (drpfield.SelectedValue == "0")
+            {
+                txtPONo.Visible = false;
+                txtSupplier.Visible = true;
+                txtSupplier.Text = "";
+                this.loaddata(h);
+            }
+            if (drpfield.SelectedValue == "1" || drpfield.SelectedValue == "2")
+            {
+                txtPONo.Visible = true;
+                txtPONo.Text = "";
+                txtSupplier.Visible = false;
+                this.loaddata(h);
+            }
+            
+        }
+        catch (Exception ex) { }
+
+    } 
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        this.loaddata(h);
+    }
+
+    protected void btnPrint_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            List<string> woidli = new List<string>();
+
+            string strWoid = string.Empty;
+            string SwithTo = string.Empty;
+            string Transaction = string.Empty;
+
+            foreach (GridViewRow grv in GridView1.Rows)
+            {
+                if (((CheckBox)grv.FindControl("CheckBox1")).Checked == true)
+                {
+                    woidli.Add(Convert.ToString((((Label)grv.FindControl("lblWONo")).Text + ",")));
+                }
+            }
+            for (int k = 0; k < woidli.Count; k++)
+            {
+                strWoid += woidli[k].ToString();
+            }
+            Session["WorkOrderId"] = strWoid;
+            SwithTo = DropDownList2.SelectedValue;
+            Transaction = DropDownList_Trans.SelectedValue;
+
+            if (Session["WorkOrderId"] != null && string.IsNullOrEmpty(Session["WorkOrderId"].ToString()) == false && SwithTo != string.Empty)
+            {
+                Response.Redirect("ProjectSummary_Shortage.aspx?ModId=6&SwitchTo=" + SwithTo + "&Trans=" + Transaction);
+            }
+            else
+            {
+                string mystring = string.Empty;
+                mystring = "Select Workorder.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+  [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] GetCompletionList(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        int CompId = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        con.Open();
+        string cmdStr = fun.select("CustomerId,CustomerName", "SD_Cust_master", "CompId='" + CompId + "'");
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds, "SD_Cust_master");
+        con.Close();
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                //if (main.Length == 10)
+                //    break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }
+
+  protected void SelectAll_CheckedChanged(object sender, EventArgs e)
+  {
+      if (SelectAll.Checked == true)
+      {
+          foreach (GridViewRow grv in GridView1.Rows)
+          {
+              ((CheckBox)grv.FindControl("CheckBox1")).Checked = true;
+          }
+      }
+      if (SelectAll.Checked == false)
+      {
+          foreach (GridViewRow grv in GridView1.Rows)
+          {
+              ((CheckBox)grv.FindControl("CheckBox1")).Checked = false;
+          }
+      }
+
+  }
+
+  
+
+
+
+}

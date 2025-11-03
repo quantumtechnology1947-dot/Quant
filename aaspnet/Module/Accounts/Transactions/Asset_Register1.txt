@@ -1,0 +1,819 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/Asset_Register1.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Asset_Register1.aspx.cs" Inherits="Module_Accounts_Transactions_Asset_Register1" Title="ERP"  Theme ="Default"%>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+<table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)">
+        &nbsp;<b>Asset Register</b></td>
+        </tr>
+        <tr>
+        <td>
+
+        <table align="left" cellpadding="0" 
+            cellspacing="0" width="100%" style="height: 162px"><tr>
+                <td 
+                    height="10" colspan="2" valign="middle" ><b>&nbsp;&nbsp;&nbsp; </b>
+                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                    </td>
+                <td 
+                    height="10" colspan="2" valign="middle" >&nbsp;&nbsp;&nbsp;&nbsp;
+                </td></tr><tr>
+                <td class="fontcss" valign="top" width="49%"  align ="center">
+                    <asp:Panel ID="Panel1" Height="449px" ScrollBars="Auto" runat="server">                    
+                <asp:GridView ID="GridView2" runat="server" 
+                    AutoGenerateColumns="False" CssClass="yui-datatable-theme" 
+                    OnPageIndexChanging="GridView2_PageIndexChanging" 
+                Width="98%" AllowPaging="True" PageSize="24" onrowcommand="GridView2_RowCommand" 
+                            ShowFooter="True">
+                
+                    <PagerSettings PageButtonCount="40" />
+                
+                <Columns>
+                                    
+                    <asp:TemplateField ShowHeader="False">
+                    <ItemTemplate>
+                    <asp:LinkButton ID="LinkBtnDel"  runat="server" CausesValidation="False" CommandName="Del" Text="Delete">
+                    </asp:LinkButton>
+                    </ItemTemplate>  
+                       <ItemStyle HorizontalAlign="Center" VerticalAlign="Top" Width="7%" />                  
+                    </asp:TemplateField>               
+                
+                
+                <asp:TemplateField HeaderText="SN"><ItemTemplate><%#Container.DataItemIndex+1  %>
+                    </ItemTemplate>
+                    
+
+                    <HeaderStyle Font-Size="10pt" />
+                    <ItemStyle HorizontalAlign="Right" VerticalAlign="Top" Width="5%" />
+                    </asp:TemplateField>
+                    
+                  
+                    <asp:TemplateField HeaderText="Id" Visible="False"><ItemTemplate><asp:Label
+                     ID="lblId" runat="server" Text='<%# Bind("Id") %>'></asp:Label></ItemTemplate>
+                        <ItemStyle VerticalAlign="Top" Width="5%" />
+                     </asp:TemplateField>
+                     
+                     <asp:TemplateField HeaderText="Fin Year" >
+                    <ItemTemplate>
+                    <asp:Label ID="lblFinYear" runat="server" Text='<%# Bind("FinYear") %>'></asp:Label>
+                    </ItemTemplate>
+                    
+                  <FooterTemplate >
+                    <asp:Button ID="btnInsert" runat="server" CommandName="Add" 
+                    OnClientClick=" return confirmationAdd() " CssClass="redbox" Text="Insert" />
+                </FooterTemplate>
+                        
+                    <ItemStyle HorizontalAlign="Center" Width="15%" />
+                    </asp:TemplateField>
+                    
+                    <asp:TemplateField HeaderText="Asset" >
+                    <ItemTemplate>
+                    <asp:Label ID="lblAsset" runat="server" Text='<%# Bind("Asset") %>'></asp:Label>                 
+
+                    
+                    </ItemTemplate>
+                    
+                         <FooterTemplate>
+                            <asp:DropDownList ID="ddlAsset" runat="server" DataSourceID="SqlDataSource2" Width="70%"
+                     DataTextField="Asset" DataValueField="Id" CssClass="box3" AutoPostBack="true"
+                      onselectedindexchanged="ddlAsset_SelectedIndexChanged">
+                    </asp:DropDownList>                   
+                        </FooterTemplate>
+                    
+                    
+                    
+                    <ItemStyle HorizontalAlign="Center" Width="15%" />
+                    </asp:TemplateField>                
+                    
+                      <asp:TemplateField HeaderText="BG Group" >
+                    <ItemTemplate>
+                    <asp:Label ID="lblBGGroup" runat="server" Text='<%# Bind("BGGroup") %>'></asp:Label>                       
+                  
+                    
+                    </ItemTemplate>
+                       <FooterTemplate>
+                              
+                    <asp:DropDownList ID="ddlBGGroup" runat="server" DataSourceID="SqlDataSource1" Width="70%"
+                     DataTextField="BGGroup" DataValueField="Id" CssClass="box3">
+                    </asp:DropDownList>         
+                        </FooterTemplate>
+                    
+                    
+                    
+                    <ItemStyle HorizontalAlign="Center" Width="15%" />
+                    </asp:TemplateField>
+                    
+                    <asp:TemplateField HeaderText="Asset No." >
+                    <ItemTemplate>
+                    <asp:Label ID="lblAssetNo" runat="server" Text='<%# Bind("AssetNo") %>'></asp:Label>
+                    </ItemTemplate>
+                    
+                    <FooterTemplate>
+                      <asp:Label ID="lblAssetNumber" runat="server"  Text='<%# Bind("AssetNo") %>'></asp:Label>
+                    </FooterTemplate>
+                    
+                        <FooterStyle Font-Bold="True" HorizontalAlign="Left" />
+                    
+                    <ItemStyle HorizontalAlign="Left" Width="15%" />
+                    </asp:TemplateField>
+                    
+                        </Columns>
+                        
+                        
+            <EmptyDataTemplate>
+             
+             <table  width="100%" border="1" style="border-color:Gray">
+                    <tr>
+                        <td align="center" >
+                        <asp:Label ID="LabelSN" Font-Bold="true" Font-Size="Medium" Font-Names="Times New Roman" 
+                        runat="server" Text="SN"></asp:Label>
+                        </td>
+                        
+                    <td align="center" >
+                        <asp:Label ID="LabelFinYear" Font-Bold="true" Font-Size="Medium" Font-Names="Times New Roman" 
+                        runat="server" Text="Fin Year"></asp:Label>
+                        </td>
+                        
+                        <td align="center">
+                         <asp:Label ID="LabelAsset" runat="server" Font-Size="Medium" Font-Names="Times New Roman" 
+                          Font-Bold="true" Text="Asset"></asp:Label>
+                          </td>
+                          
+                         <td align="center">
+                         <asp:Label ID="LabelBGGroup" runat="server" Font-Size="Medium" Font-Names="Times New Roman" 
+                          Font-Bold="true" Text="BG Group"></asp:Label>
+                          </td>
+                          
+                          <td align="center">
+                         <asp:Label ID="LabelAssetNo" runat="server" Font-Size="Medium" Font-Names="Times New Roman" 
+                          Font-Bold="true" Text="Asset No."></asp:Label>
+                          </td>
+                    </tr>
+                    <tr>
+                    <td align="center">
+                <asp:Button ID="btnInsert" runat="server" CommandName="Add1" OnClientClick=" return confirmationAdd() "
+                 CssClass="redbox" Text="Insert" />
+                </td>
+                
+                 <td align="center">
+               <asp:Label ID="LabelFinYear1" Font-Bold="true" Font-Size="Medium" Font-Names="Times New Roman" 
+                        runat="server" Text="Fin Year"></asp:Label>                
+                </td>
+    
+             <td align="center">               
+                
+              <asp:DropDownList ID="ddlAsset1" runat="server" DataSourceID="SqlDataSource2" Width="70%"
+                     DataTextField="Asset" DataValueField="Id" CssClass="box3">
+                    </asp:DropDownList>                 
+                </td>
+                 <td align="center">
+               <asp:DropDownList ID="ddlBGGroup1" runat="server" DataSourceID="SqlDataSource1" Width="70%"
+                     DataTextField="BGGroup" DataValueField="Id" CssClass="box3">
+                    </asp:DropDownList>                   
+                </td>
+                
+                <td align="center">
+               <asp:Label ID="LabelAssetNo1" Font-Bold="true" Font-Size="Medium" Font-Names="Times New Roman" 
+                        runat="server" Text="0001"></asp:Label>                
+                </td>
+                </tr>
+                </table>
+                
+            </EmptyDataTemplate> 
+                        
+                        <FooterStyle Font-Bold="False" HorizontalAlign="Center" />
+                        <HeaderStyle Font-Size="9pt" />
+                        </asp:GridView>
+                       <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+                        ConnectionString="<%$ connectionStrings:LocalSqlServer %>" 
+                        ProviderName="System.Data.SqlClient" 
+                        SelectCommand="Select Id, Symbol as BGGroup from BusinessGroup">
+                        </asp:SqlDataSource>
+                        
+                        <asp:SqlDataSource ID="SqlDataSource2" runat="server" 
+                        ConnectionString="<%$ connectionStrings:LocalSqlServer %>" 
+                        ProviderName="System.Data.SqlClient" 
+                        SelectCommand="Select Id, Abbrivation as Asset from tblACC_Asset">
+                        </asp:SqlDataSource>
+                        
+                        <asp:SqlDataSource ID="SqlDataSource3" runat="server" 
+                        ConnectionString="<%$ connectionStrings:LocalSqlServer %>" 
+                        ProviderName="System.Data.SqlClient" 
+                        SelectCommand="Select FinYearId,FinYear from tblFinancial_master Order By FinYearId Desc">
+                        </asp:SqlDataSource>                        
+                        
+                        
+                        
+                 </asp:Panel></td>
+                <td class="fontcss" valign="top" width="20" colspan="2">
+                    &nbsp; </td>
+                <td class="fontcss" valign="top" width="49%">
+                                        <b>
+               
+                          <asp:DropDownList ID="ddlSearch" runat="server" CssClass="box3" 
+                                AutoPostBack="True" onselectedindexchanged="ddlSearch_SelectedIndexChanged">
+                                <asp:ListItem Value="0">Select</asp:ListItem>
+                                <asp:ListItem Value="1">Fin Year</asp:ListItem>
+                                <asp:ListItem Value="2">Asset</asp:ListItem>                                
+                                <asp:ListItem Value="3">BG Group</asp:ListItem>
+                            </asp:DropDownList>
+                            
+                     <asp:DropDownList ID="ddlFinYear" runat="server" DataSourceID="SqlDataSource3" Width="90px"
+                     DataTextField="FinYear" DataValueField="FinYearId" CssClass="box3" 
+                            Visible="False">
+                    </asp:DropDownList>                            
+                            
+                     <asp:DropDownList ID="ddlAsset2" runat="server" DataSourceID="SqlDataSource2" Width="90px"
+                     DataTextField="Asset" DataValueField="Id" CssClass="box3" Visible="False">
+                    </asp:DropDownList> 
+                            
+                     <asp:DropDownList ID="ddlBGGroup2" runat="server" DataSourceID="SqlDataSource1" Width="90px"
+                     DataTextField="BGGroup" DataValueField="Id" CssClass="box3" Visible="False">
+                    </asp:DropDownList>    
+                        
+
+                        <b>
+                        <asp:Button ID="btnSearch" runat="server" CssClass="redbox" 
+                            onclick="btnSearch_Click" Text="Search" />
+                        </b>
+                        <asp:Button ID="btnExportToExcel" runat="server" CssClass="redbox" Text="Export To Excel" 
+                                            onclick="btnExportToExcel_Click" />
+                        </b>
+                        
+                    <asp:Panel ID="Panel2" Height="434px" ScrollBars="Auto" runat="server">                  
+                        <asp:Panel ID="Panel3" runat="server" BorderStyle="Solid" CssClass="box3" 
+                            Height="20px" HorizontalAlign="Center" Visible="False">
+                            <asp:Label ID="Label2" runat="server" Font-Bold="True" ForeColor="Red" 
+                                Text="No data found   !"></asp:Label>
+                        </asp:Panel>
+                        <asp:GridView ID="GridView3" runat="server" AutoGenerateColumns="False" 
+                            CssClass="yui-datatable-theme"  PageSize="23" Width="100%">
+                            <Columns>
+                      
+                                  
+                    <asp:TemplateField HeaderText="SN" ><ItemTemplate><asp:Label
+                     ID="lblSN" runat="server" Text='<%# Bind("SN") %>'></asp:Label></ItemTemplate>
+                       <ItemStyle HorizontalAlign="Right" Width="5%" />
+                     </asp:TemplateField>
+                     
+                                <asp:TemplateField HeaderText="FinYear">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblFinYearSearch" runat="server" 
+                                            Text='<%# Bind("FinYear") %>'></asp:Label>
+                                    </ItemTemplate>
+                                    <ItemStyle HorizontalAlign="Center" Width="15%" />
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Asset" Visible="true">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblAssetSearch" runat="server" Text='<%# Bind("Asset") %>'></asp:Label>
+                                    </ItemTemplate>
+                                    <ItemStyle HorizontalAlign="Center" Width="20%" />
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="BG Group">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblBGGroupSearch" runat="server" 
+                                            Text='<%# Bind("BGGroup") %>'></asp:Label>
+                                    </ItemTemplate>
+                                    <ItemStyle HorizontalAlign="Center" Width="20%" />
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Asset No">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblAssetNoSearch" runat="server" 
+                                            Text='<%# Bind("AssetNo") %>'></asp:Label>
+                                    </ItemTemplate>
+                                    <ItemStyle HorizontalAlign="Center" Width="15%" />
+                                </asp:TemplateField>
+                            </Columns>
+                            <EmptyDataTemplate>
+                                <table class="fontcss" width="100%">
+                                    <tr>
+                                        <td align="center">
+                                            <asp:Label ID="Label1" runat="server" Font-Size="Larger" ForeColor="maroon" 
+                                                Text="No data to display !"> </asp:Label>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </EmptyDataTemplate>
+                        </asp:GridView>
+                    </asp:Panel>
+                </td>
+            </tr></table>
+            
+           
+                
+                
+                
+        </td>
+        </tr>
+        </table>
+
+
+ 
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/Asset_Register1.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.IO;
+
+public partial class Module_Accounts_Transactions_Asset_Register1 : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    int CompId = 0;
+    int FyId = 0;
+    string SId = "";
+    string CDate = "";
+    string CTime = "";
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            CompId = Convert.ToInt32(Session["compid"]);
+            FyId = Convert.ToInt32(Session["finyear"]);
+            SId = Session["username"].ToString();
+
+            CDate = fun.getCurrDate();
+            CTime = fun.getCurrTime();
+
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            if (!IsPostBack)
+            {
+                this.FillData();
+                Panel3.Visible = true;
+            }
+        }
+        catch (Exception ex) { }
+
+    }
+
+    protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+       try
+        {
+            GridView2.PageIndex = e.NewPageIndex;
+            this.FillData();           
+        }
+        catch (Exception ex) { }
+
+    }
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+       try
+        {
+            this.FillDataSearch();
+            Panel3.Visible = false;
+        }
+       catch (Exception ex) { }
+
+    }
+
+    public void FillData()
+    {
+        try
+        {
+            con.Open();
+
+            string sql = fun.select("*", "tblACC_Asset_Register", "FinYearId<='" + FyId + "' AND CompId='" + CompId + "' Order by Id DESC");
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet DS = new DataSet();
+            da.Fill(DS);
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("FinYear", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Asset", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("BGGroup", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("AssetNo", typeof(string)));
+            DataRow dr;
+            for (int p = 0; p < DS.Tables[0].Rows.Count; p++)
+            {
+                dr = dt.NewRow();
+
+                dr[0] = DS.Tables[0].Rows[p]["Id"].ToString();
+                string stryr = fun.select("FinYear", "tblFinancial_master", "FinYearId='" + DS.Tables[0].Rows[p]["FinYearId"].ToString() + "'");
+                SqlCommand cmdyr = new SqlCommand(stryr, con);
+                SqlDataAdapter dayr = new SqlDataAdapter(cmdyr);
+                DataSet DSyr = new DataSet();
+                dayr.Fill(DSyr);
+                if (DSyr.Tables[0].Rows.Count > 0)
+                {
+                    dr[1] = DSyr.Tables[0].Rows[0]["FinYear"].ToString();
+                }
+
+                string strAss = fun.select("Abbrivation", "tblACC_Asset", "Id='" + DS.Tables[0].Rows[p]["AssetId"].ToString() + "'");
+                SqlCommand cmdAss = new SqlCommand(strAss, con);
+                SqlDataReader rdrAss = cmdAss.ExecuteReader();
+                while (rdrAss.Read())
+                {
+                    if (rdrAss.HasRows)
+                    {
+                        dr[2] = rdrAss["Abbrivation"].ToString();
+                    }
+                    else
+                    {
+                        dr[2] = "NA";
+                    }
+                }
+
+                string strbggrp = fun.select("Symbol", "BusinessGroup", "Id='" + DS.Tables[0].Rows[p]["BGGroupId"].ToString() + "'");
+                SqlCommand cmdbggrp = new SqlCommand(strbggrp, con);
+                SqlDataReader rdrbggrp = cmdbggrp.ExecuteReader();
+                while (rdrbggrp.Read())
+                {
+                    if (rdrbggrp.HasRows)
+                    {
+                        dr[3] = rdrbggrp["Symbol"].ToString();
+                    }
+                    else
+                    {
+                        dr[3] = "NA";
+                    }
+                }
+                dr[4] = DS.Tables[0].Rows[p]["AssetNumber"].ToString();
+
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }
+
+            GridView2.DataSource = dt;
+            GridView2.DataBind();
+
+            if (GridView2.Rows.Count > 0)
+            {
+                ((Label)GridView2.FooterRow.FindControl("lblAssetNumber")).Text = "0000";
+            }
+            else
+            {
+                string stryr1 = fun.select("FinYear", "tblFinancial_master", "FinYearId='" + FyId + "'");
+                SqlCommand cmdyr1 = new SqlCommand(stryr1, con);
+                SqlDataReader rdr = cmdyr1.ExecuteReader();
+                while (rdr.Read())
+                {
+                    if (rdr.HasRows)
+                    {
+                        Label LabelFinYear = ((Label)GridView2.Controls[0].Controls[0].FindControl("LabelFinYear1"));
+                        LabelFinYear.Text = rdr["FinYear"].ToString();
+                    }
+                }
+            }
+
+            con.Close();
+        }
+        catch (Exception ex) { }
+    }
+
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+
+            if (e.CommandName == "Add")
+            {
+                string AssetNo = (((Label)GridView2.FooterRow.FindControl("lblAssetNumber")).Text);
+                string strAsset = (((DropDownList)GridView2.FooterRow.FindControl("ddlAsset")).SelectedValue);
+                string strBGG = (((DropDownList)GridView2.FooterRow.FindControl("ddlBGGroup")).SelectedValue);
+
+                if (strAsset != "1" && strBGG != "1")
+                {
+                    string StrIns1 = fun.insert("tblACC_Asset_Register", "SysDate, SysTime , CompId, FinYearId , SessionId, AssetId, BGGroupId , AssetNumber", "'" + CDate + "','" + CTime + "','" + CompId + "','" + FyId + "','" + SId + "','" + strAsset + "','" + strBGG + "','" + AssetNo + "'");
+
+                    SqlCommand cmdIns1 = new SqlCommand(StrIns1, con);
+                    con.Open();
+                    cmdIns1.ExecuteNonQuery();
+                    con.Close();
+                    this.FillData();
+                }
+                else
+                {
+                    string mystring = string.Empty;
+                    mystring = "Invalid data entry.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+                }
+            }
+
+            if (e.CommandName == "Add1")
+            {
+                string strAsset = (((DropDownList)GridView2.Controls[0].Controls[0].FindControl("ddlAsset1")).SelectedValue);
+                string strBGG = (((DropDownList)GridView2.Controls[0].Controls[0].FindControl("ddlBGGroup1")).SelectedValue);
+
+                if (strAsset != "1" && strBGG != "1")
+                {
+                    string StrIns2 = fun.insert("tblACC_Asset_Register", "SysDate, SysTime , CompId, FinYearId , SessionId, AssetId, BGGroupId , AssetNumber", "'" + CDate + "','" + CTime + "','" + CompId + "','" + FyId + "','" + SId + "','" + strAsset + "','" + strBGG + "','0001'");
+
+                    SqlCommand cmdIns2 = new SqlCommand(StrIns2, con);
+                    con.Open();
+                    cmdIns2.ExecuteNonQuery();
+                    con.Close();
+                    this.FillData();
+                }
+                else
+                {
+                    string mystring = string.Empty;
+                    mystring = "Invalid data entry.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+                }
+            }
+
+            if (e.CommandName == "Del")
+            {
+
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                int id1 = Convert.ToInt32(((Label)row.FindControl("lblId")).Text);
+                con.Open();
+                string sqlDel = fun.delete("tblACC_Asset_Register", "Id='" + id1 + "'");
+                SqlCommand cmdDel = new SqlCommand(sqlDel, con);
+                cmdDel.ExecuteNonQuery();
+                con.Close();
+                this.FillData();
+            }
+
+
+
+        }
+        catch (Exception ex) { }
+    }
+
+    public void FillDataSearch()
+    {
+       try
+        {
+            con.Open();
+
+            string sg = "";
+            if (ddlSearch.SelectedValue == "0")
+            {
+                sg = string.Empty;
+            }
+
+            string x = "";
+            if (ddlSearch.SelectedValue == "1")
+            {
+                x = " AND FinYearId='" + ddlFinYear.SelectedValue + "'";
+            }
+
+            string y = "";
+            if (ddlSearch.SelectedValue == "2")
+            {
+                if (ddlAsset2.SelectedValue != "1")
+                {
+                    y = " AND AssetId='" + ddlAsset2.SelectedValue + "'";
+                }
+            }
+
+            string z = "";
+            if (ddlSearch.SelectedValue == "3")
+            {
+                if (ddlBGGroup2.SelectedValue != "1")
+                {
+                    z = " AND BGGroupId='" + ddlBGGroup2.SelectedValue + "'";
+                }
+            }
+
+            string sql = fun.select("*", "tblACC_Asset_Register", "FinYearId<='" + FyId + "' AND CompId='" + CompId + "'" + sg + x + y + z + " Order by Id DESC");
+
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet DS = new DataSet();
+            da.Fill(DS);
+
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new System.Data.DataColumn("SN", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("FinYear", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Asset", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("BGGroup", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("AssetNo", typeof(string)));
+            DataRow dr;
+
+            int Sn = 0;
+
+            for (int q = 0; q < DS.Tables[0].Rows.Count; q++)
+            {
+                Sn++;
+                dr = dt.NewRow();
+                dr[0] = Sn;
+
+                string stryr1 = fun.select("FinYear", "tblFinancial_master", "FinYearId='" + DS.Tables[0].Rows[q]["FinYearId"].ToString() + "'");
+                SqlCommand cmdyr1 = new SqlCommand(stryr1, con);
+                SqlDataAdapter dayr1 = new SqlDataAdapter(cmdyr1);
+                DataSet DSyr1 = new DataSet();
+                dayr1.Fill(DSyr1);
+                if (DSyr1.Tables[0].Rows.Count > 0)
+                {
+                    dr[1] = DSyr1.Tables[0].Rows[0]["FinYear"].ToString();
+                }
+
+                string strAss1 = fun.select("Abbrivation", "tblACC_Asset", "Id='" + DS.Tables[0].Rows[q]["AssetId"].ToString() + "'");
+                SqlCommand cmdAss1 = new SqlCommand(strAss1, con);
+                SqlDataReader rdrAss1 = cmdAss1.ExecuteReader();
+                while (rdrAss1.Read())
+                {
+                    if (rdrAss1.HasRows)
+                    {
+                        dr[2] = rdrAss1["Abbrivation"].ToString();
+                    }
+                    else
+                    {
+                        dr[2] = "NA";
+                    }
+                }
+
+                string strbggrp1 = fun.select("Symbol", "BusinessGroup", "Id='" + DS.Tables[0].Rows[q]["BGGroupId"].ToString() + "'");
+                SqlCommand cmdbggrp1 = new SqlCommand(strbggrp1, con);
+                SqlDataReader rdrbggrp1 = cmdbggrp1.ExecuteReader();
+                while (rdrbggrp1.Read())
+                {
+                    if (rdrbggrp1.HasRows)
+                    {
+                        dr[3] = rdrbggrp1["Symbol"].ToString();
+                    }
+                    else
+                    {
+                        dr[3] = "NA";
+                    }
+                }
+
+                dr[4] = (Convert.ToInt32(DS.Tables[0].Rows[q]["AssetNumber"]).ToString("D4"));
+
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+             
+            }
+            GridView3.DataSource = dt;
+            GridView3.DataBind();
+           
+            ViewState["dtList"] = dt;
+            con.Close();
+        }
+       catch (Exception ex) { }
+    }
+
+    protected void ddlAsset_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+        try
+        {
+            con.Open();
+
+            if (GridView2.Rows.Count > 0)
+            {
+                string AssetId = (((DropDownList)GridView2.FooterRow.FindControl("ddlAsset")).SelectedValue);
+                if (AssetId != "1")
+                {
+                    string strAssNum = fun.select("AssetNumber", "tblACC_Asset_Register", "AssetId='" + AssetId + "'  And CompId='" + CompId + "' order by AssetNumber desc");
+                    SqlCommand cmdAssNum = new SqlCommand(strAssNum, con);
+                    SqlDataAdapter DAAssNum = new SqlDataAdapter(cmdAssNum);
+                    DataSet DSAssNum = new DataSet();
+                    DAAssNum.Fill(DSAssNum, "tblACC_Asset_Register");
+                    if (DSAssNum.Tables[0].Rows.Count > 0)
+                    {
+                        ((Label)GridView2.FooterRow.FindControl("lblAssetNumber")).Text = (Convert.ToInt32(DSAssNum.Tables[0].Rows[0][0].ToString()) + 1).ToString("D4");
+                    }
+                    else
+                    {
+                        ((Label)GridView2.FooterRow.FindControl("lblAssetNumber")).Text = "0001";
+                    }
+                }
+                else
+                {
+                    ((Label)GridView2.FooterRow.FindControl("lblAssetNumber")).Text = "0000";
+                }
+
+                con.Close();
+            }
+            else
+            {
+                ((Label)GridView2.FooterRow.FindControl("lblAssetNumber")).Text = "0000";
+            }
+        }
+        catch(Exception ex){}
+    }
+
+    protected void ddlSearch_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (ddlSearch.SelectedValue == "1")
+        {
+            ddlFinYear.Visible = true;
+            ddlAsset2.Visible = false;
+            ddlBGGroup2.Visible = false;
+            ddlAsset2.SelectedValue = "1";
+            ddlBGGroup2.SelectedValue = "1";
+        }
+        else if (ddlSearch.SelectedValue == "2")
+        {
+            ddlAsset2.Visible = true;
+            ddlBGGroup2.Visible = false;
+            ddlFinYear.Visible = false;
+            ddlBGGroup2.SelectedValue = "1";
+        }
+        else if (ddlSearch.SelectedValue == "3")
+        {
+            ddlBGGroup2.Visible = true;
+            ddlAsset2.Visible = false;
+            ddlFinYear.Visible = false;
+            ddlAsset2.SelectedValue = "1";
+        }
+        else if (ddlSearch.SelectedValue == "0")
+        {
+            ddlBGGroup2.Visible = false;
+            ddlAsset2.Visible = false;
+            ddlFinYear.Visible = false;
+            ddlAsset2.SelectedValue = "1";
+            ddlBGGroup2.SelectedValue = "1";
+        }
+    }
+
+    protected void btnExportToExcel_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            DataTable dt1 = (DataTable)ViewState["dtList"];
+           if (dt1 == null)
+            {
+                throw new Exception("No Records to Export");               
+            }
+            string Path = "D:\\ImportExcelFromDatabase\\myexcelfile_" + DateTime.Now.Day.ToString() + "_" + DateTime.Now.Month.ToString() + ".xls";
+            FileInfo FI = new FileInfo(Path);
+            StringWriter stringWriter = new StringWriter();
+            HtmlTextWriter htmlWrite = new HtmlTextWriter(stringWriter);
+            System.Web.UI.WebControls.DataGrid DataGrd = new System.Web.UI.WebControls.DataGrid();
+            DataGrd.DataSource = dt1;
+            DataGrd.DataBind();
+            DataGrd.RenderControl(htmlWrite);
+            string directory = Path.Substring(0, Path.LastIndexOf("\\"));// GetDirectory(Path);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+            System.IO.StreamWriter vw = new System.IO.StreamWriter(Path, true);
+            stringWriter.ToString().Normalize();
+            vw.Write(stringWriter.ToString());
+            vw.Flush();
+            vw.Close();
+            WriteAttachment(FI.Name, "application/vnd.ms-excel", stringWriter.ToString());
+
+        }
+        catch (Exception ex)
+        {
+            string mystring = string.Empty;
+            mystring = "No Records to Export.";
+            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+        }       
+        
+    }
+    public static void WriteAttachment(string FileName, string FileType, string content)
+    {
+        try
+        {
+            HttpResponse Response = System.Web.HttpContext.Current.Response;
+            Response.ClearHeaders();
+            Response.AppendHeader("Content-Disposition", "attachment; filename=" + FileName);
+            Response.ContentType = FileType;
+            Response.Write(content);
+            Response.End();
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+}

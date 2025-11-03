@@ -1,0 +1,226 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Admin/Access/roles.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="roles.aspx.cs" Inherits="Admin_Access_roles" Title="ERP" Theme="Default" %>
+<script runat="server">
+	private bool createRoleSuccess = true;
+	
+	private void Page_PreRender()
+	{
+        // Create a DataTable and define its columns
+		System.Data.DataTable RoleList = new System.Data.DataTable();
+		RoleList.Columns.Add("Role Name");
+		RoleList.Columns.Add("User Count");
+		
+        string[] allRoles = Roles.GetAllRoles();
+
+        // Get the list of roles in the system and how many users belong to each role
+        foreach (string roleName in allRoles)
+		{
+            int numberOfUsersInRole = Roles.GetUsersInRole(roleName).Length;
+            string[] roleRow = { roleName, numberOfUsersInRole.ToString() };
+			RoleList.Rows.Add(roleRow);
+		}
+
+        // Bind the DataTable to the GridView
+		UserRoles.DataSource = RoleList;
+		UserRoles.DataBind();
+
+		if (createRoleSuccess)
+		{
+			// Clears form field after a role was successfully added. Alternative to redirect technique I often use.
+			NewRole.Text = "";
+		}
+	}
+
+	private void AddRole(object sender, EventArgs e)
+	{
+		try
+		{
+			Roles.CreateRole(NewRole.Text);
+			ConfirmationMessage.InnerText = "The new role was added.";
+			createRoleSuccess = true;
+		}
+		catch (Exception ex)
+		{
+			ConfirmationMessage.InnerText = ex.Message;
+			createRoleSuccess = false;
+		}
+	}
+
+	private void DeleteRole(object sender, CommandEventArgs e)
+	{
+		try
+		{
+			Roles.DeleteRole(e.CommandArgument.ToString());
+			ConfirmationMessage.InnerText = "Role '" + e.CommandArgument.ToString() + "' was deleted.";
+		}
+		catch (Exception ex)
+		{
+			ConfirmationMessage.InnerText = ex.Message;
+		}
+	}
+
+	protected void DisableRoleManager(object sender, EventArgs e)
+	{
+		/*
+		 * Dan Clem, 3/7/2007
+		 * I couldn't get this to work.
+		 * I wouldn't want it to work, anyway. I wouldn't want to disable roles from within my own application, anyway.
+		 * This is a bit unfortunate, since it compromises my vision of a fully integrated intranet.
+		 * This particular feature would need to be done using the Admin Tool or by editing the Config files manually.
+		 * The files or URL to the Admin Tool would need to be locked down using Windows Authentication.
+		 * 
+		 * Error message follows:
+		 * Description: An error occurred during the processing of a configuration file required to service this request. Please review the specific error details below and modify your configuration file appropriately. 
+
+Parser Error Message: An error occurred loading a configuration file: Access to the path 'C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Config\9owcoing.tmp' is denied.
+
+		 * 
+		 * Configuration config = WebConfigurationManager.OpenWebConfiguration(null);
+		RoleManagerSection roleSection = (RoleManagerSection)config.GetSection("system.web/roleManager");
+		roleSection.Enabled = false;
+		config.Save();
+		 */
+
+	}
+</script>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+    <script src="../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    
+    <link href="../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    
+    <style type="text/css">
+        .style3
+        {
+            width: 100%;
+            float: left;
+            font-weight: bold;
+        }
+    </style>
+    
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+<table cellpadding="0" cellspacing="0" >
+<tr>
+<td colspan="2" height="10px">
+&nbsp;
+</td>
+</tr>
+<tr>
+<td width="3%">
+   &nbsp;
+
+        
+        </td>
+           <td>
+
+
+     
+        <table cellpadding="0" cellspacing="0" class="webparts" >
+            <tr>
+                <td class="style3">
+                    &nbsp;
+                    Roles</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>&nbsp; New Role:
+</b>
+<asp:TextBox runat="server" ID="NewRole" CssClass="box3"></asp:TextBox>
+
+&nbsp;<asp:Button ID="Button2" runat="server" OnClick="AddRole" Text="Add Role" 
+        CssClass="redbox" />
+         &nbsp;<asp:Button ID="btnCancel" runat="server" CssClass="redbox" Text="Cancel" 
+        onclick="btnCancel_Click" /></td>
+            </tr>
+            <tr>
+                <td>
+                    &nbsp;</td>
+            </tr>
+            <tr>
+                <td>
+                    <asp:Panel ID="Panel1" ScrollBars="Auto" Height="420px" runat="server">
+
+
+<asp:GridView runat="server" ID="UserRoles" AutoGenerateColumns="false"
+	CssClass="list" AlternatingRowStyle-CssClass="odd" GridLines="none" Width="100%"
+	>
+	<Columns>
+		<asp:TemplateField>
+			<HeaderTemplate>Role Name</HeaderTemplate>
+			<ItemTemplate>
+				<%# Eval("Role Name") %>
+			</ItemTemplate>
+		</asp:TemplateField>
+		<asp:TemplateField>
+			<HeaderTemplate>User Count</HeaderTemplate>
+			<ItemTemplate>
+				<%# Eval("User Count") %>
+			</ItemTemplate>
+		</asp:TemplateField>
+		<asp:TemplateField>
+			<HeaderTemplate>Delete Role</HeaderTemplate>
+			<ItemTemplate>
+				<asp:Button ID="Button1" runat="server" OnCommand="DeleteRole" CommandName="DeleteRole" CommandArgument='<%# Eval("Role Name") %>' Text="Delete" OnClientClick="return confirm('Are you sure?')" />
+			</ItemTemplate>
+		</asp:TemplateField>
+	</Columns>
+    <AlternatingRowStyle CssClass="odd" />
+</asp:GridView>
+</asp:Panel></td>
+            </tr>
+            <tr>
+                <td>
+                   <div runat="server" id="ConfirmationMessage" class="alert">
+</div></td>
+            </tr>
+        </table>
+        
+        </td>
+</tr>
+</table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Admin/Access/roles.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+
+public partial class Admin_Access_roles : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/SysSupport/SysConfig/config.aspx");
+    }
+}

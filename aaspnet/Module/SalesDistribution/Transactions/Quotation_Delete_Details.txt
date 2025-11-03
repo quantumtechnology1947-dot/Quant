@@ -1,0 +1,530 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Transactions/Quotation_Delete_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Quotation_Delete_Details.aspx.cs" Inherits="Module_SalesDistribution_Transactions_Quotation_Delete_Details" Title="ERP" Theme ="Default" %>
+
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+<script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function OnChanged(sender, args)
+        {
+            ServerUtilities.SetTabIndex(sender.get_activeTabIndex());
+        }
+</script>
+    </asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+    <p><br /></p><p></p>
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+<table align="center" cellpadding="0" cellspacing="0" width="100%">
+    <tr height="21">
+      <td style="background:url(../../../images/hdbg.JPG)" class="fontcsswhite">&nbsp;<b>Customer  Quotation-Delete</b></td>
+    </tr>
+        <tr>
+            <td>
+      <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" 
+        Width="99%" onactivetabchanged="TabContainer1_ActiveTabChanged">
+        <cc1:TabPanel runat="server" HeaderText="TabPanel2" ID="TabPanel2">
+        <HeaderTemplate>
+        Customer Details</HeaderTemplate>
+        <ContentTemplate>
+        
+         
+         
+         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="fontcss"><tr>
+    <td 
+                                colspan="1" align="left" valign="middle" 
+        height="24" width="15%">Qutation No</td>
+    <td align="left" height="24" valign="middle" width="85%">
+        :<asp:Label ID="LblQuoteNo" runat="server" style="font-weight: 700"></asp:Label>
+    </td>
+    </tr>
+             <tr>
+                 <td align="left" colspan="1" height="24" valign="middle" width="15%">
+                     Enquiry No
+                 </td>
+                 <td align="left" height="24" valign="middle" width="25%">
+                     :<asp:Label ID="LblEnquiry" runat="server" style="font-weight: 700"></asp:Label>
+                 </td>
+             </tr>
+             <tr>
+                 <td align="left" colspan="1" height="24" valign="middle" width="15%">
+                     Name of Customer&nbsp;&nbsp;&nbsp;</td>
+                 <td align="left" height="24" valign="middle" width="25%">
+                     :<asp:Label ID="LblName" runat="server" style="font-weight: 700"></asp:Label>
+                     <asp:Label ID="Lblpoid" runat="server" Visible="False" style="font-weight: 700"></asp:Label>
+                     <asp:Label ID="LblCustId" runat="server" Visible="False" 
+                         style="font-weight: 700"></asp:Label>
+                 </td>
+             </tr>
+             <tr>
+        <td 
+            align="left" valign="top" height="20">Regd. Office Address&#160;</td>
+        <td align="left" valign="top" height="25">:<asp:Label ID="LblAddress" 
+                runat="server" style="font-weight: 700"></asp:Label></td>
+    </tr><tr>
+        <td align="left" 
+                                valign="middle" height="20" class="style1">&nbsp;</td>
+    <td valign="middle" 
+                    align="left">&nbsp;</td>
+    </tr>
+             <tr>
+                 <td align="left" class="style1" height="23" valign="middle">
+                     &nbsp;</td>
+                 <td align="left" valign="middle">
+                     <asp:Button ID="BtnCustomerNext" runat="server" CssClass="redbox" 
+                         OnClick="BtnCustomerNext_Click" Text="  Next  " />
+                     <asp:Button ID="BtnCustomerCancel" runat="server" CssClass="redbox" 
+                         OnClick="BtnCustomerCancel_Click" Text="Cancel" />
+                 </td>
+             </tr>
+            </table>
+         
+         
+         
+         
+         
+         
+                        </ContentTemplate></cc1:TabPanel>
+        <cc1:TabPanel ID="TabPanel1" runat="server" HeaderText="TabPanel1">
+            <HeaderTemplate>
+            Goods Details</HeaderTemplate>
+             <ContentTemplate><table width="100%" align="center" cellpadding="0" cellspacing="0" Class="fontcss"><tr><td>
+                 <table align="left" cellpadding="0" cellspacing="0" width="100%">
+                     <tr>
+                         <td align="left">
+                             <br />
+                             <asp:GridView ID="GridView1" runat="server" AllowPaging="True" 
+                                 AutoGenerateColumns="False" CssClass="yui-datatable-theme" DataKeyNames="Id" 
+                                 PageSize="17" Width="60%" 
+                                 onpageindexchanging="GridView1_PageIndexChanging">
+                                 <Columns>
+                                     <asp:TemplateField HeaderText="SN">
+                                         <ItemTemplate>
+                                             <%# Container.DataItemIndex+1 %>
+                                         </ItemTemplate>
+                                         <ItemStyle HorizontalAlign="Right" Width="3%" />
+                                     </asp:TemplateField>
+                                     <asp:BoundField DataField="ItemDesc" HeaderText="Description" 
+                                         SortExpression="ItemDesc">
+                                         <ItemStyle HorizontalAlign="Left" Width="40%" />
+                                     </asp:BoundField>
+                                     <asp:BoundField DataField="TotalQty" HeaderText="Quantity" 
+                                         SortExpression="TotalQty">
+                                         <ItemStyle HorizontalAlign="Right" />
+                                     </asp:BoundField>
+                                     <asp:BoundField DataField="Symbol" HeaderText="Unit" SortExpression="Unit">
+                                         <ItemStyle HorizontalAlign="Center" />
+                                     </asp:BoundField>
+                                     <asp:BoundField DataField="Rate" HeaderText="Rate" SortExpression="Rate">
+                                         <ItemStyle HorizontalAlign="Right" />
+                                     </asp:BoundField>
+                                     <asp:BoundField DataField="Discount" HeaderText="Discount" 
+                                         SortExpression="Discount">
+                                         <ItemStyle HorizontalAlign="Right" />
+                                     </asp:BoundField>
+                                 </Columns>
+                                 <EmptyDataTemplate>
+                                     <table class="fontcss" width="100%">
+                                         <tr>
+                                             <td align="center">
+                                                 <asp:Label ID="Label1" runat="server" Font-Size="Larger" ForeColor="maroon" 
+                                                     Text="No data to display !"> </asp:Label>
+                                             </td>
+                                         </tr>
+                                     </table>
+                                 </EmptyDataTemplate>
+                             </asp:GridView>
+                         </td>
+                     </tr>
+                     <tr>
+                         <td align="left" height="22">
+                             <asp:Button ID="Button1" runat="server" CssClass="redbox" 
+                                 onclick="Button1_Click" Text=" Next " />
+                             <asp:Button ID="Button2" runat="server" CssClass="redbox" 
+                                 onclick="Button2_Click" Text="Cancel" />
+                         </td>
+                     </tr>
+                 </table>
+                 </td></tr></table>
+                        </ContentTemplate>
+        </cc1:TabPanel>
+        <cc1:TabPanel ID="TabPanel3" runat="server" HeaderText="TabPanel3">
+            <HeaderTemplate>
+            Terms &amp; Conditions</HeaderTemplate>
+             <ContentTemplate><table width="100%" border="0" cellspacing="0" cellpadding="0" class="fontcss"><tr><td width="14%" align="left" valign="middle">
+                 &nbsp;Payment Terms</td><td colspan="3" align="left" valign="middle" height="22">: 
+                     <asp:TextBox ID="TxtPayments" 
+                            runat="server" Width="200px" CssClass="box3" ReadOnly="True"></asp:TextBox></td></tr><tr><td align="left" valign="middle">
+                     &nbsp;P &amp; F</td><td width="36%" align="left" valign="middle" height="22">: 
+                         <asp:TextBox ID="TxtPF" 
+                            runat="server" CssClass="box3" ReadOnly="True" Width="200px"></asp:TextBox></td><td width="14%" align="left" valign="middle">&nbsp;Excise / Service Tax </td><td width="36%" align="left" valign="middle">: 
+                     <asp:TextBox ID="TxtExcise" runat="server" CssClass="box3" ReadOnly="True" 
+                         Width="200px"></asp:TextBox></td></tr><tr><td align="left" valign="middle">
+                     &nbsp;VAT/CST</td><td align="left" valign="middle" height="22">: 
+                         <asp:TextBox 
+                         ID="TxtVAT" runat="server" 
+                            CssClass="box3" ReadOnly="True" Width="200px"></asp:TextBox></td><td align="left" valign="middle">&nbsp;Octroi</td><td align="left" valign="middle">: 
+                     <asp:TextBox ID="TxtOctroi" runat="server" CssClass="box3" ReadOnly="True" 
+                         Width="200px"></asp:TextBox></td></tr><tr><td align="left" valign="middle">
+                     &nbsp;Warrenty</td><td align="left" valign="middle" height="22">: 
+                         <asp:TextBox 
+                         ID="TxtWarrenty" runat="server" 
+                            CssClass="box3" ReadOnly="True" Width="200px"></asp:TextBox></td><td align="left" valign="middle">&nbsp;Insurance</td><td align="left" valign="middle">: 
+                     <asp:TextBox ID="TxtInsurance" runat="server" CssClass="box3" ReadOnly="True" 
+                         Width="200px"></asp:TextBox></td></tr><tr><td align="left" valign="middle">
+                     &nbsp;Mode of Transport </td><td align="left" valign="middle" height="22">: 
+                         <asp:TextBox 
+                         ID="TxtTransPort" runat="server" 
+                            CssClass="box3" ReadOnly="True" Width="200px"></asp:TextBox></td><td align="left" valign="middle">&nbsp;R.R./G.C. Note No.</td><td align="left" valign="middle">: 
+                     <asp:TextBox ID="TxtNoteNo" runat="server" CssClass="box3" ReadOnly="True" 
+                         Width="200px"></asp:TextBox></td></tr><tr>
+                     <td align="left" valign="middle" height="22">&nbsp;If by motor vehicle,it&#39;s &nbsp;registr. no</td>
+                     <td align="left" valign="middle" height="22">: 
+                         <asp:TextBox ID="TxtRegdNo" 
+                             runat="server" CssClass="box3" ReadOnly="True" Width="200px"></asp:TextBox>
+                         
+                     </td><td align="left" valign="middle">&nbsp;Freight</td>
+                     <td align="left" valign="middle">
+                         :
+                         <asp:TextBox ID="TxtFreight" runat="server" CssClass="box3" ReadOnly="True" 
+                             Width="200px"></asp:TextBox>
+                        
+                     </td>
+                 </tr>
+                 <tr>
+                     <td align="left" valign="top">
+                         &nbsp;Due Date&nbsp;&nbsp;</td>
+                     <td align="left" valign="middle">
+                         :
+                         <asp:TextBox ID="TxtDueDate" runat="server" CssClass="box3" ReadOnly="True"
+                             Width="200px"></asp:TextBox>
+                        <%-- <cc1:CalendarExtender ID="TxtDueDate_CalendarExtender" runat="server"  CssClass="cal_Theme2" PopupPosition="BottomRight"
+                             Enabled="True" Format="dd-MM-yyyy" TargetControlID="TxtDueDate">
+                         </cc1:CalendarExtender>--%>
+                     </td>
+                     <td align="left" valign="middle">
+                         Validity</td>
+                     <td align="right" style="text-align: left" valign="top">
+                         :
+                         <asp:TextBox ID="Txtvalidity" runat="server" CssClass="box3" Width="200px" 
+                             ReadOnly="True"></asp:TextBox>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td align="left" valign="top">
+                         Other Charges</td>
+                     <td align="left" valign="middle" height="25px">
+                         : <asp:TextBox ID="Txtocharges" runat="server" CssClass="box3" Width="200px" 
+                             ReadOnly="True"></asp:TextBox>
+                     </td>
+                     
+                     <td align="left" valign="middle">
+                         Delivery Terms</td>
+                     <td align="left" valign="middle" height="25px">
+                         :
+                        <asp:TextBox ID="TxtDelTerms" runat="server" CssClass="box3" Width="200px" 
+                             ReadOnly="True"></asp:TextBox>
+           </td>
+                 </tr>
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 <tr>
+                     <td align="left" valign="top">
+                         &nbsp;Remarks</td>
+                     <td align="left" colspan="2" valign="top">
+                         :
+                         <asp:TextBox ID="TxtRemarks" runat="server" CssClass="box3" Height="52px" 
+                             TextMode="MultiLine" Width="400px" ReadOnly="True"></asp:TextBox>
+                     </td>
+                     <td align="right" valign="bottom">
+                         <asp:Button ID="BtnDelete" runat="server" CssClass="redbox" 
+                             OnClick="BtnDelete_Click" OnClientClick="return confirmationDelete()" 
+                             Text="Delete" />
+                             <asp:Button ID="BtnTermsCancel" runat="server" CssClass="redbox" 
+                             OnClick="BtnTermsCancel_Click" Text="Cancel" />
+                             <asp:Label ID="lblpo" runat="server" Visible="False" Font-Bold="True" 
+                             ForeColor="Red"></asp:Label>
+                         &nbsp;</td>
+                 </tr>
+                 </table>
+                        
+                        </ContentTemplate>
+        </cc1:TabPanel>
+    </cc1:TabContainer>
+    </td>
+    </tr>
+    </table>
+    
+    
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Transactions/Quotation_Delete_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_SalesDistribution_Transactions_Quotation_Delete_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    DataSet DS = new DataSet();
+    DataSet ds = new DataSet();
+    string CustCode = "";
+    int enqId = 0;
+   int id = 0;
+    int CId = 0;
+
+    string constr = "";
+    SqlConnection con;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            CId = Convert.ToInt32(Session["compid"]);
+            LblCustId.Text = Request.QueryString["CustomerId"].ToString();
+            CustCode = LblCustId.Text;
+            LblEnquiry.Text = Request.QueryString["EnqId"].ToString();
+            enqId = Convert.ToInt32(LblEnquiry.Text);
+          id = Convert.ToInt32( Request.QueryString["Id"]);
+    
+            constr = fun.Connection();
+            con = new SqlConnection(constr);
+            this.FillGrid2();
+            if (!IsPostBack)
+            {
+                con.Open();
+
+              
+                DataSet ds = new DataSet();
+
+                string cn = fun.select("CustomerName,RegdAddress,RegdCountry,RegdState,RegdCity,RegdPinNo", "SD_Cust_master", "CustomerId='" + CustCode + "' And CompId='" + CId + "'");
+                SqlCommand cmd4 = new SqlCommand(cn, con);
+                SqlDataAdapter da = new SqlDataAdapter(cmd4);
+                da.Fill(ds, "SD_Cust_master");
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    LblName.Text = ds.Tables[0].Rows[0]["CustomerName"].ToString();
+                    string strcmd1 = fun.select("CountryName", "tblcountry", "CId='" + ds.Tables[0].Rows[0]["RegdCountry"] + "'");
+                    string strcmd2 = fun.select("StateName", "tblState", "SId='" + ds.Tables[0].Rows[0]["RegdState"] + "'");
+                    string strcmd3 = fun.select("CityName", "tblCity", "CityId='" + ds.Tables[0].Rows[0]["RegdCity"] + "'");
+                    SqlCommand Cmd1 = new SqlCommand(strcmd1, con);
+                    SqlCommand Cmd2 = new SqlCommand(strcmd2, con);
+                    SqlCommand Cmd3 = new SqlCommand(strcmd3, con);
+
+                    SqlDataAdapter DA1 = new SqlDataAdapter(Cmd1);
+                    SqlDataAdapter DA2 = new SqlDataAdapter(Cmd2);
+                    SqlDataAdapter DA3 = new SqlDataAdapter(Cmd3);
+                    DataSet ds1 = new DataSet();
+                    DataSet ds2 = new DataSet();
+                    DataSet ds3 = new DataSet();
+                    DA1.Fill(ds1, "tblCountry");
+                    DA2.Fill(ds2, "tblState");
+                    DA3.Fill(ds3, "tblcity");
+                    if (ds1.Tables[0].Rows.Count > 0 && ds2.Tables[0].Rows.Count > 0 && ds3.Tables[0].Rows.Count > 0)
+                    {
+                        LblAddress.Text = ds.Tables[0].Rows[0]["RegdAddress"].ToString() + ",<br>&nbsp&nbsp" + ds3.Tables[0].Rows[0]["CityName"].ToString() + "," + ds2.Tables[0].Rows[0]["StateName"].ToString() + ",<br>&nbsp&nbsp" + ds1.Tables[0].Rows[0]["CountryName"].ToString() + ".<br>&nbsp&nbsp" + ds.Tables[0].Rows[0]["RegdPinNo"].ToString() + "<br>";
+                    }
+                }
+
+                string cmdstr = fun.select("*", " SD_Cust_Quotation_Master", "CustomerId='" + CustCode + "'and Id='" + id + "' And CompId='" + CId + "'");
+                SqlCommand cmd = new SqlCommand(cmdstr, con);
+                SqlDataAdapter da3 = new SqlDataAdapter(cmd);
+                da3.Fill(DS, "SD_Cust_PO_Master");
+
+                if (DS.Tables[0].Rows.Count > 0)
+                {
+                    
+                    TxtPayments.Text = DS.Tables[0].Rows[0]["PaymentTerms"].ToString();
+                    TxtPF.Text = DS.Tables[0].Rows[0]["PF"].ToString();
+                    TxtVAT.Text = DS.Tables[0].Rows[0]["VATCST"].ToString();
+                    TxtTransPort.Text = DS.Tables[0].Rows[0]["TransPort"].ToString();
+                    TxtExcise.Text = DS.Tables[0].Rows[0]["Excise"].ToString();
+                    TxtWarrenty.Text = DS.Tables[0].Rows[0]["Warrenty"].ToString();
+                    TxtOctroi.Text = DS.Tables[0].Rows[0]["Octroi"].ToString();
+                    TxtInsurance.Text = DS.Tables[0].Rows[0]["Insurance"].ToString();
+                    TxtNoteNo.Text = DS.Tables[0].Rows[0]["NoteNo"].ToString();
+                    TxtRegdNo.Text = DS.Tables[0].Rows[0]["RegistrationNo"].ToString();
+                    TxtFreight.Text = DS.Tables[0].Rows[0]["Freight"].ToString();
+                    TxtRemarks.Text = DS.Tables[0].Rows[0]["Remarks"].ToString();
+                    LblQuoteNo .Text = DS.Tables[0].Rows[0]["QuotationNo"].ToString();
+                   
+                    Txtvalidity.Text = DS.Tables[0].Rows[0]["Validity"].ToString();
+                    Txtocharges.Text = DS.Tables[0].Rows[0]["OtherCharges"].ToString();
+                    TxtDelTerms.Text = DS.Tables[0].Rows[0]["DeliveryTerms"].ToString();
+                    TxtDueDate.Text = fun.FromDateDMY(DS.Tables[0].Rows[0]["DueDate"].ToString());
+
+
+                    string strpo = fun.select("QuotationNo", " SD_Cust_PO_Master", "QuotationNo='" + id + "' And CompId='" + CId + "'");
+                    SqlCommand cmdpo = new SqlCommand(strpo, con);
+                    SqlDataAdapter dapo = new SqlDataAdapter(cmdpo);
+                    DataSet dspo = new DataSet();
+                    dapo.Fill(dspo);
+                    if (dspo.Tables[0].Rows.Count > 0)
+                    {
+                        BtnDelete.Visible = false;
+                        lblpo.Visible = true;
+                        lblpo.Text = "PO is generated";
+
+
+                    }
+                    else
+                    {
+                        BtnDelete.Visible = true;
+                        lblpo.Visible = false;
+                       
+                    }
+
+                  
+                   
+
+                }
+
+
+
+            }
+            TabContainer1.OnClientActiveTabChanged = "OnChanged";
+            TabContainer1.ActiveTabIndex = Convert.ToInt32(Session["TabIndex"] ?? "0");
+
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+            con.Close();
+        }
+
+    }
+
+
+    private void FillGrid2()
+    {
+
+        DataSet ds = new DataSet();
+        try
+        {
+            con.Open();
+            string SqlStr = fun.select("SD_Cust_Quotation_Details.Id,SD_Cust_Quotation_Details.Discount,Unit_Master.Symbol,SD_Cust_Quotation_Details.ItemDesc, SD_Cust_Quotation_Details.TotalQty,SD_Cust_Quotation_Details.Rate", "Unit_Master,SD_Cust_Quotation_Details,SD_Cust_Quotation_Master", "SD_Cust_Quotation_Details.Unit=Unit_Master.Id And SD_Cust_Quotation_Details.CompId ='" + CId + "' And SD_Cust_Quotation_Master.Id=SD_Cust_Quotation_Details.MId And SD_Cust_Quotation_Details.MId='" + id + "'Order by Id desc  ");
+            SqlCommand cmd = new SqlCommand(SqlStr, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(ds);
+            GridView1.DataSource = ds;
+            GridView1.DataBind();
+
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+            con.Close();
+        }
+    }
+
+    protected void BtnCustomerNext_Click(object sender, EventArgs e)
+    {
+        TabContainer1.ActiveTab = TabContainer1.Tabs[1];
+
+    }
+    protected void BtnCustomerCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Quotation_Delete.aspx?ModId=2&SubModId=63");
+    }
+    protected void BtnGoodsNext_Click(object sender, EventArgs e)
+    {
+        TabContainer1.ActiveTab = TabContainer1.Tabs[2];
+    }
+    protected void BtnGoodsCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Quotation.aspx?ModId=2&SubModId=63");
+
+    }
+
+    protected void BtnTermsCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Quotation_Delete.aspx?ModId=2&SubModId=63");
+    }
+    protected void BtnDelete_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            con.Open();
+            
+            string strupdate1 = fun.delete("SD_Cust_Quotation_Details", "Id='" + id + "' and CompId='" + CId + "'");
+            SqlCommand cmd2 = new SqlCommand(strupdate1, con);
+            cmd2.ExecuteNonQuery();
+            
+            string strupdate = fun.delete("SD_Cust_Quotation_Master", "Id='" + id + "' and CompId='" + CId + "'");
+            SqlCommand cmd = new SqlCommand(strupdate, con);
+            cmd.ExecuteNonQuery();
+
+            Response.Redirect("Quotation_Delete.aspx?ModId=2&SubModId=63&msg=Customer Quotation is deleted.");
+        }
+
+        catch (SqlException se)
+        {
+            string mystring = string.Empty;
+            mystring = "You Cannot delete this Quotation. This is in use. ";
+            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+        }
+
+
+        catch (Exception ex)
+        {
+        }
+    }
+
+    protected void TabContainer1_ActiveTabChanged(object sender, EventArgs e)
+    {
+        Session.Remove("TabIndex");
+    }
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+
+        TabContainer1.ActiveTab = TabContainer1.Tabs[2];
+        
+    }
+    protected void Button2_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Quotation_Delete.aspx?ModId=2&SubModId=63");
+    }
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView1.PageIndex = e.NewPageIndex;
+        this.FillGrid2();
+
+    }
+}

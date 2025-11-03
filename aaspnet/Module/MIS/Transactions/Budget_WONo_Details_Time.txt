@@ -1,0 +1,614 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MIS/Transactions/Budget_WONo_Details_Time.aspx.txt ===
+
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Budget_WONo_Details_Time.aspx.cs" Inherits="Module_Accounts_Transactions_Budget_WONo_Details_Time"  Theme ="Default" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>ERP</title>
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+  <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style1
+        {
+        }
+        .style2
+        {
+            height: 20px;
+        }
+        .style3
+        {
+            font-weight: bold;
+        }
+        .style4
+        {
+            height: 20px;
+            width: 116px;
+        }
+        .style5
+        {
+            height: 20px;
+            width: 337px;
+        }
+        .style6
+        {
+            height: 20px;
+            width: 101px;
+        }
+        .style7
+        {
+            width: 337px;
+        }
+        .style8
+        {
+            height: 22px;
+            width: 116px;
+        }
+        .style9
+        {
+            height: 22px;
+            width: 337px;
+        }
+        .style10
+        {
+            height: 22px;
+            width: 101px;
+        }
+        .style11
+        {
+            height: 22px;
+        }
+        .style12
+        {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            font-size: 11px;
+            font-style: normal;
+            line-height: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            color: #000000;
+            text-decoration: none;
+            width: 62%;
+        }
+        .style14
+        {
+            color: #FF0000;
+        }
+    </style>
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+</head>
+<body style="margin-bottom:0px; margin-left:0px; margin-right:0px; margin-top:0px;">
+    <form id="form1" runat="server">
+   
+    <table align="left" class="style12" cellpadding="0" 
+        cellspacing="0" ><tr >
+            <td align="left" valign="middle"  scope="col"   
+                            style="background:url(../../../images/hdbg.JPG)" class="fontcsswhite" 
+                            height="21" colspan="4">&#160;<b>Hrs Budget - Details</b></td></tr>
+        <tr>
+            <td align="left" class="style4">
+                <span lang="en-us">&nbsp;</span><asp:Label ID="lblwn" runat="server" Text="WO No" CssClass="style3"></asp:Label>
+               
+            </td>
+            <td align="left" class="style5">
+                <asp:Label ID="lblWONo" runat="server" 
+                    ></asp:Label>
+            </td>
+            <td align="left" class="style6">
+                <span lang="en-us">&nbsp;</span><asp:Label ID="Label6" runat="server" CssClass="style3" Text="Category"></asp:Label>
+            </td>
+            <td align="left" class="style2">
+                <asp:Label ID="lblCate" runat="server"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" class="style8">
+                <span lang="en-us">&nbsp;</span><asp:Label ID="Label4" runat="server" Text="Equipment No." 
+                    CssClass="style3"></asp:Label>
+            </td>
+            <td align="left" class="style9">
+                <asp:Label ID="lblEquipNo" runat="server"></asp:Label>
+            </td>
+            <td align="left" class="style10">
+                <span lang="en-us">&nbsp;</span><asp:Label ID="Label7" runat="server" CssClass="style3" Text="Sub-Category"></asp:Label>
+            </td>
+            <td align="left" class="style11">
+                <asp:Label ID="lblSubCate" runat="server"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" class="style4" valign="top">
+                <span lang="en-us">&nbsp;</span><asp:Label ID="Label5" runat="server" Text="Description" 
+                    CssClass="style3"></asp:Label>
+                </td>
+            <td align="left" class="style7" rowspan="3" valign="top">
+                <asp:Label ID="lblDesc" runat="server"></asp:Label>
+            </td>
+            <td align="left" class="style6">
+                <span lang="en-us">&nbsp;</span><asp:Label ID="lblThr" runat="server" Text="Budget Hrs" CssClass="style3"></asp:Label>
+            </td>
+            <td align="left" class="style2">
+            <asp:Label ID="lblTotalHr" runat="server" 
+                    ></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" class="style4">
+                &nbsp;</td>
+            <td align="left" class="style6">
+                <span lang="en-us">&nbsp;</span><asp:Label ID="lblUhr" runat="server" Text="Utilized Hrs" CssClass="style3"></asp:Label>
+            </td>
+            <td align="left" class="style2">
+                <asp:Label ID="lblUsedHr" runat="server" 
+                    ></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" class="style4">
+                &nbsp;</td>
+            <td align="left" class="style6">
+                <span lang="en-us">&nbsp;</span><asp:Label ID="lblBhr" 
+                    runat="server" Text="Bal Hrs" CssClass="style3"></asp:Label>
+            </td>
+            <td align="left" class="style2">
+                <asp:Label 
+                    ID="lblBalHr" runat="server" 
+                    ></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" class="style2" colspan="4" >
+                <span lang="en-us">&nbsp;</span></td>
+        </tr>
+        <tr>
+            <td align="left" class="fontcss" colspan="4">
+               <asp:Panel ID="Panel1" runat="server"  Height="260px">
+                    <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" 
+                    DataKeyNames="Id"  Width="90%" 
+                    AllowPaging="True" CssClass="yui-datatable-theme" onrowupdating="GridView2_RowUpdating" 
+                        PageSize="20" onpageindexchanging="GridView2_PageIndexChanging" 
+                        onrowcommand="GridView2_RowCommand"  >
+                        <PagerSettings PageButtonCount="40" />
+                        <Columns>
+                            <asp:TemplateField HeaderText="SN" SortExpression="Id">
+                                <ItemTemplate>
+                                    <%# Container.DataItemIndex+1 %>
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Center" Width="3%" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="CK">
+                                <ItemTemplate>
+                                    <asp:CheckBox ID="CheckBox1" runat="server" AutoPostBack="true" 
+                                        OnCheckedChanged="CheckBox1_CheckedChanged" />
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Center" Width="2%" />
+                            </asp:TemplateField>
+                            <asp:TemplateField>
+                            <ItemTemplate>
+                            <asp:LinkButton ID="LinkButton1" CommandName="del" Text ="Delete" runat="server"
+                            OnClientClick=" return confirmationDelete()" ></asp:LinkButton>                    
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="3%"></ItemStyle>
+                            </asp:TemplateField>
+            
+                            <asp:TemplateField HeaderText="Id" SortExpression="Id" Visible="false">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblId" runat="server" Text='<%#Eval("Id") %>'> </asp:Label>
+                                </ItemTemplate>
+                                <ItemStyle Width="3%" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Date" SortExpression="Date">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblDate" runat="server" Text='<%#Eval("SysDate") %>'> </asp:Label>
+                                </ItemTemplate>
+                                <ItemStyle Width="8%" HorizontalAlign="Center" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Time" SortExpression="Time">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblTime" runat="server" Text='<%#Eval("SysTime") %>'> </asp:Label>
+                                </ItemTemplate>
+                                <ItemStyle Width="8%" HorizontalAlign="Center" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Hrs" SortExpression="Hrs">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblAmount" runat="server" Text='<%#Eval("Hour")%>' > </asp:Label>
+                                    <asp:TextBox ID="TxtAmount" runat="server" Text='<%#Eval("Hour")%>' 
+                                Visible="false" ValidationGroup="A" >
+                                    </asp:TextBox>
+                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1" 
+                                runat="server" ErrorMessage="*" ControlToValidate="TxtAmount" 
+                                ValidationExpression="^[1-9]\d*(\.\d+)?$" ValidationGroup="A"></asp:RegularExpressionValidator>
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Right" Width="10%" />
+                                <FooterTemplate>
+                                </FooterTemplate>
+                            </asp:TemplateField>
+                        </Columns>
+                    </asp:GridView>
+                 </asp:Panel>
+            </td>
+        </tr>
+       
+        <tr>
+        <td align="center" colspan="4" height="25" valign="middle">
+                   <asp:Button ID="BtnUpdate" runat="server" CssClass="redbox"  Text="Update"  OnClientClick=" return confirmationUpdate()"
+                       ValidationGroup="A" onclick="BtnUpdate_Click"  />
+                    &nbsp;<asp:Button ID="BtnCancel" runat="server" Text="Cancel" 
+                       CssClass="redbox" onclick="BtnCancel_Click"  />
+        
+                   <span lang="en-us">&nbsp; 
+                <asp:Label ID="lblMessage" runat="server" CssClass="style14" ></asp:Label> </span>
+        
+        </td>
+        </tr>
+       
+        </table>
+    
+    
+    </form>
+</body>
+</html>
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MIS/Transactions/Budget_WONo_Details_Time.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_Accounts_Transactions_Budget_WONo_Details_Time : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    CalBalBudgetAmt calbalbud = new CalBalBudgetAmt();
+    PO_Budget_Amt PBM = new PO_Budget_Amt();
+    Cal_Used_Hours CUH = new Cal_Used_Hours();
+
+    int CompId = 0;
+    int FinYearId = 0;
+    string Id = string.Empty;
+    string wono= string.Empty;
+    double TotalHr = 0;
+    double UsedHr = 0;
+    double BalHr = 0;
+    string CDate = string.Empty;
+    string CTime =string.Empty;
+    string sId =string.Empty;
+    string AllocHrs = string.Empty;
+    string UtilHrs = string.Empty;
+    string BalHrs = string.Empty;
+    string EquipId = string.Empty;
+    string CatId = string.Empty;
+    string SubCatId = string.Empty;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {       
+        CompId = Convert.ToInt32(Session["compid"]);
+        FinYearId = Convert.ToInt32(Session["finyear"]);
+        sId = Session["username"].ToString();       
+        wono = Request.QueryString["WONo"];
+        EquipId = Request.QueryString["Eqid"];
+        AllocHrs = Request.QueryString["AllocHrs"];
+        UtilHrs = Request.QueryString["UtilHrs"];
+        BalHrs = Request.QueryString["BalHrs"];
+        CatId = Request.QueryString["Cat"];
+        SubCatId = Request.QueryString["SubCat"];
+
+        lblWONo.Text = wono;
+        lblMessage.Text = "";
+
+        lblTotalHr.Text = AllocHrs.ToString();
+        lblUsedHr.Text = UtilHrs.ToString();
+        lblBalHr.Text = BalHrs.ToString();
+
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+
+        try
+        {
+            if (!IsPostBack)
+            {
+                this.FillGrid();
+            }
+            
+            con.Open();
+
+            string selHrsBudget = "SELECT tblMIS_BudgetHrs_Field_SubCategory.SubCategory, tblMIS_BudgetHrs_Field_Category.Category, tblDG_Item_Master.ItemCode,tblDG_Item_Master.ManfDesc FROM tblMIS_BudgetHrs_Field_Category INNER JOIN tblMIS_BudgetHrs_Field_SubCategory ON tblMIS_BudgetHrs_Field_Category.Id = tblMIS_BudgetHrs_Field_SubCategory.MId INNER JOIN  tblACC_Budget_WO_Time ON tblMIS_BudgetHrs_Field_SubCategory.Id = tblACC_Budget_WO_Time.HrsBudgetSubCat AND tblMIS_BudgetHrs_Field_Category.Id = tblACC_Budget_WO_Time.HrsBudgetCat INNER JOIN tblDG_Item_Master ON tblACC_Budget_WO_Time.EquipId = tblDG_Item_Master.Id AND tblACC_Budget_WO_Time.WONo='" + wono + "' AND tblACC_Budget_WO_Time.HrsBudgetCat='" + CatId + "' AND tblACC_Budget_WO_Time.HrsBudgetSubCat='" + SubCatId + "' AND tblACC_Budget_WO_Time.EquipId='" + EquipId + "'";
+            SqlCommand cmdselHrsBudget = new SqlCommand(selHrsBudget, con);
+            SqlDataReader DSselHrsBudget = cmdselHrsBudget.ExecuteReader();
+            DSselHrsBudget.Read();
+
+            lblEquipNo.Text = DSselHrsBudget["ItemCode"].ToString();
+            lblDesc.Text = DSselHrsBudget["ManfDesc"].ToString();
+            lblCate.Text = DSselHrsBudget["Category"].ToString();
+            lblSubCate.Text = DSselHrsBudget["SubCategory"].ToString();
+
+            //int prevYear = 0;
+            //prevYear = (FinYearId - 1);
+
+            //double openingBalOfPrevYear = 0;
+            //openingBalOfPrevYear = calbalbud.TotBalBudget_WONO(Convert.ToInt32(Code), CompId, prevYear, wono, 0);
+            //string selectBudget = "select Sum(Hour) As hours from tblACC_Budget_WO_Time where BudgetCodeId='" + Code + "' and WONo='" + wono + "' And FinYearId=" + FinYearId + " group by BudgetCodeId";
+            //SqlCommand cmdBD = new SqlCommand(selectBudget, con);
+            //SqlDataAdapter daBD = new SqlDataAdapter(cmdBD);
+            //DataSet dsBD = new DataSet();
+            //daBD.Fill(dsBD);
+
+            //if (dsBD.Tables[0].Rows.Count > 0)
+            //{
+            //    TotalHr = Math.Round((Convert.ToDouble(dsBD.Tables[0].Rows[0]["hours"]) + openingBalOfPrevYear), 2);
+            //}
+            //else
+            //{
+            //    TotalHr = openingBalOfPrevYear;
+            //}
+
+            //UsedHr = Math.Round(Convert.ToDouble(CUH.TotFillPart(Convert.ToInt32(Code), wono, 0,CompId,FinYearId,0)), 2);
+            //BalHr = Math.Round((TotalHr - UsedHr), 2);        
+
+        }
+        catch (Exception ex)
+        {
+            con.Close();
+        }
+    }
+    public void FillGrid()
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+
+        try
+        {
+            con.Open();
+
+            string sel = "Select Id,REPLACE(CONVERT (varchar, CONVERT (datetime, SUBSTRING(SysDate , CHARINDEX('-',SysDate ) + 1, 2) + '-' + LEFT (SysDate , CHARINDEX('-', SysDate ) - 1) + '-' + RIGHT (SysDate , CHARINDEX('-', REVERSE(tblACC_Budget_WO_Time.SysDate )) - 1)), 103), '/', '-') AS SysDate,SysTime, Hour  from  tblACC_Budget_WO_Time where WONo='" + wono + "' AND HrsBudgetCat='" + CatId + "' AND HrsBudgetSubCat='" + SubCatId + "' AND EquipId='" + EquipId + "'";
+            SqlCommand cmd = new SqlCommand(sel, con);
+            SqlDataAdapter ad = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            ad.Fill(ds);
+
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                GridView2.DataSource = ds;
+                GridView2.DataBind();
+            }
+        }
+        catch (Exception ex) { }
+        finally 
+        { 
+            con.Close();
+        }
+    }
+    protected void CheckBox1_CheckedChanged(object sender, EventArgs e)
+    {
+
+        try
+        {
+            foreach (GridViewRow grv in GridView2.Rows)
+            {
+                if (((CheckBox)grv.FindControl("CheckBox1")).Checked == true)
+                {
+
+                    ((TextBox)grv.FindControl("TxtAmount")).Visible = true;
+                    ((Label)grv.FindControl("lblAmount")).Visible = false;
+                }
+                else
+                {
+                    ((Label)grv.FindControl("lblAmount")).Visible = true;
+                    ((TextBox)grv.FindControl("TxtAmount")).Visible = false;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    protected void GridView2_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+        try
+        {
+            Page.Response.Redirect(Page.Request.Url.ToString(), true);
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    //protected void BtnUpdate_Click(object sender, EventArgs e)
+    //{
+    //    string connStr = fun.Connection();
+    //    SqlConnection con = new SqlConnection(connStr);
+    //   //try
+    //    {
+    //        CDate = fun.getCurrDate();
+    //        CTime = fun.getCurrTime();
+
+    //        con.Open();
+
+    //        double TUPHR = 0;
+    //        foreach (GridViewRow grv in GridView2.Rows)
+    //        {
+    //            if (((CheckBox)grv.FindControl("CheckBox1")).Checked == true)
+    //            {
+    //                TUPHR += Math.Round(Convert.ToDouble(((TextBox)grv.FindControl("TxtAmount")).Text), 2);
+    //            }
+    //            if (((CheckBox)grv.FindControl("CheckBox1")).Checked == false)
+    //            {
+    //                TUPHR += Math.Round(Convert.ToDouble(((Label)grv.FindControl("lblAmount")).Text), 2);
+    //            }
+    //        }
+    //        double x = 0;
+    //        x = Math.Round((TUPHR - UsedHr), 2);
+    //        int y = 0;
+    //        foreach (GridViewRow grv in GridView2.Rows)
+    //        {
+    //            if (((CheckBox)grv.FindControl("CheckBox1")).Checked == true)
+    //            {
+    //                double Amt = Math.Round(Convert.ToDouble(((TextBox)grv.FindControl("TxtAmount")).Text), 2);
+    //                int id = Convert.ToInt32(((Label)grv.FindControl("lblId")).Text);
+
+    //                if (Amt > 0)
+    //                {
+    //                    if (x >= 0)
+    //                    {
+    //                        string update = ("Update tblACC_Budget_WO_Time set SysDate='" + CDate + "'  ,SysTime='" + CTime + "',CompId='" + CompId + "',FinYearId='" + FinYearId + "',SessionId='" + sId + "' ,Hour='" + Amt + "'  where Id='" + id + "' ");
+
+    //                        SqlCommand cmd = new SqlCommand(update, con);
+    //                        cmd.ExecuteNonQuery();
+    //                        lblMessage.Text = "Record Updated";
+    //                        y++;
+    //                    }
+    //                    else
+    //                    {
+    //                        string myStringVariable = string.Empty;
+    //                        myStringVariable = "Only " + BalHr + " hours are Balanced";
+    //                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable + "');", true);
+    //                    }
+    //                }
+    //            }
+    //        }
+    //        if (y > 0)
+    //        {
+    //            Page.Response.Redirect(Page.Request.Url.ToString(), true);
+    //        }
+    //    }
+
+    //    //catch (Exception ex)
+    //    {
+    //    }
+    //    finally
+    //    {
+    //        con.Close();
+    //    }
+    //}
+
+    protected void BtnUpdate_Click(object sender, EventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+
+        try
+        {
+            CDate = fun.getCurrDate();
+            CTime = fun.getCurrTime();
+
+            con.Open();
+
+            foreach (GridViewRow grv in GridView2.Rows)
+            {
+                if (((CheckBox)grv.FindControl("CheckBox1")).Checked == true)
+                {
+                    double Hrs = 0;
+                    Hrs = Math.Round(Convert.ToDouble(((TextBox)grv.FindControl("TxtAmount")).Text), 2);
+                   
+                    int id = 0;
+                    id = Convert.ToInt32(((Label)grv.FindControl("lblId")).Text);
+
+                    //if (Hrs > 0)
+                    {
+                        string update = ("Update tblACC_Budget_WO_Time set SysDate='" + CDate + "', SysTime='" + CTime + "',SessionId='" + sId + "' ,Hour='" + Hrs + "' where Id='" + id + "' ");
+
+                        SqlCommand cmd = new SqlCommand(update, con);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            Page.Response.Redirect(Page.Request.Url.ToString(), true);
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+            con.Close();
+        }
+    }
+
+    protected void BtnCancel_Click(object sender, EventArgs e)
+    {
+        string wono = Request.QueryString["WONo"];
+        Response.Redirect("~/Module/MIS/Transactions/Budget_WONo_Time.aspx?WONo=" + wono + "");
+    }
+
+    protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            GridView2.PageIndex = e.NewPageIndex;
+            this.FillGrid();
+        }
+        catch (Exception ex)
+        {
+        }
+    }   
+
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        con.Open();
+
+        try
+        {
+            if (e.CommandName == "del")
+            {
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                int recid = Convert.ToInt32(((Label)row.FindControl("lblId")).Text);
+               
+                //double Hrs = Convert.ToDouble(((TextBox)row.FindControl("TxtAmount")).Text);
+                
+                //if (BalHr >= Hrs)
+                {
+                    string delete = fun.delete("tblACC_Budget_WO_Time", "Id='" + recid + "'");
+                    SqlCommand cmd = new SqlCommand(delete, con);
+                    cmd.ExecuteNonQuery();
+
+                    string sel = fun.select("*", "tblACC_Budget_WO_Time", "WONo='" + wono + "' AND HrsBudgetCat='" + CatId + "' AND HrsBudgetSubCat='" + SubCatId + "' AND EquipId='"+EquipId+"'");
+                    SqlCommand cmdck = new SqlCommand(sel, con);
+                    SqlDataReader DS = cmdck.ExecuteReader();
+                    DS.Read();
+
+                    if (DS.HasRows == true)
+                    {
+                        Page.Response.Redirect(Page.Request.Url.ToString(), true);
+                    }
+                    else
+                    {
+                        Response.Redirect("~/Module/MIS/Transactions/Budget_WONo_Time.aspx?WONo=" + wono + "&ModId=14");                        
+                    }
+                }
+                //else
+                //{
+                //    string myStringVariable = string.Empty;
+                //    myStringVariable = "You can not delete this record, Because  hours are " + BalHr + " only.";
+                //    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable + "');", true);
+                //}
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+            con.Close();
+        }
+
+    }
+
+
+}
+
+    
+

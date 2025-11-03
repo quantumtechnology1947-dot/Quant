@@ -1,0 +1,368 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/ProformaInvoice_Delete_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ProformaInvoice_Delete_Details.aspx.cs" Inherits="Module_Accounts_Transactions_ProformaInvoice_Delete_Details" Title="ERP" Theme="Default" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+<%@ Register assembly="TimePicker" namespace="MKB.TimePicker" tagprefix="MKB" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+<script type="text/javascript">
+        function OnChanged(sender, args)
+        {
+            ServerUtilities.SetTabIndex(sender.get_activeTabIndex());
+        }
+    </script>
+
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+ <table align="left" cellpadding="0" cellspacing="0"  width="100%">
+        <tr>
+            <td style="background:url(../../../images/hdbg.JPG); height:21px" class="fontcsswhite" >&nbsp;<b>Proforma Invoice - Delete</b></td>
+        </tr>
+        <tr>
+            <td>
+              
+                
+                <table align="left" cellpadding="0" cellspacing="0"  width="100%">
+                    <tr>
+                        <td  height="21">
+                          <asp:Panel ID="Panel1" runat="server" ScrollBars="Auto" Height="445px">
+                              <asp:Panel ID="Panel2" runat="server" Height="440px" ScrollBars="Auto">
+                                  <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" 
+                                      CssClass="yui-datatable-theme" 
+                                      onpageindexchanging="GridView1_PageIndexChanging" 
+                                      onrowcommand="GridView1_RowCommand" PageSize="17" Width="100%">
+                                      <Columns>
+                                          <asp:TemplateField HeaderText="SN">
+                                              <ItemTemplate>
+                                                  <%#Container.DataItemIndex+1  %>
+                                              </ItemTemplate>
+                                              <HeaderStyle Font-Size="10pt" />
+                                              <ItemStyle HorizontalAlign="Right" VerticalAlign="Top" Width="4%" />
+                                          </asp:TemplateField>
+                                          <asp:TemplateField>
+                                              <ItemTemplate>
+                                                  <asp:CheckBox ID="CheckBox1" runat="server" AutoPostBack="false" />
+                                              </ItemTemplate>
+                                              <ItemStyle Width="2%" />
+                                          </asp:TemplateField>
+                                          <asp:TemplateField HeaderText="Id" Visible="false">
+                                              <ItemTemplate>
+                                                  <asp:Label ID="lblId" runat="server" Text='<%#Eval("Id") %>'> </asp:Label>
+                                              </ItemTemplate>
+                                              <ItemStyle Width="0%" />
+                                          </asp:TemplateField>
+                                          <asp:TemplateField HeaderText="Description">
+                                              <ItemTemplate>
+                                                  <asp:Label ID="lblItemDesc" runat="server" Text='<%#Eval("ItemDesc") %>'></asp:Label>
+                                              </ItemTemplate>
+                                              <ItemStyle Width="25%" />
+                                          </asp:TemplateField>
+                                          <asp:TemplateField HeaderText="UOM">
+                                              <ItemTemplate>
+                                                  <asp:Label ID="lblSymbol" runat="server" Text='<%#Eval("Symbol") %>'></asp:Label>
+                                              </ItemTemplate>
+                                              <ItemStyle HorizontalAlign="Center" Width="5%" />
+                                          </asp:TemplateField>
+                                          <asp:TemplateField HeaderText="UnitId" Visible="False">
+                                              <ItemTemplate>
+                                                  <asp:Label ID="lblIdSymbol" runat="server" Text='<%#Eval("Unit") %>'></asp:Label>
+                                              </ItemTemplate>
+                                              <ItemStyle Width="0%" />
+                                          </asp:TemplateField>
+                                          <asp:TemplateField HeaderText="Qty">
+                                              <ItemTemplate>
+                                                  <asp:Label ID="lblQty" runat="server" Text='<%#Eval("Qty") %>'></asp:Label>
+                                              </ItemTemplate>
+                                              <ItemStyle HorizontalAlign="Right" Width="5%" />
+                                          </asp:TemplateField>
+                                          <asp:TemplateField HeaderText="Rem Qty">
+                                              <ItemTemplate>
+                                                  <asp:Label ID="lblRmnQty" runat="server" Text='<%#Eval("RmnQty") %>'></asp:Label>
+                                              </ItemTemplate>
+                                              <ItemStyle HorizontalAlign="Right" Width="8%" />
+                                          </asp:TemplateField>
+                                          <asp:TemplateField HeaderText="ItemId" Visible="false">
+                                              <ItemTemplate>
+                                                  <asp:Label ID="lblItemId" runat="server" Text='<%#Eval("ItemId") %>'></asp:Label>
+                                              </ItemTemplate>
+                                          </asp:TemplateField>
+                                          <asp:TemplateField HeaderText="Req Qty">
+                                              <ItemTemplate>
+                                                  <asp:Label ID="lblReqQty" runat="server" Text='<%#Eval("ReqQty") %>'></asp:Label>
+                                              </ItemTemplate>
+                                              <ItemStyle HorizontalAlign="Right" Width="8%" />
+                                          </asp:TemplateField>
+                                          <asp:TemplateField HeaderText="Amt In Per">
+                                              <ItemTemplate>
+                                                  <asp:Label ID="lblAmtInPer" runat="server" Text='<%#Eval("AmtInPer") %>'></asp:Label>
+                                              </ItemTemplate>
+                                              <ItemStyle HorizontalAlign="Right" Width="8%" />
+                                          </asp:TemplateField>
+                                          <asp:TemplateField HeaderText="Rate">
+                                              <ItemTemplate>
+                                                  <asp:Label ID="lblRate" runat="server" Text='<%#Eval("Rate") %>'></asp:Label>
+                                              </ItemTemplate>
+                                              <ItemStyle HorizontalAlign="Right" Width="6%" />
+                                          </asp:TemplateField>
+                                      </Columns>
+                                      <FooterStyle Wrap="True" />
+                                      <EmptyDataTemplate>
+                                          <table class="fontcss" width="100%">
+                                              <tr>
+                                                  <td align="center">
+                                                      <asp:Label ID="Label1" runat="server" Font-Size="Larger" ForeColor="maroon" 
+                                                          Text="No data to display !"> </asp:Label>
+                                                  </td>
+                                              </tr>
+                                          </table>
+                                      </EmptyDataTemplate>
+                                  </asp:GridView>
+                              </asp:Panel>
+                                  </asp:Panel>
+                        </td></tr>
+                        
+                        
+                        
+                        <tr><td align="center" height="25" valign="middle"><asp:Button ID="Btngoods" runat="server" OnClientClick=" return confirmationDelete()" CssClass="redbox"  onclick="Btngoods_Click"  Text="Delete" />&nbsp; <asp:Button ID="ButtonCancel"  runat="server" CssClass="redbox" OnClick=" ButtonCancel_Click" 
+                                        Text="Cancel" />
+                        </td></tr>
+                        </table>
+                        
+                       
+            </td>
+        </tr>
+    </table>
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/ProformaInvoice_Delete_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_Accounts_Transactions_ProformaInvoice_Delete_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();    
+    string sId = "";
+    int CompId = 0;
+    int FinYearId = 0;
+    string InvId = "";
+    string CCode = "";
+    string InvNo = "";
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+       // try
+        {
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            CompId = Convert.ToInt32(Session["compid"]);           
+            InvId = fun.Decrypt(Request.QueryString["InvId"].ToString());
+            
+            InvNo = fun.Decrypt(Request.QueryString["InvNo"]);
+            CCode = fun.Decrypt(Request.QueryString["cid"].ToString());
+            sId = Session["username"].ToString();
+
+
+            if (!IsPostBack)
+            {
+                this.LoadData();
+            }
+        }
+
+       // catch (Exception ce){}
+    }
+
+    public void LoadData()
+    {
+
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        con.Open();
+       
+        //try
+        {
+
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("ItemDesc", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Symbol", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Qty", typeof(float)));
+            dt.Columns.Add(new System.Data.DataColumn("ReqQty", typeof(float)));
+            dt.Columns.Add(new System.Data.DataColumn("AmtInPer", typeof(float)));
+            dt.Columns.Add(new System.Data.DataColumn("Rate", typeof(float)));
+            dt.Columns.Add(new System.Data.DataColumn("RmnQty", typeof(float)));
+            dt.Columns.Add(new System.Data.DataColumn("ItemId", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Unit", typeof(int)));
+           
+            DataRow dr;                       
+            
+            string sql = fun.select("tblACC_ProformaInvoice_Details.Id,tblACC_ProformaInvoice_Master.POId,tblACC_ProformaInvoice_Details.ItemId,tblACC_ProformaInvoice_Details.InvoiceNo,tblACC_ProformaInvoice_Details.ItemId,tblACC_ProformaInvoice_Details.Unit,tblACC_ProformaInvoice_Details.Qty,tblACC_ProformaInvoice_Details.ReqQty,tblACC_ProformaInvoice_Details.AmtInPer,tblACC_ProformaInvoice_Details.Rate", "tblACC_ProformaInvoice_Details,tblACC_ProformaInvoice_Master", " tblACC_ProformaInvoice_Master.Id=tblACC_ProformaInvoice_Details.MId AND tblACC_ProformaInvoice_Master.Id='" + InvId + "' AND tblACC_ProformaInvoice_Master.CompId='" + CompId + "'");
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet DS = new DataSet();
+            da.Fill(DS);
+                        
+
+            for (int p = 0; p < DS.Tables[0].Rows.Count; p++)
+            {
+                if (DS.Tables[0].Rows.Count > 0)
+                {
+                    dr = dt.NewRow();
+                    dr[0] = DS.Tables[0].Rows[p]["Id"].ToString();                    
+                    string sql1 = fun.select("SD_Cust_PO_Details.ItemDesc", "SD_Cust_PO_Details,SD_Cust_PO_Master", "SD_Cust_PO_Details.Id='" + DS.Tables[0].Rows[p]["ItemId"].ToString() + "'AND SD_Cust_PO_Details.POId=SD_Cust_PO_Master.POId And SD_Cust_PO_Master.CompId='" + CompId + "' AND SD_Cust_PO_Master.POId='" + DS.Tables[0].Rows[p]["POId"].ToString() + "'");
+                    
+                    SqlCommand cmd1 = new SqlCommand(sql1, con);
+                    SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+                    DataSet DS1 = new DataSet();
+                    da1.Fill(DS1);
+                    if (DS1.Tables[0].Rows.Count > 0)
+                    {
+                        dr[1] = DS1.Tables[0].Rows[0]["ItemDesc"].ToString();
+                    }
+                    // For Symbol              
+
+                    string sql2 = fun.select("Symbol", "Unit_Master", "Id='" + DS.Tables[0].Rows[p]["Unit"].ToString() + "' ");
+
+                    SqlCommand cmd2 = new SqlCommand(sql2, con);
+                    SqlDataAdapter da2 = new SqlDataAdapter(cmd2);
+                    DataSet DS2 = new DataSet();
+                    da2.Fill(DS2);
+                    if (DS2.Tables[0].Rows.Count > 0)
+                    {
+                        dr[2] = DS2.Tables[0].Rows[0]["Symbol"].ToString();
+                    }
+                    double Qty = 0;
+                    double rmnqty = 0;
+                    string sqlrmn = fun.select("Sum(tblACC_ProformaInvoice_Details.ReqQty) as ReqQty", "tblACC_ProformaInvoice_Master,tblACC_ProformaInvoice_Details", "tblACC_ProformaInvoice_Details.MId=tblACC_ProformaInvoice_Master.Id  And  tblACC_ProformaInvoice_Master.CompId='" + CompId + "'   And tblACC_ProformaInvoice_Details.ItemId='" + DS.Tables[0].Rows[p]["ItemId"].ToString() + "'AND tblACC_ProformaInvoice_Master.Id='" + InvId + "'  Group By tblACC_ProformaInvoice_Details.ItemId");
+                    
+                    SqlCommand cmdmn = new SqlCommand(sqlrmn, con);
+                    SqlDataAdapter darmn = new SqlDataAdapter(cmdmn);
+                    DataSet dsrmn = new DataSet();
+                    darmn.Fill(dsrmn);
+
+
+                    double TotInvQty = 0;
+                    if (dsrmn.Tables[0].Rows.Count > 0)
+                    {
+                        TotInvQty = Convert.ToDouble(decimal.Parse(dsrmn.Tables[0].Rows[0]["ReqQty"].ToString()).ToString("N3"));
+                    }
+                    Qty = Convert.ToDouble(decimal.Parse(DS.Tables[0].Rows[p]["Qty"].ToString()).ToString("N3"));
+                    rmnqty = Qty - TotInvQty;
+                    dr[3] = Qty;
+                    dr[4] =  Convert.ToDouble(decimal.Parse(DS.Tables[0].Rows[p]["ReqQty"].ToString()).ToString("N3"));
+                    dr[5] =  Convert.ToDouble(decimal.Parse(DS.Tables[0].Rows[p]["AmtInPer"].ToString()).ToString("N2"));
+                    dr[6] = Convert.ToDouble(decimal.Parse(DS.Tables[0].Rows[p]["Rate"].ToString()).ToString("N2"));
+                    dr[7] = rmnqty;
+                    dr[8] = DS.Tables[0].Rows[p]["ItemId"].ToString();
+                    dr[9] = DS.Tables[0].Rows[p]["Unit"].ToString();
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+            }
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
+        }
+
+       // catch (Exception ex) { }
+    }
+    protected void Btngoods_Click(object sender, EventArgs e)
+    {
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        con.Open();
+
+        //try
+        {
+
+            foreach (GridViewRow grv in GridView1.Rows)
+            {
+                if (((CheckBox)grv.FindControl("CheckBox1")).Checked == true)
+                {
+
+                    int id = Convert.ToInt32(((Label)grv.FindControl("lblId")).Text);
+                    string sqltemp = fun.delete("tblACC_ProformaInvoice_Details", "Id='" + id + "' AND MId='" + InvId + "'");
+
+                    SqlCommand cmdtemp = new SqlCommand(sqltemp, con);
+                    cmdtemp.ExecuteNonQuery();
+                }
+            }
+
+            string sql = fun.select("*", "tblACC_ProformaInvoice_Details", "InvoiceNo='" + InvNo + "' AND MId='" + InvId + "'");
+            SqlCommand cmdinv = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmdinv);
+            DataSet DS = new DataSet();
+            da.Fill(DS);
+
+            if (DS.Tables[0].Rows.Count == 0)
+            {
+                string sqlupdate = fun.delete("tblACC_ProformaInvoice_Master", "CompId='" + CompId + "'  And InvoiceNo='" + InvNo + "' And Id='" + InvId + "'");
+                SqlCommand cmd = new SqlCommand(sqlupdate, con);
+                cmd.ExecuteNonQuery();
+
+                Response.Redirect("ProformaInvoice_Delete.aspx?ModId=11&SubModId=104");
+            }
+            else
+            {
+                Response.Redirect("ProformaInvoice_Delete_Details.aspx?InvNo=" + Server.UrlEncode(fun.Encrypt(InvNo)) + "&InvId=" + Server.UrlEncode(fun.Encrypt(InvId)) + "&cid=" + Server.UrlEncode(fun.Encrypt(CCode)) + "&ModId=11&SubModId=104");
+            }
+        }
+
+        //catch (Exception ex) { }
+
+        //finally
+        {
+            con.Close();
+        }
+    }   
+   
+    
+    protected void ButtonCancel_Click(object sender, EventArgs e)
+    {
+
+        Response.Redirect("ProformaInvoice_Delete.aspx?ModId=11&SubModId=104");
+    }  
+  
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+
+    } 
+
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView1.PageIndex = e.NewPageIndex;
+        this.LoadData();
+    }
+}

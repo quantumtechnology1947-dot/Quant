@@ -1,0 +1,1263 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Reports/Sales_Register.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Sales_Register.aspx.cs" Inherits="Module_Accounts_Reports_Sales_Register" Title="ERP" Theme="Default" Culture="en-GB" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<%@ Register Assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"
+    Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+
+    <style type="text/css">
+        .style4
+        {
+            font-weight: bold;
+        }
+        .style5
+        {
+            color: #FF0000;
+            font-weight: bold;
+        }
+    </style>
+    
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+
+
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table  width="100%">
+        <tr>
+            <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;Sales Register</b></td>
+        </tr>
+        <tr>
+            <td>
+                <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" 
+                    AutoPostBack="true"
+                    Width="100%" >
+                    <cc1:TabPanel runat="server" HeaderText="Payment" ID="Add">                      
+                    <HeaderTemplate>Sales</HeaderTemplate>                    
+
+<ContentTemplate>
+
+    
+    <table class="fontcss" width="100%">
+        <tr>
+            <td>
+                <asp:Label ID="lblFrmDt" runat="server" Font-Bold="True" Text="From Date :"></asp:Label>
+                <asp:TextBox ID="TxtChequeDate" runat="server" CssClass="box3" Width="80px"></asp:TextBox>
+                <cc1:CalendarExtender ID="TxtChequeDate_CalendarExtender" runat="server" 
+                    CssClass="cal_Theme2" Enabled="True" Format="dd-MM-yyyy" 
+                    TargetControlID="TxtChequeDate">
+                </cc1:CalendarExtender>
+                <asp:RequiredFieldValidator ID="ReqChequeDate" runat="server" 
+                    ControlToValidate="TxtChequeDate" ErrorMessage="*" ValidationGroup="M"></asp:RequiredFieldValidator>
+                <asp:RegularExpressionValidator ID="RegBillDate0" runat="server" 
+                    ControlToValidate="TxtChequeDate" ErrorMessage="*" 
+                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                    ValidationGroup="M"></asp:RegularExpressionValidator>
+                <asp:Label ID="lblToDt" runat="server" Font-Bold="True" Text="TO :"></asp:Label>
+                <asp:TextBox ID="TxtClearanceDate" runat="server" CssClass="box3" Width="80px"></asp:TextBox>
+                <cc1:CalendarExtender ID="TxtClearanceDate_CalendarExtender" runat="server" 
+                    CssClass="cal_Theme2" Enabled="True" Format="dd-MM-yyyy" 
+                    TargetControlID="TxtClearanceDate">
+                </cc1:CalendarExtender>
+                <asp:RequiredFieldValidator ID="ReqClearanceDate" runat="server" 
+                    ControlToValidate="TxtClearanceDate" ErrorMessage="*" ValidationGroup="M"></asp:RequiredFieldValidator>
+                <asp:RegularExpressionValidator ID="RegBillDate" runat="server" 
+                    ControlToValidate="TxtClearanceDate" ErrorMessage="*" 
+                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                    ValidationGroup="M"></asp:RegularExpressionValidator>
+                <asp:Button ID="BtnView" runat="server" CssClass="redbox" 
+                    OnClick="BtnView_Click" Text="View" ValidationGroup="M" />
+                <asp:CompareValidator ID="CompareValidator1" runat="server" 
+                    ControlToCompare="TxtClearanceDate" ControlToValidate="TxtChequeDate" 
+                    CssClass="style4" ErrorMessage="Invalid selected date range." 
+                    Operator="LessThanEqual" Type="Date" ValidationGroup="M"></asp:CompareValidator>
+                <asp:Label ID="lblsalemsg" runat="server" CssClass="style5" ForeColor="Red" 
+                    Visible="False"></asp:Label>
+            </td>
+        </tr>
+    </table>
+    
+    
+     <asp:Panel ID="Panel1"  Height="400px" ScrollBars="Auto" runat="server" Width="100%" >
+<CR:CrystalReportViewer ID="CrystalReportViewer1"   HasCrystalLogo="False"
+        AutoDataBind="True" 
+        ReportSourceID="CrystalReportSource1" runat="server"  
+             EnableParameterPrompt="False" Visible="False"
+        EnableDatabaseLogonPrompt="False" DisplayGroupTree="False" 
+        ReuseParameterValuesOnRefresh="True"  Width="100%" 
+              />
+    <CR:CrystalReportSource  ID="CrystalReportSource1"  runat="server">
+        <Report FileName="~/Module/Accounts/Reports/SalesExise_Print.rpt">
+        </Report>
+    </CR:CrystalReportSource> 
+</asp:Panel>
+    
+
+</ContentTemplate>
+</cc1:TabPanel>
+
+<cc1:TabPanel runat="server" HeaderText="" ID="TabPanel1">                      
+ <HeaderTemplate>Excise</HeaderTemplate>                    
+
+<ContentTemplate>
+
+<table width="100%" class="fontcss">
+                             <tr>
+                    <td align="left" width="100">
+                        <b>&nbsp;&nbsp; From Date: </b></td>
+                    <td align="left" height="26">
+            <asp:TextBox ID="TxtExFrDate" runat="server" CssClass="box3" Width="80px"></asp:TextBox>
+            <cc1:CalendarExtender ID="CalendarExtender1"  CssClass="cal_Theme2" runat="server" 
+                Enabled="True" Format="dd-MM-yyyy" TargetControlID="TxtExFrDate">
+            </cc1:CalendarExtender>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="TxtExFrDate" 
+                            ErrorMessage="*" ValidationGroup="b"></asp:RequiredFieldValidator>
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server" 
+                            ControlToValidate="TxtExFrDate" ErrorMessage="*" 
+                            ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                            ValidationGroup="b"></asp:RegularExpressionValidator>                        
+                        <b>To</b>
+            <b>:</b>
+            <asp:TextBox ID="txtExToDt" runat="server" CssClass="box3" Width="80px"></asp:TextBox>
+            <cc1:CalendarExtender ID="CalendarExtender2" CssClass="cal_Theme2"  runat="server" 
+                Enabled="True" Format="dd-MM-yyyy" TargetControlID="txtExToDt">
+            </cc1:CalendarExtender>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
+                            ControlToValidate="txtExToDt" ErrorMessage="*" ValidationGroup="b"></asp:RequiredFieldValidator>
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server" 
+                            ControlToValidate="txtExToDt" ErrorMessage="*" 
+                            ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                            ValidationGroup="b"></asp:RegularExpressionValidator>
+                        <b>
+                        <asp:Button ID="btnExcise" runat="server" CssClass="redbox" 
+                            onclick="btnExcise_Click" Text="View" ValidationGroup="b" />
+                        <b>
+                        <asp:CompareValidator ID="CompareValidator3" runat="server" 
+                            ControlToCompare="txtExToDt" ControlToValidate="TxtExFrDate" 
+                            ErrorMessage="Invalid selected date range." 
+                            Operator="LessThanEqual" Type="Date" ValidationGroup="b"></asp:CompareValidator>
+                        <asp:Label ID="lblexcisemsg" runat="server" CssClass="style5" ForeColor="Red" 
+                            Visible="False"></asp:Label>
+                        </b>
+                        </b>
+                        </td>
+                </tr>                            
+                </table>
+                
+                <asp:Panel ID="Panel3" runat="server" Height="400px" ScrollBars="Auto" 
+                    Width="100%">
+                    <CR:CrystalReportSource ID="CrystalReportSource3" runat="server">
+                        <Report FileName="~/Module/Accounts/Reports/SalesEx_Print.rpt">
+                        </Report>
+                    </CR:CrystalReportSource>
+                    <CR:CrystalReportViewer ID="CrystalReportViewer3" HasCrystalLogo="False"
+                    runat="server" AutoDataBind="True" ReportSourceID="CrystalReportSource3"  Visible="False"
+                    DisplayGroupTree="False" 
+                    EnableParameterPrompt="False" />
+                </asp:Panel>
+</ContentTemplate>
+</cc1:TabPanel>
+
+
+<cc1:TabPanel runat="server" HeaderText="Payment" ID="TabPanel2">                      
+ <HeaderTemplate>VAT/CST</HeaderTemplate>                    
+
+<ContentTemplate>
+ <table width="100%" class="fontcss">
+                             <tr>
+                    <td align="left" width="100">
+                        <b>&nbsp;&nbsp; From Date: </b></td>
+                    <td align="left" height="26">
+            <asp:TextBox ID="TxtFromDate" runat="server" CssClass="box3" Width="80px"></asp:TextBox>
+            <cc1:CalendarExtender ID="TxtFromDate_CalendarExtender"  CssClass="cal_Theme2" runat="server" 
+                Enabled="True" Format="dd-MM-yyyy" TargetControlID="TxtFromDate">
+            </cc1:CalendarExtender>
+                        <asp:RequiredFieldValidator ID="ReqFromDt" runat="server" ControlToValidate="TxtFromDate" 
+                            ErrorMessage="*" ValidationGroup="a"></asp:RequiredFieldValidator>
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" 
+                            ControlToValidate="TxtFromDate" ErrorMessage="*" 
+                            ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                            ValidationGroup="a"></asp:RegularExpressionValidator>
+                                                <b>To</b>
+            <b>:</b>
+            <asp:TextBox ID="TxtToDate" runat="server" CssClass="box3" Width="80px"></asp:TextBox>
+            <cc1:CalendarExtender ID="TxtToDate_CalendarExtender" CssClass="cal_Theme2"  runat="server" 
+                Enabled="True" Format="dd-MM-yyyy" TargetControlID="TxtToDate">
+            </cc1:CalendarExtender>
+                        <asp:RequiredFieldValidator ID="ReqCate2" runat="server" 
+                            ControlToValidate="TxtToDate" ErrorMessage="*" ValidationGroup="a"></asp:RequiredFieldValidator>
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" 
+                            ControlToValidate="TxtToDate" ErrorMessage="*" 
+                            ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                            ValidationGroup="a"></asp:RegularExpressionValidator>
+                        <b>
+                        <asp:Button ID="Btnsearch" runat="server" CssClass="redbox" 
+                            onclick="Btnsearch_Click" Text="View" ValidationGroup="a" />
+                        <b>
+                        <asp:CompareValidator ID="CompareValidator2" runat="server" 
+                            ControlToCompare="TxtToDate" ControlToValidate="TxtFromDate" 
+                            ErrorMessage="Invalid selected date range." 
+                            Operator="LessThanEqual" Type="Date" ValidationGroup="a"></asp:CompareValidator>
+                        <b>
+                        <asp:Label ID="lblvatcstmsg" runat="server" CssClass="style5" ForeColor="Red" 
+                            Visible="False"></asp:Label>
+                        </b>
+                        </b>
+                        </b>
+                        </td>
+                </tr>                            
+                </table>
+                
+                <asp:Panel ID="Panel2" runat="server" Height="400px" ScrollBars="Auto" 
+                    Width="100%">
+                    <CR:CrystalReportSource ID="CrystalReportSource2" runat="server">
+                        <Report FileName="~/Module/Accounts/Reports/Sales_Vat.rpt">
+                        </Report>
+                    </CR:CrystalReportSource>
+                    <CR:CrystalReportViewer ID="CrystalReportViewer2" HasCrystalLogo="False"
+                    runat="server" AutoDataBind="True" ReportSourceID="CrystalReportSource2"  Visible="False"
+                    DisplayGroupTree="False" EnableDatabaseLogonPrompt="False" 
+                    EnableParameterPrompt="False" />
+                </asp:Panel>
+                    
+</ContentTemplate>
+</cc1:TabPanel>
+
+</cc1:TabContainer>
+</td>
+</tr>
+
+</table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Reports/Sales_Register.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Threading;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+using System.Globalization;
+using System.Reflection;
+using System.Collections.Generic;
+
+public partial class Module_Accounts_Reports_Sales_Register : System.Web.UI.Page
+{
+    
+    clsFunctions fun = new clsFunctions();
+    DataSet DS = new DataSet();
+    int CompId = 0;
+    int FinYearId = 0;
+    string WN = "";
+    ReportDocument cryRpt = new ReportDocument();
+    ReportDocument cryRpt2 = new ReportDocument();
+    ReportDocument cryRpt3 = new ReportDocument();
+    string connStr = string.Empty;
+    string wordsRem = string.Empty;
+    SqlConnection con;
+    string FrDt = string.Empty;
+    string ToDt = string.Empty;
+    string FrExDt = string.Empty;
+    string ToExDt = string.Empty;
+    string Fdate = string.Empty;
+    string Tdate = string.Empty;
+    //string Key1 = string.Empty;
+    //string Key2 = string.Empty;
+    //string Key3 = string.Empty;
+    
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        try
+        {
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            
+            //Key1 = fun.GetRandomAlphaNumeric();
+            //Response.Write(Key1);
+
+            if (!IsPostBack)
+            {                
+                this.View();
+                this.View2();
+                this.View3();               
+            }
+            else
+            {
+                ReportDocument doc = (ReportDocument)Session["test1"];
+                CrystalReportViewer1.ReportSource = doc;
+
+                ReportDocument doc2 = (ReportDocument)Session["test2"];
+                CrystalReportViewer2.ReportSource = doc2;
+
+                ReportDocument doc3 = (ReportDocument)Session["test3"];
+                CrystalReportViewer3.ReportSource = doc3;
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+    
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        connStr = fun.Connection();
+        con = new SqlConnection(connStr);
+        cryRpt = new ReportDocument();
+        cryRpt2 = new ReportDocument();
+        cryRpt3 = new ReportDocument();
+
+        if (!IsPostBack)
+        {
+            DateTime x = fun.FirstDateInCurrMonth();
+            string strtDate = x.Date.ToShortDateString().Replace('/', '-');           
+            DateTime x1 = fun.LastDateInCurrMonth();
+            string EndDate = x1.Date.ToShortDateString().Replace('/', '-');
+            TxtExFrDate.Text = strtDate;
+            txtExToDt.Text = EndDate;
+            TxtFromDate.Text = strtDate;
+            TxtToDate.Text = EndDate;
+            TxtChequeDate.Text = strtDate;
+            TxtClearanceDate.Text = EndDate;
+        }
+
+    }
+
+    public void View()
+    {
+        DataSet dsrs = new DataSet();
+
+        try
+        {
+
+           con.Open();
+           
+                FinYearId = Convert.ToInt32(Session["finyear"]);
+                CompId = Convert.ToInt32(Session["compid"]);
+                string Sql = fun.select("*", "tblACC_SalesInvoice_Master", "CompId='" + CompId + "' And DateOfIssueInvoice Between '" + fun.FromDate(TxtChequeDate.Text) + "' And '" + fun.FromDate(TxtClearanceDate.Text) + "' ");
+                SqlCommand Cmdgrid = new SqlCommand(Sql, con);
+                SqlDataAdapter dagrid = new SqlDataAdapter(Cmdgrid);
+                
+                dagrid.Fill(dsrs);
+                DataTable dt = new DataTable();
+                dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));//0
+                dt.Columns.Add(new System.Data.DataColumn("SysDate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));//2
+                dt.Columns.Add(new System.Data.DataColumn("Commodity", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("InvoiceNo", typeof(string)));//4
+                dt.Columns.Add(new System.Data.DataColumn("TarrifNo", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("UOM", typeof(string)));//6
+                dt.Columns.Add(new System.Data.DataColumn("MFG", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("CLR", typeof(double)));//8
+                dt.Columns.Add(new System.Data.DataColumn("CLO", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("AssValue", typeof(double)));//10
+                dt.Columns.Add(new System.Data.DataColumn("PF", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("CENVAT", typeof(double))); //12               
+                dt.Columns.Add(new System.Data.DataColumn("Freight", typeof(double)));//13
+                dt.Columns.Add(new System.Data.DataColumn("Sn", typeof(int)));//14
+                dt.Columns.Add(new System.Data.DataColumn("Edu", typeof(double))); //15               
+                dt.Columns.Add(new System.Data.DataColumn("Excise", typeof(double)));//16
+                dt.Columns.Add(new System.Data.DataColumn("She", typeof(double)));//17
+                dt.Columns.Add(new System.Data.DataColumn("VATCST", typeof(double)));//18
+                dt.Columns.Add(new System.Data.DataColumn("Total", typeof(double)));//19  
+                dt.Columns.Add(new System.Data.DataColumn("OtherAmt", typeof(double)));//20    
+                DataRow dr;
+                int Sn = 1;
+                
+                    for (int i = 0; i < dsrs.Tables[0].Rows.Count; i++)
+                    {
+
+                        string Sql2 = "Select sum (ReqQty) as Qty,Unit,sum ((ReqQty*AmtInPer/100)*Rate) as Amt from tblACC_SalesInvoice_Details  where  MId='" + dsrs.Tables[0].Rows[i]["Id"].ToString() + "'group by unit ";
+                        SqlCommand Cmdgrid2 = new SqlCommand(Sql2, con);
+                        SqlDataAdapter dagrid2 = new SqlDataAdapter(Cmdgrid2);
+                        DataSet dsrs2 = new DataSet();
+                        dagrid2.Fill(dsrs2);
+                        int count = 0;
+                        int cnt = 0;
+                        cnt = dsrs2.Tables[0].Rows.Count;
+                        for (int k = 0; k < dsrs2.Tables[0].Rows.Count; k++)
+                        {
+
+                            dr = dt.NewRow();
+                            dr[0] = dsrs.Tables[0].Rows[i]["Id"].ToString();
+                            dr[2] = dsrs.Tables[0].Rows[i]["CompId"].ToString();
+                            string cmdStr = fun.select("FinYearFrom,FinYearTo", "tblFinancial_master", "CompId='" + dsrs.Tables[0].Rows[i]["CompId"] + "' And FinYearId='" + dsrs.Tables[0].Rows[i]["FinYearId"].ToString() + "'");
+                            SqlCommand cmd = new SqlCommand(cmdStr, con);
+                            SqlDataAdapter DA = new SqlDataAdapter(cmd);
+                            DA.Fill(DS, "Financial");
+                            string fY = "";
+                            if (DS.Tables[0].Rows.Count > 0)
+                            {
+                                string FinYearFrD = DS.Tables[0].Rows[0]["FinYearFrom"].ToString();
+                                string FDY = fun.FromDateYear(FinYearFrD);
+                                string s = FDY.Substring(2);
+                                string FinYearToD = DS.Tables[0].Rows[0]["FinYearTo"].ToString();
+                                string TDY = fun.ToDateYear(FinYearToD);
+                                string g = TDY.Substring(2);
+                                fY = string.Concat(s, g);
+                                string InvoiceNo = dsrs.Tables[0].Rows[i]["InvoiceNo"].ToString() + "/" + fY;
+                                dr[4] = InvoiceNo;
+
+                                if (count == 0)
+                                {
+                                    dr[1] = fun.FromDateDMY(dsrs.Tables[0].Rows[i]["SysDate"].ToString());
+                                    dr[14] = Sn;
+                                    Sn++;
+
+                                    //    Commodity 
+                                    string sqlCommodity = fun.select("*", "tblExciseCommodity_Master", "Id='" + dsrs.Tables[0].Rows[i]["Commodity"] + "'");
+                                    SqlCommand cmdCommodity = new SqlCommand(sqlCommodity, con);
+                                    SqlDataAdapter DACommodity = new SqlDataAdapter(cmdCommodity);
+                                    DataSet DSCommodity = new DataSet();
+                                    DACommodity.Fill(DSCommodity);
+
+                                    if (DSCommodity.Tables[0].Rows.Count > 0)
+                                    {
+                                        dr[3] = DSCommodity.Tables[0].Rows[0]["Terms"].ToString();
+                                        dr[5] = DSCommodity.Tables[0].Rows[0]["ChapHead"].ToString();
+                                    }
+                                }
+                                else
+                                {
+                                    dr[1] = "";
+                                    dr[14] = 0;
+                                    dr[3] = "";
+                                }
+                                count++;
+
+                            }
+
+                           
+
+                            string strUOMBasic = fun.select("Symbol", "Unit_Master", "Id='" + dsrs2.Tables[0].Rows[k]["Unit"] + "'");
+                            SqlCommand cmdUOMBasic = new SqlCommand(strUOMBasic, con);
+                            SqlDataAdapter daUOMBasic = new SqlDataAdapter(cmdUOMBasic);
+                            DataSet DSUOMBasic = new DataSet();
+                            daUOMBasic.Fill(DSUOMBasic);
+                            if (DSUOMBasic.Tables[0].Rows.Count > 0)
+                            {
+                                dr[6] = DSUOMBasic.Tables[0].Rows[0]["Symbol"];
+                            }
+
+                            dr[7] = Convert.ToDouble(dsrs2.Tables[0].Rows[k]["Qty"]);
+                            dr[8] = Convert.ToDouble(dsrs2.Tables[0].Rows[k]["Qty"]); ;
+                            dr[9] = Convert.ToDouble(dsrs2.Tables[0].Rows[k]["Qty"]) - Convert.ToDouble(dsrs2.Tables[0].Rows[k]["Qty"]);
+                            double BasicAmt = 0;
+                            double Pf = 0;
+                            double Fright = 0;
+                            BasicAmt = Convert.ToDouble(dsrs2.Tables[0].Rows[k]["Amt"]);
+                            dr[10] = BasicAmt;
+                            if (Convert.ToInt32(dsrs.Tables[0].Rows[i]["PFType"]) == 0)
+                            {
+                                Pf = Convert.ToDouble(dsrs.Tables[0].Rows[i]["PF"]);
+                            }
+                            else
+                            {
+                                Pf = (BasicAmt) * Convert.ToDouble(dsrs.Tables[0].Rows[i]["PF"]) / 100;
+                            }
+
+                            if (Convert.ToInt32(dsrs.Tables[0].Rows[i]["FreightType"]) == 0)
+                            {
+                                Fright = Convert.ToDouble(dsrs.Tables[0].Rows[i]["Freight"]);
+                            }
+                            else
+                            {
+                                Fright = ((BasicAmt) * Convert.ToDouble(dsrs.Tables[0].Rows[i]["Freight"]) / 100);
+                            }
+                            double y = 0;
+                            y = Pf / cnt;
+                            dr[11] = y;
+
+                            // CENVAT  
+                            string sqlCENVAT = fun.select("*", "tblExciseser_Master", "Id='" + dsrs.Tables[0].Rows[i]["CENVAT"] + "'");
+                            SqlCommand cmdCENVAT = new SqlCommand(sqlCENVAT, con);
+                            SqlDataAdapter DACENVAT = new SqlDataAdapter(cmdCENVAT);
+                            DataSet DSCENVAT = new DataSet();
+                            DACENVAT.Fill(DSCENVAT);
+
+                            double Excise = 0;
+                            double CenVat = 0;
+                            double EDU = 0;
+                            double SHE = 0;
+                            double Amt = 0;
+                            Amt = BasicAmt + y;
+                            if (DSCENVAT.Tables[0].Rows.Count > 0)
+                            {
+                                Excise = (Amt * Convert.ToDouble(DSCENVAT.Tables[0].Rows[0]["Value"]) / 100);
+                                CenVat = (Amt * Convert.ToDouble(DSCENVAT.Tables[0].Rows[0]["AccessableValue"]) / 100);
+                                EDU = (CenVat * Convert.ToDouble(DSCENVAT.Tables[0].Rows[0]["EDUCess"]) / 100);
+                                SHE = (CenVat * Convert.ToDouble(DSCENVAT.Tables[0].Rows[0]["SHECess"]) / 100);
+                            }
+                            dr[12] = CenVat;
+                            double x = 0;
+                            x = Fright / cnt;
+                            dr[13] = x;
+                            dr[15] = EDU;
+                            dr[16] = Excise;
+                            dr[17] = SHE;
+                            double Amt2 = 0;
+                            double Amt3 = 0;
+                            Amt2 = Amt + Excise;
+                            // Sales Tax
+                            if (dsrs.Tables[0].Rows[i]["VAT"].ToString() != "0")
+                            {
+
+                                string StrVC = fun.select("*", "tblVAT_Master", "Id='" + dsrs.Tables[0].Rows[i]["VAT"].ToString() + "'");
+                                SqlCommand CmdVC = new SqlCommand(StrVC, con);
+                                SqlDataAdapter DaVC = new SqlDataAdapter(CmdVC);
+                                DataSet DSVC = new DataSet();
+                                DaVC.Fill(DSVC, "tblVAT_Master");
+                                Amt3 = (Amt2 + x) * Convert.ToDouble(DSVC.Tables[0].Rows[0]["Value"]) / 100;
+                            }
+                            else if (dsrs.Tables[0].Rows[i]["CST"].ToString() != "0")
+                            {
+                                string StrVC = fun.select("*", "tblVAT_Master", "Id='" + dsrs.Tables[0].Rows[i]["CST"].ToString() + "'");
+                                SqlCommand CmdVC = new SqlCommand(StrVC, con);
+                                SqlDataAdapter DaVC = new SqlDataAdapter(CmdVC);
+                                DataSet DSVC = new DataSet();
+                                DaVC.Fill(DSVC, "tblVAT_Master");
+                                Amt3 = (Amt2 * Convert.ToDouble(DSVC.Tables[0].Rows[0]["Value"]) / 100) + x;
+
+                            }
+                            else if (dsrs.Tables[0].Rows[i]["CST"].ToString() == "0" && dsrs.Tables[0].Rows[i]["VAT"].ToString() == "0")
+                            {
+                                Amt3 = Amt2 + x;
+                            }
+                            dr[18] = Amt3;
+                          
+                            double OtherAmt = 0;
+                            if (dsrs.Tables[0].Rows[i]["OtherAmt"]!=DBNull.Value)
+                            {
+                                OtherAmt =Convert.ToDouble(dsrs.Tables[0].Rows[i]["OtherAmt"]);
+                            }
+                            dr[20] =OtherAmt;
+                            dr[19] = Amt + Excise + x + Amt3 + OtherAmt;
+
+                            dt.Rows.Add(dr);
+                            dt.AcceptChanges();
+                        }
+                    }
+                    if (dt.Rows.Count > 0)
+                    {
+                        CrystalReportViewer1.Visible = true;
+                        DataSet xsdds = new SalesExcise();
+                        xsdds.Tables[0].Merge(dt);
+                        xsdds.AcceptChanges();
+                        cryRpt = new ReportDocument();
+                        cryRpt.Load(Server.MapPath("~/Module/Accounts/Reports/SalesExise_Print.rpt"));
+                        cryRpt.SetDataSource(xsdds);
+                        //   Company Address 
+                        string Address = fun.CompAdd(CompId);
+                        cryRpt.SetParameterValue("Address", Address);
+                        FrDt = TxtChequeDate.Text;
+                        ToDt = TxtClearanceDate.Text;
+                        cryRpt.SetParameterValue("FrDt", FrDt);
+                        cryRpt.SetParameterValue("ToDt", ToDt);
+                        CrystalReportViewer1.ReportSource = cryRpt;
+                        Session["test1"] = cryRpt;
+                        lblsalemsg.Visible = false;
+                    }
+                    else
+                    {
+                        CrystalReportViewer1.Visible = false;
+                        lblsalemsg.Visible = true;
+                        lblsalemsg.Text = "No record found";
+
+                    }
+                       
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+            //dsrs.Clear();
+            //dsrs.Dispose();
+            con.Close();            
+        }
+    
+    }
+
+    public void View2()
+    {
+        // use US English culture throughout the examples
+        //Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
+        //string wordsIss;
+        string wordsRem = string.Empty;        
+        con.Open();
+       try
+        {
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            CompId = Convert.ToInt32(Session["compid"]);
+            Fdate = TxtFromDate.Text;
+            Tdate = TxtToDate.Text;
+            SqlCommand Cmdgrid = new SqlCommand(fun.select("*", "tblACC_SalesInvoice_Master", "CompId='" + CompId + "'  And DateOfIssueInvoice between '" + fun.FromDate(Fdate) + "' And '" + fun.FromDate(Tdate) + "'  "), con);
+            SqlDataAdapter dagrid = new SqlDataAdapter(Cmdgrid);
+            DataSet dsrs = new DataSet();
+            dagrid.Fill(dsrs);
+
+            DataTable dt = new DataTable();
+            DataTable dt2 = new DataTable();
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("SysDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("InvoiceNo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("CustomerCode", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("CustomerName", typeof(string)));
+
+
+            dt.Columns.Add(new System.Data.DataColumn("Total", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("ExciseTerms", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ExciseValues", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("PFType", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("PF", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("AccessableValue", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("EDUCess", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("SHECess", typeof(double)));
+
+
+            dt.Columns.Add(new System.Data.DataColumn("FreightType", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("Freight", typeof(double)));
+
+            dt.Columns.Add(new System.Data.DataColumn("VATCSTTerms", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("VATCST", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("TotAmt", typeof(double)));
+
+
+            dt2.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+            dt2.Columns.Add(new System.Data.DataColumn("SysDate", typeof(string)));
+            dt2.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));
+            dt2.Columns.Add(new System.Data.DataColumn("InvoiceNo", typeof(string)));
+            dt2.Columns.Add(new System.Data.DataColumn("CustomerCode", typeof(string)));
+            dt2.Columns.Add(new System.Data.DataColumn("CustomerName", typeof(string)));
+            dt2.Columns.Add(new System.Data.DataColumn("Total", typeof(double)));
+            dt2.Columns.Add(new System.Data.DataColumn("ExciseTerms", typeof(string)));
+            dt2.Columns.Add(new System.Data.DataColumn("ExciseValues", typeof(double)));
+            dt2.Columns.Add(new System.Data.DataColumn("PFType", typeof(int)));
+            dt2.Columns.Add(new System.Data.DataColumn("PF", typeof(double)));
+            dt2.Columns.Add(new System.Data.DataColumn("AccessableValue", typeof(double)));
+            dt2.Columns.Add(new System.Data.DataColumn("EDUCess", typeof(double)));
+            dt2.Columns.Add(new System.Data.DataColumn("SHECess", typeof(double)));
+            dt2.Columns.Add(new System.Data.DataColumn("FreightType", typeof(int)));
+            dt2.Columns.Add(new System.Data.DataColumn("Freight", typeof(double)));
+            dt2.Columns.Add(new System.Data.DataColumn("VATCSTTerms", typeof(string)));
+            dt2.Columns.Add(new System.Data.DataColumn("VATCST", typeof(double)));
+            dt2.Columns.Add(new System.Data.DataColumn("TotAmt", typeof(double)));
+
+
+            DataSet Sales_Vat = new DataSet();
+            DataRow dr;
+
+            DataRow dr2;
+
+            double vattotal = 0;
+            double csttotal = 0;
+            double basictotal = 0;
+            double excisetotal = 0;
+            double ACCtotal = 0;
+            double EDUTotal = 0;
+            double SHETotal = 0;
+
+            if (dsrs.Tables[0].Rows.Count > 0)
+            {
+                for (int i = 0; i < dsrs.Tables[0].Rows.Count; i++)
+                {
+
+                    double BasicAmt = 0;
+                    double PfAmt = 0;
+                    double ExciseAmt = 0;
+                    double AccValue = 0;
+                    double EDUValue = 0;
+                    double SHEValue = 0;
+                    double FreightAmt = 0;
+                    double VATCSTAmt = 0;
+                    double Amount1 = 0;
+                    double Amount2 = 0;
+                    double Amount3 = 0;
+                    double TotAmt = 0;
+
+                    dr = dt.NewRow();
+                    dr2 = dt2.NewRow();
+
+                    dr[0] = Convert.ToInt32(dsrs.Tables[0].Rows[i]["Id"]);
+                    dr2[0] = Convert.ToInt32(dsrs.Tables[0].Rows[i]["Id"]);
+                    dr[1] = fun.FromDateDMY(dsrs.Tables[0].Rows[i]["SysDate"].ToString());
+                    dr2[1] = fun.FromDateDMY(dsrs.Tables[0].Rows[i]["SysDate"].ToString());
+                    dr[2] = Convert.ToInt32(dsrs.Tables[0].Rows[i]["CompId"]);
+                    dr2[2] = Convert.ToInt32(dsrs.Tables[0].Rows[i]["CompId"]);
+                    dr[3] = dsrs.Tables[0].Rows[i]["InvoiceNo"].ToString();
+                    dr2[3] = dsrs.Tables[0].Rows[i]["InvoiceNo"].ToString();
+                    dr[4] = dsrs.Tables[0].Rows[i]["CustomerCode"].ToString();
+                    dr2[4] = dsrs.Tables[0].Rows[i]["CustomerCode"].ToString();
+
+                    string StrCust = fun.select("CustomerName+' ['+CustomerId+' ]' As CustomerName ", "SD_Cust_Master", "CompId='" + CompId + "'  AND  CustomerId='" + dsrs.Tables[0].Rows[i]["CustomerCode"].ToString() + "'");
+
+                    SqlCommand cmdCust = new SqlCommand(StrCust, con);
+                    SqlDataAdapter daCust = new SqlDataAdapter(cmdCust);
+                    DataSet DSCust = new DataSet();
+                    daCust.Fill(DSCust);
+
+                    if (DSCust.Tables[0].Rows.Count > 0)
+                    {
+                        dr[5] = DSCust.Tables[0].Rows[0]["CustomerName"].ToString();
+                        dr2[5] = DSCust.Tables[0].Rows[0]["CustomerName"].ToString();
+                    }
+
+                    string StrCust1 = fun.select("Sum((ReqQty*Rate)) As Total", "tblACC_SalesInvoice_Details", "MId='" + Convert.ToInt32(dsrs.Tables[0].Rows[i]["Id"]) + "'");
+
+                    SqlCommand cmdCust1 = new SqlCommand(StrCust1, con);
+                    SqlDataAdapter daCust1 = new SqlDataAdapter(cmdCust1);
+                    DataSet DSCust1 = new DataSet();
+                    daCust1.Fill(DSCust1);
+                    dr[6] = Convert.ToDouble(DSCust1.Tables[0].Rows[0]["Total"]);
+                    dr2[6] = Convert.ToDouble(DSCust1.Tables[0].Rows[0]["Total"]);
+
+
+                    string StrEx = fun.select("*", "tblExciseser_Master", "Id='" + dsrs.Tables[0].Rows[i]["CENVAT"].ToString() + "'");
+                    SqlCommand CmdEx = new SqlCommand(StrEx, con);
+                    SqlDataAdapter DaEx = new SqlDataAdapter(CmdEx);
+                    DataSet DSEx = new DataSet();
+                    DaEx.Fill(DSEx);
+
+                    dr[7] = DSEx.Tables[0].Rows[0]["Terms"].ToString();
+
+                    dr[8] = Convert.ToDouble(DSEx.Tables[0].Rows[0]["Value"]);
+
+
+
+
+
+                    dr2[7] = DSEx.Tables[0].Rows[0]["Terms"].ToString();
+
+                    dr2[8] = Convert.ToDouble(DSEx.Tables[0].Rows[0]["Value"]);
+
+                    dr[11] = Convert.ToDouble(DSEx.Tables[0].Rows[0]["AccessableValue"]);
+                    dr[12] = Convert.ToDouble(DSEx.Tables[0].Rows[0]["EDUCess"]);
+                    dr[13] = Convert.ToDouble(DSEx.Tables[0].Rows[0]["SHECess"]);
+                    dr[9] = Convert.ToInt32(dsrs.Tables[0].Rows[i]["PFType"]);
+                    dr[10] = Convert.ToDouble(dsrs.Tables[0].Rows[i]["PF"]);
+                    dr[14] = Convert.ToInt32(dsrs.Tables[0].Rows[i]["FreightType"]);
+                    dr[15] = Convert.ToDouble(dsrs.Tables[0].Rows[i]["Freight"]);
+
+                    dr2[11] = Convert.ToDouble(DSEx.Tables[0].Rows[0]["AccessableValue"]);
+                    dr2[12] = Convert.ToDouble(DSEx.Tables[0].Rows[0]["EDUCess"]);
+                    dr2[13] = Convert.ToDouble(DSEx.Tables[0].Rows[0]["SHECess"]);
+                    dr2[9] = Convert.ToInt32(dsrs.Tables[0].Rows[i]["PFType"]);
+                    dr2[10] = Convert.ToDouble(dsrs.Tables[0].Rows[i]["PF"]);
+                    dr2[14] = Convert.ToInt32(dsrs.Tables[0].Rows[i]["FreightType"]);
+                    dr2[15] = Convert.ToDouble(dsrs.Tables[0].Rows[i]["Freight"]);
+
+
+                    BasicAmt = Convert.ToDouble(DSCust1.Tables[0].Rows[0]["Total"]);
+                    if (Convert.ToInt32(dsrs.Tables[0].Rows[i]["PFType"]) == 0)
+                    {
+                        PfAmt = Convert.ToDouble(dsrs.Tables[0].Rows[i]["PF"]);
+                    }
+                    else
+                    {
+                        PfAmt = (BasicAmt * ((Convert.ToDouble(dsrs.Tables[0].Rows[i]["PF"])) / 100));
+                    }
+
+                    Amount1 = BasicAmt + PfAmt;
+
+                    ExciseAmt = (Amount1 * (Convert.ToDouble(DSEx.Tables[0].Rows[0]["Value"]))) / 100;
+                    AccValue = ((Amount1 * Convert.ToDouble(DSEx.Tables[0].Rows[0]["AccessableValue"])) / 100);
+                    EDUValue = ((AccValue * Convert.ToDouble(DSEx.Tables[0].Rows[0]["EDUCess"])) / 100);
+                    SHEValue = ((AccValue * Convert.ToDouble(DSEx.Tables[0].Rows[0]["SHECess"])) / 100);
+
+
+                    Amount2 = Amount1 + ExciseAmt;
+
+
+                    if (Convert.ToInt32(dsrs.Tables[0].Rows[i]["FreightType"]) == 0)
+                    {
+                        FreightAmt = Convert.ToDouble(dsrs.Tables[0].Rows[i]["Freight"]);
+                    }
+                    else
+                    {
+                        FreightAmt = (Amount2 * (Convert.ToDouble(dsrs.Tables[0].Rows[i]["Freight"]))) / 100;
+                    }
+
+                    if (dsrs.Tables[0].Rows[i]["VAT"].ToString() != "0")
+                    {
+                        basictotal += Convert.ToDouble(DSCust1.Tables[0].Rows[0]["Total"]);
+                        excisetotal += ExciseAmt;
+                        ACCtotal += AccValue;
+                        EDUTotal += EDUValue;
+                        SHETotal += SHEValue;
+
+                        string StrVC = fun.select("*", "tblVAT_Master", "Id='" + dsrs.Tables[0].Rows[i]["VAT"].ToString() + "'");
+                        SqlCommand CmdVC = new SqlCommand(StrVC, con);
+                        SqlDataAdapter DaVC = new SqlDataAdapter(CmdVC);
+                        DataSet DSVC = new DataSet();
+                        DaVC.Fill(DSVC, "tblVAT_Master");
+
+                        dr[16] = (DSVC.Tables[0].Rows[0]["Value"].ToString() + "%");
+
+                        Amount3 = Amount2 + FreightAmt;
+                        VATCSTAmt = ((Amount3 * (Convert.ToDouble(DSVC.Tables[0].Rows[0]["Value"]))) / 100);
+                        dr[17] = VATCSTAmt;
+                        vattotal += VATCSTAmt;
+
+                        TotAmt = Amount3 + VATCSTAmt;
+                        dr[18] = TotAmt;
+
+                        dt.Rows.Add(dr);
+                        dt.AcceptChanges();
+                    }
+                    else if (dsrs.Tables[0].Rows[i]["CST"].ToString() != "0")
+                    {
+                        basictotal += Convert.ToDouble(DSCust1.Tables[0].Rows[0]["Total"]);
+                        excisetotal += ExciseAmt;
+
+                        ACCtotal += AccValue;
+                        EDUTotal += EDUValue;
+                        SHETotal += SHEValue;
+                        string StrVC = fun.select("*", "tblVAT_Master", "Id='" + dsrs.Tables[0].Rows[i]["CST"].ToString() + "'");
+                        SqlCommand CmdVC = new SqlCommand(StrVC, con);
+                        SqlDataAdapter DaVC = new SqlDataAdapter(CmdVC);
+                        DataSet DSVC = new DataSet();
+                        DaVC.Fill(DSVC, "tblVAT_Master");
+
+                        dr2[16] = (DSVC.Tables[0].Rows[0]["Value"].ToString() + "%");
+                        VATCSTAmt = ((Amount2 * (Convert.ToDouble(DSVC.Tables[0].Rows[0]["Value"]))) / 100);
+
+                        TotAmt = Amount2 + VATCSTAmt + FreightAmt;
+                        dr2[17] = VATCSTAmt;
+                        csttotal += VATCSTAmt;
+                        dr2[18] = TotAmt;
+
+                        dt2.Rows.Add(dr2);
+                        dt2.AcceptChanges();
+
+                    }
+
+                }
+
+            }
+
+
+            Sales_Vat.Tables.Add(dt);
+            Sales_Vat.Tables.Add(dt2);
+
+            DataSet xsdds = new Vat_Sales();
+            xsdds.Tables[0].Merge(Sales_Vat.Tables[0]);
+            xsdds.Tables[1].Merge(Sales_Vat.Tables[1]);
+            xsdds.AcceptChanges();
+            if (xsdds.Tables[0].Rows.Count > 0 || xsdds.Tables[1].Rows.Count > 0)
+            {
+                CrystalReportViewer2.Visible = true;
+                cryRpt2 = new ReportDocument();
+                cryRpt2.Load(Server.MapPath("~/Module/Accounts/Reports/Sales_Vat.rpt"));
+                cryRpt2.SetDataSource(xsdds);
+                string Address = fun.CompAdd(CompId);
+                cryRpt2.SetParameterValue("Address", Address);
+                cryRpt2.SetParameterValue("FDate", Fdate);
+                cryRpt2.SetParameterValue("TDate", Tdate);
+                cryRpt2.SetParameterValue("BasicTotal", Math.Round(basictotal));
+                cryRpt2.SetParameterValue("ExciseTotal", Math.Round(excisetotal));
+                cryRpt2.SetParameterValue("VATTotal", Math.Round(vattotal));
+                cryRpt2.SetParameterValue("CSTTotal", Math.Round(csttotal));
+
+                cryRpt2.SetParameterValue("ACCtotal", Math.Round(ACCtotal));
+                cryRpt2.SetParameterValue("EDUTotal", Math.Round(EDUTotal));
+                cryRpt2.SetParameterValue("SHETotal", Math.Round(SHETotal));
+                CrystalReportViewer2.ReportSource = cryRpt2;
+                Session["test2"] = cryRpt2;
+                lblvatcstmsg.Visible = false;
+            }
+            else
+            {
+                lblvatcstmsg.Visible = true;
+                lblvatcstmsg.Text = "No record found";
+                CrystalReportViewer2.Visible = false;
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+            
+            con.Close();
+        }
+    }
+
+    protected void BtnView_Click(object sender, EventArgs e)
+    {       
+      
+      this.View();
+    }
+
+    protected void Btnsearch_Click(object sender, EventArgs e)
+    {       
+        if (fun.DateValidation(TxtFromDate.Text) == true && fun.DateValidation(TxtToDate.Text) == true)
+        {
+
+            this.View2();
+        }
+    }
+
+    public void View3()
+    {
+      try
+        {
+            con.Open();
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            CompId = Convert.ToInt32(Session["compid"]);
+            string Sql = fun.select("*", "tblACC_SalesInvoice_Master", "CompId='" + CompId + "' And  tblACC_SalesInvoice_Master.DateOfIssueInvoice Between '" + fun.FromDate(TxtExFrDate.Text) + "' And '" + fun.FromDate(txtExToDt.Text) + "' order by tblACC_SalesInvoice_Master.Id ");
+            SqlCommand Cmdgrid = new SqlCommand(Sql, con);
+            SqlDataAdapter dagrid = new SqlDataAdapter(Cmdgrid);
+            DataSet dsrs = new DataSet();
+            dagrid.Fill(dsrs);
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));//0
+            dt.Columns.Add(new System.Data.DataColumn("Commodity", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("CETSHNo", typeof(string)));//2
+            dt.Columns.Add(new System.Data.DataColumn("UOM", typeof(string)));//3
+            dt.Columns.Add(new System.Data.DataColumn("MFG", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("CLR", typeof(double)));//5
+            dt.Columns.Add(new System.Data.DataColumn("CLO", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("AssValue", typeof(double)));//7              
+            dt.Columns.Add(new System.Data.DataColumn("PF", typeof(double)));//8
+            dt.Columns.Add(new System.Data.DataColumn("BasicAmt", typeof(double)));//9 
+            dt.Columns.Add(new System.Data.DataColumn("CENVAT", typeof(double))); //10               
+            dt.Columns.Add(new System.Data.DataColumn("Freight", typeof(double)));//11
+            dt.Columns.Add(new System.Data.DataColumn("Sn", typeof(int)));//12
+            dt.Columns.Add(new System.Data.DataColumn("Edu", typeof(double))); //13               
+            dt.Columns.Add(new System.Data.DataColumn("Excise", typeof(double)));//14
+            dt.Columns.Add(new System.Data.DataColumn("She", typeof(double)));//15
+            dt.Columns.Add(new System.Data.DataColumn("VATCST", typeof(double)));//16
+            dt.Columns.Add(new System.Data.DataColumn("Total", typeof(double)));//17
+            dt.Columns.Add(new System.Data.DataColumn("s", typeof(double)));//17  
+            dt.Columns.Add(new System.Data.DataColumn("CommodityId", typeof(int)));//0
+            dt.Columns.Add(new System.Data.DataColumn("UOMId", typeof(int)));//0
+            DataRow dr;
+            int Sn = 1;
+
+            for (int i = 0; i < dsrs.Tables[0].Rows.Count; i++)
+            {
+                               
+
+                
+                string Sql2 = "Select (ReqQty) as Qty,unit,((ReqQty*AmtInPer/100)*Rate) as Amt from tblACC_SalesInvoice_Details where tblACC_SalesInvoice_Details.MId='" + dsrs.Tables[0].Rows[i]["Id"].ToString() + "' ";
+                SqlCommand Cmdgrid2 = new SqlCommand(Sql2, con);
+                SqlDataAdapter dagrid2 = new SqlDataAdapter(Cmdgrid2);
+                DataSet dsrs2 = new DataSet();
+                dagrid2.Fill(dsrs2);
+                int cnt = 0;
+                cnt = dsrs2.Tables[0].Rows.Count;
+                int count = 0;
+                for (int k = 0; k < dsrs2.Tables[0].Rows.Count; k++)
+                {
+                    double s = 0;
+                    double BasicAmt = 0;
+                    double Pf = 0;
+                    double Fright = 0;
+                    double Excise = 0;
+                    double CenVat = 0;
+                    double EDU = 0;
+                    double SHE = 0;
+                    double Amt = 0;
+                    string Term = string.Empty;
+                    string ChapHead = string.Empty;  
+
+                    dr = dt.NewRow();
+                    dr[0] = CompId;
+                    //Commodity 
+                    string sqlCommodity = fun.select("*", "tblExciseCommodity_Master", "Id='" + dsrs.Tables[0].Rows[i]["Commodity"] + "'");
+                    SqlCommand cmdCommodity = new SqlCommand(sqlCommodity, con);
+                    SqlDataAdapter DACommodity = new SqlDataAdapter(cmdCommodity);
+                    DataSet DSCommodity = new DataSet();
+                    DACommodity.Fill(DSCommodity);
+
+                    if (DSCommodity.Tables[0].Rows.Count > 0)
+                    {
+                        Term = DSCommodity.Tables[0].Rows[0]["Terms"].ToString();
+                        ChapHead = DSCommodity.Tables[0].Rows[0]["ChapHead"].ToString();
+                    }
+                    dr[1] = Term;
+                    dr[2] = ChapHead;
+                    string strUOMBasic = fun.select("Symbol", "Unit_Master", "Id='" + dsrs2.Tables[0].Rows[k]["unit"] + "'");
+                    SqlCommand cmdUOMBasic = new SqlCommand(strUOMBasic, con);
+                    SqlDataAdapter daUOMBasic = new SqlDataAdapter(cmdUOMBasic);
+                    DataSet DSUOMBasic = new DataSet();
+                    daUOMBasic.Fill(DSUOMBasic);
+                    if (DSUOMBasic.Tables[0].Rows.Count > 0)
+                    {
+                        dr[3] = DSUOMBasic.Tables[0].Rows[0]["Symbol"];
+                    }
+                    dr[4] = Convert.ToDouble(dsrs2.Tables[0].Rows[k]["Qty"]);
+                    dr[5] = Convert.ToDouble(dsrs2.Tables[0].Rows[k]["Qty"]); ;
+                    dr[6] = Convert.ToDouble(dsrs2.Tables[0].Rows[k]["Qty"]) - Convert.ToDouble(dsrs2.Tables[0].Rows[k]["Qty"]);
+
+                    BasicAmt = Convert.ToDouble(dsrs2.Tables[0].Rows[k]["Amt"]);
+
+                    if (Convert.ToInt32(dsrs.Tables[0].Rows[i]["PFType"]) == 0)
+                    {
+                        Pf = Convert.ToDouble(dsrs.Tables[0].Rows[i]["PF"]);
+                    }
+                    else
+                    {
+                        Pf = (BasicAmt) * Convert.ToDouble(dsrs.Tables[0].Rows[i]["PF"]) / 100;
+                    }
+
+                    if (Convert.ToInt32(dsrs.Tables[0].Rows[i]["FreightType"]) == 0)
+                    {
+                        Fright = Convert.ToDouble(dsrs.Tables[0].Rows[i]["Freight"]);
+                    }
+                    else
+                    {
+                        Fright = ((BasicAmt) * Convert.ToDouble(dsrs.Tables[0].Rows[i]["Freight"]) / 100);
+                    }
+                    double y = 0;
+                    y = Pf / cnt;
+                    Amt = BasicAmt + y;
+
+                    // CENVAT  
+                    string sqlCENVAT = fun.select("*", "tblExciseser_Master", "Id='" + dsrs.Tables[0].Rows[i]["CENVAT"] + "'");
+                    SqlCommand cmdCENVAT = new SqlCommand(sqlCENVAT, con);
+                    SqlDataAdapter DACENVAT = new SqlDataAdapter(cmdCENVAT);
+                    DataSet DSCENVAT = new DataSet();
+                    DACENVAT.Fill(DSCENVAT);
+                    if (DSCENVAT.Tables[0].Rows.Count > 0)
+                    {
+                        Excise = (Amt * Convert.ToDouble(DSCENVAT.Tables[0].Rows[0]["Value"]) / 100);
+                        CenVat = (Amt * (Convert.ToDouble(DSCENVAT.Tables[0].Rows[0]["AccessableValue"]) / 100));
+                        EDU = (CenVat * Convert.ToDouble(DSCENVAT.Tables[0].Rows[0]["EDUCess"]) / 100);
+                        SHE = (CenVat * Convert.ToDouble(DSCENVAT.Tables[0].Rows[0]["SHECess"]) / 100);
+                        //s = (Convert.ToDouble(DSCENVAT.Tables[0].Rows[0]["AccessableValue"]) / 100);
+                    }
+                    dr[7] = BasicAmt;
+                    dr[8] = y;
+                    dr[9] = CenVat;
+                    dr[10] = CenVat;
+                    double x = 0;
+                    x = Fright / cnt;
+                    dr[11] = x;
+
+                    string cmdStr = fun.select("FinYearFrom,FinYearTo", "tblFinancial_master", "CompId='" + dsrs.Tables[0].Rows[i]["CompId"] + "' And FinYearId='" + dsrs.Tables[0].Rows[i]["FinYearId"].ToString() + "'");
+                    SqlCommand cmd = new SqlCommand(cmdStr, con);
+                    SqlDataAdapter DA = new SqlDataAdapter(cmd);
+                    DA.Fill(DS, "Financial");
+                    string fY = "";
+                    if (DS.Tables[0].Rows.Count > 0)
+                    {
+
+                        if (count == 0)
+                        {
+
+                            dr[12] = Sn;
+                            Sn++;
+
+                        }
+                        else
+                        {
+
+                            dr[12] = 0;
+
+                        }
+                        count++;
+                    }
+                    dr[13] = EDU;
+                    dr[14] = Excise;
+                    dr[15] = SHE;
+                    double Amt2 = 0;
+                    double Amt3 = 0;
+                    Amt2 = Amt + Excise;
+                    //Sales Tax
+                    if (dsrs.Tables[0].Rows[i]["VAT"].ToString() != "0")
+                    {
+
+                        string StrVC = fun.select("*", "tblVAT_Master", "Id='" + dsrs.Tables[0].Rows[i]["VAT"].ToString() + "'");
+                        SqlCommand CmdVC = new SqlCommand(StrVC, con);
+                        SqlDataAdapter DaVC = new SqlDataAdapter(CmdVC);
+                        DataSet DSVC = new DataSet();
+                        DaVC.Fill(DSVC, "tblVAT_Master");
+                        Amt3 = (Amt2 + x) * Convert.ToDouble(DSVC.Tables[0].Rows[0]["Value"]) / 100;
+                    }
+                    else if (dsrs.Tables[0].Rows[i]["CST"].ToString() != "0")
+                    {
+                        string StrVC = fun.select("*", "tblVAT_Master", "Id='" + dsrs.Tables[0].Rows[i]["CST"].ToString() + "'");
+                        SqlCommand CmdVC = new SqlCommand(StrVC, con);
+                        SqlDataAdapter DaVC = new SqlDataAdapter(CmdVC);
+                        DataSet DSVC = new DataSet();
+                        DaVC.Fill(DSVC, "tblVAT_Master");
+                        Amt3 = (Amt2 * Convert.ToDouble(DSVC.Tables[0].Rows[0]["Value"]) / 100) + x;
+
+                    }
+                    else if (dsrs.Tables[0].Rows[i]["CST"].ToString() == "0" && dsrs.Tables[0].Rows[i]["VAT"].ToString() == "0")
+                    {
+                        Amt3 = Amt2 + x;
+                    }
+                    dr[16] = Amt3;
+                    dr[17] = Amt + EDU + SHE;
+                    dr[18] = s;
+                    dr[19] = Convert.ToInt32(dsrs.Tables[0].Rows[i]["Commodity"]);
+                    dr[20] = Convert.ToInt32(dsrs2.Tables[0].Rows[k]["unit"]); 
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+            }
+
+            if (dt.Rows.Count > 0)
+            {
+
+                CrystalReportViewer3.Visible = true;
+                DataSet xsdds = new SalesExcise();
+                var grpbyfilter = from row in dt.AsEnumerable()
+                                  group row by new
+                                  {
+                                      y = row.Field<int>("CommodityId"),
+                                      x = row.Field<int>("UOMId")
+
+                                  } into grp
+                                  let row1 = grp.First()
+                                  select new
+                                  {
+                                      CompId = row1.Field<Int32>("CompId"),
+                                      Commodity = row1.Field<string>("Commodity"),
+                                      CETSHNo = row1.Field<string>("CETSHNo"),
+                                      UOM = row1.Field<string>("UOM"),
+                                      MFG = grp.Sum(r => r.Field<double>("MFG")),
+                                      CLR = grp.Sum(r => r.Field<double>("CLR")),
+                                      CLO = grp.Sum(r => r.Field<double>("CLO")),
+                                      AssValue = grp.Sum(r => r.Field<double>("AssValue")),
+                                      PF = grp.Sum(r => r.Field<double>("PF")),
+                                      CENVAT = grp.Sum(r => r.Field<double>("CENVAT")),
+                                      Freight = grp.Sum(r => r.Field<double>("Freight")),
+                                      Sn = row1.Field<int>("Sn"),
+                                      Edu = grp.Sum(r => r.Field<double>("Edu")),
+                                      Excise = row1.Field<double>("Excise"),                                      
+                                      She = grp.Sum(r => r.Field<double>("She")),
+                                      VATCST = grp.Sum(r => r.Field<double>("VATCST")),
+                                      Total = grp.Sum(r => r.Field<double>("Total")),
+                                      BasicAmt = grp.Sum(r => r.Field<double>("BasicAmt")),
+                                      s = row1.Field<double>("s"),
+                                  };
+                DataTable targetDt = LINQToDataTable(grpbyfilter);
+                xsdds.Tables[1].Merge(targetDt);
+                xsdds.AcceptChanges();
+                cryRpt3 = new ReportDocument();
+                cryRpt3.Load(Server.MapPath("~/Module/Accounts/Reports/SalesEx_Print.rpt"));
+                cryRpt3.SetDataSource(xsdds);
+                //   Company Address 
+                string Address = fun.CompAdd(CompId);
+                cryRpt3.SetParameterValue("Address", Address);
+                FrExDt = TxtExFrDate.Text;
+                ToExDt = txtExToDt.Text;
+                cryRpt3.SetParameterValue("FrExDt", FrExDt);
+                cryRpt3.SetParameterValue("ToExDt", ToExDt);
+                CrystalReportViewer3.ReportSource = cryRpt3;
+                Session["test3"] = cryRpt3;
+                lblexcisemsg.Visible = false;
+            }
+            else
+            {
+                CrystalReportViewer3.Visible = false;
+                lblexcisemsg.Visible = true;
+                lblexcisemsg.Text = "No record found";
+            }
+
+        }
+       catch (Exception ex)
+        {
+        }
+        finally
+        {
+            con.Close();
+
+        }
+
+
+    }
+
+    public DataTable LINQToDataTable<T>(IEnumerable<T> varlist)
+    {
+        DataTable dtReturns = new DataTable();
+        PropertyInfo[] oProps = null;
+        if (varlist == null)
+        {
+            return dtReturns;
+        }
+        foreach (T rec in varlist)
+        {
+            if (oProps == null)
+            {
+                oProps = ((Type)rec.GetType()).GetProperties();
+                foreach (PropertyInfo pi in oProps)
+                {
+                    Type colType = pi.PropertyType;
+                    if ((colType.IsGenericType) && (colType.GetGenericTypeDefinition() == typeof(Nullable<>)))
+                    {
+                        colType = colType.GetGenericArguments()[0];
+                    }
+                    dtReturns.Columns.Add(new DataColumn(pi.Name, colType));
+                }
+            }
+
+            DataRow dr = dtReturns.NewRow();
+
+            foreach (PropertyInfo pi in oProps)
+            {
+                dr[pi.Name] = pi.GetValue(rec, null) == null ? DBNull.Value : pi.GetValue(rec, null);
+            }
+
+            dtReturns.Rows.Add(dr);
+        }
+        return dtReturns;
+    }
+
+    protected void btnExcise_Click(object sender, EventArgs e)
+    {
+
+        this.View3();
+    }
+
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        //this.CrystalReportViewer1.Dispose();
+        //this.CrystalReportViewer1 = null;
+        //cryRpt.Close();
+        //cryRpt.Dispose();
+        //this.CrystalReportViewer2.Dispose();
+        //this.CrystalReportViewer2 = null;
+        //cryRpt2.Close();
+        //cryRpt2.Dispose();
+        //this.CrystalReportViewer3.Dispose();
+        //this.CrystalReportViewer3 = null;
+        //cryRpt3.Close();
+        //cryRpt3.Dispose();
+        GC.Collect();
+    }
+
+
+}

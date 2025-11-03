@@ -1,0 +1,76 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/DBReset.aspx.txt ===
+
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="DBReset.aspx.cs" Inherits="DBReset" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>ERP</title>
+    <link href="Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="Javascript/PopUpMsg.js" type="text/javascript"></script>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div align="center">
+        <asp:Button ID="Button1" runat="server" Text="Reset DB" OnClientClick="return confirmation();" onclick="Button1_Click" 
+            CssClass="redbox" />
+    </div>
+    </form>
+</body>
+</html>
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/DBReset.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class DBReset : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
+    protected void Button1_Click(object sender, EventArgs e)
+
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        try
+        {
+            con.Open();
+            string[] tblNm = new string[] { "Message", "PrivateMessage","LoggedInUser", "Room", "SD_Cust_Enquiry_Attach_Master", "SD_Cust_Enquiry_Master", "SD_Cust_master", "SD_Cust_PO_Details", "SD_Cust_PO_Details_Temp", "SD_Cust_PO_Master", "SD_Cust_WorkOrder_Dispatch", "SD_Cust_WorkOrder_Master", "SD_Cust_WorkOrder_Products_Details", "SD_Cust_WorkOrder_Products_Temp", "SD_Cust_WorkOrder_Release", "tblACC_Budget_Dept", "tblACC_Budget_Transactions", "tblACC_Budget_WO", "tblACC_SalesInvoice_Details", "tblACC_SalesInvoice_Master", "tblACC_ServiceTaxInvoice_Details", "tblACC_ServiceTaxInvoice_Master", "tblAccess_Master", "tblCompany_master", "tblDG_BOM_Master", "tblDG_BOMItem_Temp", "tblDG_Category_Master", "tblDG_ECN_Master", "tblDG_Item_Master", "tblDG_Item_Master_Clone", "tblDG_Location_Master", "tblDG_Material", "tblDG_Revision_Master", "tblDG_Revision_Type_Master", "tblDG_SubCategory_Master", "tblDG_TPL_Master", "tblDG_TPLItem_Temp", "tblFile_Attachment", "tblFinancial_master", "tblHR_MobileBill", "tblHR_News_Notices", "tblHR_Offer_Master", "tblHR_OfficeStaff", "tblHR_SwapCard", "tblInv_Inward_Details", "tblInv_Inward_Master", "tblInv_MaterialIssue_Details", "tblInv_MaterialIssue_Master", "tblinv_MaterialReceived_Details", "tblinv_MaterialReceived_Master", "tblInv_MaterialRequisition_Details", "tblInv_MaterialRequisition_Master", "tblinv_MaterialRequisition_Temp", "tblInv_MaterialReturn_Details", "tblInv_MaterialReturn_Master", "tblinv_MaterialReturn_Temp", "tblinv_MaterialServiceNote_Details", "tblinv_MaterialServiceNote_Master", "tblinv_Quality_Details", "tblinv_Quality_Master", "tblinv_Received_Details", "tblinv_Received_Master", "tblinv_Rejection_Master", "tblInv_WIS_Details", "tblInv_WIS_Master", "tblInv_WORelease_WIS", "tblInvQc_StockAdjLog", "tblMLC_LiveCost", "tblMM_PO_Amd_Details", "tblMM_PO_Amd_Master", "tblMM_PO_Amd_Temp", "tblMM_PO_Details", "tblMM_PO_Master", "tblMM_PR_Details", "tblMM_PR_Master", "tblMM_PR_PO_Temp", "tblMM_PR_Temp", "tblMM_Rate_Register", "tblMM_RateLockUnLock_Master", "tblMM_SPR_Details", "tblMM_SPR_Master", "tblMM_SPR_PO_Temp", "tblMM_SPR_Temp", "tblMM_Supplier_master", "tblMP_Material_Master", "tblMP_Material_Process", "tblMP_Material_RawMaterial", "tblQc_MaterialQuality_Details", "tblQc_MaterialQuality_Master", "tblQc_MaterialReturnQuality_Details", "tblQc_MaterialReturnQuality_Master", "tblAccess_Master", "tblHR_News_Notices" };
+            
+            for (int i = 0; i < tblNm.Length; i++)
+            {
+                SqlCommand cmd9 = new SqlCommand("delete from " + tblNm[i] + "", con);
+                cmd9.ExecuteNonQuery();
+                SqlCommand cmd10 = new SqlCommand("dbcc checkident(" + tblNm[i] + ",Reseed,0)", con);
+                cmd10.ExecuteNonQuery();
+
+            }
+
+        }
+
+        catch (Exception ex) { }
+        finally
+        {
+            con.Close();
+        }
+
+    
+    }
+}

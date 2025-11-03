@@ -1,0 +1,217 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/DailyReportingSystem/Masters/Daily_Reporting_Tracker_System.aspx.txt ===
+
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Daily_Reporting_Tracker_System.aspx.cs" Inherits="Module_Daily_Reporting_System_Masters_Daily_Reporting_Tracker_System" %>
+<%@ Register assembly="TimePicker" namespace="MKB.TimePicker" tagprefix="MKB" %>
+
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+      <div>    
+        <p align=center><asp:Label ID="Label1" runat="server" BackColor="#006699" BorderStyle="Ridge" 
+            Font-Bold="True" ForeColor="White" Text="DAILY REPORTING SYSTEM" Width="100%" Font-Size="Large" Height="27px"></asp:Label></p>    
+    </div>      
+    <p>
+        <asp:Table ID="Table1" runat="server" BorderWidth="5px" Height="337px" 
+            HorizontalAlign="Center" Width="100%" BorderColor="White" BorderStyle="Groove">
+            <asp:TableRow runat="server">
+                <asp:TableCell runat="server" BackColor="#999999" Width="20%">Name::</asp:TableCell>
+                <asp:TableCell runat="server">
+                    <asp:DropDownList ID="E_name" runat="server" DataSourceID="SqlDataSource2" DataTextField="EmployeeName"  style="height: 22px"></asp:DropDownList>
+    <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:D:\INETPUB\WWWROOT\NEWERP\APP_DATA\ERP_DB.MDFConnectionString %>" SelectCommand="SELECT [EmployeeName] FROM [tblHR_OfficeStaff]"></asp:SqlDataSource>
+</asp:TableCell>
+
+                <asp:TableCell runat="server" BackColor="#999999" Width="20%">Designation::</asp:TableCell>
+                <asp:TableCell runat="server">
+                    <asp:DropDownList ID="Designation" runat="server"                
+                   DataSourceID="SqlDataSource3" DataTextField="Type"  style="height: 22px"></asp:Dropdownlist>
+    <asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:D:\INETPUB\WWWROOT\NEWERP\APP_DATA\ERP_DB.MDFConnectionString %>" SelectCommand="SELECT [Type] FROM [tblHR_Designation]"></asp:SqlDataSource>
+</asp:TableCell>
+            </asp:TableRow>
+            <asp:TableRow runat="server">
+                <asp:TableCell runat="server" BackColor="#CCCCCC">Department:: </asp:TableCell>
+                <asp:TableCell runat="server">
+                    <asp:Dropdownlist ID="Department" runat="server"
+                   DataSourceID="SqlDataSource1" DataTextField="Description"  style="height: 22px"></asp:Dropdownlist>
+    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:D:\INETPUB\WWWROOT\NEWERP\APP_DATA\ERP_DB.MDFConnectionString %>" SelectCommand="SELECT [Description] FROM [tblHR_Departments]"></asp:SqlDataSource>
+</asp:TableCell>
+                <asp:TableCell runat="server" BackColor="#CCCCCC">Date of Reporting</asp:TableCell>
+                <asp:TableCell runat="server">
+                    <asp:TextBox ID="DOR" runat="server"></asp:TextBox>
+                      <cc1:CalendarExtender ID="TxtDate1_CalendarExtender" runat="server" 
+                                        Enabled="True"  PopupPosition="BottomLeft" CssClass="cal_Theme2" 
+                                        TargetControlID="DOR"></cc1:CalendarExtender>
+
+</asp:TableCell>
+            </asp:TableRow>
+            <asp:TableRow runat="server">
+                <asp:TableCell runat="server" BackColor="#FFCC66" Width="40%">Significant Achievements Last week</asp:TableCell>
+                <asp:TableCell runat="server">
+                    <asp:TextBox ID="SALW" runat="server"></asp:TextBox>
+</asp:TableCell>
+            </asp:TableRow>
+            <asp:TableRow runat="server">
+                <asp:TableCell runat="server" BackColor="Aqua">Activities/Task for Current Week:</asp:TableCell>
+                <asp:TableCell runat="server">
+                    <asp:TextBox ID="TCW" runat="server"></asp:TextBox>
+</asp:TableCell>
+            </asp:TableRow>
+            <asp:TableRow runat="server">
+                <asp:TableCell runat="server" BackColor="#999999">Activities planned and Completed</asp:TableCell>
+                <asp:TableCell runat="server">
+                    <asp:TextBox ID="APC" runat="server"></asp:TextBox>
+</asp:TableCell>
+            </asp:TableRow>
+            <asp:TableRow runat="server">
+                <asp:TableCell runat="server" BackColor="#CCCCCC">Activities Planned but Not Completed</asp:TableCell>
+                <asp:TableCell runat="server">
+                    <asp:TextBox ID="APNC" runat="server"></asp:TextBox>
+</asp:TableCell>
+            </asp:TableRow>
+            <asp:TableRow runat="server">
+                <asp:TableCell runat="server" BackColor="#999999">Activities Unplanned but Completed</asp:TableCell>
+                <asp:TableCell runat="server">
+                    <asp:TextBox ID="AUC" runat="server"></asp:TextBox>
+</asp:TableCell>
+            </asp:TableRow>
+            <asp:TableRow runat="server">
+                <asp:TableCell runat="server" BackColor="#CCCCCC">Plan for next week</asp:TableCell>
+                <asp:TableCell runat="server">
+                    <asp:TextBox ID="PNW" runat="server"></asp:TextBox>
+</asp:TableCell>
+            </asp:TableRow>
+        </asp:Table>
+    </p>
+    <br />
+    
+    <center>
+        <asp:Table ID="Table2" runat="server" Width="100%">
+            <asp:TableRow runat="server">
+                <asp:TableCell runat="server" BackColor="#999999" HorizontalAlign="Center" VerticalAlign="Middle">Date</asp:TableCell>
+                <asp:TableCell runat="server" BackColor="#999999" HorizontalAlign="Center" VerticalAlign="Middle">W/O #</asp:TableCell>
+                <asp:TableCell runat="server" BackColor="#999999" HorizontalAlign="Center" VerticalAlign="Middle">Activity</asp:TableCell>
+                <asp:TableCell runat="server" BackColor="#999999" HorizontalAlign="Center" VerticalAlign="Middle">Estimated Time </asp:TableCell>
+                <asp:TableCell runat="server" BackColor="#999999" HorizontalAlign="Center" VerticalAlign="Middle">Status</asp:TableCell>
+                <asp:TableCell runat="server" BackColor="#999999" HorizontalAlign="Center" VerticalAlign="Middle">% Completed</asp:TableCell>
+                <asp:TableCell runat="server" BackColor="#999999" HorizontalAlign="Center" VerticalAlign="Middle">Remarks</asp:TableCell>
+            </asp:TableRow>
+            <asp:TableRow runat="server">
+                <asp:TableCell runat="server" HorizontalAlign="Center" VerticalAlign="Middle">
+                    <asp:TextBox ID="IdDate" runat="server"></asp:TextBox>
+                     <cc1:CalendarExtender ID="TxtDate3_CalendarExtender" runat="server" 
+                                                Enabled="True"  CssClass="cal_Theme2" PopupPosition="BottomLeft"
+                                                            TargetControlID="IdDate"></cc1:CalendarExtender>
+</asp:TableCell>
+                <asp:TableCell runat="server" HorizontalAlign="Center" VerticalAlign="Middle"><asp:TextBox ID="IdWo" runat="server"></asp:TextBox>
+</asp:TableCell>
+                <asp:TableCell runat="server" HorizontalAlign="Center" VerticalAlign="Middle"><asp:TextBox ID="IdActivity" runat="server"></asp:TextBox>
+</asp:TableCell>
+                <asp:TableCell runat="server" HorizontalAlign="Center" VerticalAlign="Middle"><asp:TextBox ID="IDET" runat="server"></asp:TextBox>
+</asp:TableCell>
+                <asp:TableCell runat="server" HorizontalAlign="Center" VerticalAlign="Middle"><asp:TextBox ID="IdStatus" runat="server"></asp:TextBox>
+</asp:TableCell>
+                <asp:TableCell runat="server" HorizontalAlign="Center" VerticalAlign="Middle">
+                    <asp:DropDownList ID="IDperc" runat="server">
+                        
+                    </asp:DropDownList>
+</asp:TableCell>
+                <asp:TableCell runat="server" HorizontalAlign="Center" VerticalAlign="Middle"><asp:TextBox ID="Idrmk" runat="server"></asp:TextBox>
+</asp:TableCell>
+            </asp:TableRow>
+        </asp:Table>
+        <br />
+        <br />
+        <br />
+        
+        <asp:Button ID="Submit" runat="server" BackColor="#FF3300" BorderStyle="Ridge" 
+        Font-Bold="True" ForeColor="White" Height="32px" Text="SUBMIT" Width="96px" OnClick="Submit_Click1" /></center>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/DailyReportingSystem/Masters/Daily_Reporting_Tracker_System.aspx.cs ===
+
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Web.Security;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Text.RegularExpressions;
+
+public partial class Module_Daily_Reporting_System_Masters_Daily_Reporting_Tracker_System : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        
+        for (int i = 0; i < 100; i++)
+        {
+            IDperc.Items.Add(new ListItem(i.ToString(), i.ToString()));
+        }
+        IDperc.Items.Add(new ListItem("100", "100"));
+
+
+    }
+    protected void Submit_Click1(object sender, EventArgs e)
+    {
+
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+
+        try
+        {
+            con.Open();
+
+            if (E_name.SelectedItem.Text == "" || Designation.SelectedItem.Text == "" || Department.SelectedItem.Text == "" || DOR.Text == "" || SALW.Text == "" || TCW.Text == "" || APC.Text == "" || APNC.Text == "" || AUC.Text == "" || PNW.Text == "" || IdDate.Text == "" || IdWo.Text == "" || IdActivity.Text == "" || IDET.Text == "" || IdStatus.Text == "" || IDperc.Text == "" || Idrmk.Text == "")
+            {
+                string msg = "All feilds are compulsary,please insert values.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+            }
+            string cmdid = "select count(ID) from DRT_Sys_New";
+            SqlCommand comid = new SqlCommand(cmdid, con);
+            int ID = (int)comid.ExecuteScalar();
+            ID = ID + 1;
+
+            if (E_name.SelectedItem.Text != "" && Designation.SelectedItem.Text != "" && Department.SelectedItem.Text != "" && DOR.Text != "" && SALW.Text != "" && TCW.Text != "" && APC.Text != "" && APNC.Text != "" && AUC.Text != "" && PNW.Text != "" && IdDate.Text != "" && IdWo.Text != "" && IdActivity.Text != "" && IDET.Text != "" && IdStatus.Text != "" && IDperc.Text != "" && Idrmk.Text != "")
+            {
+                string cmdstr = fun.insert("DRT_Sys_New", "ID,E_name,Designation,Department,DOR,SALW,TCW,APC,APNC,AUC,PNW,IdDate,IdWo,IdActivity,IDET,IdStatus,IDperc,Idrmk", "'" + ID + "','" + E_name.Text + "','" + Designation.Text + "','" + Department.Text + "','" + DOR.Text + "','" + SALW.Text + "','" + TCW.Text + "','" + APC.Text + "','" + APNC.Text + "','" + AUC.Text + "','" + PNW.Text + "','" + IdDate.Text + "','" + IdWo.Text + "','" + IdActivity.Text + "','" + IDET.Text + "','" + IdStatus.Text + "','" + IDperc.Text + "','" + Idrmk.Text + "'");
+
+                SqlCommand cmd = new SqlCommand(cmdstr, con);              
+                cmd.ExecuteNonQuery();             
+              
+            }
+           Page.Response.Redirect("Daily_Reporting_Tracker_System.aspx?msg=Customer is registered sucessfuly&ModId=5&SubModId=");
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+            con.Close();
+
+        }
+
+    }
+}

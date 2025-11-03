@@ -1,0 +1,549 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Transactions/PO_Approve.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="PO_Approve.aspx.cs" Inherits="Module_MaterialManagement_Transactions_PO_Approve" Title="ERP" Theme="Default" %>
+
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" /> 
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style2
+        {
+            width: 100%;
+            height: 335px;
+        }
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+   
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="left" cellpadding="0" cellspacing="0" class="style2">
+        <tr>
+            <td valign="top">
+                <table align="center" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)" colspan="2">&nbsp;<b>PO Approve</b></td>
+                    </tr>
+                    
+                    <tr>
+                        <td height="25">
+                       
+                            &nbsp;
+                            <asp:DropDownList ID="drpfield" runat="server" CssClass="box3" 
+                                AutoPostBack="True" onselectedindexchanged="drpfield_SelectedIndexChanged">
+                                <asp:ListItem Value="0">Supplier</asp:ListItem>
+                                <asp:ListItem Value="1">PO No</asp:ListItem>
+                            </asp:DropDownList>
+&nbsp;<asp:TextBox ID="txtSupplier" runat="server" CssClass="box3"  Width="350px"></asp:TextBox>
+
+                            <cc1:AutoCompleteExtender ID="txtSupplier_AutoCompleteExtender" runat="server" 
+                                DelimiterCharacters="" Enabled="True" ServiceMethod="GetCompletionList" 
+                                ServicePath="" TargetControlID="txtSupplier" UseContextKey="True" CompletionInterval="100" CompletionSetCount="2" FirstRowSelected="True" MinimumPrefixLength="1" ShowOnlyCurrentWordInCompletionListItem="True" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                            </cc1:AutoCompleteExtender>
+
+                            &nbsp;<asp:TextBox ID="txtPONo" runat="server" Visible="False" CssClass="box3"></asp:TextBox>
+&nbsp;<asp:Button ID="Button1" runat="server" CssClass="redbox" Text="Search" onclick="Button1_Click" />
+                        </td>
+                        <td height="25" align="center">
+                       
+                            <asp:Button ID="App" runat="server" CommandName="App" CssClass="redbox" 
+                                onclick="App_Click" OnClientClick=" return confirmation()" Text="Approved" />
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td colspan="2">                       
+                            <asp:Panel ID="Panel1" runat="server" Height="430px" ScrollBars="Auto">
+                                <asp:GridView ID="GridView2" runat="server" 
+                                Width="100%" ShowFooter="False"  CssClass="yui-datatable-theme" 
+                                PageSize="20" AutoGenerateColumns="False" 
+                                DataKeyNames="Id" onrowcommand="GridView2_RowCommand" 
+                                
+    onpageindexchanging="GridView2_PageIndexChanging">
+                                    <Columns>
+                                        <asp:TemplateField 
+                                        HeaderText="SN" ItemStyle-HorizontalAlign="Right">
+                                            <ItemTemplate>
+                                                <%# Container.DataItemIndex+1 %>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Right"></ItemStyle>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Id" Visible="false">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblId" 
+                                                runat="server" Text='<%# Eval("Id") %>'></asp:Label>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:TemplateField>
+                                        
+                                         
+                                      <asp:TemplateField HeaderText="AmendmentNo" Visible="false">
+                                    <ItemTemplate>
+                                    <asp:Label ID="lblAmendmentNo" runat="server" Text='<%# Eval("AmendmentNo") %>'></asp:Label>
+                                    </ItemTemplate>
+                                        <ItemStyle HorizontalAlign="Center" />
+                                    </asp:TemplateField>
+                                        
+                                        <asp:TemplateField HeaderText="Fin Year">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblfinyrs" runat="server" Text='<%# Eval("FinYear") %>'></asp:Label>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="PO No" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblsprno" runat="server" Text='<%# Bind("PONo") %>'></asp:Label>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Center"></ItemStyle>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField ItemStyle-HorizontalAlign="Right">
+                                            <ItemTemplate>
+                                                <asp:LinkButton ID="lnkbtn" runat="server" Text="View" CommandName="view"></asp:LinkButton>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Center"></ItemStyle>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Date" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lbldate" runat="server" Text='<%# Bind("Date") %>'></asp:Label>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Center" Width="7%"></ItemStyle>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="AmdNo" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lbltime" runat="server"  Text='<%# Bind("AmdNo") %>'></asp:Label>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Center" Width="5%"></ItemStyle>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Gen. By" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblgenby" runat="server"  Text='<%# Bind("GenBy") %>'></asp:Label>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Left" Width="23%"></ItemStyle>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Supplier" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblsup" runat="server" Text='<%# Bind("Sup") %>'></asp:Label>
+                                            </ItemTemplate>
+                                            <ItemStyle Width="23%" HorizontalAlign="Left" />
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Code">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblsupcode" runat="server" Text='<%# Bind("Code") %>'></asp:Label>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Center" Width="5%" />
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Checked" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblcheck" runat="server" Text='<%# Bind("CheckedDate") %>'></asp:Label>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Center"></ItemStyle>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="For Approve" ItemStyle-HorizontalAlign="center">
+                                            <ItemStyle HorizontalAlign="Center"></ItemStyle>
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="CK" runat="server"/>
+                                                <asp:Label ID="lblApproved" runat="server" Text='<%# Bind("ApprovedDate") %>'></asp:Label>
+                                            </ItemTemplate>
+                                           
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Authorized" ItemStyle-HorizontalAlign="center">
+                                            <ItemStyle HorizontalAlign="Center"></ItemStyle>
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblAutho" runat="server" Text='<%# Bind("AuthorizedDate") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                    </Columns>
+                                    <EmptyDataTemplate>
+                                        <table width="100%" class="fontcss">
+                                            <tr>
+                                                <td align="center">
+                                                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" 
+                            Font-Size="Larger" ForeColor="maroon"> </asp:Label>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </EmptyDataTemplate>
+                                </asp:GridView>
+                            </asp:Panel>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Transactions/PO_Approve.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_MaterialManagement_Transactions_PO_Approve : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string sId = "";
+    int CompId = 0;
+    string CDate = "";
+    string CTime = "";
+    string str = "";
+    string FyId = "";
+
+    SqlConnection con;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            FyId = Session["finyear"].ToString();
+            sId = Session["username"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+            CDate = fun.getCurrDate();
+            CTime = fun.getCurrTime();
+            str = fun.Connection();
+            con = new SqlConnection(str);
+            if (!IsPostBack)
+            {
+                txtPONo.Visible = false;
+                this.makegrid();
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+    public void makegrid()
+    {
+        try
+        {            
+            con.Open();
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new System.Data.DataColumn("PONo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Date", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("AmdNo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("GenBy", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("CheckedDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ApprovedDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("AuthorizedDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Sup", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Code", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("FinYear", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("AmendmentNo", typeof(string)));
+            DataRow dr;            
+            CompId = Convert.ToInt32(Session["compid"]);
+            string x = "";
+            if (drpfield.SelectedValue == "1")
+            {
+                if (txtPONo.Text != "")
+                {
+                    x = " AND PONo='" + txtPONo.Text + "'";
+                }
+            }
+            string sql = fun.select("*", "tblMM_PO_Master", "CompId='" + CompId + "'   And FinYearId<='" + FyId + "' AND Checked='1'" + x + " AND Approve='0' Order by Id Desc");
+           
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet DS = new DataSet();
+            da.Fill(DS);
+
+            for (int p = 0; p < DS.Tables[0].Rows.Count; p++)
+            {
+                dr = dt.NewRow();                
+                string sql2 = fun.select("Title+'. '+EmployeeName As EmpName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + DS.Tables[0].Rows[p]["SessionId"] + "'");
+                SqlCommand cmd2 = new SqlCommand(sql2, con);
+                SqlDataAdapter da2 = new SqlDataAdapter(cmd2);
+                DataSet DS2 = new DataSet();
+                da2.Fill(DS2);
+                string z = "";
+
+                if (drpfield.SelectedValue == "0")
+                {
+                    if (txtSupplier.Text != "")
+                    {
+                        z = " AND SupplierId='" + fun.getCode(txtSupplier.Text) + "'";
+                    }
+                    else
+                    {
+                        z = " AND SupplierId='" + DS.Tables[0].Rows[p]["SupplierId"].ToString() + "'";
+                    }
+                }
+                else
+                {
+                    z = " AND SupplierId='" + DS.Tables[0].Rows[p]["SupplierId"].ToString() + "'";
+                }
+
+                string sql3 = fun.select("SupplierId,SupplierName", "tblMM_Supplier_master", "CompId='" + CompId + "'" + z);
+                SqlCommand cmd3 = new SqlCommand(sql3, con);
+                SqlDataAdapter da3 = new SqlDataAdapter(cmd3);
+                DataSet DS3 = new DataSet();
+                da3.Fill(DS3);
+
+                dr[0] = DS.Tables[0].Rows[p]["PONo"].ToString();
+                dr[1] = fun.FromDateDMY(DS.Tables[0].Rows[p]["SysDate"].ToString());
+                dr[2] = DS.Tables[0].Rows[p]["AmendmentNo"].ToString();
+                dr[3] = DS2.Tables[0].Rows[0]["EmpName"].ToString();
+                if (Convert.ToInt32(DS.Tables[0].Rows[p]["Checked"]) == 1)
+                {
+                    dr[4] = fun.FromDateDMY(DS.Tables[0].Rows[p]["CheckedDate"].ToString());
+                }
+
+                if (Convert.ToInt32(DS.Tables[0].Rows[p]["Approve"]) == 1)
+                {
+                    dr[5] = fun.FromDateDMY(DS.Tables[0].Rows[p]["ApproveDate"].ToString());
+                }
+
+                if (Convert.ToInt32(DS.Tables[0].Rows[p]["Authorize"]) == 1)
+                {
+                    dr[6] = fun.FromDateDMY(DS.Tables[0].Rows[p]["AuthorizeDate"].ToString());
+                }
+
+                dr[7] = DS.Tables[0].Rows[p]["Id"].ToString(); ;
+                dr[8] = DS3.Tables[0].Rows[0]["SupplierName"].ToString();
+                dr[9] = DS.Tables[0].Rows[p]["SupplierId"].ToString();
+
+
+                string stryr = fun.select("FinYear", "tblFinancial_master", "FinYearId='" + DS.Tables[0].Rows[p]["FinYearId"].ToString() + "'");
+                SqlCommand cmdyr = new SqlCommand(stryr, con);
+                SqlDataAdapter dayr = new SqlDataAdapter(cmdyr);
+                DataSet DSyr = new DataSet();
+                dayr.Fill(DSyr);
+
+                if (DSyr.Tables[0].Rows.Count > 0)
+                {
+                    dr[10] = DSyr.Tables[0].Rows[0]["FinYear"].ToString();
+                }
+                dr[11] = DS.Tables[0].Rows[p]["AmendmentNo"].ToString();
+                if (DS.Tables[0].Rows[p]["SupplierId"].ToString() == DS3.Tables[0].Rows[0]["SupplierId"].ToString())
+                {
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+            }
+
+            GridView2.DataSource = dt;
+            GridView2.DataBind();
+
+            foreach (GridViewRow grv in GridView2.Rows)
+            {
+                if (((Label)grv.FindControl("lblApproved")).Text != "")
+                {
+                    CheckBox chk = (CheckBox)grv.FindControl("CK");
+                    chk.Visible = false;
+                }
+            }
+
+            con.Close();
+        }
+      catch (Exception ess)
+        {
+
+        }
+    }
+
+    string parentPage = "PO_Approve.aspx";
+
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+
+
+        try
+        {
+            con.Open();
+            if (e.CommandName == "App")
+            {
+                foreach (GridViewRow grv in GridView2.Rows)
+                {
+                    CheckBox chk = (CheckBox)grv.FindControl("CK");
+
+                    if (chk.Checked == true)
+                    {
+                        string id = ((Label)grv.FindControl("lblId")).Text;
+                        string pono = ((Label)grv.FindControl("lblsprno")).Text;
+                        string sql3 = fun.update("tblMM_PO_Master", "Approve='1',ApprovedBy='" + sId + "',ApproveDate='" + CDate + "',ApproveTime='" + CTime + "'", "CompId='" + CompId + "'   AND Id='" + id + "'  AND PONo='" + pono + "'");
+
+                        SqlCommand cmd3 = new SqlCommand(sql3, con);
+                        cmd3.ExecuteNonQuery();
+                       
+
+                    }
+                }
+                Page.Response.Redirect(Page.Request.Url.ToString(), true);
+            }
+
+            if (e.CommandName == "view")
+            {
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                string pocode = ((Label)row.FindControl("lblsprno")).Text;
+                string supcode = ((Label)row.FindControl("lblsupcode")).Text;
+                string Id = ((Label)row.FindControl("lblId")).Text;
+                string AmdNo = ((Label)row.FindControl("lblAmendmentNo")).Text;
+
+
+                string StrFlag = fun.select("PRSPRFlag", "tblMM_PO_Master", "SupplierId='" + supcode + "' And PONo='" + pocode + "' AND CompId='" + CompId + "'");
+
+                SqlCommand cmdFlag = new SqlCommand(StrFlag, con);
+                SqlDataAdapter daFlag = new SqlDataAdapter(cmdFlag);
+                DataSet DSFlag = new DataSet();
+                daFlag.Fill(DSFlag);
+
+                if (DSFlag.Tables[0].Rows[0][0].ToString() == "0")
+                {
+                    string Trans = string.Empty;
+                    string getRandomKey = fun.GetRandomAlphaNumeric();
+                    Response.Redirect("PO_PR_View_Print_Details.aspx?mid=" + Id + "&pono=" + pocode + "&Code=" + supcode + "&AmdNo=" + AmdNo + "&Key=" + getRandomKey + "&Trans=" + Trans + "&ModId=6&SubModId=35&parentpage=" + parentPage);
+                }
+                else
+                {
+                    string getRandomKey = fun.GetRandomAlphaNumeric();
+                    Response.Redirect("PO_SPR_View_Print_Details.aspx?mid=" + Id + "&pono=" + pocode + "&Code=" + supcode + "&AmdNo=" + AmdNo + "&Key=" + getRandomKey + "&ModId=6&SubModId=35&parentpage=" + parentPage);
+                }
+                
+            }
+        }
+        catch (Exception es)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+    }
+
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] GetCompletionList(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        int CompId = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        con.Open();
+        string cmdStr = fun.select("SupplierId,SupplierName", "tblMM_Supplier_master", "CompId='" + CompId + "'");
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds, "tblMM_Supplier_master");
+        con.Close();
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                //if (main.Length == 10)
+                //    break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }
+
+    protected void drpfield_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (drpfield.SelectedValue == "1")
+            {
+                txtPONo.Visible = true;
+                txtPONo.Text = "";
+                txtSupplier.Visible = false;
+                this.makegrid();
+            }
+            else
+            {
+                txtPONo.Visible = false;
+                txtSupplier.Visible = true;
+                txtSupplier.Text = "";
+                this.makegrid();
+            }
+        }
+        catch (Exception ex){}
+
+    }
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        this.makegrid();
+    }
+    protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            GridView2.PageIndex = e.NewPageIndex;
+            this.makegrid();
+        }
+        catch (Exception ex) { }
+       
+    }
+    protected void App_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            con.Open();
+            int i = 0;
+            foreach (GridViewRow grv in GridView2.Rows)
+            {
+                CheckBox chk = (CheckBox)grv.FindControl("CK");
+
+                if (chk.Checked == true)
+                {
+                    string id = ((Label)grv.FindControl("lblId")).Text;
+                    string pono = ((Label)grv.FindControl("lblsprno")).Text;
+                    string sql3 = fun.update("tblMM_PO_Master", "Approve='1',ApprovedBy='" + sId + "',ApproveDate='" + CDate + "',ApproveTime='" + CTime + "'", "CompId='" + CompId + "'   AND Id='" + id + "'  AND PONo='" + pono + "'");
+
+                    SqlCommand cmd3 = new SqlCommand(sql3, con);
+                    cmd3.ExecuteNonQuery();
+                    i++;
+                }
+            }
+            if (i > 0)
+            {
+                Page.Response.Redirect(Page.Request.Url.ToString(), true);
+            }
+            else
+            {
+                string mystring = string.Empty;
+                mystring = "No record is found to approved.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+            }
+        }
+        catch (Exception es)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+
+    }
+}

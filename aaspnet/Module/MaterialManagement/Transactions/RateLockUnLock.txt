@@ -1,0 +1,571 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Transactions/RateLockUnLock.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="RateLockUnLock.aspx.cs" Inherits="Module_MaterialManagement_Transactions_RateLockUnLock" Title="ERP" Theme="Default" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+ <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+<script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+  
+  <table cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+            <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;Rate Lock-Unlock </b></td>
+             </tr>
+    <tr>
+            <td class="fontcsswhite" height="25" valign="middle" >
+            
+                 &nbsp;&nbsp;<asp:DropDownList ID="DrpType" runat="server" AutoPostBack="True" 
+                    Height="21px" Width="100px" CssClass="box3" 
+                    onselectedindexchanged="DrpType_SelectedIndexChanged">
+                     <asp:ListItem>Select</asp:ListItem>
+                     <asp:ListItem Value="Category">Category</asp:ListItem>
+                     <asp:ListItem Value="WOItems">WO Items</asp:ListItem>                    
+                </asp:DropDownList>
+                <asp:DropDownList ID="DrpCategory1" runat="server" Width="200px" 
+                    AutoPostBack="True" 
+                    onselectedindexchanged="DrpCategory1_SelectedIndexChanged" Height="21px" 
+                    CssClass="box3">
+                    
+                </asp:DropDownList> 
+                
+                 <asp:DropDownList ID="DrpSearchCode" runat="server" Width="200px" 
+                    CssClass="box3" AutoPostBack="True" 
+                    onselectedindexchanged="DrpSearchCode_SelectedIndexChanged">
+                     <asp:ListItem Value="Select">Select</asp:ListItem>
+                     <asp:ListItem Value="tblDG_Item_Master.ItemCode">Item Code</asp:ListItem>
+                     <asp:ListItem Value="tblDG_Item_Master.ManfDesc">Description</asp:ListItem>                    
+                   
+                </asp:DropDownList>            
+                <asp:TextBox ID="txtSearchItemCode" runat="server" Width="207px" 
+                    CssClass="box3"></asp:TextBox>
+                
+                &nbsp;<asp:Button ID="btnSearch0" runat="server" 
+            Text="Search" CssClass="redbox" onclick="btnSearch_Click"  />
+                
+                &nbsp;</td>
+             </tr> 
+  
+ <tr>
+ 
+ 
+ <td align="left">
+  
+     <asp:GridView 
+                 ID="GridView2" runat="server" AllowPaging="True"  OnPageIndexChanging="GridView2_PageIndexChanging"
+                    CssClass="yui-datatable-theme" AutoGenerateColumns="False" 
+         Width="100%" onrowcommand="GridView2_RowCommand" PageSize="20">
+         <PagerSettings PageButtonCount="40" />
+         <Columns>
+             <asp:TemplateField HeaderText="SN" 
+                            ItemStyle-HorizontalAlign="Center" ><ItemTemplate><%# Container.DataItemIndex + 1%>
+                         </ItemTemplate>
+                 <ItemStyle 
+                            HorizontalAlign="Right" Width="3%" ></ItemStyle>
+                     </asp:TemplateField>
+                     <asp:TemplateField HeaderText="Id" Visible="False">
+                 <ItemTemplate>
+                     <asp:Label ID="lblId" 
+                                    runat="server" Text='<%# Eval("Id") %>'></asp:Label>
+                         </ItemTemplate>
+                         
+                     </asp:TemplateField>
+                     
+                     <asp:TemplateField HeaderText="Item Code"><ItemTemplate>
+                 <asp:Label ID="itemcode" 
+                                    runat="server" Text='<%# Eval("ItemCode") %>'></asp:Label>
+                         </ItemTemplate><ItemStyle HorizontalAlign="center" Width="10%" />
+                     </asp:TemplateField>
+                     <asp:TemplateField HeaderText="Description">
+                         <ItemTemplate>
+                             <asp:Label ID="manfdesc" runat="server" Text='<%# Eval("ManfDesc") %>'></asp:Label>
+                         </ItemTemplate>
+                         <ItemStyle HorizontalAlign="Left" Width="54%" />
+                     </asp:TemplateField>
+                     <asp:TemplateField HeaderText="UOM">
+                         <ItemTemplate>
+                             <asp:Label ID="uomBasic" runat="server" Text='<%# Eval("UOMBasic") %>'></asp:Label>
+                         </ItemTemplate>
+                         <ItemStyle HorizontalAlign="Center" Width="5%" />
+                     </asp:TemplateField>
+                     <asp:TemplateField HeaderText="Unlock For">
+                         <ItemTemplate>
+                             <asp:RadioButtonList ID="RadioButtonList1" runat="server" 
+        RepeatDirection="Horizontal">
+                                 <asp:ListItem Value="0">PR</asp:ListItem>
+                                 <asp:ListItem Value="1">SPR</asp:ListItem>
+                                 <asp:ListItem Value="2">PO</asp:ListItem>
+                             </asp:RadioButtonList>
+                         </ItemTemplate>
+                         <ItemStyle HorizontalAlign="Center" Width="12%" />
+                     </asp:TemplateField>
+                     <asp:TemplateField >
+                         <ItemTemplate>
+                             <asp:LinkButton ID="btnsel" Text="Unlock" CommandName="Sel" runat="server" 
+                             OnClientClick=" return confirmationUnLock()">
+                               </asp:LinkButton>
+                               
+                             <asp:LinkButton ID="LinkButton1" Text="Lock" CommandName="Sel1" runat="server" 
+                               OnClientClick=" return confirmationLock()" Visible="false">
+                                </asp:LinkButton>
+                         </ItemTemplate>
+                         <ItemStyle HorizontalAlign="Center" Width="4%" />
+                     </asp:TemplateField>
+
+                    <asp:TemplateField HeaderText="LockUnlock" Visible="False">
+                    <ItemTemplate>
+                    <asp:Label ID="lblLockUnlock" 
+                    runat="server" Text='<%# Eval("LockUnlock") %>'></asp:Label>
+                    </ItemTemplate>
+                    </asp:TemplateField>
+                 </Columns>
+                 <EmptyDataTemplate>
+                     <table width="100%" class="fontcss">
+                         <tr>
+                             <td align="center">
+                                 <asp:Label ID="Label1" runat="server"  Text="No data to display !" 
+                            Font-Size="Larger" ForeColor="maroon">  </asp:Label></td></tr></table>
+                 </EmptyDataTemplate>
+             </asp:GridView>
+                
+             </td>   
+             </tr>
+         </table>        
+               
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Transactions/RateLockUnLock.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_MaterialManagement_Transactions_RateLockUnLock : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    DataSet DS = new DataSet();
+    DataSet DS2 = new DataSet();
+
+    int CompId = 0;
+    int FinYearId = 0;
+    string sId = "";
+    string connStr = "";
+    SqlConnection con ;
+    string CDate = "";
+    string CTime ="";          
+    protected void Page_Load(object sender, EventArgs e)
+    {
+      try
+        {
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);            
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            sId = Session["username"].ToString();
+            CDate = fun.getCurrDate();
+            CTime = fun.getCurrTime(); 
+            if (!IsPostBack)
+            {
+                if (DrpType.SelectedValue == "Select")
+                {
+                    DrpCategory1.Items.Clear();
+                    DrpCategory1.Items.Insert(0, "Select");
+                    DrpCategory1.Visible = false;
+                    DrpSearchCode.Visible = false;
+                    txtSearchItemCode.Visible = false;
+                    
+                }
+                          
+           
+            }
+            
+        }
+     catch (Exception ex) { }
+
+    }
+
+    public void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {           
+          
+            GridView2.PageIndex = e.NewPageIndex;            
+            string sd = DrpCategory1.SelectedValue;
+            string c = DrpSearchCode.SelectedValue;
+            string d = txtSearchItemCode.Text;
+            string e1 = DrpType.SelectedValue;
+            this.Fillgrid(sd, c, d, e1);
+                       
+           
+        }
+        catch (Exception ch) { }
+    }
+
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+       try
+        {           
+
+            if (e.CommandName == "Sel")
+            {
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                int id = Convert.ToInt32(((Label)row.FindControl("lblId")).Text);
+
+                if (((RadioButtonList)row.FindControl("RadioButtonList1")).SelectedValue != "")
+                {
+                    int RadioBtn = Convert.ToInt32(((RadioButtonList)row.FindControl("RadioButtonList1")).SelectedValue);
+                    //For PO type=0; For PR type=1; For SPR type=2;
+                    con.Open();
+
+                    string sql = fun.insert("tblMM_RateLockUnLock_Master", "SysDate,SysTime,SessionId,CompId,FinYearId,ItemId,Type,LockUnlock", "'" + CDate + "','" + CTime + "','" + sId + "','" + CompId + "','" + FinYearId + "','" + id + "','" + RadioBtn + "','1'");
+                    SqlCommand cmd = new SqlCommand(sql, con);
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                    string sd = DrpCategory1.SelectedValue;
+                    string c = DrpSearchCode.SelectedValue;
+                    string d = txtSearchItemCode.Text;
+                    string e1 = DrpType.SelectedValue;
+                    this.Fillgrid(sd, c, d, e1);                   
+
+                }
+                else
+                {
+                    string myStringVariable = string.Empty;
+                    myStringVariable = "Invalid data input.!";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable + "');", true);
+                }
+               
+            }
+
+            if (e.CommandName == "Sel1")
+            {
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                int id = Convert.ToInt32(((Label)row.FindControl("lblLockUnlock")).Text);
+
+                con.Open();
+                string sql = fun.update("tblMM_RateLockUnLock_Master", "LockUnlock='0',LockedbyTranaction='" + sId + "',LockDate='" + CDate + "',LockTime='" + CTime + "'", "Id='" + id + "' AND CompId='" + CompId + "'");
+                SqlCommand cmd = new SqlCommand(sql, con);
+                cmd.ExecuteNonQuery();
+
+                string sd = DrpCategory1.SelectedValue;
+                string c = DrpSearchCode.SelectedValue;
+                string d = txtSearchItemCode.Text;
+                string e1 = DrpType.SelectedValue;
+                this.Fillgrid(sd, c, d, e1);                            
+               
+                con.Close();
+            }
+
+        }
+       catch (Exception Ex) { }
+    }
+
+    protected void DrpType_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+        try
+        {
+
+            switch (DrpType.SelectedValue)
+            {
+                case "Category":
+                    {
+                        DrpSearchCode.Visible = true;
+                        txtSearchItemCode.Visible = true;
+                        txtSearchItemCode.Text = "";
+                        DrpCategory1.Visible = true;
+                        DataSet DS = new DataSet();
+                        string StrCat = fun.select("CId,Symbol+'-'+CName as Category", "tblDG_Category_Master", "CompId='" + CompId + "'");
+                        SqlCommand Cmd = new SqlCommand(StrCat, con);
+                        SqlDataAdapter DA = new SqlDataAdapter(Cmd);
+                        DA.Fill(DS, "tblDG_Category_Master");
+                        DrpCategory1.DataSource = DS.Tables["tblDG_Category_Master"];
+                        DrpCategory1.DataTextField = "Category";
+                        DrpCategory1.DataValueField = "CId";
+                        DrpCategory1.DataBind();
+                        DrpCategory1.Items.Insert(0, "Select");
+                        DrpCategory1.ClearSelection();
+                        txtSearchItemCode.Visible = true;
+                        txtSearchItemCode.Text = "";
+
+
+                    }
+                    break;
+
+                case "WOItems":
+                    {
+                        txtSearchItemCode.Visible = true;
+                        txtSearchItemCode.Text = "";
+                        DrpSearchCode.Visible = true;
+                        DrpCategory1.Visible = false;
+                        DrpCategory1.Items.Clear();
+                        DrpCategory1.Items.Insert(0, "Select");
+                    }
+                    break;
+
+                case "Select":
+                    {
+                        Page.Response.Redirect(Page.Request.Url.ToString(), true);
+                    }
+                    break;
+            }
+
+        }
+
+        catch(Exception ex)
+        {
+        }
+    }
+
+    public void Fillgrid(string sd, string B, string s, string drptype)
+    {      
+
+        try
+        {
+
+            string x = "";
+            string p = "";
+            string q = "";
+
+            if (DrpType.SelectedValue != "Select")
+            {
+                if (DrpType.SelectedValue == "Category")
+                {
+                    if (sd != "Select")
+                    {
+
+                        x = " AND tblDG_Item_Master.CId='" + sd + "'";
+
+                        if (B != "Select")
+                        {
+                            if (B == "tblDG_Item_Master.ItemCode")
+                            {
+                                txtSearchItemCode.Visible = true;
+                                p = " And tblDG_Item_Master.ItemCode Like '" + s + "%'";
+                            }
+
+                            if (B == "tblDG_Item_Master.ManfDesc")
+                            {
+                                txtSearchItemCode.Visible = true;
+                                p = " And tblDG_Item_Master.ManfDesc Like '%" + s + "%'";
+                            }
+
+
+                        }
+                        q = "And tblDG_Item_Master.CompId='" + CompId + "' And tblDG_Item_Master.FinYearId<='" + FinYearId + "'";
+
+                    }
+                }
+
+                else if (DrpType.SelectedValue != "Select" && DrpType.SelectedValue == "WOItems")
+                {
+
+                    if (B != "Select")
+                    {
+                        if (B == "tblDG_Item_Master.ItemCode")
+                        {
+                            txtSearchItemCode.Visible = true;
+                            p = " And tblDG_Item_Master.ItemCode Like '%" + s + "%'";
+                        }
+
+                        if (B == "tblDG_Item_Master.ManfDesc")
+                        {
+                            txtSearchItemCode.Visible = true;
+                            p = " And tblDG_Item_Master.ManfDesc Like '%" + s + "%'";
+                        }
+                    }
+
+                }
+
+                SqlCommand cmd = new SqlCommand();
+                SqlDataAdapter da = new SqlDataAdapter("GetRateLockUnlockItem", con);
+                da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                da.SelectCommand.Parameters.Add(new SqlParameter("@startIndex", SqlDbType.VarChar));
+                da.SelectCommand.Parameters["@startIndex"].Value = sd;
+                da.SelectCommand.Parameters.Add(new SqlParameter("@pageSize", SqlDbType.VarChar));
+                da.SelectCommand.Parameters["@pageSize"].Value = x;
+                da.SelectCommand.Parameters.Add(new SqlParameter("@startIndex1", SqlDbType.VarChar));
+                da.SelectCommand.Parameters["@startIndex1"].Value = p;
+                da.SelectCommand.Parameters.Add(new SqlParameter("@pageSize1", SqlDbType.VarChar));
+                da.SelectCommand.Parameters["@pageSize1"].Value = q;
+                da.SelectCommand.Parameters.Add(new SqlParameter("@drpType", SqlDbType.VarChar));
+                da.SelectCommand.Parameters["@drpType"].Value = drptype;
+                da.SelectCommand.Parameters.Add(new SqlParameter("@drpCode", SqlDbType.VarChar));
+                da.SelectCommand.Parameters["@drpCode"].Value = B;
+                DataSet DSitem = new DataSet();
+                da.Fill(DSitem);
+                GridView2.DataSource = DSitem;
+                GridView2.DataBind();
+                this.RunOnGrid();
+            }
+            else
+            {
+                string myStringVariable = string.Empty;
+                myStringVariable = "Please Select Category or WO Items.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable + "');", true);
+            }
+           
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+    }
+
+    protected void DrpCategory1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+       try
+        {
+            if (DrpCategory1.SelectedValue != "Select")
+            {
+
+                string sd = DrpCategory1.SelectedValue;
+                string c = DrpSearchCode.SelectedValue;
+                string d = txtSearchItemCode.Text;
+                string e1 = DrpType.SelectedValue;
+                this.Fillgrid(sd, c, d, e1);
+                DrpSearchCode.Visible = true;
+                txtSearchItemCode.Text = "";
+            }
+
+            
+        }
+       catch (Exception ex) { }
+    }
+
+    protected void DrpSearchCode_SelectedIndexChanged(object sender, EventArgs e)
+    {
+       try
+       {
+            txtSearchItemCode.Visible = true;
+            string sd = DrpCategory1.SelectedValue;
+            string c = DrpSearchCode.SelectedValue;
+            string d = txtSearchItemCode.Text;
+            string e1 = DrpType.SelectedValue;
+            this.Fillgrid(sd, c, d, e1);
+       }
+       catch (Exception Ex) { }
+            
+    }
+
+    protected void DropDownList3_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            string sd = DrpCategory1.SelectedValue;
+            string c = DrpSearchCode.SelectedValue;
+            string d = txtSearchItemCode.Text;
+            string e1 = DrpType.SelectedValue;
+            this.Fillgrid(sd, c, d, e1);
+           
+        }
+        catch (Exception ch) { }
+    }
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+
+            string sd = DrpCategory1.SelectedValue;
+            string c = DrpSearchCode.SelectedValue;
+            string d = txtSearchItemCode.Text;
+            string e1 = DrpType.SelectedValue;
+            this.Fillgrid(sd, c, d, e1);
+            
+        }
+        catch (Exception ch) { }
+
+    }
+
+    public void RunOnGrid()
+    {
+        try
+        {
+
+            foreach (GridViewRow grv in GridView2.Rows)
+            {
+                if (((Label)grv.FindControl("lblLockUnlock")).Text != "")
+                {
+                    int id = Convert.ToInt32(((Label)grv.FindControl("lblLockUnlock")).Text);
+                    string sqlitem = fun.select("*", "tblMM_RateLockUnLock_Master", "CompId='" + CompId + "' And Id='" + id + "'");
+                    SqlCommand Cmd = new SqlCommand(sqlitem, con);
+                    SqlDataAdapter da = new SqlDataAdapter(Cmd);
+                    DataSet ds = new DataSet();
+                    da.Fill(ds);
+
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        if (Convert.ToInt32(ds.Tables[0].Rows[0]["LockUnlock"]) == 1)
+                        {
+                            ((LinkButton)grv.FindControl("LinkButton1")).Visible = true;
+                            ((LinkButton)grv.FindControl("btnsel")).Visible = false;
+
+                            switch (Convert.ToInt32(ds.Tables[0].Rows[0]["Type"]))
+                            {
+                                case 0:
+                                    {
+                                        ((RadioButtonList)grv.FindControl("RadioButtonList1")).Items[0].Selected = true;
+                                    }
+                                    break;
+                                case 1:
+                                    {
+                                        ((RadioButtonList)grv.FindControl("RadioButtonList1")).Items[1].Selected = true;
+                                    }
+                                    break;
+                                case 2:
+                                    {
+                                        ((RadioButtonList)grv.FindControl("RadioButtonList1")).Items[2].Selected = true;
+                                    }
+                                    break;
+                            }
+
+                            ((RadioButtonList)grv.FindControl("RadioButtonList1")).Enabled = false;
+                        }
+                        else
+                        {
+                            ((RadioButtonList)grv.FindControl("RadioButtonList1")).Enabled = true;
+                            ((LinkButton)grv.FindControl("LinkButton1")).Visible = false;
+                            ((LinkButton)grv.FindControl("btnsel")).Visible = true;
+                        }
+                    }
+                }
+            }
+
+        }
+        catch (Exception ch) { }
+    }
+   
+
+
+}

@@ -1,0 +1,241 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Masters/CustomerMaster_Print_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="CustomerMaster_Print_Details.aspx.cs" Inherits="Module_SalesDistribution_Masters_CustomerMaster_Print_Details" Title="ERP" Theme="Default" %>
+
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content> 
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content> 
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">  
+    <table cellpadding="0"  cellspacing="0" width="100%">
+     <tr>
+        <td align="center">
+            <asp:Panel ID="Panel1" runat="server" Width="100%" Height="460" ScrollBars="Both">
+                  
+        <CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" HasCrystalLogo="False"
+        AutoDataBind="True" Width="400px" 
+                    DisplayGroupTree="False" EnableDatabaseLogonPrompt="False" 
+                    EnableParameterPrompt="False" />
+        <CR:CrystalReportSource ID="CrystalReportSource1" runat="server" >         
+        </CR:CrystalReportSource> 
+        </asp:Panel>  
+        </td>
+    </tr>
+    <tr>
+    <td align="center" height="25">
+       <asp:Button ID="btnCancel" runat="server" CssClass="redbox" Text="Cancel" onclick="btnCancel_Click" /> 
+    </td></tr>
+       
+   </table>
+   
+   
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Masters/CustomerMaster_Print_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
+public partial class Module_SalesDistribution_Masters_CustomerMaster_Print_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    int cId = 0;
+    private ReportDocument report = new ReportDocument();
+    string Key = string.Empty;
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+
+            string connStr1 = fun.Connection();
+            SqlConnection myConnection = new SqlConnection(connStr1);            
+            myConnection.Open() ;
+            DataSet ds = new DataSet();
+            try
+            {
+                cId = Convert.ToInt32(Session["compid"]);
+                Key = Request.QueryString["Key"].ToString();
+                string str = Request.QueryString["CustomerId"].ToString();
+                string selectQuery = "SELECT *  FROM SD_Cust_master WHERE CustomerId='" + str + "'And CompId='" + cId + "'";
+                SqlCommand myCommand = new SqlCommand(selectQuery, myConnection);
+                SqlDataAdapter ad = new SqlDataAdapter(myCommand);
+
+                ad.Fill(ds, "SD_Cust_master");
+                string reportPath = Server.MapPath("~/Module/SalesDistribution/Masters/Reports/CustPrint.rpt");
+                report.Load(reportPath);
+                report.SetDataSource(ds);
+                //Registration Date
+                string regdate = ds.Tables[0].Rows[0]["SysDate"].ToString();
+                string RegDate = fun.FromDateDMY(regdate);
+                string RegCity = ds.Tables[0].Rows[0]["RegdCity"].ToString();
+                string RegState = ds.Tables[0].Rows[0]["RegdState"].ToString();
+                string RegCountry = ds.Tables[0].Rows[0]["RegdCountry"].ToString();
+                string WorkCity = ds.Tables[0].Rows[0]["WorkCity"].ToString();
+                string WorkState = ds.Tables[0].Rows[0]["WorkState"].ToString();
+                string WorkCountry = ds.Tables[0].Rows[0]["WorkCountry"].ToString();
+                string DelCity = ds.Tables[0].Rows[0]["MaterialDelCity"].ToString();
+                string DelState = ds.Tables[0].Rows[0]["MaterialDelState"].ToString();
+                string DelCountry = ds.Tables[0].Rows[0]["MaterialDelCountry"].ToString();
+
+                //Regd
+                string selectregCt = "SELECT CityName FROM tblCity WHERE CityId='" + RegCity + "' ";
+                SqlCommand myCmdct = new SqlCommand(selectregCt, myConnection);
+                SqlDataAdapter adct = new SqlDataAdapter(myCmdct);
+                DataSet Dsct = new DataSet();
+                adct.Fill(Dsct);
+
+                string selectregSt = "SELECT StateName FROM tblState WHERE SId='" + RegState + "' ";
+                SqlCommand myCmdst = new SqlCommand(selectregSt, myConnection);
+                SqlDataAdapter adst = new SqlDataAdapter(myCmdst);
+                DataSet Dsst = new DataSet();
+                adst.Fill(Dsst);
+
+                string selectregCnt = "SELECT CountryName FROM tblCountry WHERE CId='" + RegCountry + "' ";
+                SqlCommand myCmdcnt = new SqlCommand(selectregCnt, myConnection);
+                SqlDataAdapter adcnt = new SqlDataAdapter(myCmdcnt);
+                DataSet Dscnt = new DataSet();
+                adcnt.Fill(Dscnt);
+
+                string regcity = Dsct.Tables[0].Rows[0]["CityName"].ToString();
+                string regstate = Dsst.Tables[0].Rows[0]["StateName"].ToString();
+                string regcountry = Dscnt.Tables[0].Rows[0]["CountryName"].ToString();
+
+                //Work 
+
+                string selectregCt1 = "SELECT CityName FROM tblCity WHERE CityId='" + WorkCity + "' ";
+                SqlCommand myCmdct1 = new SqlCommand(selectregCt1, myConnection);
+                SqlDataAdapter adct1 = new SqlDataAdapter(myCmdct1);
+                DataSet Dsct1 = new DataSet();
+                adct1.Fill(Dsct1);
+
+                string selectregSt1 = "SELECT StateName FROM tblState WHERE SId='" + WorkState + "' ";
+                SqlCommand myCmdst1 = new SqlCommand(selectregSt1, myConnection);
+                SqlDataAdapter adst1 = new SqlDataAdapter(myCmdst1);
+                DataSet Dsst1 = new DataSet();
+                adst1.Fill(Dsst1);
+
+                string selectregCnt1 = "SELECT CountryName FROM tblCountry WHERE CId='" + WorkCountry + "' ";
+                SqlCommand myCmdcnt1 = new SqlCommand(selectregCnt1, myConnection);
+                SqlDataAdapter adcnt1 = new SqlDataAdapter(myCmdcnt1);
+                DataSet Dscnt1 = new DataSet();
+                adcnt1.Fill(Dscnt1);
+
+                string workcity = Dsct1.Tables[0].Rows[0]["CityName"].ToString();
+                string workstate = Dsst1.Tables[0].Rows[0]["StateName"].ToString();
+                string workcountry = Dscnt1.Tables[0].Rows[0]["CountryName"].ToString();
+
+                // Del
+
+                string selectregCt2 = "SELECT CityName FROM tblCity WHERE CityId='" + DelCity + "' ";
+                SqlCommand myCmdct2 = new SqlCommand(selectregCt2, myConnection);
+                SqlDataAdapter adct2 = new SqlDataAdapter(myCmdct2);
+                DataSet Dsct2 = new DataSet();
+                adct2.Fill(Dsct2);
+
+                string selectregSt2 = "SELECT StateName FROM tblState WHERE SId='" + DelState + "' ";
+                SqlCommand myCmdst2 = new SqlCommand(selectregSt2, myConnection);
+                SqlDataAdapter adst2 = new SqlDataAdapter(myCmdst2);
+                DataSet Dsst2 = new DataSet();
+                adst2.Fill(Dsst2);
+
+                string selectregCnt2 = "SELECT CountryName FROM tblCountry WHERE CId='" + DelCountry + "' ";
+                SqlCommand myCmdcnt2 = new SqlCommand(selectregCnt2, myConnection);
+                SqlDataAdapter adcnt2 = new SqlDataAdapter(myCmdcnt2);
+                DataSet Dscnt2 = new DataSet();
+                adcnt2.Fill(Dscnt2);
+
+                string delcity = Dsct2.Tables[0].Rows[0]["CityName"].ToString();
+                string delstate = Dsst2.Tables[0].Rows[0]["StateName"].ToString();
+                string delcountry = Dscnt2.Tables[0].Rows[0]["CountryName"].ToString();
+
+                report.SetParameterValue("RegCity", regcity);
+                report.SetParameterValue("RegState", regstate);
+                report.SetParameterValue("RegCountry", regcountry);
+
+                report.SetParameterValue("WrkCity", workcity);
+                report.SetParameterValue("WrkState", workstate);
+                report.SetParameterValue("WrkCountry", workcountry);
+
+                report.SetParameterValue("DelCity", delcity);
+                report.SetParameterValue("DelState", delstate);
+                report.SetParameterValue("DelCountry", delcountry);
+
+                report.SetParameterValue("RegDate", RegDate);
+                string Company = fun.getCompany(cId);
+                report.SetParameterValue("Company", Company);
+                string Address = fun.CompAdd(cId);
+                report.SetParameterValue("Address", Address);
+                CrystalReportViewer1.ReportSource = report;
+                Session[Key] = report;
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+              
+                myConnection.Close();
+                myConnection.Dispose();
+
+            }
+        }
+
+        else
+        {
+            Key = Request.QueryString["Key"].ToString();
+            ReportDocument doc = (ReportDocument)Session[Key];
+            CrystalReportViewer1.ReportSource = doc;
+        }
+    }
+
+   
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        report = new ReportDocument();           
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("CustomerMaster_Print.aspx?ModId=2&SubModId=7");  
+    }
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        report.Close();
+        report.Dispose();
+        GC.Collect();
+    }
+}

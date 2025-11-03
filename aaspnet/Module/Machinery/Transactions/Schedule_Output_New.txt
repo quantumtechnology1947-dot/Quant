@@ -1,0 +1,254 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Machinery/Transactions/Schedule_Output_New.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Schedule_Output_New.aspx.cs" Inherits="Module_Machinery_Transactions_Schedule_Output_New" Title="ERP" Theme="Default" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+<script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+  
+<table width="100%">
+    <tr>
+        <td align="left" valign="middle" 
+            style="background:url(../../../images/hdbg.JPG)" height="21" 
+            class="fontcsswhite" colspan="2"><b>&nbsp;Job-Sheduling Output-New</b></td>
+    </tr>
+<tr>
+<td align="left" valign="bottom"  height="25" ><b>&nbsp;WONo :&nbsp;&nbsp;<asp:DropDownList 
+        ID="DrpWONO" runat="server" 
+        onselectedindexchanged="DrpWONO_SelectedIndexChanged" AutoPostBack="True">
+    </asp:DropDownList> </b></td>
+<td align="left" valign="bottom"  height="25" >&nbsp;<b>Customer Name</b> :<asp:Label 
+        ID="lblCustomer" runat="server" style="font-weight: 700"></asp:Label>
+    &nbsp;</td>
+</tr>
+<tr>
+<td align="left" valign="middle"  height="10" colspan="2" >&nbsp;</td>
+</tr>
+</table>
+    
+    <table align="left" cellpadding="0" cellspacing="0" width="100%"><tr><td align="center"><asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" 
+                    CssClass="yui-datatable-theme"  AllowPaging="True" 
+                    Width="100%" onrowcommand="GridView2_RowCommand" ><FooterStyle Wrap="True"></FooterStyle><Columns><asp:TemplateField HeaderText="SN"><ItemTemplate><%#Container.DataItemIndex+1  %>
+            </ItemTemplate><HeaderStyle Font-Size="10pt" /><ItemStyle HorizontalAlign="Right" VerticalAlign="Top" Width="3%" /></asp:TemplateField><asp:TemplateField 
+            HeaderText="ItemId" Visible="False"><ItemTemplate><asp:Label ID="lblItemId" runat="Server" Text='<%#Eval("ItemId")%>'/>
+            </ItemTemplate></asp:TemplateField>
+            
+            <asp:TemplateField HeaderText="ItemCode"><ItemTemplate>           
+                      
+                <asp:LinkButton ID="btnMove"  Text='<%#Eval("ItemCode")%>' CommandName="move" runat="server"></asp:LinkButton>
+            </ItemTemplate><ItemStyle HorizontalAlign="center" Width="8%" /></asp:TemplateField>
+            
+            <asp:TemplateField HeaderText="Description"><ItemTemplate><asp:Label ID="lblDesc" runat="Server" Text='<%#Eval("ManfDesc")%>'/>
+            </ItemTemplate><ItemStyle HorizontalAlign="Left" Width="20%" /></asp:TemplateField><asp:TemplateField HeaderText="UOM"><ItemTemplate><asp:Label ID="lblUOM" runat="Server" Text='<%#Eval("Symbol")%>'/></ItemTemplate><ItemStyle 
+                HorizontalAlign="Center" Width="4%" /></asp:TemplateField><asp:TemplateField HeaderText=" BOM Qty"><ItemTemplate><asp:Label ID="lblQty" runat="Server" Text='<%#Eval("Qty")%>'/></ItemTemplate><ItemStyle 
+                HorizontalAlign="Center" Width="5%" /></asp:TemplateField>               
+                
+                
+        </Columns><EmptyDataTemplate><table width="100%" class="fontcss"><tr><td align="center"><asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon"> </asp:Label></td></tr></table>
+        </EmptyDataTemplate></asp:GridView></td></tr>
+        <tr>
+            <td align="center" height="25" valign="middle">
+                &nbsp;</td>
+        </tr>
+        </table>  
+
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Machinery/Transactions/Schedule_Output_New.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Collections.Generic;
+
+public partial class Module_Machinery_Transactions_Schedule_Output_New : System.Web.UI.Page
+{
+
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    int CompId = 0;
+    string SId = "";
+    int FinYearId = 0;
+    string WONO = "";
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        try
+        {
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            SId = Session["username"].ToString();
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            string sql = "delete tblMS_JobCompletion_Temp";
+            SqlCommand cmdDtls = new SqlCommand(sql, con);
+            con.Open();
+            cmdDtls.ExecuteNonQuery();
+            con.Close();
+            if (!IsPostBack)
+            {
+                string strCustWo = fun.select("EnqId,CustomerId,WONo,PONo,POId", "SD_Cust_WorkOrder_Master", "FinYearId<='" + FinYearId + "' AND CompId='" + CompId + "'Order by Id Desc");
+                SqlCommand cmdCustWo = new SqlCommand(strCustWo, con);
+                SqlDataAdapter daCustWo = new SqlDataAdapter(cmdCustWo);
+                DataSet DSCustWo = new DataSet();
+                daCustWo.Fill(DSCustWo);
+
+                if (DSCustWo.Tables[0].Rows.Count > 0)
+                {
+                    DrpWONO.DataSource = DSCustWo.Tables[0];
+                    DrpWONO.DataTextField = "WONo";
+                    DrpWONO.DataValueField = "WONo";
+                    DrpWONO.DataBind();
+                    DrpWONO.Items.Insert(0, "Select");
+                }
+                else
+                {
+                    DrpWONO.Items.Insert(0, "Select");
+                }
+
+            }
+        }
+
+        catch (Exception ex)
+        {
+        }
+
+    }
+
+
+
+    protected void DrpWONO_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+        if(DrpWONO.SelectedItem.Text!="Select")
+        {
+            WONO = DrpWONO.SelectedValue;
+            string strCustWo = fun.select("CustomerId", "SD_Cust_WorkOrder_Master", " WONo='"+WONO+"'And FinYearId<='" + FinYearId + "' AND CompId='" + CompId + "'Order by Id Desc");
+            SqlCommand cmdCustWo = new SqlCommand(strCustWo, con);
+            SqlDataAdapter daCustWo = new SqlDataAdapter(cmdCustWo);
+            DataSet DSCustWo = new DataSet();
+            daCustWo.Fill(DSCustWo);
+            if (DSCustWo.Tables[0].Rows.Count > 0)
+            {
+                string strCustName = fun.select("CustomerName", "SD_Cust_master", " CustomerId='" + DSCustWo.Tables[0].Rows[0][0].ToString() + "'And FinYearId<='" + FinYearId + "' AND CompId='" + CompId + "'");
+                SqlCommand cmdCustName = new SqlCommand(strCustName, con);
+                SqlDataAdapter daCustName = new SqlDataAdapter(cmdCustName);
+                DataSet DSCustName = new DataSet();
+                daCustName.Fill(DSCustName);
+                if (DSCustName.Tables[0].Rows.Count > 0)
+                {
+
+                    lblCustomer.Text = DSCustName.Tables[0].Rows[0][0].ToString();
+                }
+               
+            }        
+
+            this.fillgrid();
+        }
+        
+    }
+
+    public void fillgrid()
+    {
+        string str = fun.Connection();
+        SqlConnection con = new SqlConnection(str);
+        con.Open();
+        int CompId = Convert.ToInt32(Session["compid"]);
+        List<int> li = new List<int>();
+        li = fun.TreeAssembly(WONO, CompId);
+        DataTable dt = new DataTable();
+        dt.Columns.Add(new System.Data.DataColumn("ItemId", typeof(int)));
+        dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));
+        dt.Columns.Add(new System.Data.DataColumn("ManfDesc", typeof(string)));
+        dt.Columns.Add(new System.Data.DataColumn("Symbol", typeof(string)));
+        dt.Columns.Add(new System.Data.DataColumn("Qty", typeof(double)));
+        DataRow dr;
+
+        for (int i = 0; i < li.Count; i++)
+        {
+
+            if (li.Count > 0)
+            {
+                string sql = fun.select("tblDG_BOM_Master.PId,tblDG_BOM_Master.CId,tblDG_BOM_Master.ItemId,tblDG_Item_Master.ManfDesc,Unit_Master.Symbol As UOMBasic,tblDG_Item_Master.ItemCode,tblDG_BOM_Master.Qty", " tblDG_BOM_Master,tblDG_Item_Master,Unit_Master", " Unit_Master.Id=tblDG_Item_Master.UOMBasic and tblDG_Item_Master.Id=tblDG_BOM_Master.ItemId AND tblDG_BOM_Master.ItemId in (select ItemId from tblMS_JobShedule_Master where Id in (select MId from tblMS_JobSchedule_Details)) and tblDG_BOM_Master.WONo='" + WONO + "'and  tblDG_BOM_Master.Id='" + Convert.ToInt32(li[i]) + "' And tblDG_BOM_Master.CompId='" + CompId + "'And tblDG_BOM_Master.FinYearId<='" + FinYearId + "' ");
+                SqlCommand cmd = new SqlCommand(sql, con);
+                DataSet DS3 = new DataSet();
+                SqlDataAdapter DA2 = new SqlDataAdapter(cmd);
+                DA2.Fill(DS3);
+
+                if (DS3.Tables[0].Rows.Count > 0)
+                {
+
+                    dr = dt.NewRow();
+                    dr[0] = Convert.ToInt32(DS3.Tables[0].Rows[0]["ItemId"]);
+                    dr[1] = DS3.Tables[0].Rows[0]["ItemCode"].ToString();
+                    dr[2] = DS3.Tables[0].Rows[0]["ManfDesc"].ToString();
+                    dr[3] = DS3.Tables[0].Rows[0]["UOMBasic"].ToString();
+                    dr[4] = fun.BOMRecurQty(WONO, Convert.ToInt32(DS3.Tables[0].Rows[0]["PId"]), Convert.ToInt32(DS3.Tables[0].Rows[0]["CId"]), 1, CompId, FinYearId);
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+
+            }
+        }
+
+        GridView2.DataSource = dt;
+        GridView2.DataBind();
+        con.Close();
+    }
+
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+
+            if (e.CommandName == "move")
+            {
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                string Wono = DrpWONO.SelectedValue;
+                string Item = ((Label)row.FindControl("lblItemId")).Text;
+                if (Item != "")
+                {
+                    Response.Redirect("Schedule_Output_New_Details.aspx?WONo=" + Wono + "&Item=" + Item + "&ModId=15&SubModId=70");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+
+    }
+}

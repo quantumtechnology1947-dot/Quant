@@ -1,0 +1,1484 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/ProjectManagement/Reports/ProjectSummary.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ProjectSummary.aspx.cs" Inherits="Module_Project_Summary_ProjectSummary" Title="ERP" Theme="Default" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+<%--<script type="text/javascript">
+var prm = Sys.WebForms.PageRequestManager.getInstance();
+//Raised before processing of an asynchronous postback starts and the postback request is sent to the server.
+prm.add_beginRequest(BeginRequestHandler);
+// Raised after an asynchronous postback is finished and control has been returned to the browser.
+prm.add_endRequest(EndRequestHandler);
+function BeginRequestHandler(sender, args) {
+//Shows the modal popup - the update progress
+var popup = $find('<%= modalPopup.ClientID %>');
+if (popup != null) {
+popup.show();
+}
+}
+
+function EndRequestHandler(sender, args) {
+//Hide the modal popup - the update progress
+var popup = $find('<%= modalPopup.ClientID %>');
+if (popup != null) {
+popup.hide();
+}
+}
+</script>-
+
+<%--<%--div>   
+    <asp:UpdateProgress ID="UpdateProgress" runat="server">
+<ProgressTemplate>
+<asp:Image ID="Image1" ImageUrl="~/images/spinner-big.gif" AlternateText="Processing" runat="server" />
+</ProgressTemplate>
+</asp:UpdateProgress>
+<cc1:ModalPopupExtender ID="modalPopup" runat="server" TargetControlID="UpdateProgress"
+PopupControlID="UpdateProgress" BackgroundCssClass="modalPopup" />
+<asp:UpdatePanel ID="pnlData" runat="server" UpdateMode="Conditional">
+   <ContentTemplate> --%>
+
+<table width="100%" align="center" cellpadding="0" cellspacing="0" Class="fontcss">
+       
+                
+                    <tr height="21">
+                        <td style="background:url(../../../images/hdbg.JPG)" class="fontcsswhite" ><strong>&nbsp;Project Summary </strong>
+                        </td>
+                    </tr>
+                    <tr>
+                    <td>
+                    
+                 <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="420px"
+Width="100%"  AutoPostBack="True" onactivetabchanged="TabContainer1_ActiveTabChanged">
+<cc1:TabPanel runat="server" HeaderText="Item Wise" ID="TabPanel1"><ContentTemplate>   
+                    
+                    
+                    
+<table width="100%" align="center" cellpadding="0" cellspacing="0">
+
+            
+             <tr>
+            <td class="fontcsswhite" height="25" >
+             <asp:DropDownList runat="server" AutoPostBack="True" DataTextField="CName" DataValueField="CId" CssClass="box3" ID="DDLTaskWOType" OnSelectedIndexChanged="DDLTaskWOType_SelectedIndexChanged"></asp:DropDownList>
+                <asp:DropDownList ID="DropDownList1" runat="server" Width="180px" 
+                    CssClass="box3" 
+                    onselectedindexchanged="DropDownList1_SelectedIndexChanged" 
+                    AutoPostBack="True">
+                 <asp:ListItem Value="3">WO No</asp:ListItem>
+                    <asp:ListItem Value="0">Customer Name</asp:ListItem>
+                    <asp:ListItem Value="1">Enquiry No</asp:ListItem>
+                     <asp:ListItem Value="2">PO No</asp:ListItem>
+                       
+                </asp:DropDownList>
+            
+                <asp:TextBox ID="txtEnqId" runat="server" CssClass="box3" 
+                    Width="150px"></asp:TextBox>
+                 <asp:TextBox ID="TxtSearchValue" runat="server" CssClass="box3"  
+                    Visible="False" Width="350px"></asp:TextBox>
+                      <cc1:AutoCompleteExtender ID="TxtSearchValue_AutoCompleteExtender" 
+                    runat="server" CompletionInterval="100" CompletionSetCount="1" 
+                                            DelimiterCharacters="" Enabled="True" FirstRowSelected="True" 
+                                            MinimumPrefixLength="1" ServiceMethod="sql" ServicePath="" 
+                                            ShowOnlyCurrentWordInCompletionListItem="True" 
+                                            TargetControlID="TxtSearchValue" UseContextKey="True" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                </cc1:AutoCompleteExtender> 
+                    
+                
+        <asp:Button ID="btnSearch" runat="server" 
+            Text="Search" CssClass="redbox" onclick="btnSearch_Click"  />            
+            &nbsp;&nbsp;&nbsp;
+                        </td>
+             </tr>
+ <tr>
+            <td>
+                     
+                <asp:GridView ID="SearchGridView1" runat="server" AllowPaging="True" 
+                    AllowSorting="True" AutoGenerateColumns="False" CssClass="yui-datatable-theme"
+                    DataKeyNames="WONo"                  
+                    onpageindexchanging="SearchGridView1_PageIndexChanging" Width="100%" 
+                    PageSize="15" onrowcommand="SearchGridView1_RowCommand" >
+            
+                    <PagerSettings PageButtonCount="40" />
+            
+            <Columns>
+                
+                <asp:TemplateField HeaderText="SN">
+                <ItemTemplate>
+                <%#Container.DataItemIndex+1  %>
+                </ItemTemplate>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+                </asp:TemplateField>
+                                  <asp:BoundField DataField="FinYear" HeaderText="Fin Yrs">
+                                      <ItemStyle HorizontalAlign="Center" Width="8%" />
+                </asp:BoundField>
+                                  <asp:BoundField HeaderText="Customer Name" 
+                    DataField="CustomerName">
+                                      <ItemStyle HorizontalAlign="Left" Width="25%" />
+                                </asp:BoundField>
+                                  <asp:BoundField DataField="CustomerId" HeaderText="Code" />
+                                  <asp:BoundField DataField="EnqId" HeaderText="Enquiry No" />
+                                  
+                                  <asp:BoundField DataField="PONo" HeaderText="PO No" />
+                                  
+                                  <asp:BoundField DataField="POId" HeaderText="PO Id" 
+                    Visible="False"/>
+                                  <asp:TemplateField HeaderText=" ">
+                <ItemTemplate>
+                    <asp:DropDownList ID="DropDownList2"  runat="server">                                      
+                    <asp:ListItem Text="Bought Out"  Value="1"/> 
+                     <asp:ListItem Text="Manufacturing"  Value="2"/> 
+                    </asp:DropDownList>
+                </ItemTemplate>
+
+<ItemStyle HorizontalAlign="Center" Width="4%"></ItemStyle>
+                </asp:TemplateField>
+                                  <asp:TemplateField HeaderText="WO No">
+                                      <ItemTemplate>
+                                      
+                                      <%--<asp:HyperLink ID="HyperLink2" runat="server" 
+                                              NavigateUrl='<%# Eval("CustomerId", "~/Module/ProjectManagement/Reports/ProjectSummary_Details_Grid.aspx?CustomerId={0}&WONo={2}&ModId=&SubModId=") %>' 
+                                              Text='<%# Eval("WONo") %>'></asp:HyperLink>--%>
+                                          <asp:LinkButton ID="BtnWONo" CommandName="NavigateTo" runat="server" Text='<%# Eval("WONo") %>'></asp:LinkButton>
+                                      </ItemTemplate>
+                </asp:TemplateField>
+                                  <asp:BoundField DataField="SysDate" HeaderText="Gen. Date" />
+                                  <asp:BoundField DataField="EmployeeName" HeaderText="Gen. By" 
+                    Visible="False" >
+                            
+                                      <ItemStyle HorizontalAlign="Left" />
+                                </asp:BoundField>
+                            
+            </Columns>
+             <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+            
+            <RowStyle HorizontalAlign="Center" />
+        </asp:GridView>
+
+            </td>
+             </tr>
+              </table>
+ </ContentTemplate>
+ </cc1:TabPanel>
+ 
+ <cc1:TabPanel runat="server" HeaderText="Quantity Wise" ID="TabPanel2">
+ <ContentTemplate>  
+   
+ 
+       <table align="center" cellpadding="0" cellspacing="0" width="100%">
+                                       
+                    <tr>
+                        <td height="25">
+                       &nbsp; <asp:DropDownList runat="server" AutoPostBack="True" DataTextField="CName" DataValueField="CId" CssClass="box3" ID="DDLTaskWOType1" OnSelectedIndexChanged="DDLTaskWOType1_SelectedIndexChanged"></asp:DropDownList>&nbsp; &nbsp;
+                       &nbsp;<asp:DropDownList ID="drpfield" runat="server" CssClass="box3" 
+                                AutoPostBack="True" onselectedindexchanged="drpfield_SelectedIndexChanged">
+                                <asp:ListItem Value="0">Customer</asp:ListItem>
+                                <asp:ListItem Value="1">WO No</asp:ListItem>
+                                <asp:ListItem Value="2">Project Title</asp:ListItem>
+                            </asp:DropDownList>
+&nbsp;<asp:TextBox ID="txtSupplier" runat="server" CssClass="box3"  Width="250px"></asp:TextBox>
+                            <cc1:AutoCompleteExtender ID="txtSupplier_AutoCompleteExtender" runat="server" 
+                                DelimiterCharacters="" Enabled="True" ServiceMethod="GetCompletionList" 
+                                ServicePath="" TargetControlID="txtSupplier" UseContextKey="True" CompletionInterval="100" CompletionSetCount="2" FirstRowSelected="True" MinimumPrefixLength="1" ShowOnlyCurrentWordInCompletionListItem="True" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                            </cc1:AutoCompleteExtender>
+                            &nbsp;<asp:TextBox ID="txtPONo" runat="server" Visible="False" CssClass="box3" 
+                                Width="250px"></asp:TextBox>
+                        &nbsp;<asp:CheckBox ID="SelectAll" runat="server" Text="Select All Work Order"  AutoPostBack="True" 
+                                oncheckedchanged="SelectAll_CheckedChanged" />&nbsp;
+                &nbsp;<asp:Button ID="Button1" runat="server" CssClass="redbox" Text="Search" onclick="Button1_Click" />  &nbsp;                   </td>
+                     
+                    </tr>
+                    
+                    <tr>
+                        <td colspan="2">                       
+                            <asp:Panel ID="Panel1" runat="server" Height="375px" ScrollBars="Auto">
+                <asp:GridView ID="GridView1" runat="server"  
+                                    AutoGenerateColumns="False" 
+                    CssClass="yui-datatable-theme" DataKeyNames="WOId"  Width="100%">
+                    <PagerSettings PageButtonCount="40" />
+                    <Columns>
+                        <asp:TemplateField HeaderText="SN" >
+                            <ItemTemplate>
+                    <%# Container.DataItemIndex+1 %>
+                            </ItemTemplate>      
+                             <ItemStyle HorizontalAlign="Right" Width="2%" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:CheckBox ID="CheckBox1" runat="server" />
+                            </ItemTemplate>
+                          <ItemStyle HorizontalAlign="Center" Width="2%" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="WOId" SortExpression="Id" Visible="false">
+                            <ItemTemplate>
+                                <asp:Label ID="lblWOId" runat="server" Text='<%#Eval("WOId") %>'> </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="4%" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="WO No"  >
+                            <ItemTemplate>
+                                <asp:Label ID="lblWONo" runat="server" Text='<%#Eval("WONo") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="6%" />
+                        </asp:TemplateField>
+
+                    
+                    
+                        <asp:TemplateField HeaderText="Project Title" >
+                            <ItemTemplate>
+                                <asp:Label ID="lblProjectTitle" runat="server" Text='<%#Eval("ProjectTitle") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Left" Width="40%" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="Customer Name" >
+                            <ItemTemplate>
+                                <asp:Label ID="lblCustomerName" runat="server" Text='<%#Eval("CustomerName") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Left" Width="30%" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="Code" >
+                            <ItemTemplate>
+                                <asp:Label ID="lblCode" runat="server" Text='<%#Eval("Code") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="5%" />
+                        </asp:TemplateField>
+      
+                    </Columns>
+                    <EmptyDataTemplate>
+                        <table class="fontcss" width="100%">
+                            <tr>
+                                <td align="center">
+                                    <asp:Label ID="Label1" runat="server" Font-Bold="true" Font-Names="Calibri" 
+                                        ForeColor="red" Text="No  data found to display"></asp:Label>
+                                </td>
+                            </tr>
+                        </table>
+                    </EmptyDataTemplate>
+                    <FooterStyle Wrap="True" />
+                </asp:GridView>
+                
+                
+               </asp:Panel>
+                        </td>
+                    </tr> 
+                    <tr>
+        <td align="center" height="25px" valign="middle">
+        
+                <asp:Button ID="btnPrint" runat="server" CssClass="redbox" Text="Proceed" 
+                    onclick="btnPrint_Click" />
+        </td>
+        </tr>
+                </table>
+        
+
+ </ContentTemplate>
+ </cc1:TabPanel>
+ 
+ 
+ 
+ <cc1:TabPanel runat="server" HeaderText="Shortage Wise" ID="TabPanel3"><ContentTemplate>   
+                    
+                    
+                    
+<table width="100%" align="center" cellpadding="0" cellspacing="0">
+
+            
+             <tr>
+            <td class="fontcsswhite" height="25" >
+             <asp:DropDownList runat="server" AutoPostBack="True" DataTextField="CName" DataValueField="CId" CssClass="box3" ID="DDLTaskWOTypeSH" OnSelectedIndexChanged="DDLTaskWOTypeSH_SelectedIndexChanged"></asp:DropDownList>
+                <asp:DropDownList ID="DropDownList4" runat="server" Width="180px" 
+                    CssClass="box3" 
+                    onselectedindexchanged="DropDownList4_SelectedIndexChanged" 
+                    AutoPostBack="True">
+                 <asp:ListItem Value="3">WO No</asp:ListItem>
+                    <asp:ListItem Value="0">Customer Name</asp:ListItem>
+                    <asp:ListItem Value="1">Enquiry No</asp:ListItem>
+                     <asp:ListItem Value="2">PO No</asp:ListItem>
+                       
+                </asp:DropDownList>
+            
+                <asp:TextBox ID="txtEnqSH" runat="server" CssClass="box3" 
+                    Width="150px"></asp:TextBox>
+                 <asp:TextBox ID="TxtSearchSH" runat="server" CssClass="box3"  
+                    Visible="False" Width="350px"></asp:TextBox>
+                      <cc1:AutoCompleteExtender ID="AutoCompleteExtender1" 
+                    runat="server" CompletionInterval="100" CompletionSetCount="1" 
+                                            DelimiterCharacters="" Enabled="True" FirstRowSelected="True" 
+                                            MinimumPrefixLength="1" ServiceMethod="sql" ServicePath="" 
+                                            ShowOnlyCurrentWordInCompletionListItem="True" 
+                                            TargetControlID="TxtSearchSH" UseContextKey="True" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                </cc1:AutoCompleteExtender> 
+                    
+                
+        <asp:Button ID="btnSearchSH" runat="server" 
+            Text="Search" CssClass="redbox" onclick="btnSearchSH_Click"  />            
+            &nbsp;&nbsp;&nbsp;
+                        </td>
+             </tr>
+ <tr>
+            <td>
+                     
+                <asp:GridView ID="SearchGridView2" runat="server" AllowPaging="True" 
+                    AllowSorting="True" AutoGenerateColumns="False" CssClass="yui-datatable-theme"
+                    DataKeyNames="WONo"                  
+                    onpageindexchanging="SearchGridView2_PageIndexChanging" Width="100%" 
+                    PageSize="15" onrowcommand="SearchGridView2_RowCommand" >
+            
+                    <PagerSettings PageButtonCount="40" />
+            
+            <Columns>
+                
+                <asp:TemplateField HeaderText="SN">
+                <ItemTemplate>
+                <%#Container.DataItemIndex+1  %>
+                </ItemTemplate>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+                </asp:TemplateField>
+                                  <asp:BoundField DataField="FinYear" HeaderText="Fin Yrs">
+                                      <ItemStyle HorizontalAlign="Center" Width="8%" />
+                </asp:BoundField>
+                                  <asp:BoundField HeaderText="Customer Name" 
+                    DataField="CustomerName">
+                                      <ItemStyle HorizontalAlign="Left" Width="25%" />
+                                </asp:BoundField>
+                                  <asp:BoundField DataField="CustomerId" HeaderText="Code" />
+                                  <asp:BoundField DataField="EnqId" HeaderText="Enquiry No" />
+                                  
+                                  <asp:BoundField DataField="PONo" HeaderText="PO No" />
+                                  
+                                  <asp:BoundField DataField="POId" HeaderText="PO Id" 
+                    Visible="False"/>
+                                  <asp:TemplateField HeaderText=" ">
+                <ItemTemplate>
+                    <asp:DropDownList ID="DropDownListSH"  runat="server">                                      
+                    <asp:ListItem Text="Bought Out"  Value="1"/> 
+                     <asp:ListItem Text="Manufacturing"  Value="2"/> 
+                    </asp:DropDownList>
+                </ItemTemplate>
+
+<ItemStyle HorizontalAlign="Center" Width="4%"></ItemStyle>
+                </asp:TemplateField>
+                                  <asp:TemplateField HeaderText="WO No">
+                                      <ItemTemplate>
+                                      
+                                      <%--<asp:HyperLink ID="HyperLink2" runat="server" 
+                                              NavigateUrl='<%# Eval("CustomerId", "~/Module/ProjectManagement/Reports/ProjectSummary_Details_Grid.aspx?CustomerId={0}&WONo={2}&ModId=&SubModId=") %>' 
+                                              Text='<%# Eval("WONo") %>'></asp:HyperLink>--%>
+                                          <asp:LinkButton ID="BtnWONoSH" CommandName="NavigateToSH" runat="server" Text='<%# Eval("WONo") %>'></asp:LinkButton>
+                                      </ItemTemplate>
+                </asp:TemplateField>
+                                  <asp:BoundField DataField="SysDate" HeaderText="Gen. Date" />
+                                  <asp:BoundField DataField="EmployeeName" HeaderText="Gen. By" 
+                    Visible="False" >
+                            
+                                      <ItemStyle HorizontalAlign="Left" />
+                                </asp:BoundField>
+                            
+            </Columns>
+             <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+            
+            <RowStyle HorizontalAlign="Center" />
+        </asp:GridView>
+
+            </td>
+             </tr>
+              </table>
+ </ContentTemplate>
+ </cc1:TabPanel>
+ 
+ 
+ 
+ 
+ <cc1:TabPanel runat="server" HeaderText="Supplier Wise" ID="TabPanel4"><ContentTemplate>   
+                    
+                    
+                    
+<table width="100%" align="center" cellpadding="0" cellspacing="0">
+
+            
+             <tr>
+            <td class="fontcsswhite" height="25" >
+             <asp:DropDownList runat="server" AutoPostBack="True" DataTextField="CName" DataValueField="CId" CssClass="box3" ID="DropDownSupWO" OnSelectedIndexChanged="DropDownSupWO_SelectedIndexChanged"></asp:DropDownList>
+                <asp:DropDownList ID="DropDownSup" runat="server" Width="180px" 
+                    CssClass="box3" 
+                    onselectedindexchanged="DropDownSup_SelectedIndexChanged" 
+                    AutoPostBack="True">
+                 <asp:ListItem Value="3">WO No</asp:ListItem>
+                    <asp:ListItem Value="0">Customer Name</asp:ListItem>
+                    <asp:ListItem Value="1">Enquiry No</asp:ListItem>
+                     <asp:ListItem Value="2">PO No</asp:ListItem>
+                       
+                </asp:DropDownList>
+            
+                <asp:TextBox ID="TextSupWONo" runat="server" CssClass="box3" 
+                    Width="150px"></asp:TextBox>
+                 <asp:TextBox ID="TextSupCust" runat="server" CssClass="box3"  
+                    Visible="False" Width="350px"></asp:TextBox>
+                      <cc1:AutoCompleteExtender ID="AutoCompleteExtender12" 
+                    runat="server" CompletionInterval="100" CompletionSetCount="1" 
+                                            DelimiterCharacters="" Enabled="True" FirstRowSelected="True" 
+                                            MinimumPrefixLength="1" ServiceMethod="sql" ServicePath="" 
+                                            ShowOnlyCurrentWordInCompletionListItem="True" 
+                                            TargetControlID="TextSupCust" UseContextKey="True" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                </cc1:AutoCompleteExtender> 
+                    
+                
+        <asp:Button ID="BtnSup" runat="server" 
+            Text="Search" CssClass="redbox" onclick="BtnSup_Click"  />            
+            &nbsp;&nbsp;&nbsp;
+                        </td>
+             </tr>
+ <tr>
+            <td>
+                     
+                <asp:GridView ID="GridViewSup" runat="server" AllowPaging="True" 
+                    AllowSorting="True" AutoGenerateColumns="False" CssClass="yui-datatable-theme"
+                    DataKeyNames="WONo"                  
+                    onpageindexchanging="GridViewSup_PageIndexChanging" Width="100%" 
+                    PageSize="15" onrowcommand="GridViewSup_RowCommand" >
+            
+                    <PagerSettings PageButtonCount="40" />
+            
+            <Columns>
+                
+                <asp:TemplateField HeaderText="SN">
+                <ItemTemplate>
+                <%#Container.DataItemIndex+1  %>
+                </ItemTemplate>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+                </asp:TemplateField>
+                                  <asp:BoundField DataField="FinYear" HeaderText="Fin Yrs">
+                                      <ItemStyle HorizontalAlign="Center" Width="8%" />
+                </asp:BoundField>
+                                  <asp:BoundField HeaderText="Customer Name" 
+                    DataField="CustomerName">
+                                      <ItemStyle HorizontalAlign="Left" Width="25%" />
+                                </asp:BoundField>
+                                  <asp:BoundField DataField="CustomerId" HeaderText="Code" />
+                                  <asp:BoundField DataField="EnqId" HeaderText="Enquiry No" />
+                                  
+                                  <asp:BoundField DataField="PONo" HeaderText="PO No" />
+                                  
+                                  <asp:BoundField DataField="POId" HeaderText="PO Id" 
+                    Visible="False"/>
+                                  <asp:TemplateField HeaderText=" ">
+                <ItemTemplate>
+                    <asp:DropDownList ID="DropDownSuptype"  runat="server">                                      
+                    <asp:ListItem Text="Bought Out"  Value="1"/> 
+                     <asp:ListItem Text="Manufacturing"  Value="2"/> 
+                    </asp:DropDownList>
+                </ItemTemplate>
+
+<ItemStyle HorizontalAlign="Center" Width="4%"></ItemStyle>
+                </asp:TemplateField>
+                                  <asp:TemplateField HeaderText="WO No">
+                                      <ItemTemplate>
+                                      
+                                      <%--<asp:HyperLink ID="HyperLink2" runat="server" 
+                                              NavigateUrl='<%# Eval("CustomerId", "~/Module/ProjectManagement/Reports/ProjectSummary_Details_Grid.aspx?CustomerId={0}&WONo={2}&ModId=&SubModId=") %>' 
+                                              Text='<%# Eval("WONo") %>'></asp:HyperLink>--%>
+                                          <asp:LinkButton ID="BtnWONoSup" CommandName="Sup" runat="server" Text='<%# Eval("WONo") %>'></asp:LinkButton>
+                                      </ItemTemplate>
+                </asp:TemplateField>
+                                  <asp:BoundField DataField="SysDate" HeaderText="Gen. Date" />
+                                  <asp:BoundField DataField="EmployeeName" HeaderText="Gen. By" 
+                    Visible="False" >
+                            
+                                      <ItemStyle HorizontalAlign="Left" />
+                                </asp:BoundField>
+                            
+            </Columns>
+             <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+            
+            <RowStyle HorizontalAlign="Center" />
+        </asp:GridView>
+
+            </td>
+             </tr>
+              </table>
+ </ContentTemplate>
+ </cc1:TabPanel>
+ 
+  
+ </cc1:TabContainer>
+            </td>
+        </tr>
+        
+        </table>
+ 
+ <%--</-ContentTemplate>
+    </asp:UpdatePanel>
+</div>--%>
+ 
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/ProjectManagement/Reports/ProjectSummary.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Collections.Generic;
+
+public partial class Module_Project_Summary_ProjectSummary : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    DataSet DS = new DataSet();
+    string sId = "";
+    int CompId = 0;
+    string CId = "";
+    string Eid = "";
+    string connStr = "";
+    int FinYearId = 0;
+    int h = 0;
+    SqlConnection con;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        connStr = fun.Connection();
+        con = new SqlConnection(connStr);
+   try
+        {
+            sId = Session["username"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            if (!Page.IsPostBack)
+            {
+
+                string StrCat = fun.select("CId,Symbol+' - '+CName as Category", "tblSD_WO_Category", "CompId='" + CompId + "'");
+                SqlCommand Cmd = new SqlCommand(StrCat, con);
+                SqlDataAdapter DA = new SqlDataAdapter(Cmd);
+                DataSet DS = new DataSet();
+                DA.Fill(DS, "tblSD_WO_Category");
+                DDLTaskWOType.DataSource = DS.Tables["tblSD_WO_Category"];
+                DDLTaskWOType.DataTextField = "Category";
+                DDLTaskWOType.DataValueField = "CId";
+                DDLTaskWOType.DataBind();
+                DDLTaskWOType.Items.Insert(0, "WO Category");
+                TxtSearchValue.Visible = false;
+                this.BindDataCust(CId, Eid);                
+                DDLTaskWOType1.DataSource = DS.Tables["tblSD_WO_Category"];
+                DDLTaskWOType1.DataTextField = "Category";
+                DDLTaskWOType1.DataValueField = "CId";
+                DDLTaskWOType1.DataBind();
+                DDLTaskWOType1.Items.Insert(0, "WO Category");
+
+                DDLTaskWOTypeSH.DataSource = DS.Tables["tblSD_WO_Category"];
+                DDLTaskWOTypeSH.DataTextField = "Category";
+                DDLTaskWOTypeSH.DataValueField = "CId";
+                DDLTaskWOTypeSH.DataBind();
+                DDLTaskWOTypeSH.Items.Insert(0, "WO Category");
+
+
+                DropDownSupWO.DataSource = DS.Tables["tblSD_WO_Category"];
+                DropDownSupWO.DataTextField = "Category";
+                DropDownSupWO.DataValueField = "CId";
+                DropDownSupWO.DataBind();
+                DropDownSupWO.Items.Insert(0, "WO Category");
+
+                this.loaddata(h);
+                this.Bindload(CId, Eid);
+                this.BindSup(CId, Eid);
+            }
+            
+       
+        }
+     catch (Exception ex)
+        {
+        }
+    }
+
+    protected void SearchGridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            SearchGridView1.PageIndex = e.NewPageIndex;
+            this.BindDataCust(CId, Eid);
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            this.BindDataCust(TxtSearchValue.Text, txtEnqId.Text);
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    public void BindDataCust(string Cid, string EID)
+    {
+        try
+        {
+            string sId = Session["username"].ToString();
+            int FinYearId = Convert.ToInt32(Session["finyear"]);
+            int CompId = Convert.ToInt32(Session["compid"]);
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            DataTable dt = new DataTable();
+            con.Open();
+            string x = "";
+            if (DropDownList1.SelectedValue == "1")
+            {
+                if (txtEnqId.Text != "")
+                {
+                    x = " AND SD_Cust_WorkOrder_Master.EnqId='" + txtEnqId.Text + "'";
+                }
+            }
+            if (DropDownList1.SelectedValue == "2")
+            {
+                if (txtEnqId.Text != "")
+                {
+                    x = " AND SD_Cust_WorkOrder_Master.PONo='" + txtEnqId.Text + "'";
+                }
+            }
+
+            if (DropDownList1.SelectedValue == "3")
+            {
+                if (txtEnqId.Text != "")
+                {
+                    x = " AND SD_Cust_WorkOrder_Master.WONo='" + txtEnqId.Text + "'";
+                }
+            }      
+
+            string y = "";
+
+            if (DropDownList1.SelectedValue == "0")
+            {
+                if (TxtSearchValue.Text != "")
+                {
+                    string Custid = fun.getCode(TxtSearchValue.Text);
+                    y = " AND SD_Cust_WorkOrder_Master.CustomerId='" + Custid + "'";
+                }
+            }
+
+            string Z = "";
+            if (DDLTaskWOType.SelectedValue != "WO Category")
+            {
+                Z = " AND SD_Cust_WorkOrder_Master.CId='" + Convert.ToInt32(DDLTaskWOType.SelectedValue) + "'";
+            }
+            string L = " ";
+            SqlDataAdapter da = new SqlDataAdapter("Sp_WONO_NotInBom", con);
+            da.SelectCommand.CommandType = CommandType.StoredProcedure;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@CompId", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@CompId"].Value = CompId;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@FinId", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@FinId"].Value = FinYearId;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@x", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@x"].Value = x;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@y", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@y"].Value = y;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@z", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@z"].Value = Z;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@l", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@l"].Value = L;
+            DataSet DSitem = new DataSet();
+            da.Fill(DSitem);
+            SearchGridView1.DataSource = DSitem;
+            SearchGridView1.DataBind();            
+            con.Close();
+        }
+
+        catch (Exception ex)
+        { }
+    }
+
+    protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (DropDownList1.SelectedValue == "0")
+            {
+                txtEnqId.Visible = false;
+                TxtSearchValue.Visible = true;
+                TxtSearchValue.Text = "";
+                this.BindDataCust(CId, Eid);
+            }
+            if (DropDownList1.SelectedValue == "1" || DropDownList1.SelectedValue == "2" || DropDownList1.SelectedValue == "3" || DropDownList1.SelectedValue == "Select")
+            {
+                txtEnqId.Visible = true;
+                TxtSearchValue.Visible = false;
+                txtEnqId.Text = "";
+                this.BindDataCust(CId, Eid);
+            }
+        }
+        catch (Exception ex)
+        { }
+
+    }
+
+
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] sql(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        int CompId = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        con.Open();
+        string cmdStr = fun.select("CustomerId,CustomerName", "SD_Cust_master", "CompId='" + CompId + "'");
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds, "SD_Cust_master");
+        con.Close();
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                //if (main.Length == 10)
+                //    break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }
+    protected void SearchGridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+        string WONo = string.Empty;
+        string SwithTo = string.Empty;
+        if (e.CommandName == "NavigateTo")
+        {
+
+            GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+            WONo = ((LinkButton)row.FindControl("BtnWONo")).Text;
+            SwithTo = ((DropDownList)row.FindControl("DropDownList2")).SelectedValue;
+            if (WONo != string.Empty && SwithTo != string.Empty && SwithTo == "2")
+            {
+                Response.Redirect("~/Module/ProjectManagement/Reports/ProjectSummary_Details_Grid.aspx?WONo=" + WONo + "&SwitchTo=" + SwithTo + "&ModId=&SubModId=");
+
+            }
+            else if (WONo != string.Empty && SwithTo != string.Empty && SwithTo == "1")
+            {
+                Response.Redirect("~/Module/ProjectManagement/Reports/ProjectSummary_Details_Bought.aspx?WONo=" + WONo + "&SwitchTo=" + SwithTo + "&ModId=&SubModId=");
+            }
+
+        }
+        }
+        catch (Exception ex)
+        { }
+    }
+
+    protected void DDLTaskWOType_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (DDLTaskWOType.SelectedValue != "WO Category")
+        {
+            this.BindDataCust(CId, Eid);
+        }
+        else
+        {
+            this.BindDataCust(CId, Eid);
+        }
+
+    }
+
+
+
+    ////////////////////////////////////////////////////// For All WOrk Order............................
+
+
+
+
+
+    public void loaddata(int c)
+    {
+       try
+        {
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            string x = "";
+            if (drpfield.SelectedValue == "0")
+            {
+                if (txtSupplier.Text != "")
+                {
+                    string CustCode = fun.getCode(txtSupplier.Text);
+                    x = " AND SD_Cust_WorkOrder_Master.CustomerId='" + CustCode + "'";
+                }
+            }
+
+            string y = "";
+            if (drpfield.SelectedValue == "1")
+            {
+                if (txtPONo.Text != "")
+                {
+                    y = " AND SD_Cust_WorkOrder_Master.WONo='" + txtPONo.Text + "'";
+                }
+            }
+
+            if (drpfield.SelectedValue == "2")
+            {
+                if (txtPONo.Text != "")
+                {
+                    y = " AND SD_Cust_WorkOrder_Master.TaskProjectTitle Like '%" + txtPONo.Text + "%'";
+                }
+            }
+
+            string Z = "";
+            if (DDLTaskWOType1.SelectedValue != "WO Category")
+            {
+                Z = " AND SD_Cust_WorkOrder_Master.CId='" + Convert.ToInt32(DDLTaskWOType1.SelectedValue) + "'";
+            }
+
+            SqlDataAdapter da = new SqlDataAdapter("Sp_ForeCast", con);
+            da.SelectCommand.CommandType = CommandType.StoredProcedure;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@CompId", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@CompId"].Value = CompId;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@FinId", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@FinId"].Value = FinYearId;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@x", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@x"].Value = x;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@y", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@y"].Value = y;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@z", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@z"].Value = Z;
+            DataSet DSitem = new DataSet();
+            da.Fill(DSitem);
+            GridView1.DataSource = DSitem;
+            GridView1.DataBind();
+
+        }
+        catch (Exception ex) { }
+
+    } 
+
+
+
+
+
+    protected void DDLTaskWOType1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (DDLTaskWOType1.SelectedValue != "WO Category")
+        {
+            int k = Convert.ToInt32(DDLTaskWOType1.SelectedValue);
+            this.loaddata(k);           
+        }
+        else
+        {
+            this.loaddata(h);
+        }
+
+    }
+
+    protected void drpfield_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (drpfield.SelectedValue == "0")
+            {
+                txtPONo.Visible = false;
+                txtSupplier.Visible = true;
+                txtSupplier.Text = "";
+                this.loaddata(h);
+            }
+            if (drpfield.SelectedValue == "1" || drpfield.SelectedValue == "2")
+            {
+                txtPONo.Visible = true;
+                txtPONo.Text = "";
+                txtSupplier.Visible = false;
+               this.loaddata(h);
+            }
+            
+        }
+        catch (Exception ex) { }
+
+    }
+
+
+
+    protected void SelectAll_CheckedChanged(object sender, EventArgs e)
+    {
+        if (SelectAll.Checked == true)
+        {
+            foreach (GridViewRow grv in GridView1.Rows)
+            {
+                ((CheckBox)grv.FindControl("CheckBox1")).Checked = true;
+            }
+        }
+        if (SelectAll.Checked == false)
+        {
+            foreach (GridViewRow grv in GridView1.Rows)
+            {
+                ((CheckBox)grv.FindControl("CheckBox1")).Checked = false;
+            }
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        this.loaddata(h);
+    }
+
+
+  [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] GetCompletionList(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        int CompId = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        con.Open();
+        string cmdStr = fun.select("CustomerId,CustomerName", "SD_Cust_master", "CompId='" + CompId + "'");
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds, "SD_Cust_master");
+        con.Close();
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                //if (main.Length == 10)
+                //    break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }
+
+
+
+
+
+
+  protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+  {
+      GridView1.PageIndex = e.NewPageIndex;
+      this.loaddata(h);
+  }
+  protected void TabContainer1_ActiveTabChanged(object sender, EventArgs e)
+  {
+      if (TabContainer1.ActiveTabIndex == 1)
+      {
+
+         
+      }
+  }
+
+
+  
+  protected void Button2_Click1(object sender, EventArgs e)
+  {
+     
+  }
+
+
+
+
+  protected void btnPrint_Click(object sender, EventArgs e)
+  {
+      try
+      {
+          List<string> woidli = new List<string>();
+
+          string strWoid = string.Empty;
+          string SwithTo = string.Empty;
+          string Transaction = string.Empty;
+
+          foreach (GridViewRow grv in GridView1.Rows)
+          {
+              if (((CheckBox)grv.FindControl("CheckBox1")).Checked == true)
+              {
+                  woidli.Add(Convert.ToString((((Label)grv.FindControl("lblWONo")).Text + ",")));
+              }
+          }
+          for (int k = 0; k < woidli.Count; k++)
+          {
+              strWoid += woidli[k].ToString();
+          }
+          Session["Wono"] = strWoid;
+        
+
+          if (Session["Wono"] != null && string.IsNullOrEmpty(Session["Wono"].ToString()) == false)
+          {
+              Response.Redirect("ProjectSummary_WONo.aspx?ModId=7");
+          }
+          else
+          {
+              string mystring = string.Empty;
+              mystring = "Select Workorder.";
+              ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+          }
+         
+      }
+      catch (Exception ex)
+      {
+      }
+  }
+
+
+
+   //////////////// for short Qty ....
+
+
+
+  public void Bindload(string Cid, string EID)
+  {
+     try
+      {
+          string sId = Session["username"].ToString();
+          int FinYearId = Convert.ToInt32(Session["finyear"]);
+          int CompId = Convert.ToInt32(Session["compid"]);
+          string connStr = fun.Connection();
+          SqlConnection con = new SqlConnection(connStr);
+          DataTable dt = new DataTable();
+          con.Open();
+          string x = "";
+          if (DropDownList4.SelectedValue == "1")
+          {
+              if (txtEnqSH.Text != "")
+              {
+                  x = " AND SD_Cust_WorkOrder_Master.EnqId='" + txtEnqSH.Text + "'";
+              }
+          }
+          if (DropDownList4.SelectedValue == "2")
+          {
+              if (txtEnqSH.Text != "")
+              {
+                  x = " AND SD_Cust_WorkOrder_Master.PONo='" + txtEnqSH.Text + "'";
+              }
+          }
+
+          if (DropDownList4.SelectedValue == "3")
+          {
+              if (txtEnqSH.Text != "")
+              {
+                  x = " AND SD_Cust_WorkOrder_Master.WONo='" + txtEnqSH.Text + "'";
+              }
+          }
+
+          string y = "";
+
+          if (DropDownList4.SelectedValue == "0")
+          {
+              if (TxtSearchSH.Text != "")
+              {
+                  string Custid = fun.getCode(TxtSearchSH.Text);
+                  y = " AND SD_Cust_WorkOrder_Master.CustomerId='" + Custid + "'";
+              }
+          }
+
+          string Z = "";
+          if (DDLTaskWOTypeSH.SelectedValue != "WO Category")
+          {
+              Z = " AND SD_Cust_WorkOrder_Master.CId='" + Convert.ToInt32(DDLTaskWOTypeSH.SelectedValue) + "'";
+          }
+          string L = " ";
+          SqlDataAdapter da = new SqlDataAdapter("Sp_WONO_NotInBom", con);
+          da.SelectCommand.CommandType = CommandType.StoredProcedure;
+          da.SelectCommand.Parameters.Add(new SqlParameter("@CompId", SqlDbType.VarChar));
+          da.SelectCommand.Parameters["@CompId"].Value = CompId;
+          da.SelectCommand.Parameters.Add(new SqlParameter("@FinId", SqlDbType.VarChar));
+          da.SelectCommand.Parameters["@FinId"].Value = FinYearId;
+          da.SelectCommand.Parameters.Add(new SqlParameter("@x", SqlDbType.VarChar));
+          da.SelectCommand.Parameters["@x"].Value = x;
+          da.SelectCommand.Parameters.Add(new SqlParameter("@y", SqlDbType.VarChar));
+          da.SelectCommand.Parameters["@y"].Value = y;
+          da.SelectCommand.Parameters.Add(new SqlParameter("@z", SqlDbType.VarChar));
+          da.SelectCommand.Parameters["@z"].Value = Z;
+          da.SelectCommand.Parameters.Add(new SqlParameter("@l", SqlDbType.VarChar));
+          da.SelectCommand.Parameters["@l"].Value = L;
+          DataSet DSitem = new DataSet();
+          da.Fill(DSitem);
+          SearchGridView2.DataSource = DSitem;
+          SearchGridView2.DataBind();
+          con.Close();
+      }
+
+    catch (Exception ex)
+      { }
+  }
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+  protected void SearchGridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+  {
+      try
+      {
+          SearchGridView2.PageIndex = e.NewPageIndex;
+          this.Bindload(CId, Eid);
+      }
+      catch (Exception ex)
+      {
+      }
+  }
+  protected void SearchGridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+  {
+      try
+      {
+          string WONo = string.Empty;
+          string SwithTo = string.Empty;
+          if (e.CommandName == "NavigateToSH")
+          {
+
+              GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+              WONo = ((LinkButton)row.FindControl("BtnWONoSH")).Text;
+              SwithTo = ((DropDownList)row.FindControl("DropDownListSH")).SelectedValue;
+              if (WONo != string.Empty && SwithTo != string.Empty && SwithTo == "2")
+              {
+                  Response.Redirect("~/Module/ProjectManagement/Reports/ProjectSummary_Shortage_M.aspx?WONo=" + WONo + "&SwitchTo=" + SwithTo + "&ModId=&SubModId=");
+
+              }
+              else if (WONo != string.Empty && SwithTo != string.Empty && SwithTo == "1")
+              {
+                  Response.Redirect("~/Module/ProjectManagement/Reports/ProjectSummary_Shortage_B.aspx?WONo=" + WONo + "&SwitchTo=" + SwithTo + "&ModId=&SubModId=");
+              }
+
+          }
+      }
+      catch (Exception ex)
+      { }
+  }
+  protected void btnSearchSH_Click(object sender, EventArgs e)
+  {
+      try
+      {
+          this.Bindload(TxtSearchSH.Text, txtEnqSH.Text);
+      }
+      catch (Exception ex)
+      {
+      }
+  }
+  protected void DDLTaskWOTypeSH_SelectedIndexChanged(object sender, EventArgs e)
+  {
+      if (DDLTaskWOTypeSH.SelectedValue != "WO Category")
+      {
+          this.Bindload(CId, Eid);
+      }
+      else
+      {
+          this.Bindload(CId, Eid);
+      }
+  }
+  protected void DropDownList4_SelectedIndexChanged(object sender, EventArgs e)
+  {
+      try
+      {
+          if (DropDownList4.SelectedValue == "0")
+          {
+              txtEnqSH.Visible = false;
+              TxtSearchSH.Visible = true;
+              TxtSearchSH.Text = "";
+              this.Bindload(CId, Eid);
+          }
+          if (DropDownList4.SelectedValue == "1" || DropDownList4.SelectedValue == "2" || DropDownList4.SelectedValue == "3" || DropDownList4.SelectedValue == "Select")
+          {
+              txtEnqSH.Visible = true;
+              TxtSearchSH.Visible = false;
+              txtEnqSH.Text = "";
+              this.Bindload(CId, Eid);
+          }
+      }
+      catch (Exception ex)
+      { }
+  }
+
+
+
+    //////////////// for Supplier Wise  Qty ....
+
+
+
+
+
+  public void BindSup(string Cid, string EID)
+  {
+      try
+      {
+          string sId = Session["username"].ToString();
+          int FinYearId = Convert.ToInt32(Session["finyear"]);
+          int CompId = Convert.ToInt32(Session["compid"]);
+          string connStr = fun.Connection();
+          SqlConnection con = new SqlConnection(connStr);
+          DataTable dt = new DataTable();
+          con.Open();
+          string x = "";
+          if (DropDownSup.SelectedValue == "1")
+          {
+              if (TextSupWONo.Text != "")
+              {
+                  x = " AND SD_Cust_WorkOrder_Master.EnqId='" + TextSupWONo.Text + "'";
+              }
+          }
+          if (DropDownSup.SelectedValue == "2")
+          {
+              if (TextSupWONo.Text != "")
+              {
+                  x = " AND SD_Cust_WorkOrder_Master.PONo='" + TextSupWONo.Text + "'";
+              }
+          }
+
+          if (DropDownSup.SelectedValue == "3")
+          {
+              if (TextSupWONo.Text != "")
+              {
+                  x = " AND SD_Cust_WorkOrder_Master.WONo='" + TextSupWONo.Text + "'";
+              }
+          }
+
+          string y = "";
+
+          if (DropDownSup.SelectedValue == "0")
+          {
+              if (TextSupCust.Text != "")
+              {
+                  string Custid = fun.getCode(TextSupCust.Text);
+                  y = " AND SD_Cust_WorkOrder_Master.CustomerId='" + Custid + "'";
+              }
+          }
+
+          string Z = "";
+          if (DropDownSupWO.SelectedValue != "WO Category")
+          {
+              Z = " AND SD_Cust_WorkOrder_Master.CId='" + Convert.ToInt32(DropDownSupWO.SelectedValue) + "'";
+          }
+          string L = " ";
+          SqlDataAdapter da = new SqlDataAdapter("Sp_WONO_NotInBom", con);
+          da.SelectCommand.CommandType = CommandType.StoredProcedure;
+          da.SelectCommand.Parameters.Add(new SqlParameter("@CompId", SqlDbType.VarChar));
+          da.SelectCommand.Parameters["@CompId"].Value = CompId;
+          da.SelectCommand.Parameters.Add(new SqlParameter("@FinId", SqlDbType.VarChar));
+          da.SelectCommand.Parameters["@FinId"].Value = FinYearId;
+          da.SelectCommand.Parameters.Add(new SqlParameter("@x", SqlDbType.VarChar));
+          da.SelectCommand.Parameters["@x"].Value = x;
+          da.SelectCommand.Parameters.Add(new SqlParameter("@y", SqlDbType.VarChar));
+          da.SelectCommand.Parameters["@y"].Value = y;
+          da.SelectCommand.Parameters.Add(new SqlParameter("@z", SqlDbType.VarChar));
+          da.SelectCommand.Parameters["@z"].Value = Z;
+          da.SelectCommand.Parameters.Add(new SqlParameter("@l", SqlDbType.VarChar));
+          da.SelectCommand.Parameters["@l"].Value = L;
+          DataSet DSitem = new DataSet();
+          da.Fill(DSitem);
+          GridViewSup.DataSource = DSitem;
+          GridViewSup.DataBind();
+          con.Close();
+      }
+
+    catch (Exception ex)
+      { }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  protected void GridViewSup_PageIndexChanging(object sender, GridViewPageEventArgs e)
+  {
+     try
+      {
+          GridViewSup.PageIndex = e.NewPageIndex;
+          this.BindSup(CId, Eid);
+      }
+      catch (Exception ex)
+      {
+      }
+  }
+  protected void GridViewSup_RowCommand(object sender, GridViewCommandEventArgs e)
+  {
+      try
+      {
+          string WONo = string.Empty;
+          string SwithTo = string.Empty;
+          if (e.CommandName == "Sup")
+          {
+
+              GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+              WONo = ((LinkButton)row.FindControl("BtnWONoSup")).Text;
+              SwithTo = ((DropDownList)row.FindControl("DropDownSuptype")).SelectedValue;
+              Response.Write("heloo");
+              if (WONo != string.Empty && SwithTo != string.Empty && SwithTo == "2")
+              {
+                  Response.Redirect("~/Module/ProjectManagement/Reports/ProjectSummary_Sup_M.aspx?WONo=" + WONo + "&SwitchTo=" + SwithTo + "&ModId=&SubModId=");
+
+              }
+              else if (WONo != string.Empty && SwithTo != string.Empty && SwithTo == "1")
+              {
+                  Response.Redirect("~/Module/ProjectManagement/Reports/ProjectSummary_Sup_B.aspx?WONo=" + WONo + "&SwitchTo=" + SwithTo + "&ModId=&SubModId=");
+              }
+
+          }
+      }
+    catch (Exception ex)
+      { }
+  }
+  protected void BtnSup_Click(object sender, EventArgs e)
+  {
+      try
+      {
+          this.BindSup(TextSupWONo.Text, TextSupCust.Text);
+      }
+      catch (Exception ex)
+      {
+      }
+  }
+  protected void DropDownSupWO_SelectedIndexChanged(object sender, EventArgs e)
+  {
+      if (DropDownSupWO.SelectedValue != "WO Category")
+      {
+          this.BindSup(CId, Eid);
+      }
+      else
+      {
+          this.BindSup(CId, Eid);
+      }
+  }
+  protected void DropDownSup_SelectedIndexChanged(object sender, EventArgs e)
+  {
+      try
+      {
+          if (DropDownSup.SelectedValue == "0")
+          {
+              TextSupWONo.Visible = false;
+              TextSupCust.Visible = true;
+              TextSupCust.Text = "";
+              this.BindSup(CId, Eid);
+          }
+          if (DropDownSup.SelectedValue == "1" || DropDownSup.SelectedValue == "2" || DropDownSup.SelectedValue == "3" || DropDownSup.SelectedValue == "Select")
+          {
+              TextSupWONo.Visible = true;
+              TextSupCust.Visible = false;
+              TextSupWONo.Text = "";
+              this.BindSup(CId, Eid);
+          }
+      }
+      catch (Exception ex)
+      { }
+  }
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

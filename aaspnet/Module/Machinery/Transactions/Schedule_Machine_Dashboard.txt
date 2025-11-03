@@ -1,0 +1,429 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Machinery/Transactions/Schedule_Machine_Dashboard.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Schedule_Machine_Dashboard.aspx.cs" Inherits="Module_Machinery_Transactions_Schedule_Machine_Dashboard" Title="ERP" Theme="Default"%>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .style5
+        {
+            height: 28px;
+        }
+        </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+<table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)" colspan="2">
+        &nbsp;<b>Machinary - Dashboard</b></td>
+        </tr>
+        <tr>
+            <td valign="top" colspan="2">
+<table align="left" cellpadding="0" 
+            cellspacing="0" width="100%" style="height: 162px"><tr><td class="style5" 
+            height="25" valign="middle">&nbsp; <asp:DropDownList ID="DrpCategory" runat="server" AutoPostBack="True" 
+                CssClass="box3" Height="21px" 
+                OnSelectedIndexChanged="DrpCategory_SelectedIndexChanged"></asp:DropDownList>&nbsp;<asp:DropDownList 
+                ID="DrpSubCategory" runat="server" AutoPostBack="True" 
+                CssClass="box3" 
+                OnSelectedIndexChanged="DrpSubCategory_SelectedIndexChanged"></asp:DropDownList>
+            &nbsp;<asp:DropDownList 
+                ID="DrpSearchCode" runat="server" AutoPostBack="True" 
+                CssClass="box3" 
+                >
+                <asp:ListItem Value="Select">Select</asp:ListItem>
+                <asp:ListItem Value="tblDG_Item_Master.ItemCode">Machine Code</asp:ListItem>
+                <asp:ListItem Value="tblDG_Item_Master.ManfDesc">Description</asp:ListItem>
+            </asp:DropDownList>
+            &nbsp;<asp:TextBox 
+                ID="txtSearchItemCode" runat="server" CssClass="box3" Width="200px"></asp:TextBox>&nbsp;<asp:Button ID="btnSearch" runat="server" CssClass="redbox" 
+                OnClick="btnSearch_Click" Text="Search" />
+            </td></tr><tr><td class="style5" height="30" valign="middle">&nbsp;&nbsp;&nbsp;
+            &nbsp;<asp:GridView ID="GridView2" runat="server" AllowPaging="True" 
+                    AutoGenerateColumns="False" CssClass="yui-datatable-theme" 
+                    OnPageIndexChanging="GridView2_PageIndexChanging" 
+                    OnRowCommand="GridView2_RowCommand" PageSize="20" Width="100%"><FooterStyle Font-Bold="False" /><Columns>
+                    
+                    <asp:TemplateField HeaderText="SN">
+                                                    <ItemTemplate>
+                                                        <%# Container.DataItemIndex + 1%>
+                                                    </ItemTemplate>
+                                                    <ItemStyle HorizontalAlign="Right" Width="2%" />
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Machine Code" >
+                        <ItemTemplate>
+                        
+                                                       <asp:LinkButton ID="LinkButton1" CommandName="Sel" Text='<%# Bind("ItemCode") %>' runat="server"></asp:LinkButton>
+                        </ItemTemplate>
+                        <ItemStyle HorizontalAlign="Center" Width="7%" />
+                    </asp:TemplateField>
+                                                
+                    <asp:TemplateField HeaderText="Id" Visible="False">
+                        <ItemTemplate>
+                            <asp:Label ID="lblId" runat="server" Text='<%# Bind("Id") %>'></asp:Label>
+                        </ItemTemplate>                                                                       
+                         <ItemStyle VerticalAlign="Top" />
+                    </asp:TemplateField>
+               
+               <asp:TemplateField HeaderText="MachineId" Visible="False">
+                        <ItemTemplate>
+                            <asp:Label ID="lblMachineId" runat="server" Text='<%# Bind("MachineId") %>'></asp:Label>
+                        </ItemTemplate>                                                                       
+                         <ItemStyle VerticalAlign="Top" />
+                    </asp:TemplateField> 
+                    <asp:TemplateField HeaderText="Date" Visible="true">
+                        <ItemTemplate>
+                            <asp:Label ID="lblRegDate" runat="server" Text='<%# Bind("SysDate") %>'></asp:Label>
+                        </ItemTemplate>                                                                       
+                        <ItemStyle VerticalAlign="Top" Width="4%" HorizontalAlign="Center" />
+                    </asp:TemplateField>                  
+                    <asp:BoundField DataField="ManfDesc" HeaderText="Description">
+                <ItemStyle VerticalAlign="Top" Width="30%" /></asp:BoundField>
+                    <asp:BoundField DataField="Make" HeaderText="Make" 
+                            ><ItemStyle VerticalAlign="Top" Width="7%" /></asp:BoundField>                  
+                    <asp:BoundField DataField="Model" HeaderText="Model" Visible="true">
+                    <ItemStyle VerticalAlign="Top" HorizontalAlign="Center" Width="7%" /></asp:BoundField>
+                <asp:BoundField DataField="Capacity" HeaderText="Capacity">
+                    <ItemStyle HorizontalAlign="Right" Width="5%" />
+                </asp:BoundField>
+                    <asp:BoundField DataField="Location" HeaderText="Location">
+                    <ItemStyle VerticalAlign="Top" Width="8%" /></asp:BoundField>
+                    <asp:TemplateField HeaderText="Last PM Date" Visible="true">
+                        <ItemTemplate>
+                            <asp:Label ID="lblPMDate" runat="server" Text='<%# Bind("PMDate") %>'></asp:Label>
+                        </ItemTemplate>                                                                       
+                         <ItemStyle VerticalAlign="Top" Width="5%" HorizontalAlign="Center" />
+                    </asp:TemplateField>
+                    
+                    <asp:TemplateField HeaderText="Remain Days" Visible="true">
+                        <ItemTemplate>
+                            <asp:Label ID="lblRemainDate" runat="server" Text='<%# Bind("RemainDay") %>'></asp:Label>
+                        </ItemTemplate>                                                                       
+                         <ItemStyle VerticalAlign="Top" HorizontalAlign="Right" Width="4%" />
+                    </asp:TemplateField>
+                </Columns><EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate><HeaderStyle Font-Size="9pt" />
+                    </asp:GridView>
+                    &nbsp;&nbsp;&nbsp; &nbsp;</td></tr><tr><td class="fontcss" valign="top">
+            &nbsp;</td>
+                    </tr>                    
+                    </table>
+    </td>    
+    </tr>    
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Machinery/Transactions/Schedule_Machine_Dashboard.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_Machinery_Transactions_Schedule_Machine_Dashboard : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    string sId = "";
+    int CompId = 0;
+    int FinYearId = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            CompId = Convert.ToInt32(Session["compid"]);
+            sId = Session["username"].ToString();
+            FinYearId = Convert.ToInt32(Session["finyear"]);            
+            if (!IsPostBack)
+            {
+                fun.drpDesignCategory(DrpCategory, DrpSubCategory);
+
+            }
+            string sd = DrpCategory.SelectedValue;
+            string b = DrpSubCategory.SelectedValue;
+            string c = DrpSearchCode.SelectedValue;
+            string d = txtSearchItemCode.Text;
+            this.Fillgridview(sd, b, c, d);
+        }
+
+        catch (Exception ex)
+        { }
+    }
+
+    public void Fillgridview(string sd, string A, string B, string s)
+    {
+        try
+        {
+            string sql = "";
+
+            string x = "";
+
+            if (sd != "Select Category")
+            {
+                string y = "";
+                if (A != "Select SubCategory")
+                {
+                    y = "  And tblDG_Item_Master.SCId='" + A + "'";
+                }
+                x = " AND  tblDG_Item_Master.CId='" + sd + "'";
+
+                string p = "";
+
+                txtSearchItemCode.Visible = true;
+
+                if (B != "Select")
+                {
+                    if (B == "tblDG_Item_Master.ItemCode")
+                    {
+                        txtSearchItemCode.Visible = true;
+                        p = " And tblDG_Item_Master.ItemCode Like '" + s + "%'";
+                    }
+
+                    if (B == "tblDG_Item_Master.ManfDesc")
+                    {
+                        txtSearchItemCode.Visible = true;
+                        p = " And tblDG_Item_Master.ManfDesc Like '%" + s + "%'";
+                    }
+                    
+
+
+                }
+                sql = fun.select("tblDG_Item_Master.Id,SUBSTRING(tblDG_Item_Master.ManfDesc,0,80)+'...' AS ManfDesc , tblDG_Item_Master.ItemCode,tblMS_Master.Id As MachineId,tblMS_Master.SysDate,tblMS_Master.Make,tblMS_Master.Model,tblMS_Master.Capacity,tblMS_Master.Location,tblMS_Master.PMDays", " tblDG_Category_Master,tblDG_Item_Master,tblMS_Master", " tblDG_Item_Master.CId=tblDG_Category_Master.CId " + x + "" + y + "" + p + " AND tblDG_Item_Master.CompId='" + CompId + "'And tblDG_Item_Master.Absolute!='1' And tblMS_Master.ItemId=tblDG_Item_Master.Id Order By tblDG_Item_Master.Id Desc ");
+
+            }
+            else
+            {
+                sql = fun.select("tblDG_Item_Master.Id,SUBSTRING(tblDG_Item_Master.ManfDesc,0,80)+'...' AS ManfDesc , tblDG_Item_Master.ItemCode,tblMS_Master.Id As MachineId,tblMS_Master.SysDate,tblMS_Master.Make,tblMS_Master.Model,tblMS_Master.Capacity,tblMS_Master.Location,tblMS_Master.PMDays", "tblDG_Category_Master,tblDG_Item_Master,tblMS_Master", "tblDG_Item_Master.CId=tblDG_Category_Master.CId AND tblDG_Item_Master.CompId='" + CompId + "'And tblDG_Item_Master.Absolute!='1'And tblMS_Master.ItemId=tblDG_Item_Master.Id Order By tblDG_Item_Master.Id Desc");
+
+            }
+
+            this.fillGrid(sql, GridView2);
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    public void fillGrid(string sql, GridView GridView2)
+    {
+        string connStr = fun.Connection();
+        DataSet DS3 = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        try
+        {
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter DA2 = new SqlDataAdapter(cmd);
+            DA2.Fill(DS3);
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Id", typeof(int));
+            dt.Columns.Add("ItemCode", typeof(string));
+            dt.Columns.Add("ManfDesc", typeof(string));
+            dt.Columns.Add("Make", typeof(string));           
+            dt.Columns.Add("Model", typeof(string));
+            dt.Columns.Add("Location", typeof(string));
+            dt.Columns.Add("Capacity", typeof(string));
+            dt.Columns.Add("MachineId", typeof(int));
+            dt.Columns.Add("SysDate", typeof(string));
+            dt.Columns.Add("PMDate", typeof(string));
+            dt.Columns.Add("RemainDay", typeof(int));
+            DataRow dr;
+
+            for (int k = 0; k < DS3.Tables[0].Rows.Count; k++)
+            {
+
+                dr = dt.NewRow();
+                dr[0] = Convert.ToInt32(DS3.Tables[0].Rows[k]["Id"]);
+                dr[1] = DS3.Tables[0].Rows[k]["ItemCode"].ToString();
+                dr[2] = DS3.Tables[0].Rows[k]["ManfDesc"].ToString();
+                dr[3] = DS3.Tables[0].Rows[k]["Make"].ToString();                
+                dr[4] = DS3.Tables[0].Rows[k]["Model"].ToString();
+                dr[5] = DS3.Tables[0].Rows[k]["Location"].ToString();
+                dr[6] = DS3.Tables[0].Rows[k]["Capacity"].ToString();
+                dr[7] = DS3.Tables[0].Rows[k]["MachineId"].ToString();
+                dr[8] = fun.FromDate(DS3.Tables[0].Rows[k]["SysDate"].ToString());
+
+                string StrPBId = fun.select("SysDate,MachineId", "tblMS_PMBM_Master", "MachineId='" + DS3.Tables[0].Rows[k]["MachineId"].ToString() + "' AND CompId='" + CompId + "'");
+                SqlCommand cmdPBId = new SqlCommand(StrPBId, con);
+                SqlDataAdapter DAPBId = new SqlDataAdapter(cmdPBId);
+                DataSet DSPBId = new DataSet();
+                DAPBId.Fill(DSPBId);
+
+                TimeSpan TP = new TimeSpan();
+                string CDate = fun.getCurrDate();
+
+                if (DSPBId.Tables[0].Rows.Count > 0)
+                {
+                    TP = Convert.ToDateTime(CDate) - Convert.ToDateTime(DSPBId.Tables[0].Rows[0]["SysDate"].ToString());
+                    dr[9] = fun.FromDateDMY(DSPBId.Tables[0].Rows[0]["SysDate"].ToString());
+                }
+                else
+                {
+                    TP = Convert.ToDateTime(CDate) - Convert.ToDateTime(DS3.Tables[0].Rows[k]["SysDate"].ToString());
+                }
+                dr[10] = (Convert.ToInt32(DS3.Tables[0].Rows[k]["PMDays"]) - TP.TotalDays).ToString();                       
+               
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }
+
+            GridView2.DataSource = dt;
+            GridView2.DataBind();
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+    }
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            if (e.CommandName == "Sel")
+            {
+
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                int id = 0;
+                id = Convert.ToInt32(((Label)row.FindControl("lblId")).Text);
+                if (id != 0)
+                {
+                    Response.Redirect("~/Module/Machinery/Transactions/Schedule_Process_Dashboard.aspx?Id=" + id + "&ModId=15&SubModId=70");
+                }
+            }
+        }
+        catch (Exception es)
+        {
+        }
+
+    }
+
+    protected void DrpCategory_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (DrpCategory.SelectedValue != "Select Category")
+            {
+                SqlCommand Cmd1 = new SqlCommand(fun.select(" CId,SCId,Symbol+' - '+SCName As SubCatName ", "tblDG_SubCategory_Master ", " CId=" + DrpCategory.SelectedValue + ""), con);
+                SqlDataAdapter DA1 = new SqlDataAdapter(Cmd1);
+                DataSet DS2 = new DataSet();
+                DA1.Fill(DS2, "tblDG_SubCategory_Master");
+                DrpSubCategory.DataSource = DS2.Tables["tblDG_SubCategory_Master"];
+                DrpSubCategory.DataTextField = "SubCatName";
+                DrpSubCategory.DataValueField = "SCId";
+                DrpSubCategory.DataBind();
+                DrpSubCategory.Items.Insert(0, "Select SubCategory");
+                string sd = DrpCategory.SelectedValue;
+                string b = DrpSubCategory.SelectedValue;
+                string c = DrpSearchCode.SelectedValue;
+                string d = txtSearchItemCode.Text;
+                this.Fillgridview(sd, b, c, d);
+                DrpSubCategory.SelectedIndex = 0;
+                DrpSearchCode.SelectedIndex = 0;
+                txtSearchItemCode.Text = "";
+            }
+        }
+
+        catch (Exception ch)
+        {
+        }
+        finally
+        {
+            con.Close();
+            DrpSearchCode.SelectedValue = "Select";
+        }
+
+
+    }
+    protected void DrpSubCategory_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            string sd = DrpCategory.SelectedValue;
+            string b = DrpSubCategory.SelectedValue;
+            string c = DrpSearchCode.SelectedValue;
+            string d = txtSearchItemCode.Text;
+            this.Fillgridview(sd, b, c, d);
+        }
+        catch (Exception ch)
+        {
+        }
+        finally
+        {
+            DrpSearchCode.SelectedValue = "Select";
+        }
+    }
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            string sd = DrpCategory.SelectedValue;
+            string b = DrpSubCategory.SelectedValue;
+            string c = DrpSearchCode.SelectedValue;
+            string d = txtSearchItemCode.Text;
+            this.Fillgridview(sd, b, c, d);
+
+        }
+        catch (Exception ch)
+        {
+        }
+
+    }
+    protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            GridView2.PageIndex = e.NewPageIndex;
+            string sd = DrpCategory.SelectedValue;
+            string b = DrpSubCategory.SelectedValue;
+            string c = DrpSearchCode.SelectedValue;
+            string d = txtSearchItemCode.Text;
+            this.Fillgridview(sd, b, c, d);
+
+        }
+        catch (Exception ch)
+        {
+        }
+    }
+
+}

@@ -1,0 +1,335 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MROffice/Transactions/MROffice.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="MROffice.aspx.cs" Inherits="Module_MROffice_Transactions_MROffice" Title="ERP" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .style3
+        {
+            width: 100%;
+            float: left;
+        }
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server"><table cellpadding="0" cellspacing="0" width="100%">
+                        <tr>
+                            <td>
+    <table align="center" cellpadding="0" cellspacing="0"  class="fontcss" width="800px">
+        <tr>
+            <td align="center" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite">
+                <b>&nbsp;MR Office&nbsp; - &nbsp;ISO </b>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <asp:Panel ID="Panel1" runat="server" Height="400px" ScrollBars="Auto"> 
+                    <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" 
+                    Width="100%"  ShowFooter="True" CssClass="yui-datatable-theme" 
+                        AllowPaging="True" PageSize="20" 
+                        onrowcommand="GridView2_RowCommand" 
+                        onpageindexchanging="GridView2_PageIndexChanging" >
+                        <Columns>
+                            <asp:TemplateField HeaderText="SN">                            
+                            <ItemTemplate>
+                            <%# Container.DataItemIndex+1 %>
+                            </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Right" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="For">
+                            <ItemTemplate>
+                            <asp:Label ID="lblFor" runat="server" Text='<%#Eval("ForModule") %>'></asp:Label>
+                            </ItemTemplate>
+                            <FooterTemplate>
+                            <asp:DropDownList ID="drpFor" Width="200px" runat="server" CssClass="box3" DataSourceID="SqlDataSource1" DataTextField="ModName" DataValueField="ModId"></asp:DropDownList>
+                            </FooterTemplate>
+                                <ItemStyle HorizontalAlign="Left" Width="200px" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Format/Document">
+                            <ItemTemplate>
+                            <asp:Label ID="lblFormat" runat="server" Text='<%#Eval("Format") %>'></asp:Label>
+                            </ItemTemplate>
+                            <FooterTemplate>
+                            <asp:TextBox ID="txtFormat" Width="120px" runat="server" CssClass="box3"></asp:TextBox>
+                            </FooterTemplate>
+                                <ItemStyle HorizontalAlign="Left" Width="200px" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Attachment">
+                             <ItemTemplate>
+                                <asp:LinkButton ID="lblAtt" runat="server" CommandName="Download">View</asp:LinkButton> 
+                            </ItemTemplate>
+                            <FooterTemplate>
+                                <asp:FileUpload ID="FileUploadAtt" runat="server" Width="200px" CssClass="box3"/>
+                            </FooterTemplate>
+                                <ItemStyle HorizontalAlign="Center" />
+                            </asp:TemplateField>                          
+                            <asp:TemplateField>
+                            <ItemTemplate>                           
+                            <asp:HiddenField Id="hidId" runat="server" Value='<%#Eval("Id") %>'/>
+                            <asp:LinkButton ID="DelRec" runat="server" Text="Delete" CommandName="Delete"></asp:LinkButton>
+                            </ItemTemplate>
+                            <FooterTemplate>
+                            <asp:Button ID="Add" CommandName="Add" Text="Add" runat="server" CssClass="redbox"/>
+                            </FooterTemplate>
+                                <ItemStyle HorizontalAlign="Center" />
+                            </asp:TemplateField>
+                        </Columns>
+                        <EmptyDataTemplate>
+                        <table cellpadding="0" cellspacing="0" class="style3">
+                        <tr>
+                            <td>
+                                &nbsp;</td>
+                            <td>
+                                <asp:DropDownList ID="drpFor" Width="240px" runat="server" CssClass="box3" DataSourceID="SqlDataSource1" DataTextField="ModName" DataValueField="ModId"></asp:DropDownList></td>
+                            <td>
+                                <asp:TextBox ID="txtFormat" Width="150px" runat="server" CssClass="box3"></asp:TextBox></td>
+                            <td>
+                                <asp:FileUpload ID="FileUploadAtt" runat="server" Width="200px" CssClass="box3"/></td> 
+                        <td>
+                        <asp:Button ID="Add" CommandName="AddEmpty" Text="Add" runat="server" CssClass="redbox"/>
+                        </td>
+                        </tr>
+                        
+                    </table>
+                        </EmptyDataTemplate>
+                    </asp:GridView>                    
+                    
+                    <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+                        ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                        ProviderName="System.Data.SqlClient" 
+                        SelectCommand="SELECT [ModId], [ModName] FROM [tblModule_Master]">
+                    </asp:SqlDataSource>
+                </asp:Panel>
+            </td>
+        </tr>
+    </table>
+    </td>
+                        </tr>
+                    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MROffice/Transactions/MROffice.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.IO;
+
+public partial class Module_MROffice_Transactions_MROffice : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    SqlConnection con;
+
+    string CompId = string.Empty;
+    string FinYearId = string.Empty;
+    string SessionId = string.Empty;
+    string constr = string.Empty;
+    string CurrDate = string.Empty;
+    string CurrTime = string.Empty;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            constr = fun.Connection();
+            con = new SqlConnection(constr);
+            CompId = Session["compid"].ToString();
+            FinYearId = Session["finyear"].ToString();
+            SessionId = Session["username"].ToString();
+
+            if (!IsPostBack)
+            {
+                this.BindData();
+            }
+        }
+        catch (Exception sx)
+        {
+
+        }
+    }
+
+    public void BindData()
+    {
+       try
+        {
+
+        DataTable dt = new DataTable();
+
+        dt.Columns.Add("Id", typeof(int));
+        dt.Columns.Add("ForModule", typeof(string));
+        dt.Columns.Add("Format", typeof(string));
+        dt.Columns.Add("FileName", typeof(string));
+
+        string StrSql = fun.select("*", "tblMROffice", "CompId='" + CompId + "' Order by ForModule ASC");
+        SqlCommand cmd = new SqlCommand(StrSql, con);
+        SqlDataAdapter da = new SqlDataAdapter(cmd);
+        DataSet ds = new DataSet();
+        da.Fill(ds);
+
+        DataRow dr;
+
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            dr = dt.NewRow();
+            dr[0] = ds.Tables[0].Rows[i]["Id"].ToString();
+
+            string StrSql2 = fun.select("*", "tblModule_Master", "ModId='" + ds.Tables[0].Rows[i]["ForModule"].ToString() + "'");
+            SqlCommand cmd2 = new SqlCommand(StrSql2, con);
+            SqlDataAdapter da2 = new SqlDataAdapter(cmd2);
+            DataSet ds2 = new DataSet();
+            da2.Fill(ds2);
+
+            dr[1] = ds2.Tables[0].Rows[0]["ModName"].ToString();
+            dr[2] = ds.Tables[0].Rows[i]["Format"].ToString();
+
+            if (ds.Tables[0].Rows[i]["FileName"].ToString() != "" && ds.Tables[0].Rows[i]["FileName"] != DBNull.Value)
+            {
+                dr[3] = ds.Tables[0].Rows[i]["FileName"].ToString();
+            }
+
+            dt.Rows.Add(dr);
+            dt.AcceptChanges();
+        }
+
+        GridView2.DataSource = dt;
+        GridView2.DataBind();
+
+         }
+        catch (Exception sx)
+        {
+
+        }
+    }
+
+   
+
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            CurrDate = fun.getCurrDate();
+            CurrTime = fun.getCurrTime();
+            con.Open();
+
+            if (e.CommandName == "Add")
+            {
+                int ForModule = Convert.ToInt32(((DropDownList)GridView2.FooterRow.FindControl("drpFor")).SelectedValue);
+                string Format = ((TextBox)GridView2.FooterRow.FindControl("txtFormat")).Text;
+                string strcv = "";
+
+                HttpPostedFile mycv = ((FileUpload)GridView2.FooterRow.FindControl("FileUploadAtt")).PostedFile;
+                Byte[] mycvdata = null;
+
+                if (((FileUpload)GridView2.FooterRow.FindControl("FileUploadAtt")) != null)
+                {
+                    Stream fscv = ((FileUpload)GridView2.FooterRow.FindControl("FileUploadAtt")).PostedFile.InputStream;
+                    BinaryReader brcv = new BinaryReader(fscv);
+                    mycvdata = brcv.ReadBytes((Int32)fscv.Length);
+                    strcv = Path.GetFileName(mycv.FileName);
+                }
+
+                string cmdstr = fun.insert("tblMROffice", "SysDate,SysTime,CompId,SessionId,FinYearId,ForModule,Format,FileName,Size,ContentType,Data", "'" + CurrDate + "','" + CurrTime + "','" + CompId + "','" + SessionId + "','" + FinYearId + "','" + ForModule + "','" + Format + "','" + strcv + "','" + mycvdata.Length + "','" + mycv.ContentType + "',@Data");
+                SqlCommand cmd = new SqlCommand(cmdstr, con);
+                cmd.Parameters.AddWithValue("@Data", mycvdata);
+                cmd.ExecuteNonQuery();
+                this.BindData();
+            }
+
+            if (e.CommandName == "AddEmpty")
+            {
+                int ForModule = Convert.ToInt32(((DropDownList)GridView2.Controls[0].Controls[0].FindControl("drpFor")).SelectedValue);
+                string Format = ((TextBox)GridView2.Controls[0].Controls[0].FindControl("txtFormat")).Text;
+                string strcv = "";
+
+                HttpPostedFile mycv = ((FileUpload)GridView2.Controls[0].Controls[0].FindControl("FileUploadAtt")).PostedFile;
+                Byte[] mycvdata = null;
+
+                if (((FileUpload)GridView2.Controls[0].Controls[0].FindControl("FileUploadAtt")) != null)
+                {
+                    Stream fscv = ((FileUpload)GridView2.Controls[0].Controls[0].FindControl("FileUploadAtt")).PostedFile.InputStream;
+                    BinaryReader brcv = new BinaryReader(fscv);
+                    mycvdata = brcv.ReadBytes((Int32)fscv.Length);
+                    strcv = Path.GetFileName(mycv.FileName);
+                }
+
+                string cmdstr = fun.insert("tblMROffice", "SysDate,SysTime,CompId,SessionId,FinYearId,ForModule,Format,FileName,Size,ContentType,Data", "'" + CurrDate + "','" + CurrTime + "','" + CompId + "','" + SessionId + "','" + FinYearId + "','" + ForModule + "','" + Format + "','" + strcv + "','" + mycvdata.Length + "','" + mycv.ContentType + "',@Data");
+                SqlCommand cmd = new SqlCommand(cmdstr, con);
+                cmd.Parameters.AddWithValue("@Data", mycvdata);
+                cmd.ExecuteNonQuery();
+                this.BindData();
+            }
+
+            if (e.CommandName == "Download")
+            {
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                int id = Convert.ToInt32(((HiddenField)row.FindControl("hidId")).Value);
+
+                Response.Redirect("~/Controls/DownloadFile.aspx?Id=" + id + "&tbl=tblMROffice&qfd=Data&qfn=FileName&qct=ContentType");
+
+            }
+
+            if (e.CommandName == "Delete")
+            {
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                int id = Convert.ToInt32(((HiddenField)row.FindControl("hidId")).Value);
+                string cmdstr4 = fun.delete("tblMROffice", "Id='" + id + "'");
+                Response.Write(cmdstr4);
+                SqlCommand cmd = new SqlCommand(cmdstr4, con);
+                cmd.ExecuteNonQuery();
+                this.BindData();
+            }
+
+            con.Close();
+            //Page.Response.Redirect(Page.Request.Url.ToString(), true);
+
+        }
+        
+        catch(Exception ett)
+        {
+
+        }
+
+    }
+
+
+    
+    protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            GridView2.PageIndex = e.NewPageIndex;
+            this.BindData();
+            
+        }
+        catch (Exception sx)
+        {
+
+        }
+    }
+}
+

@@ -1,0 +1,97 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MIS/Transactions/Budget_Dept_Print.aspx.txt ===
+
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Budget_Dept_Print.aspx.cs" Inherits="Module_Accounts_Transactions_Budget_Dept_Print" Theme ="Default"  %>
+
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>ERP</title>
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+    
+        <CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" HasCrystalLogo="False"
+            AutoDataBind="True" Height="50px" 
+            Width="350px" />
+        <CR:CrystalReportSource ID="CrystalReportSource1" runat="server">
+        <Report FileName="~\Module\Accounts\Transactions\Reports\Budget_Dept.rpt">            
+            </Report>
+       </CR:CrystalReportSource>
+    
+    </div>
+    </form>
+</body>
+</html>
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MIS/Transactions/Budget_Dept_Print.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using CrystalDecisions.CrystalReports.Engine;
+using System.Data.SqlClient;
+
+public partial class Module_Accounts_Transactions_Budget_Dept_Print : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+
+    private ReportDocument report = new ReportDocument();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+       
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+
+        //string select = ("Select Sum(Amount) As BalBudget from  tblACC_Budget_Transactions where  BudgetCode='" + accid + "' group by  BudgetCode ");
+        //SqlCommand cmd = new SqlCommand(select, con);
+        //SqlDataAdapter da = new SqlDataAdapter(cmd);
+        //DataSet Ds = new DataSet();
+
+      con.Open();
+        int DId =Convert.ToInt32( Request.QueryString["DeptId"]);
+
+        // To pass values in crystal report from  SD_Cust_PO_Master
+
+        string selectQuery = fun.select("AccHead.Description,AccHead.Symbol,AccHead.Abbrivation,tblACC_Budget_Dept.Amount ,tblHR_Departments.Description As DeptName", "AccHead,tblACC_Budget_Dept,tblHR_Departments", "AccHead.Id=tblACC_Budget_Dept.AccId and AccHead.Category='Labour' and tblACC_Budget_Dept.DeptId=tblHR_Departments.Id and tblACC_Budget_Dept.DeptId='" + DId + "'");
+
+       
+        SqlCommand myCommand = new SqlCommand(selectQuery, con);
+        SqlDataAdapter ad = new SqlDataAdapter(myCommand);
+        DataSet ds = new DataSet();
+        DataSet Xsd = new BudgetDept();
+        ad.Fill(ds);       
+        Xsd.Tables[0].Merge(ds.Tables[0]);
+        Xsd.AcceptChanges();
+        string reportPath = Server.MapPath("~/Module/MIS/Transactions/Reports/Budget_Dept.rpt");        
+        report.Load(reportPath);
+        report.SetDataSource(Xsd);
+        CrystalReportViewer1.ReportSource = report;
+        //CrystalReportViewer1.DataBind();
+    }
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        report.Close();
+        report.Dispose();
+        GC.Collect();
+    }
+     
+}

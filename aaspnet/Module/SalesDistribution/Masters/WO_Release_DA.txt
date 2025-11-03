@@ -1,0 +1,297 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Masters/WO_Release_DA.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="WO_Release_DA.aspx.cs" Inherits="Module_SalesDistribution_Masters_WO_Release_DA" Title="ERP" Theme="Default" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <style type="text/css">
+        .style2
+        {
+            width: 100%;
+            float: left;
+        }
+    </style>
+    <link type="text/css" href="../../../Css/yui-datatable.css" rel="stylesheet" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="left" cellpadding="0" cellspacing="0" class="style2">
+        <tr>
+            <td height="21" style="background:url(../../../images/hdbg.JPG)" class="fontcsswhite">&nbsp;<strong>Work Order Release & Dispatch Authority</strong></td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Panel ID="Panel1" runat="server" Height="440px" ScrollBars="Auto">
+                    <asp:GridView ID="GridView2" runat="server"  ShowFooter="False"
+                    AutoGenerateColumns="False" PageSize="1" CssClass="yui-datatable-theme" 
+                    onpageindexchanging="GridView2_PageIndexChanging" 
+    Width="55%" >
+                        <Columns>
+                            <asp:TemplateField HeaderText="SN">
+                                <ItemTemplate>
+                                    <%# Container.DataItemIndex+1 %>
+                                </ItemTemplate>
+                                <ItemStyle 
+                                HorizontalAlign="Right" Width="8%" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Name of Employee">
+                                <ItemTemplate>
+                                    <asp:Label ID="empname" Text='<%#Eval("EmpName") %>' runat="server"></asp:Label>
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Left" Width="45%" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Emp. No">
+                                <ItemTemplate>
+                                    <asp:Label ID="empno" runat="server" Text='<%#Eval("EmpNo") %>'></asp:Label>
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Center" Width="10%" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Department">
+                                <ItemTemplate>
+                                    <asp:Label ID="dept" Text='<%#Eval("Dept") %>' runat="server"> </asp:Label>
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Center" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Release">
+                                <ItemTemplate>
+                                    <asp:CheckBox ID="chkrelease" runat="server"/>
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Center" />
+                               
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Dispatch">
+                                <ItemTemplate>
+                                    <asp:CheckBox ID="chkdispatch"   runat="server"  />
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Center" />
+                            </asp:TemplateField>
+                        </Columns>
+                        <EmptyDataTemplate>
+                            <table width="100%" class="fontcss">
+                                <tr>
+                                    <td align="center">
+                                        <asp:Label ID="Label1" runat="server"  Text="No data to display !" 
+                            Font-Size="Larger" ForeColor="maroon"> </asp:Label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </EmptyDataTemplate>
+                    </asp:GridView>
+                </asp:Panel>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" height="27">
+               <asp:Button Text="Submit" runat="server" ID="btnsubmit" 
+                                        CssClass="redbox" onclick="btnsubmit_Click" /></td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Masters/WO_Release_DA.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_SalesDistribution_Masters_WO_Release_DA : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    SqlConnection con;
+    int CompId = 0;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        CompId = Convert.ToInt32(Session["compid"]);
+
+        string constr = fun.Connection();
+        con = new SqlConnection(constr);
+        try
+        {
+            if (!IsPostBack)
+            {
+
+                this.fillGrid();
+
+
+                foreach (GridViewRow grv in GridView2.Rows)
+                {
+                    con.Open();
+
+                    string EmpNo = ((Label)grv.FindControl("EmpNo")).Text;
+
+                    string sql3 = fun.select("WR,DA", "tblHR_OfficeStaff", "CompId='" + CompId + "' And ResignationDate='' AND EmployeeName!='ERP' AND EmpId='" + EmpNo + "'");
+                    SqlCommand cmd3 = new SqlCommand(sql3, con);
+                    SqlDataAdapter da3 = new SqlDataAdapter(cmd3);
+                    DataSet DS3 = new DataSet();
+                    da3.Fill(DS3);
+
+                    if (DS3.Tables[0].Rows[0]["WR"].ToString() == "1")
+                    {
+                        ((CheckBox)grv.FindControl("chkrelease")).Checked = true;
+                    }
+                    else
+                    {
+                        ((CheckBox)grv.FindControl("chkrelease")).Checked = false;
+                    }
+
+                    if (DS3.Tables[0].Rows[0]["DA"].ToString() == "1")
+                    {
+                        ((CheckBox)grv.FindControl("chkdispatch")).Checked = true;
+                    }
+                    else
+                    {
+                        ((CheckBox)grv.FindControl("chkdispatch")).Checked = false;
+                    }
+
+                    con.Close();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+
+    }
+
+    public void fillGrid()
+    {
+        con.Open();
+
+        try
+        {
+            CompId = Convert.ToInt32(Session["compid"]);
+
+            string sql = fun.select("EmpId,Title,EmployeeName,Department,WR,DA", "tblHR_OfficeStaff", "CompId='" + CompId + "' And ResignationDate='' AND EmployeeName!='ERP' And UserID !='1'");
+
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet DS = new DataSet();
+            da.Fill(DS);
+
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add("EmpName", typeof(string));
+            dt.Columns.Add("Dept", typeof(string));
+            dt.Columns.Add("EmpNo", typeof(string));
+
+            DataRow dr;
+
+            if (DS.Tables[0].Rows.Count > 0)
+            {
+                for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
+                {
+                    dr = dt.NewRow();
+
+                    dr[0] = DS.Tables[0].Rows[i]["Title"].ToString() + "." + DS.Tables[0].Rows[i]["EmployeeName"].ToString();
+                    string sql2 = fun.select("Symbol", "tblHR_Departments", "Id='" + DS.Tables[0].Rows[i]["Department"].ToString() + "'");
+
+                    SqlCommand cmd2 = new SqlCommand(sql2, con);
+                    SqlDataAdapter da2 = new SqlDataAdapter(cmd2);
+                    DataSet DS2 = new DataSet();
+                    da2.Fill(DS2);
+
+                    dr[1] = DS2.Tables[0].Rows[0]["Symbol"].ToString();
+                    dr[2] = DS.Tables[0].Rows[i]["EmpId"].ToString();
+
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+            }
+
+            GridView2.DataSource = dt;
+            GridView2.DataBind();
+
+            con.Close();
+        }
+        catch (Exception es)
+        {
+
+        }
+
+    }
+
+    protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView2.PageIndex = e.NewPageIndex;
+        this.fillGrid();
+    }
+
+    protected void btnsubmit_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            CompId = Convert.ToInt32(Session["compid"]);
+
+            string constr = fun.Connection();
+            con = new SqlConnection(constr);
+
+            foreach (GridViewRow grv in GridView2.Rows)
+            {
+                string EmpNo = ((Label)grv.FindControl("EmpNo")).Text;
+                string x;
+                string y;
+
+                if (((CheckBox)grv.FindControl("chkrelease")).Checked == true)
+                {
+                    x = "1";
+                }
+                else
+                {
+                    x = "0";
+                }
+
+                if (((CheckBox)grv.FindControl("chkdispatch")).Checked == true)
+                {
+                    y = "1";
+                }
+                else
+                {
+                    y = "0";
+                }
+
+
+                string sql4 = fun.update("tblHR_OfficeStaff", "WR='" + x + "',DA='" + y + "'", "CompId='" + CompId + "' AND EmpId='" + EmpNo + "'");
+                SqlCommand cmd4 = new SqlCommand(sql4, con);
+                con.Open();
+                cmd4.ExecuteNonQuery();
+                con.Close();
+            }
+
+            Page.Response.Redirect(Page.Request.Url.ToString(),true);
+            //Response.Redirect("~/Module/SalesDistribution/Masters/WO_Release_DA.aspx?ModId=2");
+
+        }
+        catch (Exception es)
+        {
+        }
+    }
+
+
+}

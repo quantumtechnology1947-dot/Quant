@@ -1,0 +1,1316 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Reports/SearchViewFieldMRN.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="SearchViewFieldMRN.aspx.cs" Inherits="Module_Inventory_Reports_SearchViewFieldMRN" Title="ERP" Theme="Default" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>   
+  
+
+    <style type="text/css">
+        .style2
+        {
+            width: 99%;
+            
+        }
+        
+   </style>
+  
+  
+
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+<script  type="text/javascript">
+
+    var GridId = "<%=GridView1.ClientID %>";
+    var ScrollHeight =300;
+    window.onload = function () {
+        var grid = document.getElementById(GridId);
+        var gridWidth = grid.offsetWidth;
+        var gridHeight = grid.offsetHeight;
+        var headerCellWidths = new Array();
+        for (var i = 0; i < grid.getElementsByTagName("TH").length; i++) {
+            headerCellWidths[i] = grid.getElementsByTagName("TH")[i].offsetWidth;
+                    }
+        grid.parentNode.appendChild(document.createElement("div"));
+        var parentDiv = grid.parentNode; 
+        var table = document.createElement("table");
+        for (i = 0; i < grid.attributes.length; i++) {
+            if (grid.attributes[i].specified && grid.attributes[i].name != "id") {
+                table.setAttribute(grid.attributes[i].name, grid.attributes[i].value);
+            }
+        }
+        table.style.cssText = grid.style.cssText;
+        table.style.width = gridWidth + "px";
+        table.appendChild(document.createElement("tbody"));
+        table.getElementsByTagName("tbody")[0].appendChild(grid.getElementsByTagName("TR")[0]);
+        var cells = table.getElementsByTagName("TH");
+ 
+        var gridRow = grid.getElementsByTagName("TR")[0];
+        for (var i = 0; i < cells.length; i++) {
+            var width;
+            if (headerCellWidths[i] > gridRow.getElementsByTagName("TD")[i].offsetWidth) {
+                width = headerCellWidths[i];
+            }
+            else {
+                width = gridRow.getElementsByTagName("TD")[i].offsetWidth;
+            }
+            cells[i].style.width = parseInt(width -3) + "px";
+            gridRow.getElementsByTagName("TD")[i].style.width = parseInt(width - 3) + "px";
+        }
+        parentDiv.removeChild(grid); 
+        var dummyHeader = document.createElement("div");
+        dummyHeader.appendChild(table);
+        parentDiv.appendChild(dummyHeader);
+        var scrollableDiv = document.createElement("div");
+        if(parseInt(gridHeight) > ScrollHeight){
+             gridWidth = parseInt(gridWidth) +18;
+        }
+        scrollableDiv.style.cssText = "overflow:auto;height:" + ScrollHeight + "px;width:" + gridWidth + "px";
+        scrollableDiv.appendChild(grid);
+        parentDiv.appendChild(scrollableDiv);
+    }
+
+
+</script>
+<div > 
+ <div  style="height:110px" >
+     <strong>&nbsp; Select column to show in the GridView:</strong>&nbsp;<b>&nbsp;Check All:</b> <asp:CheckBox ID="checkAll" runat="server" 
+         AutoPostBack="True" oncheckedchanged="checkAll_CheckedChanged" />   
+     
+     <table class="style2">
+         <tr>
+             <td valign="top">
+                 <asp:Panel ID="Panel2" BorderWidth="1"  BorderStyle="Solid"  runat="server"> 
+                 <table width="100%"><tr><td align="center">
+                     <asp:Label ID="lblMRN" runat="server" style="font-weight: 700" ></asp:Label></td></tr></table>
+                 <asp:CheckBoxList ID="chkFields" runat="server" DataTextField="Column_name" 
+                             DataValueField="Column_name" RepeatColumns="7" RepeatDirection="Horizontal" 
+                             RepeatLayout="Table" />
+                 </asp:Panel>    
+                
+              
+              </td>
+             <td valign="top">             
+                <asp:Panel ID="Panel3" BorderWidth="1"  BorderStyle="Solid"  runat="server"> 
+                <table width="100%"><tr><td align="center">
+                     <asp:Label ID="lblMRQN" runat="server" style="font-weight: 700" ></asp:Label></td></tr></table>
+                 
+                 <asp:CheckBoxList runat="server" ID="chkFields3"  DataTextField="Column_name" 
+        DataValueField="Column_name" RepeatLayout="Table" RepeatDirection="Horizontal" 
+                     RepeatColumns="5" />
+                     </asp:Panel>
+        
+             </td>
+         </tr>
+     </table>
+        
+     <asp:Button ID="btnSub" CssClass="redbox" runat="server" Text="Show" OnClick="ShowGrid" />  
+     &nbsp;<asp:Button ID="btnExport" runat="server" CssClass="redbox" 
+         onclick="btnExport_Click" Text="Export To Excel" />
+&nbsp;<asp:Button ID="btnCancel" runat="server" CssClass="redbox" Text="Cancel" onclick="btnCancel_Click" />
+<br />
+ </div> 
+ <asp:Panel ID="Panel1" ScrollBars="Auto" Height="362px" Width="99%"  
+        runat="server">   
+      <asp:GridView ID="GridView1" runat="server"   EnableViewState="false" AutoGenerateColumns="false" />   
+ </asp:Panel>
+</div>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Reports/SearchViewFieldMRN.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.IO;
+using System.Windows.Forms;
+
+public partial class Module_Inventory_Reports_SearchViewFieldMRN : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string _connStr = ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString;
+    int flag = 0;
+    int CompId = 0;
+    string FirstCond = string.Empty;
+    string EmpId = string.Empty;
+    string Itemcode = string.Empty;
+    string BGGroup = string.Empty;
+    string WONo = string.Empty;
+    string FromDate = string.Empty;
+    string ToDate = string.Empty;
+    string StrDate = string.Empty;
+    string POCompletePending = string.Empty;
+    int GetPORate = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            CompId = Convert.ToInt32(Session["compid"]);
+
+            // For NO----------------------------------------------------------------------------
+            if (!string.IsNullOrEmpty(Request.QueryString["MRNType"]) && !string.IsNullOrEmpty(Request.QueryString["MRNno"]))
+            {
+                switch (Convert.ToInt32(Request.QueryString["MRNType"]))
+                {
+                    case 1:
+                        FirstCond = " And MRNNo='" + Request.QueryString["MRNno"].ToString() + "' ";
+                        break;
+                    case 2:
+                        FirstCond = " And MRQNNo='" + Request.QueryString["MRNno"].ToString() + "'";
+                        break;
+                    case 3:
+                        FirstCond = " ";
+                        break;
+                }
+            }
+
+            // For Item Code------------------------------------------------------------------------
+            if (!string.IsNullOrEmpty(Request.QueryString["ICode"]))
+            {
+                Itemcode = " And ItemCode='" + Request.QueryString["ICode"].ToString() + "'";
+            }
+
+            // For Date----------------------------------------------------------------------------
+            if (!string.IsNullOrEmpty(Request.QueryString["MRNType"]))
+            {
+                flag = Convert.ToInt32(Request.QueryString["MRNType"]);
+            }
+
+            if (!string.IsNullOrEmpty(Request.QueryString["FDateMRN"]) && !string.IsNullOrEmpty(Request.QueryString["TDateMRN"]))
+            {
+                FromDate = fun.FromDate(Request.QueryString["FDateMRN"]);
+                ToDate = fun.FromDate(Request.QueryString["TDateMRN"]);
+
+
+                int Rbtn = Convert.ToInt32(Request.QueryString["Rbtn"]);
+                switch (Rbtn)
+                {
+                    case 1:
+                        StrDate = " And MRNDate between '" + FromDate + "' And '" + ToDate + "'";
+                        break;
+
+                    case 2:
+                        StrDate = " And MRQNDate between '" + FromDate + "' And '" + ToDate + "'";
+                        break;
+
+                }
+            }
+
+            // For EmpId----------------------------------------------------------------------------
+            if (!string.IsNullOrEmpty(Request.QueryString["EmpidMRN"]))
+            {
+                EmpId = " And EmpId='" + Request.QueryString["EmpidMRN"].ToString() + "'";
+            }
+
+            // For BG Group----------------------------------------------------------------------------
+            if (!string.IsNullOrEmpty(Request.QueryString["BGGroupMRN"]))
+            {
+                BGGroup = " And BGId='" + Request.QueryString["BGGroupMRN"].ToString() + "'";
+            }
+
+            // For WONo----------------------------------------------------------------------------
+            if (!string.IsNullOrEmpty(Request.QueryString["WONoMRN"]))
+            {
+                WONo = " And WONo='" + Request.QueryString["WONoMRN"].ToString() + "'";
+            }
+
+            // For GetPORate----------------------------------------------------------------------------
+            if (!string.IsNullOrEmpty(Request.QueryString["GetPORate"]))
+            {
+                GetPORate = Convert.ToInt32(Request.QueryString["GetPORate"]);                
+            }
+
+            if (!IsPostBack)
+            {
+                BindTableColumns();
+            }
+                       
+            if (flag == 1 || flag == 3)
+            {
+                //For MRN        
+                lblMRN.Text = "MRN";
+                lblMRQN.Text = "MRQN";
+                chkFields.Items[0].Selected = true;
+                chkFields.Items[1].Selected = true;
+                chkFields.Items[2].Selected = true;
+                chkFields.Items[3].Selected = true; 
+                chkFields.Items[0].Text = "Sr No";
+                chkFields.Items[1].Text = "Item Code";
+                chkFields.Items[4].Text = "Date";
+                chkFields.Items[5].Text = "MRN No";
+                chkFields.Items[6].Text = "BG Group";
+                chkFields.Items[7].Text = "WO No";
+                chkFields.Items[8].Text = "Ret Qty";
+                chkFields.Items[9].Text = "Remarks";
+                chkFields.Items[10].Text = "Gen. By";
+                chkFields.Items[11].Text = "Rate"; 
+
+                chkFields3.Items[0].Text = "Date";
+                chkFields3.Items[1].Text = "MRQN No";
+                chkFields3.Items[2].Text = "Acept Qty";
+                chkFields3.Items[3].Text = "Rej Qty";
+                chkFields3.Items[4].Text = "Gen. By";
+                chkFields3.Items[5].Text = "Rate";
+                
+
+            }
+
+            if (flag == 2)
+            {
+                //For MRQN        
+                lblMRN.Text = "MRQN";
+                lblMRQN.Text = "MRN";
+                chkFields.Items[0].Selected = true;
+                chkFields.Items[1].Selected = true;
+                chkFields.Items[2].Selected = true;
+                chkFields.Items[3].Selected = true;
+                chkFields.Items[0].Text = "Sr No";
+                chkFields.Items[1].Text = "Item Code";
+                chkFields.Items[4].Text = "Date";
+                chkFields.Items[5].Text = "MRQN No";
+                chkFields.Items[6].Text = "Acept Qty";
+                chkFields.Items[7].Text = "Rej Qty";
+                chkFields.Items[8].Text = "Generated By";               
+                chkFields.Items[9].Text = "Rate";
+
+                chkFields3.Items[0].Text = "Date";
+                chkFields3.Items[1].Text = "MRN No";
+                chkFields3.Items[2].Text = "BG Group";
+                chkFields3.Items[3].Text = "WO No";
+                chkFields3.Items[4].Text = "Ret Qty";
+                chkFields3.Items[6].Text = "Remarks";               
+                chkFields3.Items[5].Text = "Rate";
+                chkFields3.Items[7].Text = "Generated By";
+            }
+
+        }
+        catch (Exception ex) { }
+    }
+    protected void ShowGrid(object sender, EventArgs e)
+    {
+        //try
+        {            
+
+            int count = 0;
+            if (flag == 1 || flag == 3)
+            {
+                foreach (ListItem item in chkFields.Items)
+                {
+                    if (item.Selected)
+                    {
+                        BoundField b = new BoundField();
+                        b.DataField = item.Value;
+                        b.HeaderText = item.Text;
+                        GridView1.Columns.Add(b);
+                        count++;
+                    }
+                } 
+             
+                foreach (ListItem item in chkFields3.Items)
+                {
+                    if (item.Selected)
+                    {
+                        BoundField b = new BoundField();
+                        b.DataField = item.Value;
+                        b.HeaderText = item.Text;
+
+
+                        GridView1.Columns.Add(b);
+                        count++;
+                    }
+                }
+                if (count > 0)
+                {
+                    this.GetData();
+                }
+            }
+
+            if (flag == 2)
+            {
+                foreach (ListItem item in chkFields.Items)
+                {
+                    if (item.Selected)
+                    {
+                        BoundField b = new BoundField();
+                        b.DataField = item.Value;
+                        b.HeaderText = item.Text;
+                        GridView1.Columns.Add(b);
+                        count++;
+                    }
+                }
+
+                foreach (ListItem item in chkFields3.Items)
+                {
+                    if (item.Selected)
+                    {
+                        BoundField b = new BoundField();
+                        b.DataField = item.Value;
+                        b.HeaderText = item.Text;
+                        GridView1.Columns.Add(b);
+                        count++;
+                    }
+                }
+                if (count > 0)
+                {
+                    this.GetData();
+                }
+            } 
+        }
+         // catch (Exception ex) { }
+    }
+    private void BindTableColumns()
+    {
+      try
+        {
+            DataTable table = new DataTable();
+            DataTable table2 = new DataTable();
+
+            using (SqlConnection conn = new SqlConnection(_connStr))
+            {
+
+                //---------------MRN-------------------------------------
+                if (flag == 1 || flag == 3)
+                {
+
+                    using (SqlCommand cmd = new SqlCommand("sp_columns", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@table_name", "View_MRN_Item");
+                        using (SqlDataAdapter ad = new SqlDataAdapter(cmd))
+                        {
+                            ad.Fill(table);
+                        }
+                    }
+                    if (table.Rows.Count > 0)
+                    {                        
+                        table.Rows.RemoveAt(11);
+                        table.Rows.RemoveAt(11);
+                        table.Rows.RemoveAt(11);
+                        table.Rows.RemoveAt(11);
+                        table.Rows.RemoveAt(11);
+                        table.Rows.RemoveAt(11);
+                        table.Rows.RemoveAt(11);
+                        table.Rows.RemoveAt(11);
+                        if (GetPORate == 1)
+                        {
+                           table.Rows.RemoveAt(12);                           
+                           table.Rows.RemoveAt(12);
+                           table.Rows.RemoveAt(12);
+                        }
+                        else if (GetPORate == 2)
+                        {
+                            table.Rows.RemoveAt(11);
+                            table.Rows.RemoveAt(12);
+                            table.Rows.RemoveAt(12);
+
+                        }
+                        else if (GetPORate == 3)
+                        {
+                            table.Rows.RemoveAt(11);
+                            table.Rows.RemoveAt(11);
+                            table.Rows.RemoveAt(12);
+                        }
+                        else if (GetPORate == 4)
+                        {
+                            table.Rows.RemoveAt(11);
+                            table.Rows.RemoveAt(11);
+                            table.Rows.RemoveAt(11);
+                        }                        
+                        table.AcceptChanges();
+                        chkFields.DataSource = table;                       
+                        chkFields.DataBind();
+                        chkFields.Items.Add("Amount");
+                    }
+
+                    using (SqlCommand cmd = new SqlCommand("sp_columns", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@table_name", "View_MRN_Item");
+                        using (SqlDataAdapter ad = new SqlDataAdapter(cmd))
+                        {
+                            ad.Fill(table2);
+                        }
+                    }
+                    if (table2.Rows.Count > 0)
+                    {
+                        table2.Rows.RemoveAt(0);
+                        table2.Rows.RemoveAt(0);
+                        table2.Rows.RemoveAt(0);
+                        table2.Rows.RemoveAt(0);
+                        table2.Rows.RemoveAt(0);
+                        table2.Rows.RemoveAt(0);
+                        table2.Rows.RemoveAt(0);
+                        table2.Rows.RemoveAt(0);
+                        table2.Rows.RemoveAt(0);
+                        table2.Rows.RemoveAt(0);
+                        table2.Rows.RemoveAt(0);
+                        table2.Rows.RemoveAt(0);
+                        table2.Rows.RemoveAt(0);
+                        table2.Rows.RemoveAt(0);
+
+                        if (GetPORate == 1)
+                        {
+                            table2.Rows.RemoveAt(6);
+                            table2.Rows.RemoveAt(6);
+                            table2.Rows.RemoveAt(6);                           
+                        }
+                        else if (GetPORate == 2)
+                        {
+
+                            table2.Rows.RemoveAt(5);
+                            table2.Rows.RemoveAt(6);
+                            table2.Rows.RemoveAt(6);
+                            
+
+                        }
+                        else if (GetPORate == 3)
+                        {
+                            table2.Rows.RemoveAt(5);
+                            table2.Rows.RemoveAt(5);
+                            table2.Rows.RemoveAt(6);
+                        }
+                        else if (GetPORate == 4)
+                        {
+                            table2.Rows.RemoveAt(5);
+                            table2.Rows.RemoveAt(5);
+                            table2.Rows.RemoveAt(5);
+                        }
+                        table2.AcceptChanges();
+                        chkFields3.DataSource = table2;
+                        chkFields3.DataBind();
+                        chkFields3.Items.Add("MRQNAmount");
+                    }
+                }
+
+                //---------------MRQN-------------------------------------
+                if (flag == 2)
+                {
+
+                    using (SqlCommand cmd = new SqlCommand("sp_columns", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@table_name", "View_MRQN_Item");
+
+                        using (SqlDataAdapter ad = new SqlDataAdapter(cmd))
+                        {
+                            ad.Fill(table);
+                        }
+                    }
+                    if (table.Rows.Count > 0)
+                    {
+                        table.Rows.RemoveAt(9);
+                        table.Rows.RemoveAt(9);
+                        table.Rows.RemoveAt(9);
+                        table.Rows.RemoveAt(9);
+                        table.Rows.RemoveAt(9);
+                        if (GetPORate == 1)
+                        {
+                            table.Rows.RemoveAt(10);
+                            table.Rows.RemoveAt(10);
+                            table.Rows.RemoveAt(10);
+                        }
+                        else if (GetPORate == 2)
+                        {
+                            table.Rows.RemoveAt(9);
+                            table.Rows.RemoveAt(10);
+                            table.Rows.RemoveAt(10);
+                        }
+                        else if (GetPORate == 3)
+                        {
+                            table.Rows.RemoveAt(9);
+                            table.Rows.RemoveAt(9);
+                            table.Rows.RemoveAt(10);
+                        }
+                        else if (GetPORate == 4)
+                        {
+                            table.Rows.RemoveAt(9);
+                            table.Rows.RemoveAt(9);
+                            table.Rows.RemoveAt(9);
+                        }
+                        table.Rows.RemoveAt(10);
+                        table.Rows.RemoveAt(10);
+                        table.Rows.RemoveAt(10);
+                        table.Rows.RemoveAt(10);
+                        table.Rows.RemoveAt(10);                        
+                        table.AcceptChanges();
+                        chkFields.DataSource = table;
+                        chkFields.DataBind();
+                        chkFields.Items.Add("Amount");
+
+                    }
+
+                    using (SqlCommand cmd = new SqlCommand("sp_columns", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@table_name", "View_MRQN_Item");
+
+                        using (SqlDataAdapter ad = new SqlDataAdapter(cmd))
+                        {
+                            ad.Fill(table2);
+                        }
+                    }
+                    if (table2.Rows.Count > 0)
+                    {
+                        table2.Rows.RemoveAt(0);
+                        table2.Rows.RemoveAt(0);
+                        table2.Rows.RemoveAt(0);
+                        table2.Rows.RemoveAt(0);
+                        table2.Rows.RemoveAt(0);
+                        table2.Rows.RemoveAt(0);
+                        table2.Rows.RemoveAt(0);
+                        table2.Rows.RemoveAt(0);
+                        table2.Rows.RemoveAt(0);
+                        if (GetPORate == 1)
+                        {
+                            table2.Rows.RemoveAt(6);
+                            table2.Rows.RemoveAt(6);
+                            table2.Rows.RemoveAt(6);
+                        }
+                        else if (GetPORate == 2)
+                        {                           
+                            table2.Rows.RemoveAt(5);
+                            table2.Rows.RemoveAt(6);
+                            table2.Rows.RemoveAt(6);
+                        }
+                        else if (GetPORate == 3)
+                        {
+                            table2.Rows.RemoveAt(5);
+                            table2.Rows.RemoveAt(5);
+                            table2.Rows.RemoveAt(6);
+                        }
+                        else if (GetPORate == 4)
+                        {
+                            table2.Rows.RemoveAt(5);
+                            table2.Rows.RemoveAt(5);
+                            table2.Rows.RemoveAt(5);
+                        }
+
+                        table2.Rows.RemoveAt(8);
+                        table2.Rows.RemoveAt(8);
+                        table2.Rows.RemoveAt(8);                        
+                        table2.AcceptChanges();
+                        chkFields3.DataSource = table2;
+                        chkFields3.DataBind();
+                        chkFields3.Items.Add("MRNAmount");
+                    }
+                }
+            }
+        }
+        catch (Exception ex) { }
+    }
+    private void GetData()
+    {
+       try
+        {
+            DataTable table = new DataTable();
+            using (SqlConnection conn = new SqlConnection(_connStr))
+            {
+                string sql = "";
+                if (flag == 1 || flag == 3)
+                {
+                    string Strpar = string.Empty;
+                    if (chkFields.Items[0].Selected == true)
+                    {
+                        Strpar = "ROW_NUMBER() OVER (ORDER BY ItemCode) AS SrNo";
+                    }
+                    if (chkFields.Items[1].Selected == true)
+                    {
+                        Strpar += ",ItemCode";
+                    }
+                    if (chkFields.Items[2].Selected == true)
+                    {
+                        Strpar += ",Description";
+                    }
+                    if (chkFields.Items[3].Selected == true)
+                    {
+                        Strpar += ",UOM";
+                    }
+                    if (chkFields.Items[4].Selected == true)
+                    {
+                        Strpar += ",REPLACE(CONVERT(varchar,CONVERT(datetime, SUBSTRING(MRNDate, CHARINDEX('-', MRNDate) + 1, 2) + '-' + LEFT(MRNDate, CHARINDEX('-', MRNDate) - 1) + '-' + RIGHT(MRNDate, CHARINDEX('-',REVERSE(MRNDate)) - 1)), 103), '/', '-') AS MRNDate";
+                    }
+                    if (chkFields.Items[5].Selected == true)
+                    {
+                        Strpar += ",MRNNo";
+                    }
+                    if (chkFields.Items[6].Selected == true)
+                    {
+                        Strpar += ",BGGroup";
+                    }
+                    if (chkFields.Items[7].Selected == true)
+                    {
+                        Strpar += ",WONo";
+                    }
+                    if (chkFields.Items[8].Selected == true)
+                    {
+                        Strpar += ",RetQty";
+                    }
+                    if (chkFields.Items[11].Selected == true)
+                    {
+                        switch (GetPORate)
+                        {
+                            case 1:
+                                Strpar += ",rate_MAX";
+                                break;
+                            case 2:
+                                Strpar += ",rate_MIN";
+                                break;
+                            case 3:
+                                Strpar += ",rate_avg";
+                                break;
+                            case 4:
+                                Strpar += ",rate_Actual";
+                                break;
+                        }
+
+                    }
+
+                    if (chkFields.Items[12].Selected == true)
+                    {
+                        switch (GetPORate)
+                        {
+                            case 1:
+                                Strpar += ",rate_MAX*RetQty As Amount";
+                                break;
+                            case 2:
+                                Strpar += ",rate_MIN*RetQty As Amount";
+                                break;
+                            case 3:
+                                Strpar += ",rate_avg*RetQty As Amount";
+                                break;
+                            case 4:
+                                Strpar += ",rate_Actual*RetQty As Amount";
+                                break;
+                        }
+
+                    }
+
+
+                    if (chkFields.Items[9].Selected == true)
+                    {
+                        Strpar += ",Remarks";
+                    }
+                    if (chkFields.Items[10].Selected == true)
+                    {
+                        Strpar += ",GenBy";
+                    }
+
+                    
+                    if (chkFields3.Items[0].Selected == true)
+                    {
+                        Strpar += ",REPLACE(CONVERT(varchar,CONVERT(datetime, SUBSTRING(MRQNDate, CHARINDEX('-', MRQNDate) + 1, 2) + '-' + LEFT(MRQNDate, CHARINDEX('-', MRQNDate) - 1) + '-' + RIGHT(MRQNDate, CHARINDEX('-',REVERSE(MRQNDate)) - 1)), 103), '/', '-') AS MRQNDate";
+                    }
+                    if (chkFields3.Items[1].Selected == true)
+                    {
+                        Strpar += ",MRQNNo";
+                    }
+                    if (chkFields3.Items[2].Selected == true)
+                    {
+                        Strpar += ",AcceptedQty";
+                    }
+
+                    if (chkFields3.Items[5].Selected == true)
+                    {
+                        switch (GetPORate)
+                        {
+                            case 1:
+                                Strpar += ",rate_MAX As MRQNRate";
+                                break;
+                            case 2:
+                                Strpar += ",rate_MIN As MRQNRate";
+                                break;
+                            case 3:
+                                Strpar += ",rate_avg As MRQNRate";
+                                break;
+                            case 4:
+                                Strpar += ",rate_Actual As MRQNRate";
+                                break;
+                        }
+
+                    }
+                    if (chkFields3.Items[6].Selected == true)
+                    {
+                        switch (GetPORate)
+                        {
+                            case 1:
+                                Strpar += ",rate_MAX*AcceptedQty As MRQNAmount";
+                                break;
+                            case 2:
+                                Strpar += ",rate_MIN*AcceptedQty As MRQNAmount";
+                                break;
+                            case 3:
+                                Strpar += ",rate_avg*AcceptedQty As MRQNAmount";
+                                break;
+                            case 4:
+                                Strpar += ",rate_Actual*AcceptedQty As MRQNAmount";
+                                break;
+                        }
+
+                    }
+                    if (chkFields3.Items[3].Selected == true)
+                    {
+                        Strpar += ",RejectedQty";
+                    }
+
+                    if (chkFields3.Items[4].Selected == true)
+                    {
+                        Strpar += ",GenBy2";
+                    }
+
+                    sql = "SELECT " + Strpar + " FROM View_MRN_Item where CompId='" + CompId + "'" + FirstCond + "" + Itemcode + "" + EmpId + "" + WONo + "" + BGGroup + "" + StrDate + "";
+                   
+                }
+
+                if (flag == 2)
+                {
+                    string Strpar = string.Empty;
+                    if (chkFields.Items[0].Selected == true)
+                    {
+                        Strpar = "ROW_NUMBER() OVER (ORDER BY ItemCode) AS SrNo";
+                    }
+                    if (chkFields.Items[1].Selected == true)
+                    {
+                        Strpar += ",ItemCode";
+                    }
+                    if (chkFields.Items[2].Selected == true)
+                    {
+                        Strpar += ",Description";
+                    }
+                    if (chkFields.Items[3].Selected == true)
+                    {
+                        Strpar += ",UOM";
+                    }
+
+                    if (chkFields.Items[4].Selected == true)
+                    {
+                        Strpar += ",REPLACE(CONVERT(varchar,CONVERT(datetime, SUBSTRING(MRQNDate, CHARINDEX('-', MRQNDate) + 1, 2) + '-' + LEFT(MRQNDate, CHARINDEX('-', MRQNDate) - 1) + '-' + RIGHT(MRQNDate, CHARINDEX('-',REVERSE(MRQNDate)) - 1)), 103), '/', '-') AS MRQNDate";
+                    }
+                    if (chkFields.Items[5].Selected == true)
+                    {
+                        Strpar += ",MRQNNo";
+                    }
+                    if (chkFields.Items[6].Selected == true)
+                    {
+                        Strpar += ",AcceptedQty";
+                    }
+                    if (chkFields.Items[7].Selected == true)
+                    {
+                        Strpar += ",RejectedQty";
+                    }
+                    if (chkFields.Items[8].Selected == true)
+                    {
+                        Strpar += ",EmpName";
+                    }
+
+                    if (chkFields.Items[9].Selected == true)
+                    {
+                        switch (GetPORate)
+                        {
+                            case 1:
+                                Strpar += ",rate_MAX";
+                                break;
+                            case 2:
+                                Strpar += ",rate_MIN";
+                                break;
+                            case 3:
+                                Strpar += ",rate_avg";
+                                break;
+                            case 4:
+                                Strpar += ",rate_Actual";
+                                break;
+                        }
+
+                    }
+
+                    if (chkFields.Items[10].Selected == true)
+                    {
+                        switch (GetPORate)
+                        {
+                            case 1:
+                                Strpar += ",rate_MAX*AcceptedQty As Amount";
+                                break;
+                            case 2:
+                                Strpar += ",rate_MIN*AcceptedQty As Amount";
+                                break;
+                            case 3:
+                                Strpar += ",rate_avg*AcceptedQty As Amount";
+                                break;
+                            case 4:
+                                Strpar += ",rate_Actual*AcceptedQty As Amount";
+                                break;
+                        }
+
+                    }
+
+
+                    if (chkFields3.Items[0].Selected == true)
+                    {
+                        Strpar += ",REPLACE(CONVERT(varchar,CONVERT(datetime, SUBSTRING(MRNDate, CHARINDEX('-', MRNDate) + 1, 2) + '-' + LEFT(MRNDate, CHARINDEX('-', MRNDate) - 1) + '-' + RIGHT(MRNDate, CHARINDEX('-',REVERSE(MRNDate)) - 1)), 103), '/', '-') AS MRNDate";
+                    }
+                    if (chkFields3.Items[1].Selected == true)
+                    {
+                        Strpar += ",MRNNo";
+                    }
+
+                    if (chkFields3.Items[2].Selected == true)
+                    {
+                        Strpar += ",BGGroup";
+                    }
+
+                    if (chkFields3.Items[3].Selected == true)
+                    {
+                        Strpar += ",WONo";
+                    }
+                    if (chkFields3.Items[4].Selected == true)
+                    {
+                        Strpar += ",RetQty";
+                    }
+                    if (chkFields3.Items[6].Selected == true)
+                    {
+                        Strpar += ",Remarks";
+                    }
+
+                    if (chkFields3.Items[7].Selected == true)
+                    {
+                        Strpar += ",EmpName2";
+                    }
+
+                    if (chkFields3.Items[5].Selected == true)
+                    {
+                        switch (GetPORate)
+                        {
+                            case 1:
+                                Strpar += ",rate_MAX";
+                                break;
+                            case 2:
+                                Strpar += ",rate_MIN";
+                                break;
+                            case 3:
+                                Strpar += ",rate_avg";
+                                break;
+                            case 4:
+                                Strpar += ",rate_Actual";
+                                break;
+                        }
+
+                    }
+
+                    if (chkFields3.Items[8].Selected == true)
+                    {
+                        switch (GetPORate)
+                        {
+                            case 1:
+                                Strpar += ",rate_MAX*RetQty As MRNAmount";
+                                break;
+                            case 2:
+                                Strpar += ",rate_MIN*RetQty As MRNAmount";
+                                break;
+                            case 3:
+                                Strpar += ",rate_avg*RetQty As MRNAmount";
+                                break;
+                            case 4:
+                                Strpar += ",rate_Actual*RetQty As MRNAmount";
+                                break;
+                        }
+
+                    }
+
+
+                    sql = "SELECT " + Strpar + " FROM View_MRQN_Item where CompId='" + CompId + "'" + FirstCond + "" + Itemcode + "" + EmpId + "" + WONo + "" + BGGroup + "" + StrDate + "";
+                } 
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    using (SqlDataAdapter ad = new SqlDataAdapter(cmd))
+                    {
+                        ad.Fill(table);
+                    }
+                }
+            }
+
+            if (table.Rows.Count > 0)
+            {
+                GridView1.DataSource = table;
+                GridView1.DataBind();
+                ViewState["dtList"] = table;
+            }
+            else
+            {
+                string mystring = string.Empty;
+                mystring = "No Records to Dispaly.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+            }
+        }
+        catch (Exception xe) { }
+    }
+    protected void checkAll_CheckedChanged(object sender, EventArgs e)
+    {
+        try
+        {
+
+            if (flag == 1 || flag == 3)
+            {
+                if (checkAll.Checked == true)
+                {
+                    foreach (ListItem li in chkFields.Items)
+                    {
+                        if (li.Value != "CompId" && li.Value != "BGId" && li.Value != "EmpId" && li.Value != "MRQNDate" && li.Value != "MRQNNo" && li.Value != "MRQNQty" && li.Value != "AcceptedQty" && li.Value != "RejectedQty" && li.Value != "GenBy2")
+                        {
+                            li.Selected = true;
+                        }
+                    }
+
+                    foreach (ListItem li in chkFields3.Items)
+                    {
+                        if (li.Value != "CompId" && li.Value != "BGId" && li.Value != "EmpId")
+                        {
+                            li.Selected = true;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (ListItem li in chkFields.Items)
+                    {
+                        li.Selected = false;
+                    }
+                    foreach (ListItem li in chkFields3.Items)
+                    {
+                        li.Selected = false;
+                    }
+                }
+            }
+            if (flag == 2)
+            {
+                if (checkAll.Checked == true)
+                {
+                    foreach (ListItem li in chkFields.Items)
+                    {                     
+                        if (li.Value != "CompId" && li.Value != "BGId" && li.Value != "EmpId" && li.Value != "MRNDate" && li.Value != "MRNNo" && li.Value != "BGGroup" && li.Value != "WONo" && li.Value != "RetQty" && li.Value != "Remarks" && li.Value != "EmpName2")
+                        {
+                            li.Selected = true;
+                        }
+                    }
+
+                    foreach (ListItem li in chkFields3.Items)
+                    {
+                        if (li.Value != "CompId" && li.Value != "BGId" && li.Value != "EmpId")
+                        {
+                            li.Selected = true;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (ListItem li in chkFields.Items)
+                    {
+                        li.Selected = false;
+                    }
+                    foreach (ListItem li in chkFields3.Items)
+                    {
+                        li.Selected = false;
+                    }
+                }
+            }
+
+
+          
+        }
+         catch (Exception ex) { }
+    }
+    protected void btnExport_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            DataTable dt1 = (DataTable)ViewState["dtList"];
+
+            if (flag == 1 || flag == 3)
+            {
+                if (chkFields.Items[0].Selected == true)
+                {
+                    dt1.Columns["SrNo"].ColumnName = "Sr No";
+                }
+                if (chkFields.Items[1].Selected == true)
+                {
+                    dt1.Columns["ItemCode"].ColumnName = "Item Code";
+                }
+                if (chkFields.Items[4].Selected == true)
+                {
+                    dt1.Columns["MRNDate"].ColumnName = "Date";
+                }
+                if (chkFields.Items[5].Selected == true)
+                {
+                    dt1.Columns["MRNNo"].ColumnName = "MRN No";
+                }
+
+                if (chkFields.Items[6].Selected == true)
+                {
+                    dt1.Columns["BGGroup"].ColumnName = "BG Group";
+                }
+                if (chkFields.Items[8].Selected == true)
+                {
+                    dt1.Columns["RetQty"].ColumnName = "Return Qty";
+                }
+                if (chkFields.Items[10].Selected == true)
+                {
+                    dt1.Columns["GenBy"].ColumnName = "Generated By";
+                }
+
+                if (chkFields.Items[11].Selected == true)
+                {
+
+                    switch (GetPORate)
+                    {
+                        case 1:
+                            dt1.Columns["rate_MAX"].ColumnName = "MRN Rate";
+                            break;
+                        case 2:
+                            dt1.Columns["rate_MIN"].ColumnName = "MRN Rate";
+                            break;
+                        case 3:
+                            dt1.Columns["rate_avg"].ColumnName = "MRN Rate";
+                            break;
+                        case 4:
+                            dt1.Columns["rate_Actual"].ColumnName = "MRN Rate";
+                            break;
+                    }
+                   
+                    dt1.Columns["Amount"].ColumnName = "MRN Amount";
+                }
+                if (chkFields3.Items[0].Selected == true)
+                {
+                    dt1.Columns["MRQNDate"].ColumnName = "MRQN Date";
+                }
+                if (chkFields3.Items[1].Selected == true)
+                {
+                    dt1.Columns["MRQNNo"].ColumnName = "MRQN No";
+                }
+                if (chkFields3.Items[2].Selected == true)
+                {
+                    dt1.Columns["AcceptedQty"].ColumnName = "Accepted Qty";
+                }                
+                if (chkFields3.Items[3].Selected == true)
+                {
+                    dt1.Columns["RejectedQty"].ColumnName = "Rejected Qty";
+                }
+                if (chkFields3.Items[4].Selected == true)
+                {
+                    dt1.Columns["GenBy2"].ColumnName = "MRQN Generated By";
+                }
+                if (chkFields3.Items[5].Selected == true)
+                {
+
+                    switch (GetPORate)
+                    {
+                        case 1:
+                            dt1.Columns["MRQNRate"].ColumnName = "MRQN Rate";
+                            break;
+                        case 2:
+                            dt1.Columns["MRQNRate"].ColumnName = "MRQN Rate";
+                            break;
+                        case 3:
+                            dt1.Columns["MRQNRate"].ColumnName = "MRQN Rate";
+                            break;
+                        case 4:
+                            dt1.Columns["MRQNRate"].ColumnName = "MRQN Rate";
+                            break;
+                    }
+
+                    
+                }
+                if (chkFields3.Items[6].Selected == true)
+                {
+                    dt1.Columns["MRQNAmount"].ColumnName = "MRQN Amount";
+                }
+
+            }
+
+            //-----------------------------------------------------------------------------------
+
+            else if (flag == 2)
+            {
+                if (chkFields.Items[0].Selected == true)
+                {
+                    dt1.Columns["SrNo"].ColumnName = "Sr No";
+                }
+                if (chkFields.Items[1].Selected == true)
+                {
+                    dt1.Columns["ItemCode"].ColumnName = "Item Code";
+                }
+                if (chkFields.Items[4].Selected == true)
+                {
+                    dt1.Columns["MRQNDate"].ColumnName = "Date";
+                }
+                if (chkFields.Items[5].Selected == true)
+                {
+                    dt1.Columns["MRQNNo"].ColumnName = "MRQN No";
+                }
+                if (chkFields.Items[6].Selected == true)
+                {
+                    dt1.Columns["AcceptedQty"].ColumnName = "Accepted Qty";
+                }
+                if (chkFields.Items[7].Selected == true)
+                {
+                    dt1.Columns["RejectedQty"].ColumnName = "Rejected Qty";
+                }
+                if (chkFields.Items[8].Selected == true)
+                {
+                    dt1.Columns["EmpName"].ColumnName = "Generated By";
+                }
+                if (chkFields.Items[9].Selected == true)
+                {
+
+                    switch (GetPORate)
+                    {
+                        case 1:
+                            dt1.Columns["rate_MAX"].ColumnName = "Rate";
+                            break;
+                        case 2:
+                            dt1.Columns["rate_MIN"].ColumnName = "Rate";
+                            break;
+                        case 3:
+                            dt1.Columns["rate_avg"].ColumnName = "Rate";
+                            break;
+                        case 4:
+                            dt1.Columns["rate_Actual"].ColumnName = "Rate";
+                            break;
+                    }
+
+                    
+                }
+
+                if (chkFields3.Items[0].Selected == true)
+                {
+                    dt1.Columns["MRNDate"].ColumnName = "MRN Date";
+                }
+                if (chkFields3.Items[1].Selected == true)
+                {
+                    dt1.Columns["MRNNo"].ColumnName = "MRN No";
+                }
+                if (chkFields3.Items[2].Selected == true)
+                {
+                    dt1.Columns["BGGroup"].ColumnName = "BG Group";
+                }
+                if (chkFields3.Items[3].Selected == true)
+                {
+                    dt1.Columns["WONo"].ColumnName = "WO No";
+                }
+                if (chkFields3.Items[4].Selected == true)
+                {
+                    dt1.Columns["RetQty"].ColumnName = "Ret Qty";
+                }
+                if (chkFields3.Items[7].Selected == true)
+                {
+                    dt1.Columns["EmpName2"].ColumnName = "MRN Generated By";
+                }
+
+                if (chkFields3.Items[5].Selected == true)
+                {
+
+                    switch (GetPORate)
+                    {
+                        case 1:
+                            dt1.Columns["rate_MAX1"].ColumnName = "MRN Rate";
+                            break;
+                        case 2:
+                            dt1.Columns["rate_MIN1"].ColumnName = "MRN Rate";
+                            break;
+                        case 3:
+                            dt1.Columns["rate_avg1"].ColumnName = "MRN Rate";
+                            break;
+                        case 4:
+                            dt1.Columns["rate_Actual1"].ColumnName = "MRN Rate";
+                            break;
+                    }
+
+
+                }
+                if (chkFields3.Items[8].Selected == true)
+                {
+
+                    dt1.Columns["MRNAmount"].ColumnName = "MRN Amount";
+                }
+                //-----------------------------------------------------------------------------------
+
+            }
+
+            if (dt1 == null)
+            {
+                throw new Exception("No Records to Export");
+            }
+            string Path = "D:\\ImportExcelFromDatabase\\myexcelfile_" + DateTime.Now.Day.ToString() + "_" + DateTime.Now.Month.ToString() + ".xls";
+            FileInfo FI = new FileInfo(Path);
+            StringWriter stringWriter = new StringWriter();
+            HtmlTextWriter htmlWrite = new HtmlTextWriter(stringWriter);
+            System.Web.UI.WebControls.DataGrid DataGrd = new System.Web.UI.WebControls.DataGrid();
+            DataGrd.DataSource = dt1;
+            DataGrd.DataBind();
+            DataGrd.RenderControl(htmlWrite);
+            string directory = Path.Substring(0, Path.LastIndexOf("\\"));// GetDirectory(Path);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+            System.IO.StreamWriter vw = new System.IO.StreamWriter(Path, true);
+            stringWriter.ToString().Normalize();
+            vw.Write(stringWriter.ToString());
+            vw.Flush();
+            vw.Close();
+            WriteAttachment(FI.Name, "application/vnd.ms-excel", stringWriter.ToString());
+        }
+
+        catch (Exception ex)
+        {
+            string mystring = string.Empty;
+            mystring = "No Records to Export.";
+            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+        }
+
+    }
+    public static void WriteAttachment(string FileName, string FileType, string content)
+    {
+         try
+        {
+            HttpResponse Response = System.Web.HttpContext.Current.Response;
+            Response.ClearHeaders();
+            Response.AppendHeader("Content-Disposition", "attachment; filename=" + FileName);
+            Response.ContentType = FileType;
+            Response.Write(content);
+            Response.End();
+        }
+          catch (Exception ex) { }
+    }
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/Inventory/Reports/Search.aspx");
+    }
+
+}

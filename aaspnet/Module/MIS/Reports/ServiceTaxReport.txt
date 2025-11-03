@@ -1,0 +1,667 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MIS/Reports/ServiceTaxReport.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ServiceTaxReport.aspx.cs" Inherits="Module_MIS_Reports_ServiceTaxReport" Title="ERP" Theme ="Default"  %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+<style type="text/css">
+        .style2
+        {
+            width: 100%;
+            float: left;
+        }
+    </style>
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+
+
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+<table align="left" cellpadding="0" cellspacing="0" class="style2">
+        <tr>
+            <td style="background:url(../../../images/hdbg.JPG); height:21px" 
+                class="fontcsswhite" colspan="2" >
+                <b>&nbsp;Service Tax Report</b></td>
+        </tr>
+        
+        <tr>
+       <td align="center" colspan="2" height="25px">
+       
+               <asp:DropDownList ID="DropDownList1" runat="server" CssClass="box3" 
+                                onselectedindexchanged="DropDownList1_SelectedIndexChanged" AutoPostBack="True">
+                           
+                                <asp:ListItem Value="0">Customer Name</asp:ListItem>
+                                <asp:ListItem Value="1">Invoice No</asp:ListItem>
+                            </asp:DropDownList>
+&nbsp;
+                <asp:TextBox ID="txtCustName" runat="server" CssClass="box3"  Width="250px"></asp:TextBox>
+         
+         <cc1:AutoCompleteExtender ID="txtCustName_AutoCompleteExtender" 
+                    runat="server" CompletionInterval="100" CompletionSetCount="1" 
+                                            DelimiterCharacters="" Enabled="True" FirstRowSelected="True" 
+                                            MinimumPrefixLength="1" ServiceMethod="sql" ServicePath="" 
+                                            ShowOnlyCurrentWordInCompletionListItem="True" 
+                                            TargetControlID="txtCustName" UseContextKey="True"  CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                </cc1:AutoCompleteExtender> 
+        
+                            
+                            <asp:TextBox ID="txtpoNo" runat="server" Visible="False" CssClass="box3"></asp:TextBox>
+&nbsp;<asp:Button ID="btnSearch" runat="server" CssClass="redbox"  Text="Search" 
+                                onclick="btnSearch_Click" />
+        </td>
+        </tr>
+        
+        <tr>
+       <td align="center" rowspan="4">
+           <asp:Panel ID="Panel1"  ScrollBars="Auto"  Height="650px" runat="server" 
+               Width="550px">
+          
+            <asp:GridView ID="GridView1" runat="server" AllowPaging="True"  DataKeyNames="Id"
+                    AutoGenerateColumns="False" Width="100%" CssClass="yui-datatable-theme" 
+                    onpageindexchanging="GridView1_PageIndexChanging">
+                    <PagerSettings PageButtonCount="40" />
+                    <Columns>
+                        <asp:TemplateField HeaderText="SN">
+                        <ItemTemplate>
+                        <%#Container.DataItemIndex+1 %>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="3%" />
+                        </asp:TemplateField>
+                         <asp:TemplateField  HeaderText="Id" Visible="false">
+                        <ItemTemplate>
+                      <asp:Label ID="lblId" runat="server" Text='<%#Eval("Id") %>'></asp:Label>                        
+                        </ItemTemplate>
+                        </asp:TemplateField>
+                           
+                         <asp:TemplateField HeaderText="FinYear">
+                         <ItemTemplate>
+                        <asp:Label ID="lblFinYear" runat="server" Text='<%#Eval("FinYear") %>'></asp:Label>
+                        </ItemTemplate>
+                        <ItemStyle HorizontalAlign="Center" Width="4%" />
+                        </asp:TemplateField>
+                        
+                         <asp:TemplateField HeaderText="Customer Name">
+                         <ItemTemplate>
+                        <asp:Label ID="lblCustomerName" runat="server" Text='<%#Eval("CustomerName") %>'></asp:Label>
+                        </ItemTemplate>
+                             <ItemStyle Width="35%" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="Invoice No">
+                         <ItemTemplate>
+                        <asp:Label ID="lblInVoiceNo" runat="server" Text='<%#Eval("InVoiceNo") %>'></asp:Label>
+                        </ItemTemplate> 
+                         <ItemStyle HorizontalAlign="Center" Width="13%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Date">
+                         <ItemTemplate>
+                        <asp:Label ID="lblDate" runat="server" Text='<%#Eval("SysDate") %>'></asp:Label>
+                        </ItemTemplate>
+                          <ItemStyle HorizontalAlign="Center" Width="5%" />
+                        </asp:TemplateField>
+                        
+                                    <asp:TemplateField HeaderText="Basic Amt.">
+                                    <ItemTemplate>
+                                    <asp:Label ID="lblBAmt" runat="server" Text='<%# Eval("BAmount") %>'></asp:Label>
+                                     </ItemTemplate>
+                                    <ItemStyle HorizontalAlign="Right" Width="12%" />
+                                    </asp:TemplateField>
+                        
+                            <asp:TemplateField  HeaderText="Tax Amt.">
+                        <ItemTemplate>
+                       <asp:Label ID="lblAmt" Text='<%#Eval("Amount") %>'   runat="server" ></asp:Label>
+                        
+                        </ItemTemplate> 
+                         <ItemStyle HorizontalAlign="Right" Width="12%" />
+                        </asp:TemplateField>
+                          
+                            <asp:TemplateField  Visible="false"   HeaderText="MISMonth">
+                        <ItemTemplate>
+                       <asp:Label ID="lblMISMonth" runat="server" Text='<%#Eval("MISMonth") %>'></asp:Label>
+                        
+                        </ItemTemplate>
+                         <ItemStyle HorizontalAlign="Right" />
+                        <ItemStyle HorizontalAlign="Right" />
+                        </asp:TemplateField>
+                                         
+                         <asp:TemplateField Visible="false" HeaderText="CustomerId">
+                        <ItemTemplate>
+                       <asp:Label ID="lblCustId" runat="server" Text='<%#Eval("CustomerId") %>'></asp:Label>
+                        
+                        </ItemTemplate>
+                         <ItemStyle HorizontalAlign="Right" />
+                        <ItemStyle HorizontalAlign="Right" />
+                        </asp:TemplateField>
+                    </Columns>
+                     <EmptyDataTemplate>
+                    <table width="100%" ><tr><td align="center" >
+                    <asp:Label ID="Label1" runat="server"  Text="No  data found to display" Font-Bold="true"
+                    Font-Names="Calibri" ForeColor="red">
+                    </asp:Label> </td> </tr>
+                    </table>
+                    </EmptyDataTemplate>                    
+                     </asp:GridView>    
+              </asp:Panel> 
+       </td>
+       <td align="center">
+        <asp:Chart ID="Chart2" runat="server" Width="650px">
+                    <series>
+                        <asp:Series Name="Series1" Font="Microsoft Sans Serif, 8pt">
+                        </asp:Series>
+                    </series>
+                    <chartareas>
+                        <asp:ChartArea Name="ChartArea1" BackColor="224, 224, 224" BorderColor="Silver" 
+                            ShadowColor="DimGray">
+                            <Position Height="100" Width="100" />
+                        </asp:ChartArea>
+                    </chartareas>
+                </asp:Chart></td>
+        </tr>
+        <tr>
+        <td align="center" style="border-bottom-style: solid; border-color: #008080">
+          <asp:Label  ID="lblturn" runat="server" Font-Bold="True" Font-Size="Larger"></asp:Label>
+        </td>
+        </tr>
+           
+
+
+       
+        <tr>
+        <td align="center">
+        <asp:Chart ID="Chart1" runat="server" Width="650px">
+                    <series>
+                        <asp:Series Name="Series1" Font="Microsoft Sans Serif, 8pt">
+                        </asp:Series>
+                    </series>
+                    <chartareas>
+                        <asp:ChartArea Name="ChartArea1" BackColor="224, 224, 224" BorderColor="Silver" 
+                            ShadowColor="DimGray">
+                            <Position Height="100" Width="100" />
+                        </asp:ChartArea>
+                    </chartareas>
+                </asp:Chart>
+        </td>
+        </tr>
+           
+
+
+       
+        <tr>
+        <td align="center">
+          <asp:Label  ID="lbltaxturn" runat="server" Font-Bold="True" Font-Size="Larger"></asp:Label>
+        </td>
+        </tr>
+           
+
+
+       
+        <tr>
+        <td align="center">
+            &nbsp;</td>
+        <td align="center">
+            &nbsp;</td>
+        </tr>
+           
+
+
+       
+</table>
+
+
+
+
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MIS/Reports/ServiceTaxReport.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Web.UI.DataVisualization.Charting;
+using System.Drawing;
+
+public partial class Module_MIS_Reports_ServiceTaxReport : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    int FinYearId = 0;
+    int CompId = 0;
+    string CId = "";
+    string WN = "";
+    double Amount = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        string sId = Session["username"].ToString();
+        FinYearId = Convert.ToInt32(Session["finyear"]);
+        CompId = Convert.ToInt32(Session["compid"]);
+
+       try
+        {
+             if (!Page.IsPostBack)
+            {
+                txtpoNo.Visible = false;                
+            }
+            this.bindgrid(CId, WN);           
+            this.drawgraph();
+            this.drawgraphBasic();
+        }
+        catch (Exception ex) { }
+
+    }
+
+
+    public string Monthly(string FD)
+    {
+        string NFD = "";
+        try
+        {
+            string a = FD;
+            string[] b = a.Split('-');
+            string d = b[0];
+            string m = b[1];
+            string y = b[2];
+            NFD = m;
+            return NFD;
+        }
+        catch (Exception ex) { }
+        return NFD;
+    }
+
+    public void bindgrid(string Cid, String wn)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        DataTable dt = new DataTable();
+       try
+        {
+            con.Open();
+            if (DropDownList1.SelectedValue == "Select")
+            {
+                txtpoNo.Visible = true;
+
+                txtCustName.Visible = false;
+            }
+
+            string I = "";
+            if (DropDownList1.SelectedValue == "0")
+            {
+                if (txtCustName.Text != "")
+                {
+                    string Custid = fun.getCode(txtCustName.Text);
+                    I = " AND CustomerCode='" + Custid + "'";
+                }
+            }
+
+
+            string z = "";
+            if (DropDownList1.SelectedValue == "1")
+            {
+                if (txtpoNo.Text != "")
+                {
+                    z = " AND InvoiceNo='" + txtpoNo.Text + "'";
+                }
+            }
+
+            string sqlInv = fun.select("Id,FinYearId,SysDate,InvoiceNo,WONo,PONo,CustomerCode,InvoiceNo,AddType,AddAmt,DeductionType,Deduction,ServiceTax,TaxableServices", "tblACC_ServiceTaxInvoice_Master", "CompId='" + CompId + "' And FinYearId='" + FinYearId + "'" + I + z + " Order By Id Desc");
+
+            SqlCommand cmdInv = new SqlCommand(sqlInv, con);
+            SqlDataAdapter DAInv = new SqlDataAdapter(cmdInv);
+            DataSet DSInv = new DataSet();
+            DAInv.Fill(DSInv);
+
+
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("FinYear", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("InVoiceNo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("SysDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("CustomerName", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("CustomerId", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Amount", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("MISMonth", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("BAmount", typeof(double)));
+
+            if (DSInv.Tables[0].Rows.Count > 0)
+            {
+                DataRow dr;
+                for (int i = 0; i < DSInv.Tables[0].Rows.Count; i++)
+                {
+
+                    dr = dt.NewRow();
+                    string sqlrate = fun.select("sum ((ReqQty*AmtInPer/100)*Rate) as Amt", " tblACC_ServiceTaxInvoice_Details", " InvoiceNo='" + DSInv.Tables[0].Rows[i]["InvoiceNo"] + "'");
+                    SqlCommand cmdrate = new SqlCommand(sqlrate, con);
+                    SqlDataAdapter DArate = new SqlDataAdapter(cmdrate);
+                    DataSet DSrate = new DataSet();
+                    DArate.Fill(DSrate);
+                    double rate = Math.Round(Convert.ToDouble(DSrate.Tables[0].Rows[0]["Amt"]),2);
+
+                    string sqlFin = fun.select("FinYear", "tblFinancial_master", "FinYearId='" + DSInv.Tables[0].Rows[i]["FinYearId"].ToString() + "'");
+                    SqlCommand cmdFinYr = new SqlCommand(sqlFin, con);
+                    SqlDataAdapter daFin = new SqlDataAdapter(cmdFinYr);
+                    DataSet DSFin = new DataSet();
+                    daFin.Fill(DSFin);
+
+                    string Sysdt = fun.FromDateDMY(DSInv.Tables[0].Rows[i]["SysDate"].ToString());
+
+                    string mo = this.Monthly(DSInv.Tables[0].Rows[i]["SysDate"].ToString());
+
+                    string sqlCust = fun.select("CustomerName,CustomerId", "SD_Cust_master", "CustomerId='" + DSInv.Tables[0].Rows[i]["CustomerCode"] + "' And CompId='" + CompId + "'");
+                    SqlCommand cmdCust = new SqlCommand(sqlCust, con);
+                    SqlDataAdapter DACust = new SqlDataAdapter(cmdCust);
+                    DataSet DSCust = new DataSet();
+                    DACust.Fill(DSCust);
+
+                    double amount1 = 0;
+                    double addamt = 0;
+                    addamt = Convert.ToDouble(decimal.Parse((DSInv.Tables[0].Rows[i]["AddAmt"]).ToString()).ToString("N2"));
+                    int addtype = Convert.ToInt32(DSInv.Tables[0].Rows[i]["AddType"]);
+                    if (addtype == 0)
+                    {
+                        amount1 = rate + addamt;
+                    }
+                    else
+                    {
+                        amount1 = (rate + ((rate * addamt) / 100));
+                    }
+                    int dedtype = Convert.ToInt32(DSInv.Tables[0].Rows[i]["DeductionType"]);
+                    double deductamt = 0;
+                    deductamt = Convert.ToDouble(decimal.Parse((DSInv.Tables[0].Rows[i]["Deduction"]).ToString()).ToString("N2"));
+                    double amount2 = 0;
+                    if (dedtype == 0)
+                    {
+                        amount2 = amount1 - deductamt;
+                    }
+                    else
+                    {
+                        amount2 = (amount1 - ((amount1 * deductamt) / 100));
+                    }
+
+                    int servicetax = Convert.ToInt32(DSInv.Tables[0].Rows[i]["ServiceTax"]);
+                    string service = fun.select("Id  , Terms, Value ,AccessableValue , EDUCess, SHECess, Live, LiveSerTax ", "tblExciseser_Master", "Id='" + servicetax + "'");
+                    SqlCommand cmdser = new SqlCommand(service, con);
+                    SqlDataAdapter daser = new SqlDataAdapter(cmdser);
+                    DataSet dsser = new DataSet();
+                    daser.Fill(dsser);
+
+                    double ServiceTax = 0;
+                    ServiceTax = Convert.ToDouble(dsser.Tables[0].Rows[0]["Value"]);
+
+                    
+                    Amount = Math.Round((amount2 + ((amount2 * ServiceTax) / 100)), 2);
+             
+                    dr[0] = DSInv.Tables[0].Rows[i]["Id"].ToString();
+                    dr[1] = DSFin.Tables[0].Rows[0]["FinYear"].ToString();
+                    dr[2] = DSInv.Tables[0].Rows[i]["InvoiceNo"].ToString();
+                    dr[3] = Sysdt;
+                    dr[4] = DSCust.Tables[0].Rows[0]["CustomerName"].ToString() + "[" + DSCust.Tables[0].Rows[0]["CustomerId"].ToString() + "]";
+                    dr[5] = DSCust.Tables[0].Rows[0]["CustomerId"].ToString();
+                    dr[6] = Amount;
+                    dr[7] = mo;
+                    dr[8] = rate;
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+            }
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
+        }
+       catch (Exception ex) { }
+    }
+  
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView1.PageIndex = e.NewPageIndex;
+        this.bindgrid(CId, WN);
+    }
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            this.bindgrid(txtCustName.Text, txtpoNo.Text);
+        }
+          catch (Exception ex){}       
+        
+    }
+    protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+         try
+        {
+            if (DropDownList1.SelectedValue == "0")
+            {
+                txtpoNo.Visible = false;
+                txtCustName.Visible = true;
+                txtCustName.Text = "";
+                this.bindgrid(CId, WN);
+            }
+
+            if (DropDownList1.SelectedValue == "1" || DropDownList1.SelectedValue == "2" || DropDownList1.SelectedValue == "3" || DropDownList1.SelectedValue == "Select")
+            {
+                txtpoNo.Visible = true;
+                txtCustName.Visible = false;
+                txtpoNo.Text = "";
+                this.bindgrid(CId, WN);
+            }
+        }
+
+         catch (Exception ex) { }
+    }
+
+    public void drawgraph()
+    {
+        string str = fun.Connection();
+        SqlConnection con = new SqlConnection(str);
+
+        // Monthly Total Ser. Tax Sales =========================================================================
+
+        int fyid = Convert.ToInt32(Session["finyear"]);
+        int cid = Convert.ToInt32(Session["compid"]);
+
+        string sql3 = "Select FinYear from tblfinancial_master Where FinYearId='" + fyid + "'";
+
+        SqlCommand cmd3 = new SqlCommand(sql3, con);
+        SqlDataAdapter da3 = new SqlDataAdapter(cmd3);
+        DataSet ds3 = new DataSet();
+        da3.Fill(ds3);
+        Chart1.Series[0].ChartType = SeriesChartType.Column;
+        Chart1.Series[0]["DrawingStyle"] = "Cylinder";      
+        Chart1.Series[0]["PointWidth"] = "0.3";
+        Chart1.Series[0].IsValueShownAsLabel = true;
+        Chart1.ChartAreas[0].AxisX.Title = "Fin. Year  " + ds3.Tables[0].Rows[0][0].ToString();
+        Chart1.ChartAreas[0].BackColor = Color.LightGreen;
+        Chart1.ChartAreas[0].Area3DStyle.Enable3D = true;
+        Chart1.ChartAreas[0].Area3DStyle.PointDepth = 250;
+        Chart1.ChartAreas[0].Area3DStyle.PointGapDepth = 0;
+        Chart1.ChartAreas[0].AxisY.IsStartedFromZero = true;
+
+        DataTable dt = new DataTable();
+        DataTable dt2 = new DataTable();
+        DataRow dr;
+
+        dt.Columns.Add(new System.Data.DataColumn("ct", typeof(string)));
+
+        string[] mthno = new string[] { "04", "05", "06", "07", "08", "09", "10", "11", "12", "01", "02", "03" };
+
+        int k;
+        double Turnover = 0;
+        for (k = 0; k < mthno.Length; k++)
+        {
+            double TotAmt = 0;
+            foreach (GridViewRow grv in GridView1.Rows)
+            {
+                if (((Label)grv.FindControl("lblMISMonth")).Text == mthno[k])
+                {
+                    TotAmt += Convert.ToDouble(((Label)grv.FindControl("lblAmt")).Text);
+                   
+                }
+            }
+            Turnover += TotAmt;
+         
+            dr = dt.NewRow();
+            dr[0] = TotAmt;           
+            dt.Rows.Add(dr);
+            dt.AcceptChanges();
+        }
+        lbltaxturn.Text = "Total ServiceTax Tax Sales : " + Turnover.ToString();
+        Chart1.ChartAreas[0].AxisX.Interval = 1;
+        Chart1.ChartAreas[0].AxisY.Title = "Amount in  Rs.";
+        Chart1.Series[0].YValueMembers = dt.Columns[0].ToString();
+        Chart1.DataSource = dt;
+        Chart1.ChartAreas[0].AxisX.LabelStyle.Font = new Font("Arial", 8);
+        Chart1.ChartAreas[0].AxisX.LabelStyle.Angle = 45;
+        Chart1.ChartAreas[0].AxisX.CustomLabels.Add(2, 0.1, "APR");
+        Chart1.ChartAreas[0].AxisX.CustomLabels.Add(4, 0.1, "MAY");
+        Chart1.ChartAreas[0].AxisX.CustomLabels.Add(6, 0.1, "JUN");
+        Chart1.ChartAreas[0].AxisX.CustomLabels.Add(8, 0.1, "JUL");
+        Chart1.ChartAreas[0].AxisX.CustomLabels.Add(10, 0.1, "AUG");
+        Chart1.ChartAreas[0].AxisX.CustomLabels.Add(12, 0.1, "SEP");
+        Chart1.ChartAreas[0].AxisX.CustomLabels.Add(14, 0.1, "OCT");
+        Chart1.ChartAreas[0].AxisX.CustomLabels.Add(16, 0.1, "NOV");
+        Chart1.ChartAreas[0].AxisX.CustomLabels.Add(18, 0.1, "DEC");
+        Chart1.ChartAreas[0].AxisX.CustomLabels.Add(20, 0.1, "JAN");
+        Chart1.ChartAreas[0].AxisX.CustomLabels.Add(22, 0.1, "FEB");
+        Chart1.ChartAreas[0].AxisX.CustomLabels.Add(24, 0.1, "MAR");
+        Chart1.DataBind();
+        Chart1.Visible = true;
+
+    }
+
+    public void drawgraphBasic()
+    {
+        string str = fun.Connection();
+        SqlConnection con = new SqlConnection(str);
+
+        // Total Ser. Tax Sales =========================================================================
+
+        int fyid = Convert.ToInt32(Session["finyear"]);
+        int cid = Convert.ToInt32(Session["compid"]);
+
+        string sql3 = "Select FinYear from tblfinancial_master Where FinYearId='" + fyid + "'";
+
+        SqlCommand cmd3 = new SqlCommand(sql3, con);
+        SqlDataAdapter da3 = new SqlDataAdapter(cmd3);
+        DataSet ds3 = new DataSet();
+        da3.Fill(ds3);
+        Chart2.Series[0].ChartType = SeriesChartType.Column;
+        Chart2.Series[0]["DrawingStyle"] = "Cylinder";
+        Chart2.Series[0]["PointWidth"] = "0.3";
+        Chart2.Series[0].IsValueShownAsLabel = true;
+        Chart2.ChartAreas[0].AxisX.Title = "Fin. Year  " + ds3.Tables[0].Rows[0][0].ToString();
+        Chart2.ChartAreas[0].BackColor = Color.LightGreen;
+        Chart2.ChartAreas[0].Area3DStyle.Enable3D = true;
+        Chart2.ChartAreas[0].Area3DStyle.PointDepth = 250;
+        Chart2.ChartAreas[0].Area3DStyle.PointGapDepth = 0;
+        Chart2.ChartAreas[0].AxisY.IsStartedFromZero = true;
+
+        DataTable dt = new DataTable();
+        DataTable dt2 = new DataTable();
+        DataRow dr;
+
+        dt.Columns.Add(new System.Data.DataColumn("ct", typeof(string)));
+
+        string[] mthno = new string[] { "04", "05", "06", "07", "08", "09", "10", "11", "12", "01", "02", "03" };
+
+        int k;
+        double Turnover = 0;
+        for (k = 0; k < mthno.Length; k++)
+        {
+            double TotAmt = 0;
+            foreach (GridViewRow grv in GridView1.Rows)
+            {
+                if (((Label)grv.FindControl("lblMISMonth")).Text == mthno[k])
+                {
+                    TotAmt += Convert.ToDouble(((Label)grv.FindControl("lblBAmt")).Text);
+
+                }
+            }
+            Turnover += TotAmt;
+
+            dr = dt.NewRow();
+            dr[0] = TotAmt;
+            dt.Rows.Add(dr);
+            dt.AcceptChanges();
+        }
+
+        lblturn.Text = "Total ServiceTax Basic Sales : " + Turnover.ToString();
+        Chart2.ChartAreas[0].AxisX.Interval = 1;
+        Chart2.ChartAreas[0].AxisY.Title = "Amount in  Rs.";
+        Chart2.Series[0].YValueMembers = dt.Columns[0].ToString();
+        Chart2.DataSource = dt;
+        Chart2.ChartAreas[0].AxisX.LabelStyle.Font = new Font("Arial", 8);
+        Chart2.ChartAreas[0].AxisX.LabelStyle.Angle = 45;
+        Chart2.ChartAreas[0].AxisX.CustomLabels.Add(2, 0.1, "APR");
+        Chart2.ChartAreas[0].AxisX.CustomLabels.Add(4, 0.1, "MAY");
+        Chart2.ChartAreas[0].AxisX.CustomLabels.Add(6, 0.1, "JUN");
+        Chart2.ChartAreas[0].AxisX.CustomLabels.Add(8, 0.1, "JUL");
+        Chart2.ChartAreas[0].AxisX.CustomLabels.Add(10, 0.1, "AUG");
+        Chart2.ChartAreas[0].AxisX.CustomLabels.Add(12, 0.1, "SEP");
+        Chart2.ChartAreas[0].AxisX.CustomLabels.Add(14, 0.1, "OCT");
+        Chart2.ChartAreas[0].AxisX.CustomLabels.Add(16, 0.1, "NOV");
+        Chart2.ChartAreas[0].AxisX.CustomLabels.Add(18, 0.1, "DEC");
+        Chart2.ChartAreas[0].AxisX.CustomLabels.Add(20, 0.1, "JAN");
+        Chart2.ChartAreas[0].AxisX.CustomLabels.Add(22, 0.1, "FEB");
+        Chart2.ChartAreas[0].AxisX.CustomLabels.Add(24, 0.1, "MAR");
+        Chart2.DataBind();
+        Chart2.Visible = true;
+
+    }
+
+
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] sql(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        int CompId = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        con.Open();
+        string cmdStr = fun.select("CustomerId,CustomerName", "SD_Cust_master", "CompId='" + CompId + "'");
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds, "SD_Cust_master");
+        con.Close();
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                //if (main.Length == 10)
+                //    break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }
+}
+
+
+
+

@@ -1,0 +1,974 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/ProjectManagement/Transactions/ManPowerPlanning_Edit.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ManPowerPlanning_Edit.aspx.cs" Inherits="Module_ProjectManagement_Transactions_ManPowerPlanning_Edit" Title="ERP" Theme="Default" %>
+
+<%@ Register assembly="TimePicker" namespace="MKB.TimePicker" tagprefix="MKB" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    </asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+ 
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+<table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)">
+        &nbsp;<b>Man Power Planning - Delete</b></td>
+        </tr>
+        
+       
+        <tr>
+        <td height="35px">
+              <asp:DropDownList ID="ddlSelectBG_WONo" runat="server" AutoPostBack="True" 
+                CssClass="box3" onselectedindexchanged="ddlSelectBG_WONo_SelectedIndexChanged">
+                <asp:ListItem Text="Select WONo or BG Group" Value="0"></asp:ListItem>
+                <asp:ListItem Text="BG Group" Value="1"></asp:ListItem>
+                <asp:ListItem Text="WONo" Value="2"></asp:ListItem>
+            </asp:DropDownList>
+             &nbsp;<asp:TextBox ID="TxtWONo" runat="server" CssClass="box3" Visible="False" 
+                Width="95px"></asp:TextBox>
+                <asp:DropDownList ID="DrpCategory" runat="server" AutoPostBack="False" 
+                CssClass="box3" Height="21px" 
+                
+                    DataSourceID="SqlBGGroup" DataTextField="Symbol" DataValueField="Id" Visible="False"></asp:DropDownList>
+     
+        &nbsp;
+            <asp:DropDownList ID="DrpMonths" runat="server">
+            </asp:DropDownList>
+&nbsp;&nbsp;
+            <asp:DropDownList ID="Drptype" runat="server" AutoPostBack="False"  CssClass="box3">
+                <asp:ListItem Value="0">NA</asp:ListItem>
+                <asp:ListItem Text="Present" Value="1"></asp:ListItem>
+                <asp:ListItem Text="Absent" Value="2"></asp:ListItem>
+                <asp:ListItem Text="Onsite" Value="3"></asp:ListItem>
+                <asp:ListItem Text="PL" Value="4"></asp:ListItem>
+            </asp:DropDownList>
+&nbsp;&nbsp; From Date
+                <asp:TextBox ID="Txtfromdate" runat="server" CssClass="box3" Width="100px"></asp:TextBox>
+                <cc1:CalendarExtender ID="Txtfromdate_CalendarExtender" runat="server" CssClass="cal_Theme2" PopupPosition="BottomRight" 
+                    Enabled="True" TargetControlID="Txtfromdate" Format="dd-MM-yyyy">
+                </cc1:CalendarExtender>
+                &nbsp;<asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" 
+                    ControlToValidate="Txtfromdate" ErrorMessage="*" 
+                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                    ValidationGroup="view"></asp:RegularExpressionValidator>
+            &nbsp;To&nbsp;
+                <asp:TextBox ID="TxtTodate" runat="server" CssClass="box3" Width="100px"></asp:TextBox>
+                <cc1:CalendarExtender ID="TxtTodate_CalendarExtender" runat="server" CssClass="cal_Theme2" PopupPosition="BottomRight"
+                    Enabled="True" TargetControlID="TxtTodate" Format="dd-MM-yyyy">
+                </cc1:CalendarExtender>
+                &nbsp;<asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" 
+                    ControlToValidate="TxtTodate" ErrorMessage="*" 
+                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                    ValidationGroup="view"></asp:RegularExpressionValidator>
+                
+            &nbsp;&nbsp;
+                Emp Name
+            <asp:TextBox ID="TxtEmpName" runat="server" CssClass="box3" Width="250px"></asp:TextBox>
+            <cc1:AutoCompleteExtender ID="TxtEmpName_AutoCompleteExtender" runat="server" 
+                CompletionInterval="100" CompletionListCssClass="almt" 
+                CompletionListHighlightedItemCssClass="bgtext" CompletionListItemCssClass="bg" 
+                CompletionSetCount="2" DelimiterCharacters="" Enabled="True" 
+                FirstRowSelected="True" MinimumPrefixLength="1" 
+                ServiceMethod="GetCompletionList" ServicePath="" 
+                ShowOnlyCurrentWordInCompletionListItem="True" TargetControlID="TxtEmpName" 
+                UseContextKey="True">
+            </cc1:AutoCompleteExtender>
+              &nbsp;&nbsp;
+            <asp:Button ID="BtnSearch" runat="server" CssClass="redbox" 
+                onclick="BtnSearch_Click" Text="Search" ValidationGroup="view" />      
+                
+            <asp:SqlDataSource ID="SqlBGGroup" runat="server" 
+                ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                SelectCommand="SELECT [Id], [Symbol] As Symbol  FROM [BusinessGroup]">
+            </asp:SqlDataSource>                      
+        
+        
+        </td>
+        </tr>
+       
+       
+        <tr>
+        <td height="25px" valign="top">
+        
+        
+   
+        
+            <asp:Panel ID="Panel1" runat="server" Height="200px" ScrollBars="Both" 
+                Width="100%">
+                <asp:GridView ID="GridView2" runat="server" 
+                    AutoGenerateColumns="False" CssClass="yui-datatable-theme" Width="800px" 
+                    onrowcommand="GridView2_RowCommand">
+                    <FooterStyle 
+        Font-Bold="False" />
+                    <PagerSettings PageButtonCount="40" />
+                    <Columns>
+                        <asp:TemplateField HeaderText="SN">
+                            <ItemTemplate>
+                                <%# Container.DataItemIndex + 1%>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="3%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:LinkButton ID="BtnSel" runat="server" Text="Select" CommandName="Sel" />
+                            </ItemTemplate>
+                            <ItemStyle  HorizontalAlign="Center" Width="5%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Employee Name" >
+                            <ItemTemplate>
+                                <asp:Label ID="lblEmployeeName" runat="server" 
+                                    Text='<%# Bind("EmployeeName") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Left" Width="25%"  />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Id" Visible="False">
+                            <ItemTemplate>
+                                <asp:Label ID="lblId" runat="server" Text='<%# Bind("Id") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle VerticalAlign="Top" Width="2%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="EmpId" Visible="False">
+                            <ItemTemplate>
+                                <asp:Label ID="lblEmpId" runat="server" Text='<%# Bind("EmpId") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle VerticalAlign="Top" Width="4%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Designation" >
+                            <ItemTemplate>
+                                <asp:Label ID="lblDesignation" runat="server" Text='<%# Bind("Designation") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle  HorizontalAlign="Center" Width="8%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Date" >
+                            <ItemTemplate>
+                                <asp:Label ID="LblDate" runat="server" Text='<%# Bind("Date") %>' ></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle  HorizontalAlign="Center" Width="7%"/>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="WONo" >
+                            <ItemTemplate>
+                                <asp:Label ID="Lblwono" runat="server" Text='<%# Bind("WONo") %>' ></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle  HorizontalAlign="Center"   Width="7%"/>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="BG" >
+                            <ItemTemplate>
+                                <asp:Label ID="LblDept" runat="server" Text='<%# Bind("Dept") %>' ></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle  HorizontalAlign="Center"  Width="6%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Type" >
+                            <ItemTemplate>
+                                <asp:Label ID="LblType" runat="server" Text='<%# Bind("Types") %>' ></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle VerticalAlign="Top" HorizontalAlign="Center" Width="6%" />
+                        </asp:TemplateField>
+                    </Columns>
+                    <EmptyDataTemplate>
+                        <table width="100%" class="fontcss">
+                            <tr>
+                                <td align="center">
+                                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" 
+                            Font-Size="Larger" ForeColor="maroon"> </asp:Label>
+                                </td>
+                            </tr>
+                        </table>
+                    </EmptyDataTemplate>
+                    <HeaderStyle Font-Size="9pt" />
+                </asp:GridView>
+            </asp:Panel>
+       
+        </td>
+        </tr>
+       
+       
+         <tr>
+        <td>
+        
+        
+   
+        
+            <asp:Panel ID="Panel2" runat="server" Height="212px" ScrollBars="Both" Width="100%">
+           
+                <asp:GridView ID="GridView3" runat="server" AutoGenerateColumns="False" 
+                CssClass="yui-datatable-theme" 
+    Width="98%" 
+                    >
+                    <Columns>
+                        <asp:TemplateField HeaderText="SN">
+                            <ItemTemplate>
+                                <%# Container.DataItemIndex + 1%>
+                            </ItemTemplate>
+                            <ItemStyle 
+                        HorizontalAlign="Right" Width="3%" />
+                        </asp:TemplateField>
+                       
+                        <asp:TemplateField>
+                        <ItemTemplate>
+                        <asp:CheckBox ID="ck" runat="server" AutoPostBack="true" oncheckedchanged="ck_CheckedChanged" />
+                        </ItemTemplate>
+                        <ItemStyle HorizontalAlign="Center" Width="2%"></ItemStyle>
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="Equip No">
+                            <ItemTemplate>
+                                <asp:Label ID="lblEquipNo" runat="server" Text='<%# Bind("EquipNo") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="7%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Description">
+                            <ItemTemplate>
+                                <asp:Label ID="lblDescription" runat="server" Text='<%# Bind("Description") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Left" Width="20%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Cate.">
+                            <ItemTemplate>
+                                <asp:Label ID="lblCate" runat="server" Text='<%# Bind("Cate") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="7%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="SubCate">
+                            <ItemTemplate>
+                                <asp:Label ID="lblSubCate" runat="server" Text='<%# Bind("SubCate") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="7%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Planned">
+                            <ItemTemplate>
+                          <asp:Label ID="lblPlanned" runat="server" Text='<%# Bind("Planned") %>' >
+                          </asp:Label>                                
+                        <asp:TextBox ID="TxtPlanned" CssClass="box3" runat="server" Width="80%"
+                         Text='<%#Eval("Planned") %>' />
+                        <asp:RequiredFieldValidator ID="ReqPlanned" runat="server" ControlToValidate="TxtPlanned" 
+                        ValidationGroup="A" ErrorMessage="*">
+                        </asp:RequiredFieldValidator> 
+                                
+                            </ItemTemplate>
+                            
+                            <ItemStyle HorizontalAlign="Right" Width="20%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Actual">
+                            <ItemTemplate>
+                                <asp:Label ID="lblActual" runat="server" Text='<%# Bind("Actual") %>'></asp:Label>
+                                
+                                <asp:TextBox ID="TxtActual" CssClass="box3" runat="server" Width="80%" 
+                                Text='<%#Eval("Actual") %>' />
+                                <asp:RequiredFieldValidator ID="ReqActual" runat="server" 
+                                ControlToValidate="TxtActual" ValidationGroup="A"  ErrorMessage="*">
+                                </asp:RequiredFieldValidator>
+                                
+                            </ItemTemplate>
+                        
+                            <ItemStyle HorizontalAlign="Right" Width="20%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Hours">
+                            <ItemTemplate>
+                                <asp:Label ID="lblHrs" runat="server" Text='<%# Bind("Hrs") %>'></asp:Label>
+                                       
+                            <asp:TextBox ID="TxtHrs" CssClass="box3" runat="server" Width="70%" Text='<%#Eval("Hrs") %>' />
+                            <asp:RequiredFieldValidator ID="ReqHrs" runat="server" 
+                            ControlToValidate="TxtHrs" ValidationGroup="A" ErrorMessage="*">
+                            </asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator ID="RegHrs" runat="server"  ValidationGroup="A"                                                ControlToValidate="TxtHrs" ErrorMessage="*"
+                             ValidationExpression="^\d{1,15}(\.\d{0,3})?$">
+                            </asp:RegularExpressionValidator> 
+                                
+                                
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="5%" />
+                            
+                        </asp:TemplateField>
+                        <asp:TemplateField Visible="false" HeaderText="Id">
+                            <ItemTemplate>
+                                <asp:Label ID="lblId" runat="server" Text='<%# Bind("Id") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField Visible="false" HeaderText="MId">
+                            <ItemTemplate>
+                                <asp:Label ID="lblMId" runat="server" Text='<%# Bind("MId") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                           <asp:TemplateField Visible="false" HeaderText="WONo">
+                            <ItemTemplate>
+                                <asp:Label ID="lblWONo" runat="server" Text='<%# Bind("WONo") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                           <asp:TemplateField Visible="false" HeaderText="EquipId">
+                            <ItemTemplate>
+                                <asp:Label ID="lblEquipId" runat="server" Text='<%# Bind("EquipId") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                           <asp:TemplateField Visible="false" HeaderText="Cat">
+                            <ItemTemplate>
+                                <asp:Label ID="lblCat" runat="server" Text='<%# Bind("Cat") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField> 
+                        <asp:TemplateField Visible="false" HeaderText="SubCat">
+                            <ItemTemplate>
+                                <asp:Label ID="lblSubCat" runat="server" Text='<%# Bind("SubCat") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                    </Columns>
+                              <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                </asp:GridView>
+            </asp:Panel>
+                      
+        
+      </td>
+        
+        </tr>
+        <tr><td align="center" height="25" valign="middle">
+         
+            <asp:Button ID="btnUpdate" runat="server" CssClass="redbox" Text="Update" Visible="false"
+                onclick="btnUpdate_Click" />
+        </td></tr>
+        
+    </table>
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/ProjectManagement/Transactions/ManPowerPlanning_Edit.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Collections.Generic;
+
+public partial class Module_ProjectManagement_Transactions_ManPowerPlanning_Edit : System.Web.UI.Page
+{
+    Cal_Used_Hours CUH = new Cal_Used_Hours();
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    string SId = "";
+    int CompId = 0;
+    int FinYearId = 0;
+    string CDate = "";
+    string CTime = "";
+    string bgid = "0";
+    string EmpId = "";
+    string m = "0";
+    public static string Id = "0";
+
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        SId = Session["username"].ToString();
+        CompId = Convert.ToInt32(Session["compid"]);
+        FinYearId = Convert.ToInt32(Session["finyear"]);
+        connStr = fun.Connection();
+        con = new SqlConnection(connStr);
+
+        try
+        {
+            Txtfromdate.Attributes.Add("readonly", "readonly");
+            TxtTodate.Attributes.Add("readonly", "readonly");
+            if (!IsPostBack)
+            {
+                string cmdStr = fun.select("FinYearFrom, FinYearTo", "tblFinancial_master", "CompId='" + CompId + "' And FinYearId='" + FinYearId + "'");
+                SqlCommand cmd = new SqlCommand(cmdStr, con);
+                SqlDataAdapter DA = new SqlDataAdapter(cmd);
+                DataSet DS = new DataSet();
+                DA.Fill(DS, "Financial");
+                List<string> months = new List<string>();
+                months = fun.MonthRange(DS.Tables[0].Rows[0]["FinYearFrom"].ToString(), DS.Tables[0].Rows[0]["FinYearTo"].ToString());
+                int j = 4;
+                //  if (DropDownList1.Items.Count == 1)
+                {
+                    DrpMonths.Items.Clear();
+                    DrpMonths.Items.Add(new System.Web.UI.WebControls.ListItem("Select", "0"));
+                    for (int k = 0; k <= 8; k++)
+                    {
+                        DrpMonths.Items.Add(new System.Web.UI.WebControls.ListItem(months[k], j.ToString()));
+                        j++;
+                    }
+
+                    DrpMonths.Items.Add(new System.Web.UI.WebControls.ListItem("January", "1"));
+                    DrpMonths.Items.Add(new System.Web.UI.WebControls.ListItem("February", "2"));
+                    DrpMonths.Items.Add(new System.Web.UI.WebControls.ListItem("March", "3"));
+                }
+                this.getMasterGrid();
+
+                Id = "0";
+                this.getDetailGrid(Id);
+
+                this.GetValidate();
+            }
+
+        }
+        catch (Exception ex) { }
+
+    }
+
+    public void getMasterGrid()
+    {
+        try
+        {
+            string x = "";
+            if (TxtEmpName.Text != "")
+            {
+                x = " AND tblPM_ManPowerPlanning.EmpId='" + fun.getCode(TxtEmpName.Text) + "'";
+            }
+
+            string z = "";
+
+            int g = 0;
+            if (DrpMonths.SelectedValue != "0")
+            {
+                g = Convert.ToInt32(DrpMonths.SelectedValue);
+                z = " AND tblPM_ManPowerPlanning.Date Like '%-" + g.ToString("D2") + "-%'";
+
+            }
+
+            string y = string.Empty;
+            string w = string.Empty;
+            if (ddlSelectBG_WONo.SelectedValue == "1")
+            {
+                if (DrpCategory.SelectedValue != "1")
+                {
+                    y = " AND tblHR_OfficeStaff.BGGroup='" + DrpCategory.SelectedValue + "'";
+                }
+            }
+
+            if (ddlSelectBG_WONo.SelectedValue == "2")
+            {
+                if (TxtWONo.Text != "")
+                {
+                    w = " AND tblPM_ManPowerPlanning.WONo='" + TxtWONo.Text + "'";
+                }
+            }
+            string r = "";
+            if (Drptype.SelectedValue != "0")
+            {
+
+                r = " AND tblPM_ManPowerPlanning.Types='" + Drptype.SelectedValue + "'";
+
+            }
+            string date = "";
+
+            if (Txtfromdate.Text != "" && TxtTodate.Text != "")
+            {
+                date = "  And tblPM_ManPowerPlanning.Date between  '" + fun.FromDate(Txtfromdate.Text) + "' And '" + fun.FromDate(TxtTodate.Text) + "' ";
+            }
+
+            if (ddlSelectBG_WONo.SelectedValue == "1" && DrpCategory.SelectedValue == "1" || ddlSelectBG_WONo.SelectedValue == "2" && TxtWONo.Text == "")
+            {
+                string msgtxt = " BG.";
+                if (ddlSelectBG_WONo.SelectedValue == "2")
+                {
+                    msgtxt = " WONo.";
+                }
+
+                string mystring = string.Empty;
+                mystring = "Please Select" + msgtxt;
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+            }
+            else
+            {
+                DataTable dt = new DataTable();
+
+                dt.Columns.Add(new System.Data.DataColumn("EmployeeName", typeof(string)));//0
+                dt.Columns.Add(new System.Data.DataColumn("EmpId", typeof(string)));//1
+                dt.Columns.Add(new System.Data.DataColumn("Designation", typeof(string)));//2
+                dt.Columns.Add(new System.Data.DataColumn("Date", typeof(string)));//3
+                dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));//4
+                dt.Columns.Add(new System.Data.DataColumn("Dept", typeof(string)));//5
+                dt.Columns.Add(new System.Data.DataColumn("Types", typeof(string)));//6
+                dt.Columns.Add(new System.Data.DataColumn("Id", typeof(Int32)));//7
+
+                DataRow dr;
+
+                string sql = fun.select("*", "tblPM_ManPowerPlanning", " CompId='" + CompId + "'" + x + w + z + r + date + " Order by Date ASC");
+                SqlCommand cmd = new SqlCommand(sql, con);
+                SqlDataReader xrdr = cmd.ExecuteReader();
+
+                // Master Data
+
+                while (xrdr.Read())
+                {
+                    dr = dt.NewRow();
+
+                    string sql1 = "SELECT OfferId,Title+'. '+EmployeeName As EmpName, tblHR_Designation.Symbol FROM tblHR_OfficeStaff INNER JOIN tblHR_Designation ON tblHR_OfficeStaff.Designation = tblHR_Designation.Id AND tblHR_OfficeStaff.EmpId='" + xrdr["EmpId"].ToString() + "'" + y;
+                    SqlCommand cmd1 = new SqlCommand(sql1, con);
+                    SqlDataReader DS1 = cmd1.ExecuteReader();
+                    DS1.Read();
+
+                    dr[0] = DS1["EmpName"].ToString();
+                    dr[1] = xrdr["EmpId"].ToString();
+                    dr[2] = DS1["Symbol"].ToString();
+                    dr[3] = fun.FromDateDMY(xrdr["Date"].ToString());
+
+                    string wono = "";
+
+                    if (xrdr["WONo"] != DBNull.Value && xrdr["WONo"].ToString() != "")
+                    {
+                        wono = xrdr["WONo"].ToString();
+                    }
+                    else
+                    {
+                        wono = "NA";
+                    }
+
+                    dr[4] = wono;
+
+
+                    string sqlDept = fun.select("Symbol", "BusinessGroup", "Id='" + xrdr["Dept"] + "'");
+                    SqlCommand cmdDept = new SqlCommand(sqlDept, con);
+                    SqlDataReader DSDept = cmdDept.ExecuteReader();
+                    DSDept.Read();
+
+                    string dept = "";
+
+                    if (DSDept.HasRows == true)
+                    {
+                        dept = DSDept["Symbol"].ToString();
+                    }
+                    else
+                    {
+                        dept = "NA";
+                    }
+                    dr[5] = dept;
+
+                    switch (Convert.ToInt32(xrdr["Types"]))
+                    {
+                        case 1:
+                            dr[6] = "Present";
+                            break;
+                        case 2:
+                            dr[6] = "Absent";
+                            break;
+                        case 3:
+                            dr[6] = "Onsite";
+                            break;
+                        case 4:
+                            dr[6] = "PL";
+                            break;
+                    }
+
+                    dr[7] = Convert.ToInt32(xrdr["Id"]);
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+
+                GridView2.DataSource = dt;
+                GridView2.DataBind();
+            }
+
+        }
+        catch (Exception ex) { }
+
+    }
+
+    public void getDetailGrid(string id)
+    {
+        try
+        {
+            con.Open();
+            DataTable dt2 = new DataTable();
+
+            dt2.Columns.Add(new System.Data.DataColumn("EquipNo", typeof(string)));//0
+            dt2.Columns.Add(new System.Data.DataColumn("Description", typeof(string)));//1
+            dt2.Columns.Add(new System.Data.DataColumn("Cate", typeof(string)));//2
+            dt2.Columns.Add(new System.Data.DataColumn("SubCate", typeof(string)));//3
+            dt2.Columns.Add(new System.Data.DataColumn("Planned", typeof(string)));//4
+            dt2.Columns.Add(new System.Data.DataColumn("Actual", typeof(string)));//5
+            dt2.Columns.Add(new System.Data.DataColumn("Hrs", typeof(double)));//6
+            dt2.Columns.Add(new System.Data.DataColumn("Id", typeof(Int32)));//7
+            dt2.Columns.Add(new System.Data.DataColumn("MId", typeof(Int32)));//8
+            dt2.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));//9
+            dt2.Columns.Add(new System.Data.DataColumn("EquipId", typeof(Int32)));//10
+            dt2.Columns.Add(new System.Data.DataColumn("Cat", typeof(Int32)));//11   
+            dt2.Columns.Add(new System.Data.DataColumn("SubCat", typeof(Int32)));//12
+
+            DataRow dr2;
+
+            string sql2 = "SELECT  tblPM_ManPowerPlanning_Details.EquipId,tblPM_ManPowerPlanning_Details.Category As CatId,tblPM_ManPowerPlanning_Details.SubCategory As SubCatId,tblPM_ManPowerPlanning_Details.PlannedDesc,tblPM_ManPowerPlanning_Details.ActualDesc,tblPM_ManPowerPlanning_Details.Hour,tblPM_ManPowerPlanning_Details.Id,tblPM_ManPowerPlanning_Details.MId,tblMIS_BudgetHrs_Field_Category.Category, tblMIS_BudgetHrs_Field_SubCategory.SubCategory FROM  tblPM_ManPowerPlanning_Details INNER JOIN tblMIS_BudgetHrs_Field_Category ON tblPM_ManPowerPlanning_Details.Category = tblMIS_BudgetHrs_Field_Category.Id INNER JOIN tblMIS_BudgetHrs_Field_SubCategory ON tblPM_ManPowerPlanning_Details.SubCategory = tblMIS_BudgetHrs_Field_SubCategory.Id AND tblMIS_BudgetHrs_Field_Category.Id = tblMIS_BudgetHrs_Field_SubCategory.MId AND tblPM_ManPowerPlanning_Details.MId='" + id + "'";
+
+            SqlCommand cmd2 = new SqlCommand(sql2, con);
+            SqlDataReader xrdr2 = cmd2.ExecuteReader();
+
+            while (xrdr2.Read())
+            {
+                dr2 = dt2.NewRow();
+
+                string sql3 = fun.select("*", "tblDG_Item_Master", "Id='" + xrdr2["EquipId"] + "'");
+                SqlCommand cmd3 = new SqlCommand(sql3, con);
+                SqlDataReader xrdr3 = cmd3.ExecuteReader();
+                xrdr3.Read();
+                dr2[0] = xrdr3["ItemCode"].ToString();
+                dr2[1] = xrdr3["ManfDesc"].ToString();
+                dr2[2] = xrdr2["Category"].ToString();
+                dr2[3] = xrdr2["SubCategory"].ToString();
+                dr2[4] = xrdr2["PlannedDesc"].ToString();
+                dr2[5] = xrdr2["ActualDesc"].ToString();
+                dr2[6] = Convert.ToDouble(xrdr2["Hour"]);
+                dr2[7] = Convert.ToInt32(xrdr2["Id"]);
+                dr2[8] = Convert.ToInt32(xrdr2["MId"]);
+                string sql4 = fun.select("WONo", "tblPM_ManPowerPlanning", "Id='" + xrdr2["MId"] + "'");
+                SqlCommand cmd4 = new SqlCommand(sql4, con);
+                SqlDataReader xrdr4 = cmd4.ExecuteReader();
+                xrdr4.Read();
+                dr2[9] = xrdr4["WONo"].ToString();
+                dr2[10] = Convert.ToInt32(xrdr2["EquipId"]);
+                dr2[11] = Convert.ToInt32(xrdr2["CatId"]);
+                dr2[12] = Convert.ToInt32(xrdr2["SubCatId"]);
+                dt2.Rows.Add(dr2);
+                dt2.AcceptChanges();
+            }
+
+            GridView3.DataSource = dt2;
+            GridView3.DataBind();
+            con.Close();
+        }
+        catch (Exception et) { }
+
+    }
+
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "Sel")
+        {
+            GridViewRow grv = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+            string id = (((Label)grv.FindControl("lblId")).Text);
+            this.getDetailGrid(id);
+            ViewState["Id"] = id;
+            Id = ViewState["Id"].ToString();
+            this.GetValidate();
+            btnUpdate.Visible = true;
+        }
+    }
+
+    protected void BtnSearch_Click(object sender, EventArgs e)
+    {
+        con.Open();
+        this.getMasterGrid();
+        con.Close();
+        this.getDetailGrid("0");
+        btnUpdate.Visible = false;
+    }
+
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] GetCompletionList(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        con.Open();
+        int CompId = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        string cmdStr = fun.select("EmpId,EmployeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "'");
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds, "tblHR_OfficeStaff");
+        con.Close();
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                //if (main.Length == 10)
+                //    break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }
+
+    protected void ddlSelectBG_WONo_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (ddlSelectBG_WONo.SelectedValue == "0")
+        {
+            DrpCategory.Visible = false;
+            TxtWONo.Visible = false;
+            TxtWONo.Text = string.Empty;
+            DrpCategory.SelectedValue = "1";
+        }
+        if (ddlSelectBG_WONo.SelectedValue == "1")
+        {
+            DrpCategory.Visible = true;
+            TxtWONo.Visible = false;
+            TxtWONo.Text = string.Empty;
+        }
+        if (ddlSelectBG_WONo.SelectedValue == "2")
+        {
+            TxtWONo.Visible = true;
+            DrpCategory.Visible = false;
+            DrpCategory.SelectedValue = "1";
+        }
+    }
+
+    protected void ck_CheckedChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            CheckBox x = (CheckBox)sender;
+            GridViewRow grv = (GridViewRow)x.NamingContainer;
+            if (((CheckBox)grv.FindControl("ck")).Checked == true)
+            {
+                ((TextBox)grv.FindControl("TxtPlanned")).Visible = true;
+                ((Label)grv.FindControl("lblPlanned")).Visible = false;
+                ((RequiredFieldValidator)grv.FindControl("ReqPlanned")).Visible = true;
+
+                ((TextBox)grv.FindControl("TxtActual")).Visible = true;
+                ((Label)grv.FindControl("lblActual")).Visible = false;
+                ((RequiredFieldValidator)grv.FindControl("ReqActual")).Visible = true;
+
+                ((TextBox)grv.FindControl("TxtHrs")).Visible = true;
+                ((Label)grv.FindControl("lblHrs")).Visible = false;
+                ((RequiredFieldValidator)grv.FindControl("ReqHrs")).Visible = true;
+                ((RegularExpressionValidator)grv.FindControl("RegHrs")).Visible = true;
+
+                ((TextBox)grv.FindControl("TxtPlanned")).Text = ((Label)grv.FindControl("lblPlanned")).Text;
+                ((TextBox)grv.FindControl("TxtActual")).Text = ((Label)grv.FindControl("lblActual")).Text;
+                ((TextBox)grv.FindControl("TxtHrs")).Text = ((Label)grv.FindControl("lblHrs")).Text;
+
+
+
+            }
+            else if (((CheckBox)grv.FindControl("ck")).Checked == false)
+            {
+                ((TextBox)grv.FindControl("TxtPlanned")).Visible = false;
+                ((Label)grv.FindControl("lblPlanned")).Visible = true;
+                ((RequiredFieldValidator)grv.FindControl("ReqPlanned")).Visible = false;
+
+                ((TextBox)grv.FindControl("TxtActual")).Visible = false;
+                ((Label)grv.FindControl("lblActual")).Visible = true;
+                ((RequiredFieldValidator)grv.FindControl("ReqActual")).Visible = false;
+
+                ((Label)grv.FindControl("lblHrs")).Visible = true;
+                ((TextBox)grv.FindControl("TxtHrs")).Visible = false;
+                ((RequiredFieldValidator)grv.FindControl("ReqHrs")).Visible = false;
+                ((RegularExpressionValidator)grv.FindControl("RegHrs")).Visible = false;
+
+                ((TextBox)grv.FindControl("TxtPlanned")).Text = string.Empty;
+                ((TextBox)grv.FindControl("TxtActual")).Text = string.Empty;
+                ((TextBox)grv.FindControl("TxtHrs")).Text = string.Empty;
+
+            }
+
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    public void GetValidate()
+    {
+        foreach (GridViewRow grv in GridView3.Rows)
+        {
+            if (((CheckBox)grv.FindControl("ck")).Checked == true)
+            {
+                ((TextBox)grv.FindControl("TxtPlanned")).Visible = true;
+                ((Label)grv.FindControl("lblPlanned")).Visible = false;
+                ((RequiredFieldValidator)grv.FindControl("ReqPlanned")).Visible = true;
+
+                ((TextBox)grv.FindControl("TxtActual")).Visible = true;
+                ((Label)grv.FindControl("lblActual")).Visible = false;
+                ((RequiredFieldValidator)grv.FindControl("ReqActual")).Visible = true;
+
+                ((TextBox)grv.FindControl("TxtHrs")).Visible = true;
+                ((Label)grv.FindControl("lblHrs")).Visible = false;
+                ((RequiredFieldValidator)grv.FindControl("ReqHrs")).Visible = true;
+                ((RegularExpressionValidator)grv.FindControl("RegHrs")).Visible = true;
+
+            }
+            else
+            {
+                ((TextBox)grv.FindControl("TxtPlanned")).Visible = false;
+                ((Label)grv.FindControl("lblPlanned")).Visible = true;
+                ((RequiredFieldValidator)grv.FindControl("ReqPlanned")).Visible = false;
+
+                ((TextBox)grv.FindControl("TxtActual")).Visible = false;
+                ((Label)grv.FindControl("lblActual")).Visible = true;
+                ((RequiredFieldValidator)grv.FindControl("ReqActual")).Visible = false;
+
+                ((Label)grv.FindControl("lblHrs")).Visible = true;
+                ((TextBox)grv.FindControl("TxtHrs")).Visible = false;
+                ((RequiredFieldValidator)grv.FindControl("ReqHrs")).Visible = false;
+                ((RegularExpressionValidator)grv.FindControl("RegHrs")).Visible = false;
+            }
+        }
+    }
+    protected void btnUpdate_Click(object sender, EventArgs e)
+    {
+        try
+        {
+
+            CDate = fun.getCurrDate();
+            CTime = fun.getCurrTime();
+
+            double Hrs = 0;
+            string Actual = string.Empty;
+            string Planned = string.Empty;
+            int MId = 0;
+            int DId = 0;
+            int Amd_MId = 0;
+            double Hrs1 = 0;
+            string Actual1 = string.Empty;
+            string Planned1 = string.Empty;
+            int y = 0;
+            int x = 0;
+            int k = 0;
+            con.Open();
+            foreach (GridViewRow grv in GridView3.Rows)
+            {
+                if (((CheckBox)grv.FindControl("ck")).Checked == true)
+                {
+                    x++;
+                    if (((CheckBox)grv.FindControl("ck")).Checked == true && ((TextBox)grv.FindControl("TxtPlanned")).Text != "" && ((TextBox)grv.FindControl("TxtActual")).Text != "" && fun.NumberValidationQty(((TextBox)grv.FindControl("TxtHrs")).Text) == true && ((TextBox)grv.FindControl("TxtHrs")).Text != "")
+                    {
+                        Hrs1 = Convert.ToDouble(((TextBox)grv.FindControl("TxtHrs")).Text);
+                        Actual1 = ((TextBox)grv.FindControl("TxtActual")).Text;
+                        Planned1 = ((TextBox)grv.FindControl("TxtPlanned")).Text;
+                        if (Hrs1 > 0 && Hrs1 <= Convert.ToDouble(((Label)grv.FindControl("lblHrs")).Text))
+                        {
+                            y++;
+                        }
+                    }
+                }
+            }
+
+            if (x == y && y > 0)
+            {
+                int u = 1;
+
+                foreach (GridViewRow grv in GridView3.Rows)
+                {
+                    if (((CheckBox)grv.FindControl("ck")).Checked == true && ((TextBox)grv.FindControl("TxtPlanned")).Text != "" && ((TextBox)grv.FindControl("TxtActual")).Text != "" && fun.NumberValidationQty(((TextBox)grv.FindControl("TxtHrs")).Text) == true && ((TextBox)grv.FindControl("TxtHrs")).Text != "" && Convert.ToInt32(((Label)grv.FindControl("lblMId")).Text) != 0)
+                    {
+                        Hrs = Convert.ToDouble(((TextBox)grv.FindControl("TxtHrs")).Text);
+                        Actual = ((TextBox)grv.FindControl("TxtActual")).Text;
+                        Planned = ((TextBox)grv.FindControl("TxtPlanned")).Text;
+                        MId = Convert.ToInt32(((Label)grv.FindControl("lblMId")).Text);
+                        DId = Convert.ToInt32(((Label)grv.FindControl("lblId")).Text);
+                        if (Hrs > 0 && Hrs <= Convert.ToDouble(((Label)grv.FindControl("lblHrs")).Text))
+                        {
+                            if (u == 1)
+                            {
+                                //Amendment
+                                string sql = fun.select("Id ,SysDate,SysTime,SessionId,CompId,FinYearId,EmpId,Date,WONo,Dept,Types,AmendmentNo", "tblPM_ManPowerPlanning", "Id='" + MId + "'");
+                                SqlCommand cmd = new SqlCommand(sql, con);
+
+                                SqlDataReader xrdr = cmd.ExecuteReader();
+
+                                while (xrdr.Read())
+                                {
+
+                                    string Str = fun.insert("tblPM_ManPowerPlanning_Amd", "MId,SysDate,SysTime,SessionId,CompId,FinYearId,EmpId,Date,WONo,Dept,Types,AmendmentNo", "'" + MId + "','" + xrdr["SysDate"].ToString() + "','" + xrdr["SysTime"].ToString() + "','" + xrdr["SessionId"].ToString() + "','" + xrdr["CompId"].ToString() + "','" + xrdr["FinYearId"].ToString() + "','" + xrdr["EmpId"].ToString() + "','" + xrdr["Date"].ToString() + "','" + xrdr["WONo"].ToString() + "','" + xrdr["Dept"].ToString() + "','" + Convert.ToInt32(xrdr["Types"]) + "','" + Convert.ToInt32(xrdr["AmendmentNo"]) + "'");
+                                    SqlCommand Cmd = new SqlCommand(Str, con);
+                                    Cmd.ExecuteNonQuery();
+                                    u = 0;
+
+                                    string sqlAmd_MId = fun.select("Id", "tblPM_ManPowerPlanning_Amd", "CompId='" + CompId + "' Order by Id desc");
+                                    SqlCommand cmdAmd_MId = new SqlCommand(sqlAmd_MId, con);
+                                    SqlDataReader rdrAmd_MId = cmdAmd_MId.ExecuteReader();
+                                    while (rdrAmd_MId.Read())
+                                    {
+                                        if (rdrAmd_MId.HasRows)
+                                        {
+                                            Amd_MId = Convert.ToInt32(rdrAmd_MId["Id"].ToString());
+                                        }
+                                    }
+
+                                    //Update
+                                    int AmendmentNo = 0;
+                                    if (Convert.ToInt32(xrdr["AmendmentNo"]) > 0)
+                                    {
+                                        AmendmentNo = Convert.ToInt32(xrdr["AmendmentNo"].ToString()) + 1;
+                                    }
+                                    else
+                                    {
+                                        AmendmentNo = 1;
+                                    }
+                                    string Strup = fun.update("tblPM_ManPowerPlanning", "SysDate='" + CDate + "',SysTime='" + CTime + "',SessionId='" + SId + "',AmendmentNo='" + AmendmentNo + "'", " Id='" + MId + "'");
+                                    SqlCommand cmdup = new SqlCommand(Strup, con);
+                                    cmdup.ExecuteNonQuery();
+                                }
+                            }
+
+                            //Details
+                            string sqldup1 = fun.select("Id,MId,EquipId,Category,SubCategory ,PlannedDesc ,ActualDesc ,Hour", "tblPM_ManPowerPlanning_Details", "Id='" + DId + "'");
+                            SqlCommand cmdup1 = new SqlCommand(sqldup1, con);
+                            SqlDataReader rdrup1 = cmdup1.ExecuteReader();
+                            while (rdrup1.Read())
+                            {
+                                string StrDin = fun.insert("tblPM_ManPowerPlanning_Details_Amd", "MId,DMId,EquipId,Category,SubCategory ,PlannedDesc ,ActualDesc ,Hour", "'" + Amd_MId + "','" + rdrup1["Id"].ToString() + "','" + rdrup1["EquipId"].ToString() + "','" + rdrup1["Category"].ToString() + "','" + rdrup1["SubCategory"].ToString() + "','" + rdrup1["PlannedDesc"].ToString() + "','" + rdrup1["ActualDesc"].ToString() + "','" + Convert.ToDouble(rdrup1["Hour"].ToString()) + "'");
+                                SqlCommand CmdDin = new SqlCommand(StrDin, con);
+                                CmdDin.ExecuteNonQuery();
+                            }
+                            string Strupd = fun.update("tblPM_ManPowerPlanning_Details", "PlannedDesc='" + Planned + "' ,ActualDesc='" + Actual + "',Hour='" + Hrs + "'", "Id='" + DId + "'");
+                            SqlCommand cmdupd = new SqlCommand(Strupd, con);
+                            cmdupd.ExecuteNonQuery();
+                            k++;
+                        }
+
+                    }
+                }
+            }
+            else
+            {
+                string mystringmsg = string.Empty;
+                mystringmsg = "Invalid data input .";
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('" + mystringmsg + "');", true);
+            }
+            con.Close();
+            if (k > 0)
+            {
+                this.getDetailGrid(MId.ToString());
+                foreach (GridViewRow grv in GridView3.Rows)
+                {
+                    ((CheckBox)grv.FindControl("ck")).Checked = false;
+                }
+                this.GetValidate();
+            }
+
+
+        }
+        catch (Exception ex)
+        { }
+    }
+
+}

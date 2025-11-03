@@ -1,0 +1,249 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialCosting/Masters/Material_Edit.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Material_Edit.aspx.cs" Inherits="Module_MaterialCosting_Material_Edit" Title="ERP" Theme ="Default"  %>
+
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script> 
+        
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+    <table width="40%" cellpadding="0"  align="center" cellspacing="0">
+        <tr>
+            <td>
+                <table align="center" cellpadding="0" cellspacing="0" Width="100%" >
+                    
+                    <tr>
+                        <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>
+                            &nbsp;Material Live Cost - Edit</b></td>
+                    </tr>
+                    <tr>
+                        <td>
+                <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" Width="100%" 
+                    DataKeyNames="Id" DataSourceID="LocalSqlServer" 
+                    CssClass="yui-datatable-theme" onrowcommand="GridView1_RowCommand" 
+                    onrowdeleted="GridView1_RowDeleted" onrowupdated="GridView1_RowUpdated" 
+                    AllowPaging="True" PageSize="10" onrowdatabound="GridView1_RowDataBound">
+                    <Columns>
+                        <asp:CommandField ShowEditButton="True"  ButtonType="Link" ValidationGroup="abc">
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:CommandField>
+                    <asp:TemplateField HeaderText="SN" ItemStyle-HorizontalAlign="Center"><ItemTemplate> <%# Container.DataItemIndex + 1%> </ItemTemplate>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Id" SortExpression="Id" Visible="False">
+                            
+                            <ItemTemplate>
+                                <asp:Label ID="lblID" runat="server" Text='<%#Eval("Id") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="Material Name" SortExpression="Material Name">
+                        <ItemTemplate>
+                        <asp:Label ID="lblMaterial" runat="server" Text='<%#Eval("Material") %>'>    </asp:Label>
+                        </ItemTemplate>                        
+                            <ItemStyle Width="45%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Eff Date" SortExpression="EffDate">
+                        <ItemTemplate>
+                        <asp:Label ID="lblEffDate" runat="server" Text='<%#Eval("EffDate") %>'>    </asp:Label>
+                        </ItemTemplate>
+                        <EditItemTemplate>
+                        <asp:TextBox ID="TxtDate" runat="server" CssClass="box3" Width="100"  Text='<%#Bind("EffDate")%>' ></asp:TextBox>
+                <cc1:CalendarExtender ID="TxtDate_CalendarExtender" runat="server" 
+                    Enabled="True" Format="dd-MM-yyyy" TargetControlID="TxtDate">
+                </cc1:CalendarExtender>
+                     
+              <asp:RequiredFieldValidator ID="ReqDate" runat="server" ValidationGroup="abc" ControlToValidate="TxtDate" ErrorMessage="*"></asp:RequiredFieldValidator>
+                        </EditItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="Live Cost" SortExpression="LiveCost">
+                        <ItemTemplate>
+                        <asp:Label ID="lblLiveCost" runat="server" Text='<%#Eval("LiveCost") %>'>    </asp:Label>
+                        </ItemTemplate>
+                        <EditItemTemplate>
+                        <asp:TextBox ID="txtLiveCost" runat="server" Width="100" CssClass="box3" Text='<%#Bind("LiveCost") %>'>
+                        </asp:TextBox>
+                         <asp:RequiredFieldValidator ID="ReqLiveCost" runat="server" ValidationGroup="abc" ControlToValidate="txtLiveCost" ErrorMessage="*"></asp:RequiredFieldValidator>
+                        </EditItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" />
+                        </asp:TemplateField>
+                      
+                        
+                    </Columns>
+           <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                </asp:GridView>
+                <asp:SqlDataSource ID="LocalSqlServer" runat="server" 
+                    ConnectionString="<%$ ConnectionStrings:LocalSqlServer%>" 
+                    
+                    SelectCommand="SELECT tblMLC_LiveCost.Id, tblDG_Material.Material, REPLACE(CONVERT (varchar, CONVERT (datetime, SUBSTRING(tblMLC_LiveCost.EffDate, CHARINDEX('-', tblMLC_LiveCost.EffDate) + 1, 2) + '-' + LEFT (tblMLC_LiveCost.EffDate, CHARINDEX('-', tblMLC_LiveCost.EffDate) - 1) + '-' + RIGHT (tblMLC_LiveCost.EffDate, CHARINDEX('-', REVERSE(tblMLC_LiveCost.EffDate)) - 1)), 103), '/', '-') AS EffDate, tblMLC_LiveCost.LiveCost FROM tblMLC_LiveCost INNER JOIN tblDG_Material ON tblMLC_LiveCost.Material = tblDG_Material.Id order by Id Desc " 
+                    DeleteCommand="DELETE FROM [tblMLC_LiveCost] WHERE [Id] = @Id" 
+                    InsertCommand="INSERT INTO [tblMLC_LiveCost] ([Material], [EffDate], [LiveCost]) VALUES (@Material, @EffDate, @LiveCost)" 
+                    
+                    UpdateCommand="UPDATE [tblMLC_LiveCost] SET  [SysDate]=@SysDate,[SysTime]=@SysTime,[CompId]=@CompId,[FinYearId]=@FinYearId,[SessionId]=@SessionId,  [EffDate] = @EffDate, [LiveCost] = @LiveCost WHERE [Id] = @Id">
+                    <DeleteParameters>
+                        <asp:Parameter Name="Id" Type="Int32" />
+                    </DeleteParameters>
+                    <UpdateParameters>
+                    <asp:Parameter Name="SysDate" Type="String" />
+                    <asp:Parameter Name="SysTime" Type="String" />
+                    <asp:Parameter Name="CompId" Type="Int32" />
+                    <asp:Parameter Name="FinYearId" Type="Int32" />
+                    <asp:Parameter Name="SessionId" Type="String" />
+                       
+                        <asp:Parameter Name="EffDate" Type="String" />
+                        <asp:Parameter Name="LiveCost" Type="String" />
+                        <asp:Parameter Name="Id" Type="Int32" />
+                    </UpdateParameters>
+                    <InsertParameters>
+                        <asp:Parameter Name="Material" Type="Int32" />
+                        <asp:Parameter Name="EffDate" Type="String" />
+                        <asp:Parameter Name="LiveCost" Type="String" />
+                    </InsertParameters>
+                </asp:SqlDataSource>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <asp:Label ID="lblMessage" runat="server" Text="Label"></asp:Label>
+                <br />
+            </td>
+        </tr>
+        
+          <tr>
+            <td align="center" valign="top">
+                &nbsp;</td>
+        </tr>
+    </table>
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialCosting/Masters/Material_Edit.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_MaterialCosting_Material_Edit : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        lblMessage.Text = "";
+
+    }
+    protected void GridView1_RowUpdated(object sender, GridViewUpdatedEventArgs e)
+    {
+        lblMessage.Text = "Record Updated";
+
+    }
+    protected void GridView1_RowDeleted(object sender, GridViewDeletedEventArgs e)
+    {
+        lblMessage.Text = "Record Deleted";
+    }
+
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        string CDate = fun.getCurrDate();
+        string CTime = fun.getCurrTime();
+        try
+        {
+            string sId = Session["username"].ToString();
+            string CompId = Session["compid"].ToString();
+            string FinYearId = Session["finyear"].ToString();
+
+            if (e.CommandName == "Update")
+            {
+
+                int rowIndex = Convert.ToInt32(e.CommandArgument); 
+                GridViewRow row = GridView1.Rows[rowIndex];                
+                string strdate = ((TextBox)row.FindControl("TxtDate")).Text;
+                string strcost = ((TextBox)row.FindControl("txtLiveCost")).Text;
+                if (strdate != "" && strcost!="")
+                {
+                LocalSqlServer.UpdateParameters["SySDate"].DefaultValue = CDate;
+                LocalSqlServer.UpdateParameters["SysTime"].DefaultValue = CTime;
+                LocalSqlServer.UpdateParameters["CompId"].DefaultValue = CompId;
+                LocalSqlServer.UpdateParameters["FinYearId"].DefaultValue = FinYearId;
+
+                LocalSqlServer.UpdateParameters["SessionId"].DefaultValue = sId;
+
+                LocalSqlServer.UpdateParameters["EffDate"].DefaultValue = strdate;
+                LocalSqlServer.UpdateParameters["LiveCost"].DefaultValue = strcost;
+                LocalSqlServer.Update();
+                }
+            }
+
+
+        }
+        catch (Exception ex)
+        { }
+    }
+
+
+
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton edit = (LinkButton)e.Row.Cells[0].Controls[0];
+                edit.Attributes.Add("onclick", "return confirmationUpdate();");
+
+            }
+
+           
+        }
+        catch (Exception ex) { }
+    }
+}

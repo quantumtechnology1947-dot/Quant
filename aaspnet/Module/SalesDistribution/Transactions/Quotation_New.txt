@@ -1,0 +1,443 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Transactions/Quotation_New.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Quotation_New.aspx.cs" Inherits="Module_SalesDistribution_Transactions_Quotation_New" Title="ERP" Theme ="Default" %>
+
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+<script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+<table width="100%" align="center" cellpadding="0" cellspacing="0" Class="fontcss">
+        <tr>
+            <td>
+                <table width="100%" align="center" cellpadding="0" cellspacing="0">
+                    <tr height="21">
+                        <td style="background:url(../../../images/hdbg.JPG)" class="fontcsswhite" ><strong>&nbsp;Customer 
+                            Quotation - New</strong></td>
+                    </tr>
+
+                    <tr height="21">
+                        <td class="fontcsswhite" height="25" >
+            
+                <asp:DropDownList ID="DropDownList1" runat="server" Width="200px" 
+                    CssClass="box3" 
+                    onselectedindexchanged="DropDownList1_SelectedIndexChanged" 
+                    AutoPostBack="True">
+                    <asp:ListItem Value="Selct">Select</asp:ListItem>
+                    <asp:ListItem Value="0">Customer Name</asp:ListItem>
+                    <asp:ListItem Value="1">Enquiry No</asp:ListItem>
+                </asp:DropDownList>
+            
+                <asp:TextBox ID="txtEnqId" runat="server"  CssClass="box3"
+                    Width="150px"></asp:TextBox>
+                 <asp:TextBox ID="TxtSearchValue" runat="server" CssClass="box3" Width="350px"></asp:TextBox>
+                      <cc1:AutoCompleteExtender ID="TxtSearchValue_AutoCompleteExtender" 
+                    runat="server" CompletionInterval="100" CompletionSetCount="1" 
+                                            DelimiterCharacters="" Enabled="True" FirstRowSelected="True" 
+                                            MinimumPrefixLength="1" ServiceMethod="sql" ServicePath="" 
+                                            ShowOnlyCurrentWordInCompletionListItem="True" 
+                                            TargetControlID="TxtSearchValue" UseContextKey="True" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                </cc1:AutoCompleteExtender> 
+                
+        <asp:Button ID="btnSearch" runat="server" 
+            Text="Search" CssClass="redbox" onclick="btnSearch_Click"  />
+                        &nbsp;<asp:Label ID="Label2" runat="server" ForeColor="#CC3300" 
+                                style="font-weight: 700"></asp:Label>
+                        </td>
+                    </tr>
+
+             <tr>
+            <td class="fontcss">
+                     
+                <asp:GridView ID="SearchGridView1" runat="server" AllowPaging="True" 
+                    AllowSorting="True" AutoGenerateColumns="False"  CssClass="yui-datatable-theme"
+                    DataKeyNames="EnqId" RowStyle-HorizontalAlign ="Center" PageSize="20"
+                    onpageindexchanging="SearchGridView1_PageIndexChanging" Width="100%" onrowcommand="SearchGridView1_RowCommand" 
+>
+            
+            <RowStyle />
+                                <Columns>
+                                <asp:TemplateField HeaderText="SN" ItemStyle-HorizontalAlign="Right"><ItemTemplate><%# Container.DataItemIndex+1 %></ItemTemplate>
+
+<ItemStyle HorizontalAlign="Right" Width="3%" ></ItemStyle>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Fin Yrs">
+                                        <ItemTemplate>
+                                            <asp:Label ID="Label6" runat="server" Text='<%# Bind("FinYear") %>'></asp:Label>
+                                        </ItemTemplate>
+                                        <EditItemTemplate>
+                                            <asp:TextBox ID="TextBox6" runat="server" Text='<%# Bind("FinYear") %>'></asp:TextBox>
+                                        </EditItemTemplate>
+                                        <ItemStyle Width="7%" />
+                                    </asp:TemplateField>
+                                    <asp:TemplateField>
+                                    <ItemTemplate>
+                                    <asp:LinkButton CommandName="Select" ID="Select" Text="Select" runat="server"></asp:LinkButton>
+                                    </ItemTemplate>
+                                        <ItemStyle HorizontalAlign="Center" Width="4%" />
+                                    </asp:TemplateField>
+
+                                    <asp:TemplateField HeaderText="Enquiry No">
+                                        <ItemTemplate>
+                                        <asp:Label ID="Label10" runat="server" Text='<%# Bind("EnqId") %>'></asp:Label>                                  </ItemTemplate>
+                                        <ItemStyle HorizontalAlign="Right" />
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Customer Name">
+                                        <ItemTemplate>
+                                            <asp:Label ID="Label1" runat="server" Text='<%# Bind("CustomerName") %>'></asp:Label>
+                                        </ItemTemplate>
+                                        <EditItemTemplate>
+                                            <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("CustomerName") %>'></asp:TextBox>
+                                        </EditItemTemplate>
+                                        <ItemStyle HorizontalAlign="Left" Width="35%" />
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Code">
+                                        <ItemTemplate>
+                                            <asp:Label ID="Label2" runat="server" Text='<%# Bind("CustomerId") %>'></asp:Label>
+                                        </ItemTemplate>
+                                        <EditItemTemplate>
+                                            <asp:TextBox ID="TextBox2" runat="server" Text='<%# Bind("CustomerId") %>'></asp:TextBox>
+                                        </EditItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="No. of Quo.">
+                                        <ItemTemplate>
+                                            <asp:Label ID="Label3" runat="server" Text='<%# Bind("Quotation") %>'></asp:Label>
+                                        </ItemTemplate>
+                                        <EditItemTemplate>
+                                            <asp:TextBox ID="TextBox3" runat="server" Text='<%# Bind("Quotation") %>'></asp:TextBox>
+                                        </EditItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Gen Date">
+                                        <ItemTemplate>
+                                            <asp:Label ID="Label4" runat="server" Text='<%# Bind("SysDate") %>'></asp:Label>
+                                        </ItemTemplate>
+                                        <EditItemTemplate>
+                                            <asp:TextBox ID="TextBox4" runat="server" Text='<%# Bind("SysDate") %>'></asp:TextBox>
+                                        </EditItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Gen By">
+                                        <ItemTemplate>
+                                            <asp:Label ID="Label5" runat="server" Text='<%# Bind("EmployeeName") %>'></asp:Label>
+                                        </ItemTemplate>
+                                        <EditItemTemplate>
+                                            <asp:TextBox ID="TextBox5" runat="server" Text='<%# Bind("EmployeeName") %>'></asp:TextBox>
+                                        </EditItemTemplate>
+                                        <ItemStyle HorizontalAlign="Left" Width="30%" />
+                                    </asp:TemplateField>
+                                </Columns>
+                                <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+        </asp:GridView>
+
+            </td>
+             </tr>
+              </table>
+            </td>
+        </tr>
+        
+        </table>
+
+    </asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Transactions/Quotation_New.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_SalesDistribution_Transactions_Quotation_New : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string sId = "";
+    int CompId = 0;
+    int FinYearId = 0;
+    string CId = "";
+    string Eid = "";
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        try
+        {
+            sId = Session["username"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            if (!Page.IsPostBack)
+            {
+                txtEnqId.Visible = false;
+                this.BindDataCust(CId, Eid);
+            }
+            Label2.Text = "";
+            if (!String.IsNullOrEmpty(Request.QueryString["msg"]))
+            {
+                Label2.Text = Request.QueryString["msg"].ToString();
+            }
+            con.Open();
+            string strDelete = fun.delete("SD_Cust_Quotation_Details_Temp", "SessionId='" + sId + "' and CompId='" + CompId + "' and FinYearId ='" + FinYearId + "'");
+            SqlCommand cmddelete = new SqlCommand(strDelete, con);
+            cmddelete.ExecuteNonQuery();
+
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+
+            con.Close();
+        }
+
+    }
+    protected void SearchGridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            SearchGridView1.PageIndex = e.NewPageIndex;
+            this.BindDataCust(CId, Eid);
+        }
+        catch (Exception ex)
+        {
+        }
+
+    }
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            this.BindDataCust(TxtSearchValue.Text, txtEnqId.Text);
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    public void BindDataCust(string Cid, string EID)
+    {
+        try
+        {
+            string sId = Session["username"].ToString();
+            int FinYearId = Convert.ToInt32(Session["finyear"]);
+            int CompId = Convert.ToInt32(Session["compid"]);
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+
+            DataTable dt = new DataTable();
+            con.Open();
+
+            string x = "";
+            if (DropDownList1.SelectedValue == "0")
+            {
+                if (TxtSearchValue.Text != "")
+                {
+                    x = " AND CustomerId='" + fun.getCode(TxtSearchValue.Text) + "'";
+                }
+            }
+
+            if (DropDownList1.SelectedValue == "Select")
+            {
+                txtEnqId.Visible = true;              
+                TxtSearchValue.Visible = false;
+            }
+        
+            if (DropDownList1.SelectedValue == "1")
+            {
+                if (txtEnqId.Text != "")
+                {
+                    x = " AND EnqId='" + txtEnqId.Text + "'";
+                }
+            }
+
+            string StrCust = fun.select("Flag,EnqId,FinYearId ,CustomerName,CustomerId,SessionId,REPLACE(CONVERT(varchar, CONVERT(datetime, SUBSTRING(SD_Cust_Enquiry_Master.SysDate, CHARINDEX('-', SD_Cust_Enquiry_Master.SysDate) + 1, 2) + '-' + LEFT(SD_Cust_Enquiry_Master.SysDate,CHARINDEX('-', SD_Cust_Enquiry_Master.SysDate) - 1) + '-' + RIGHT(SD_Cust_Enquiry_Master.SysDate, CHARINDEX('-', REVERSE(SD_Cust_Enquiry_Master.SysDate)) - 1)), 103), '/', '-')AS SysDate", "SD_Cust_Enquiry_Master", "CustomerId!='' AND FinYearId<='" + FinYearId + "' AND CompId='" + CompId + "'" + x + "Order by EnqId Desc");
+
+            SqlCommand cmdCust = new SqlCommand(StrCust, con);
+            SqlDataAdapter daCust = new SqlDataAdapter(cmdCust);
+            DataSet DSCust = new DataSet();
+            daCust.Fill(DSCust);           
+            dt.Columns.Add(new System.Data.DataColumn("FinYear", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("CustomerName", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("CustomerId", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("EnqId", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("SysDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("EmployeeName", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Quotation", typeof(int)));
+            DataRow dr;
+            for (int i = 0; i < DSCust.Tables[0].Rows.Count; i++)
+            {
+
+                dr = dt.NewRow();
+                if (DSCust.Tables[0].Rows.Count > 0)
+                {
+                    string stryr = fun.select("FinYear", "tblFinancial_master", "FinYearId='" + DSCust.Tables[0].Rows[i]["FinYearId"].ToString() + "'");
+                    SqlCommand cmdyr = new SqlCommand(stryr, con);
+                    SqlDataAdapter dayr = new SqlDataAdapter(cmdyr);
+                    DataSet DSyr = new DataSet();
+                    dayr.Fill(DSyr);
+
+                    string strEmp = fun.select("Title+'.'+EmployeeName As EmpLoyeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + DSCust.Tables[0].Rows[i]["SessionId"] + "'");
+
+                    SqlCommand cmdEmp = new SqlCommand(strEmp, con);
+                    SqlDataAdapter daEmp = new SqlDataAdapter(cmdEmp);
+                    DataSet DSEmp = new DataSet();
+                    daEmp.Fill(DSEmp);
+                    if (DSyr.Tables[0].Rows.Count > 0)
+                    {
+                        dr[0] = DSyr.Tables[0].Rows[0]["FinYear"].ToString();
+                    }
+
+                    string sql = fun.select(" count(QuotationNo) As Quotation", " SD_Cust_Quotation_Master  ", "EnqId='" + DSCust.Tables[0].Rows[i]["EnqId"].ToString() + "'  group by EnqId");
+                    SqlCommand cmd = new SqlCommand(sql,con);
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataSet ds = new DataSet();
+                    da.Fill(ds);
+
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        dr[6] = Convert.ToInt32(ds.Tables[0].Rows[0]["Quotation"]);
+                    }
+                    else
+                    {
+                        dr[6] = 0;
+                    }
+
+                    dr[1] = DSCust.Tables[0].Rows[i]["CustomerName"].ToString();
+                    dr[2] = DSCust.Tables[0].Rows[i]["CustomerId"].ToString();
+                    dr[3] = DSCust.Tables[0].Rows[i]["EnqId"].ToString();
+                    dr[4] = DSCust.Tables[0].Rows[i]["SysDate"].ToString();
+
+                   
+                    if (DSEmp.Tables[0].Rows.Count > 0)
+                    {
+                        dr[5] = DSEmp.Tables[0].Rows[0]["EmployeeName"].ToString();
+                    }
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                     
+                }
+            }
+
+            SearchGridView1.DataSource = dt;
+            SearchGridView1.DataBind();
+            con.Close();
+        }
+
+        catch (Exception ex)
+        { }
+    }
+
+
+
+    protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (DropDownList1.SelectedValue == "0")
+        {
+            txtEnqId.Visible = false;
+            TxtSearchValue.Visible = true;
+            TxtSearchValue.Text = "";
+            this.BindDataCust(CId, Eid);
+        }
+
+
+        if (DropDownList1.SelectedValue == "1" || DropDownList1.SelectedValue == "Select")
+        {
+            txtEnqId.Visible = true;
+            TxtSearchValue.Visible = false;
+            txtEnqId.Text = "";
+            this.BindDataCust(CId, Eid);
+        }
+
+
+    }
+
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] sql(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        int CompId = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        con.Open();
+        string cmdStr = fun.select("CustomerId,CustomerName", "SD_Cust_master", "CompId='" + CompId + "'");
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds, "SD_Cust_master");
+        con.Close();
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                //if (main.Length == 10)
+                //    break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }
+
+    protected void SearchGridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            if (e.CommandName == "Select")
+            {
+                GridViewRow grv = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+
+                string CustomerId = ((Label)grv.FindControl("Label2")).Text;
+                string EnqId = ((Label)grv.FindControl("Label10")).Text;
+
+                Response.Redirect("~/Module/SalesDistribution/Transactions/Quotation_New_Details.aspx?CustomerId=" + CustomerId + "&EnqId=" + EnqId + "&ModId=2&SubModId=63");
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+
+           
+        }
+    }
+}

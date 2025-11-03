@@ -1,0 +1,882 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Transactions/PO_PR_Print_Page.aspx.txt ===
+
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="PO_PR_Print_Page.aspx.cs" Inherits="Module_MaterialManagement_Transactions_PO_PR_Print_Page" Theme="Default" %>
+
+<%@ Register Assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"
+    Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>ERP</title>
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</head>
+<body style="margin-bottom:0; margin-left:0; margin-right:0; margin-top:0;">
+    <form id="form1" runat="server">
+   <CR:CrystalReportSource ID="CrystalReportSource1" runat="server">
+        <Report FileName="~/Module/MaterialManagement/Transactions/Reports/PO.rpt"></Report>
+    </CR:CrystalReportSource>
+    <CR:CrystalReportViewer ID="CrystalReportViewer1" HasCrystalLogo="False"
+    runat="server" AutoDataBind="true" ReportSourceID="CrystalReportSource1" 
+    DisplayGroupTree="False" EnableDatabaseLogonPrompt="False" 
+    EnableParameterPrompt="False"/>       
+    </form>
+</body>
+</html>
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Transactions/PO_PR_Print_Page.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using CrystalDecisions.CrystalReports.Engine;
+using System.Data.SqlClient;
+using System.Text;
+
+public partial class Module_MaterialManagement_Transactions_PO_PR_Print_Page : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    private ReportDocument report = new ReportDocument();
+    string SupCode = "";
+    string PoNo = "";
+    int cId = 0;
+    string MId = "";
+    int Country = 0;
+    int AmdNo = 0;
+    int DBAmdNo = 0;
+    string Key = string.Empty;
+
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+           try
+            {
+                MId = Request.QueryString["mid"].ToString();
+                cId = Convert.ToInt32(Session["compid"]);
+                PoNo = Request.QueryString["pono"].ToString();
+                SupCode = Request.QueryString["Code"].ToString();
+                AmdNo = Convert.ToInt32(Request.QueryString["AmdNo"].ToString());
+                Key = Request.QueryString["Key"].ToString();
+               this.loaddata();
+            }
+            catch (Exception ex) { }
+
+        }
+
+        else
+        {
+            Key = Request.QueryString["Key"].ToString();
+            ReportDocument doc = (ReportDocument)Session[Key];
+            CrystalReportViewer1.ReportSource = doc;
+        }
+    }
+
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        report = new ReportDocument();
+    }
+
+    public void loaddata()
+    {
+        string connStr1 = fun.Connection();
+        SqlConnection myConnection = new SqlConnection(connStr1);
+        myConnection.Open();
+        DataSet PoSpr = new DataSet();
+        DataTable dt = new DataTable();
+
+        try
+        {
+
+            DataSet ds33 = new DataSet();
+            int p = 0;
+            string selectQuery = "";
+            string selectQuery3 = "";
+            string StrAmdNo = fun.select("AmendmentNo", "tblMM_PO_Master", "Id ='" + MId + "'");
+            SqlCommand cmdAmdNo = new SqlCommand(StrAmdNo, myConnection);
+            SqlDataAdapter DAAmdNo = new SqlDataAdapter(cmdAmdNo);
+            DataSet DSAmdNo = new DataSet();
+            DAAmdNo.Fill(DSAmdNo);
+            if (DSAmdNo.Tables[0].Rows.Count > 0)
+            {
+                DBAmdNo = Convert.ToInt32(DSAmdNo.Tables[0].Rows[0][0]);
+                if (AmdNo == DBAmdNo)
+                {
+                    selectQuery = fun.select("tblMM_PO_Details.Id As PODId,tblMM_PO_Master.Insurance,tblMM_PO_Master.AuthorizeDate,tblMM_PO_Master.ApproveDate,tblMM_PO_Master.SysDate,tblMM_PO_Master.CheckedDate,tblMM_PO_Master.ReferenceDate,tblMM_PO_Master.CheckedBy,tblMM_PO_Master.ApprovedBy,tblMM_PO_Master.AuthorizedBy,tblMM_PO_Master.Id,tblMM_PO_Master.PONo,tblMM_PO_Master.ModeOfDispatch,tblMM_PO_Master.Inspection,tblMM_PO_Master.Remarks,tblMM_PO_Master.ShipTo,tblMM_PO_Master.Reference,tblMM_PO_Master.ReferenceDesc,tblMM_PO_Master.AmendmentNo,tblMM_PO_Details.Qty,tblMM_PO_Details.Rate,tblMM_PO_Details.Discount,tblMM_PO_Details.DelDate,tblMM_PO_Master.SupplierId,tblMM_PO_Master.Freight,tblMM_PO_Master.Octroi,tblMM_PO_Master.Warrenty,tblMM_PO_Master.PaymentTerms,tblMM_PO_Details.PF,tblMM_PO_Details.ExST,tblMM_PO_Details.VAT,tblMM_PO_Details.PRId,tblMM_PO_Details.BudgetCode,tblMM_PO_Details.AddDesc,TC", "tblMM_PO_Master,tblMM_PO_Details ", " tblMM_PO_Master.Id=tblMM_PO_Details.MId AND tblMM_PO_Details.MId='" + MId + "' And tblMM_PO_Master.CompId='" + cId + "' AND tblMM_PO_Master.Id='" + MId + "'");
+
+                    
+                }
+                else
+                {
+
+                    selectQuery = fun.select("tblMM_PO_Amd_Master.Id,tblMM_PO_Amd_Details.PODId As PODId,tblMM_PO_Amd_Master.Insurance,tblMM_PO_Amd_Master.AuthorizeDate,tblMM_PO_Amd_Master.ApproveDate,tblMM_PO_Amd_Master.SysDate,tblMM_PO_Amd_Master.CheckedDate,tblMM_PO_Amd_Master.ReferenceDate,tblMM_PO_Amd_Master.CheckedBy,tblMM_PO_Amd_Master.ApprovedBy,tblMM_PO_Amd_Master.AuthorizedBy,tblMM_PO_Amd_Master.Id,tblMM_PO_Amd_Master.PONo,tblMM_PO_Amd_Master.ModeOfDispatch,tblMM_PO_Amd_Master.Inspection,tblMM_PO_Amd_Master.Remarks,tblMM_PO_Amd_Master.ShipTo,tblMM_PO_Amd_Master.Reference,tblMM_PO_Amd_Master.ReferenceDesc,tblMM_PO_Amd_Master.AmendmentNo,tblMM_PO_Amd_Details.Qty,tblMM_PO_Amd_Details.Rate,tblMM_PO_Amd_Details.Discount,tblMM_PO_Amd_Details.DelDate,tblMM_PO_Amd_Master.SupplierId,tblMM_PO_Amd_Master.Freight,tblMM_PO_Amd_Master.Octroi,tblMM_PO_Amd_Master.Warrenty,tblMM_PO_Amd_Master.PaymentTerms,tblMM_PO_Amd_Details.PF,tblMM_PO_Amd_Details.ExST,tblMM_PO_Amd_Details.VAT,tblMM_PO_Amd_Details.PRId,tblMM_PO_Amd_Details.BudgetCode,tblMM_PO_Amd_Details.AddDesc,TC", "tblMM_PO_Amd_Master,tblMM_PO_Amd_Details ", " tblMM_PO_Amd_Master.Id=tblMM_PO_Amd_Details.MId And tblMM_PO_Amd_Master.CompId='" + cId + "' AND tblMM_PO_Amd_Master.POId='" + MId + "' AND tblMM_PO_Amd_Master.AmendmentNo='" + AmdNo + "'");
+
+                    
+                }
+
+                if ((AmdNo - 1) >= 0)
+                {
+                    selectQuery3 = fun.select("tblMM_PO_Amd_Master.Id,tblMM_PO_Amd_Master.Insurance,tblMM_PO_Amd_Master.AuthorizeDate,tblMM_PO_Amd_Master.ApproveDate,tblMM_PO_Amd_Master.SysDate,tblMM_PO_Amd_Master.CheckedDate,tblMM_PO_Amd_Master.ReferenceDate,tblMM_PO_Amd_Master.CheckedBy,tblMM_PO_Amd_Master.ApprovedBy,tblMM_PO_Amd_Master.AuthorizedBy,tblMM_PO_Amd_Master.Id,tblMM_PO_Amd_Master.PONo,tblMM_PO_Amd_Master.ModeOfDispatch,tblMM_PO_Amd_Master.Inspection,tblMM_PO_Amd_Master.Remarks,tblMM_PO_Amd_Master.ShipTo,tblMM_PO_Amd_Master.Reference,tblMM_PO_Amd_Master.ReferenceDesc,tblMM_PO_Amd_Master.AmendmentNo,tblMM_PO_Amd_Master.SupplierId,tblMM_PO_Amd_Master.Freight,tblMM_PO_Amd_Master.Octroi,tblMM_PO_Amd_Master.Warrenty,tblMM_PO_Amd_Master.PaymentTerms,TC", "tblMM_PO_Amd_Master", "tblMM_PO_Amd_Master.CompId='" + cId + "' AND tblMM_PO_Amd_Master.POId='" + MId + "' AND tblMM_PO_Amd_Master.AmendmentNo='" + (AmdNo - 1) + "'");
+                    SqlCommand myCommand33 = new SqlCommand(selectQuery3, myConnection);
+                    SqlDataAdapter ad33 = new SqlDataAdapter(myCommand33);
+                    ad33.Fill(ds33);
+                    p = 1;
+                }
+            }
+
+
+            SqlCommand myCommand = new SqlCommand(selectQuery, myConnection);
+            SqlDataAdapter ad1 = new SqlDataAdapter(myCommand);
+            DataSet ds = new DataSet();
+            ad1.Fill(ds);
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));//0
+            dt.Columns.Add(new System.Data.DataColumn("PONo", typeof(string)));//1
+            dt.Columns.Add(new System.Data.DataColumn("POQty", typeof(double)));//2
+            dt.Columns.Add(new System.Data.DataColumn("Rate", typeof(double)));//3
+            dt.Columns.Add(new System.Data.DataColumn("Discount", typeof(double)));//4
+            dt.Columns.Add(new System.Data.DataColumn("DelDate", typeof(string)));//5
+            dt.Columns.Add(new System.Data.DataColumn("AmdNo", typeof(int)));//6
+            dt.Columns.Add(new System.Data.DataColumn("RefDesc", typeof(string)));//7
+            dt.Columns.Add(new System.Data.DataColumn("ModeOfDispatch", typeof(string)));//8
+            dt.Columns.Add(new System.Data.DataColumn("Inspection", typeof(string)));//9
+            dt.Columns.Add(new System.Data.DataColumn("ShipTo", typeof(string)));//10
+            dt.Columns.Add(new System.Data.DataColumn("Remarks", typeof(string)));//11
+            dt.Columns.Add(new System.Data.DataColumn("PRNo", typeof(string)));//12
+            dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));//13
+            dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));//14
+            dt.Columns.Add(new System.Data.DataColumn("SuplierName", typeof(string)));//15
+            dt.Columns.Add(new System.Data.DataColumn("ContactPerson", typeof(string)));//16
+            dt.Columns.Add(new System.Data.DataColumn("Email", typeof(string)));//17
+            dt.Columns.Add(new System.Data.DataColumn("ContactNo", typeof(string)));//18             
+            dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));//19
+            dt.Columns.Add(new System.Data.DataColumn("manfDesc", typeof(string)));//20
+            dt.Columns.Add(new System.Data.DataColumn("UOMBasic", typeof(string)));//21
+            dt.Columns.Add(new System.Data.DataColumn("AcHead", typeof(string)));//22
+            dt.Columns.Add(new System.Data.DataColumn("OctriTerm", typeof(string)));//23
+            dt.Columns.Add(new System.Data.DataColumn("OctriValue", typeof(double)));//24
+            dt.Columns.Add(new System.Data.DataColumn("PackagingTerm", typeof(string)));//25
+            dt.Columns.Add(new System.Data.DataColumn("PackagingValue", typeof(double)));//26
+            dt.Columns.Add(new System.Data.DataColumn("PaymentTerm", typeof(string)));//27
+            dt.Columns.Add(new System.Data.DataColumn("ExciseTerm", typeof(string)));//28
+            dt.Columns.Add(new System.Data.DataColumn("ExciseValue", typeof(double)));//29
+            dt.Columns.Add(new System.Data.DataColumn("VatTerm", typeof(string)));//30
+            dt.Columns.Add(new System.Data.DataColumn("VatValue", typeof(double)));//31
+            dt.Columns.Add(new System.Data.DataColumn("Warranty", typeof(string)));//32
+            dt.Columns.Add(new System.Data.DataColumn("Fright", typeof(string)));//33           
+            dt.Columns.Add(new System.Data.DataColumn("RefPODesc", typeof(string)));//34
+            dt.Columns.Add(new System.Data.DataColumn("Indentor", typeof(string)));//35
+            dt.Columns.Add(new System.Data.DataColumn("BudgetCode", typeof(string)));//36
+            dt.Columns.Add(new System.Data.DataColumn("SupplierId", typeof(string)));//37
+            dt.Columns.Add(new System.Data.DataColumn("Insurance", typeof(string)));//38
+            dt.Columns.Add(new System.Data.DataColumn("Symbol", typeof(string)));//39
+            //--------------------------------------------------------------------------------
+            dt.Columns.Add(new System.Data.DataColumn("SuplierName*", typeof(string)));//40
+            dt.Columns.Add(new System.Data.DataColumn("VenderCode*", typeof(string)));//41
+            dt.Columns.Add(new System.Data.DataColumn("RefDate*", typeof(string)));//42 **ReferenceDate
+            dt.Columns.Add(new System.Data.DataColumn("RefDesc*", typeof(string)));//43 **Reference
+            dt.Columns.Add(new System.Data.DataColumn("RefPODesc*", typeof(string)));//44 **ReferenceDesc
+            dt.Columns.Add(new System.Data.DataColumn("Rate*", typeof(string)));//45
+            dt.Columns.Add(new System.Data.DataColumn("Discount*", typeof(string)));//46
+            dt.Columns.Add(new System.Data.DataColumn("PackagingValue*", typeof(string)));//47
+            dt.Columns.Add(new System.Data.DataColumn("ExciseValue*", typeof(string)));//48
+            dt.Columns.Add(new System.Data.DataColumn("VatValue*", typeof(string)));//49
+            dt.Columns.Add(new System.Data.DataColumn("DelDate*", typeof(string)));//50 
+            dt.Columns.Add(new System.Data.DataColumn("PaymentTerm*", typeof(string)));//51
+            dt.Columns.Add(new System.Data.DataColumn("ModeOfDispatch*", typeof(string)));//52
+            dt.Columns.Add(new System.Data.DataColumn("Inspection*", typeof(string)));//53
+            dt.Columns.Add(new System.Data.DataColumn("OctriValue*", typeof(string)));//54
+            dt.Columns.Add(new System.Data.DataColumn("Warranty*", typeof(string)));//55
+            dt.Columns.Add(new System.Data.DataColumn("Fright*", typeof(string)));//56
+            dt.Columns.Add(new System.Data.DataColumn("Insurance*", typeof(string)));//57
+            dt.Columns.Add(new System.Data.DataColumn("ShipTo*", typeof(string)));//58
+            dt.Columns.Add(new System.Data.DataColumn("Remarks*", typeof(string)));//59
+            dt.Columns.Add(new System.Data.DataColumn("BudgetCode*", typeof(string)));//60
+
+            dt.Columns.Add(new System.Data.DataColumn("AddDesc", typeof(string)));//61
+            dt.Columns.Add(new System.Data.DataColumn("AddDesc*", typeof(string)));//62
+            dt.Columns.Add(new System.Data.DataColumn("POQty*", typeof(string)));//63
+            dt.Columns.Add(new System.Data.DataColumn("TC*", typeof(string)));//65
+            //--------------------------------------------------------------------------------
+
+            string ItemCode = "";
+            string UOMBasic = "";
+            string ManfDesc = "";
+
+            DataRow dr;
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+
+                    dr = dt.NewRow();
+                    string strRefDesc = fun.select("RefDesc", "tblMM_PO_Reference", "Id='" + ds.Tables[0].Rows[i]["Reference"].ToString() + "'");
+                    SqlCommand myRefDesc = new SqlCommand(strRefDesc, myConnection);
+                    SqlDataAdapter adRefDesc = new SqlDataAdapter(myRefDesc);
+                    DataSet dsRefDesc = new DataSet();
+                    adRefDesc.Fill(dsRefDesc);
+                    if (dsRefDesc.Tables[0].Rows.Count > 0)
+                    {
+                        dr[7] = dsRefDesc.Tables[0].Rows[0][0].ToString();
+                    }
+
+                    dr[0] = ds.Tables[0].Rows[i]["Id"];
+                    dr[1] = ds.Tables[0].Rows[i]["PONo"].ToString();
+                    dr[2] = ds.Tables[0].Rows[i]["Qty"].ToString();
+                    dr[3] = ds.Tables[0].Rows[i]["Rate"].ToString();
+                    dr[4] = ds.Tables[0].Rows[i]["Discount"].ToString();
+                    dr[5] = (ds.Tables[0].Rows[i]["DelDate"].ToString());
+                    dr[6] = ds.Tables[0].Rows[i]["AmendmentNo"].ToString();
+                    dr[8] = ds.Tables[0].Rows[i]["ModeOfDispatch"].ToString();
+                    dr[9] = ds.Tables[0].Rows[i]["Inspection"].ToString();
+                    dr[10] = ds.Tables[0].Rows[i]["ShipTo"].ToString();
+                    dr[11] = ds.Tables[0].Rows[i]["Remarks"].ToString();
+
+                    string strSPR = fun.select("tblMM_PR_Master.SessionId AS Indentor,tblMM_PR_Details.PRNo,tblMM_PR_Master.WONo,tblMM_PR_Details.AHId,tblMM_PR_Details.ItemId", "tblMM_PR_Details,tblMM_PR_Master", "tblMM_PR_Details.Id='" + ds.Tables[0].Rows[i]["PRId"].ToString() + "' And tblMM_PR_Master.Id=tblMM_PR_Details.MId ");
+                    SqlCommand mySPR = new SqlCommand(strSPR, myConnection);
+                    SqlDataAdapter adSPR = new SqlDataAdapter(mySPR);
+                    DataSet dsSPR = new DataSet();
+                    adSPR.Fill(dsSPR);
+                    
+                    if (dsSPR.Tables[0].Rows.Count > 0)
+                    {
+                        
+                        dr[12] = dsSPR.Tables[0].Rows[0]["PRNo"].ToString();
+
+                        string StrIndentor = fun.select("Title,EmployeeName", "tblHR_OfficeStaff", "EmpId='" + dsSPR.Tables[0].Rows[0]["Indentor"].ToString() + "'And CompId='" + cId + "'");
+                        SqlCommand CmdIndentor = new SqlCommand(StrIndentor, myConnection);
+                        SqlDataAdapter DAIndentor = new SqlDataAdapter(CmdIndentor);
+                        DataSet DSIndentor = new DataSet();
+                        DAIndentor.Fill(DSIndentor, "tblHR_OfficeStaff");
+                        dr[35] = DSIndentor.Tables[0].Rows[0]["Title"].ToString() + ". " + DSIndentor.Tables[0].Rows[0]["EmployeeName"].ToString();
+
+                        if (dsSPR.Tables[0].Rows[0]["WONo"] != DBNull.Value)
+                        {
+                            dr[13] = dsSPR.Tables[0].Rows[0]["WONo"].ToString();
+
+                            string Code1 = fun.select("*", "tblMIS_BudgetCode", "Id='" + ds.Tables[0].Rows[i]["BudgetCode"].ToString() + "'");
+
+                            SqlCommand CmdCode1 = new SqlCommand(Code1, myConnection);
+                            SqlDataAdapter daCode1 = new SqlDataAdapter(CmdCode1);
+                            DataSet DSCode1 = new DataSet();
+                            daCode1.Fill(DSCode1);
+
+
+                            if (DSCode1.Tables[0].Rows.Count > 0)
+                            {
+
+                                dr[36] = String.Concat(DSCode1.Tables[0].Rows[0]["Symbol"].ToString(), dr[13]);
+                            }
+                        }
+                        else
+                        {
+                            dr[13] = "";
+                            dr[36] = "";
+                        }
+
+                        string StrIcode1 = fun.select("Id,ItemCode,ManfDesc,UOMBasic", "tblDG_Item_Master", "Id='" + dsSPR.Tables[0].Rows[0]["ItemId"].ToString() + "'");
+                        SqlCommand cmdIcode1 = new SqlCommand(StrIcode1, myConnection);
+                        SqlDataAdapter daIcode1 = new SqlDataAdapter(cmdIcode1);
+                        DataSet DSIcode1 = new DataSet();
+                        daIcode1.Fill(DSIcode1);
+                        if (DSIcode1.Tables[0].Rows.Count > 0)
+                        {
+                            ItemCode = fun.GetItemCode_PartNo(cId, Convert.ToInt32(dsSPR.Tables[0].Rows[0]["ItemId"].ToString()));
+                            ManfDesc = DSIcode1.Tables[0].Rows[0]["ManfDesc"].ToString();
+                            // for UOM Purchase  from Unit Master table
+                            string sqlPurch1 = fun.select("Symbol", "Unit_Master", "Id='" + DSIcode1.Tables[0].Rows[0]["UOMBasic"].ToString() + "'");
+                            SqlCommand cmdPurch1 = new SqlCommand(sqlPurch1, myConnection);
+                            SqlDataAdapter daPurch1 = new SqlDataAdapter(cmdPurch1);
+                            DataSet DSPurch1 = new DataSet();
+                            daPurch1.Fill(DSPurch1);
+                            if (DSPurch1.Tables[0].Rows.Count > 0)
+                            {
+                                UOMBasic = DSPurch1.Tables[0].Rows[0][0].ToString();
+                            }
+
+                        }
+
+                        string checkAHId = fun.select("Symbol", "AccHead", "Id='" + dsSPR.Tables[0].Rows[0]["AHId"].ToString() + "'");
+                        SqlCommand cmdcheckAHId = new SqlCommand(checkAHId, myConnection);
+                        SqlDataAdapter dacheckAHId = new SqlDataAdapter(cmdcheckAHId);
+                        DataSet DScheckAHId = new DataSet();
+                        dacheckAHId.Fill(DScheckAHId);
+                        if (DScheckAHId.Tables[0].Rows.Count > 0)
+                        {
+                            dr[22] = DScheckAHId.Tables[0].Rows[0]["Symbol"].ToString();
+                        }
+
+                    }
+                    dr[14] = cId;
+                    dr[19] = ItemCode;
+                    dr[20] = ManfDesc;
+                    dr[21] = UOMBasic;
+                    string SupName = fun.select("SupplierId,SupplierName,ContactPerson,ContactNo,Email,RegdCountry", "tblMM_Supplier_master", "SupplierId='" + ds.Tables[0].Rows[i]["SupplierId"].ToString() + "' AND CompId='" + cId + "'");
+                    SqlCommand cmdSupName = new SqlCommand(SupName, myConnection);
+                    SqlDataAdapter daSupName = new SqlDataAdapter(cmdSupName);
+                    DataSet DSSupName = new DataSet();
+                    daSupName.Fill(DSSupName);
+                    if (DSSupName.Tables[0].Rows.Count > 0)
+                    {
+                        Country = Convert.ToInt32(DSSupName.Tables[0].Rows[0]["RegdCountry"]);
+                        string Sym = fun.select("Symbol", "tblCountry", "CId='" + DSSupName.Tables[0].Rows[0]["RegdCountry"].ToString() + "' ");
+                        DataSet dsSym = new DataSet();
+                        SqlCommand cmdSym = new SqlCommand(Sym, myConnection);
+                        SqlDataAdapter daSym = new SqlDataAdapter(cmdSym);
+                        daSym.Fill(dsSym, "tblCountry");
+
+                        dr[39] = dsSym.Tables[0].Rows[0]["Symbol"].ToString();
+                        dr[15] = DSSupName.Tables[0].Rows[0]["SupplierName"].ToString();
+                        dr[16] = DSSupName.Tables[0].Rows[0]["ContactPerson"].ToString();
+                        dr[18] = DSSupName.Tables[0].Rows[0]["ContactNo"].ToString();
+                        dr[17] = DSSupName.Tables[0].Rows[0]["Email"].ToString();
+                        dr[37] = DSSupName.Tables[0].Rows[0]["SupplierId"].ToString();
+                    }
+
+                    // For PF 
+                    string sql3 = fun.select("Terms,Value", "tblPacking_Master", "Id='" + Convert.ToInt32(ds.Tables[0].Rows[i]["PF"]) + "'");
+                    SqlCommand cmd3 = new SqlCommand(sql3, myConnection);
+                    SqlDataAdapter da3 = new SqlDataAdapter(cmd3);
+                    DataSet DS3 = new DataSet();
+                    da3.Fill(DS3);
+                    if (DS3.Tables[0].Rows.Count > 0)
+                    {
+                        dr[25] = DS3.Tables[0].Rows[0]["Terms"].ToString();
+                        dr[26] = Convert.ToDouble(DS3.Tables[0].Rows[0]["Value"]);
+                    }
+
+                    // For VAT 
+                    string sql4 = fun.select("Terms,Value", "tblVAT_Master", "Id='" + Convert.ToInt32(ds.Tables[0].Rows[i]["VAT"]) + "'");
+
+                    SqlCommand cmd4 = new SqlCommand(sql4, myConnection);
+                    SqlDataAdapter da4 = new SqlDataAdapter(cmd4);
+                    DataSet DS4 = new DataSet();
+                    da4.Fill(DS4);
+                    if (DS4.Tables[0].Rows.Count > 0)
+                    {
+                        dr[30] = DS4.Tables[0].Rows[0]["Terms"].ToString();
+                        dr[31] = Convert.ToDouble(DS4.Tables[0].Rows[0]["Value"]);
+                    }
+
+                    // For Excise/ Service Tax 
+                    string sql5 = fun.select("Terms,Value", "tblExciseser_Master", "Id='" + Convert.ToInt32(ds.Tables[0].Rows[i]["ExST"]) + "'");
+                    SqlCommand cmd5 = new SqlCommand(sql5, myConnection);
+                    SqlDataAdapter da5 = new SqlDataAdapter(cmd5);
+                    DataSet DS5 = new DataSet();
+                    da5.Fill(DS5);
+                    if (DS5.Tables[0].Rows.Count > 0)
+                    {
+                        dr[28] = DS5.Tables[0].Rows[0]["Terms"].ToString();
+                        dr[29] = Convert.ToDouble(DS5.Tables[0].Rows[0]["Value"]);
+
+                    }
+
+
+                    // For Octroi
+                    string sql6 = fun.select("Terms,Value", "tblOctroi_Master", "Id='" + Convert.ToInt32(ds.Tables[0].Rows[i]["Octroi"]) + "'");
+                    SqlCommand cmd6 = new SqlCommand(sql6, myConnection);
+                    SqlDataAdapter da6 = new SqlDataAdapter(cmd6);
+                    DataSet DS6 = new DataSet();
+                    da6.Fill(DS6);
+                    if (DS6.Tables[0].Rows.Count > 0)
+                    {
+                        dr[23] = DS6.Tables[0].Rows[0]["Terms"].ToString();
+                        dr[24] = Convert.ToDouble(DS6.Tables[0].Rows[0]["Value"]);
+                    }
+
+                    // For Payment Terms
+                    string sql9 = fun.select("Terms", "tblPayment_Master", "Id='" + Convert.ToInt32(ds.Tables[0].Rows[i]["PaymentTerms"]) + "'");
+                    SqlCommand cmd9 = new SqlCommand(sql9, myConnection);
+                    SqlDataAdapter da9 = new SqlDataAdapter(cmd9);
+                    DataSet DS9 = new DataSet();
+                    da9.Fill(DS9);
+                    if (DS9.Tables[0].Rows.Count > 0)
+                    {
+                        dr[27] = DS9.Tables[0].Rows[0]["Terms"].ToString();
+
+                    }
+
+                    // For Warranty Terms
+                    string sql7 = fun.select("Terms", "tblWarrenty_Master", "Id='" + Convert.ToInt32(ds.Tables[0].Rows[i]["Warrenty"]) + "'");
+                    SqlCommand cmd7 = new SqlCommand(sql7, myConnection);
+                    SqlDataAdapter da7 = new SqlDataAdapter(cmd7);
+                    DataSet DS7 = new DataSet();
+                    da7.Fill(DS7);
+                    if (DS7.Tables[0].Rows.Count > 0)
+                    {
+                        dr[32] = DS7.Tables[0].Rows[0]["Terms"].ToString();
+                    }
+
+                    // For freight
+                    string sql8 = fun.select("Terms", "tblFreight_Master", "Id='" + Convert.ToInt32(ds.Tables[0].Rows[i]["Freight"]) + "'");
+                    SqlCommand cmd8 = new SqlCommand(sql8, myConnection);
+                    SqlDataAdapter da8 = new SqlDataAdapter(cmd8);
+                    DataSet DS8 = new DataSet();
+                    da8.Fill(DS8);
+                    if (DS8.Tables[0].Rows.Count > 0)
+                    {
+                        dr[33] = DS8.Tables[0].Rows[0]["Terms"].ToString();
+                    }
+                    dr[34] = ds.Tables[0].Rows[i]["ReferenceDesc"].ToString();
+                    dr[38] = ds.Tables[0].Rows[i]["Insurance"].ToString();
+
+                    //-----------------------------------------------------------------------------------------
+
+                    if (p == 1)
+                    {
+                        string selectQuery4 = fun.select("tblMM_PO_Amd_Details.PODId,tblMM_PO_Amd_Details.Qty,tblMM_PO_Amd_Details.Rate,tblMM_PO_Amd_Details.Discount,tblMM_PO_Amd_Details.DelDate,tblMM_PO_Amd_Details.PF,tblMM_PO_Amd_Details.ExST,tblMM_PO_Amd_Details.VAT,tblMM_PO_Amd_Details.PRId,tblMM_PO_Amd_Details.BudgetCode,tblMM_PO_Amd_Details.AddDesc", "tblMM_PO_Amd_Details", "tblMM_PO_Amd_Details.MId='" + ds33.Tables[0].Rows[0]["Id"].ToString() + "' AND tblMM_PO_Amd_Details.PODId='" + ds.Tables[0].Rows[i]["PODId"].ToString() + "'");
+
+                        SqlCommand myCommand4 = new SqlCommand(selectQuery4, myConnection);
+                        SqlDataAdapter ad4 = new SqlDataAdapter(myCommand4);
+                        DataSet ds4 = new DataSet();
+                        ad4.Fill(ds4);
+
+                        if (ds4.Tables[0].Rows.Count > 0)
+                        {
+
+                            if (ds.Tables[0].Rows[i]["SupplierId"].ToString() == ds33.Tables[0].Rows[0]["SupplierId"].ToString())
+                            {
+                                dr[40] = "";
+                            }
+                            else
+                            {
+                                dr[40] = "*";
+                            }
+
+                            if (ds.Tables[0].Rows[i]["SupplierId"].ToString() == ds33.Tables[0].Rows[0]["SupplierId"].ToString())
+                            {
+                                dr[41] = "";
+                            }
+                            else
+                            {
+                                dr[41] = "*";
+                            }
+
+                            if (ds.Tables[0].Rows[i]["ReferenceDate"].ToString() == ds33.Tables[0].Rows[0]["ReferenceDate"].ToString())
+                            {
+                                dr[42] = "";
+                            }
+                            else
+                            {
+                                dr[42] = "*";
+                            }
+
+                            if (ds.Tables[0].Rows[i]["Reference"].ToString() == ds33.Tables[0].Rows[0]["Reference"].ToString())
+                            {
+                                dr[43] = "";
+                            }
+                            else
+                            {
+                                dr[43] = "*";
+                            }
+                            if (ds.Tables[0].Rows[i]["ReferenceDesc"].ToString() == ds33.Tables[0].Rows[0]["ReferenceDesc"].ToString())
+                            {
+                                dr[44] = "";
+                            }
+                            else
+                            {
+                                dr[44] = "*";
+                            }
+
+                            if (ds.Tables[0].Rows[i]["Rate"].ToString() == ds4.Tables[0].Rows[0]["Rate"].ToString())
+                            {
+                                dr[45] = "";
+                            }
+                            else
+                            {
+                                dr[45] = "*";
+                            }
+
+                            if (ds.Tables[0].Rows[i]["Discount"].ToString() == ds4.Tables[0].Rows[0]["Discount"].ToString())
+                            {
+                                dr[46] = "";
+                            }
+                            else
+                            {
+                                dr[46] = "*";
+                            }
+
+                            if (ds.Tables[0].Rows[i]["PF"].ToString() == ds4.Tables[0].Rows[0]["PF"].ToString())
+                            {
+                                dr[47] = "";
+                            }
+                            else
+                            {
+                                dr[47] = "*";
+                            }
+
+                            if (ds.Tables[0].Rows[i]["ExST"].ToString() == ds4.Tables[0].Rows[0]["ExST"].ToString())
+                            {
+                                dr[48] = "";
+                            }
+                            else
+                            {
+                                dr[48] = "*";
+                            }
+
+                            if (ds.Tables[0].Rows[i]["VAT"].ToString() == ds4.Tables[0].Rows[0]["VAT"].ToString())
+                            {
+                                dr[49] = "";
+                            }
+                            else
+                            {
+                                dr[49] = "*";
+                            }
+
+                            if (ds.Tables[0].Rows[i]["DelDate"].ToString() == ds4.Tables[0].Rows[0]["DelDate"].ToString())
+                            {
+                                dr[50] = "";
+                            }
+                            else
+                            {
+                                dr[50] = "*";
+                            }
+
+                            if (ds.Tables[0].Rows[i]["PaymentTerms"].ToString() == ds33.Tables[0].Rows[0]["PaymentTerms"].ToString())
+                            {
+                                dr[51] = "";
+                            }
+                            else
+                            {
+                                dr[51] = "*";
+                            }
+
+                            if (ds.Tables[0].Rows[i]["ModeOfDispatch"].ToString() == ds33.Tables[0].Rows[0]["ModeOfDispatch"].ToString())
+                            {
+                                dr[52] = "";
+                            }
+                            else
+                            {
+                                dr[52] = "*";
+                            }
+
+                            if (ds.Tables[0].Rows[i]["Inspection"].ToString() == ds33.Tables[0].Rows[0]["Inspection"].ToString())
+                            {
+                                dr[53] = "";
+                            }
+                            else
+                            {
+                                dr[53] = "*";
+                            }
+
+                            if (ds.Tables[0].Rows[i]["Octroi"].ToString() == ds33.Tables[0].Rows[0]["Octroi"].ToString())
+                            {
+                                dr[54] = "";
+                            }
+                            else
+                            {
+                                dr[54] = "*";
+                            }
+
+                            if (ds.Tables[0].Rows[i]["Warrenty"].ToString() == ds33.Tables[0].Rows[0]["Warrenty"].ToString())
+                            {
+                                dr[55] = "";
+                            }
+                            else
+                            {
+                                dr[55] = "*";
+                            }
+
+                            if (ds.Tables[0].Rows[i]["Freight"].ToString() == ds33.Tables[0].Rows[0]["Freight"].ToString())
+                            {
+                                dr[56] = "";
+                            }
+                            else
+                            {
+                                dr[56] = "*";
+                            }
+
+                            if (ds.Tables[0].Rows[i]["Insurance"].ToString() == ds33.Tables[0].Rows[0]["Insurance"].ToString())
+                            {
+                                dr[57] = "";
+                            }
+                            else
+                            {
+                                dr[57] = "*";
+                            }
+
+                            if (ds.Tables[0].Rows[i]["ShipTo"].ToString() == ds33.Tables[0].Rows[0]["ShipTo"].ToString())
+                            {
+                                dr[58] = "";
+                            }
+                            else
+                            {
+                                dr[58] = "*";
+                            }
+
+                            if (ds.Tables[0].Rows[i]["Remarks"].ToString() == ds33.Tables[0].Rows[0]["Remarks"].ToString())
+                            {
+                                dr[59] = "";
+                            }
+                            else
+                            {
+                                dr[59] = "*";
+                            }
+
+                            if (ds.Tables[0].Rows[i]["BudgetCode"].ToString() == ds4.Tables[0].Rows[0]["BudgetCode"].ToString())
+                            {
+                                dr[60] = "";
+                            }
+                            else
+                            {
+                                dr[60] = "*";
+                            }
+
+                            if (ds.Tables[0].Rows[i]["AddDesc"].ToString() == ds4.Tables[0].Rows[0]["AddDesc"].ToString())
+                            {
+                                dr[62] = "";
+                            }
+                            else
+                            {
+                                dr[62] = "*";
+                            }
+                            //----
+                            if (ds.Tables[0].Rows[i]["Qty"].ToString() == ds4.Tables[0].Rows[0]["Qty"].ToString())
+                            {
+                                dr[63] = "";
+                            }
+                            else
+                            {
+                                dr[63] = "*";
+                            }
+
+                            //----
+                            if (ds.Tables[0].Rows[i]["TC"].ToString() == ds33.Tables[0].Rows[0]["TC"].ToString())
+                            {
+                                dr[64] = "";
+                            }
+                            else
+                            {
+                                dr[64] = "*";
+                            }
+                        }
+                    }
+                    if (ds.Tables[0].Rows[i]["AddDesc"] != DBNull.Value && ds.Tables[0].Rows[i]["AddDesc"].ToString() != "")
+                    {
+                        dr[61] = ds.Tables[0].Rows[i]["AddDesc"].ToString();
+                    }
+                    else
+                    {
+                        dr[61] = "";
+                    }
+
+                    //-----------------------------------------------------------------------------------------
+
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+                PoSpr.Tables.Add(dt);
+                DataSet xsdds = new PO_PR();
+                xsdds.Tables[0].Merge(PoSpr.Tables[0]);
+                xsdds.AcceptChanges();
+                report = new ReportDocument();
+                if (Country == 1)
+                {
+                    report.Load(Server.MapPath("~/Module/MaterialManagement/Transactions/Reports/PO.rpt"));
+                }
+                else
+                {
+                    report.Load(Server.MapPath("~/Module/MaterialManagement/Transactions/Reports/PO_Import.rpt"));
+                }
+
+                report.SetDataSource(xsdds);
+
+                //Supplier Address
+                string cn = fun.select("SupplierName,RegdAddress,RegdCountry,RegdState,RegdCity,RegdPinNo", "tblMM_Supplier_master", "SupplierId='" + SupCode + "' And CompId='" + cId + "'");
+                DataSet dsAdd = new DataSet();
+                SqlCommand cmdSupAdd = new SqlCommand(cn, myConnection);
+                SqlDataAdapter daAdd = new SqlDataAdapter(cmdSupAdd);
+                daAdd.Fill(dsAdd, "tblMM_Supplier_master");
+
+                string strcmd1 = fun.select("CountryName", "tblcountry", "CId='" + dsAdd.Tables[0].Rows[0]["RegdCountry"] + "'");
+                string strcmd2 = fun.select("StateName", "tblState", "SId='" + dsAdd.Tables[0].Rows[0]["RegdState"] + "'");
+                string strcmd3 = fun.select("CityName", "tblCity", "CityId='" + dsAdd.Tables[0].Rows[0]["RegdCity"] + "'");
+                SqlCommand Cmd1 = new SqlCommand(strcmd1, myConnection);
+                SqlCommand Cmd2 = new SqlCommand(strcmd2, myConnection);
+                SqlCommand Cmd3 = new SqlCommand(strcmd3, myConnection);
+
+                SqlDataAdapter DA1 = new SqlDataAdapter(Cmd1);
+                SqlDataAdapter DA2 = new SqlDataAdapter(Cmd2);
+                SqlDataAdapter DA3 = new SqlDataAdapter(Cmd3);
+
+                DataSet ds1 = new DataSet();
+                DataSet ds2 = new DataSet();
+                DataSet ds3 = new DataSet();
+
+                DA1.Fill(ds1, "tblCountry");
+                DA2.Fill(ds2, "tblState");
+                DA3.Fill(ds3, "tblcity");
+
+                string SupplierAddress = dsAdd.Tables[0].Rows[0]["RegdAddress"].ToString() + "," + ds3.Tables[0].Rows[0]["CityName"].ToString() + "," + ds2.Tables[0].Rows[0]["StateName"].ToString() + "," + ds1.Tables[0].Rows[0]["CountryName"].ToString() + "." + dsAdd.Tables[0].Rows[0]["RegdPinNo"].ToString() + "." + "";
+
+                report.SetParameterValue("SupplierAddress", SupplierAddress);
+
+                //Registration Date ......
+                string regdate = ds.Tables[0].Rows[0]["SysDate"].ToString();
+                string RegDate = fun.FromDateDMY(regdate);
+                report.SetParameterValue("RegDate", RegDate);
+
+                //Reference Date .....
+                string refdate = ds.Tables[0].Rows[0]["ReferenceDate"].ToString();
+                string RefDate = fun.FromDateDMY(refdate);
+                report.SetParameterValue("RefDate", RefDate);
+
+                string CheckBy = ds.Tables[0].Rows[0]["CheckedBy"].ToString();
+                string AppBy = ds.Tables[0].Rows[0]["ApprovedBy"].ToString();
+                string AuthBy = ds.Tables[0].Rows[0]["AuthorizedBy"].ToString();
+
+                // For Checked By Emp Name........
+
+                string CheckedBy = "";
+                if (ds.Tables[0].Rows[0]["CheckedBy"] != DBNull.Value && ds.Tables[0].Rows[0]["CheckedBy"] != "")
+                {
+                    string StrCheckedBy = fun.select("Title,EmployeeName", "tblHR_OfficeStaff", "EmpId='" + CheckBy + "'And CompId='" + cId + "'");
+                    SqlCommand CmdCheckedBy = new SqlCommand(StrCheckedBy, myConnection);
+                    SqlDataAdapter DACKBy = new SqlDataAdapter(CmdCheckedBy);
+                    DataSet DSCKBy = new DataSet();
+                    DACKBy.Fill(DSCKBy, "tblHR_OfficeStaff");
+                    CheckedBy = DSCKBy.Tables[0].Rows[0]["Title"].ToString() + ". " + DSCKBy.Tables[0].Rows[0]["EmployeeName"].ToString();
+
+                }
+                else
+                {
+                    CheckedBy = " ";
+                }
+
+                // For Approved By Emp Name........
+
+                string ApprovedBy = "";
+                if (ds.Tables[0].Rows[0]["ApprovedBy"] != DBNull.Value && ds.Tables[0].Rows[0]["ApprovedBy"] != "")
+                {
+                    string StrAppBy = fun.select("Title,EmployeeName", "tblHR_OfficeStaff", "EmpId='" + AppBy + "'And CompId='" + cId + "'");
+                    SqlCommand CmdAppBy = new SqlCommand(StrAppBy, myConnection);
+                    SqlDataAdapter DAAppBy = new SqlDataAdapter(CmdAppBy);
+                    DataSet DSAppBy = new DataSet();
+                    DAAppBy.Fill(DSAppBy, "tblHR_OfficeStaff");
+                    ApprovedBy = DSAppBy.Tables[0].Rows[0]["Title"].ToString() + ". " + DSAppBy.Tables[0].Rows[0]["EmployeeName"].ToString();
+                }
+                else
+                {
+                    ApprovedBy = " ";
+                }
+
+                // For Authorized By Emp Name........
+                string AuthorizedBy = "";
+
+                if (ds.Tables[0].Rows[0]["AuthorizedBy"] != DBNull.Value && ds.Tables[0].Rows[0]["AuthorizedBy"] != "")
+                {
+                    string StrAuthBy = fun.select("Title,EmployeeName", "tblHR_OfficeStaff", "EmpId='" + AuthBy + "'And CompId='" + cId + "'");
+                    SqlCommand CmdAuthBy = new SqlCommand(StrAuthBy, myConnection);
+                    SqlDataAdapter DAAuthBy = new SqlDataAdapter(CmdAuthBy);
+                    DataSet DSAuthBy = new DataSet();
+                    DAAuthBy.Fill(DSAuthBy, "tblHR_OfficeStaff");
+                    AuthorizedBy = DSAuthBy.Tables[0].Rows[0]["Title"].ToString() + ". " + DSAuthBy.Tables[0].Rows[0]["EmployeeName"].ToString();
+                }
+                else
+                {
+                    AuthorizedBy = " ";
+                }
+
+
+                report.SetParameterValue("CheckedBy", CheckedBy);
+                report.SetParameterValue("ApprovedBy", ApprovedBy);
+                report.SetParameterValue("AuthorizedBy", AuthorizedBy);
+
+                // For Checked Date........
+                string CheckedDate = "";
+                if (ds.Tables[0].Rows[0]["CheckedDate"] != DBNull.Value)
+                {
+                    string checkeddate = ds.Tables[0].Rows[0]["CheckedDate"].ToString();
+                    CheckedDate = fun.FromDate(checkeddate);
+                }
+                else
+                {
+                    CheckedDate = "";
+                }
+
+                // For Approve Date........
+                string ApproveDate = "";
+                if (ds.Tables[0].Rows[0]["ApproveDate"] != DBNull.Value)
+                {
+                    string approvedate = ds.Tables[0].Rows[0]["ApproveDate"].ToString();
+                    ApproveDate = fun.FromDate(approvedate);
+                }
+                else
+                {
+                    ApproveDate = "";
+                }
+
+                // For Authorize Date........
+                string AuthorizeDate = "";
+                if (ds.Tables[0].Rows[0]["AuthorizeDate"] != DBNull.Value)
+                {
+                    string authorizedate = ds.Tables[0].Rows[0]["AuthorizeDate"].ToString();
+                    AuthorizeDate = fun.FromDate(authorizedate);
+                }
+                else
+                {
+                    AuthorizeDate = "";
+                }
+
+                report.SetParameterValue("CheckedDate", CheckedDate);
+                report.SetParameterValue("ApproveDate", ApproveDate);
+                report.SetParameterValue("AuthorizeDate", AuthorizeDate);
+                string Address = fun.CompAdd(cId);
+                report.SetParameterValue("Address", Address);
+                StringBuilder sb = new StringBuilder();
+                string TC = "";
+                if (ds.Tables[0].Rows[0]["TC"] != DBNull.Value)
+                {
+                    sb.AppendLine(ds.Tables[0].Rows[0]["TC"].ToString());
+                    TC = sb.ToString().Replace(Environment.NewLine, Environment.NewLine);                   
+                }                
+                else
+                {
+                   TC = "";
+                }
+
+                report.SetParameterValue("TC", TC);
+                CrystalReportViewer1.ReportSource = report;
+                Session[Key] = report;
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            PoSpr.Clear();
+            PoSpr.Dispose();
+            dt.Clear();
+            dt.Dispose();
+            myConnection.Close();
+            myConnection.Dispose();
+
+        }
+    }
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        report.Close();
+        report.Dispose();
+        GC.Collect();
+    }
+
+
+}

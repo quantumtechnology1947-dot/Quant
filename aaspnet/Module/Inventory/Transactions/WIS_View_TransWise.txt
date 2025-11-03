@@ -1,0 +1,282 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Transactions/WIS_View_TransWise.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="WIS_View_TransWise.aspx.cs" Inherits="Module_Inventory_Transactions_WIS_View_TransWise" Title="ERP" Theme="Default" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+<script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+   
+    <table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td  align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;Transaction wise WIS Issue Of WONo: <asp:Label ID="LblWONo" runat="server" Text="Label"></asp:Label></b></td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Panel ID="Panel1" ScrollBars="Auto" Height="445px" runat="server">
+                
+                <asp:GridView ID="GridView2" runat="server" CssClass="yui-datatable-theme" 
+                    AllowPaging="True" AutoGenerateColumns="False" Width="100%" 
+                    onrowcommand="GridView2_RowCommand" 
+                    onpageindexchanging="GridView2_PageIndexChanging" PageSize="20">
+                    <PagerSettings PageButtonCount="40" />
+                    <Columns>
+                        <asp:TemplateField HeaderText="SN">
+                        <ItemTemplate>
+                        <%# Container.DataItemIndex+1 %>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="5%" />
+                        </asp:TemplateField>                        
+                        <asp:TemplateField>
+                        <ItemTemplate>
+                        <asp:LinkButton ID="lnkbtn" runat="server"  CommandName="Sel" Text="Select"></asp:LinkButton>
+                        </ItemTemplate>
+                        <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField> 
+                           <asp:TemplateField HeaderText="WIS No">
+                           <ItemTemplate>
+                          <asp:Label ID="LblWISNo" runat="server"  Text='<%#Eval("WISNo") %>'></asp:Label>
+                          
+                           </ItemTemplate>
+                               <ItemStyle Width="10%" HorizontalAlign="Center" />
+                        </asp:TemplateField>                       
+                        <asp:TemplateField HeaderText="Date">
+                        <ItemTemplate>
+                          <asp:Label ID="LblDate" runat="server"  Text='<%#Eval("SysDate") %>'></asp:Label>
+                          
+                           </ItemTemplate>
+                            <ItemStyle  HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Time">
+                         <ItemTemplate>
+                          <asp:Label ID="LblTime" runat="server"  Text='<%#Eval("SysTime") %>'></asp:Label>
+                          
+                           </ItemTemplate>
+                            <ItemStyle  HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                         <asp:TemplateField HeaderText="Try Out From Date">
+                        <ItemTemplate>
+                          <asp:Label ID="LbltryoutFDate" runat="server"  Text='<%#Eval("TaskTargetTryOut_FDate") %>'></asp:Label>
+                          
+                           </ItemTemplate>
+                            <ItemStyle  HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        
+                        
+                         <asp:TemplateField HeaderText="Try Out To Date">
+                        <ItemTemplate>
+                          <asp:Label ID="LbltryoutTDate" runat="server"  Text='<%#Eval("TaskTargetTryOut_TDate") %>'></asp:Label>
+                          
+                           </ItemTemplate>
+                            <ItemStyle  HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        
+                        
+                        
+                         <asp:TemplateField HeaderText="Dispatch From Date">
+                        <ItemTemplate>
+                          <asp:Label ID="LblDFDate" runat="server"  Text='<%#Eval("TaskTargetDespach_FDate") %>'></asp:Label>
+                          
+                           </ItemTemplate>
+                            <ItemStyle  HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        
+                        
+                        
+                        
+                         <asp:TemplateField HeaderText="Dispatch To Date">
+                        <ItemTemplate>
+                          <asp:Label ID="LblDTDate" runat="server"  Text='<%#Eval("TaskTargetDespach_TDate") %>'></asp:Label>
+                          
+                           </ItemTemplate>
+                            <ItemStyle  HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        
+                        
+                        <asp:TemplateField HeaderText="Gen. By">
+                        
+                         <ItemTemplate>
+                          <asp:Label ID="LblGenBy" runat="server"  Text='<%#Eval("GenBy") %>'></asp:Label>
+                          
+                           </ItemTemplate>
+                            <ItemStyle Width="25%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Id" Visible="false">                        
+                         <ItemTemplate>
+                          <asp:Label ID="LblId" runat="server"  Text='<%#Eval("Id") %>'></asp:Label>
+                          
+                           </ItemTemplate>
+                        </asp:TemplateField>
+                    </Columns>
+                    <EmptyDataTemplate>
+                                    <table width="100%" class="fontcss"><tr><td align="center" >
+                                    <asp:Label ID="Label1" runat="server"  Text="No  data found to display" Font-Bold="true"
+    Font-Names="Calibri" ForeColor="red"></asp:Label></td></tr>
+    </table>
+                                    </EmptyDataTemplate>
+                    
+                </asp:GridView>
+                </asp:Panel>
+            </td>
+        </tr>
+        <tr>
+        <td align="center" class="style4" colspan="2" height="25">
+               
+                               <asp:Button ID="Cancel" runat="server" Text="Cancel" CssClass="redbox" 
+                    valign="top" onclick="Cancel_Click"/>
+                    
+                    </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Transactions/WIS_View_TransWise.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_Inventory_Transactions_WIS_View_TransWise : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    DataSet DS = new DataSet();
+    SqlConnection con;
+
+    int CompId = 0;
+    int FinYearId = 0;
+    string SId = "";
+    string connStr = "";
+    string CDate = "";
+    string CTime = "";
+    int type = 0;
+    string Wono = "";
+    int Status = 0;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+      try
+        {
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            CompId = Convert.ToInt32(Session["compid"]);
+            Status = Convert.ToInt32(Request.QueryString["status"]);
+            SId = Session["username"].ToString();
+            type = Convert.ToInt32(Request.QueryString["Type"]);
+            Wono = Request.QueryString["WONo"].ToString();
+            LblWONo.Text = Wono;
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            CDate = fun.getCurrDate();
+            CTime = fun.getCurrTime();
+            if (!IsPostBack)
+            {
+                this.loadgrid();
+            }
+        }
+       catch (Exception ex) { }
+    }
+
+    public void loadgrid()
+    {
+        try
+        {            
+            SqlDataAdapter da = new SqlDataAdapter("Sp_WIS_Trans_Grid", con);
+            da.SelectCommand.CommandType = CommandType.StoredProcedure;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@CompId", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@CompId"].Value = CompId;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@FinId", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@FinId"].Value = FinYearId;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@x", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@x"].Value = Wono;           
+            DataSet DSitem = new DataSet();
+            da.Fill(DSitem); 
+            if (DSitem.Tables[0].Rows.Count > 0)
+            { 
+                GridView2.DataSource = DSitem;
+                GridView2.DataBind();
+            }
+            else
+            {
+                if (Status == 0)
+                {
+                    Response.Redirect("WIS_Dry_Actual_Run.aspx?msg='1'&ModId=9&SubModId=53");
+                }
+                else
+                {
+                    Response.Redirect("WIS_ActualRun_Print.aspx?msg='1'&ModId=9&SubModId=53");
+                }
+            }
+        }
+        catch (Exception st)
+        {
+
+        }
+
+    }
+
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "Sel")
+        {
+            GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+            string getRandomKey = fun.GetRandomAlphaNumeric();
+            string wisno = ((Label)row.FindControl("LblWISNo")).Text;
+            string wisid = ((Label)row.FindControl("LblId")).Text;
+            Response.Redirect("~/Module/Inventory/Transactions/WIS_View_TransWise_print.aspx?WISNo=" + wisno + "&Key=" + getRandomKey + "&WISId=" + wisid + "&wn=" + Wono + "&ModId=9&SubModId=53&status=" + Status + "");
+        }
+    }
+
+    protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView2.PageIndex = e.NewPageIndex;
+        this.loadgrid();
+    }
+ 
+    protected void Cancel_Click(object sender, EventArgs e)
+    {
+        switch (Status)
+        {
+            case 0:
+                Response.Redirect("~/Module/Inventory/Transactions/WIS_Dry_Actual_Run.aspx?ModId=9&SubModId=53");
+                break;
+            case 1:
+                Response.Redirect("~/Module/Inventory/Transactions/WIS_ActualRun_Print.aspx?ModId=9&SubModId=53");
+                break;
+
+        }
+    }
+
+}

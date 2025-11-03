@@ -1,0 +1,567 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Masters/ItemMaster_Edit.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ItemMaster_Edit.aspx.cs" Inherits="Module_Design_Masters_ItemMaster_Edit" Title="ERP" Theme="Default"  %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    
+  <table cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+            <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;Item Master - Edit</b></td>
+             </tr>   
+  
+   <tr>
+            <td class="fontcsswhite" height="25" valign="middle" >
+            
+             &nbsp;
+            
+            <asp:DropDownList ID="DrpType" runat="server" AutoPostBack="True" 
+                    Height="21px" Width="100px" CssClass="box3" 
+                    onselectedindexchanged="DrpType_SelectedIndexChanged">
+                     <asp:ListItem>Select</asp:ListItem>
+                     <asp:ListItem Value="Category">Category</asp:ListItem>
+                     <asp:ListItem Value="WOItems">WO Items</asp:ListItem>                    
+                </asp:DropDownList>
+                <asp:DropDownList ID="DrpCategory1" runat="server" Width="200px" 
+                    AutoPostBack="True" 
+                    onselectedindexchanged="DrpCategory1_SelectedIndexChanged" Height="21px" 
+                    CssClass="box3">
+                    
+                </asp:DropDownList> 
+                
+                 <asp:DropDownList ID="DrpSearchCode" runat="server" Width="200px" 
+                    CssClass="box3" AutoPostBack="True" 
+                    onselectedindexchanged="DrpSearchCode_SelectedIndexChanged">
+                     <asp:ListItem Value="Select">Select</asp:ListItem>
+                     <asp:ListItem Value="tblDG_Item_Master.ItemCode">Item Code</asp:ListItem>
+                     <asp:ListItem Value="tblDG_Item_Master.ManfDesc">Description</asp:ListItem>                    
+                     <asp:ListItem Value="tblDG_Item_Master.Location">Location</asp:ListItem>
+                </asp:DropDownList>
+                
+                <asp:DropDownList ID="DropDownList3" runat="server" 
+                                style="margin-bottom: 0px" Width="155px" 
+                    onselectedindexchanged="DropDownList3_SelectedIndexChanged" 
+                    AutoPostBack="True" CssClass="box3">
+                            </asp:DropDownList>
+
+            
+                <asp:TextBox ID="txtSearchItemCode" runat="server" Width="207px" 
+                    CssClass="box3"></asp:TextBox>
+                
+                &nbsp;<asp:Button ID="btnSearch" runat="server" 
+            Text="Search" CssClass="redbox" onclick="btnSearch_Click"  />
+                        </td>
+             </tr>
+  
+ <tr>
+ 
+ 
+ <td>
+  
+  <asp:GridView ID="GridView2" 
+                        runat="server" 
+                    CssClass="yui-datatable-theme" AutoGenerateColumns="False" 
+                    OnPageIndexChanging="GridView2_PageIndexChanging" AllowPaging="True" 
+                        onselectedindexchanged="GridView2_SelectedIndexChanged" Width="100%" PageSize="20">
+                        <PagerSettings PageButtonCount="40" />
+                        <Columns>
+                            <asp:TemplateField HeaderText="SN">
+                                <ItemTemplate>
+                                    <%# Container.DataItemIndex+1 %>
+                                </ItemTemplate>
+                                <ItemStyle 
+                            HorizontalAlign="Right" Width="4%"></ItemStyle>
+                            </asp:TemplateField>
+                            
+                            <asp:HyperLinkField DataNavigateUrlFields="Id" 
+                            DataNavigateUrlFormatString="~/Module/Design/Masters/ItemMaster_Edit_Details.aspx?ItemId={0}&amp;ModId=3&amp;SubModId=21" 
+                            Text="Select" >
+                            <ItemStyle HorizontalAlign="Center" Width="4%" />
+                        </asp:HyperLinkField>
+                            <asp:BoundField DataField="Id" HeaderText="Id" 
+                            Visible="False" />
+                            <asp:BoundField DataField="Category" HeaderText="Category">
+                           
+                                <ItemStyle Width="7%" HorizontalAlign="Center" />
+                            </asp:BoundField>
+                           
+                            <asp:BoundField DataField="PartNo" HeaderText="PartNo" Visible="False">
+                           
+                                <ItemStyle Width="8%" HorizontalAlign="Center" />
+                            </asp:BoundField>
+                           
+                           <asp:BoundField DataField="ItemCode" HeaderText="ItemCode">
+                           
+                                <ItemStyle Width="10%" HorizontalAlign="Center" />
+                            </asp:BoundField>
+                           
+                           
+                            <asp:BoundField DataField="ManfDesc" HeaderText="Description">
+                           
+                                <ItemStyle Width="25%" />
+                            </asp:BoundField>
+                           
+                         
+                            
+                            <asp:BoundField DataField="UOMBasic" HeaderText="UOM ">
+                            
+                                <ItemStyle Width="5%" HorizontalAlign="Center" />
+                            </asp:BoundField>
+                            
+                            
+                           
+                            <asp:BoundField DataField="MinOrderQty" HeaderText="Min Order Qty" 
+                                Visible="False" >
+                           
+                                <ItemStyle Width="6%" HorizontalAlign="Right" />
+                            </asp:BoundField>
+                           
+                            <asp:BoundField DataField="MinStockQty" HeaderText="Min Stock Qty" 
+                                Visible="False">
+                           
+                                <ItemStyle Width="6%" HorizontalAlign="Right" />
+                            </asp:BoundField>
+                           
+                            <asp:BoundField DataField="StockQty" HeaderText="Stock Qty" >
+                           
+                                <ItemStyle Width="6%" HorizontalAlign="Right" />
+                            </asp:BoundField>
+                           
+                            <asp:BoundField DataField="Location" HeaderText="Location">
+                            
+                                <ItemStyle Width="5%" HorizontalAlign="Center"/>
+                            </asp:BoundField>
+                            
+                            <asp:BoundField DataField="Absolute" HeaderText="Absolute" Visible="False" >
+                           
+                                <ItemStyle Width="5%" HorizontalAlign="Center" />
+                            </asp:BoundField>
+                           
+                            <asp:BoundField DataField="Excise" HeaderText="Excise">
+                            
+                                <ItemStyle Width="5%" HorizontalAlign="Center" />
+                            </asp:BoundField>
+                            
+                            <asp:BoundField DataField="ImportLocal" HeaderText="Import/Local" >
+                                <ItemStyle Width="4%" HorizontalAlign="Center" />
+                            </asp:BoundField>
+                          
+                            <asp:BoundField DataField="OpeningBalDate" HeaderText="Open Bal Date" >
+                           
+                                <ItemStyle Width="8%" HorizontalAlign="Center" />
+                            </asp:BoundField>
+                           
+                            <asp:BoundField DataField="OpeningBalQty" HeaderText="Opening Bal Qty">
+                           
+                                <ItemStyle Width="8%" HorizontalAlign="Right" />
+                            </asp:BoundField>
+                           
+                            <asp:BoundField DataField="UOMConFact" HeaderText="UOM Conv. Fact." 
+                                Visible="False">
+                            
+                                <ItemStyle Width="8%" />
+                            </asp:BoundField>
+                            
+                                    </Columns>
+                                    <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                              </asp:GridView>
+                
+             </td>   
+             </tr>
+         </table>        
+                
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Masters/ItemMaster_Edit.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+
+public partial class Module_Design_Masters_ItemMaster_Edit : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    DataSet DS = new DataSet();
+    DataSet DS2 = new DataSet();
+    int CompId = 0;
+    int FinYearId = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+      try
+        {
+
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            if (!IsPostBack)
+            {
+
+                DrpCategory1.Items.Clear();
+                DrpCategory1.Items.Insert(0, "Select");
+                DropDownList3.Visible = false;
+                DrpCategory1.Visible = false;
+                DrpSearchCode.Visible = false;
+                txtSearchItemCode.Visible = false;
+
+            }
+
+        }
+       catch (Exception ex)
+        {
+        }
+       finally
+        {
+        }
+
+    }
+
+
+
+    public void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+      try
+        {
+            GridView2.PageIndex = e.NewPageIndex;
+            string sd = DrpCategory1.SelectedValue;
+            string c = DrpSearchCode.SelectedValue;
+            string d = txtSearchItemCode.Text;
+            string e1 = DrpType.SelectedValue;
+            this.Fillgrid(sd, c, d, e1);
+
+        }
+        catch (Exception ch)
+        {
+        }
+    }
+
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            string sd = DrpCategory1.SelectedValue;
+            string c = DrpSearchCode.SelectedValue;
+            string d = txtSearchItemCode.Text;
+            string e1 = DrpType.SelectedValue;
+            this.Fillgrid(sd, c, d, e1);
+        }
+        catch (Exception ch)
+        {
+        }
+
+    }
+
+    protected void DrpCategory1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (DrpCategory1.SelectedValue != "Select")
+            {
+
+               
+                DrpSearchCode.Visible = true;
+                txtSearchItemCode.Text = "";
+                string sd = DrpCategory1.SelectedValue;
+                string c = DrpSearchCode.SelectedValue;
+                string d = txtSearchItemCode.Text;
+                string e1 = DrpType.SelectedValue;
+                this.Fillgrid(sd, c, d, e1);
+            }
+            else
+            {
+                DrpSearchCode.SelectedIndex = 0;
+                txtSearchItemCode.Visible = true;
+                DropDownList3.Visible = false;
+                string sd = "";
+                string c = "";
+                string d = "";
+                string e1 = "";
+                this.Fillgrid(sd, c, d, e1);
+            }
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+    }
+
+    protected void DrpType_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+        switch (DrpType.SelectedValue)
+        {
+            case "Category":
+                {
+                    DrpSearchCode.Visible = true;
+                    DropDownList3.Visible = true;
+                    txtSearchItemCode.Visible = true;
+                    txtSearchItemCode.Text = "";
+                    DrpCategory1.Visible = true;
+
+                    string connStr = fun.Connection();
+                    SqlConnection con = new SqlConnection(connStr);
+
+                    DataSet DS = new DataSet();
+                    string StrCat = fun.select("CId,'['+Symbol+'] - '+CName as Category", "tblDG_Category_Master", "CompId='" + CompId + "'");
+                    SqlCommand Cmd = new SqlCommand(StrCat, con);
+                    SqlDataAdapter DA = new SqlDataAdapter(Cmd);
+                    DA.Fill(DS, "tblDG_Category_Master");
+                    DrpCategory1.DataSource = DS.Tables["tblDG_Category_Master"];
+                    DrpCategory1.DataTextField = "Category";
+                    DrpCategory1.DataValueField = "CId";
+                    DrpCategory1.DataBind();
+                    DrpCategory1.Items.Insert(0, "Select");
+                    DrpCategory1.ClearSelection();
+                    fun.drpLocat(DropDownList3);
+
+                    if (DrpSearchCode.SelectedItem.Text == "Location")
+                    {
+                        DropDownList3.Visible = true;
+                        txtSearchItemCode.Visible = false;
+                        txtSearchItemCode.Text = "";
+                    }
+                    else
+                    {
+                        DropDownList3.Visible = false;
+                        txtSearchItemCode.Visible = true;
+                        txtSearchItemCode.Text = "";
+                    }
+
+                }
+                break;
+
+            case "WOItems":
+                {
+                    txtSearchItemCode.Visible = true;
+                    txtSearchItemCode.Text = "";
+
+
+                    DrpSearchCode.Visible = true;
+                    DrpCategory1.Visible = false;
+                    DrpCategory1.Items.Clear();
+                    DrpCategory1.Items.Insert(0, "Select");
+
+                    DropDownList3.Visible = false;
+                    DropDownList3.Items.Clear();
+                    DropDownList3.Items.Insert(0, "Select");
+                }
+                break;
+
+            case "Select":
+                {
+                    Page.Response.Redirect(Page.Request.Url.ToString(), true);
+                }
+                break;
+        }
+    }
+
+    public void Fillgrid(string sd, string B, string s, string drptype)
+    {
+
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        DataTable dt = new DataTable();
+
+      try
+        {
+
+            string x = "";
+            string p = "";
+            string q = "";
+            string y = "";
+            if (DrpType.SelectedValue != "Select")
+            {
+                if (DrpType.SelectedValue == "Category")
+                {
+                    if (sd != "Select")
+                    {
+
+                        x = " AND tblDG_Item_Master.CId='" + sd + "'";
+
+                        if (B != "Select")
+                        {
+                            if (B == "tblDG_Item_Master.ItemCode")
+                            {
+                                txtSearchItemCode.Visible = true;
+                                p = " And tblDG_Item_Master.ItemCode Like '" + s + "%'";
+                            }
+
+                            if (B == "tblDG_Item_Master.ManfDesc")
+                            {
+                                txtSearchItemCode.Visible = true;
+                                p = " And tblDG_Item_Master.ManfDesc Like '%" + s + "%'";
+                            }
+
+
+                            if (B == "tblDG_Item_Master.Location")
+                            {
+                                txtSearchItemCode.Visible = false;
+                                DropDownList3.Visible = true;
+
+                                if (DropDownList3.SelectedValue != "Select")
+                                {
+                                    p = " And tblDG_Item_Master.Location='" + DropDownList3.SelectedValue + "'";
+                                }
+                            }
+
+
+                        }
+                        q = "And tblDG_Item_Master.CompId='" + CompId + "' And tblDG_Item_Master.FinYearId<='" + FinYearId + "'";
+
+                    }
+                    else if (sd == "Select" && B == "Select" && s != string.Empty)
+                    {
+                        y = " And tblDG_Item_Master.ManfDesc Like '%" + s + "%'";
+
+                    }
+
+
+                }
+
+                else if (DrpType.SelectedValue != "Select" && DrpType.SelectedValue == "WOItems")
+                {
+
+                    if (B != "Select")
+                    {
+                        if (B == "tblDG_Item_Master.ItemCode")
+                        {
+                            txtSearchItemCode.Visible = true;
+                            p = " And tblDG_Item_Master.ItemCode Like '%" + s + "%'";
+                        }
+
+                        if (B == "tblDG_Item_Master.ManfDesc")
+                        {
+                            txtSearchItemCode.Visible = true;
+                            p = " And tblDG_Item_Master.ManfDesc Like '%" + s + "%'";
+                        }
+                    }
+                    else if (B == "Select" && s != string.Empty)
+                    {
+                        y = " And tblDG_Item_Master.ManfDesc Like '%" + s + "%'";
+
+                    }
+
+                }
+
+                SqlCommand cmd = new SqlCommand();
+                SqlDataAdapter da = new SqlDataAdapter("GetAllItem", con);
+                da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                da.SelectCommand.Parameters.Add(new SqlParameter("@startIndex", SqlDbType.VarChar));
+                da.SelectCommand.Parameters["@startIndex"].Value = sd;
+                da.SelectCommand.Parameters.Add(new SqlParameter("@pageSize", SqlDbType.VarChar));
+                da.SelectCommand.Parameters["@pageSize"].Value = x;
+                da.SelectCommand.Parameters.Add(new SqlParameter("@startIndex1", SqlDbType.VarChar));
+                da.SelectCommand.Parameters["@startIndex1"].Value = p;
+                da.SelectCommand.Parameters.Add(new SqlParameter("@pageSize1", SqlDbType.VarChar));
+                da.SelectCommand.Parameters["@pageSize1"].Value = q;
+                da.SelectCommand.Parameters.Add(new SqlParameter("@drpType", SqlDbType.VarChar));
+                da.SelectCommand.Parameters["@drpType"].Value = drptype;
+                da.SelectCommand.Parameters.Add(new SqlParameter("@drpCode", SqlDbType.VarChar));
+                da.SelectCommand.Parameters["@drpCode"].Value = B;
+                da.SelectCommand.Parameters.Add(new SqlParameter("@y", SqlDbType.VarChar));
+                da.SelectCommand.Parameters["@y"].Value = y;
+                DataSet DSitem = new DataSet();
+                da.Fill(DSitem);
+                GridView2.DataSource = DSitem;
+                GridView2.DataBind();
+            }
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+    }
+
+   
+    protected void DropDownList3_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            string sd = DrpCategory1.SelectedValue;
+            string c = DrpSearchCode.SelectedValue;
+            string d = txtSearchItemCode.Text;
+            string e1 = DrpType.SelectedValue;
+            this.Fillgrid(sd, c, d, e1);
+        }
+        catch (Exception ch)
+        {
+        }
+        finally
+        {
+
+        }
+    }
+
+
+
+
+    protected void DrpSearchCode_SelectedIndexChanged(object sender, EventArgs e)
+    {        
+
+        try
+        {
+            if (DrpSearchCode.SelectedItem.Text == "Location")
+            {
+
+                DropDownList3.Visible = true;
+                txtSearchItemCode.Visible = false;
+
+            }
+            else
+            {
+                DropDownList3.Visible = false;
+                txtSearchItemCode.Visible = true;
+            }
+        }
+
+        catch (Exception ex) { }
+    }
+    protected void GridView2_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+}

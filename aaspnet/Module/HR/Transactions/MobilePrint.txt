@@ -1,0 +1,142 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Transactions/MobilePrint.aspx.txt ===
+
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="MobilePrint.aspx.cs" Inherits="Module_HR_Transactions_MobilePrint"  Theme ="Default" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>ERP</title>
+</head>
+<body>
+    <form id="form1" runat="server" >
+    
+        <CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" HasCrystalLogo="False"
+                    AutoDataBind="true" EnableDatabaseLogonPrompt="False" 
+                    EnableParameterPrompt="False" ReportSourceID="CrystalReportSource1" 
+                    DisplayGroupTree="False" 
+            ReuseParameterValuesOnRefresh="True" />
+        <CR:CrystalReportSource ID="CrystalReportSource1" runat="server">
+           <Report FileName="~\Module\HR\Transactions\Reports\MobileBill.rpt"></Report>
+        </CR:CrystalReportSource>
+   
+    </form>
+</body>
+</html>
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Transactions/MobilePrint.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using CrystalDecisions.CrystalReports.Engine;
+using System.Data.SqlClient;
+
+public partial class Module_HR_Transactions_MobilePrint : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    private ReportDocument report = new ReportDocument();
+    string mth = "";
+    string Key = string.Empty;
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+           try
+            {
+                Key = Request.QueryString["Key"].ToString();
+                mth = Request.QueryString["Months"].ToString();
+                this.DDLMonth();
+
+            }
+
+           catch (Exception ex)
+            { }
+        }
+        else
+        {
+
+            Key = Request.QueryString["Key"].ToString();
+            ReportDocument doc = (ReportDocument)Session[Key];
+            CrystalReportViewer1.ReportSource = doc;
+        }
+        
+    }
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        report = new ReportDocument();
+    }
+    public void DDLMonth()
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+
+        DataSet DSitem = new DataSet();
+    
+        DataTable dt = new DataTable();
+       
+        try
+        {
+            int CompId = Convert.ToInt32(Session["compid"]);
+            int FinYearId = Convert.ToInt32(Session["finyear"]);           
+             
+                dt.Columns.Add(new System.Data.DataColumn("EmpId", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("EmployeeName", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("MobileNo", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("LimitAmt", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("BillAmt", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("Value", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));
+
+                string Sql = "SELECT  tblHR_OfficeStaff.CompId , tblHR_OfficeStaff.EmpId, tblHR_OfficeStaff.EmployeeName,tblHR_CoporateMobileNo.MobileNo,   tblHR_CoporateMobileNo.LimitAmt, tblHR_MobileBill.BillAmt, tblExciseser_Master.Value  FROM    tblHR_OfficeStaff INNER JOIN      tblHR_CoporateMobileNo ON tblHR_OfficeStaff.MobileNo = tblHR_CoporateMobileNo.Id INNER JOIN  tblHR_MobileBill ON tblHR_OfficeStaff.EmpId = tblHR_MobileBill.EmpId INNER JOIN tblExciseser_Master ON tblHR_MobileBill.Taxes = tblExciseser_Master.Id   And tblHR_OfficeStaff.CompId='" + CompId + "' And tblHR_MobileBill.FinYearId ='" + FinYearId + "'And BillMonth=  '" + mth + "' ";
+                ;
+            
+
+                SqlCommand cmd = new SqlCommand(Sql, con);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataSet DS = new MobileBill();
+                da.Fill(DSitem);
+                dt.Merge(DSitem.Tables[0]);
+               
+                DS.Tables[0].Merge(dt);
+                DS.AcceptChanges();
+                string reportPath = Server.MapPath("~/Module/HR/Transactions/Reports/MobileBill.rpt");
+                report.Load(reportPath);
+
+                string CompAdd = fun.CompAdd(CompId);
+                report.SetParameterValue("CompAdd", CompAdd);
+                report.SetDataSource(DS);
+                CrystalReportViewer1.ReportSource = report;
+                Session[Key] = report;
+        }
+        catch (Exception ex) { }
+        finally
+        {
+            DSitem.Clear();
+            DSitem.Dispose();
+            dt.Clear();
+            dt.Dispose();
+            con.Close();
+            con.Dispose();
+        }
+    }
+     protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        report.Close();
+        report.Dispose();
+        GC.Collect();
+    }
+
+}

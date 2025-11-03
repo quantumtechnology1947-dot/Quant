@@ -1,0 +1,187 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Transactions/OfficeStaff_New.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="OfficeStaff_New.aspx.cs" Inherits="Module_HR_Transactions_OfficeStaff_New" Title="ERP" Theme="Default" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3"  Runat="Server" >
+    <table align="left" cellpadding="0" cellspacing="0" class="style1" 
+        style="width: 525px">
+        <tr>
+            <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;Offers</b></td>
+        </tr>
+        <tr>
+            <td align="center">
+    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" 
+        DataKeyNames="OfferId"  AllowPaging="True" 
+                    CssClass="yui-datatable-theme" PageSize="24" Width="100%" 
+                    onpageindexchanging="GridView1_PageIndexChanging" 
+                    onselectedindexchanged="GridView1_SelectedIndexChanged"> 
+        <PagerSettings PageButtonCount="40" />
+        <Columns>
+            <asp:HyperLinkField NavigateUrl="~/Module/HR/Transactions/OfficeStaff_New_Details.aspx" 
+                Text="Select" DataNavigateUrlFields="OfferId" 
+                
+                DataNavigateUrlFormatString="~/Module/HR/Transactions/OfficeStaff_New_Details.aspx?OfferId={0}&ModId=12&SubModId=24" >
+                <ItemStyle HorizontalAlign="Center" />
+            </asp:HyperLinkField>
+            <asp:TemplateField HeaderText="OfferId" InsertVisible="False" 
+                SortExpression="OfferId">
+                <ItemTemplate>
+                    <asp:Label ID="Label1" runat="server" Text='<%# Eval("OfferId") %>'></asp:Label>
+                </ItemTemplate>                
+                <ItemStyle HorizontalAlign="Right" />
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="EmployeeName" SortExpression="EmployeeName">
+                <ItemTemplate>
+                    <asp:Label ID="Label2" runat="server" Text='<%# Eval("EmployeeName") %>'></asp:Label>
+                </ItemTemplate>
+                
+                <ItemStyle Width="50%" />
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="StaffType" SortExpression="StaffType">
+                <ItemTemplate>
+                    <asp:Label ID="Label3" runat="server" Text='<%# Eval("StaffType") %>'></asp:Label>
+                </ItemTemplate>
+                
+                <ItemStyle HorizontalAlign="Center" />
+                
+            </asp:TemplateField>            
+        </Columns>
+         <FooterStyle Wrap="True"></FooterStyle>
+                
+                    <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+    </asp:GridView>
+                <br />
+                <asp:Label ID="lblmsg" runat="server" style="color: #CC0000"></asp:Label>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Transactions/OfficeStaff_New.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_HR_Transactions_OfficeStaff_New : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            lblmsg.Text = "";
+            if (Request.QueryString["msg"] != null)
+            {
+                lblmsg.Text = Request.QueryString["msg"].ToString();
+            }
+            this.FillDatagrid();
+        }
+        catch(Exception ex)
+        {
+        }
+
+
+    }
+
+    public void FillDatagrid()
+    {
+        //// Get Assly No & Qty
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        try
+        {            
+            
+            SqlCommand cmdgrid = new SqlCommand("SELECT OfferId,EmployeeName,StaffType FROM [tblHR_Offer_Master] Where OfferId not in (select OfferId from [tblHR_OfficeStaff]) Order By OfferId Desc", con);            
+            SqlDataAdapter dagrid = new SqlDataAdapter(cmdgrid);
+            DataSet dsgrid = new DataSet();
+            dagrid.Fill(dsgrid);
+            // View Selected Item
+            DataTable dtNew = new DataTable();
+            dtNew.Columns.Add("OfferId", typeof(Int32));
+            dtNew.Columns.Add("EmployeeName", typeof(string));
+            dtNew.Columns.Add("StaffType", typeof(string));
+            
+            DataRow drNew;
+            string ItemCode = "";
+            string MangDesc = "";
+            string PurchDesc = "";
+            string UOMBasic = "";
+            string UOMPurch = "";
+
+            for (int k = 0; k < dsgrid.Tables[0].Rows.Count; k++)
+            {
+                drNew = dtNew.NewRow();
+                drNew[0] = Convert.ToInt32(dsgrid.Tables[0].Rows[k]["OfferId"]);
+                drNew[1] = (dsgrid.Tables[0].Rows[k]["EmployeeName"].ToString());
+
+                if (dsgrid.Tables[0].Rows[k]["StaffType"].ToString()=="1")
+                {
+                    drNew[2] ="Office Staff";
+                }
+                else
+                {
+                    drNew[2] = "Contract Staff";
+                }
+
+                dtNew.Rows.Add(drNew);
+                dtNew.AcceptChanges();
+            }
+
+            GridView1.DataSource = dtNew;
+            GridView1.DataBind();
+
+        }
+        catch (Exception ex) { }
+        finally { con.Close(); }
+    }
+
+    protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView1.PageIndex = e.NewPageIndex;
+        this.FillDatagrid();
+    }
+}

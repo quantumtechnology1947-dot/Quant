@@ -1,0 +1,479 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Transactions/OfferLetter_Edit.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="OfferLetter_Edit.aspx.cs" Inherits="Module_HR_Transactions_OfferLetter_Edit" Title="ERP" Theme ="Default"  %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .style2
+        {
+            width: 100%;
+        }
+    </style> 
+     <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table class="style2" cellpadding="0" cellspacing="0">
+       <tr>
+            <td align="left" valign="middle"  
+                style="background:url(../../../images/hdbg.JPG)" height="21" 
+                class="fontcsswhite"><b>
+                &nbsp;Offer Letter - Edit / Increment</b></td>
+        </tr>
+        <tr>
+            <td align="left" height="30px">
+                <b>&nbsp;</b>Employee Name&nbsp;<asp:TextBox ID="TextBox1" runat="server" CssClass="box3" Width="350px"></asp:TextBox>
+
+ <cc1:AutoCompleteExtender ID="TxtEmpName_AutoCompleteExtender" runat="server" 
+                                DelimiterCharacters="" Enabled="True" ServiceMethod="GetCompletionList" 
+                                ServicePath="" TargetControlID="TextBox1" UseContextKey="True"
+                                 CompletionInterval="100" CompletionSetCount="2" FirstRowSelected="True" MinimumPrefixLength="1" ShowOnlyCurrentWordInCompletionListItem="True" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                            </cc1:AutoCompleteExtender>
+&nbsp;<asp:Button ID="Button1" runat="server" CssClass="redbox" Text="Search" 
+                    onclick="Button1_Click" />
+                
+                
+            </td>
+        </tr>
+        <tr>
+            <td align="left">
+                <asp:GridView ID="GridView2" runat="server" AllowPaging="True" 
+                    AutoGenerateColumns="False" DataKeyNames="Id" 
+                     CssClass="yui-datatable-theme" Width="100%" 
+                    onrowdatabound="GridView2_RowDataBound" PageSize="20" 
+                    onpageindexchanging="GridView2_PageIndexChanging" 
+                    onrowcommand="GridView2_RowCommand" onrowdeleting="GridView2_RowDeleting">
+                    <PagerSettings PageButtonCount="40" />
+                    <Columns>
+                        <asp:TemplateField ShowHeader="False">
+                            <ItemTemplate>
+                                <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="False"
+                                 CommandName="Select"  Text="Edit"></asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="2%" />
+                        </asp:TemplateField>
+                        
+                         <asp:TemplateField ShowHeader="False">
+                            <ItemTemplate>
+                                <asp:LinkButton ID="LinkBtnIncrement" runat="server" CausesValidation="False"
+                                 CommandName="Increment"  Text="Increment">
+                                 </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="2%" />
+                        </asp:TemplateField>
+                        
+                      <asp:TemplateField HeaderText="SN">
+                                    <ItemTemplate>
+                                    <%# Container.DataItemIndex + 1%>
+                                    </ItemTemplate>
+                                        <ItemStyle HorizontalAlign="Right" Width="2%" />                                      
+                                    </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Date">
+                        <ItemTemplate>
+                            <asp:Label ID="lblDate" runat="server" Text='<%#Eval("Date")%>'></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="5%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Offer Id" InsertVisible="False" 
+                           >
+                            <ItemTemplate>
+                                <asp:Label ID="lblId" runat="server" Text='<%# Bind("Id") %>'></asp:Label>
+                            </ItemTemplate>
+                           
+                            <ItemStyle HorizontalAlign="Right" Width="3%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Type Of">
+                        <ItemTemplate>
+                            <asp:Label ID="lblTypeOf" runat="server" Text='<%#Eval("TypeOf")%>'></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="3%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField SortExpression="StaffType">
+                            <ItemTemplate>
+                                <asp:Label ID="lblType" runat="server" Text='<%# Bind("Type") %>'></asp:Label>
+                            </ItemTemplate>
+                           
+                            <ItemStyle HorizontalAlign="Left" Width="7%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Employee Name" SortExpression="EmployeeName">
+                            <ItemTemplate>
+                                <asp:Label ID="lblName" runat="server" Text='<%# Bind("Name") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Left" Width="15%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Designation">
+                         <ItemTemplate>
+                                <asp:Label ID="lblDesignation" runat="server" Text='<%# Bind("Designation") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Left" Width="7%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Duty Hrs">
+                        <ItemTemplate>
+                                <asp:Label ID="lblDutyHrs" runat="server" Text='<%# Bind("DutyHrs") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="4%" />
+                        </asp:TemplateField> 
+                        <asp:TemplateField HeaderText="Interviewed by">
+                        <ItemTemplate>
+                                <asp:Label ID="lblInvBy" runat="server" Text='<%# Bind("InvBy") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Left" Width="12%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Contact No">
+                        <ItemTemplate>
+                                <asp:Label ID="lblContNo" runat="server" Text='<%# Bind("ContNo") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="7%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Gross Salary">
+                         <ItemTemplate>
+                                <asp:Label ID="lblGrossSal" runat="server" Text='<%# Bind("GrossSal") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="6%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Status">
+                         <ItemTemplate>
+                                <asp:Label ID="lblStatus" runat="server" Text='<%# Bind("Status") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="3%" />
+                        </asp:TemplateField>
+                    </Columns>
+                    
+                       <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                       
+                             
+                </asp:GridView>
+                <asp:SqlDataSource ID="SqlDataSource1"  
+                    ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"  
+                    runat="server" 
+                    DeleteCommand="DELETE FROM tblHR_Offer_Master WHERE (OfferId = @OfferId)" 
+                    InsertCommand="INSERT INTO [tblHR_Offer_Master] ([EmployeeName], [StaffType]) VALUES (@EmployeeName, @StaffType)" 
+                    SelectCommand="SELECT tblHR_Offer_Master.OfferId ,tblHR_Offer_Master.EmployeeName ,tblHR_Offer_Master.StaffType from tblHR_Offer_Master where tblHR_Offer_Master.OfferId not in (SELECT tblHR_OfficeStaff.OfferId from tblHR_OfficeStaff)" 
+                    
+                    UpdateCommand="UPDATE [tblHR_Offer_Master] SET [EmployeeName] = @EmployeeName, [StaffType] = @StaffType WHERE [OfferId] = @OfferId">
+                    <DeleteParameters>
+                        <asp:Parameter Name="OfferId" Type="Int32" />
+                    </DeleteParameters>
+                    <UpdateParameters>
+                        <asp:Parameter Name="EmployeeName" Type="String" />
+                        <asp:Parameter Name="StaffType" Type="Int32" />
+                        <asp:Parameter Name="OfferId" Type="Int32" />
+                    </UpdateParameters>
+                    <InsertParameters>
+                        <asp:Parameter Name="EmployeeName" Type="String" />
+                        <asp:Parameter Name="StaffType" Type="Int32" />
+                    </InsertParameters>
+                </asp:SqlDataSource>
+                
+                
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Transactions/OfferLetter_Edit.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_HR_Transactions_OfferLetter_Edit : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+   
+    int CompId = 0;
+    string FyId = "";
+    string y = "";
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        try
+        {
+            FyId = Session["finyear"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+
+            if (!IsPostBack)
+            {
+                this.binddata(y);
+            }
+
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
+
+    public void binddata(string EmpName)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        con.Open();
+        try
+        {
+            DataTable dt = new DataTable();
+            DataRow dr;
+
+
+
+
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("Date", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("TypeOf", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Type", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Name", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Designation", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("DutyHrs", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("InvBy", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ContNo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("GrossSal", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Status", typeof(string)));
+
+
+            string X="";
+            if(TextBox1.Text!="")
+            {
+                X="And EmployeeName='"+EmpName+"' ";
+            }
+
+
+            string sql = fun.select("*", "tblHR_Offer_Master", "CompId='" + CompId + "' And FinYearId<='" + FyId + "'"+X+" Order by OfferId Desc");
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    dr = dt.NewRow();
+
+                    dr[0] = ds.Tables[0].Rows[i]["OfferId"];
+                    dr[1] = fun.FromDateDMY(ds.Tables[0].Rows[i]["SysDate"].ToString());
+
+                    if (ds.Tables[0].Rows[i]["TypeOf"].ToString() == "1")
+                    {
+                        dr[2] = "SAPL";
+                    }
+                    else if (ds.Tables[0].Rows[i]["TypeOf"].ToString() == "2")
+                    {
+                        dr[2] = "NEHA";
+                    }
+
+                    string sql2 = fun.select("*", "tblHR_EmpType", "Id='" + ds.Tables[0].Rows[i]["StaffType"].ToString() + "'");
+                    SqlCommand cmd2 = new SqlCommand(sql2, con);
+                    SqlDataAdapter da2 = new SqlDataAdapter(cmd2);
+                    DataSet ds2 = new DataSet();
+                    da2.Fill(ds2, "tblHR_EmpType");
+
+                    if (ds2.Tables[0].Rows.Count > 0)
+                    {
+                        dr[3] = ds2.Tables[0].Rows[0]["Description"].ToString();
+                    }
+
+                    dr[4] = ds.Tables[0].Rows[i]["Title"].ToString()+" "+ds.Tables[0].Rows[i]["EmployeeName"].ToString();
+
+                    string sql3 = fun.select("Type AS Designation", "tblHR_Designation", "Id='" + ds.Tables[0].Rows[i]["Designation"] + "'");
+                    SqlCommand cmd3 = new SqlCommand(sql3, con);
+                    SqlDataAdapter da3 = new SqlDataAdapter(cmd3);
+                    DataSet ds3 = new DataSet();
+                    da3.Fill(ds3, "tblHR_Designation");
+                    if (ds3.Tables[0].Rows.Count > 0)
+                    {
+                        dr[5] = ds3.Tables[0].Rows[0]["Designation"].ToString();
+                    }
+
+                    string sql5 = fun.select("Hours", "tblHR_DutyHour", "Id='" + ds.Tables[0].Rows[i]["DutyHrs"] + "'");
+                    SqlCommand cmd5 = new SqlCommand(sql5, con);
+                    SqlDataAdapter da5 = new SqlDataAdapter(cmd5);
+                    DataSet ds5 = new DataSet();
+                    da5.Fill(ds5, "tblHR_DutyHour");
+
+                    if (ds5.Tables[0].Rows.Count > 0)
+                    {
+                        dr[6] = ds5.Tables[0].Rows[0]["Hours"];
+                    }
+
+                    string sql4 = fun.select("EmployeeName", "tblHR_OfficeStaff", "EmpId='" + ds.Tables[0].Rows[i]["InterviewedBy"] + "'");
+                    SqlCommand cmd4 = new SqlCommand(sql4, con);
+                    SqlDataAdapter da4 = new SqlDataAdapter(cmd4);
+                    DataSet ds4 = new DataSet();
+                    da4.Fill(ds4, "tblHR_OfficeStaff");
+
+                    if (ds4.Tables[0].Rows.Count > 0)
+                    {
+                        dr[7] = ds4.Tables[0].Rows[0]["EmployeeName"].ToString();
+                    }
+
+                    dr[8] = ds.Tables[0].Rows[i]["ContactNo"];
+                    dr[9] = ds.Tables[0].Rows[i]["salary"];
+
+                    string sql6 = fun.select("*", "tblHR_OfficeStaff", "OfferId='" + ds.Tables[0].Rows[i]["OfferId"] + "'");
+                    SqlCommand cmd6 = new SqlCommand(sql6, con);
+                    SqlDataAdapter da6 = new SqlDataAdapter(cmd6);
+                    DataSet ds6 = new DataSet();
+                    da6.Fill(ds6, "tblHR_OfficeStaff");
+
+                    if (ds6.Tables[0].Rows.Count > 0)
+                    {
+                        dr[10] = "Confirm";
+                    }
+
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+
+                }
+            }
+
+            GridView2.DataSource = dt;
+            GridView2.DataBind();
+
+            con.Close();
+
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    protected void GridView2_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton del = (LinkButton)e.Row.Cells[0].Controls[0];
+                del.Attributes.Add("onclick", "return confirmationDelete();");
+            }
+        }
+       catch (Exception ex)
+        {
+        }
+
+
+    }
+    protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            GridView2.PageIndex = e.NewPageIndex;
+            this.binddata(y);
+        }
+        catch (Exception st)
+        {
+
+        }
+    }
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] GetCompletionList(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        con.Open();
+        int CompId = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        string cmdStr = fun.select("EmployeeName", "tblHR_Offer_Master", "CompId='" + CompId + "'");
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds, "tblHR_OfficeStaff");
+        con.Close();
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[0].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[0].ToString() ;
+                //if (main.Length == 10)
+                //    break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        con.Open();
+
+        try
+        {
+            
+            GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);   
+            int OI = 0;
+            string OfferId = string.Empty;
+            OfferId = ((Label)row.FindControl("lblId")).Text;
+            if (e.CommandName == "Select")
+            {                          
+                OI = 0;
+                Response.Redirect("~/Module/HR/Transactions/OfferLetter_Edit_Details.aspx?offid=" + OfferId + "&OI=" + OI + "&ModId=12&SubModId=25");
+            }
+            if (e.CommandName == "Increment")
+            {                 
+                OI = 1;
+                Response.Redirect("~/Module/HR/Transactions/OfferLetter_Edit_Details.aspx?offid=" + OfferId + "&OI=" + OI + "&ModId=12&SubModId=25");
+            }
+        }
+        catch (Exception st)
+        {
+        }
+
+        con.Close();
+    }
+
+
+    protected void GridView2_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+
+    }
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        if (TextBox1.Text != "")
+        {
+            this.binddata(TextBox1.Text);
+        }
+
+    }
+}

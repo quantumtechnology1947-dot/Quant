@@ -1,0 +1,533 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Transactions/OfficeStaff_Print_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="OfficeStaff_Print_Details.aspx.cs" Inherits="Module_HR_Transactions_OfficeStaff_Print_Details" Title="ERP" Theme="Default" %>
+
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+    .style2
+    {
+        width: 100%;
+        
+    }
+</style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+ </asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="left" cellpadding="0" cellspacing="0" class="style2">
+    <tr>
+        <td align="center">
+            <asp:Panel ID="Panel1" runat="server" ScrollBars="Both" Height="460" Width="100%">           
+    <CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" HasCrystalLogo="False"
+        AutoDataBind="True" Height="50px" ReportSourceID="CrystalReportSource2" 
+        Width="350px" DisplayGroupTree="False" EnableDatabaseLogonPrompt="False" 
+        EnableParameterPrompt="False" />
+    <CR:CrystalReportSource ID="CrystalReportSource2" runat="server">
+        <Report FileName="~\Module\HR\Transactions\Reports\Staff.rpt">
+        </Report>
+    </CR:CrystalReportSource>
+ </asp:Panel>
+        </td>       
+    </tr>
+    <tr>
+     <td  align="center" valign="middle" height="25">
+            <asp:Button ID="Cancel" runat="server" Text="Cancel" CssClass="redbox" onclick="Cancel_Click" /></td>
+    </tr>
+</table>
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Transactions/OfficeStaff_Print_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
+
+public partial class Module_HR_Transactions_OfficeStaff_Print_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    DataSet DS = new DataSet();
+    private ReportDocument report = new ReportDocument();
+    string Key = string.Empty;
+    string Pageback = "";
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {     
+                string constr = fun.Connection();
+                SqlConnection con = new SqlConnection(constr);
+                DataSet Gin = new DataSet();
+                DataTable dt = new DataTable();
+
+
+            try
+            {
+
+             
+                string CDate = fun.getCurrDate();
+                string CTime = fun.getCurrTime();
+                string EId = Request.QueryString["EmpId"];
+                Key = Request.QueryString["Key"].ToString();
+
+                string sId = Session["username"].ToString();
+                int CompId = Convert.ToInt32(Session["compid"]);
+                int FinYearId = Convert.ToInt32(Session["finyear"]);
+                dt.Columns.Add(new System.Data.DataColumn("CompanyName", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("PhotoData", typeof(Byte[])));
+                dt.Columns.Add(new System.Data.DataColumn("Address", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("CardNo", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("EmpName", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Department", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("BussinessGroup", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("DeptDirector", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("DeptHead", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("GroupLeader", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Designation", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Grade", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("MobileNo", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("extNo", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("joindate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("birthdate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("resigndate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("martialstatus", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("physicalstatus", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("padd", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("cadd", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("email", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("gender", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("bgp", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("height", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("weight", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("religion", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("cast", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("edu", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("adq", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("lc", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("wd", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("te", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("ctc", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("ba", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("pf", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("pa", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("ps", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("ex", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("inf", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("LogoImage", typeof(Byte[])));
+
+         
+                DataRow dr;
+                string SwapCardNo = "";
+                //Byte[] CompLogoImg;
+                string department = "";
+                string BussinessGroup = "";
+                con.Open();
+                string strselect = fun.select("tblHR_OfficeStaff.EmpId,tblHR_OfficeStaff.CompId,tblHR_OfficeStaff.PhotoData,tblHR_OfficeStaff.Title,tblHR_OfficeStaff.EmployeeName,tblHR_OfficeStaff.SwapCardNo,tblHR_OfficeStaff.PhotoFileName,tblHR_OfficeStaff.Department,tblHR_OfficeStaff.BGGroup,tblHR_OfficeStaff.Designation,tblHR_OfficeStaff.DeptHead,tblHR_OfficeStaff.GroupLeader,tblHR_OfficeStaff.DirectorsName,tblHR_OfficeStaff.Grade,tblHR_OfficeStaff.MobileNo,tblHR_OfficeStaff.ContactNo,tblHR_OfficeStaff.CompanyEmail,tblHR_OfficeStaff.EmailId1,tblHR_OfficeStaff.ExtensionNo,tblHR_OfficeStaff.JoiningDate,tblHR_OfficeStaff.ResignationDate,tblHR_OfficeStaff.PermanentAddress, tblHR_OfficeStaff.CorrespondenceAddress, tblHR_OfficeStaff.EmailId2, tblHR_OfficeStaff.DateOfBirth, tblHR_OfficeStaff.Gender, tblHR_OfficeStaff.MartialStatus, tblHR_OfficeStaff.BloodGroup, tblHR_OfficeStaff.PhysicallyHandycapped,tblHR_OfficeStaff.Height ,tblHR_OfficeStaff.Weight,tblHR_OfficeStaff.Religion, tblHR_OfficeStaff.Cast, tblHR_OfficeStaff.EducationalQualification, tblHR_OfficeStaff.AdditionalQualification, tblHR_OfficeStaff.LastCompanyName, tblHR_OfficeStaff.WorkingDuration, tblHR_OfficeStaff.TotalExperience, tblHR_OfficeStaff.CurrentCTC,tblHR_OfficeStaff.BankAccountNo, tblHR_OfficeStaff.PFNo, tblHR_OfficeStaff.PANNo, tblHR_OfficeStaff.PassPortNo, tblHR_OfficeStaff.ExpiryDate, tblHR_OfficeStaff.AdditionalInformation", "tblHR_OfficeStaff", "tblHR_OfficeStaff.EmpId='" + EId + "'and tblHR_OfficeStaff.CompId='" + CompId + "'");
+                SqlCommand cmdselect = new SqlCommand(strselect, con);
+                SqlDataAdapter da = new SqlDataAdapter(cmdselect);
+                da.Fill(DS);
+
+                if (DS.Tables[0].Rows.Count > 0)
+                {
+
+                    dr = dt.NewRow();
+                    // to Fill Swap Card Value using Parameter field
+                    string StrSwap = fun.select("SwapCardNo", "tblHR_SwapCard", "Id='" + DS.Tables[0].Rows[0]["SwapCardNo"].ToString() + "'");
+                    SqlCommand cmdSwap = new SqlCommand(StrSwap, con);
+                    SqlDataAdapter daSwap = new SqlDataAdapter(cmdSwap);
+                    DataSet Dswap = new DataSet();
+                    daSwap.Fill(Dswap);
+                    if (Dswap.Tables[0].Rows.Count > 0)
+                    {
+                        SwapCardNo = Dswap.Tables[0].Rows[0][0].ToString();
+                    }
+                    else
+                    {
+                        SwapCardNo = "NA";
+                    }
+                    string StrCompLogo = fun.select("LogoImage", "tblCompany_master", "CompId='" + DS.Tables[0].Rows[0]["CompId"].ToString() + "'");
+                    SqlCommand cmdCompLogo = new SqlCommand(StrCompLogo, con);
+                    SqlDataAdapter daCompLogo = new SqlDataAdapter(cmdCompLogo);
+                    DataSet DsCompLogo = new DataSet();
+                    daCompLogo.Fill(DsCompLogo);
+                    if (DsCompLogo.Tables[0].Rows.Count > 0)
+                    {
+                        //logo of Company
+                        dr[40] = ((Byte[])DsCompLogo.Tables[0].Rows[0][0]);
+                    }
+                    // to Fill DepartMent Value using Parameter field
+
+                    string StrDept = fun.select("Description +' ['+Symbol+']'", "tblHR_Departments", "Id='" + DS.Tables[0].Rows[0]["Department"].ToString() + "'");
+                    SqlCommand cmdDept = new SqlCommand(StrDept, con);
+                    SqlDataAdapter daDept = new SqlDataAdapter(cmdDept);
+                    DataSet DsDept = new DataSet();
+                    daDept.Fill(DsDept);
+                    if (DsDept.Tables[0].Rows.Count > 0)
+                    {
+                        department = DsDept.Tables[0].Rows[0][0].ToString();
+                    }
+
+                    // to Fill BG Value using Parameter field
+                    string StrBG = fun.select("Name +' ['+Symbol+']'", "BusinessGroup", "Id='" + DS.Tables[0].Rows[0]["BGGroup"].ToString() + "'");
+                    SqlCommand cmdBG = new SqlCommand(StrBG, con);
+                    SqlDataAdapter daBG = new SqlDataAdapter(cmdBG);
+                    DataSet DsBG = new DataSet();
+                    daBG.Fill(DsBG);
+                    if (DsBG.Tables[0].Rows.Count > 0)
+                    {
+                        BussinessGroup = DsBG.Tables[0].Rows[0][0].ToString();
+                    }
+                    // to Fill Director Name  Value using Parameter field
+                    string StrDirctName = fun.select("Title,EmployeeName", "tblHR_OfficeStaff", "UserID='" + DS.Tables[0].Rows[0]["DirectorsName"].ToString() + "' AND (Designation='2' OR Designation='3')");
+                    SqlCommand cmdDirctName = new SqlCommand(StrDirctName, con);
+                    SqlDataAdapter daDirctName = new SqlDataAdapter(cmdDirctName);
+                    DataSet DsDirctName = new DataSet();
+                    daDirctName.Fill(DsDirctName);
+                    string DeptDirector = "";
+
+                    if (DsDirctName.Tables[0].Rows.Count > 0)
+                    {
+                        DeptDirector = DsDirctName.Tables[0].Rows[0][0].ToString() + "." + DsDirctName.Tables[0].Rows[0][1].ToString();
+                    }
+                    else
+                    {
+                        DeptDirector = "NA";
+                    }
+
+                    // to Fill Director Name  Value using Parameter field
+
+                    string EmpName1 = DS.Tables[0].Rows[0]["Title"].ToString() + "." + DS.Tables[0].Rows[0]["EmployeeName"].ToString();
+                    //to Fill Dept Head Name Value using Parameter field
+                    string StrHeadName = fun.select("Title,EmployeeName", "tblHR_OfficeStaff", "UserID='" + DS.Tables[0].Rows[0]["DeptHead"].ToString() + "'");
+                    SqlCommand cmdHeadName = new SqlCommand(StrHeadName, con);
+                    SqlDataAdapter daHeadName = new SqlDataAdapter(cmdHeadName);
+                    DataSet DsHeadName = new DataSet();
+                    daHeadName.Fill(DsHeadName);
+                    string Depthead = "";
+
+                    if (DsHeadName.Tables[0].Rows.Count > 0)
+                    {
+                        Depthead = DsHeadName.Tables[0].Rows[0][0].ToString() + "." + DsHeadName.Tables[0].Rows[0][1].ToString();
+                    }
+                    else
+                    {
+                        Depthead = "NA";
+                    }
+                    //to Fill Dept Head Name Value using Parameter field
+                    string StrGroupLeadName = fun.select("Title,EmployeeName", "tblHR_OfficeStaff", "UserID='" + DS.Tables[0].Rows[0]["GroupLeader"].ToString() + "'AND Designation='7'");
+                    SqlCommand cmdGroupLeadName = new SqlCommand(StrGroupLeadName, con);
+                    SqlDataAdapter daGroupLeadName = new SqlDataAdapter(cmdGroupLeadName);
+                    DataSet DsGroupLeadName = new DataSet();
+                    daGroupLeadName.Fill(DsGroupLeadName);
+                    string groupleader = "";
+                    if (DsGroupLeadName.Tables[0].Rows.Count > 0)
+                    {
+                        groupleader = DsGroupLeadName.Tables[0].Rows[0][0].ToString() + "." + DsGroupLeadName.Tables[0].Rows[0][0].ToString();
+                    }
+                    else
+                    {
+                        groupleader = "NA";
+                    }
+                    // to Fill Designation Value using Parameter field
+                    string StrDesign = fun.select("Type +' ['+Symbol+']'", "tblHR_Designation", "Id='" + DS.Tables[0].Rows[0]["Designation"].ToString() + "'");
+                    SqlCommand cmdDesign = new SqlCommand(StrDesign, con);
+                    SqlDataAdapter daDesign = new SqlDataAdapter(cmdDesign);
+                    DataSet DsDesign = new DataSet();
+                    daDesign.Fill(DsDesign);
+                    string designation = "";
+                    if (DsDesign.Tables[0].Rows.Count > 0)
+                    {
+                        designation = DsDesign.Tables[0].Rows[0][0].ToString();
+                    }
+                    // to Fill Grade Value using Parameter field 
+
+                    string StrGrade = fun.select("Symbol", "tblHR_Grade", "Id='" + DS.Tables[0].Rows[0]["Grade"].ToString() + "'");
+                    SqlCommand cmdGrade = new SqlCommand(StrGrade, con);
+                    SqlDataAdapter daGrade = new SqlDataAdapter(cmdGrade);
+                    DataSet DsGrade = new DataSet();
+                    daGrade.Fill(DsGrade);
+                    string grade = "";
+                    if (DsGrade.Tables[0].Rows.Count > 0)
+                    {
+                        grade = DsGrade.Tables[0].Rows[0]["Symbol"].ToString();
+                    }
+                    // to Fill Corporate Mobile No Value using Parameter field
+                    string StrCorporateMo = fun.select("MobileNo", "tblHR_CoporateMobileNo", "Id='" + DS.Tables[0].Rows[0]["MobileNo"].ToString() + "'");
+                    SqlCommand cmdCorporateMo = new SqlCommand(StrCorporateMo, con);
+                    SqlDataAdapter daCorporateMo = new SqlDataAdapter(cmdCorporateMo);
+                    DataSet DsCorporateMo = new DataSet();
+                    daCorporateMo.Fill(DsCorporateMo);
+                    string mobileno = "";
+                    if (DsCorporateMo.Tables[0].Rows.Count > 0)
+                    {
+                        mobileno = DsCorporateMo.Tables[0].Rows[0][0].ToString();
+                    }
+                    else
+                    {
+                        mobileno = "NA";
+                    }
+                    string StrExtNo = fun.select("ExtNo", "tblHR_IntercomExt", "Id='" + DS.Tables[0].Rows[0]["ExtensionNo"].ToString() + "'");
+                    SqlCommand cmdExtNo = new SqlCommand(StrExtNo, con);
+                    SqlDataAdapter daExtNo = new SqlDataAdapter(cmdExtNo);
+                    DataSet DsExtNo = new DataSet();
+                    daExtNo.Fill(DsExtNo);
+                    string extNo = "";
+                    if (DsExtNo.Tables[0].Rows.Count > 0)
+                    {
+                        extNo = DsExtNo.Tables[0].Rows[0][0].ToString();
+                    }
+                    else
+                    {
+                        extNo = "NA";
+                    }
+
+                    //string joindate = fun.FromDateDMY(DS.Tables[0].Rows[0]["Joiningdate"].ToString());
+                    string padd = DS.Tables[0].Rows[0]["PermanentAddress"].ToString();
+                    string cadd = DS.Tables[0].Rows[0]["CorrespondenceAddress"].ToString();
+                    string email = DS.Tables[0].Rows[0]["EmailId2"].ToString();
+                    string ge = DS.Tables[0].Rows[0]["Gender"].ToString();
+                    string ma = DS.Tables[0].Rows[0]["MartialStatus"].ToString();
+                    string bl = DS.Tables[0].Rows[0]["BloodGroup"].ToString();
+                    string he = DS.Tables[0].Rows[0]["Height"].ToString();
+                    string we = DS.Tables[0].Rows[0]["Weight"].ToString();
+                    string re = DS.Tables[0].Rows[0]["Religion"].ToString();
+                    string cs = DS.Tables[0].Rows[0]["Cast"].ToString();
+                    string ed = DS.Tables[0].Rows[0]["EducationalQualification"].ToString();
+                    string add = DS.Tables[0].Rows[0]["AdditionalQualification"].ToString();
+                    string lc = DS.Tables[0].Rows[0]["LastCompanyName"].ToString();
+                    string wd = DS.Tables[0].Rows[0]["WorkingDuration"].ToString();
+                    string te = DS.Tables[0].Rows[0]["TotalExperience"].ToString();
+                    string ctc = DS.Tables[0].Rows[0]["CurrentCTC"].ToString();
+                    string ba = DS.Tables[0].Rows[0]["BankAccountNo"].ToString();
+                    string pf = DS.Tables[0].Rows[0]["PFNo"].ToString();
+                    string pa = DS.Tables[0].Rows[0]["PANNo"].ToString();
+                    string ps = DS.Tables[0].Rows[0]["PassPortNo"].ToString();
+                    //string ex = DS.Tables[0].Rows[0]["ExpiryDate"].ToString();
+                    string inf = DS.Tables[0].Rows[0]["AdditionalInformation"].ToString();
+
+                    string birthdate = DS.Tables[0].Rows[0]["DateOfBirth"].ToString();
+                    if (birthdate == "")
+                    {
+                        birthdate = "";
+                    }
+                    else
+                    {
+                        birthdate = fun.FromDateDMY(birthdate);
+                    }
+
+                    string ResignDate = DS.Tables[0].Rows[0]["ResignationDate"].ToString();
+
+                    string resigndate = "";
+                    if (ResignDate == "")
+                    {
+                        resigndate = "";
+                    }
+                    else
+                    {
+                        resigndate = fun.FromDateDMY(ResignDate);
+                    }
+
+
+                    string JoinDate = DS.Tables[0].Rows[0]["Joiningdate"].ToString();
+                    string Joindate = "";
+                    if (JoinDate == "")
+                    {
+                        Joindate = "";
+                    }
+                    else
+                    {
+                        Joindate = fun.FromDateDMY(JoinDate);
+                    }
+
+
+                    string ExDate = DS.Tables[0].Rows[0]["ExpiryDate"].ToString();
+                    string ex = "";
+                    if (ExDate == "")
+                    {
+                        ex = "";
+                    }
+                    else
+                    {
+                        ex = fun.FromDateDMY(ExDate);
+
+                    }
+
+
+                    int status = 0;
+
+
+                    status = Convert.ToInt32(DS.Tables[0].Rows[0]["MartialStatus"].ToString());
+
+                    string martialstatus = "";
+
+                    if (status == 1)
+                    {
+                        martialstatus = "Married";
+                    }
+                    else
+                    {
+                        martialstatus = "Unmarried";
+                    }
+
+                    int ph = Convert.ToInt32(DS.Tables[0].Rows[0]["PhysicallyHandycapped"].ToString());
+
+                    string physicalstatus = "";
+                    if (ph == 1)
+                    {
+                        physicalstatus = "Yes";
+                    }
+                    else
+                    {
+                        physicalstatus = "No";
+                    }
+
+                    string Address = fun.CompAdd(CompId);
+                    string CompanyName = fun.getCompany(CompId);
+                    dr[0] = CompanyName;
+
+                    if ((DS.Tables[0].Rows[0]["PhotoData"]) != DBNull.Value && DS.Tables[0].Rows[0]["PhotoFileName"].ToString() != "")
+                    {
+                        dr[1] = ((Byte[])DS.Tables[0].Rows[0]["PhotoData"]);
+                    }
+                    else
+                    {
+                        dr[1] = fun.ImageToBinary(Server.MapPath("~/images/User.jpg"));
+                    }
+
+                    //report.SetParameterValue("PhotoData", CompanyName);
+                    dr[2] = Address;
+                    dr[3] = SwapCardNo;
+                    dr[4] = EmpName1;
+                    dr[5] = department;
+                    dr[6] = BussinessGroup;
+                    dr[7] = DeptDirector;
+                    dr[8] = Depthead;
+                    dr[9] = groupleader;
+                    dr[10] = designation;
+                    dr[11] = grade;
+                    dr[12] = mobileno;
+                    dr[13] = extNo;
+                    dr[14] = Joindate;
+                    dr[15] = birthdate;
+                    dr[16] = resigndate;
+                    dr[17] = martialstatus;
+                    dr[18] = physicalstatus;
+                    dr[19] = padd;
+                    dr[20] = cadd;
+                    dr[21] = email;
+                    dr[22] = ge;
+                    dr[23] = bl;
+                    dr[24] = he;
+                    dr[25] = we;
+                    dr[26] = re;
+                    dr[27] = cs;
+                    dr[28] = ed;
+                    dr[29] = add;
+                    dr[30] = lc;
+                    dr[31] = wd;
+                    dr[32] = te;
+                    dr[33] = ctc;
+                    dr[34] = ba;
+                    dr[35] = pf;
+                    dr[36] = pa;
+                    dr[37] = ps;
+                    dr[38] = ex;
+                    dr[39] = inf;
+
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+
+                Gin.Tables.Add(dt);
+                Gin.AcceptChanges();
+                DataSet xsdds = new OfficeStaff();
+                xsdds.Tables[0].Merge(Gin.Tables[0]);
+                xsdds.AcceptChanges();
+                string reportPath = Server.MapPath("~/Module/HR/Transactions/Reports/Staff.rpt");
+                report.Load(reportPath);
+                report.SetDataSource(xsdds);
+                CrystalReportViewer1.ReportSource = report;
+                Session[Key] = report;
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            finally
+            {
+                Gin.Clear();
+                Gin.Dispose();
+                dt.Clear();
+                dt.Dispose();
+                con.Close();
+                con.Dispose();
+            }
+        }
+        else
+        {
+            Key = Request.QueryString["Key"].ToString();
+            ReportDocument doc = (ReportDocument)Session[Key];
+            CrystalReportViewer1.ReportSource = doc;
+        }
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        report = new ReportDocument();
+
+        if (Request.QueryString["PagePrev"].ToString() == "1")
+        {
+
+            Pageback = "~/Module/HR/Transactions/OfficeStaff_Print.aspx?ModId=12&SubModId=24";
+        }
+        else
+        {
+            Pageback = "~/Module/HR/Reports/MultipleReports.aspx?ModId=12";
+        }
+
+    }
+
+    protected void Cancel_Click(object sender, EventArgs e)
+    {        
+        Response.Redirect(Pageback);
+    }
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        report.Close();
+        report.Dispose();
+        GC.Collect();
+    }
+
+}

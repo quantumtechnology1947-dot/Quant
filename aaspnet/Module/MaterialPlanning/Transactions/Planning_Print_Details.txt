@@ -1,0 +1,344 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialPlanning/Transactions/Planning_Print_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Planning_Print_Details.aspx.cs" Inherits="Module_MaterialPlanning_Transactions_Planning_Print_Details" Title="ERP" Theme ="Default"  %>
+
+<%@ Register Assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"
+    Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server"> 
+      
+    
+    <table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)" colspan="2">
+        &nbsp;<b>BOM Material Planning - Print</b>
+            </td>
+        </tr>
+        <tr>
+            <td align="Left">
+                <asp:Panel ID="Panel1" runat="server" Height="438px" ScrollBars="Auto" 
+                    Width="100%">
+                    <CR:CrystalReportSource ID="CrystalReportSource1"   runat="server">
+        <Report FileName="Module\MaterialPlanning\Reports\PlanningPrint.rpt">
+        </Report>
+    </CR:CrystalReportSource>
+<CR:CrystalReportViewer ID="CrystalReportViewer1" DisplayGroupTree="False" EnableDatabaseLogonPrompt="false" EnableParameterPrompt="false"  ReportSourceID="CrystalReportSource1" runat="server" HasCrystalLogo="False"
+    AutoDataBind="true" />
+                </asp:Panel>
+                    
+                    </td>
+            <td align="center" valign="top">
+                &nbsp;</td>
+        </tr>
+        <tr>
+            <td align="center" class="style4" colspan="2">
+                <asp:Button ID="Cancel" runat="server" Text="Cancel" CssClass="redbox" 
+                    valign="top" onclick="Cancel_Click"/>
+                    
+                    </td>
+        </tr>
+    </table>
+    
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialPlanning/Transactions/Planning_Print_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+
+public partial class Module_MaterialPlanning_Transactions_Planning_Print_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    int CompId = 0;
+    int FinYearId = 0;
+    string PLNo = "";
+    string MId = "";
+    string wono = "";
+    string PLDate = "";
+    string PRNo = "";
+    string PRDate = "";
+    private ReportDocument report = new ReportDocument();
+    string Key = string.Empty;
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            string str = fun.Connection();
+            SqlConnection con = new SqlConnection(str);
+            DataSet MainDS = new DataSet();
+            DataTable dt = new DataTable();
+
+            try
+            {
+                CompId = Convert.ToInt32(Session["compid"]);
+                FinYearId = Convert.ToInt32(Request.QueryString["FinYearId"].ToString());
+                PLNo = Request.QueryString["plno"].ToString();
+                MId = Request.QueryString["MId"].ToString();
+
+                wono = Request.QueryString["WONo"].ToString();
+                Key = Request.QueryString["Key"].ToString();
+                con.Open();
+
+                // To Show PRNO and PRDate on Report
+
+                string GetPR = "SELECT tblMM_PR_Master.PRNo, tblMM_PR_Master.SysDate FROM tblMP_Material_Master INNER JOIN                     tblMM_PR_Master ON tblMP_Material_Master.Id = tblMM_PR_Master.PLNId And tblMM_PR_Master.PLNId ='" + MId + "' ";
+                SqlCommand cmdgetPR = new SqlCommand(GetPR, con);
+                SqlDataAdapter dagetPR = new SqlDataAdapter(cmdgetPR);
+                DataSet DSgetPR = new DataSet();
+                dagetPR.Fill(DSgetPR);
+                if (DSgetPR.Tables[0].Rows.Count > 0)
+                {
+                    PRNo = DSgetPR.Tables[0].Rows[0][0].ToString();
+                    PRDate = fun.FromDateDMY(DSgetPR.Tables[0].Rows[0][1].ToString());
+                }
+
+                // finish Material
+
+                dt.Columns.Add(new System.Data.DataColumn("PLDate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("PLNo", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Symbol", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("ManfDesc", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("SupplierName", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("DelDateFinish", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(Int32)));
+                dt.Columns.Add(new System.Data.DataColumn("FinishQty", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("Rate", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("ItemCodeRMPR", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("BOMQty", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("PLNType", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Discount", typeof(double)));
+                string PLNType = "";
+                string sqlgetPlDate = "SELECT tblMP_Material_Master.SysDate,tblMP_Material_Detail.ItemId,tblMP_Material_Detail.Id,tblMP_Material_Detail.RM,tblMP_Material_Detail.PRO,tblMP_Material_Detail.FIN FROM tblMP_Material_Master,tblMP_Material_Detail where tblMP_Material_Master.Id=tblMP_Material_Detail.Mid And  tblMP_Material_Master.WONo='" + wono + "' And tblMP_Material_Master.CompId=" + CompId + " And  tblMP_Material_Master.Id='" + MId + "'  and tblMP_Material_Master.PLNo='" + PLNo + "'";
+
+                SqlCommand cmdgetPlDate = new SqlCommand(sqlgetPlDate, con);
+                SqlDataAdapter dagetPlDate = new SqlDataAdapter(cmdgetPlDate);
+                DataSet DSgetPlDate = new DataSet();
+                dagetPlDate.Fill(DSgetPlDate);
+                DataRow drDetail;
+
+                for (int i2 = 0; i2 < DSgetPlDate.Tables[0].Rows.Count; i2++)
+                {
+
+                    PLDate = fun.FromDateDMY(DSgetPlDate.Tables[0].Rows[0]["SysDate"].ToString());
+                    string sql = "";
+                    if (DSgetPlDate.Tables[0].Rows[i2]["FIN"].ToString() == "1")
+                    {
+                        sql = "SELECT  tblMP_Material_Master.SysDate,tblMP_Material_Finish.DelDate,tblMP_Material_Finish.Discount,tblMP_Material_Finish.Rate, tblMP_Material_Finish.Qty, tblMP_Material_Finish.ItemId, tblMP_Material_Finish.SupplierId, tblMP_Material_Detail.ItemId AS Expr1 FROM tblMP_Material_Detail INNER JOIN tblMP_Material_Master ON tblMP_Material_Detail.Mid = tblMP_Material_Master.Id INNER JOIN tblMP_Material_Finish ON tblMP_Material_Detail.Id = tblMP_Material_Finish.DMid AND tblMP_Material_Master.CompId=" + CompId + " AND tblMP_Material_Master.PLNo='" + PLNo + "' AND tblMP_Material_Master.WONo='" + wono + "' And tblMP_Material_Finish.DMid='" + DSgetPlDate.Tables[0].Rows[i2]["Id"].ToString() + "' ";
+
+                        PLNType = "Finish";
+                    }
+
+                    if (DSgetPlDate.Tables[0].Rows[i2]["RM"].ToString() == "1")
+                    {
+                        sql = "SELECT tblMP_Material_Master.SysDate,tblMP_Material_RawMaterial.DelDate,tblMP_Material_RawMaterial.Discount, tblMP_Material_RawMaterial.Rate, tblMP_Material_RawMaterial.Qty, tblMP_Material_RawMaterial.SupplierId,tblMP_Material_RawMaterial.ItemId, tblMP_Material_Detail.ItemId AS Expr1 FROM tblMP_Material_Detail INNER JOIN tblMP_Material_Master ON tblMP_Material_Detail.Mid = tblMP_Material_Master.Id INNER JOIN tblMP_Material_RawMaterial ON tblMP_Material_Detail.Id = tblMP_Material_RawMaterial.DMid And tblMP_Material_Master.WONo='" + wono + "' And tblMP_Material_Master.CompId=" + CompId + "  and tblMP_Material_Master.PLNo='" + PLNo + "'And tblMP_Material_RawMaterial.DMid='" + DSgetPlDate.Tables[0].Rows[i2]["Id"].ToString() + "'";
+                        PLNType = "RM";
+                    }
+
+                    if (DSgetPlDate.Tables[0].Rows[i2]["PRO"].ToString() == "1")
+                    {
+                        sql = "SELECT tblMP_Material_Master.SysDate,tblMP_Material_Process.Discount,tblMP_Material_Process.DelDate, tblMP_Material_Process.Rate, tblMP_Material_Process.Qty, tblMP_Material_Process.SupplierId,tblMP_Material_Process.ItemId FROM tblMP_Material_Detail INNER JOIN tblMP_Material_Master ON tblMP_Material_Detail.Mid = tblMP_Material_Master.Id INNER JOIN tblMP_Material_Process ON tblMP_Material_Detail.Id = tblMP_Material_Process.DMid and tblMP_Material_Master.PLNo='" + PLNo + "' And tblMP_Material_Master.WONo='" + wono + "' And tblMP_Material_Master.CompId=" + CompId + " And tblMP_Material_Process.DMid='" + DSgetPlDate.Tables[0].Rows[i2]["Id"].ToString() + "'";
+                        PLNType = "Process";
+                    }
+
+                    SqlCommand cmd = new SqlCommand(sql, con);
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataSet DS = new DataSet();
+                    da.Fill(DS);
+                    DataRow dr;
+
+                    for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
+                    {
+                        dr = dt.NewRow();
+                        if (DS.Tables[0].Rows.Count > 0)
+                        {
+                            string sqlcust = fun.select("SupplierName,SupplierId", "tblMM_Supplier_master", "SupplierId='" + DS.Tables[0].Rows[i]["SupplierId"].ToString() + "'");
+                            SqlCommand cmdcust = new SqlCommand(sqlcust, con);
+                            SqlDataAdapter dacust = new SqlDataAdapter(cmdcust);
+                            DataSet DScust = new DataSet();
+                            dacust.Fill(DScust);
+                            string sqlItem99 = fun.select("ItemCode,UOMBasic,ManfDesc", "tblDG_Item_Master", "Id='" + DS.Tables[0].Rows[i]["ItemId"].ToString() + "' ");
+                            SqlCommand cmdItem99 = new SqlCommand(sqlItem99, con);
+                            SqlDataAdapter daItem99 = new SqlDataAdapter(cmdItem99);
+                            DataSet DSItem99 = new DataSet();
+                            daItem99.Fill(DSItem99);
+
+                            string sqlUnit = fun.select("Id,Symbol ", "Unit_Master", "Id='" + DSItem99.Tables[0].Rows[0]["UOMBasic"].ToString() + "' ");
+                            SqlCommand cmdUnit = new SqlCommand(sqlUnit, con);
+                            SqlDataAdapter daUnit = new SqlDataAdapter(cmdUnit);
+                            DataSet DSUnit = new DataSet();
+                            daUnit.Fill(DSUnit);
+                            dr[0] = fun.FromDateDMY(DS.Tables[0].Rows[i]["SysDate"].ToString());
+                            dr[1] = PLNo;
+
+                            if (DSItem99.Tables[0].Rows.Count > 0)
+                            {
+                                if (DScust.Tables[0].Rows.Count > 0)
+                                {
+                                    if (DScust.Tables[0].Rows[0]["SupplierName"] != DBNull.Value && DS.Tables[0].Rows[i]["DelDate"] != DBNull.Value)
+                                    {
+                                        dr[10] = DSItem99.Tables[0].Rows[0]["ItemCode"].ToString();
+                                    }
+                                    else
+                                    {
+                                        dr[10] = "";
+                                    }
+
+                                    if (DScust.Tables[0].Rows[0]["SupplierName"] != DBNull.Value && DS.Tables[0].Rows[i]["DelDate"] != DBNull.Value)
+                                    {
+                                        dr[4] = DSItem99.Tables[0].Rows[0]["ManfDesc"].ToString();
+                                    }
+                                    else
+                                    {
+                                        dr[4] = "";
+                                    }
+                                }
+                            }
+                            if (DSUnit.Tables[0].Rows.Count > 0)
+                            {
+                                if (DScust.Tables[0].Rows.Count > 0)
+                                {
+                                    if (DScust.Tables[0].Rows[0]["SupplierName"] != DBNull.Value && DS.Tables[0].Rows[i]["DelDate"] != DBNull.Value)
+                                    {
+                                        dr[3] = DSUnit.Tables[0].Rows[0]["Symbol"].ToString();
+                                    }
+                                    else
+                                    {
+                                        dr[3] = "";
+                                    }
+                                }
+                            }
+                            if (DScust.Tables[0].Rows.Count > 0)
+                            {
+                                dr[5] = DScust.Tables[0].Rows[0]["SupplierName"].ToString() + "[" + DScust.Tables[0].Rows[0]["SupplierId"].ToString() + "]";
+                            }
+                            dr[6] = fun.FromDateDMY(DS.Tables[0].Rows[i]["DelDate"].ToString());
+                            dr[8] = Convert.ToDouble(DS.Tables[0].Rows[i]["Qty"].ToString());
+                            dr[9] = Convert.ToDouble(DS.Tables[0].Rows[i]["Rate"].ToString());
+                            dr[7] = Convert.ToInt32(CompId);
+                            string sqlItem = fun.select("ItemCode", "tblDG_Item_Master", "Id='" + DSgetPlDate.Tables[0].Rows[i2]["ItemId"].ToString() + "' ");
+                            SqlCommand cmdItem = new SqlCommand(sqlItem, con);
+                            SqlDataAdapter daItem = new SqlDataAdapter(cmdItem);
+                            DataSet DSItem = new DataSet();
+                            daItem.Fill(DSItem);
+                            if (DSItem.Tables[0].Rows.Count > 0)
+                            {
+                                dr[2] = DSItem.Tables[0].Rows[0][0].ToString();
+                            }
+
+                            double liQty = fun.AllComponentBOMQty(CompId, wono, DSgetPlDate.Tables[0].Rows[i2]["ItemId"].ToString(), FinYearId);
+                            dr[11] = liQty;
+                            dr[12] = PLNType;
+
+                            dr[13] = Convert.ToDouble(DS.Tables[0].Rows[i]["Discount"].ToString());
+                            dt.Rows.Add(dr);
+                            dt.AcceptChanges();
+                        }
+                    }
+                }
+
+
+
+
+                MainDS.Tables.Add(dt);
+
+                DataSet xsdds = new PlanPrint();
+                xsdds.Tables[0].Merge(MainDS.Tables[0]);
+
+                xsdds.AcceptChanges();
+
+                string reportPath = Server.MapPath("~/Module/MaterialPlanning/Reports/PlanningPrint.rpt");
+                report.Load(reportPath);
+                report.SetDataSource(xsdds);
+
+                string Company = fun.getCompany(CompId);
+                report.SetParameterValue("Company", Company);
+
+                string Address = fun.CompAdd(CompId);
+                report.SetParameterValue("Address", Address);
+
+                report.SetParameterValue("PlanNo", PLNo);
+                report.SetParameterValue("PLDate", PLDate);
+                report.SetParameterValue("WONo", wono);
+                report.SetParameterValue("PRNo", PRNo);
+                report.SetParameterValue("PRDate", PRDate);
+                CrystalReportViewer1.ReportSource = report;
+                Session[Key] = report;
+            }
+            catch (Exception ex)
+            {
+            }
+            finally
+            {
+                MainDS.Clear();
+                MainDS.Dispose();
+                dt.Clear();
+                dt.Dispose();
+                con.Close();
+                con.Dispose();
+
+            }
+
+
+        }
+
+        else
+        {
+            Key = Request.QueryString["Key"].ToString();
+            ReportDocument doc = (ReportDocument)Session[Key];
+            CrystalReportViewer1.ReportSource = doc;
+        }
+    }
+
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        report = new ReportDocument();
+    }
+    protected void Cancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/MaterialPlanning/Transactions/Planning_Print.aspx?ModId=4&SubModId=33");
+    }
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        report.Close();
+        report.Dispose();
+        GC.Collect();
+    }
+
+}

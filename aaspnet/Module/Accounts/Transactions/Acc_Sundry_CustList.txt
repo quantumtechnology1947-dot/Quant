@@ -1,0 +1,213 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/Acc_Sundry_CustList.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Acc_Sundry_CustList.aspx.cs" Inherits="Module_Accounts_Transactions_Acc_Sundry_CustList" Theme="Default" Title="ERP" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+<table width="100%">
+    <tr>
+            <td align="left" valign="middle" 
+                style="background:url(../../../images/hdbg.JPG)" height="21" 
+                class="fontcsswhite" colspan="3">
+                <b>&nbsp;Sundry Debtors</b></td>
+        </tr>
+   <tr>
+   <td align="Left">
+    <asp:Panel ID="Panel1" ScrollBars="Auto"  Width="100%" Height="430px"  runat="server">
+         <asp:GridView ID="GridView1" runat="server" Width="70%" GridLines="None" 
+          AlternatingRowStyle-BackColor="AliceBlue" AutoGenerateColumns="False" 
+          onrowcommand="GridView1_RowCommand" CssClass="yui-datatable-theme" 
+             ShowFooter="True" onrowdatabound="GridView1_RowDataBound" >
+      
+      <Columns>     
+      <asp:TemplateField HeaderText="SN" ItemStyle-HorizontalAlign="Right">
+                                <ItemTemplate>
+                                    <%#Container.DataItemIndex+1%>
+                                </ItemTemplate>
+                                
+                                <ItemStyle HorizontalAlign="Right"/>
+                            </asp:TemplateField>
+                                     
+       <asp:TemplateField HeaderText="Customer Name" >
+       <ItemTemplate>       
+        <asp:LinkButton ID="LinkButton1" CommandName="Sel" Text='<%#Eval("CustName") %>'  runat="server"></asp:LinkButton>
+       </ItemTemplate>
+           <FooterTemplate>
+       <asp:Label ID="TotLbl" runat="server" Text="Total"></asp:Label>
+       </FooterTemplate>
+           <FooterStyle HorizontalAlign="Right" />
+       <ItemStyle HorizontalAlign="left"/>
+       </asp:TemplateField>       
+       <asp:TemplateField HeaderText="OP">   
+       
+       <ItemTemplate>       
+           <asp:Label ID="lblOpAmt" runat="server" Text="0"></asp:Label>
+       </ItemTemplate>
+       <FooterTemplate>
+       <asp:Label ID="TotOP" runat="server" Text="0"></asp:Label>
+       </FooterTemplate>
+           <FooterStyle Width="15%" HorizontalAlign="Right" />
+       <HeaderStyle HorizontalAlign="Center" />   
+       <ItemStyle HorizontalAlign="Right" Width="15%"  />
+       </asp:TemplateField>     
+       
+       <asp:TemplateField HeaderText="Debit">   
+       
+       <ItemTemplate>       
+           <asp:Label ID="lblDrAmt" runat="server" Text='<%#Eval("TotAmt") %>'></asp:Label>
+       </ItemTemplate>
+       <FooterTemplate>
+       <asp:Label ID="TotDebit" runat="server" Text="0"></asp:Label>
+       </FooterTemplate>
+           <FooterStyle Width="15%" HorizontalAlign="Right"/>
+       <HeaderStyle HorizontalAlign="Center" />   
+       <ItemStyle HorizontalAlign="Right" Width="15%"  />
+       </asp:TemplateField>     
+       
+       <asp:TemplateField HeaderText="Credit">
+       <ItemTemplate>       
+           <asp:Label ID="lblCrAmt" runat="server" Text="0"></asp:Label>
+       </ItemTemplate>
+       <FooterTemplate>
+       <asp:Label ID="TotCredit" runat="server" Text="0"></asp:Label>
+       </FooterTemplate>
+           <FooterStyle Width="15%" HorizontalAlign="Right"/>
+           <HeaderStyle HorizontalAlign="Center" />
+       <ItemStyle HorizontalAlign="Right" Width="15%"  />
+       </asp:TemplateField>
+       
+       <asp:TemplateField Visible="false">
+       <ItemTemplate>       
+           <asp:Label ID="lblCustCode"  runat="server" Text='<%#Eval("CustCode") %>'></asp:Label>
+       </ItemTemplate>
+      
+       </asp:TemplateField>       
+       
+     </Columns>
+                                 
+             <AlternatingRowStyle BackColor="AliceBlue" />
+                                 
+      </asp:GridView>
+    </asp:Panel>
+   </td>
+   </tr>
+   
+   <tr>
+   <td  align="center" style="height:25px; ">   
+       <asp:Button ID="Button1" runat="server" CssClass="redbox" Text="Cancel" 
+           onclick="btnCancel_Click" /></td>
+   </tr>
+   
+   </table>   
+
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/Acc_Sundry_CustList.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+
+public partial class Module_Accounts_Transactions_Acc_Sundry_CustList : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    ACC_CurrentAssets ACA = new ACC_CurrentAssets();
+    string sId = "";
+
+    int CompId = 0;
+    int FinYearId = 0;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            sId = Session["username"].ToString();
+
+            DataTable dt = ACA.TotInvQty2(CompId, FinYearId, "");
+            
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
+
+            double Totop = 0;
+            double Totdr = 0;
+            double Totcr = 0;
+
+            foreach (GridViewRow grv in GridView1.Rows)
+            {
+                Totdr += Convert.ToDouble(((Label)grv.FindControl("lblDrAmt")).Text);
+
+                double x = 0;
+                x = Math.Round(fun.getDebitorCredit(CompId, FinYearId, ((Label)grv.FindControl("lblCustCode")).Text), 2);
+                ((Label)grv.FindControl("lblCrAmt")).Text = x.ToString();
+                Totcr += x;
+
+                double y = 0;
+                y = fun.DebitorsOpeningBal(CompId, ((Label)grv.FindControl("lblCustCode")).Text);
+                ((Label)grv.FindControl("lblOpAmt")).Text = y.ToString();
+                Totop += y;
+            }
+
+            ((Label)GridView1.FooterRow.FindControl("TotOP")).Text = Totop.ToString();
+            ((Label)GridView1.FooterRow.FindControl("TotDebit")).Text = Totdr.ToString();
+            ((Label)GridView1.FooterRow.FindControl("TotCredit")).Text = Totcr.ToString();
+            
+        }
+        catch
+        {
+
+        }
+    }
+
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "Sel")
+        {
+            string getRandomKey = fun.GetRandomAlphaNumeric();
+
+            GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+            string Custid = ((Label)row.FindControl("lblCustCode")).Text;
+            Response.Redirect("Acc_Sundry_Details.aspx?CustId=" + Custid + "&ModId=11&SubModId=&Key=" + getRandomKey + "");
+        }
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/Accounts/Transactions/Acc_Bal_CurrAssets.aspx??ModId=11&SubModId=");
+    }
+
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        
+    }
+
+
+}

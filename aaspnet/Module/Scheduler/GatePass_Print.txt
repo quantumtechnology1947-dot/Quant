@@ -1,0 +1,343 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Scheduler/GatePass_Print.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="GatePass_Print.aspx.cs" Inherits="Module_Scheduler_GatePass_Print" Title="ERP" Theme="Default" %>
+
+<%@ Register Assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"
+    Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server"> 
+      
+    
+    <table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../images/hdbg.JPG)" colspan="2">
+        &nbsp;<b>GatePass - Print</b>
+            </td>
+        </tr>
+        <tr>
+            <td align="Left">
+                <asp:Panel ID="Panel1" runat="server" Height="420px" ScrollBars="Auto" 
+                    Width="100%">
+                    <CR:CrystalReportSource ID="CrystalReportSource1"   runat="server">
+        <Report FileName="Module\Scheduler\CrystalReport.rpt">
+        </Report>
+    </CR:CrystalReportSource>
+<CR:CrystalReportViewer ID="CrystalReportViewer1" DisplayGroupTree="False" EnableDatabaseLogonPrompt="false" 
+ HasCrystalLogo="False" EnableParameterPrompt="false"  ReportSourceID="CrystalReportSource1" runat="server" 
+    AutoDataBind="true" />
+                </asp:Panel>
+                    
+                    </td>
+            <td align="center" valign="top">
+                &nbsp;</td>
+        </tr>
+        <tr>
+            <td align="center" class="style4" colspan="2">
+                <asp:Button ID="Cancel" runat="server" Text="Cancel" CssClass="redbox" 
+                    valign="top" onclick="Cancel_Click"/>
+                    
+                    </td>
+        </tr>
+    </table>
+    
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Scheduler/GatePass_Print.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using CrystalDecisions.CrystalReports.Engine;
+using System.Data.SqlClient;
+
+public partial class Module_Scheduler_GatePass_Print : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    int CompId = 0;
+   // int FinYearId = 0;
+    string SId = "";
+    string Id = "";
+    string DId = "";
+    private ReportDocument report = new ReportDocument();
+
+    string Key = string.Empty;
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        string str = fun.Connection();
+        SqlConnection con = new SqlConnection(str);
+        DataSet MainDS = new DataSet();
+        DataTable dt = new DataTable();
+
+        try
+        {
+            SId = Session["username"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+            Id = (Request.QueryString["Id"].ToString());
+            Key = Request.QueryString["Key"].ToString();
+
+            if (!IsPostBack)
+            {
+                string sqlInv = fun.select("tblGate_Pass.SessionId,tblGate_Pass.CompId,tblGate_Pass.SysDate,tblGate_Pass.Authorize,tblGate_Pass.EmpId As SelfEId,tblGate_Pass.Id,tblGate_Pass.FinYearId,tblGate_Pass.GPNo,tblGate_Pass.Authorize,tblGate_Pass.AuthorizedBy,tblGate_Pass.AuthorizeDate,tblGate_Pass.AuthorizeTime,tblGatePass_Details.FromDate,tblGatePass_Details.FromTime,tblGatePass_Details.ToTime,tblGatePass_Details.Type,tblGatePass_Details.TypeFor,tblGatePass_Details.Reason,tblGatePass_Details.Feedback,tblGatePass_Details.Id As DId,tblGatePass_Details.EmpId As OtherEId,tblGatePass_Details.Place,tblGatePass_Details.ContactPerson,tblGatePass_Details.ContactNo", "tblGate_Pass,tblGatePass_Details", "tblGate_Pass.Id=tblGatePass_Details.MId And tblGate_Pass.SessionId='" + SId + "' And tblGatePass_Details.Feedback is null AND  tblGate_Pass.CompId='" + CompId + "' And  tblGate_Pass.Id='" + Id + "'  ");
+
+                SqlCommand cmdInv = new SqlCommand(sqlInv, con);
+                SqlDataAdapter DAInv = new SqlDataAdapter(cmdInv);
+                DataSet DSInv = new DataSet();
+                DAInv.Fill(DSInv);
+
+
+                dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+                dt.Columns.Add(new System.Data.DataColumn("FinYear", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("GPNo", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("FromDate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("FromTime", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("ToTime", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Type", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("TypeFor", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Reason", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("AuthorizedBy", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("AuthorizeDate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("AuthorizeTime", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Feedback", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("DId", typeof(int)));
+                dt.Columns.Add(new System.Data.DataColumn("SelfEId", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Authorize", typeof(int)));
+                dt.Columns.Add(new System.Data.DataColumn("Place", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("ContactPerson", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("ContactNo", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Empother", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));
+                dt.Columns.Add(new System.Data.DataColumn("ToDate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("EmpType", typeof(string)));
+
+                if (DSInv.Tables[0].Rows.Count > 0)
+                {
+                    DataRow dr;
+
+                    for (int i = 0; i < DSInv.Tables[0].Rows.Count; i++)
+                    {
+
+                        dr = dt.NewRow();
+                        string AuthBy = "";
+                        string AuthDate = "";
+                        string AuthTime = "";
+
+                        {
+
+                            string sqlFin = fun.select("FinYear", "tblFinancial_master", "CompId='" + CompId + "' AND FinYearId='" + DSInv.Tables[0].Rows[i]["FinYearId"].ToString() + "'");
+                            SqlCommand cmdFinYr = new SqlCommand(sqlFin, con);
+                            SqlDataAdapter daFin = new SqlDataAdapter(cmdFinYr);
+                            DataSet DSFin = new DataSet();
+                            daFin.Fill(DSFin);
+                            dr[0] = DSInv.Tables[0].Rows[i]["Id"].ToString();
+                            dr[1] = fun.FromDateDMY(DSInv.Tables[0].Rows[i]["SysDate"].ToString());
+                            dr[2] = DSInv.Tables[0].Rows[i]["GPNo"].ToString();
+                            dr[3] = fun.FromDate(DSInv.Tables[0].Rows[i]["FromDate"].ToString());
+                            dr[4] = DSInv.Tables[0].Rows[i]["FromTime"].ToString();
+                            dr[5] = DSInv.Tables[0].Rows[i]["ToTime"].ToString();
+                            dr[7] = DSInv.Tables[0].Rows[i]["TypeFor"].ToString();
+
+                            dr[8] = (DSInv.Tables[0].Rows[i]["Reason"].ToString());
+
+                            string sql1 = fun.select("*", "tblGatePass_Reason", "Id='" + DSInv.Tables[0].Rows[i]["Type"].ToString() + "'");
+                            SqlCommand cmd1 = new SqlCommand(sql1, con);
+                            SqlDataAdapter DA1 = new SqlDataAdapter(cmd1);
+                            DataSet DS1 = new DataSet();
+                            DA1.Fill(DS1);
+
+                            dr[6] = (DS1.Tables[0].Rows[0]["Reason"].ToString());
+
+                            if (Convert.ToInt32(DSInv.Tables[0].Rows[i]["Authorize"]) == 1)
+                            {
+                                string StrEmp = fun.select("Title,EmployeeName", "tblHR_OfficeStaff", "EmpId='" + DSInv.Tables[0].Rows[i]["AuthorizedBy"].ToString() + "'And CompId='" + CompId + "'");
+                                SqlCommand CmdEmp = new SqlCommand(StrEmp, con);
+                                SqlDataAdapter DAEmp = new SqlDataAdapter(CmdEmp);
+                                DataSet DSEmp = new DataSet();
+                                DAEmp.Fill(DSEmp);
+
+
+                                AuthBy = DSEmp.Tables[0].Rows[0]["Title"].ToString() + ". " + DSEmp.Tables[0].Rows[0]["EmployeeName"].ToString();
+                                AuthDate = fun.FromDateDMY(DSInv.Tables[0].Rows[i]["AuthorizeDate"].ToString());
+                                AuthTime = DSInv.Tables[0].Rows[i]["AuthorizeTime"].ToString();
+
+                            }
+
+                            dr[9] = AuthBy;
+                            dr[10] = AuthDate;
+                            dr[11] = AuthTime;
+
+                            string feed = "";
+                            
+                            if(DSInv.Tables[0].Rows[i]["Feedback"] != DBNull.Value)
+                            {
+                                feed = DSInv.Tables[0].Rows[i]["Feedback"].ToString();
+                            }
+                            
+                            dr[12] = DSInv.Tables[0].Rows[i]["Feedback"].ToString();
+                            dr[13] = DSInv.Tables[0].Rows[i]["DId"].ToString();
+
+                            string EmpSelf = string.Empty;
+                            string EMOther = string.Empty;
+                            string EmpType = string.Empty;
+
+                            if(DSInv.Tables[0].Rows[i]["SelfEId"] != DBNull.Value)
+                            {
+                                string StrEmpSelf = fun.select("Title,EmployeeName,EmpId,OfferId", "tblHR_OfficeStaff", "EmpId='" + DSInv.Tables[0].Rows[i]["SelfEId"].ToString() + "'And CompId='" + CompId + "'");
+                                SqlCommand CmdEmpSelf = new SqlCommand(StrEmpSelf, con);
+                                SqlDataAdapter DAEmpSelf = new SqlDataAdapter(CmdEmpSelf);
+                                DataSet DSEmpSelf = new DataSet();
+                                DAEmpSelf.Fill(DSEmpSelf);
+                                
+                                if (DSEmpSelf.Tables[0].Rows.Count > 0)
+                                {
+                                    EmpSelf = DSEmpSelf.Tables[0].Rows[0]["Title"].ToString() + ". " + DSEmpSelf.Tables[0].Rows[0]["EmployeeName"].ToString() + ",";
+                                    string StrEmpType = fun.select("TypeOf", "tblHR_Offer_Master", "OfferId='" + DSEmpSelf.Tables[0].Rows[0]["OfferId"].ToString() + "'And CompId='" + CompId + "'");
+                                    
+                                    SqlCommand CmdEmpType = new SqlCommand(StrEmpType, con);
+                                    SqlDataAdapter DAEmpType = new SqlDataAdapter(CmdEmpType);
+                                    DataSet DSEmpType = new DataSet();
+                                    DAEmpType.Fill(DSEmpType);
+
+                                    if(DSEmpType.Tables[0].Rows[0]["TypeOf"].ToString()=="2")
+                                    {
+                                        EmpType = "[Neha Enterprises]";
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                string StrOtherEId = fun.select("Title,EmployeeName,EmpId,OfferId", "tblHR_OfficeStaff", "EmpId='" + DSInv.Tables[0].Rows[i]["OtherEId"].ToString() + "'And CompId='" + CompId + "'");
+                                SqlCommand CmdOtherEId = new SqlCommand(StrOtherEId, con);
+                                SqlDataAdapter DAOtherEId = new SqlDataAdapter(CmdOtherEId);
+                                DataSet DSOtherEId = new DataSet();
+                                DAOtherEId.Fill(DSOtherEId);
+                            
+                                if(DSOtherEId.Tables[0].Rows.Count > 0)
+                                {
+                                    EMOther = DSOtherEId.Tables[0].Rows[0]["Title"].ToString() + ". " + DSOtherEId.Tables[0].Rows[0]["EmployeeName"].ToString() + ",";
+                                    string StrEmpType = fun.select("TypeOf", "tblHR_Offer_Master", "OfferId='" + DSOtherEId.Tables[0].Rows[0]["OfferId"].ToString() + "'And CompId='" + CompId + "'");
+                                    
+                                    SqlCommand CmdEmpType = new SqlCommand(StrEmpType, con);
+                                    SqlDataAdapter DAEmpType = new SqlDataAdapter(CmdEmpType);
+                                    DataSet DSEmpType = new DataSet();
+                                    DAEmpType.Fill(DSEmpType);
+                                    
+                                    if (DSEmpType.Tables[0].Rows[0]["TypeOf"].ToString() == "2")
+                                    {
+                                        EmpType = "[Neha Enterprises]";
+                                    }
+                                }
+                            }
+
+                            dr[14] = EmpSelf + EMOther;
+                            dr[15] = DSInv.Tables[0].Rows[i]["Authorize"].ToString();
+                            dr[16] = DSInv.Tables[0].Rows[i]["Place"].ToString();
+                            dr[17] = DSInv.Tables[0].Rows[i]["ContactPerson"].ToString();
+                            dr[18] = DSInv.Tables[0].Rows[i]["ContactNo"].ToString();
+
+                            string StrEmp5 = fun.select("Title,EmployeeName,EmpId", "tblHR_OfficeStaff", "EmpId='" + DSInv.Tables[0].Rows[i]["Sessionid"].ToString() + "'And CompId='" + CompId + "'");
+                            SqlCommand CmdEmp5 = new SqlCommand(StrEmp5, con);
+                            SqlDataAdapter DAEmp5 = new SqlDataAdapter(CmdEmp5);
+                            DataSet DSEmp5 = new DataSet();
+                            DAEmp5.Fill(DSEmp5);
+                            dr[19] = DSEmp5.Tables[0].Rows[0]["Title"].ToString() + ". " + DSEmp5.Tables[0].Rows[0]["EmployeeName"].ToString();
+                            dr[20] = Convert.ToInt32(DSInv.Tables[0].Rows[i]["CompId"]);
+                            dr[21] = "A";
+                            dr[22] = EmpType;
+
+                            dt.Rows.Add(dr);
+                            dt.AcceptChanges();
+                        }
+                    }
+                }
+
+                MainDS.Tables.Add(dt);
+
+                DataSet xsdds = new GatePassPrint();
+                xsdds.Tables[0].Merge(MainDS.Tables[0]);
+
+                xsdds.AcceptChanges();
+
+                string reportPath = Server.MapPath("~/Module/Scheduler/CrystalReport.rpt");
+                report.Load(reportPath);
+                report.SetDataSource(xsdds);
+
+                CrystalReportViewer1.ReportSource = report;
+                Session[Key] = report;
+            }
+
+            else
+            {
+                Key = Request.QueryString["Key"].ToString();
+                ReportDocument doc = (ReportDocument)Session[Key];
+                CrystalReportViewer1.ReportSource = doc;
+            }
+
+
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+            MainDS.Clear();
+            MainDS.Dispose();
+            dt.Clear();
+            dt.Dispose();
+            con.Close();
+            con.Dispose();
+
+        }
+
+
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        report = new ReportDocument();
+    }
+
+    protected void Cancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/Scheduler/GatePass_New.aspx");
+    }
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        report.Close();
+        report.Dispose();
+        GC.Collect();
+    }
+
+}

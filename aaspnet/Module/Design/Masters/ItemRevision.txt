@@ -1,0 +1,299 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Masters/ItemRevision.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ItemRevision.aspx.cs" Inherits="Module_Design_Masters_ItemRevision" Title="ERP" Theme="Default"  %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style3
+        {
+            width: 60%;
+        }
+        </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    
+    <table width="100%" >
+        <tr>
+            <td align="center">
+                <table cellpadding="0" cellspacing="0" class="style3">
+                    <tr>
+                        <td>
+                            &nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;Item Revision Types</b>
+                            &nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+            <asp:GridView ID="GridView2" Width="100%" 
+                runat="server" 
+                AllowPaging="True"
+                ShowFooter="True" 
+                AutoGenerateColumns="False" 
+                DataKeyNames="Id" 
+                FooterStyle-Wrap="True"
+                OnRowDeleted="GridView2_RowDeleted" 
+                DataSourceID="SqlDataSource1"
+              OnRowUpdated="GridView2_RowUpdated" 
+              OnRowCommand="GridView2_RowCommand" CssClass="yui-datatable-theme" 
+                                onrowdatabound="GridView2_RowDataBound">
+                    
+<FooterStyle Wrap="True">
+    </FooterStyle>
+                   <Columns>
+                    
+                    
+                    <asp:TemplateField HeaderText="SN">
+                        <HeaderStyle HorizontalAlign="Center" />
+                        <ItemStyle HorizontalAlign="Right" />
+                        <ItemTemplate>
+                        <%# Container.DataItemIndex+1 %> 
+                        </ItemTemplate>
+                        <FooterTemplate>
+                        <asp:Button ID="btnInsert" runat="server" CommandName="Add" OnClientClick="return confirmationAdd()" ValidationGroup="A" CssClass="redbox"  Text="Insert" />
+                      </FooterTemplate>
+                    </asp:TemplateField>
+                    <asp:CommandField  ButtonType="Link" ValidationGroup="C" ShowEditButton="True">
+                        <HeaderStyle HorizontalAlign="Center" />
+                        <ItemStyle HorizontalAlign="Center" />
+                    </asp:CommandField>
+                     <asp:CommandField  ButtonType="Link" ShowDeleteButton="True" >
+                        <HeaderStyle HorizontalAlign="Center" />
+                        <ItemStyle HorizontalAlign="Center" />
+                    </asp:CommandField>
+                    
+                    
+                    <asp:TemplateField HeaderText="Id" Visible="False">
+                        <HeaderStyle HorizontalAlign="Center" />
+                        <ItemTemplate>
+                        <asp:Label ID="lblID" runat="server" Text='<%#Eval("Id") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    
+                    <asp:TemplateField HeaderText="Type of Revisions">
+                        <ItemTemplate>
+                        <asp:Label ID="lblRevision" runat="server" Text='<%#Eval("Types") %>'></asp:Label>
+                    </ItemTemplate>
+                         <EditItemTemplate>
+                        <asp:TextBox ID="lblRevision0" runat="server" Width="98%" Text='<%#Bind("Types") %>'>
+                        </asp:TextBox>
+                        <asp:RequiredFieldValidator ID="req2" runat="server" Text="*" ControlToValidate="lblRevision0" ValidationGroup="C" ></asp:RequiredFieldValidator>
+                        </EditItemTemplate>
+                        <FooterStyle HorizontalAlign="Left" />
+                        <ItemStyle HorizontalAlign="Left" Width="80%" />
+                        <FooterTemplate>                        
+                        <asp:TextBox ID="txtTypes" runat="server" Width="98%" CssClass="box3">
+                        </asp:TextBox>
+                        <asp:RequiredFieldValidator ID="req1" runat="server"  ControlToValidate="txtTypes" Text="*"  ValidationGroup="A" ></asp:RequiredFieldValidator>
+                        </FooterTemplate>
+                    </asp:TemplateField>
+                           </Columns>
+                           
+                           <EmptyDataTemplate>
+                           <table  width="100%" border="1" style="border-color:Silver">
+                    <tr>
+                    <td></td>
+                    <td align="center">
+                        <asp:Label ID="Label1" Font-Bold="true" Font-Size="Medium" Font-Names="Times New Roman" runat="server" Text="Type Of Revisions"></asp:Label></td>                       
+                        
+                    </tr>
+                    <tr>
+                        <td>
+            <asp:Button ID="btnInsert" runat="server" CommandName="Add1" ValidationGroup="B" OnClientClick="return confirmationAdd()" CssClass="redbox" Text="Insert" />
+            </td>
+            <td>
+            <asp:TextBox ID="txtTypes" runat="server" Width="98%" CssClass="box3">
+                        </asp:TextBox>
+                        <asp:RequiredFieldValidator ID="req2" runat="server"  ControlToValidate="txtTypes" Text="*"  ValidationGroup="B" ></asp:RequiredFieldValidator></td>
+        </EmptyDataTemplate>
+                    </asp:GridView>
+                        </td>
+                    </tr>
+                </table>
+                
+                <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+                    ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                    DeleteCommand="DELETE FROM [tblDG_Revision_Type_Master] WHERE [Id] = @Id AND [CompId]= @CompId" 
+                    InsertCommand="INSERT INTO [tblDG_Revision_Type_Master] ([SysDate],[SysTime],[CompId],[FinYearId],[SessionId],[Types]) VALUES (@sysdate,@systime,@compid,@finyearid,@sessionid,@Types)" 
+                    SelectCommand="SELECT [Id], [Types] FROM [tblDG_Revision_Type_Master] WHERE (([CompId] = @CompId) AND ([FinYearId] &lt;= @FinYearId)) ORDER BY [Id] DESC" 
+                    ProviderName="System.Data.SqlClient"
+                    UpdateCommand="UPDATE [tblDG_Revision_Type_Master] SET [SysDate]=@sysdate,[SysTime]=@systime,[SessionId]=@sessionid,[Types] = @Types WHERE [Id] = @Id And [CompId]= @CompId ">
+                    
+                    <SelectParameters>
+                        <asp:SessionParameter Name="CompId" SessionField="compid" Type="Int32" />
+                        <asp:SessionParameter Name="FinYearId" SessionField="finyear" Type="Int32" />
+                    </SelectParameters>
+                    <DeleteParameters>
+                        <asp:Parameter Name="Id" Type="Int32"/>
+                        <asp:SessionParameter Name="CompId" SessionField="compid" Type="Int32" />
+                    </DeleteParameters>
+                    <UpdateParameters>
+                        <asp:Parameter Name="Types" Type="String" />
+                        <asp:Parameter Name="Id" Type="Int32" />
+                       <asp:Parameter Name="sysdate" Type="String" />
+                       <asp:Parameter Name="systime" Type="String" />
+                       <asp:Parameter Name="compid" Type="int32" />
+                       <asp:Parameter Name="finyearid" Type="int32" />
+                       <asp:Parameter Name="sessionid" Type="String" />
+                    </UpdateParameters>
+                    <InsertParameters>
+                       <asp:Parameter Name="Types" Type="String" />
+                       <asp:Parameter Name="sysdate" Type="String" />
+                       <asp:Parameter Name="systime" Type="String" />
+                       <asp:Parameter Name="compid" Type="int32" />
+                       <asp:Parameter Name="finyearid" Type="int32" />
+                       <asp:Parameter Name="sessionid" Type="String" />
+                    </InsertParameters>
+                    </asp:SqlDataSource>
+                &nbsp;<asp:Label ID="lblmsg" runat="server" Font-Bold="True" ForeColor="Red"></asp:Label>
+            </td>
+        </tr>
+        
+        <tr>
+        <td>
+            &nbsp;</td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Masters/ItemRevision.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+
+public partial class Module_Design_Masters_ItemRevision : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        lblmsg.Text = "";
+    }
+   
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            string sysdate = fun.getCurrDate();
+            string systime = fun.getCurrTime();
+            string compid = Session["compid"].ToString();
+            string finyearid = Session["finyear"].ToString();
+            string sessionid = Session["username"].ToString();
+
+            if (e.CommandName == "Add")
+            {
+                string strType = ((TextBox)GridView2.FooterRow.FindControl("txtTypes")).Text;
+                SqlDataSource1.InsertParameters["Types"].DefaultValue = strType;
+                SqlDataSource1.InsertParameters["sysdate"].DefaultValue = sysdate;
+                SqlDataSource1.InsertParameters["systime"].DefaultValue = systime;
+                SqlDataSource1.InsertParameters["compid"].DefaultValue = compid;
+                SqlDataSource1.InsertParameters["finyearid"].DefaultValue = finyearid;
+                SqlDataSource1.InsertParameters["sessionid"].DefaultValue = sessionid;
+                if (strType != "")
+                {
+
+                    SqlDataSource1.Insert();
+                    lblmsg.Text = "Record Inserted.";
+                }              
+                
+            }
+
+            if (e.CommandName == "Update")
+            {
+                SqlDataSource1.UpdateParameters["sysdate"].DefaultValue = sysdate;
+                SqlDataSource1.UpdateParameters["systime"].DefaultValue = systime;
+                SqlDataSource1.UpdateParameters["compid"].DefaultValue = compid;
+                SqlDataSource1.UpdateParameters["finyearid"].DefaultValue = finyearid;
+                SqlDataSource1.UpdateParameters["sessionid"].DefaultValue = sessionid;
+                SqlDataSource1.Update();                
+               
+            }
+
+            if (e.CommandName == "Add1")
+            {
+                string strType = ((TextBox)GridView2.Controls[0].Controls[0].FindControl("txtTypes")).Text;
+                SqlDataSource1.InsertParameters["Types"].DefaultValue = strType;
+
+                SqlDataSource1.InsertParameters["sysdate"].DefaultValue = sysdate;
+                SqlDataSource1.InsertParameters["systime"].DefaultValue = systime;
+                SqlDataSource1.InsertParameters["compid"].DefaultValue = compid;
+                SqlDataSource1.InsertParameters["finyearid"].DefaultValue = finyearid;
+                SqlDataSource1.InsertParameters["sessionid"].DefaultValue = sessionid;
+
+                if (strType != "")
+                {
+                    SqlDataSource1.Insert();                    
+                    lblmsg.Text = "Record Inserted.";
+                }
+            }
+
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+   
+    protected void GridView2_RowUpdated(object sender, GridViewUpdatedEventArgs e)
+    {
+        lblmsg.Text = "Record Updated.";
+    }
+   
+    protected void GridView2_RowDeleted(object sender, GridViewDeletedEventArgs e)
+    {
+        lblmsg.Text = "Record Deleted.";
+    }
+
+    protected void GridView2_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton upd = (LinkButton)e.Row.Cells[1].Controls[0];
+                upd.Attributes.Add("onclick", "return confirmationUpdate();");
+            }
+
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton del = (LinkButton)e.Row.Cells[2].Controls[0];
+                del.Attributes.Add("onclick", "return confirmationDelete();");
+            }
+
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+}

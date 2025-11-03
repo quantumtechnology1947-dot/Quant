@@ -1,0 +1,670 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Transactions/SPR_Edit_Details_Item.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="SPR_Edit_Details_Item.aspx.cs" Inherits="Module_MaterialManagement_Transactions_SPR_Edit_Details_Item" Title="ERP" Theme="Default" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+<script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    
+        
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="center" cellpadding="0" cellspacing="0"  width="70%">
+                <tr>
+                <td>
+              <table align="center" cellpadding="0" cellspacing="0" class="box3" width="100%">
+                <tr>
+                <td  height="20" align="left" valign="middle"  scope="col" 
+                class="fontcsswhite" style="background:url(../../../images/hdbg.JPG)">&nbsp;<b>SPR - 
+                    Edit</b></td>
+                </tr>
+                <tr>
+                <td>
+                <table align="left" cellpadding="0" cellspacing="0" width="100%" 
+                style="height: 191px" >
+                <tr >
+                <td class="style11" valign="middle">
+                &nbsp; <b>Item Code</b></td>
+                <td 
+                class="style10" valign="middle" colspan="2" >
+                    <asp:Label ID="lblItemCode" runat="server"></asp:Label>
+                </td>
+                </tr>
+                <tr >
+                <td class="style12" valign="top" >
+                    &nbsp; <b>Description</b></td>
+                <td 
+                class="style9" valign="top" colspan="2">
+                    <asp:TextBox ID="txtManfDesc" runat="server" TextMode="MultiLine" Width="388px" 
+                        Height="71px"></asp:TextBox>
+                </td>
+                </tr>
+                <tr >
+                <td class="style13" >
+                    &nbsp; <b>UOM</b></td>
+                <td height="22" colspan="2">
+                &nbsp;<asp:DropDownList ID="DDLUomBasic" runat="server">
+                    </asp:DropDownList>
+                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
+                                        ControlToValidate="DDLUomBasic" ErrorMessage="*" InitialValue="Select" 
+                                        ValidationGroup="EditIcode" CssClass="box3"></asp:RequiredFieldValidator>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                </tr>
+                <tr>
+                <td class="style13" >
+                &nbsp;&nbsp;<b>Qty</b></td>
+                <td height="25" colspan="2" >
+                <asp:TextBox runat="server" CssClass="box3" ID="txtQty"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server" 
+                    ControlToValidate="txtQty" ErrorMessage="*" ValidationGroup="QtyAdd">
+                    </asp:RequiredFieldValidator>
+                                       
+              <asp:CompareValidator ID="CompareValidator2" runat="server" Operator="DataTypeCheck" Type="Integer"
+ 	ControlToValidate="txtQty" ErrorMessage="*" ValidationGroup="QtyAdd" />
+                    
+                    <asp:RegularExpressionValidator ID="RegularExpressionValidator4" 
+                                runat="server" ControlToValidate="txtQty" ErrorMessage="*" 
+                                ValidationExpression="^\d{1,15}(\.\d{0,3})?$" 
+                        ValidationGroup="QtyAdd"></asp:RegularExpressionValidator>
+                    
+                </td>
+                </tr>
+                <tr>
+                <td class="style13" >
+                    &nbsp;&nbsp;<b>Rate</b></td>
+                <td height="25" colspan="2" >
+                <asp:TextBox runat="server" CssClass="box3" ID="txtRate"></asp:TextBox>
+                    &nbsp;<a  runat="server" id="rt"><img  alt="" src="../../../images/Rupee.JPG" border="0"/></a>
+                    
+                    
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator10" runat="server" 
+                    ControlToValidate="txtRate" ErrorMessage="*" ValidationGroup="QtyAdd"></asp:RequiredFieldValidator>
+                                       
+              <asp:CompareValidator ID="CompareValidator3" runat="server" Operator="DataTypeCheck" Type="Double"
+ 	ControlToValidate="txtRate" ErrorMessage="*" ValidationGroup="QtyAdd" />
+                    
+                </td>
+                </tr>
+                <tr>
+                <td class="style13" >
+                    &nbsp;<b>Discount</b></td>
+                <td height="25" colspan="2" >
+                <asp:TextBox runat="server" CssClass="box3" ID="txtDiscount"></asp:TextBox>
+                                       
+              <asp:CompareValidator ID="CompareValidator4" runat="server" Operator="DataTypeCheck" Type="Double"
+ 	ControlToValidate="txtDiscount" ErrorMessage="*" ValidationGroup="QtyAdd" />
+                    
+                    
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator11" runat="server" 
+                    ControlToValidate="txtDiscount" ErrorMessage="*" ValidationGroup="QtyAdd"></asp:RequiredFieldValidator>
+                                       
+                </td>
+                </tr>
+                <tr >
+                <td  class="style18">&nbsp; <b>Supplier</b></td>
+
+                <td class="style19" colspan="2">
+
+                <asp:TextBox ID="txtNewCustomerName" runat="server" Width="350px" 
+                CssClass="box3"></asp:TextBox>
+                <cc1:AutoCompleteExtender ID="txtNewCustomerName_AutoCompleteExtender" 
+                runat="server" CompletionInterval="100" CompletionSetCount="2" 
+                DelimiterCharacters="" Enabled="True" FirstRowSelected="True" 
+                MinimumPrefixLength="1" ServiceMethod="sql" ServicePath="" 
+                ShowOnlyCurrentWordInCompletionListItem="True" 
+                TargetControlID="txtNewCustomerName" UseContextKey="True" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                </cc1:AutoCompleteExtender>
+
+
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator9" runat="server" 
+                        ControlToValidate="txtNewCustomerName" ErrorMessage="*" 
+                        ValidationGroup="QtyAdd"></asp:RequiredFieldValidator>
+
+
+                </td>
+                </tr>
+                <tr >
+                <td class="style14">
+                &nbsp; <b>A/c Head</b></td>
+                <td width="45%" >
+                    <asp:RadioButtonList ID="RadioButtonList1" runat="server" AutoPostBack="True" 
+                        onselectedindexchanged="RadioButtonList1_SelectedIndexChanged" 
+                        RepeatDirection="Horizontal" Enabled="False">
+                        <asp:ListItem Value="1">Labour</asp:ListItem>
+                        <asp:ListItem Value="2">With Material</asp:ListItem>
+                        <asp:ListItem Value="3">Expenses</asp:ListItem>
+                        <asp:ListItem Value="4">Ser. provider</asp:ListItem>
+                    </asp:RadioButtonList>
+                </td>
+                <td >
+                <asp:DropDownList runat="server" CssClass="box3" ID="DropDownList1" 
+                        AutoPostBack="True" Enabled="False">
+                </asp:DropDownList>
+                </td>
+                </tr>
+                <tr >
+                <td class="style15"  valign="top">
+                    &nbsp; </td>
+                <td 
+                class="style8" colspan="2" >
+                    <asp:RadioButton ID="rddept" runat="server" GroupName="A" Text="BG Group" 
+                        AutoPostBack="True" Checked="True" />
+&nbsp;
+                    <asp:DropDownList ID="drpdept" runat="server" DataSourceID="SqlDataSource1" 
+                        DataTextField="Dept" DataValueField="Id" CssClass="box3">
+                    </asp:DropDownList>
+                    &nbsp;&nbsp;
+                    <asp:RadioButton ID="rdwono" runat="server" GroupName="A" 
+                        Text="WO No" AutoPostBack="True" />
+                    <asp:TextBox ID="txtwono" runat="server" Width="84px" CssClass="box3"></asp:TextBox>
+                </td>
+                </tr>
+                <tr >
+                <td class="style16"  valign="top">
+                &nbsp;&nbsp;<b>Delivery Date</b></td>
+                <td 
+                class="style17" colspan="2" >
+                    <asp:TextBox runat="server" CssClass="box3" ID="textDelDate" Width="100px"></asp:TextBox>
+                    <cc1:CalendarExtender runat="server" Format="dd-MM-yyyy" Enabled="True" 
+                        TargetControlID="textDelDate" ID="textDelDate_CalendarExtender">
+                    </cc1:CalendarExtender>
+<asp:RequiredFieldValidator runat="server" ControlToValidate="textDelDate" ErrorMessage="*" 
+                        ValidationGroup="QtyAdd" ID="ReqDelDate"></asp:RequiredFieldValidator>
+<asp:RegularExpressionValidator runat="server" 
+                        ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                        ControlToValidate="textDelDate" ErrorMessage="*" ValidationGroup="QtyAdd" 
+                        ID="RegDelverylDate"></asp:RegularExpressionValidator>
+                </td>
+                </tr>
+                <tr >
+                <td class="style6" height="25"  valign="top">
+                &nbsp; <b>Remarks</b></td>
+                <td 
+                class="style8" colspan="2" >
+                <asp:TextBox runat="server" TextMode="MultiLine" CssClass="box3" Height="155px" 
+                Width="409px" ID="txtRemark"></asp:TextBox>
+                    <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+                        ConnectionString="<%$ connectionStrings:LocalSqlServer %>" 
+                        ProviderName="System.Data.SqlClient" 
+                        SelectCommand="Select Id, '['+Symbol+'] '+Name as Dept from BusinessGroup"></asp:SqlDataSource>
+                </td>
+                </tr>
+                <tr >
+                <td class="style15" >
+                    </td>
+                <td 
+                class="style8" colspan="2" >
+                <asp:Button runat="server" Text="Update" CssClass="redbox" ID="btnUpdate"  OnClientClick=" return confirmationUpdate()" 
+                ValidationGroup="QtyAdd" onclick="btnUpdate_Click"></asp:Button>
+                &nbsp;<asp:Button runat="server" Text="Cancel" CssClass="redbox" ID="btnCancel2" OnClick="btnCancel2_Click">
+                </asp:Button>
+                </td>
+                </tr>
+                </table>
+                </td>
+                </tr>
+                </table>
+                </td>
+                </tr>
+                </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Transactions/SPR_Edit_Details_Item.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_MaterialManagement_Transactions_SPR_Edit_Details_Item : System.Web.UI.Page
+{
+
+    clsFunctions fun = new clsFunctions();
+    int itemId = 0;
+    string SPRNo = "";
+    int SelectIcode = 0;
+    int Iid =0;
+    string mid = "";
+    int CompId = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            CompId = Convert.ToInt32(Session["compid"]);
+            string id = Request.QueryString["recId"];
+            mid = Request.QueryString["Id"];
+            itemId = Convert.ToInt32(id);
+            SPRNo = Request.QueryString["SPRNo"];
+            textDelDate.Attributes.Add("readonly", "readonly");
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+
+            //For ItemCode,ManfDesc,PurchDesc
+
+            string StrcmdIcode = fun.select("tblDG_Item_Master.Id,tblDG_Item_Master.CId,tblDG_Item_Master.ManfDesc,tblDG_Item_Master.ItemCode", " tblDG_Item_Master,tblMM_SPR_Details", " tblDG_Item_Master.Id=tblMM_SPR_Details.ItemId  AND tblMM_SPR_Details.Id='" + itemId + "' AND tblMM_SPR_Details.SPRNo='" + SPRNo + "'  AND tblDG_Item_Master.CompId='" + CompId + "'  ");
+
+            SqlCommand cmdIcode = new SqlCommand(StrcmdIcode, con);
+            SqlDataAdapter DAIcode = new SqlDataAdapter(cmdIcode);
+            DataSet DSIcode = new DataSet();
+            DAIcode.Fill(DSIcode);
+            //----------------SelectIcode--------------
+            if (DSIcode.Tables[0].Rows.Count > 0 && DSIcode.Tables[0].Rows[0]["CId"]!=DBNull.Value)
+            {
+            SelectIcode = Convert.ToInt32(DSIcode.Tables[0].Rows[0]["CId"].ToString());
+            }
+
+           
+            //if (DSIcode.Tables[0].Rows[0]["CId"] == DBNull.Value)
+            //{
+            //    rdwono.Visible = true;
+            //    txtwono.Visible = true;
+
+            //}
+            //else
+            //{
+            //    rdwono.Visible = false;
+            //    txtwono.Visible = false;
+            //}
+
+
+            //For UOMBasic,UOMPurch
+            string StrcmdIc =fun.select("ItemId"," tblMM_SPR_Details ","Id='" + itemId + "' AND SPRNo='" + SPRNo + "'");
+            SqlCommand cmdIc = new SqlCommand(StrcmdIc, con);
+            SqlDataAdapter DAIc = new SqlDataAdapter(cmdIc);
+            DataSet DSIc = new DataSet();
+            DAIc.Fill(DSIc);
+            Iid =Convert.ToInt32( DSIc.Tables[0].Rows[0][0].ToString());
+          
+            if (rddept.Checked == true)
+            {
+                txtwono.Text = "";
+            }
+            
+           
+            if (!IsPostBack)
+           {
+                con.Open();
+               
+                    // for nocde item master update
+                    txtManfDesc.Text = DSIcode.Tables[0].Rows[0]["ManfDesc"].ToString();
+                    lblItemCode.Text = fun.GetItemCode_PartNo(CompId, Convert.ToInt32(DSIcode.Tables[0].Rows[0]["Id"].ToString()));
+                    string CDate = fun.getCurrDate();
+                    string CTime = fun.getCurrTime();
+
+                    string sId = Session["username"].ToString();
+                    int FinYearId = Convert.ToInt32(Session["finyear"]);
+
+                    //For Qty,Rate,Remarks
+                    string Strcmdrate = fun.select("tblMM_SPR_Details.Qty,tblMM_SPR_Details.Rate,tblMM_SPR_Details.Remarks,tblMM_SPR_Details.DelDate,tblMM_SPR_Details.Discount", "tblMM_SPR_Details,tblMM_SPR_Master", "tblMM_SPR_Details.SPRNo=tblMM_SPR_Master.SPRNo AND tblMM_SPR_Details.Id='" + itemId + "' AND tblMM_SPR_Details.SPRNo='" + SPRNo + "'AND tblMM_SPR_Master.CompId='" + CompId + "'  AND tblMM_SPR_Details.MId=tblMM_SPR_Master.Id");
+                    SqlCommand cmdrate = new SqlCommand(Strcmdrate, con);
+                    SqlDataAdapter DArate = new SqlDataAdapter(cmdrate);
+                    DataSet DSrate = new DataSet();
+                    DArate.Fill(DSrate);
+                    txtQty.Text = DSrate.Tables[0].Rows[0]["Qty"].ToString();
+                    txtRate.Text = decimal.Parse(DSrate.Tables[0].Rows[0]["Rate"].ToString()).ToString("N2");
+                    txtDiscount.Text = decimal.Parse(DSrate.Tables[0].Rows[0]["Discount"].ToString()).ToString("N2");
+                    txtRemark.Text = DSrate.Tables[0].Rows[0]["Remarks"].ToString();
+                    textDelDate.Text = fun.FromDateDMY(DSrate.Tables[0].Rows[0]["DelDate"].ToString());
+
+                    // For fill Drop down Of Unit
+
+                    string StrcmdId =fun.select(" UOMBasic"," tblDG_Item_Master ","  Id='" + Iid + "'AND CompId='"+CompId+"'");
+                    SqlCommand cmdId = new SqlCommand(StrcmdId, con);
+                    SqlDataAdapter DAId = new SqlDataAdapter(cmdId);
+                    DataSet DSId = new DataSet();
+                    DAId.Fill(DSId);
+                    string UBId = DSId.Tables[0].Rows[0][0].ToString();
+                    fun.drpunit(DDLUomBasic);
+                    DDLUomBasic.SelectedValue = UBId;
+                
+                    //For Supplier Name 
+                    string StrcmdSName = fun.select("tblMM_Supplier_master.SupplierName+'['+tblMM_Supplier_master.SupplierId+']' AS SupplierName ","tblMM_SPR_Details,tblMM_Supplier_master ","tblMM_SPR_Details.SupplierId=tblMM_Supplier_master.SupplierId AND tblMM_SPR_Details.Id='" + itemId + "' AND tblMM_SPR_Details.SPRNo='" + SPRNo + "' AND CompId='"+CompId+"'");
+                    SqlCommand cmdSName = new SqlCommand(StrcmdSName, con);
+                    SqlDataAdapter DASName = new SqlDataAdapter(cmdSName);
+                    DataSet DSSName = new DataSet();
+                    DASName.Fill(DSSName);
+                    txtNewCustomerName.Text = DSSName.Tables[0].Rows[0]["SupplierName"].ToString();
+
+
+                    //For A/c Head 
+
+                    string StrcmdAcid = fun.select("AHId", " tblMM_SPR_Details ", " Id='" + itemId + "' AND SPRNo='" + SPRNo + "'");
+                    SqlCommand cmdAcid = new SqlCommand(StrcmdAcid, con);
+                    SqlDataAdapter DAAcid = new SqlDataAdapter(cmdAcid);
+                    DataSet DSAcid = new DataSet();
+                    DAAcid.Fill(DSAcid);
+                    
+                    int acid = Convert.ToInt32(DSAcid.Tables[0].Rows[0][0].ToString());
+                    
+                    string StrcmdAcCat = fun.select("Category", " AccHead ", "Id='" + acid + "'");
+                    SqlCommand cmdAcCat = new SqlCommand(StrcmdAcCat, con);
+                    SqlDataAdapter DAAcCat = new SqlDataAdapter(cmdAcCat);
+                    DataSet DSAcCat = new DataSet();
+                    DAAcCat.Fill(DSAcCat);
+                
+                    string acCategory = DSAcCat.Tables[0].Rows[0][0].ToString();
+                                    
+                    if (acCategory== "Labour")
+                    {
+                        
+                        RadioButtonList1.SelectedValue = "1";
+                        fun.AcHead(DropDownList1, 1);
+                    }
+                    else if (acCategory == "With Material")
+                    {
+                        
+                        RadioButtonList1.SelectedValue = "2";
+                        fun.AcHead(DropDownList1, 2);
+                    }
+                    else if (acCategory == "Expenses")
+                    {
+
+                        RadioButtonList1.SelectedValue = "3";
+                        fun.AcHead(DropDownList1, 3);
+                    }
+
+                    else if (acCategory == "Service Provider")
+                    {
+
+                        RadioButtonList1.SelectedValue = "4";
+                        fun.AcHead(DropDownList1, 4);
+                    }
+                    DropDownList1.SelectedValue = DSAcid.Tables[0].Rows[0][0].ToString();                   
+                    //For Work Order  
+
+                
+                    string StrcmdDtID = fun.select("WONo, DeptId "," tblMM_SPR_Details ","Id='" + itemId + "' AND SPRNo='" + SPRNo + "'");
+                    SqlCommand cmdDtID = new SqlCommand(StrcmdDtID, con);
+                    SqlDataAdapter DADtID = new SqlDataAdapter(cmdDtID);
+                    DataSet DSDtID = new DataSet();
+                    DADtID.Fill(DSDtID);
+                    DSDtID.Tables[0].Rows[0]["WONo"].ToString();
+                    int Did = Convert.ToInt32(DSDtID.Tables[0].Rows[0]["DeptId"].ToString());
+
+                  
+                    if (Did == 0)
+                    {
+                        rdwono.Checked = true;
+                        txtwono.Text = DSDtID.Tables[0].Rows[0]["WONo"].ToString();
+                    }
+                    else
+                    {
+                        rddept.Checked = true;
+                        drpdept.SelectedValue = DSDtID.Tables[0].Rows[0]["DeptId"].ToString();
+
+                        
+                    }
+
+                    if (SelectIcode == 5)
+                    {
+
+                        txtManfDesc.ReadOnly = false;
+                        DDLUomBasic.Enabled = true;
+                        
+                    }
+                    else
+                    {
+                        //txtItemCode.ReadOnly = true;
+                        txtManfDesc.ReadOnly = true;
+                        DDLUomBasic.Enabled = false;
+                    
+
+                    }
+            }
+
+            
+
+            rt.HRef = "~/Module/MaterialManagement/Reports/RateRegisterSingleItemPrint.aspx?ItemId=" + Iid + "&CompId=" + CompId + "";
+            rt.Target = "_blank";  
+
+
+
+        }
+      catch (Exception ex) { }
+
+    }
+    protected void btnCancel2_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("SPR_Edit_Details.aspx?SPRNo=" + SPRNo + "&ModId=6&SubModId=31&Id=" + mid + "");
+    }
+
+    protected void btnUpdate_Click(object sender, EventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+
+        try
+        {
+            string CDate = fun.getCurrDate();
+            string CTime = fun.getCurrTime();
+
+            string sId = Session["username"].ToString();
+            int CompId = Convert.ToInt32(Session["compid"]);
+            int FinYearId = Convert.ToInt32(Session["finyear"]);
+            string CustCode = fun.getCode(txtNewCustomerName.Text);
+            con.Open();
+
+            string OnWoNo = "";
+            string OnDept = "0";
+            int u = 0;
+            if (rdwono.Checked == true  )
+            {
+                if (txtwono.Text != ""&& fun.CheckValidWONo(txtwono.Text,CompId,FinYearId)==true)
+                {
+                    OnWoNo = txtwono.Text;
+                    u = 1;
+                }
+                else
+                {
+                    string mystring = string.Empty;
+                    mystring = "Invalid WONo.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+
+                }
+            }
+
+
+            if (rddept.Checked == true)
+            {
+                OnDept = drpdept.SelectedValue.ToString();
+                txtwono.Text = "";
+                u = 1;
+            }
+
+            double Rate = 0;
+            double DiscRate = 0;
+            double Discount = 0;
+            Rate = Convert.ToDouble(decimal.Parse(txtRate.Text).ToString("N2"));
+            Discount = Convert.ToDouble(decimal.Parse(txtDiscount.Text).ToString("N2"));
+
+            DiscRate = (Rate - (Rate * Discount / 100));
+            string sqlrt2 = fun.select("min(Rate-(Rate*Discount/100)) as DisRate", "tblMM_Rate_Register", "ItemId='" + Iid + "' And CompId='" + CompId + "' ");
+            SqlCommand cmdrt2 = new SqlCommand(sqlrt2, con);
+            SqlDataAdapter dart2 = new SqlDataAdapter(cmdrt2);
+            DataSet DSrt2 = new DataSet();
+            dart2.Fill(DSrt2);
+            double rate = 0;
+            if (DSrt2.Tables[0].Rows.Count > 0 && DSrt2.Tables[0].Rows[0]["DisRate"] != DBNull.Value)
+            {
+                rate = Convert.ToDouble(decimal.Parse(DSrt2.Tables[0].Rows[0]["DisRate"].ToString()).ToString("N2"));
+            }
+            
+            int q = 0;
+            if (DiscRate > 0)
+            {
+                if (rate > 0)
+                {
+                    double x = 0;
+                    x = Math.Round((rate - DiscRate), 2);
+
+                    if (x >= 0)
+                    //if (rate >= Rate)
+                    {
+                        q = 1;
+
+                    }
+                    else
+                    {
+
+                        string sqlrate = fun.select("LockUnlock,Type,ItemId", "tblMM_RateLockUnLock_Master", "ItemId='" + Iid + "' And CompId='" + CompId + "' And LockUnlock='1'  And Type='1'");
+
+                        SqlCommand cmdrate = new SqlCommand(sqlrate, con);
+                        SqlDataAdapter darate = new SqlDataAdapter(cmdrate);
+                        DataSet dsrate = new DataSet();
+                        darate.Fill(dsrate);
+                        //con.Open();
+
+                        if (dsrate.Tables[0].Rows.Count > 0)
+                        {
+
+                            q = 1;
+
+                        }
+                        else
+                        {
+
+                            string mystring = string.Empty;
+                            mystring = "Entered rate is not acceptable!";
+                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+
+                        }
+
+                    }
+
+                }
+                else
+                {
+                    q = 1;
+
+
+                }
+            }
+            else
+            {
+                string mystring = string.Empty;
+                mystring = "Entered rate is not acceptable!";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+            }
+
+            if (txtQty.Text != "" && fun.NumberValidationQty(txtQty.Text) == true)
+            {
+                if (q == 1 && textDelDate.Text != "" && fun.DateValidation(textDelDate.Text) == true)
+                {
+                    if (u == 1)
+                    {
+                        if (SelectIcode == 3)
+                        {
+                            string upSprMaster = fun.update("tblMM_SPR_Master", "SysDate='" + CDate + "',SysTime='" + CTime + "',SessionId='" + sId + "'", "tblMM_SPR_Master.SPRNo='" + SPRNo + "'AND CompId='" + CompId + "' AND Id='" + mid + "'");
+                            SqlCommand cmdupSprMaster = new SqlCommand(upSprMaster, con);
+                            cmdupSprMaster.ExecuteNonQuery();
+
+                            string upSprDetails = fun.update("tblMM_SPR_Details", "Qty='" + Convert.ToDouble(decimal.Parse(txtQty.Text).ToString("N3")) + "',Rate='" + Convert.ToDouble(decimal.Parse(txtRate.Text).ToString("N2")) + "',SupplierId='" + CustCode + "',AHId='" + DropDownList1.SelectedValue + "',WONo='" + OnWoNo + "',DeptId='" + OnDept + "',Remarks='" + txtRemark.Text + "',DelDate='" + fun.FromDate(textDelDate.Text) + "' ,Discount='" + Convert.ToDouble(decimal.Parse(txtDiscount.Text).ToString("N2")) + "'    ", "tblMM_SPR_Details.SPRNo='" + SPRNo + "' AND tblMM_SPR_Details.Id='" + itemId + "' AND MId='" + mid + "'");
+                            SqlCommand cmdupSprDetails = new SqlCommand(upSprDetails, con);
+                            cmdupSprDetails.ExecuteNonQuery();
+
+                            string upSprIDetails = fun.update("tblDG_Item_Master", "SysDate='" + CDate + "',SysTime='" + CTime + "',SessionId='" + sId + "',ManfDesc='" + txtManfDesc.Text + "',UOMBasic='" + DDLUomBasic.SelectedValue + "'", "tblDG_Item_Master.Id='" + Iid + "'");
+                            SqlCommand cmdupSprIDetails = new SqlCommand(upSprIDetails, con);
+                            cmdupSprIDetails.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            //For Code Item Update
+                            string upSprMaster1 = fun.update("tblMM_SPR_Master", "SysDate='" + CDate + "',SysTime='" + CTime + "',SessionId='" + sId + "'", "tblMM_SPR_Master.SPRNo='" + SPRNo + "'AND CompId='" + CompId + "'AND Id='" + mid + "'");
+                            SqlCommand cmdupSprMaster1 = new SqlCommand(upSprMaster1, con);
+                            cmdupSprMaster1.ExecuteNonQuery();
+
+                            string upSprDetails1 = fun.update("tblMM_SPR_Details", "Qty='" + Convert.ToDouble(decimal.Parse(txtQty.Text).ToString("N3")) + "',Rate='" + Convert.ToDouble(decimal.Parse(txtRate.Text).ToString("N2")) + "',SupplierId='" + CustCode + "',AHId='" + DropDownList1.SelectedValue + "',WONo='" + OnWoNo + "',DeptId='" + OnDept + "',Remarks='" + txtRemark.Text + "',DelDate='" + fun.FromDate(textDelDate.Text) + "'   ,Discount='" + Convert.ToDouble(decimal.Parse(txtDiscount.Text).ToString("N2")) + "' ", "tblMM_SPR_Details.SPRNo='" + SPRNo + "' AND tblMM_SPR_Details.Id='" + itemId + "'AND MId='" + mid + "'");
+                            SqlCommand cmdupSprDetails1 = new SqlCommand(upSprDetails1, con);
+                            cmdupSprDetails1.ExecuteNonQuery();
+                        }
+                        Response.Redirect("SPR_Edit_Details.aspx?SPRNo=" + SPRNo + "&ModId=6&SubModId=31&Id=" + mid + "");
+
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+
+        }
+    }
+
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] sql(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        int CompId1 = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+           con.Open();
+           string cmdStr = fun.select("SupplierId,SupplierName", "tblMM_Supplier_master", "CompId='" + CompId1 + "'");
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds, "tblMM_Supplier_master");
+     
+        con.Close();
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                //if (main.Length == 10)
+                //    break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }
+    
+    
+    protected void RadioButtonList1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if(RadioButtonList1.SelectedValue=="1")
+        {
+            fun.AcHead(DropDownList1,1);
+        }
+        else if (RadioButtonList1.SelectedValue == "2")
+        {
+            fun.AcHead(DropDownList1,2);
+        }
+
+        else if (RadioButtonList1.SelectedValue == "3")
+        {
+            fun.AcHead(DropDownList1, 3);
+        }
+        else if (RadioButtonList1.SelectedValue == "4")
+        {
+            fun.AcHead(DropDownList1, 4);
+        }
+    }
+}

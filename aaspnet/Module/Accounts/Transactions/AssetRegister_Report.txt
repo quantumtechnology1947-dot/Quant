@@ -1,0 +1,272 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/AssetRegister_Report.aspx.txt ===
+
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="AssetRegister_Report.aspx.cs" Inherits="Module_Accounts_Transactions_AssetRegister_Report" %>
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>ERP</title>
+     <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+  
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+      <table align="left" cellpadding="0" cellspacing="0" width="100%">
+ 
+        <tr>
+            <td align="center" >
+                <asp:Panel ID="Panel1" runat="server" width="100%" class="fontcss">
+                <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon"></asp:Label>
+                </asp:Panel>
+               
+                    <CR:CrystalReportSource ID="CrystalReportSource1" runat="server">
+                        <Report FileName="~/Module/Accounts/Reports/AssetRegister.rpt">
+                        </Report>
+                    </CR:CrystalReportSource>
+                    <CR:CrystalReportViewer ID="CrystalReportViewer1"  HasCrystalLogo="False"
+                    runat="server" AutoDataBind="true" ReportSourceID="CrystalReportSource1" 
+                    DisplayGroupTree="False" EnableDatabaseLogonPrompt="False" 
+                    EnableParameterPrompt="False" />                    
+                    </td>
+            <td align="center" valign="top">
+                &nbsp;</td>
+        </tr>
+
+    </table>
+                   
+    </div>
+    </form>
+</body>
+</html>
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/AssetRegister_Report.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+
+public partial class Module_Accounts_Transactions_AssetRegister_Report : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    ReportDocument cryRpt = new ReportDocument();
+    string Cat = "";
+    string SubCat = "";
+    string Key = "";
+    int FinYearId = 0;
+    int CompId = 0;
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        try
+        {
+
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            CompId = Convert.ToInt32(Session["compid"]);
+            Cat = Request.QueryString["CAT"].ToString();
+            SubCat = Request.QueryString["SCAT"].ToString();
+            Key = Request.QueryString["Key"].ToString();
+
+            if (Cat == "0" && SubCat == "0")
+            {
+                Panel1.Visible = true;
+                CrystalReportViewer1.Visible = false;
+            }
+            else
+            {
+                Panel1.Visible = false;
+            }
+            if (!IsPostBack)
+            { 
+                con.Open();
+                string ca = "";
+                if (Request.QueryString["CAT"].ToString() != "" && Request.QueryString["SCAT"].ToString() != "")
+                {
+                    ca = " AND tblACC_Asset_Register.ACategoyId='" + Cat + "' AND tblACC_Asset_Register.ASubCategoyId='" + SubCat + "'";
+                }
+                else
+                {
+                    ca = "";
+                }              
+                
+                DataTable dt = new DataTable();
+                string StrAsset = fun.select("tblACC_Asset_Register.Id,tblACC_Asset_Register.CompId,tblACC_Asset_Register.FinYearId, tblACC_Asset_Register.MId AS GQNId,tblQc_MaterialQuality_Details.GQNNo,tblQc_MaterialQuality_Details.GRRId,substring(tblFinancial_master.FinYearFrom,3,2)+'-'+substring( tblFinancial_master.FinYearTo,3,2)+'/'+tblACC_Asset_Category.Abbrivation +'/'+tblACC_Asset_SubCategory.Abbrivation +'/'+ tblACC_Asset_Register.AssetNo AS  AssetNo, tblQc_MaterialQuality_Master.GRRId,tblQc_MaterialQuality_Details.GRRId as DGRRId,tblinv_MaterialReceived_Master.GINId,tblinv_MaterialReceived_Details.POId ", " tblACC_Asset_Register, tblQc_MaterialQuality_Details,tblACC_Asset_Category,tblACC_Asset_SubCategory,tblFinancial_master,tblQc_MaterialQuality_Master,tblinv_MaterialReceived_Master,tblinv_MaterialReceived_Details ", "tblACC_Asset_Register.CompId='" + CompId + "' AND tblACC_Asset_Register.FinYearId='" + FinYearId + "' AND tblACC_Asset_Register.DId=tblQc_MaterialQuality_Details.Id AND  tblACC_Asset_Register.ACategoyId=tblACC_Asset_Category.Id AND tblACC_Asset_Register.ASubCategoyId = tblACC_Asset_SubCategory.Id AND tblACC_Asset_Register.FinYearId=tblFinancial_master.FinYearId AND tblACC_Asset_Register.MId=tblQc_MaterialQuality_Master.Id AND tblQc_MaterialQuality_Master.Id=tblQc_MaterialQuality_Details.MId AND tblinv_MaterialReceived_Master.Id=tblQc_MaterialQuality_Master.GRRId AND tblinv_MaterialReceived_Details.Id=tblQc_MaterialQuality_Details.GRRId AND tblinv_MaterialReceived_Master.Id=tblinv_MaterialReceived_Details.MId" + ca);
+
+                SqlCommand cmdAsset = new SqlCommand(StrAsset, con);
+                SqlDataAdapter DAAsset = new SqlDataAdapter(cmdAsset);
+                DataSet DSAsset = new DataSet();
+                DAAsset.Fill(DSAsset);
+                dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+                dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Description", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("UOM", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("GQNNo", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("AssetNo", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("PONo", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));
+                DataSet AssetRegister = new DataSet();
+                DataRow dr;
+                string ItemCode = "";
+                string Description = "";
+                string UOM = "";
+                string PONo = "";
+                for (int i = 0; i < DSAsset.Tables[0].Rows.Count; i++)
+                {
+                    dr = dt.NewRow();
+                    dr[0] = Convert.ToInt32(DSAsset.Tables[0].Rows[i]["Id"].ToString());
+                    string StrSql3 = fun.select("tblMM_PO_Details.Id,tblMM_PO_Details.PONo,tblMM_PO_Details.PRNo,tblMM_PO_Details.Qty,tblMM_PO_Details.PRId,tblMM_PO_Details.SPRNo,tblMM_PO_Details.SPRId,tblMM_PO_Details.Qty,tblMM_PO_Master.PRSPRFlag,tblMM_PO_Master.FinYearId,tblMM_PO_Master.SupplierId", "tblMM_PO_Details,tblMM_PO_Master", "tblMM_PO_Master.PONo=tblMM_PO_Details.PONo AND tblMM_PO_Master.CompId='" + CompId + "' AND tblMM_PO_Master.Id=tblMM_PO_Details.MId AND tblMM_PO_Details.Id='" + DSAsset.Tables[0].Rows[i]["POId"].ToString() + "'");
+
+                    SqlCommand cmdsupId3 = new SqlCommand(StrSql3, con);
+                    SqlDataAdapter dasupId3 = new SqlDataAdapter(cmdsupId3);
+                    DataSet DSSql3 = new DataSet();
+                    dasupId3.Fill(DSSql3);
+
+                    if (DSSql3.Tables[0].Rows.Count > 0)
+                    {
+                        if (DSSql3.Tables[0].Rows[0]["PRSPRFlag"].ToString() == "0")
+                        {
+                            string StrFlag = fun.select("tblMM_PR_Details.ItemId,tblMM_PR_Master.WONo,tblMM_PR_Details.AHId", "tblMM_PR_Master,tblMM_PR_Details", "tblMM_PR_Master.PRNo='" + DSSql3.Tables[0].Rows[0]["PRNo"].ToString() + "'  AND tblMM_PR_Master.PRNo=tblMM_PR_Details.PRNo AND tblMM_PR_Details.Id='" + DSSql3.Tables[0].Rows[0]["PRId"].ToString() + "' AND tblMM_PR_Master.CompId='" + CompId + "' AND tblMM_PR_Master.Id=tblMM_PR_Details.MId");
+
+                            SqlCommand cmdFlag = new SqlCommand(StrFlag, con);
+                            SqlDataAdapter daFlag = new SqlDataAdapter(cmdFlag);
+                            DataSet DSFlag = new DataSet();
+                            daFlag.Fill(DSFlag);
+                            if (DSFlag.Tables[0].Rows.Count > 0)
+                            {
+
+                                string StrIcode = fun.select("Id,ItemCode,ManfDesc,UOMBasic", "tblDG_Item_Master", "Id='" + DSFlag.Tables[0].Rows[0]["ItemId"].ToString() + "' AND CompId='" + CompId + "'");
+                                SqlCommand cmdIcode = new SqlCommand(StrIcode, con);
+                                SqlDataAdapter daIcode = new SqlDataAdapter(cmdIcode);
+                                DataSet DSIcode = new DataSet();
+
+                                daIcode.Fill(DSIcode);
+                                // For ItemCode
+                                if (DSIcode.Tables[0].Rows.Count > 0)
+                                {
+                                    ItemCode = fun.GetItemCode_PartNo(CompId, Convert.ToInt32(DSFlag.Tables[0].Rows[0]["ItemId"].ToString()));
+
+                                    // For Manf. Desc
+                                    Description = DSIcode.Tables[0].Rows[0]["ManfDesc"].ToString();
+                                    // for UOMBasic  from Unit Master table
+
+                                    string sqlPurch = fun.select("Symbol", "Unit_Master", "Id='" + DSIcode.Tables[0].Rows[0]["UOMBasic"].ToString() + "'");
+                                    SqlCommand cmdPurch = new SqlCommand(sqlPurch, con);
+                                    SqlDataAdapter daPurch = new SqlDataAdapter(cmdPurch);
+                                    DataSet DSPurch = new DataSet();
+                                    daPurch.Fill(DSPurch);
+
+                                    if (DSPurch.Tables[0].Rows.Count > 0)
+                                    {
+                                        UOM = DSPurch.Tables[0].Rows[0][0].ToString();
+                                    }
+
+                                    PONo = DSSql3.Tables[0].Rows[0]["PONo"].ToString();
+                                }
+                            }
+
+                        }
+                        else if (DSSql3.Tables[0].Rows[0]["PRSPRFlag"].ToString() == "1")
+                        {
+                            string StrFlag1 = fun.select("tblMM_SPR_Details.ItemId,tblMM_SPR_Details.WONo,tblMM_SPR_Details.DeptId,tblMM_SPR_Details.AHId", "tblMM_SPR_Master,tblMM_SPR_Details", "tblMM_SPR_Master.SPRNo='" + DSSql3.Tables[0].Rows[0]["SPRNo"].ToString() + "'  AND tblMM_SPR_Master.SPRNo=tblMM_SPR_Details.SPRNo AND tblMM_SPR_Details.Id='" + DSSql3.Tables[0].Rows[0]["SPRId"].ToString() + "' AND tblMM_SPR_Master.CompId='" + CompId + "' AND tblMM_SPR_Master.Id=tblMM_SPR_Details.MId");
+
+                            SqlCommand cmdFlag1 = new SqlCommand(StrFlag1, con);
+                            SqlDataAdapter daFlag1 = new SqlDataAdapter(cmdFlag1);
+                            DataSet DSFlag1 = new DataSet();
+                            daFlag1.Fill(DSFlag1);
+
+                            if (DSFlag1.Tables[0].Rows.Count > 0)
+                            {
+                                string StrIcode1 = fun.select("Id,ItemCode,ManfDesc,UOMBasic", "tblDG_Item_Master", "Id='" + DSFlag1.Tables[0].Rows[0]["ItemId"].ToString() + "' AND CompId='" + CompId + "'");
+                                SqlCommand cmdIcode1 = new SqlCommand(StrIcode1, con);
+                                SqlDataAdapter daIcode1 = new SqlDataAdapter(cmdIcode1);
+                                DataSet DSIcode1 = new DataSet();
+                                daIcode1.Fill(DSIcode1);
+
+                                if (DSIcode1.Tables[0].Rows.Count > 0)
+                                {
+                                    ItemCode = fun.GetItemCode_PartNo(CompId, Convert.ToInt32(DSFlag1.Tables[0].Rows[0]["ItemId"].ToString()));
+                                    Description = DSIcode1.Tables[0].Rows[0]["ManfDesc"].ToString();
+
+                                    // for UOMBasic  from Unit Master table
+                                    string sqlPurch1 = fun.select("Symbol", "Unit_Master", "Id='" + DSIcode1.Tables[0].Rows[0]["UOMBasic"].ToString() + "' ");
+                                    SqlCommand cmdPurch1 = new SqlCommand(sqlPurch1, con);
+                                    SqlDataAdapter daPurch1 = new SqlDataAdapter(cmdPurch1);
+                                    DataSet DSPurch1 = new DataSet();
+                                    daPurch1.Fill(DSPurch1);
+                                    if (DSPurch1.Tables[0].Rows.Count > 0)
+                                    {
+                                        UOM = DSPurch1.Tables[0].Rows[0][0].ToString();
+                                    }
+                                    PONo = DSSql3.Tables[0].Rows[0]["PONo"].ToString();
+                                }
+                            }
+                        }
+                        dr[1] = ItemCode;
+                        dr[2] = Description;
+                        dr[3] = UOM;
+                        dr[4] = DSAsset.Tables[0].Rows[i]["GQNNo"].ToString();
+                        dr[5] = DSAsset.Tables[0].Rows[i]["AssetNo"].ToString();
+                        dr[6] = PONo;
+                        dr[7] = Convert.ToInt32(CompId);
+                    }
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+
+                AssetRegister.Tables.Add(dt);
+                DataSet xsdds = new AssetRegister();
+                xsdds.Tables[0].Merge(AssetRegister.Tables[0]);
+                xsdds.AcceptChanges();
+                cryRpt = new ReportDocument();
+                cryRpt.Load(Server.MapPath("~/Module/Accounts/Reports/AssetRegister.rpt"));
+                cryRpt.SetDataSource(xsdds);
+
+                // For Address
+                string Address = fun.CompAdd(CompId);
+                cryRpt.SetParameterValue("Address", Address);
+                CrystalReportViewer1.ReportSource = cryRpt;
+                Session[Key] = cryRpt;
+            }
+            else
+            {
+                ReportDocument doc = (ReportDocument)Session[Key];
+                CrystalReportViewer1.ReportSource = doc;
+            }
+        }
+        catch (Exception ex)
+        { }
+        finally
+        {
+            con.Close();
+        }
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        cryRpt = new ReportDocument();    
+    }
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        cryRpt.Close();
+        cryRpt.Dispose();
+        GC.Collect();
+    }
+}

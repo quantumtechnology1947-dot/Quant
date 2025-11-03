@@ -1,0 +1,208 @@
+graph TB
+    %% State Module Architecture Diagram
+    
+    subgraph "Presentation Layer"
+        A[State.aspx<br/>ASP.NET Web Form]
+        A1[Master Page<br/>MasterPage.master]
+        A2[CSS Stylesheets<br/>yui-datatable.css<br/>StyleSheet.css]
+        A3[JavaScript Files<br/>PopUpMsg.js<br/>loadingNotifier.js]
+    end
+    
+    subgraph "Code-Behind Layer"
+        B[State.aspx.cs<br/>Module_SysAdmin_State Class]
+        B1[Page_Load Event]
+        B2[GridView1_RowCommand Event]
+        B3[GridView1_RowUpdated Event]
+        B4[GridView1_RowDeleted Event]
+        B5[GridView1_RowDataBound Event]
+        B6[GridView1_RowEditing Event]
+        B7[GridView1_RowUpdating Event]
+        B8[GridView1_RowCancelingEdit Event]
+        B9[GridView1_PageIndexChanging Event]
+        B10[loadata Method]
+        B11[getCnt Method]
+    end
+    
+    subgraph "Data Access Layer"
+        C[Manual SQL Operations<br/>clsFunctions]
+        C1[SELECT Command<br/>SELECT * FROM tblState<br/>Order By SId Desc]
+        C2[INSERT Command<br/>INSERT INTO tblState<br/>CId, StateName]
+        C3[UPDATE Command<br/>UPDATE tblState SET<br/>CId, StateName WHERE SId]
+        C4[DELETE Command<br/>DELETE FROM tblState<br/>WHERE SId]
+        C5[Country Lookup<br/>SELECT * FROM tblCountry]
+        C6[City Dependency Check<br/>SELECT * FROM tblCity WHERE SId]
+    end
+    
+    subgraph "Database Layer"
+        D[(tblState Table)]
+        D1[SId - INT<br/>Primary Key<br/>Auto Increment]
+        D2[StateName - STRING<br/>Required Field]
+        D3[CId - INT<br/>Foreign Key to tblCountry]
+        
+        D4[(tblCountry Table)]
+        D5[CId - INT<br/>Primary Key]
+        D6[CountryName - STRING]
+        
+        D7[(tblCity Table)]
+        D8[CityId - INT<br/>Primary Key]
+        D9[SId - INT<br/>Foreign Key to tblState]
+    end
+    
+    subgraph "UI Components"
+        E[GridView1<br/>Data Grid Control]
+        E1[Edit Button<br/>CommandField]
+        E2[Delete Button<br/>Custom LinkButton]
+        E3[Serial Number Column<br/>Auto Generated]
+        E4[Country Dropdown Column<br/>TemplateField with DropDownList]
+        E5[State Name Column<br/>TemplateField]
+        E6[Footer Row<br/>Insert Controls]
+        E7[Paging Support<br/>PageSize=16]
+        E8[Country Data Source<br/>SqlDataSource1]
+    end
+    
+    subgraph "Validation Layer"
+        F[RequiredFieldValidator]
+        F1[State Name Validation<br/>ValidationGroup A & SG]
+        F2[Country Selection Required<br/>Implicit validation]
+    end
+    
+    subgraph "Utility Functions"
+        G[clsFunctions Class]
+        G1[Connection Method<br/>Database connection string]
+        G2[select Method<br/>Dynamic SELECT queries]
+        G3[select1 Method<br/>Simple SELECT queries]
+        G4[insert Method<br/>Dynamic INSERT queries]
+        G5[update Method<br/>Dynamic UPDATE queries]
+        G6[delete Method<br/>Dynamic DELETE queries]
+        G7[dropdownState Method<br/>Populate state dropdowns]
+    end
+    
+    subgraph "Business Logic"
+        H[State Management Logic]
+        H1[Country-State Relationship<br/>Maintains foreign key integrity]
+        H2[Delete Restriction<br/>Prevents deletion if cities exist]
+        H3[Dropdown Population<br/>Loads countries for selection]
+        H4[Data Binding<br/>Custom data loading and binding]
+    end
+    
+    subgraph "User Actions"
+        I[CRUD Operations]
+        I1[Create New State<br/>Add Command with Country]
+        I2[Read State List<br/>Grid Display with Country]
+        I3[Update State<br/>Edit Command with Country]
+        I4[Delete State<br/>Del Command with City Check]
+    end
+    
+    subgraph "JavaScript Confirmations"
+        J[Client-Side Validations]
+        J1[confirmationAdd<br/>Insert confirmation]
+        J2[confirmationUpdate<br/>Edit confirmation]
+        J3[confirmationDelete<br/>Delete confirmation]
+    end
+    
+    %% Relationships
+    A --> A1
+    A --> A2
+    A --> A3
+    A --> B
+    A --> E
+    A --> F
+    
+    B --> B1
+    B --> B2
+    B --> B3
+    B --> B4
+    B --> B5
+    B --> B6
+    B --> B7
+    B --> B8
+    B --> B9
+    B --> B10
+    B --> B11
+    B --> G
+    B --> H
+    
+    B2 --> I1
+    B3 --> I3
+    B4 --> I4
+    B7 --> I3
+    
+    E --> E1
+    E --> E2
+    E --> E3
+    E --> E4
+    E --> E5
+    E --> E6
+    E --> E7
+    E --> E8
+    
+    F --> F1
+    F --> F2
+    
+    C --> C1
+    C --> C2
+    C --> C3
+    C --> C4
+    C --> C5
+    C --> C6
+    C --> G
+    
+    D --> D1
+    D --> D2
+    D --> D3
+    D4 --> D5
+    D4 --> D6
+    D7 --> D8
+    D7 --> D9
+    
+    D3 --> D5
+    D9 --> D1
+    
+    G --> G1
+    G --> G2
+    G --> G3
+    G --> G4
+    G --> G5
+    G --> G6
+    G --> G7
+    
+    H --> H1
+    H --> H2
+    H --> H3
+    H --> H4
+    
+    I --> I1
+    I --> I2
+    I --> I3
+    I --> I4
+    
+    E1 --> J2
+    E2 --> J3
+    E6 --> J1
+    
+    E8 --> D4
+    H2 --> D7
+    H1 --> D4
+    
+    %% Styling
+    classDef presentationClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef codeClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef dataClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef dbClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef uiClass fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef validationClass fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    classDef utilityClass fill:#e0f2f1,stroke:#004d40,stroke-width:2px
+    classDef businessClass fill:#f9fbe7,stroke:#827717,stroke-width:2px
+    classDef actionClass fill:#e3f2fd,stroke:#0d47a1,stroke-width:2px
+    classDef jsClass fill:#fff8e1,stroke:#ff6f00,stroke-width:2px
+    
+    class A,A1,A2,A3 presentationClass
+    class B,B1,B2,B3,B4,B5,B6,B7,B8,B9,B10,B11 codeClass
+    class C,C1,C2,C3,C4,C5,C6 dataClass
+    class D,D1,D2,D3,D4,D5,D6,D7,D8,D9 dbClass
+    class E,E1,E2,E3,E4,E5,E6,E7,E8 uiClass
+    class F,F1,F2 validationClass
+    class G,G1,G2,G3,G4,G5,G6,G7 utilityClass
+    class H,H1,H2,H3,H4 businessClass
+    class I,I1,I2,I3,I4 actionClass
+    class J,J1,J2,J3 jsClass

@@ -1,0 +1,525 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Masters/RateSet_details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="RateSet_details.aspx.cs" Inherits="Module_MaterialManagement_Masters_RateSet_details" Title="ERP"  Theme="Default" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+ <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+ <script language="javascript" type="text/javascript">
+function SelectSingleRadiobutton(rdbtnid) {
+var rdBtn = document.getElementById(rdbtnid);
+var rdBtnList = document.getElementsByTagName("input");
+for (i = 0; i < rdBtnList.length; i++) {
+if (rdBtnList[i].type == "radio" && rdBtnList[i].id != rdBtn.id)
+{
+rdBtnList[i].checked = false;
+}
+}
+}
+</script>
+
+
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr>
+            <td align="left" valign="middle" 
+                style="background:url(../../../images/hdbg.JPG)" height="21" 
+                class="fontcsswhite"><b>&nbsp;Rate Register </b></td>
+             </tr>
+
+<tr> <td valign="middle" style="height:28px">
+
+         <asp:Label ID="Label1" Font-Bold="true" runat="server" Text="Supllier Name"></asp:Label> 
+          <asp:TextBox runat="server" CssClass="box3" Width="336px" 
+                ID="txtSearchSupplier" ></asp:TextBox>
+         <cc1:AutoCompleteExtender runat="server"  MinimumPrefixLength="1"  CompletionInterval="100" 
+         CompletionSetCount="1" ServiceMethod="sql" ServicePath="" UseContextKey="True" DelimiterCharacters="" 
+         FirstRowSelected="True" ShowOnlyCurrentWordInCompletionListItem="True" Enabled="True" 
+         TargetControlID="txtSearchSupplier" ID="txtSearchSupplier_AutoCompleteExtender" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+         </cc1:AutoCompleteExtender>
+         &#160;
+         <asp:Button runat="server" Text="View" CssClass="redbox" ID="btnSearch" OnClick="btnSearch_Click">
+         </asp:Button>
+         
+          &nbsp;&nbsp;&nbsp;
+         
+          <asp:Button runat="server" Text="Cancel" CssClass="redbox" ID="Btncancel" OnClick="Btncancel_Click">
+         </asp:Button>
+         &nbsp;&nbsp;&nbsp;&nbsp;
+         <asp:Label ID="lblMessage" runat="server" Font-Bold="True" ForeColor="Red"></asp:Label>
+         </td></tr>
+         <tr>
+         <td>
+                  <asp:GridView ID="GridView2" 
+                        runat="server" 
+                    CssClass="yui-datatable-theme" AutoGenerateColumns="False" 
+                    OnPageIndexChanging="GridView2_PageIndexChanging" AllowPaging="True" 
+                         Width="100%" 
+                    PageSize="20" >
+                        <PagerSettings PageButtonCount="40" />
+                        <Columns>
+                      
+                    
+                                
+                            <asp:TemplateField HeaderText="SN">
+                                <ItemTemplate>
+                                    <%# Container.DataItemIndex+1 %>
+                                </ItemTemplate>
+                                <ItemStyle 
+                            HorizontalAlign="Right" Width="3%"></ItemStyle>
+                            </asp:TemplateField>                           
+                         <asp:BoundField DataField="FinYear" HeaderText="FinYear">
+                           
+                                <ItemStyle Width="5%" />
+                            </asp:BoundField>
+                            
+                              <asp:TemplateField HeaderText="Id" Visible="False">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblId" runat="server" Text='<%#Eval("Id") %>'> </asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="ItemId" Visible="False">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblItemId" runat="server" Text='<%#Eval("ItemId") %>'> </asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            
+                            <asp:BoundField DataField="ItemCode" HeaderText="Item Code">
+                           
+                                <ItemStyle  HorizontalAlign="Center" />
+                            </asp:BoundField>
+                           
+                           
+                           
+                           
+                            <asp:BoundField DataField="ManfDesc" HeaderText="Desc" >
+                           
+                                <ItemStyle Width="20%" HorizontalAlign="Center" />
+                            </asp:BoundField>
+                           
+                           <asp:BoundField DataField="UOMBasic" HeaderText="UOM">
+                           
+                                <ItemStyle Width="6%" HorizontalAlign="Center" />
+                            </asp:BoundField>
+                           
+                           
+                         
+                            
+                            <asp:BoundField DataField="PONo" HeaderText="PONo ">
+                            
+                                <ItemStyle Width="5%" HorizontalAlign="Center" />
+                            </asp:BoundField>
+                             <asp:BoundField DataField="SupplierName" HeaderText="SupplierName" >
+                                <ItemStyle Width="15%" HorizontalAlign="Center" />
+                            </asp:BoundField>
+                            
+                            
+                               <asp:TemplateField HeaderText="set Min">
+                                <ItemTemplate>
+                                    <asp:RadioButton ID="RadioButton1" GroupName="radbtn" runat="server"   OnClick="javascript:SelectSingleRadiobutton(this.id)"  OnCheckedChanged="RadioButton1_CheckedChanged" />
+                                </ItemTemplate>
+                                <ItemStyle 
+                            HorizontalAlign="center" Width="5%"></ItemStyle>
+                            </asp:TemplateField>    
+                           
+                            <asp:BoundField DataField="Rate" HeaderText="Rate">
+                           
+                                <ItemStyle Width="6%" HorizontalAlign="Right" />
+                            </asp:BoundField>
+                           
+                            <asp:BoundField DataField="Discount" HeaderText="Disc" 
+                               >
+                           
+                                <ItemStyle Width="3%" HorizontalAlign="Right" />
+                            </asp:BoundField>  
+                                                     
+                             <asp:BoundField DataField="Amount" HeaderText="Amount">
+                           
+                                <ItemStyle Width="8%" HorizontalAlign="Right" />
+                            </asp:BoundField>
+                                                    
+                            <asp:BoundField DataField="Excise" HeaderText="Excise">                            
+                                <ItemStyle Width="7%" HorizontalAlign="Center"/>
+                            </asp:BoundField>
+                            <asp:BoundField DataField="IndirectCost" HeaderText="IndirectCost"  Visible="false" >                           
+                                <ItemStyle Width="5%" HorizontalAlign="Center" />
+                            </asp:BoundField>                           
+                          
+                            <asp:BoundField DataField="DirectCost" HeaderText="DirectCost"  Visible="false">                           
+                                <ItemStyle Width="5%" HorizontalAlign="Center" />
+                            </asp:BoundField>   
+                           
+                            <asp:BoundField DataField="VAT" HeaderText="VAT" >                            
+                                <ItemStyle Width="8%" />
+                            </asp:BoundField>
+                             <asp:BoundField DataField="PF" HeaderText="PF" >                            
+                                <ItemStyle Width="8%" />
+                            </asp:BoundField>
+                            
+                             <asp:TemplateField HeaderText="Flag" Visible="False">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblFlag" runat="server" Text='<%#Eval("Flag") %>'> </asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            
+                            
+                                    </Columns>
+                                    <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                              </asp:GridView>
+         
+         
+         </td>
+         </tr>
+         <tr>
+         <td align="center" width="30 px">
+         <asp:Button runat="server" Text="Submit" CssClass="redbox" ID="BtnSubmit" 
+                 onclick="BtnSubmit_Click" >
+         </asp:Button>
+         </td>
+         </tr>
+         </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Masters/RateSet_details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+//using System.gadilkar.shridhar
+public partial class Module_MaterialManagement_Masters_RateSet_details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    string SupCode = "";
+    int CId = 0;
+    int ItemId = 0;
+    int FyId = 0;
+    string Key = string.Empty; 
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            CId = Convert.ToInt32(Session["compid"]);
+            ItemId = Convert.ToInt32(Request.QueryString["ItemId"]);
+            FyId = Convert.ToInt32(Session["finyear"]);
+            Key = Request.QueryString["Key"].ToString();
+            if (!IsPostBack)
+            {
+                this.loadData(SupCode, ItemId);
+            }
+        }
+        catch (Exception ess)
+        {
+
+        }
+        
+    }
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+
+
+            if (txtSearchSupplier.Text != "")
+            {
+                SupCode = fun.getCode(txtSearchSupplier.Text);
+                if (SupCode != "")
+                {
+                  
+                    this.loadData(SupCode, ItemId);
+                }
+                else
+                {
+
+                    
+
+                    string mystring = string.Empty;
+                    mystring = "Invalid data input";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+                }
+            }
+
+            else
+            {
+
+                this.loadData(SupCode, ItemId);
+            }
+
+        }
+        catch (Exception dtt)
+        {
+
+        }
+    }
+
+    protected void Btncancel_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            Response.Redirect("Rateset.aspx?ModId=6&SubModId=139");
+        }
+        catch (Exception dtt)
+        {
+        }
+    }
+
+    public void loadData(string SupCode, int itemid)
+    {
+
+        try
+        {
+            DataTable dt = new DataTable();
+            string x = "";
+            string y = "";
+            if (SupCode != "")
+            {
+                x = "And tblMM_Supplier_master.SupplierId ='" + SupCode + "'";
+            }
+
+            if (itemid != 0)
+            {
+                y = "And tblMM_Rate_Register.ItemId ='" + itemid + "'";
+            }
+
+            string StrGQN = "SELECT tblMM_Rate_Register.Flag, tblMM_Rate_Register.Id,tblMM_Rate_Register.ItemId,tblMM_Rate_Register.POId,tblMM_Rate_Register.Rate,tblMM_Rate_Register.Discount,tblMM_Rate_Register.IndirectCost,tblMM_Rate_Register.DirectCost,tblMM_Rate_Register.CompId,tblDG_Item_Master.ManfDesc, Unit_Master.Symbol, tblFinancial_master.FinYear, tblPacking_Master.Terms,tblExciseser_Master.Terms AS Expr1, tblVAT_Master.Terms AS Expr2 FROM  tblDG_Item_Master INNER JOIN tblMM_Rate_Register ON tblDG_Item_Master.Id = tblMM_Rate_Register.ItemId INNER JOIN Unit_Master ON tblDG_Item_Master.UOMBasic = Unit_Master.Id INNER JOIN tblFinancial_master ON tblMM_Rate_Register.FinYearId = tblFinancial_master.FinYearId INNER JOIN tblPacking_Master ON tblMM_Rate_Register.PF = tblPacking_Master.Id INNER JOIN tblExciseser_Master ON tblMM_Rate_Register.ExST = tblExciseser_Master.Id INNER JOIN tblVAT_Master ON tblMM_Rate_Register.VAT = tblVAT_Master.Id  AND tblMM_Rate_Register.CompId='" + CId + "' AND tblMM_Rate_Register.FinYearId<='" + FyId + "'" + x + "" + y + "";
+
+
+            SqlCommand cmdGQN = new SqlCommand(StrGQN, con);
+            SqlDataAdapter daGQN = new SqlDataAdapter(cmdGQN);
+            DataSet DSGQN = new DataSet();
+            daGQN.Fill(DSGQN);
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));//0
+            dt.Columns.Add(new System.Data.DataColumn("ItemId", typeof(string)));//1
+            dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));//2
+            dt.Columns.Add(new System.Data.DataColumn("ManfDesc", typeof(string)));//3
+            dt.Columns.Add(new System.Data.DataColumn("UOMBasic", typeof(string)));//4
+            dt.Columns.Add(new System.Data.DataColumn("FinYear", typeof(string)));//5
+            dt.Columns.Add(new System.Data.DataColumn("PONo", typeof(string)));//6
+            dt.Columns.Add(new System.Data.DataColumn("Rate", typeof(double)));//7
+            dt.Columns.Add(new System.Data.DataColumn("Discount", typeof(double)));//8
+            dt.Columns.Add(new System.Data.DataColumn("Excise", typeof(string)));//9
+            dt.Columns.Add(new System.Data.DataColumn("SupplierName", typeof(string)));//10 
+            dt.Columns.Add(new System.Data.DataColumn("VAT", typeof(string)));//11
+            dt.Columns.Add(new System.Data.DataColumn("PF", typeof(string)));//12
+            dt.Columns.Add(new System.Data.DataColumn("Amount", typeof(double)));//13
+            dt.Columns.Add(new System.Data.DataColumn("Flag", typeof(int)));//14
+            DataSet Gqn = new DataSet();
+            DataRow dr;
+
+            for (int i = 0; i < DSGQN.Tables[0].Rows.Count; i++)
+            {
+                dr = dt.NewRow();
+                dr[0] = Convert.ToInt32(DSGQN.Tables[0].Rows[i]["Id"].ToString());
+                dr[1] = DSGQN.Tables[0].Rows[i]["ItemId"].ToString();
+                dr[2] = fun.GetItemCode_PartNo(CId, Convert.ToInt32(DSGQN.Tables[0].Rows[i]["ItemId"].ToString()));
+
+                dr[3] = DSGQN.Tables[0].Rows[i]["ManfDesc"].ToString();
+                dr[4] = DSGQN.Tables[0].Rows[i]["Symbol"].ToString();
+                dr[5] = DSGQN.Tables[0].Rows[i]["FinYear"].ToString();
+
+
+
+
+
+                string StrPono = fun.select("PONo,SupplierId", "tblMM_PO_Master", "Id='" + Convert.ToInt32(DSGQN.Tables[0].Rows[i]["POId"]) + "'");
+                SqlCommand cmdPono = new SqlCommand(StrPono, con);
+                SqlDataAdapter DAPono = new SqlDataAdapter(cmdPono);
+                DataSet DSPono = new DataSet();
+                DAPono.Fill(DSPono);
+                string currency = string.Empty;
+
+                if (DSPono.Tables[0].Rows.Count > 0)
+                {
+                    dr[6] = DSPono.Tables[0].Rows[0]["PONo"].ToString();
+
+
+                    string cn = fun.select("SupplierName,RegdCountry", "tblMM_Supplier_master", "SupplierId='" + DSPono.Tables[0].Rows[0]["SupplierId"].ToString() + "' And CompId='" + CId + "'");
+                    DataSet ds = new DataSet();
+                    SqlCommand cmd4 = new SqlCommand(cn, con);
+                    SqlDataAdapter da = new SqlDataAdapter(cmd4);
+                    da.Fill(ds, "tblMM_Supplier_master");
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        dr[10] = ds.Tables[0].Rows[0]["SupplierName"].ToString() + '[' + DSPono.Tables[0].Rows[0]["SupplierId"].ToString() + ']';
+
+
+                    }
+
+                }
+
+
+
+                dr[7] = Convert.ToDouble(decimal.Parse(DSGQN.Tables[0].Rows[i]["Rate"].ToString()).ToString("N2"));
+                dr[8] = Convert.ToDouble(decimal.Parse(DSGQN.Tables[0].Rows[i]["Discount"].ToString()).ToString("N2"));
+
+
+
+                dr[9] = DSGQN.Tables[0].Rows[i]["Expr1"];
+                dr[11] = DSGQN.Tables[0].Rows[i]["Expr2"];
+                dr[12] = DSGQN.Tables[0].Rows[i]["Terms"];
+                dr[14] = DSGQN.Tables[0].Rows[i]["Flag"];
+                double amt = 0;
+                amt = Convert.ToDouble((Convert.ToDouble(DSGQN.Tables[0].Rows[i]["Rate"]) - (Convert.ToDouble(DSGQN.Tables[0].Rows[i]["Rate"]) * Convert.ToDouble(DSGQN.Tables[0].Rows[i]["Discount"]) / 100)));
+                dr[13] = Convert.ToDouble(decimal.Parse(amt.ToString()).ToString("N2"));
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }
+
+            GridView2.DataSource = dt;
+            GridView2.DataBind();
+
+
+            foreach (GridViewRow grv in GridView2.Rows)
+            {
+
+
+                int flag = Convert.ToInt32(((Label)grv.FindControl("lblFlag")).Text);
+                if (flag == 1)
+                {
+
+                    RadioButton rb = ((RadioButton)grv.FindControl("RadioButton1"));
+                    rb.Checked = true;
+                }
+
+
+            }
+
+
+
+
+
+        }
+
+
+        catch (Exception ex) { }
+        finally
+        { con.Close(); }
+    }
+
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] sql(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        int CompId = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        con.Open();
+        string cmdStr = fun.select("SupplierId,SupplierName", "tblMM_Supplier_master", "CompId='" + CompId + "'");
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds, "tblMM_Supplier_master");
+        con.Close();
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                //if (main.Length == 10)
+                //    break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }
+    public void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            GridView2.PageIndex = e.NewPageIndex;
+            this.loadData(SupCode, ItemId);
+          
+        }
+        catch (Exception ch)
+        {
+        }
+    }
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        GC.Collect();
+    }
+
+    protected void RadioButton1_CheckedChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void BtnSubmit_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            foreach (GridViewRow grv in GridView2.Rows)
+            {
+                if (((RadioButton)grv.FindControl("RadioButton1")).Checked == true)
+                {
+                    string id = ((Label)grv.FindControl("lblId")).Text;
+                    string itemid = ((Label)grv.FindControl("lblItemId")).Text;
+                    clsFunctions fun = new clsFunctions();
+                    string connStr = fun.Connection();
+                    SqlConnection con = new SqlConnection(connStr);
+                    con.Open();
+                    string Update1 = fun.update("tblMM_Rate_Register", "Flag='0'", "ItemId='" + itemid + "'");
+                    SqlCommand Cmd1 = new SqlCommand(Update1, con);
+                    Cmd1.ExecuteNonQuery();
+
+                    string Update = fun.update("tblMM_Rate_Register", "Flag='1'", "Id='" + id + "'");
+                    SqlCommand Cmd = new SqlCommand(Update, con);
+                    Cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            //this.loadData(SupCode,ItemId);
+            lblMessage.Text = "Minimum rate is Set.";
+       // Page.Response.Redirect(Page.Request.Url.ToString(),true);
+
+        }
+        catch (Exception ex)
+        {
+        }
+
+    }
+}

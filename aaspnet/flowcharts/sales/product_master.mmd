@@ -1,0 +1,194 @@
+graph TB
+    %% Product Master Module Architecture Diagram
+    
+    subgraph "Presentation Layer"
+        A[Product.aspx<br/>Product Master Management]
+        A1[Master Page<br/>MasterPage.master]
+        A2[CSS Stylesheets<br/>yui-datatable.css<br/>StyleSheet.css]
+        A3[JavaScript Files<br/>PopUpMsg.js<br/>loadingNotifier.js]
+    end
+    
+    subgraph "Code-Behind Layer"
+        B[Product.aspx.cs<br/>Module_SalesDistribution_Masters Class]
+        B1[Page_Load Event]
+        B2[GridView1_RowCommand Event]
+        B3[GridView1_RowDeleted Event]
+        B4[GridView1_RowUpdated Event]
+        B5[GridView1_RowDataBound Event]
+        B6[SqlDataSource1_Inserted Event]
+    end
+    
+    subgraph "Data Access Layer"
+        C[SqlDataSource<br/>LocalSqlServer]
+        C1[SELECT Command<br/>SELECT * FROM Category_Master]
+        C2[INSERT Command<br/>INSERT INTO Category_Master<br/>Name]
+        C3[UPDATE Command<br/>UPDATE Category_Master SET<br/>Name WHERE Id]
+        C4[DELETE Command<br/>DELETE FROM Category_Master<br/>WHERE Id]
+    end
+    
+    subgraph "Database Layer"
+        D[(Category_Master Table)]
+        D1[Id - INT<br/>Primary Key<br/>Auto Increment]
+        D2[Name - STRING<br/>Product/Category Name<br/>Required Field]
+    end
+    
+    subgraph "UI Components"
+        E[GridView1<br/>Data Grid Control]
+        E1[Edit Button<br/>CommandField]
+        E2[Delete Button<br/>CommandField]
+        E3[ID Column<br/>Hidden TemplateField]
+        E4[Name Column<br/>TemplateField with validation]
+        E5[Footer Row<br/>Insert Controls]
+        E6[Empty Data Template<br/>Alternative insert interface]
+        E7[Paging Support<br/>PageSize=20]
+    end
+    
+    subgraph "Validation Layer"
+        F[RequiredFieldValidator]
+        F1[Name Validation - Edit<br/>ValidationGroup B]
+        F2[Name Validation - Insert<br/>ValidationGroup A]
+        F3[Name Validation - Empty<br/>ValidationGroup C]
+    end
+    
+    subgraph "Business Logic"
+        G[Product Management Logic]
+        G1[Product Creation<br/>Add new product categories]
+        G2[Product Modification<br/>Update existing products]
+        G3[Product Deletion<br/>Remove products]
+        G4[Product Listing<br/>Display all products]
+        G5[Duplicate Prevention<br/>Ensure unique names]
+    end
+    
+    subgraph "User Actions"
+        H[CRUD Operations]
+        H1[Create New Product<br/>Add Command]
+        H2[Read Product List<br/>Grid Display]
+        H3[Update Product<br/>Edit Command]
+        H4[Delete Product<br/>Delete Command]
+        H5[Alternative Insert<br/>Add1 Command for empty data]
+    end
+    
+    subgraph "JavaScript Confirmations"
+        I[Client-Side Validations]
+        I1[confirmationAdd<br/>Insert confirmation]
+        I2[confirmationUpdate<br/>Edit confirmation]
+        I3[confirmationDelete<br/>Delete confirmation]
+    end
+    
+    subgraph "Related Modules"
+        J[Integration Points]
+        J1[Work Order Categories<br/>tblSD_WO_Category]
+        J2[Work Order Sub-Categories<br/>tblSD_WO_SubCategory]
+        J3[Quotation Details<br/>Product selection in quotes]
+        J4[Customer Enquiry<br/>Product-based enquiries]
+    end
+    
+    subgraph "Message System"
+        K[User Feedback]
+        K1[Success Messages<br/>Record Inserted/Updated/Deleted]
+        K2[Error Handling<br/>Validation failures]
+        K3[Status Display<br/>lblMessage control]
+    end
+    
+    %% Relationships
+    A --> A1
+    A --> A2
+    A --> A3
+    A --> B
+    A --> E
+    A --> F
+    
+    B --> B1
+    B --> B2
+    B --> B3
+    B --> B4
+    B --> B5
+    B --> B6
+    
+    B2 --> H1
+    B2 --> H5
+    B3 --> H4
+    B4 --> H3
+    B6 --> K1
+    
+    E --> E1
+    E --> E2
+    E --> E3
+    E --> E4
+    E --> E5
+    E --> E6
+    E --> E7
+    
+    F --> F1
+    F --> F2
+    F --> F3
+    
+    C --> C1
+    C --> C2
+    C --> C3
+    C --> C4
+    C --> D
+    
+    D --> D1
+    D --> D2
+    
+    G --> G1
+    G --> G2
+    G --> G3
+    G --> G4
+    G --> G5
+    
+    H --> H1
+    H --> H2
+    H --> H3
+    H --> H4
+    H --> H5
+    
+    E1 --> I2
+    E2 --> I3
+    E5 --> I1
+    E6 --> I1
+    
+    G1 --> H1
+    G2 --> H3
+    G3 --> H4
+    G4 --> H2
+    
+    K --> K1
+    K --> K2
+    K --> K3
+    
+    J --> J1
+    J --> J2
+    J --> J3
+    J --> J4
+    
+    D --> J1
+    D --> J2
+    D --> J3
+    D --> J4
+    
+    %% Styling
+    classDef presentationClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef codeClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef dataClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef dbClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef uiClass fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef validationClass fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    classDef businessClass fill:#e0f2f1,stroke:#004d40,stroke-width:2px
+    classDef actionClass fill:#f9fbe7,stroke:#827717,stroke-width:2px
+    classDef jsClass fill:#fff8e1,stroke:#ff6f00,stroke-width:2px
+    classDef integrationClass fill:#e8eaf6,stroke:#3f51b5,stroke-width:2px
+    classDef messageClass fill:#fafafa,stroke:#424242,stroke-width:2px
+    
+    class A,A1,A2,A3 presentationClass
+    class B,B1,B2,B3,B4,B5,B6 codeClass
+    class C,C1,C2,C3,C4 dataClass
+    class D,D1,D2 dbClass
+    class E,E1,E2,E3,E4,E5,E6,E7 uiClass
+    class F,F1,F2,F3 validationClass
+    class G,G1,G2,G3,G4,G5 businessClass
+    class H,H1,H2,H3,H4,H5 actionClass
+    class I,I1,I2,I3 jsClass
+    class J,J1,J2,J3,J4 integrationClass
+    class K,K1,K2,K3 messageClass

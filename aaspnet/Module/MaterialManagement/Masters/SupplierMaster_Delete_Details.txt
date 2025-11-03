@@ -1,0 +1,680 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Masters/SupplierMaster_Delete_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="SupplierMaster_Delete_Details.aspx.cs" Inherits="Module_MaterialManagement_Masters_SupplierMaster_Delete_Details" Title="ERP" Theme ="Default" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+     <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+       
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table cellpadding="0" cellspacing="0" class="box3" width="97%" align="center" >
+        <tr>
+            <td>
+
+<table width="100%"  border="0" align="center" cellpadding="0" cellspacing="2" Class="fontcss">
+  <tr valign="top"  >
+    <th height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" colspan="4" style="background:url(../../../images/hdbg.JPG)">
+        &nbsp;<strong>Supplier Master - Delete</strong></th>
+  </tr>
+  <tr valign="top"  >
+    <th width="17%" height="22" align="left" valign="middle"  scope="col" 
+          class="fontcss">&nbsp;Supplier's Name</th>
+    <th colspan="2" align="left" valign="middle"  scope="col">
+       <asp:Label ID="lblSupName" 
+            runat="server"></asp:Label>
+        <asp:Label ID="hfSupplierId" runat="server" Visible="False"></asp:Label>
+&nbsp;</th>
+    <th align="right" valign="middle"  scope="col">
+                            <asp:Button ID="Delete" runat="server" Text="Delete" CssClass="redbox" 
+                               OnClientClick=" return confirmationDelete()"   onclick="Delete_Click" />
+                            <asp:Button ID="Button1" runat="server" CssClass="redbox" 
+                                onclick="Button1_Click" Text="Cancel" />
+                            &nbsp;</th>
+    </tr>
+  <tr valign="top"  >
+    <th width="17%" height="22" align="left" valign="top"  scope="col" 
+          class="fontcss">&nbsp;Scope of Supply</th>
+    <th colspan="2" align="left" valign="middle"  scope="col">
+        <asp:TextBox ID="txtEditScopeofSupply" runat="server" Height="45px" 
+            TextMode="MultiLine" Width="350px"></asp:TextBox>
+      </th>
+    <th align="right" valign="middle"  scope="col">
+        &nbsp;</th>
+    </tr>
+  <tr valign="top"  >
+    <th width="17%" height="23" align="center" valign="middle"  scope="col" bgcolor="#e5e5e5">&nbsp;Address/Details</th>
+    <th width="27%" align="center" valign="middle"  scope="col" bgcolor="#e5e5e5">REGD. OFFICE</th>
+    <th align="center" valign="middle"  scope="col" bgcolor="#e5e5e5" class="style4">WORKS/FACTORY</th>
+    <th width="28%" align="center" valign="middle"  scope="col" bgcolor="#e5e5e5">MATERIAL DELIVERY</th>
+  </tr>
+  <tr valign="top"  >
+    <th height="28" align="left" valign="top"  scope="col" class="fontcss">&nbsp;Address</th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:TextBox ID="txtEditRegdAdd" runat="server" TextMode="MultiLine" CssClass="box3" 
+            Width="230px"></asp:TextBox>
+      </th>
+    <th align="left" valign="middle"  scope="col" class="style4">
+        <asp:TextBox ID="txtEditWorkAdd" runat="server" TextMode="MultiLine" CssClass="box3" 
+            Width="230px"></asp:TextBox>    
+      </th>
+    <th width="28%" align="left" valign="middle"  scope="col">
+        <asp:TextBox ID="txtEditMaterialDelAdd" runat="server" TextMode="MultiLine" CssClass="box3" 
+            Width="230px"></asp:TextBox>    
+      </th>
+  </tr>
+  <tr valign="top"  >
+    <th height="23" align="left" valign="middle"  scope="col" class="fontcss">&nbsp;Country</th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:DropDownList ID="DDListEditRegdCountry" runat="server" CssClass="box3" 
+            AutoPostBack="True" 
+            onselectedindexchanged="DDListEditRegdCountry_SelectedIndexChanged"></asp:DropDownList>
+      </th>
+    <th align="left" valign="middle"  scope="col" class="style4">
+        <asp:DropDownList ID="DDListEditWorkCountry" runat="server" CssClass="box3" 
+            AutoPostBack="True" 
+            onselectedindexchanged="DDListEditWorkCountry_SelectedIndexChanged"></asp:DropDownList>    
+      </th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:DropDownList ID="DDListEditMaterialDelCountry" runat="server" 
+            CssClass="box3" AutoPostBack="True" 
+            onselectedindexchanged="DDListEditMaterialDelCountry_SelectedIndexChanged"></asp:DropDownList>    
+      </th>
+  </tr>
+  <tr valign="top"  >
+    <th height="23" align="left" valign="middle"  scope="col" class="fontcss">&nbsp;State</th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:DropDownList ID="DDListEditRegdState" runat="server" CssClass="box3" 
+            AutoPostBack="True" 
+            onselectedindexchanged="DDListEditRegdState_SelectedIndexChanged"></asp:DropDownList>    
+      </th>
+    <th align="left" valign="middle"  scope="col" class="style4">
+        <asp:DropDownList ID="DDListEditWorkState" runat="server" CssClass="box3" 
+            AutoPostBack="True" 
+            onselectedindexchanged="DDListEditWorkState_SelectedIndexChanged"></asp:DropDownList>    
+      </th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:DropDownList ID="DDListEditMaterialDelState" runat="server" 
+            CssClass="box3" AutoPostBack="True" 
+            onselectedindexchanged="DDListEditMaterialDelState_SelectedIndexChanged"></asp:DropDownList>    
+      </th>
+  </tr>
+  <tr valign="top"  >
+    <th height="23" align="left" valign="middle"  scope="col" class="fontcss">&nbsp;City</th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:DropDownList ID="DDListEditRegdCity" runat="server" CssClass="box3"></asp:DropDownList>    
+      </th>
+    <th align="left" valign="middle"  scope="col" class="style4">
+        <asp:DropDownList ID="DDListEditWorkCity" runat="server" CssClass="box3" 
+            Height="18px"></asp:DropDownList>    
+      </th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:DropDownList ID="DDListEditMaterialDelCity" runat="server" CssClass="box3"></asp:DropDownList>    
+      </th>
+  </tr>
+  <tr valign="top"  >
+    <th height="23" align="left" valign="middle"  scope="col" class="fontcss">&nbsp;PIN No.</th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:TextBox ID="txtEditRegdPinNo" runat="server" CssClass="box3"></asp:TextBox>    
+      </th>
+    <th align="left" valign="middle"  scope="col" class="style4" >
+        <asp:TextBox ID="txtEditWorkPinNo" runat="server" CssClass="box3"></asp:TextBox>    
+      </th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:TextBox ID="txtEditMaterialDelPinNo" runat="server" CssClass="box3"></asp:TextBox>    
+      </th>
+  </tr>
+  <tr valign="top"  >
+    <th height="23" align="left" valign="middle"  scope="col" class="fontcss">&nbsp;Contact No.</th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:TextBox ID="txtEditRegdContactNo" runat="server" CssClass="box3"></asp:TextBox>    
+      </th>
+    <th align="left" valign="middle"  scope="col" class="style4">
+        <asp:TextBox ID="txtEditWorkContactNo" runat="server" CssClass="box3"></asp:TextBox>    
+      </th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:TextBox ID="txtEditMaterialDelContactNo" runat="server" CssClass="box3"></asp:TextBox>    
+      </th>
+  </tr>
+  <tr valign="top"  >
+    <th height="23" align="left" valign="middle"  scope="col" class="fontcss">&nbsp;Fax No.</th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:TextBox ID="txtEditRegdFaxNo" runat="server" CssClass="box3"></asp:TextBox>    
+      </th>
+    <th align="left" valign="middle"  scope="col" class="style4">
+        <asp:TextBox ID="txtEditWorkFaxNo" runat="server" CssClass="box3"></asp:TextBox>    
+      </th>
+    <th align="left" valign="middle"  scope="col">
+        <asp:TextBox ID="txtEditMaterialDelFaxNo" runat="server" CssClass="box3"></asp:TextBox>    
+      </th>
+  </tr>
+  
+  <tr valign="top"  >
+    <th height="23" colspan="4" align="left" valign="top"  scope="col">
+    <table width="100%" border="0" cellspacing="0" cellpadding="1">
+      <tr>
+        <td height="23" align="left" valign="middle" class="fontcss">&nbsp;Contact person</td>
+        <td align="left" valign="middle" class="style6"><asp:TextBox ID="txtEditContactPerson" 
+                runat="server" CssClass="box3"></asp:TextBox>
+          </td>
+        <td align="left" valign="middle" class="fontcss" width="15%">E-mail</td>
+        <td align="left" valign="middle" class="style5" width="23%"><asp:TextBox ID="txtEditEmail" runat="server" 
+                CssClass="box3"></asp:TextBox>
+          </td>
+        <td align="left" valign="middle" class="fontcss" width="15%">Contact No.</td>
+        <td align="left" valign="middle">
+            <asp:TextBox ID="txtEditContactNo" runat="server" CssClass="box3"></asp:TextBox>
+          </td>
+      </tr>
+      <tr>
+        <td width="17%" height="23" align="left" valign="middle" class="fontcss">&nbsp;Juridiction Code</td>
+        <td align="left" valign="middle" class="style6">
+            <asp:TextBox ID="txtEditJuridictionCode" runat="server" CssClass="box3"></asp:TextBox>
+          </td>
+        <td align="left" valign="middle" class="fontcss">ECC.No.</td>
+        <td align="left" valign="middle" class="style5">
+            <asp:TextBox ID="txtEditEccNo" runat="server" CssClass="box3"></asp:TextBox>
+          </td>
+        <td align="left" valign="middle" class="fontcss">Range&nbsp;</td>
+        <td width="22%" align="left" valign="middle">
+            <asp:TextBox ID="txtEditRange" runat="server" CssClass="box3"></asp:TextBox>
+          </td>
+      </tr>
+      <tr>
+        <td height="23" align="left" valign="middle" class="fontcss">&nbsp;Commissionurate&nbsp; </td>
+        <td align="left" valign="middle" class="style6">
+            <asp:TextBox ID="txtEditCommissionurate" runat="server" CssClass="box3"></asp:TextBox>
+          </td>
+        <td align="left" valign="middle" class="fontcss">Divn</td>
+        <td align="left" valign="middle" class="style5">
+            <asp:TextBox ID="txtEditDivn" runat="server" CssClass="box3"></asp:TextBox>
+          </td>
+        <td align="left" valign="middle" class="fontcss">PAN No.</td>
+        <td align="left" valign="middle">
+            <asp:TextBox ID="txtEditPanNo" runat="server" CssClass="box3"></asp:TextBox>
+          </td>
+      </tr>
+      <tr>
+        <td height="23" align="left" valign="middle" class="fontcss">&nbsp;TIN/VAT No.</td>
+        <td align="left" valign="middle" class="style6">
+            <asp:TextBox ID="txtEditTinVatNo" runat="server" CssClass="box3"></asp:TextBox>
+          </td>
+        <td align="left" valign="middle" class="fontcss">TIN/CST No.</td>
+        <td align="left" valign="middle" class="style5">
+            <asp:TextBox ID="txtEditTinCstNo" runat="server" CssClass="box3"></asp:TextBox>
+          </td>
+        <td align="left" valign="middle" class="fontcss">TDS Code.</td>
+        <td align="left" valign="middle">
+            <asp:TextBox ID="txtEditTdsCode" runat="server" CssClass="box3"></asp:TextBox>
+          </td>
+      </tr>
+      
+      <tr>
+        <td height="23" align="left" valign="middle" class="fontcss">&nbsp;Mod Vat Applicable</td>
+        <td align="left" valign="middle" id="rbMVAYes" class="style6">
+            <asp:RadioButton ID="rbMVAYes" runat="server" GroupName="MVA" Text="Yes" />
+&nbsp;<asp:RadioButton ID="rbMVANo" runat="server" GroupName="MVA" 
+                Text="No" />
+          </td>
+        <td align="left" valign="middle" class="fontcss">Mod Vat Invoice</td>
+        <td align="left" valign="middle" class="style5">
+            <asp:RadioButton ID="rbMVIYes" runat="server" GroupName="MVI" Text="Yes" />
+            <asp:RadioButton ID="rbMVINo" runat="server" GroupName="MVI" 
+                Text="No" />
+          </td>
+        <td align="left" valign="middle" class="style3">&nbsp;</td>
+        <td align="left" valign="middle">
+            &nbsp;</td>
+      </tr>
+      
+      <tr>
+        <td height="23" align="left" valign="top" class="fontcss">&nbsp;Bank Acc No</td>
+        <td align="left" valign="middle" class="style6">
+            <asp:TextBox ID="txtBankAccNo" runat="server"></asp:TextBox>
+          </td>
+        <td align="left" valign="middle" class="fontcss">Bank Name</td>
+        <td align="left" valign="middle" class="style5">
+            <asp:TextBox ID="txtBankName" runat="server"></asp:TextBox>
+          </td>
+        <td align="left" valign="middle" class="fontcss">Bank Branch</td>
+        <td align="left" valign="middle">
+            <asp:TextBox ID="txtBankBranch" runat="server"></asp:TextBox>
+          </td>
+      </tr>
+      
+      <tr>
+        <td height="23" align="left" valign="top" class="fontcss">&nbsp;Bank Address</td>
+        <td align="left" valign="middle" class="style6">
+            <asp:TextBox ID="txtBankAddress" runat="server" TextMode="MultiLine" 
+                Width="166px"></asp:TextBox>
+          </td>
+        <td align="left" valign="top" class="fontcss">Bank Acc Type</td>
+        <td align="left" valign="top" class="style5">
+            <asp:TextBox ID="txtBankAccType" runat="server"></asp:TextBox>
+          </td>
+        <td align="left" valign="top" class="fontcss">Service Coverage</td>
+        <td align="left" valign="top">
+            <asp:DropDownList ID="DDLServiceCoverage" runat="server" 
+                DataSourceID="SqlDataSource3" DataTextField="Type" DataValueField="Id" 
+                Width="150px">
+                <asp:ListItem Value="1">Local</asp:ListItem>
+                <asp:ListItem Value="2">Reginal</asp:ListItem>
+                <asp:ListItem Value="3">Statewide</asp:ListItem>
+                <asp:ListItem Value="4">Nationwide</asp:ListItem>
+                <asp:ListItem Value="5">Global</asp:ListItem>
+            </asp:DropDownList>
+          </td>
+      </tr>
+      
+      <tr>
+        <td height="23" align="left" valign="top" class="fontcss">&nbsp;
+            <asp:Label ID="Label2" runat="server" Text="P &amp; F"></asp:Label>
+          </td>
+        <td align="left" valign="middle" class="style6">
+             <asp:DropDownList ID="DDLPF" runat="server" DataSourceID="SqlDataSourcePF" 
+                            DataTextField="Terms" DataValueField="Id" CssClass="box3">
+                    </asp:DropDownList>
+                    <asp:SqlDataSource ID="SqlDataSourcePF" runat="server" 
+                        ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                        SelectCommand="SELECT [Id], [Terms] FROM [tblPacking_Master]">
+                    </asp:SqlDataSource>
+          </td>
+        <td align="left" valign="top" class="fontcss">
+            <asp:Label ID="Label3" runat="server" Text="Excies / Service Tax"></asp:Label>
+          </td>
+        <td align="left" valign="top" class="style5">
+            <asp:DropDownList ID="DDLExcies" runat="server" DataSourceID="SqlDataSourceExSer" 
+                        DataTextField="Terms" DataValueField="Id" CssClass="box3">
+                    </asp:DropDownList>
+                    <asp:SqlDataSource ID="SqlDataSourceExSer" runat="server" 
+                        ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                        SelectCommand="SELECT [Id], [Terms] FROM [tblExciseser_Master]">
+                    </asp:SqlDataSource>
+          </td>
+        <td align="left" valign="top" class="fontcss">
+            <asp:Label ID="Label4" runat="server" Text="VAT/CST"></asp:Label>
+          </td>
+        <td align="left" valign="top">
+            <asp:DropDownList ID="DDLVat" runat="server" DataSourceID="SqlDataSourceAsh" 
+                        DataTextField="Terms" DataValueField="Id" CssClass="box3">
+                    </asp:DropDownList>
+                    <asp:SqlDataSource ID="SqlDataSourceAsh" runat="server" 
+                        ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                        SelectCommand="SELECT [Id], [Terms] FROM [tblVAT_Master]">
+                    </asp:SqlDataSource>
+          </td>
+      </tr>
+      
+      <tr>
+        <td height="23" align="left" valign="top" class="fontcss">&nbsp;Business Nature</td>
+        <td align="left" valign="top" class="style6" colspan="2">
+            <asp:Panel ID="Panel1" runat="server" CssClass="box3" Height="90px" 
+                ScrollBars="Auto">
+                <asp:CheckBoxList ID="CBLBusinessNature" runat="server" CssClass="fontcss">
+                </asp:CheckBoxList>
+            </asp:Panel>
+          </td>
+        <td align="right" valign="top" class="fontcss">
+            Business Type</td>
+        <td align="left" valign="top" class="style3" colspan="2">
+            <asp:Panel ID="Panel2" runat="server" CssClass="box3" Height="90px" 
+                ScrollBars="Auto">
+                <asp:CheckBoxList ID="CBLBusinessType" runat="server" CssClass="fontcss">
+                </asp:CheckBoxList>
+            </asp:Panel>
+          </td>
+      </tr>
+      
+      </table></th>
+  </tr>
+  
+  <tr valign="top"  >
+    <th height="23" align="left" valign="top"  scope="col" class="fontcss"> &nbsp;Remarks&nbsp;</th>
+    <th colspan="2" align="left" valign="middle"  scope="col">
+        <asp:TextBox ID="txtEditRemark" runat="server" TextMode="MultiLine" 
+            CssClass="box3" Width="496px"></asp:TextBox>    
+      </th>
+    <th align="right" valign="top"  scope="col">
+            <asp:SqlDataSource ID="SqlDataSource3" runat="server" 
+                ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                SelectCommand="SELECT * FROM [tblMM_Supplier_ServiceCoverage]">
+            </asp:SqlDataSource>
+          </th>
+  </tr>
+</table>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Masters/SupplierMaster_Delete_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_MaterialManagement_Masters_SupplierMaster_Delete_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    DataSet DS = new DataSet();
+    string CustCode = "";
+    int cId = 0;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {      
+        try
+        { 
+            cId = Convert.ToInt32(Session["compid"]);
+            string connStr1 = fun.Connection();
+            SqlConnection con1 = new SqlConnection(connStr1);
+            string cmdStr = fun.select("SupplierName", "tblMM_Supplier_master", "SupplierId='" + Request.QueryString["SupplierId"].ToString() + "' And CompId='" + cId + "'");
+            DataSet DS = new DataSet();
+            SqlCommand cmd = new SqlCommand(cmdStr, con1);
+            SqlDataAdapter DA = new SqlDataAdapter(cmd);
+            DA.Fill(DS);
+            lblSupName.Text = DS.Tables[0].Rows[0]["SupplierName"].ToString();
+            hfSupplierId.Text = Request.QueryString["SupplierId"].ToString();
+            CustCode = hfSupplierId.Text;
+        }
+        catch (Exception ex)
+        {
+        }
+        if (!IsPostBack)
+        {
+            fun.dropdownCountry(DDListEditRegdCountry, DDListEditRegdState);
+            fun.dropdownCountry(DDListEditWorkCountry, DDListEditWorkState);
+            fun.dropdownCountry(DDListEditMaterialDelCountry, DDListEditMaterialDelState);
+            try
+            {
+                string connStr = fun.Connection();
+                SqlConnection con = new SqlConnection(connStr);
+                DataSet DS = new DataSet();
+                string connStr1 = fun.Connection();
+                SqlConnection con1 = new SqlConnection(connStr1);
+
+                string cmdStr = fun.select("*","tblMM_Supplier_master","SupplierId='" + CustCode + "'And CompId='" + cId + "'");
+                SqlCommand cmd = new SqlCommand(cmdStr, con1);
+                SqlDataAdapter DA = new SqlDataAdapter(cmd);
+                DA.Fill(DS, "tblMM_Supplier_master");
+
+                txtEditScopeofSupply.Text = DS.Tables[0].Rows[0]["ScopeOfSupply"].ToString();
+                // Regd Country 
+                txtEditRegdAdd.Text = DS.Tables[0].Rows[0]["RegdAddress"].ToString();
+                fun.dropdownCountrybyId(DDListEditRegdCountry, DDListEditRegdState, "CId='" + DS.Tables[0].Rows[0]["RegdCountry"].ToString() + "'");
+                DDListEditRegdCountry.SelectedIndex = 0;
+                fun.dropdownCountry(DDListEditRegdCountry, DDListEditRegdState);
+                DDListEditRegdCountry.SelectedValue = DS.Tables[0].Rows[0]["RegdCountry"].ToString();
+                // Regd State
+                fun.dropdownState(DDListEditRegdState, DDListEditRegdCity, DDListEditRegdCountry);
+                fun.dropdownStatebyId(DDListEditRegdState, "CId='" + DS.Tables[0].Rows[0]["RegdCountry"].ToString() + "' AND SId='" + DS.Tables[0].Rows[0]["RegdState"].ToString() + "'");
+                DDListEditRegdState.SelectedValue = DS.Tables[0].Rows[0]["RegdState"].ToString();
+
+                // Regd City
+                fun.dropdownCity(DDListEditRegdCity, DDListEditRegdState);
+                fun.dropdownCitybyId(DDListEditRegdCity, "SId='" + DS.Tables[0].Rows[0]["RegdState"].ToString() + "' AND CityId='" + DS.Tables[0].Rows[0]["RegdCity"].ToString() + "'");
+                DDListEditRegdCity.SelectedValue = DS.Tables[0].Rows[0]["RegdCity"].ToString();
+
+                txtEditRegdPinNo.Text = DS.Tables[0].Rows[0]["RegdPinNo"].ToString();
+                txtEditRegdContactNo.Text = DS.Tables[0].Rows[0]["RegdContactNo"].ToString();
+                txtEditRegdFaxNo.Text = DS.Tables[0].Rows[0]["RegdFaxNo"].ToString();
+
+                // Work Country 
+                txtEditWorkAdd.Text = DS.Tables[0].Rows[0]["WorkAddress"].ToString();
+                fun.dropdownCountrybyId(DDListEditWorkCountry, DDListEditWorkState, "CId='" + DS.Tables[0].Rows[0]["WorkCountry"].ToString() + "'");
+                DDListEditWorkCountry.SelectedIndex = 0;
+                fun.dropdownCountry(DDListEditWorkCountry, DDListEditWorkState);
+                DDListEditWorkCountry.SelectedValue = DS.Tables[0].Rows[0]["WorkCountry"].ToString();
+                // Work State
+                fun.dropdownState(DDListEditWorkState, DDListEditWorkCity, DDListEditWorkCountry);
+                fun.dropdownStatebyId(DDListEditWorkState, "CId='" + DS.Tables[0].Rows[0]["WorkCountry"].ToString() + "' AND SId='" + DS.Tables[0].Rows[0]["WorkState"].ToString() + "'");
+                DDListEditWorkState.SelectedValue = DS.Tables[0].Rows[0]["WorkState"].ToString();
+
+                // Work City
+                fun.dropdownCity(DDListEditWorkCity, DDListEditWorkState);
+                fun.dropdownCitybyId(DDListEditWorkCity, "SId='" + DS.Tables[0].Rows[0]["WorkState"].ToString() + "' AND CityId='" + DS.Tables[0].Rows[0]["WorkCity"].ToString() + "'");
+                DDListEditWorkCity.SelectedValue = DS.Tables[0].Rows[0]["WorkCity"].ToString();
+
+                txtEditWorkPinNo.Text = DS.Tables[0].Rows[0]["WorkPinNo"].ToString();
+                txtEditWorkContactNo.Text = DS.Tables[0].Rows[0]["WorkContactNo"].ToString();
+                txtEditWorkFaxNo.Text = DS.Tables[0].Rows[0]["WorkFaxNo"].ToString();
+
+                // Material Country
+                txtEditMaterialDelAdd.Text = DS.Tables[0].Rows[0]["MaterialDelAddress"].ToString();
+                fun.dropdownCountrybyId(DDListEditMaterialDelCountry, DDListEditMaterialDelState, "CId='" + DS.Tables[0].Rows[0]["MaterialDelCountry"].ToString() + "'");
+                DDListEditMaterialDelCountry.SelectedIndex = 0;
+                fun.dropdownCountry(DDListEditMaterialDelCountry, DDListEditMaterialDelState);
+                DDListEditMaterialDelCountry.SelectedValue = DS.Tables[0].Rows[0]["MaterialDelCountry"].ToString();
+                // Material State
+                fun.dropdownState(DDListEditMaterialDelState, DDListEditMaterialDelCity, DDListEditMaterialDelCountry);
+                fun.dropdownStatebyId(DDListEditMaterialDelState, "CId='" + DS.Tables[0].Rows[0]["MaterialDelCountry"].ToString() + "' AND SId='" + DS.Tables[0].Rows[0]["MaterialDelState"].ToString() + "'");
+                DDListEditMaterialDelState.SelectedValue = DS.Tables[0].Rows[0]["MaterialDelState"].ToString();
+
+                // Material City
+                fun.dropdownCity(DDListEditMaterialDelCity, DDListEditMaterialDelState);
+                fun.dropdownCitybyId(DDListEditMaterialDelCity, "SId='" + DS.Tables[0].Rows[0]["MaterialDelState"].ToString() + "' AND CityId='" + DS.Tables[0].Rows[0]["MaterialDelCity"].ToString() + "'");
+                DDListEditMaterialDelCity.SelectedValue = DS.Tables[0].Rows[0]["MaterialDelCity"].ToString();
+
+                DDLPF.SelectedValue = DS.Tables[0].Rows[0]["PF"].ToString();
+                DDLExcies.SelectedValue = DS.Tables[0].Rows[0]["ExST"].ToString();
+                DDLVat.SelectedValue = DS.Tables[0].Rows[0]["VAT"].ToString();
+
+                txtEditMaterialDelPinNo.Text = DS.Tables[0].Rows[0]["MaterialDelPinNo"].ToString();
+                txtEditMaterialDelContactNo.Text = DS.Tables[0].Rows[0]["MaterialDelContactNo"].ToString();
+                txtEditMaterialDelFaxNo.Text = DS.Tables[0].Rows[0]["MaterialDelFaxNo"].ToString();
+
+                txtEditContactPerson.Text = DS.Tables[0].Rows[0]["ContactPerson"].ToString();
+                txtEditJuridictionCode.Text = DS.Tables[0].Rows[0]["JuridictionCode"].ToString();
+                txtEditCommissionurate.Text = DS.Tables[0].Rows[0]["Commissionurate"].ToString();
+                txtEditTinVatNo.Text = DS.Tables[0].Rows[0]["TinVatNo"].ToString();
+                txtEditEmail.Text = DS.Tables[0].Rows[0]["Email"].ToString();
+                txtEditEccNo.Text = DS.Tables[0].Rows[0]["EccNo"].ToString();
+                txtEditDivn.Text = DS.Tables[0].Rows[0]["Divn"].ToString();
+                txtEditTinCstNo.Text = DS.Tables[0].Rows[0]["TinCstNo"].ToString();
+                txtEditContactNo.Text = DS.Tables[0].Rows[0]["ContactNo"].ToString();
+                txtEditRange.Text = DS.Tables[0].Rows[0]["Range"].ToString();
+                txtEditPanNo.Text = DS.Tables[0].Rows[0]["PanNo"].ToString();
+                txtEditTdsCode.Text = DS.Tables[0].Rows[0]["TDSCode"].ToString();
+                txtEditRemark.Text = DS.Tables[0].Rows[0]["Remark"].ToString();
+
+                if (Convert.ToInt32(DS.Tables[0].Rows[0]["ModVatApplicable"]) > 0)
+                { rbMVAYes.Checked = true; }
+                else { rbMVANo.Checked = true; }
+
+                if (Convert.ToInt32(DS.Tables[0].Rows[0]["ModVatInvoice"]) > 0)
+                { rbMVIYes.Checked = true; }
+                else { rbMVINo.Checked = true; }
+
+                txtBankAccNo.Text = DS.Tables[0].Rows[0]["BankAccNo"].ToString();
+                txtBankName.Text = DS.Tables[0].Rows[0]["BankName"].ToString();
+                txtBankBranch.Text = DS.Tables[0].Rows[0]["BankBranch"].ToString();
+                txtBankAddress.Text = DS.Tables[0].Rows[0]["BankAddress"].ToString();
+                txtBankAccType.Text = DS.Tables[0].Rows[0]["BankAccType"].ToString();
+                DDLServiceCoverage.SelectedValue = DS.Tables[0].Rows[0]["ServiceCoverage"].ToString();
+ 
+                // for Business Type checkbox list..
+                DataSet DS2 = new DataSet();
+                string cmdStr2 = fun.select1("*","tblMM_Supplier_BusinessType");
+                SqlCommand cmd2 = new SqlCommand(cmdStr2, con1);
+                SqlDataAdapter DA2 = new SqlDataAdapter(cmd2);
+                DA2.Fill(DS2, "tblMM_Supplier_BusinessType");
+
+                CBLBusinessType.DataSource = DS2;
+                CBLBusinessType.DataTextField = "Type";
+                CBLBusinessType.DataValueField = "Id";
+                CBLBusinessType.DataBind();
+
+                string shree = DS.Tables[0].Rows[0]["BusinessType"].ToString();
+                string[] split = shree.Split(new Char[] { ',' });
+                for (int d = 0; d < DS2.Tables[0].Rows.Count; d++)
+                {
+                    for (int s = 0; s < split.Length; s++)
+                    {
+                        if (CBLBusinessType.Items[d].Value == split[s])
+                        {
+                            CBLBusinessType.Items[d].Selected = true;
+                        }
+                    }
+                }
+
+
+
+                //for Business Nature checkbox list..
+                DataSet DS3 = new DataSet();
+                string cmdStr3 =fun.select1("*","tblMM_Supplier_BusinessNature");
+                SqlCommand cmd3 = new SqlCommand(cmdStr3, con1);
+                SqlDataAdapter DA3 = new SqlDataAdapter(cmd3);
+                DA3.Fill(DS3, "tblMM_Supplier_BusinessNature");
+
+                CBLBusinessNature.DataSource = DS3;
+                CBLBusinessNature.DataTextField = "Nature";
+                CBLBusinessNature.DataValueField = "Id";
+                CBLBusinessNature.DataBind();
+
+                string shree1 = DS.Tables[0].Rows[0]["BusinessNature"].ToString();
+                string[] split1 = shree1.Split(new Char[] { ',' });
+              
+                for (int f = 0; f < DS3.Tables[0].Rows.Count; f++)
+                {
+                    for (int k = 0; k < split1.Length; k++)
+                    {
+                        if (CBLBusinessNature.Items[f].Value == split1[k])
+                        {
+                            CBLBusinessNature.Items[f].Selected = true;
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+    }
+
+    protected void Delete_Click(object sender, EventArgs e)
+    {
+
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+       int cId = Convert.ToInt32(Session["compid"]);
+        try
+        {
+            con.Open();
+            string SPR = fun.select("tblMM_SPR_Details.SupplierId", "tblMM_SPR_Details,tblMM_SPR_Master", "tblMM_SPR_Details.SupplierId='" + CustCode + "' And tblMM_SPR_Master.CompId='" + cId + "'  And tblMM_SPR_Master.Id = tblMM_SPR_Details.MId");
+            SqlCommand cmdSPR = new SqlCommand(SPR,con);
+            SqlDataAdapter DASPR = new SqlDataAdapter(cmdSPR);
+            DataSet DSSPR = new DataSet();
+            DASPR.Fill(DSSPR);
+
+            string PR = fun.select("tblMM_PR_Details.SupplierId", "tblMM_PR_Details,tblMM_PR_Master", "tblMM_PR_Details.SupplierId='" + CustCode + "' And tblMM_PR_Master.CompId='" + cId + "'  And tblMM_PR_Master.Id=tblMM_PR_Details.MId ");
+            SqlCommand cmdPR = new SqlCommand(PR, con);
+            SqlDataAdapter DAPR = new SqlDataAdapter(cmdPR);
+            DataSet DSPR = new DataSet();
+            DAPR.Fill(DSPR);
+
+            string MAT = fun.select("tblMP_Material_Master.SupplierId", "tblMP_Material_Master", "tblMP_Material_Master.SupplierId='" + CustCode + "' And tblMP_Material_Master.CompId='" + cId + "'");
+            SqlCommand cmdMAT = new SqlCommand(MAT, con);
+            SqlDataAdapter DAMAT = new SqlDataAdapter(cmdMAT);
+            DataSet DSMAT = new DataSet();
+            DASPR.Fill(DSMAT);
+            //And  tblMP_Material_Master.Id=tblMP_Material_Process.MId
+            string PRO = fun.select("tblMP_Material_Process.SupplierId", "tblMP_Material_Process,tblMP_Material_Master", "tblMP_Material_Process.SupplierId='" + CustCode + "'   ");
+            SqlCommand cmdPRO = new SqlCommand(PRO, con);
+            SqlDataAdapter DAPRO = new SqlDataAdapter(cmdPRO);
+            DataSet DSPRO = new DataSet();
+            DAPRO.Fill(DSPRO);
+
+//And tblMP_Material_Master.Id=tblMP_Material_RawMaterial.MId
+            string RAW = fun.select("tblMP_Material_RawMaterial.SupplierId", "tblMP_Material_RawMaterial,tblMP_Material_Master", "tblMP_Material_RawMaterial.SupplierId='" + CustCode + "'  ");
+            SqlCommand cmdRAW = new SqlCommand(RAW, con);
+            SqlDataAdapter DARAW = new SqlDataAdapter(cmdRAW);
+            DataSet DSRAW = new DataSet();
+            DARAW.Fill(DSRAW);
+
+         
+
+
+            if (DSSPR.Tables[0].Rows.Count > 0 || DSMAT.Tables[0].Rows.Count>0 || DSPRO.Tables[0].Rows.Count > 0 || DSRAW.Tables[0].Rows.Count > 0 || DSPR.Tables[0].Rows.Count > 0)
+            {
+
+                string mystring = string.Empty;
+                mystring = "Supplier is in Use. you can not delete this Supplier !";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+
+            }
+            else
+            {
+            string cmdstr = fun.delete("tblMM_Supplier_master", "SupplierId='" + CustCode + "' And CompId='" + cId + "'");
+                SqlCommand cmd = new SqlCommand(cmdstr, con);
+                cmd.ExecuteNonQuery();
+                Response.Redirect("SupplierMaster_Delete.aspx?ModId=6&SubModId=22");
+            }
+
+        }
+       catch (Exception ex)
+        { }
+       finally
+        {
+            con.Close();
+            
+        }
+    }
+
+    protected void DDListEditRegdCountry_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        fun.dropdownState(DDListEditRegdState, DDListEditRegdCity, DDListEditRegdCountry);
+    }
+    protected void DDListEditWorkCountry_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        fun.dropdownState(DDListEditWorkState, DDListEditWorkCity, DDListEditWorkCountry);
+    }
+    protected void DDListEditWorkState_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        fun.dropdownCity(DDListEditWorkCity, DDListEditWorkState);
+    }
+    protected void DDListEditRegdState_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        fun.dropdownCity(DDListEditRegdCity, DDListEditRegdState);
+    }
+    protected void DDListEditMaterialDelCountry_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        fun.dropdownState(DDListEditMaterialDelState, DDListEditMaterialDelCity, DDListEditMaterialDelCountry);
+    }
+    protected void DDListEditMaterialDelState_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        fun.dropdownCity(DDListEditMaterialDelCity, DDListEditMaterialDelState);
+    }
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("SupplierMaster_Delete.aspx?ModId=6&SubModId=22");
+    }
+}

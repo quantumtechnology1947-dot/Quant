@@ -1,0 +1,808 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Reports/Search_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Search_Details.aspx.cs" Inherits="Module_Accounts_Reports_Search_Details" Title="ERP" Theme="Default"  %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>   
+  
+
+    <style type="text/css">
+        .style2
+        {
+            width: 100%;
+        }
+        
+   </style>
+  
+  
+
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+<script  type="text/javascript">
+
+    var GridId = "<%=GridView1.ClientID %>";
+    var ScrollHeight = 300;
+    window.onload = function () {
+        var grid = document.getElementById(GridId);
+        var gridWidth = grid.offsetWidth;
+        var gridHeight = grid.offsetHeight;
+        var headerCellWidths = new Array();
+        for (var i = 0; i < grid.getElementsByTagName("TH").length; i++) {
+            headerCellWidths[i] = grid.getElementsByTagName("TH")[i].offsetWidth;
+                    }
+        grid.parentNode.appendChild(document.createElement("div"));
+        var parentDiv = grid.parentNode; 
+        var table = document.createElement("table");
+        for (i = 0; i < grid.attributes.length; i++) {
+            if (grid.attributes[i].specified && grid.attributes[i].name != "id") {
+                table.setAttribute(grid.attributes[i].name, grid.attributes[i].value);
+            }
+        }
+        table.style.cssText = grid.style.cssText;
+        table.style.width = gridWidth + "px";
+        table.appendChild(document.createElement("tbody"));
+        table.getElementsByTagName("tbody")[0].appendChild(grid.getElementsByTagName("TR")[0]);
+        var cells = table.getElementsByTagName("TH");
+ 
+        var gridRow = grid.getElementsByTagName("TR")[0];
+        for (var i = 0; i < cells.length; i++) {
+            var width;
+            if (headerCellWidths[i] > gridRow.getElementsByTagName("TD")[i].offsetWidth) {
+                width = headerCellWidths[i];
+            }
+            else {
+                width = gridRow.getElementsByTagName("TD")[i].offsetWidth;
+            }
+            cells[i].style.width = parseInt(width - 3) + "px";
+            gridRow.getElementsByTagName("TD")[i].style.width = parseInt(width - 3) + "px";
+        }
+        parentDiv.removeChild(grid); 
+        var dummyHeader = document.createElement("div");
+        dummyHeader.appendChild(table);
+        parentDiv.appendChild(dummyHeader);
+        var scrollableDiv = document.createElement("div");
+        if(parseInt(gridHeight) > ScrollHeight){
+             gridWidth = parseInt(gridWidth) + 17;
+        }
+        scrollableDiv.style.cssText = "overflow:auto;height:" + ScrollHeight + "px;width:" + gridWidth + "px";
+        scrollableDiv.appendChild(grid);
+        parentDiv.appendChild(scrollableDiv);
+    }
+
+
+</script>
+<div > 
+ <div >
+     <strong>&nbsp; Select column to show in the GridView:</strong>&nbsp;<b>&nbsp;Check All:</b> <asp:CheckBox ID="checkAll" runat="server" 
+         AutoPostBack="True" oncheckedchanged="checkAll_CheckedChanged" />   
+     
+     <table class="style2">
+         <tr>
+             <td valign="top">
+                 <asp:Panel ID="Panel2" BorderWidth="1"  BorderStyle="Solid"  runat="server"> 
+                 <table width="100%"><tr><td align="center">
+                     <asp:Label ID="lblGIN" runat="server" style="font-weight: 700" ></asp:Label></td></tr></table>
+                 <asp:CheckBoxList ID="chkFields" runat="server" DataTextField="Column_name" 
+                             DataValueField="Column_name" RepeatColumns="10" RepeatDirection="Horizontal" 
+                             RepeatLayout="Table" />
+                 </asp:Panel>    
+                
+              
+              </td>
+             
+             
+             
+         </tr>
+     </table>
+        
+     <asp:Button ID="btnSub" CssClass="redbox" runat="server" Text="Show" OnClick="ShowGrid" />  
+     &nbsp;<asp:Button ID="btnExport" runat="server" CssClass="redbox" 
+         onclick="btnExport_Click" Text="Export To Excel" />
+&nbsp;<asp:Button ID="btnCancel" runat="server" CssClass="redbox" Text="Cancel" onclick="btnCancel_Click" />
+<br />
+ </div> 
+ <asp:Panel ID="Panel1" ScrollBars="Auto" Height="340px"   runat="server">   
+      <asp:GridView ID="GridView1" runat="server"   EnableViewState="false" AutoGenerateColumns="false" />   
+ </asp:Panel>
+</div>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Reports/Search_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.IO;
+
+public partial class Module_Accounts_Reports_Search_Details : System.Web.UI.Page
+{   
+    clsFunctions fun = new clsFunctions();
+    string _connStr = ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString;
+    int flag = 0;
+    int flag2 = 0; 
+    string FirstCond = string.Empty;
+    string Supcode = string.Empty;
+    string Itemcode = string.Empty;   
+    string ACHead = string.Empty;
+    int CompId = 0;
+    string WONo = string.Empty;
+    string FromDate = string.Empty;
+    string ToDate = string.Empty;
+    string StrDate = string.Empty;
+    string FileName = string.Empty;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            CompId = Convert.ToInt32(Session["compid"]);
+
+            if (!string.IsNullOrEmpty(Request.QueryString["RAd"]))
+            {
+                flag = Convert.ToInt32(Request.QueryString["RAd"]); 
+
+            }
+
+            if (!string.IsNullOrEmpty(Request.QueryString["RAd2"]))
+            {
+                flag2 = Convert.ToInt32(Request.QueryString["RAd2"]);
+            }
+
+            if (flag2 == 1)
+            {
+                if (!string.IsNullOrEmpty(Request.QueryString["type"]) && !string.IsNullOrEmpty(Request.QueryString["No"]))
+                {
+                    switch (Convert.ToInt32(Request.QueryString["type"]))
+                    {
+                        case 1:
+                            FirstCond = " And GQNNo='" + Request.QueryString["No"].ToString() + "'";
+                            break;
+                        //case 2:
+                        //    FirstCond = " And GSNNo='" + Request.QueryString["No"].ToString() + "'";
+                        //    break;
+                        case 3:
+                            FirstCond = " And PONo='" + Request.QueryString["No"].ToString() + "'";
+                            break;
+                        case 4:
+                            FirstCond = " And PVEVNo='" + Request.QueryString["No"].ToString() + "'";
+                            break;
+                    }
+                }
+            }
+            else
+            {
+
+                if (!string.IsNullOrEmpty(Request.QueryString["type"]) && !string.IsNullOrEmpty(Request.QueryString["No"]))
+                {
+                    switch (Convert.ToInt32(Request.QueryString["type"]))
+                    {
+                        //case 1:
+                        //    FirstCond = " And GQNNo='" + Request.QueryString["No"].ToString() + "'";
+                        //    break;
+                        case 2:
+                            FirstCond = " And GSNNo='" + Request.QueryString["No"].ToString() + "'";
+                            break;
+                        case 3:
+                            FirstCond = " And PONo='" + Request.QueryString["No"].ToString() + "'";
+                            break;
+                        case 4:
+                            FirstCond = " And PVEVNo='" + Request.QueryString["No"].ToString() + "'";
+                            break;
+                    }
+                }
+            }
+
+            if (!string.IsNullOrEmpty(Request.QueryString["FDate"]) && !string.IsNullOrEmpty(Request.QueryString["TDate"]))
+            {
+                FromDate = fun.FromDate(Request.QueryString["FDate"]);
+                ToDate = fun.FromDate(Request.QueryString["TDate"]);
+                StrDate = " And PVEVDate between '" + FromDate + "' And '" + ToDate + "'";
+            }
+
+            if (!string.IsNullOrEmpty(Request.QueryString["SupId"]))
+            {
+                Supcode = " And Code='" + Request.QueryString["SupId"].ToString() + "'";
+            }
+
+            if (!string.IsNullOrEmpty(Request.QueryString["Code"]))
+            {
+                Itemcode = " And ItemCode='" + Request.QueryString["Code"].ToString() + "'";
+            }
+            if (!string.IsNullOrEmpty(Request.QueryString["WONo"]))
+            {
+                WONo = " And WONo='" + Request.QueryString["WONo"].ToString() + "'";
+            }
+
+            if (!string.IsNullOrEmpty(Request.QueryString["accval"]))
+            {
+                if (Convert.ToInt32(Request.QueryString["accval"]) != 0)
+                {
+                    string AHSymb = string.Empty;
+                    using (SqlConnection conn = new SqlConnection(_connStr))
+                    {
+                        string sql2 = fun.select("Symbol", "AccHead", "Id='" + Request.QueryString["accval"] + "'");
+
+                        SqlCommand cmd1 = new SqlCommand(sql2, conn);
+                        SqlDataAdapter DA = new SqlDataAdapter(cmd1);
+                        DataSet DS = new DataSet();
+                        DA.Fill(DS);
+                        if (DS.Tables[0].Rows.Count > 0)
+                        {
+                            AHSymb = DS.Tables[0].Rows[0][0].ToString();
+                        }
+                    }
+                    ACHead = " And ACHead='" + AHSymb + "'";
+                }
+            }
+
+            if (!IsPostBack)
+            {
+                BindTableColumns();
+                chkFields.Items[0].Selected = true;
+                chkFields.Items[1].Selected = true;
+                chkFields.Items[2].Selected = true;
+                chkFields.Items[3].Selected = true;
+                chkFields.Items[4].Selected = true;
+            }
+
+            if (flag == 0)
+            {
+                for (int i = 15; i <= 42; i++)
+                {
+                    chkFields.Items[i].Attributes.Add("style", "display:none;");                    
+                }
+
+            }
+            chkFields.Items[45].Attributes.Add("style", "display:none;");
+            chkFields.Items[46].Attributes.Add("style", "display:none;");   
+            
+     
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+    protected void ShowGrid(object sender, EventArgs e)
+    {
+        try
+        {
+            
+            int count = 0;            
+            foreach (ListItem item in chkFields.Items)
+            {
+                if (item.Selected)
+                {
+                    BoundField b = new BoundField();
+                    b.DataField = item.Value;
+                    b.HeaderText = item.Text;                                            
+                    GridView1.Columns.Add(b);
+                    count++;
+                }
+            }                
+            
+            if (count > 0)
+            {                
+                this.GetData();                
+            }
+        }
+        catch(Exception ex)
+        {
+        }
+    }
+    private void BindTableColumns()
+    {
+        try
+        {
+            DataTable table = new DataTable();            
+            using (SqlConnection conn = new SqlConnection(_connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand("sp_columns", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    if (flag2 == 1)
+                    { 
+                        cmd.Parameters.AddWithValue("@table_name", "View_PVEVNo_Item");
+                    }
+                    else
+                    { 
+                        cmd.Parameters.AddWithValue("@table_name", "View_PVEVNo_Item_GSN");
+                    }
+                    using (SqlDataAdapter ad = new SqlDataAdapter(cmd))
+                    {
+                        ad.Fill(table);
+                    }
+                }
+                if (table.Rows.Count > 0)
+                {
+                chkFields.DataSource = table;
+                chkFields.DataBind();                
+                chkFields.Items[0].Text = "Sr No";
+                chkFields.Items[1].Text = "Item Code";
+                chkFields.Items[4].Text = "Stock Qty";
+                chkFields.Items[5].Text = "PO No";
+                chkFields.Items[6].Text = "PO Date";
+                chkFields.Items[7].Text = "WO No";
+                chkFields.Items[11].Text = "Supplier Name";
+                if (flag2 == 1)
+                {
+                    chkFields.Items[12].Text = "GQN No";
+                    chkFields.Items[13].Text = "GQN Date";
+                }
+                else
+                {
+                    chkFields.Items[12].Text = "GSN No";
+                    chkFields.Items[13].Text = "GSN Date";
+                }
+                chkFields.Items[14].Text = "Accepted Qty";
+                chkFields.Items[15].Text = "PVEV NO";
+                chkFields.Items[16].Text = "PVEV Date";
+                chkFields.Items[17].Text = "BILL No";
+                chkFields.Items[18].Text = "BILL Date";
+                chkFields.Items[19].Text = "CEN/VAT Entry No";
+                chkFields.Items[20].Text = "CEN/VAT Entry Date";
+                chkFields.Items[21].Text = "Other Charges";
+                chkFields.Items[22].Text = "Other Charges Desc.";
+                chkFields.Items[24].Text = "Debit Amount";
+                chkFields.Items[25].Text = "Discount Type";
+                chkFields.Items[26].Text = "Discount";
+                chkFields.Items[27].Text = "Gen. By";
+                chkFields.Items[29].Text = "Authorized Date";
+                chkFields.Items[30].Text = "Authorized By";
+                chkFields.Items[31].Text = "PF Amount";
+                chkFields.Items[32].Text = "ExSt Basic In %";
+                chkFields.Items[33].Text = "ExSt Basic";
+                chkFields.Items[34].Text = "ExSt Educess In %";
+                chkFields.Items[35].Text = "ExSt Educess";
+                chkFields.Items[36].Text = "ExSt Shecess In %";
+                chkFields.Items[37].Text = "ExSt Shecess";
+                chkFields.Items[38].Text = "Custom Duty";
+                chkFields.Items[42].Text = "Tarrif No";
+                chkFields.Items[43].Text = "Ac Head";
+                chkFields.Items[44].Text = "Challan No";
+                }
+            }
+        }
+        catch(Exception ex)
+        {
+        }
+
+    }
+    private void GetData()
+    {
+      try
+        {
+            DataTable table = new DataTable();
+            using (SqlConnection conn = new SqlConnection(_connStr))
+            {
+                conn.Open();
+                string sql = ""; 
+                string Strpar = string.Empty;               
+               
+                if (flag2 == 1)
+                {
+                    Hashtable hs = this.myhash(0);
+                    foreach (ListItem item in chkFields.Items)
+                    {
+                        if (item.Selected)
+                        {
+                            Strpar += hs[item.Value];                                                     
+                        }
+                    }
+                                        
+                    if (flag == 1)
+                    { 
+                        sql = "SELECT " + Strpar + " FROM View_PVEVNo_Item where CompId='" + CompId + "'" + FirstCond + "" + Supcode + "" + ACHead + "" + WONo + "" + Itemcode + "" + StrDate + "";                       
+
+                    }
+                    else
+                    {
+                        sql = "SELECT " + Strpar + " FROM View_PVEVNo_Item_Pending where CompId='" + CompId + "'" + FirstCond + "" + Supcode + "" + ACHead + "" + WONo + "" + Itemcode + "" + StrDate + "";                       
+                                               
+                    }                                       
+                   
+                }
+                else
+                {
+                    Hashtable hs = this.myhash(1);
+                    foreach (ListItem item in chkFields.Items)
+                    {
+                        if (item.Selected)
+                        {
+                            Strpar += hs[item.Value];                             
+                        }
+                    }
+                    if (flag == 1)
+                    {
+                        sql = "SELECT " + Strpar + " FROM View_PVEVNo_Item_GSN where PVEVNo is not null And CompId='" + CompId + "'" + FirstCond + "" + Supcode + "" + ACHead + "" + WONo + "" + Itemcode + "" + StrDate + "";
+                    }
+                    else
+                    {
+                        sql = "SELECT Distinct " + Strpar + " FROM View_PVEVNo_Item_GSN where PVEVNo is null And CompId='" + CompId + "'" + FirstCond + "" + Supcode + "" + ACHead + "" + WONo + "" + Itemcode + "" + StrDate + " group by ItemCode,Description,UOM,StockQty,PONo,PODate,WONO,Qty,Rate,Discount,SupplierName,GSNNo,GSNDate,AcceptedQty,ACHead order by SrNo Asc  ";
+                    }
+                   
+                }
+                
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+
+                    SqlDataReader reader = cmd.ExecuteReader();                   
+                    if (reader.HasRows)
+                    {
+                        table.Load(reader);
+                    }                    
+                }
+
+                conn.Close();
+            }
+            if (table.Rows.Count > 0)
+            {
+                GridView1.DataSource = table;
+                GridView1.DataBind();               
+                ViewState["dtList"] = table;
+            }
+            else
+            {
+                string mystring = string.Empty;
+                mystring = "No Records to Dispaly.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+            }
+        }
+        catch(Exception xe)
+        {
+        }
+
+    }
+    protected void checkAll_CheckedChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            
+                if (checkAll.Checked == true)
+                {
+                    foreach (ListItem li in chkFields.Items)
+                    {
+                        if (li.Value != "CompId" && li.Value != "Code")
+                        {
+                            li.Selected = true;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (ListItem li in chkFields.Items)
+                    {
+                        if (li.Value != "SrNo" && li.Value != "ItemCode" && li.Value != "Description" && li.Value != "UOM" && li.Value != "StockQty")
+                        {
+                            li.Selected = false;
+                        }
+                        
+                    }                    
+                }
+                if (flag == 0)
+                {
+                    for (int i = 15; i <= 42; i++)
+                    {
+                        chkFields.Items[i].Selected = false; 
+                    }
+                }
+            
+            
+        }
+        catch(Exception ex)
+        {
+        }
+    }
+    protected void btnExport_Click(object sender, EventArgs e)
+    {
+       
+        try
+        {
+            DataTable dt1 = (DataTable)ViewState["dtList"];
+            if (dt1 == null)
+            {
+                throw new Exception("No Records to Export");
+            }
+            else
+            {                
+
+                    if (chkFields.Items[0].Selected == true)
+                    {
+                        dt1.Columns["SrNo"].ColumnName = "Sr No";
+                    }
+                    if (chkFields.Items[1].Selected == true)
+                    {
+                        dt1.Columns["ItemCode"].ColumnName = "Item Code";
+                    }
+                    if (chkFields.Items[4].Selected == true)
+                    {
+                        dt1.Columns["StockQty"].ColumnName = "Stock Qty";
+                    }
+                    if (chkFields.Items[5].Selected == true)
+                    {
+                        dt1.Columns["PONo"].ColumnName = "PO No";
+                    }
+
+                    if (chkFields.Items[6].Selected == true)
+                    {
+                        dt1.Columns["PODate"].ColumnName = "PO Date";
+                    }
+
+                    if (chkFields.Items[7].Selected == true)
+                    {
+                        dt1.Columns["WONo"].ColumnName = "WO No";
+                    }
+
+                    if (chkFields.Items[11].Selected == true)
+                    {
+                        dt1.Columns["SupplierName"].ColumnName = "Supplier Name";
+                    }
+
+                    if (flag2 == 1)
+                    {
+                        if (chkFields.Items[12].Selected == true)
+                        {
+                            dt1.Columns["GQNNo"].ColumnName = "GQN No";
+                        }
+                        if (chkFields.Items[13].Selected == true)
+                        {
+                            dt1.Columns["GQNDate"].ColumnName = "GQN Date";
+                        }
+                    }
+                    else
+                    {
+                        if (chkFields.Items[12].Selected == true)
+                        {
+                            dt1.Columns["GSNNo"].ColumnName = "GSN No";
+                        }
+                        if (chkFields.Items[13].Selected == true)
+                        {
+                            dt1.Columns["GSNDate"].ColumnName = "GSN Date";
+                        }
+                    }
+                    if (chkFields.Items[14].Selected == true)
+                    {
+                        dt1.Columns["AcceptedQty"].ColumnName = "Accepted Qty";
+                    }
+                    if (chkFields.Items[15].Selected == true)
+                    {
+                        dt1.Columns["PVEVNO"].ColumnName = "PVEV NO";
+                    }
+
+                    if (chkFields.Items[16].Selected == true)
+                    {
+                        dt1.Columns["PVEVDate"].ColumnName = "PVEV Date";
+                    }
+                    if (chkFields.Items[17].Selected == true)
+                    {
+                        dt1.Columns["BillNo"].ColumnName = "Bill No";
+                    }
+                    if (chkFields.Items[18].Selected == true)
+                    {
+                        dt1.Columns["BillDate"].ColumnName = "Bill Date";
+                    }
+
+                    if (chkFields.Items[19].Selected == true)
+                    {
+                        dt1.Columns["CENVATEntryNo"].ColumnName = "CEN/VAT Entry No";
+                    }
+                    if (chkFields.Items[20].Selected == true)
+                    {
+                        dt1.Columns["CENVATEntryDate"].ColumnName = "CEN/VAT Entry Date";
+                    }
+                    if (chkFields.Items[21].Selected == true)
+                    {
+                        dt1.Columns["OtherCharges"].ColumnName = "Other Charges";
+                    }
+
+                    if (chkFields.Items[22].Selected == true)
+                    {
+                        dt1.Columns["OtherChaDesc"].ColumnName = "Other Charges Desc.";
+                    }
+                    if (chkFields.Items[24].Selected == true)
+                    {
+                        dt1.Columns["DebitAmt"].ColumnName = "Debit Amount";
+                    }
+
+                    if (chkFields.Items[25].Selected == true)
+                    {
+                        dt1.Columns["DiscountType"].ColumnName = "Discount Type";
+                    }
+
+                    if (chkFields.Items[26].Selected == true)
+                    {
+                        dt1.Columns["PVEVDiscount"].ColumnName = "PVEV Discount";
+                    }  
+                  
+                    if (chkFields.Items[27].Selected == true)
+                    {
+                        dt1.Columns["EmpName"].ColumnName = "Gen. By";
+                    }
+
+                    if (chkFields.Items[29].Selected == true)
+                    {
+                        dt1.Columns["AuthorizeDate"].ColumnName = "Authorized Date";
+                    }
+
+                    if (chkFields.Items[30].Selected == true)
+                    {
+                        dt1.Columns["AuthorizeBy"].ColumnName = "Authorized By";
+                    }
+
+                    if (chkFields.Items[31].Selected == true)
+                    {
+                        dt1.Columns["PFAmt"].ColumnName = "PF Amount";
+                    }
+
+                    if (chkFields.Items[32].Selected == true)
+                    {
+                        dt1.Columns["ExStBasicInPer"].ColumnName = "ExSt Basic In %";
+                    }
+
+                    if (chkFields.Items[33].Selected == true)
+                    {
+                        dt1.Columns["ExStBasic"].ColumnName = "ExSt Basic";
+                    }
+                    if (chkFields.Items[34].Selected == true)
+                    {
+                        dt1.Columns["ExStEducessInPer"].ColumnName = "ExSt Educess In %";
+                    }
+
+                    if (chkFields.Items[35].Selected == true)
+                    {
+                        dt1.Columns["ExStEducess"].ColumnName = "ExSt Educess";
+                    }
+
+                    if (chkFields.Items[36].Selected == true)
+                    {
+                        dt1.Columns["ExStShecessInPer"].ColumnName = "ExSt Shecess In %";
+                    }
+                    if (chkFields.Items[37].Selected == true)
+                    {
+                        dt1.Columns["ExStShecess"].ColumnName = "ExSt Shecess";
+                    }
+
+                    if (chkFields.Items[38].Selected == true)
+                    {
+                        dt1.Columns["CustomDuty"].ColumnName = "Custom Duty";
+                    }
+
+                    if (chkFields.Items[41].Selected == true)
+                    {
+                        dt1.Columns["TarrifNo"].ColumnName = "Tarrif No";
+                    }
+                    if (chkFields.Items[42].Selected == true)
+                    {
+                        dt1.Columns["ACHead"].ColumnName = "Ac Head";
+                    }
+                }
+
+            if (flag == 1)
+            {               
+                FileName = "PVEV_Completed";
+            }
+            else
+            {                
+                FileName = "PVEV_Pending";
+            }     
+            ExportToExcel ete = new ExportToExcel();
+            ete.ExportDataToExcel(dt1,FileName);
+                
+        }
+        catch (Exception ex)
+        {
+            string mystring = string.Empty;
+            mystring = "No Records to Export.";
+            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);           
+        }        
+        
+
+    }    
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Search.aspx");
+    }
+    public Hashtable myhash(int flag)
+    {
+        Hashtable myfirstHashTable = new Hashtable();
+        myfirstHashTable.Add("SrNo", "ROW_NUMBER() OVER (ORDER BY ItemCode) AS SrNo");        
+        myfirstHashTable.Add("ItemCode", ",ItemCode");       
+        myfirstHashTable.Add("Description", ",Description");
+        myfirstHashTable.Add("UOM", ",UOM");
+        myfirstHashTable.Add("StockQty", ",StockQty");
+        myfirstHashTable.Add("PONo", ",PONo");
+        myfirstHashTable.Add("PODate", ",REPLACE(CONVERT(varchar,CONVERT(datetime, SUBSTRING(PODate, CHARINDEX('-', PODate) + 1, 2) + '-' + LEFT(PODate, CHARINDEX('-', PODate) - 1) + '-' + RIGHT(PODate, CHARINDEX('-',REVERSE(PODate)) - 1)), 103), '/', '-') AS PODate");
+        myfirstHashTable.Add("WONO", ",WONO");
+        myfirstHashTable.Add("Qty", ",Qty");
+        myfirstHashTable.Add("Rate", ",Rate");
+        myfirstHashTable.Add("Discount", ",Discount");
+        myfirstHashTable.Add("SupplierName", ",SupplierName");
+        if (flag == 0)
+        {
+            myfirstHashTable.Add("GQNNo", ",GQNNo");
+        }
+        else
+        {
+            myfirstHashTable.Add("GSNNo", ",GSNNo");
+        }
+
+        if (flag == 0)
+        {
+            myfirstHashTable.Add("GQNDate", ",REPLACE(CONVERT(varchar,CONVERT(datetime, SUBSTRING(GQNDate, CHARINDEX('-', GQNDate) + 1, 2) + '-' + LEFT(GQNDate, CHARINDEX('-', GQNDate) - 1) + '-' + RIGHT(GQNDate, CHARINDEX('-',REVERSE(GQNDate)) - 1)), 103), '/', '-') AS GQNDate");
+        }
+        else
+        {
+            myfirstHashTable.Add("GSNDate", ",REPLACE(CONVERT(varchar,CONVERT(datetime, SUBSTRING(GSNDate, CHARINDEX('-', GSNDate) + 1, 2) + '-' + LEFT(GSNDate, CHARINDEX('-', GSNDate) - 1) + '-' + RIGHT(GSNDate, CHARINDEX('-',REVERSE(GSNDate)) - 1)), 103), '/', '-') AS GSNDate");        }
+        myfirstHashTable.Add("AcceptedQty", ",AcceptedQty");
+        myfirstHashTable.Add("PVEVNo", ",PVEVNo");
+        myfirstHashTable.Add("PVEVDate", ",(CASE WHEN PVEVDate IS NULL THEN '' ELSE(REPLACE(CONVERT(varchar, CONVERT(datetime, SUBSTRING(PVEVDate, CHARINDEX('-', PVEVDate)+ 1, 2) + '-' + LEFT(PVEVDate, CHARINDEX('-', PVEVDate) - 1)+ '-' + RIGHT(PVEVDate, CHARINDEX('-', REVERSE(PVEVDate)) - 1)), 103), '/', '-')) END) AS PVEVDate");
+        myfirstHashTable.Add("BillNo", ",BillNo");
+        myfirstHashTable.Add("BillDate", ",(CASE WHEN BillDate IS NULL THEN '' ELSE(REPLACE(CONVERT(varchar, CONVERT(datetime, SUBSTRING(BillDate, CHARINDEX('-', BillDate)+ 1, 2) + '-' + LEFT(BillDate, CHARINDEX('-', BillDate) - 1)+ '-' + RIGHT(BillDate, CHARINDEX('-', REVERSE(BillDate)) - 1)), 103), '/', '-')) END) AS BillDate");
+        myfirstHashTable.Add("CENVATEntryNo", ",CENVATEntryNo");
+        myfirstHashTable.Add("CENVATEntryDate", ",(CASE WHEN CENVATEntryDate IS NULL THEN '' ELSE(REPLACE(CONVERT(varchar, CONVERT(datetime, SUBSTRING(CENVATEntryDate, CHARINDEX('-', CENVATEntryDate)+ 1, 2) + '-' + LEFT(CENVATEntryDate, CHARINDEX('-', CENVATEntryDate) - 1)+ '-' + RIGHT(CENVATEntryDate, CHARINDEX('-', REVERSE(CENVATEntryDate)) - 1)), 103), '/', '-')) END) AS CENVATEntryDate");
+        myfirstHashTable.Add("OtherCharges", ",OtherCharges");
+        myfirstHashTable.Add("OtherChaDesc", ",OtherChaDesc");
+        myfirstHashTable.Add("Narration", ",Narration ");
+        myfirstHashTable.Add("DebitAmt", ",DebitAmt");
+        myfirstHashTable.Add("DiscountType", ",DiscountType");
+        myfirstHashTable.Add("PVEVDiscount", ",PVEVDiscount ");
+        myfirstHashTable.Add("EmpName", ",EmpName");
+        myfirstHashTable.Add("Authorize", ",(CASE WHEN Authorize IS NULL THEN '' ELSE (CASE WHEN Authorize=0 THEN '' ELSE 'Yes' END) END) AS Authorize");
+        myfirstHashTable.Add("AuthorizeDate", ",(CASE WHEN AuthorizeDate IS NULL THEN '' ELSE(REPLACE(CONVERT(varchar, CONVERT(datetime, SUBSTRING(AuthorizeDate, CHARINDEX('-', AuthorizeDate)+ 1, 2) + '-' + LEFT(AuthorizeDate, CHARINDEX('-', AuthorizeDate) - 1)+ '-' + RIGHT(AuthorizeDate, CHARINDEX('-', REVERSE(AuthorizeDate)) - 1)), 103), '/', '-')) END) AS AuthorizeDate");
+        myfirstHashTable.Add("AuthorizeBy", ",AuthorizeBy");
+        myfirstHashTable.Add("PFAmt", ",PFAmt");
+        myfirstHashTable.Add("ExStBasicInPer", ",ExStBasicInPer");
+        myfirstHashTable.Add("ExStBasic", ",ExStBasic");
+        myfirstHashTable.Add("ExStEducessInPer", ",ExStEducessInPer");
+        myfirstHashTable.Add("ExStEducess", ",ExStEducess");
+        myfirstHashTable.Add("ExStShecessInPer", ",ExStShecessInPer");
+        myfirstHashTable.Add("ExStShecess", ",ExStShecess");
+        myfirstHashTable.Add("CustomDuty", ",CustomDuty");
+        myfirstHashTable.Add("VAT", ",VAT");
+        myfirstHashTable.Add("CST", ",CST");
+        myfirstHashTable.Add("Freight", ",Freight");
+        myfirstHashTable.Add("TarrifNo", ",TarrifNo");
+        myfirstHashTable.Add("ACHead", ",ACHead");
+        myfirstHashTable.Add("ChallanNo", ",ChallanNo");
+        return myfirstHashTable;
+    }
+
+
+}
+
+
+
+
+
+
+

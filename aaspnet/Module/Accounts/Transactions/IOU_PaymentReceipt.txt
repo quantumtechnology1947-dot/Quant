@@ -1,0 +1,984 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/IOU_PaymentReceipt.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="IOU_PaymentReceipt.aspx.cs" Inherits="Module_Accounts_Transactions_IOU_PaymentReceipt" Title="ERP" Theme="Default" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+ <table cellpadding="2" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;IOU:Payment/Receipt</b></td>
+        </tr>
+        <tr>
+            <td>
+                <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" 
+                    AutoPostBack="true"
+                    Width="100%" >
+                    <cc1:TabPanel runat="server" HeaderText="Payment" ID="Add">  
+                        <ContentTemplate>
+                        
+                        <asp:Panel ID="Panel1" ScrollBars="Auto" runat="server"         Height="430px"><asp:GridView ID="GridView2" 
+                        runat="server" 
+                    CssClass="yui-datatable-theme" AutoGenerateColumns="False" DataKeyNames="Id" 
+                    OnPageIndexChanging="GridView2_PageIndexChanging" 
+                        onselectedindexchanged="GridView2_SelectedIndexChanged" 
+         Width="100%" PageSize="20" 
+         onrowcancelingedit="GridView2_RowCancelingEdit" 
+         onrowediting="GridView2_RowEditing" onrowupdating="GridView2_RowUpdating" 
+         onrowcommand="GridView2_RowCommand" onrowdeleting="GridView2_RowDeleting"><Columns><asp:TemplateField ShowHeader="False"><EditItemTemplate><asp:LinkButton ID="LinkButton3" ValidationGroup="B" OnClientClick="return confirmationUpdate();"  runat="server"  CausesValidation="True" 
+                                        CommandName="Update" Text="Update"></asp:LinkButton>&#160;<asp:LinkButton ID="LinkButton2" runat="server" CausesValidation="False" 
+                                        CommandName="Cancel" Text="Cancel"></asp:LinkButton></EditItemTemplate><ItemTemplate><asp:LinkButton ID="LinkButton1" OnClientClick="return confirmationUpdate();" runat="server" CausesValidation="False" 
+                                        CommandName="Edit" Text="Edit"></asp:LinkButton></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="5%" /></asp:TemplateField><asp:TemplateField ShowHeader="False"><ItemTemplate><asp:LinkButton ID="LinkButton4" OnClientClick="return confirmationDelete();"  runat="server" CausesValidation="False" 
+                                        CommandName="Delete" Text="Delete"></asp:LinkButton></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="3%" /></asp:TemplateField><asp:TemplateField HeaderText="SN" ><EditItemTemplate><asp:Label ID="Label1" runat="server" Text='<%# Bind("Id") %>'></asp:Label></EditItemTemplate><ItemTemplate><asp:Label ID="Label1" runat="server" Text='<%# Bind("Id") %>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Right" Width="3%"></ItemStyle></asp:TemplateField><asp:TemplateField HeaderText="Date"><ItemTemplate><asp:Label ID="lblDate" Text='<%# Eval("PaymentDate") %>' runat="server"></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="4%" /></asp:TemplateField><asp:TemplateField HeaderText="Employee Name"><ItemTemplate><asp:Label ID="lblEmpName" Text='<%# Eval("EmpName") %>' runat="server"></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Left" Width="15%" /></asp:TemplateField><asp:TemplateField HeaderText="Amount"><EditItemTemplate><asp:TextBox ID="TextBox2"  Width="80px" CssClass="box3" Text='<%# Eval("Amount") %>' runat="server"> </asp:TextBox><asp:RequiredFieldValidator ID="ReqAmt2" runat="server" 
+                                      ControlToValidate="TextBox2" ErrorMessage="*" ValidationGroup="B"> </asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegularExpValAmount" runat="server" 
+                                                 ValidationGroup="B" ControlToValidate="TextBox2" ErrorMessage="*" 
+                                                 ValidationExpression="^\d{1,15}(\.\d{0,3})?$"> </asp:RegularExpressionValidator></EditItemTemplate><ItemTemplate><asp:Label ID="lblAmt" Text='<%# Eval("Amount") %>' runat="server"></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Right" Width="4%" /></asp:TemplateField><asp:TemplateField HeaderText="Reason"><EditItemTemplate><asp:Label ID="lblReason2" Visible="false" Text='<%# Eval("ReasonId") %>' runat="server"></asp:Label><asp:DropDownList ID="DrpReason2" DataValueField="Id" DataTextField="Terms" DataSourceID="SqlDataSource1"   CssClass="box3" Width="92%" runat="server"></asp:DropDownList><asp:RequiredFieldValidator ID="ReqReason2" runat="server" 
+                                                ControlToValidate="DrpReason2" InitialValue="Select" ErrorMessage="*" ValidationGroup="B"> </asp:RequiredFieldValidator></EditItemTemplate><ItemTemplate><asp:Label ID="lblReason" Text='<%# Eval("reason") %>' runat="server"></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Left" Width="10%" /></asp:TemplateField><asp:TemplateField HeaderText="Narration"><EditItemTemplate><asp:TextBox ID="TextBox4" Width="100%" CssClass="box3" Text='<%# Eval("Narration") %>' runat="server"></asp:TextBox></EditItemTemplate><ItemTemplate><asp:Label ID="lblNarration" Text='<%# Eval("Narration") %>'  runat="server"></asp:Label></ItemTemplate><ItemStyle Width="10%" /></asp:TemplateField>
+              <asp:TemplateField HeaderText="Authorize">
+              <ItemTemplate>
+              <asp:CheckBox ID="CheckBox1" AutoPostBack="true" runat="server" 
+                        oncheckedchanged="CheckBox1_CheckedChanged" />
+                        </ItemTemplate>
+                        
+                        <EditItemTemplate>
+                        <asp:Label ID="lblAuth" Visible="false" Text='<%# Eval("Authorized") %>' runat="server"></asp:Label>
+                        <asp:CheckBox ID="CheckBox1"  runat="server" />
+                        <asp:CheckBox ID="CheckBox2"  runat="server" />
+                        </EditItemTemplate>
+                        <ItemStyle HorizontalAlign="Center" Width="2%" />
+                        </asp:TemplateField>
+                        
+                        </Columns>
+                        
+                        <EmptyDataTemplate><table width="100%" class="fontcss"><tr><td align="center"><asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon"> </asp:Label></td></tr></table></EmptyDataTemplate><PagerSettings PageButtonCount="40" /></asp:GridView></asp:Panel>
+                       </ContentTemplate></cc1:TabPanel>
+                    <cc1:TabPanel ID="View" runat="server" HeaderText="Receipt">
+                            
+                        <ContentTemplate>
+                        <asp:Panel ID="Panel2" ScrollBars="Auto"     Height="430px" runat="server">
+                        <asp:GridView ID="GridView1" 
+                        runat="server" 
+                    CssClass="yui-datatable-theme" AutoGenerateColumns="False" DataKeyNames="IdR" 
+                    OnPageIndexChanging="GridView1_PageIndexChanging" 
+                         
+         Width="100%" PageSize="20"  AllowPaging="True"
+         onrowcancelingedit="GridView1_RowCancelingEdit" 
+         onrowediting="GridView1_RowEditing" onrowupdating="GridView1_RowUpdating" 
+         onrowcommand="GridView1_RowCommand" >
+                             
+                             <Columns>
+                                    <asp:TemplateField ShowHeader="False">
+                                    <EditItemTemplate>
+                                    
+                                    <asp:LinkButton ID="LinkButton1"  Visible="false"  runat="server" Text=""></asp:LinkButton>
+                                    <asp:LinkButton ID="LinkButton3" ValidationGroup="B1" OnClientClick="return confirmationUpdate();" 
+                                    runat="server"  CausesValidation="True"  CommandName="Update" Text="Update">
+                                    </asp:LinkButton>&#160;
+                                    <asp:LinkButton ID="LinkButton2" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel">
+                                    </asp:LinkButton>
+
+                                    </EditItemTemplate>
+
+                                    <ItemTemplate>
+                                    <asp:LinkButton ID="LinkButton1" OnClientClick="return confirmationUpdate();" 
+                                    runat="server" CausesValidation="False" 
+                                    CommandName="Edit" Text="Edit">
+                                    </asp:LinkButton>
+
+                                    </ItemTemplate>
+
+                                    <ItemStyle HorizontalAlign="Center" Width="6%" />
+                                    </asp:TemplateField>
+                                               
+
+                                    <asp:TemplateField ShowHeader="False">
+                                    <ItemTemplate>
+                                    <asp:LinkButton ID="LinkButton4" OnClientClick="return confirmationDelete();" 
+                                     runat="server" CausesValidation="False" 
+                                    CommandName="del" Text="Delete">
+                                    </asp:LinkButton>
+                                    </ItemTemplate>
+                                    <ItemStyle HorizontalAlign="Center" Width="3%" />
+                                    </asp:TemplateField>
+                                                     
+                                                                     
+                                    <asp:TemplateField HeaderText="SN">
+                                    <EditItemTemplate>
+                                    <asp:Label ID="lblIdR" runat="server" Text='<%# Bind("IdR") %>'></asp:Label>
+                                    </EditItemTemplate>
+                                    <ItemTemplate><asp:Label ID="lblIdR" runat="server" Text='<%# Bind("IdR") %>'></asp:Label>
+                                    </ItemTemplate><ItemStyle HorizontalAlign="Center" Width="3%" />
+                                    </asp:TemplateField>
+
+                                                        
+                                    <asp:TemplateField HeaderText="Pay. Date">
+                                    <ItemTemplate>
+                                    <asp:Label ID="lblPaymentDateR" Text='<%# Eval("PaymentDateR") %>' runat="server"></asp:Label>
+                                    </ItemTemplate>
+                                    <ItemStyle HorizontalAlign="Center" Width="4%" />
+                                    </asp:TemplateField>
+                                    
+                                    
+                                    <asp:TemplateField HeaderText="Employee Name">
+                                    <ItemTemplate>
+                                    <asp:Label ID="lblEmpNameR" Text='<%# Eval("EmpNameR") %>' runat="server"></asp:Label>
+                                    </ItemTemplate><ItemStyle HorizontalAlign="Left" Width="15%" />
+                                    </asp:TemplateField>
+                                    
+                                    
+                                    <asp:TemplateField HeaderText="Reason">
+                                    <ItemTemplate>                                
+                                      <asp:Label ID="lblReasonR" Text='<%# Eval("ReasonR") %>' runat="server"></asp:Label>
+                                      </ItemTemplate>
+                                      <ItemStyle HorizontalAlign="Left" Width="10%" />
+                                      </asp:TemplateField>
+                                    
+                                    <asp:TemplateField HeaderText="Narration">
+                                   
+                                    <ItemTemplate>
+                                    <asp:Label ID="lblNarrationR" Text='<%# Eval("NarrationR") %>'  runat="server"></asp:Label>
+                                    </ItemTemplate>
+                                    <ItemStyle HorizontalAlign="Left" Width="10%" />
+                                    </asp:TemplateField>
+                                    
+                                    <asp:TemplateField HeaderText="Amount">
+                                    <ItemTemplate>
+                                    <asp:Label ID="lblAmountR" Text='<%# Eval("AmountR") %>' runat="server"></asp:Label>
+                                    </ItemTemplate>
+                                    <ItemStyle HorizontalAlign="Right" Width="4%" />
+                                    </asp:TemplateField>
+                                    
+                                    <asp:TemplateField HeaderText="Authoriz" Visible="False">
+                                    <EditItemTemplate>
+                                    <asp:Label ID="lblAuthoR" runat="server" Text='<%# Bind("AuthorizedR") %>'></asp:Label>
+                                    </EditItemTemplate>
+                                    <ItemTemplate>
+                                    <asp:Label ID="lblAuthoR" runat="server" Text='<%# Bind("AuthorizedR") %>'></asp:Label>
+                                    </ItemTemplate>
+                                    <ItemStyle HorizontalAlign="Center" Width="3%" />                                    
+                                    </asp:TemplateField>
+                                    
+                                    
+                                    
+                                    
+                                    <asp:TemplateField HeaderText="Rec. Amt">                                                                                                        
+                                    <ItemTemplate>
+                                    <asp:Label ID="lblRecivedAmtR" Visible="true" Text='<%# Eval("RecivedAmtR") %>' runat="server"> </asp:Label>
+                                    <asp:TextBox ID="txtRecivedAmtR"  CssClass="box3" Text='<%# Eval("RecivedAmtR") %>' 
+                                    Visible="true" Width="75%" ValidationGroup="A1" runat="server">
+                                    </asp:TextBox>
+                                    </ItemTemplate>
+                                    
+                                    <EditItemTemplate>  
+                                    <asp:Label ID="lblRecivedAmtR" Visible="true"  runat="server"> </asp:Label>
+                                                                      
+                                     <asp:TextBox ID="txtRecivedAmtR"  CssClass="box3"  
+                                    Visible="true" Width="75%" ValidationGroup="A1" runat="server">
+                                    </asp:TextBox>
+                                    
+                                    
+                                    <asp:TextBox ID="txtRecivedAmtR1" Text='<%# Eval("RecivedAmtR") %>' CssClass="box3" Width="75%" 
+                                       Visible ="true" runat="server"> 
+                                    </asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="ReqtxtRecivedAmtR1" runat="server" 
+                                    ControlToValidate="txtRecivedAmtR1"  ErrorMessage="*" ValidationGroup="B1"> 
+                                    </asp:RequiredFieldValidator>
+                                    
+                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server"  
+                                    ValidationGroup="B1" ControlToValidate="txtRecivedAmtR1" ErrorMessage="*"
+                                    ValidationExpression="^\d{1,15}(\.\d{0,3})?$">
+                                    </asp:RegularExpressionValidator>
+                                    </EditItemTemplate>
+                                   
+                                    
+                                    <ItemStyle HorizontalAlign="Left" Width="6%" />
+                                    </asp:TemplateField>
+                                    
+                                    
+                                    
+                                                                        
+                                    <asp:TemplateField HeaderText=" Receipt Date">
+                                    <ItemTemplate>
+                                    <asp:Label ID="lblReceiptDate" runat="server" Text='<%# Eval("ReceiptDateR") %>'></asp:Label>
+                                    <asp:TextBox ID="txtReceiptDate" runat="server" CssClass="box3" ValidationGroup="A1" 
+                                     Width="75%" Visible="True"> 
+                                    </asp:TextBox>
+                                    
+                                    <cc1:CalendarExtender ID="ReceiptDate_CalendarExtender" runat="server" 
+                                    Enabled="True" Format="dd-MM-yyyy" TargetControlID="txtReceiptDate">
+                                    </cc1:CalendarExtender>
+                                   
+                                    <asp:RegularExpressionValidator ID="RegReceiptDate" ValidationGroup="A1" runat="server" 
+                                    ControlToValidate="txtReceiptDate" ErrorMessage="*"
+                                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$"> 
+                                    </asp:RegularExpressionValidator>
+                                    </ItemTemplate>
+                                    
+                                    <EditItemTemplate>
+                                    
+                                     <asp:TextBox ID="txtReceiptDate" runat="server" CssClass="box3" ValidationGroup="A1" 
+                                     Width="75%" Visible="True"> 
+                                    </asp:TextBox>
+                                    
+                                    
+                                     <asp:TextBox ID="txtReceiptDate1" runat="server" CssClass="box3" ValidationGroup="B1"
+                                    Width="75%" Visible="true" Text='<%# Eval("ReceiptDateR") %>'> </asp:TextBox>
+                                    <cc1:CalendarExtender ID="ReceiptDate1_CalendarExtender" runat="server" 
+                                    Enabled="True" Format="dd-MM-yyyy" TargetControlID="txtReceiptDate1">
+                                    </cc1:CalendarExtender>
+                                   
+                                    <asp:RegularExpressionValidator ID="RegtxtReceiptDate1" ValidationGroup="B1" runat="server" 
+                                    ControlToValidate="txtReceiptDate1" ErrorMessage="*"
+                                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$"> 
+                                    </asp:RegularExpressionValidator>
+                                    
+                                    </EditItemTemplate>
+                                    
+                                    
+                                    <ItemStyle HorizontalAlign="Left" Width="7%" />
+                                    </asp:TemplateField>
+
+
+                                    <asp:TemplateField HeaderText=" ">
+                                    <ItemTemplate>
+                                    <asp:Button ID="btnAddReceipt" CssClass="redbox" Visible="false" CommandName="Add" 
+                                    OnClientClick="return confirmationAdd();" ValidationGroup="A1" runat="server" Text="Add" />
+                                    </ItemTemplate>
+                                    <ItemStyle HorizontalAlign="Center" Width="5%" />
+                                    </asp:TemplateField>
+                                    
+                                     <asp:TemplateField HeaderText="DIdR" Visible ="False">
+                                    <EditItemTemplate>
+                                    <asp:Label ID="lblDIdR" runat="server" Text='<%# Bind("DIdR") %>'></asp:Label>
+                                    </EditItemTemplate>
+                                    <ItemTemplate><asp:Label ID="lblDIdR" runat="server" Text='<%# Bind("DIdR") %>'></asp:Label>
+                                    </ItemTemplate><ItemStyle HorizontalAlign="Center" Width="3%" />
+                                    </asp:TemplateField>
+                                    
+                                    
+                                    </Columns>
+                                    
+                                    <EmptyDataTemplate>
+                                    <table width="100%" class="fontcss"><tr><td align="center">
+                                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                                    </asp:Label>
+                                    </td>
+                                    </tr>
+                                    </table>
+                                    </EmptyDataTemplate>
+                                    
+                                    <PagerSettings PageButtonCount="40" />
+                                    </asp:GridView>
+                                    </asp:Panel>
+                           </ContentTemplate></cc1:TabPanel>
+                </cc1:TabContainer>
+            </td>
+        </tr>
+        <tr>
+          <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+        ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"
+         ProviderName="System.Data.SqlClient" 
+         SelectCommand="SELECT * FROM [tblACC_IOU_Reasons]"></asp:SqlDataSource>
+        </tr>
+        </table>
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/IOU_PaymentReceipt.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_Accounts_Transactions_IOU_PaymentReceipt : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    int CompId = 0;
+    int FinYearId = 0;
+    string sId = "";
+    string CDate = "";
+    string CTime = "";
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        try
+        {
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            sId = Session["username"].ToString();
+            CDate = fun.getCurrDate();
+            CTime = fun.getCurrTime();
+            if (!Page.IsPostBack)
+            {
+                this.BindDataGrid();
+                this.NED();
+                this.BindDataGrid_Receipt();
+                this.NED1();
+
+            }
+        }
+
+        catch (Exception ex)
+        {
+        }
+
+    }
+
+    public void NED()
+    {
+        try
+        {
+            foreach (GridViewRow grv in GridView2.Rows)
+            {
+
+                int id1 = Convert.ToInt32(((Label)grv.FindControl("Label1")).Text);
+                string str1 = fun.select("*", "tblACC_IOU_Master", "FinYearId<='" + FinYearId + "'And CompId='" + CompId + "' And Id='" + id1 + "'");
+                SqlCommand cmdCustWo1 = new SqlCommand(str1, con);
+                SqlDataAdapter daCustWo1 = new SqlDataAdapter(cmdCustWo1);
+                DataSet DSCustWo1 = new DataSet();
+                daCustWo1.Fill(DSCustWo1);
+                if (DSCustWo1.Tables[0].Rows.Count > 0)
+                {
+                    if (DSCustWo1.Tables[0].Rows[0]["Authorize"].ToString() == "1" && DSCustWo1.Tables[0].Rows[0]["Authorize"] != DBNull.Value)
+                    {
+                        ((CheckBox)grv.FindControl("CheckBox1")).Enabled = false;
+                        ((CheckBox)grv.FindControl("CheckBox1")).Checked = true;
+                        ((LinkButton)grv.FindControl("LinkButton4")).Visible = false;
+                    }
+
+                    else
+                    {
+
+                        ((CheckBox)grv.FindControl("CheckBox1")).Enabled = true;
+                        ((CheckBox)grv.FindControl("CheckBox1")).Checked = false;
+                        ((LinkButton)grv.FindControl("LinkButton4")).Visible = true;
+                    }
+
+                }
+
+            }
+        }
+        catch (Exception ex) { }
+
+    }
+    public void NED1()
+    {
+        try
+        {
+            foreach (GridViewRow grv in GridView1.Rows)
+            {
+
+                int IdR = Convert.ToInt32(((Label)grv.FindControl("lblIdR")).Text);
+                string str1 = fun.select("*", "tblACC_IOU_Master", "FinYearId<='" + FinYearId + "'And CompId='" + CompId + "' And Id='" + IdR + "'");
+                SqlCommand cmdCustWo1 = new SqlCommand(str1, con);
+                SqlDataAdapter daCustWo1 = new SqlDataAdapter(cmdCustWo1);
+                DataSet DSCustWo1 = new DataSet();
+                daCustWo1.Fill(DSCustWo1);
+
+                if (DSCustWo1.Tables[0].Rows.Count > 0)
+                {
+                    if (Convert.ToDouble(DSCustWo1.Tables[0].Rows[0]["Recieved"].ToString()) == 1 && DSCustWo1.Tables[0].Rows[0]["Recieved"] != DBNull.Value)
+                    {
+                        ((TextBox)grv.FindControl("txtRecivedAmtR")).Visible = false;
+                        ((Button)grv.FindControl("btnAddReceipt")).Enabled = false;
+                        ((TextBox)grv.FindControl("txtReceiptDate")).Visible = false;
+                        ((LinkButton)grv.FindControl("LinkButton4")).Visible = true;
+                        ((LinkButton)grv.FindControl("LinkButton1")).Visible = true;
+                        ((Label)grv.FindControl("lblRecivedAmtR")).Visible = true;
+
+                    }
+
+                    else
+                    {
+                        ((TextBox)grv.FindControl("txtRecivedAmtR")).Visible = true;
+                        ((Button)grv.FindControl("btnAddReceipt")).Visible = true;
+                        ((Button)grv.FindControl("btnAddReceipt")).Enabled = true;
+                        ((Label)grv.FindControl("lblRecivedAmtR")).Visible = false;
+                        ((TextBox)grv.FindControl("txtReceiptDate")).Visible = true;
+                        ((LinkButton)grv.FindControl("LinkButton4")).Visible = false;
+                        ((LinkButton)grv.FindControl("LinkButton1")).Visible = false;
+
+                    }
+                }
+
+            }
+        }
+
+        catch (Exception ex) { }
+    }
+
+    public void BindDataGrid()
+    {
+        try
+        {
+
+            DataTable dt = new DataTable();
+            con.Open();
+            string str = fun.select("*", "tblACC_IOU_Master", "FinYearId<='" + FinYearId + "'And CompId='" + CompId + "'And Recieved='0' Order by Id Desc");
+            SqlCommand cmdCustWo = new SqlCommand(str, con);
+            SqlDataAdapter daCustWo = new SqlDataAdapter(cmdCustWo);
+            DataSet DSCustWo = new DataSet();
+            daCustWo.Fill(DSCustWo);
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("PaymentDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("EmpName", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Amount", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("ReasonId", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("Reason", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Narration", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Authorized", typeof(int)));
+            DataRow dr;
+            for (int i = 0; i < DSCustWo.Tables[0].Rows.Count; i++)
+            {
+
+                dr = dt.NewRow();
+                dr[0] = DSCustWo.Tables[0].Rows[i]["Id"].ToString();
+                dr[1] = fun.FromDateDMY(DSCustWo.Tables[0].Rows[i]["PaymentDate"].ToString());
+
+                string strEmp = fun.select("Title+'.'+EmployeeName+ ' ['+ EmpId +']' As EmpLoyeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "'AND FinYearId<='" + FinYearId + "' AND EmpId='" + DSCustWo.Tables[0].Rows[i]["EmpId"] + "'");
+
+                SqlCommand cmdEmp = new SqlCommand(strEmp, con);
+                SqlDataAdapter daEmp = new SqlDataAdapter(cmdEmp);
+                DataSet DSEmp = new DataSet();
+                daEmp.Fill(DSEmp);
+                if (DSEmp.Tables[0].Rows.Count > 0)
+                {
+                    dr[2] = DSEmp.Tables[0].Rows[0]["EmployeeName"].ToString();
+                }
+                dr[3] = Convert.ToDouble(decimal.Parse(DSCustWo.Tables[0].Rows[i]["Amount"].ToString()).ToString("N3"));
+                dr[4] = DSCustWo.Tables[0].Rows[i]["Reason"].ToString();
+
+                string stryr = fun.select("Terms", "tblACC_IOU_Reasons", "Id='" + DSCustWo.Tables[0].Rows[i]["Reason"].ToString() + "'");
+                SqlCommand cmdyr = new SqlCommand(stryr, con);
+                SqlDataAdapter dayr = new SqlDataAdapter(cmdyr);
+                DataSet DSyr = new DataSet();
+                dayr.Fill(DSyr);
+
+                if (DSyr.Tables[0].Rows.Count > 0)
+                {
+                    dr[5] = DSyr.Tables[0].Rows[0]["Terms"].ToString();
+                }
+                dr[6] = DSCustWo.Tables[0].Rows[i]["Narration"].ToString();
+
+                dr[7] = DSCustWo.Tables[0].Rows[i]["Authorize"].ToString();
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }
+            GridView2.DataSource = dt;
+            GridView2.DataBind();
+            con.Close();
+        }
+
+        catch (Exception ex)
+        { }
+    }
+
+
+    public void BindDataGrid_Receipt()
+    {
+        try
+        {
+
+            DataTable dt = new DataTable();
+            con.Open();
+            string str = fun.select("*", "tblACC_IOU_Master", " Authorize='1' And FinYearId<='" + FinYearId + "'And CompId='" + CompId + "' Order by Id Desc");
+            SqlCommand cmdCustWo = new SqlCommand(str, con);
+            SqlDataAdapter daCustWo = new SqlDataAdapter(cmdCustWo);
+            DataSet DSCustWo = new DataSet();
+            daCustWo.Fill(DSCustWo);
+
+            dt.Columns.Add(new System.Data.DataColumn("IdR", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("PaymentDateR", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("EmpNameR", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("AmountR", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("ReasonIdR", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("ReasonR", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("NarrationR", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("AuthorizedR", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("RecivedAmtR", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("ReceiptDateR", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("DIdR", typeof(int)));
+            DataRow dr;
+            for (int i = 0; i < DSCustWo.Tables[0].Rows.Count; i++)
+            {
+
+                dr = dt.NewRow();
+                dr[0] = DSCustWo.Tables[0].Rows[i]["Id"].ToString();
+                dr[1] = fun.FromDateDMY(DSCustWo.Tables[0].Rows[i]["SysDate"].ToString());
+
+                string strEmp = fun.select("Title+'.'+EmployeeName+ '['+ EmpId +' ]' As EmpLoyeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "'AND FinYearId<='" + FinYearId + "' AND EmpId='" + DSCustWo.Tables[0].Rows[i]["EmpId"] + "'");
+
+                SqlCommand cmdEmp = new SqlCommand(strEmp, con);
+                SqlDataAdapter daEmp = new SqlDataAdapter(cmdEmp);
+                DataSet DSEmp = new DataSet();
+                daEmp.Fill(DSEmp);
+                if (DSEmp.Tables[0].Rows.Count > 0)
+                {
+                    dr[2] = DSEmp.Tables[0].Rows[0]["EmployeeName"].ToString();
+                }
+
+                dr[3] = Convert.ToDouble(decimal.Parse(DSCustWo.Tables[0].Rows[i]["Amount"].ToString()).ToString("N3"));
+                dr[4] = DSCustWo.Tables[0].Rows[i]["Reason"].ToString();
+                string stryr = fun.select("Terms", "tblACC_IOU_Reasons", "Id='" + DSCustWo.Tables[0].Rows[i]["Reason"].ToString() + "'");
+                SqlCommand cmdyr = new SqlCommand(stryr, con);
+                SqlDataAdapter dayr = new SqlDataAdapter(cmdyr);
+                DataSet DSyr = new DataSet();
+                dayr.Fill(DSyr);
+
+                if (DSyr.Tables[0].Rows.Count > 0)
+                {
+                    dr[5] = DSyr.Tables[0].Rows[0]["Terms"].ToString();
+                }
+
+                dr[6] = DSCustWo.Tables[0].Rows[i]["Narration"].ToString();
+                dr[7] = DSCustWo.Tables[0].Rows[i]["Authorize"].ToString();
+
+                string strReceipt = fun.select("*", "tblACC_IOU_Receipt", " MId='" + DSCustWo.Tables[0].Rows[i]["Id"].ToString() + "' And FinYearId<='" + FinYearId + "'And CompId='" + CompId + "'");
+                SqlCommand cmdReceipt = new SqlCommand(strReceipt, con);
+                SqlDataAdapter DAReceipt = new SqlDataAdapter(cmdReceipt);
+                DataSet DSReceipt = new DataSet();
+                DAReceipt.Fill(DSReceipt);
+                if (DSReceipt.Tables[0].Rows.Count > 0)
+                {
+                    dr[8] = Convert.ToDouble(decimal.Parse(DSReceipt.Tables[0].Rows[0]["RecievedAmount"].ToString()).ToString("N3"));
+                    dr[9] = fun.FromDate(DSReceipt.Tables[0].Rows[0]["ReceiptDate"].ToString());
+                    dr[10] = Convert.ToInt32(DSReceipt.Tables[0].Rows[0]["Id"]);
+                }
+                else
+                {
+                    dr[8] = 0;
+                    dr[9] = "";
+                    dr[10] = 0;
+
+                }
+
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
+            con.Close();
+        }
+
+        catch (Exception ex)
+        { }
+    }
+
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] GetCompletionList(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        con.Open();
+        int CompId = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        string cmdStr = fun.select("EmpId,EmployeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "'");
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds, "tblHR_OfficeStaff");
+        con.Close();
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                //if (main.Length == 10)
+                //    break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }
+    protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        //GridView2.PageIndex = e.NewPageIndex;
+        //GridView2.EditIndex = -1;
+        //this.BindDataGrid();
+    }
+    protected void GridView2_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void GridView2_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    {
+        GridView2.EditIndex = -1;
+        this.BindDataGrid();
+        this.NED();
+
+    }
+    protected void GridView2_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+        try
+        {
+            GridView2.EditIndex = e.NewEditIndex;
+            this.BindDataGrid();
+            int index = GridView2.EditIndex;
+            GridViewRow grv = GridView2.Rows[index];
+            string labelLoc = ((Label)grv.FindControl("lblReason2")).Text;
+            ((DropDownList)grv.FindControl("DrpReason2")).SelectedValue = labelLoc.ToString();
+
+            int labelAuth = Convert.ToInt32(((Label)grv.FindControl("lblAuth")).Text);
+            if (labelAuth == 1)
+            {
+                ((CheckBox)grv.FindControl("CheckBox2")).Checked = true;
+                ((CheckBox)grv.FindControl("CheckBox1")).Visible = false;
+            }
+            else
+            {
+                ((CheckBox)grv.FindControl("CheckBox2")).Checked = false;
+                ((CheckBox)grv.FindControl("CheckBox1")).Visible = false;
+            }
+            this.NED();
+            this.BindDataGrid_Receipt();
+            this.NED1();
+        }
+        catch (Exception ex)
+        { }
+    }
+    protected void GridView2_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+        try
+        {
+            int index1 = GridView2.EditIndex;
+            GridViewRow row = GridView2.Rows[index1];
+            int id1 = Convert.ToInt32(GridView2.DataKeys[e.RowIndex].Value);
+            string EmpName = fun.getCode(((Label)row.FindControl("lblEmpName")).Text);
+
+
+            double Amount = 0;
+            if (((TextBox)row.FindControl("TextBox2")).Text != "")
+            {
+                Amount = Convert.ToDouble(decimal.Parse(((TextBox)row.FindControl("TextBox2")).Text).ToString("N3"));
+            }
+            int Reason = Convert.ToInt32(((DropDownList)row.FindControl("DrpReason2")).SelectedValue);
+            string Narration = ((TextBox)row.FindControl("TextBox4")).Text;
+            int x = 0;
+            if (((CheckBox)row.FindControl("CheckBox2")).Checked == true)
+            {
+                x = 1;
+            }
+
+            if (fun.NumberValidationQty(Amount.ToString()) == true && ((TextBox)row.FindControl("TextBox2")).Text != "")
+            {
+
+                if (Amount != 0)
+                {
+
+                    string sql1 = fun.update("tblACC_IOU_Master", "SysDate='" + CDate + "',SysTime='" + CTime + "',SessionId='" + sId + "',EmpId='" + EmpName + "',Amount='" + Amount + "',Reason='" + Reason + "',Narration='" + Narration + "',AuthorizedDate='" + CDate + "',AuthorizedTime='" + CTime + "',AuthorizedBy='" + sId + "',Authorize='" + x + "'", "Id='" + id1 + "'");
+                    SqlCommand cmd1 = new SqlCommand(sql1, con);
+                    con.Open();
+                    cmd1.ExecuteNonQuery();
+                    con.Close();
+                    GridView2.EditIndex = -1;
+                    this.BindDataGrid();
+                    this.NED();
+                    this.BindDataGrid_Receipt();
+                    this.NED1();
+                }
+                else
+                {
+                    string myStringVariable = string.Empty;
+                    myStringVariable = "Insert Valid Amount.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable + "');", true);
+                }
+
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+
+    }
+    protected void GridView2_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+        try
+        {
+            int id = Convert.ToInt32(GridView2.DataKeys[e.RowIndex].Value);
+            SqlCommand cmd = new SqlCommand("DELETE FROM tblACC_IOU_Master WHERE Id=" + id + " And CompId='" + CompId + "'", con);
+            con.Open();
+            cmd.ExecuteNonQuery();
+            con.Close();
+            this.BindDataGrid();
+            this.NED();
+
+        }
+        catch (Exception er) { }
+    }
+
+    protected void CheckBox1_CheckedChanged(object sender, EventArgs e)
+    {
+
+        try
+        {
+            CheckBox x = (CheckBox)sender;
+            GridViewRow grv = (GridViewRow)x.NamingContainer;
+            int id1 = Convert.ToInt32(((Label)grv.FindControl("Label1")).Text);
+            double CashINHand = fun.getCashClBalAmt("=", fun.getCurrDate(), CompId, FinYearId);
+            double Amount = Convert.ToDouble(((Label)grv.FindControl("lblAmt")).Text);
+            if (((CheckBox)grv.FindControl("CheckBox1")).Checked == true)
+            {
+                if (Math.Round((CashINHand - Amount), 2) > 0)
+                {
+                    string sql1 = fun.update("tblACC_IOU_Master", "AuthorizedDate='" + CDate + "',AuthorizedTime='" + CTime + "',AuthorizedBy='" + sId + "',Authorize='1'", "Id='" + id1 + "'");
+                    SqlCommand cmd1 = new SqlCommand(sql1, con);
+                    con.Open();
+                    cmd1.ExecuteNonQuery();
+                    con.Close();
+                    this.BindDataGrid();
+                    this.NED();
+                    this.BindDataGrid_Receipt();
+                    this.NED1();
+                }
+                else
+                {
+                    string mystring = string.Empty;
+                    mystring = "Insufficient Cash";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+                }
+            }
+
+        }
+        catch (Exception er) { }
+        
+    }
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView1.PageIndex = e.NewPageIndex;
+        GridView1.EditIndex = -1;
+        this.BindDataGrid_Receipt();
+        this.NED1();
+    }
+    protected void GridView1_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    {
+        GridView1.EditIndex = -1;
+        this.BindDataGrid_Receipt();
+        this.NED1();
+    }
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            if (e.CommandName == "Add")
+            {
+
+                GridViewRow row = (GridViewRow)(((Button)e.CommandSource).NamingContainer);
+                int MId = Convert.ToInt32(((Label)row.FindControl("lblIdR")).Text);
+                double Amt = Convert.ToDouble(decimal.Parse(((Label)row.FindControl("lblAmountR")).Text).ToString("N3"));
+
+                double RecivedAmt = 0;
+                if (((TextBox)row.FindControl("txtRecivedAmtR")).Text != "")
+                {
+                    RecivedAmt = Convert.ToDouble(((TextBox)row.FindControl("txtRecivedAmtR")).Text);
+                }
+                string Date = fun.FromDate(((TextBox)row.FindControl("txtReceiptDate")).Text);
+
+                if (((TextBox)row.FindControl("txtRecivedAmtR")).Text != "")
+                {
+                    if (((TextBox)row.FindControl("txtRecivedAmtR")).Text != "" && fun.NumberValidationQty(RecivedAmt.ToString()) == true)
+                    {
+
+                        if ((Amt - RecivedAmt) >= 0)
+                        {
+                            if (((TextBox)row.FindControl("txtReceiptDate")).Text != "" && fun.DateValidation(((TextBox)row.FindControl("txtReceiptDate")).Text) == true)
+                            {
+
+                                string cmdstr = fun.insert("tblACC_IOU_Receipt", "MId,SysDate,SysTime,SessionId,CompId,FinYearId,ReceiptDate,RecievedAmount", "'" + MId + "','" + CDate + "','" + CTime + "','" + sId + "','" + CompId + "','" + FinYearId + "','" + Date + "','" + RecivedAmt + "'");
+                                SqlCommand cmd = new SqlCommand(cmdstr, con);
+
+                                con.Open();
+                                cmd.ExecuteNonQuery();
+                                con.Close();
+
+                                string sql4 = fun.update("tblACC_IOU_Master", "Recieved='1'", "Id='" + MId + "'");
+                                SqlCommand cmd4 = new SqlCommand(sql4, con);
+                                con.Open();
+                                cmd4.ExecuteNonQuery();
+                                con.Close();
+
+                                this.BindDataGrid_Receipt();
+                                this.NED1();
+                                this.BindDataGrid();
+                                this.NED();
+
+                            }
+                            else
+                            {
+                                string mystring = string.Empty;
+                                mystring = "Invalid Date.";
+                                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+                            }
+
+
+                        }
+                        else
+                        {
+                            string mystring = string.Empty;
+                            mystring = "Amount exceeds limit.";
+                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+                        }
+
+                    }
+                    else
+                    {
+                        string mystring = string.Empty;
+                        mystring = "Incorrect Input.";
+                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+                    }
+                }
+                else
+                {
+                    string mystring = string.Empty;
+                    mystring = "Blank input not allowed.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+                }
+
+            }
+
+
+            if (e.CommandName == "del")
+            {
+
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                int MId = Convert.ToInt32(((Label)row.FindControl("lblIdR")).Text);
+                int DIdR = Convert.ToInt32(((Label)row.FindControl("lblDIdR")).Text);
+
+                SqlCommand cmd = new SqlCommand("DELETE FROM tblACC_IOU_Receipt WHERE Id=" + DIdR + " And CompId='" + CompId + "'", con);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+                string sql5 = fun.update("tblACC_IOU_Master", "Recieved='0'", "Id='" + MId + "' And CompId='" + CompId + "'");
+                SqlCommand cmd5 = new SqlCommand(sql5, con);
+                con.Open();
+                cmd5.ExecuteNonQuery();
+                con.Close();
+
+                this.BindDataGrid_Receipt();
+                this.NED1();
+                this.BindDataGrid();
+                this.NED();
+            }
+
+        }
+        catch (Exception ex)
+        { }
+    }
+
+
+
+    protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+        try
+        {
+            GridView1.EditIndex = e.NewEditIndex;
+            this.BindDataGrid_Receipt();
+            this.NED1();
+        }
+        catch (Exception ex)
+        { }
+    }
+    protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+        try
+        {
+            int index1 = GridView1.EditIndex;
+            GridViewRow row = GridView1.Rows[index1];
+            int id1 = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Value);
+            double Amt = Convert.ToDouble(decimal.Parse(((Label)row.FindControl("lblAmountR")).Text).ToString("N3"));
+
+            double RecivedAmt = Convert.ToDouble(decimal.Parse(((TextBox)row.FindControl("txtRecivedAmtR1")).Text).ToString("N3"));
+            string Date = fun.FromDate(((TextBox)row.FindControl("txtReceiptDate1")).Text);
+
+
+            if (((TextBox)row.FindControl("txtRecivedAmtR1")).Text != "")
+            {
+                if (((TextBox)row.FindControl("txtRecivedAmtR1")).Text != "" && fun.NumberValidationQty(RecivedAmt.ToString()) == true)
+                {
+
+                    if ((Amt - RecivedAmt) >= 0)
+                    {
+                        if (((TextBox)row.FindControl("txtReceiptDate1")).Text != "" && fun.DateValidation(((TextBox)row.FindControl("txtReceiptDate1")).Text) == true)
+                        {
+
+                            string sql1 = fun.update("tblACC_IOU_Receipt", "SysDate='" + CDate + "',SysTime='" + CTime + "',SessionId='" + sId + "',ReceiptDate='" + Date + "',RecievedAmount='" + RecivedAmt + "'", "MId='" + id1 + "'");
+                            SqlCommand cmd1 = new SqlCommand(sql1, con);
+                            con.Open();
+                            cmd1.ExecuteNonQuery();
+                            con.Close();
+                            GridView1.EditIndex = -1;
+                            this.BindDataGrid_Receipt();
+                            this.NED1();
+                        }
+                        else
+                        {
+                            string mystring = string.Empty;
+                            mystring = "Invalid Date.";
+                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+                        }
+                    }
+                    else
+                    {
+                        string mystring = string.Empty;
+                        mystring = "Amount exceeds limit.";
+                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+                    }
+
+                }
+                else
+                {
+                    string mystring = string.Empty;
+                    mystring = "Incorrect Input.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+                }
+            }
+            else
+            {
+                string mystring = string.Empty;
+                mystring = "Blank input not allowed.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+            }
+
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+}

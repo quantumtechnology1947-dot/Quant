@@ -1,0 +1,326 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MIS/Transactions/HrsBudgetSummary.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="HrsBudgetSummary.aspx.cs" Inherits="Module_MIS_Transactions_HrsBudgetSummary" Title="ERP"  Theme ="Default"  %>
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+           <td align="left" valign="middle"  scope="col"  
+                            style="background:url(../../../images/hdbg.JPG)" class="fontcsswhite" 
+                            height="21">
+                            &nbsp;<b>Hrs Budget Summary</b></td>
+           <td align="right" valign="middle"  scope="col"  
+                            style="background:url(../../../images/hdbg.JPG)" class="fontcsswhite" 
+                            height="21">
+                            <asp:Button ID="Button1" runat="server" CssClass="redbox" 
+                                onclick="Button1_Click" Text="Cancel" />
+&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                    <CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" HasCrystalLogo="False"
+            AutoDataBind="True" Height="50px" 
+            Width="350px" DisplayGroupTree="False" 
+                        EnableDatabaseLogonPrompt="False" EnableParameterPrompt="False"  />
+        <CR:CrystalReportSource ID="CrystalReportSource1" runat="server">
+        <Report FileName="~\Module\Accounts\Transactions\Reports\HrsBudgetSummary.rpt">            
+            </Report>
+       </CR:CrystalReportSource>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MIS/Transactions/HrsBudgetSummary.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using CrystalDecisions.CrystalReports.Engine;
+using System.Data.SqlClient;
+
+public partial class Module_MIS_Transactions_HrsBudgetSummary : System.Web.UI.Page
+{
+    int CompId = 0;
+    int FinYearId = 0;
+    string SId = "";
+    string Key = string.Empty;
+
+    clsFunctions fun = new clsFunctions();
+    private ReportDocument report = new ReportDocument();
+    Cal_Used_Hours CUS = new Cal_Used_Hours();
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        try
+        {
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            SId = Session["username"].ToString();
+            Key = Request.QueryString["Key"].ToString();
+
+            if (!IsPostBack)
+            {
+                string connStr = fun.Connection();
+                SqlConnection con = new SqlConnection(connStr);
+                con.Open();
+
+                DataTable dt = new DataTable();
+
+                dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));//0
+                dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(Int32)));//1
+                dt.Columns.Add(new System.Data.DataColumn("ProjectTitle", typeof(string)));//2
+                dt.Columns.Add(new System.Data.DataColumn("MDesign", typeof(double)));//3-2,1
+                dt.Columns.Add(new System.Data.DataColumn("MAssly", typeof(double)));//4-2,2
+                dt.Columns.Add(new System.Data.DataColumn("MCert", typeof(double)));//5-2,3
+                dt.Columns.Add(new System.Data.DataColumn("MTrials", typeof(double)));//6-2,4
+                dt.Columns.Add(new System.Data.DataColumn("MIC", typeof(double)));//7-2,5
+                dt.Columns.Add(new System.Data.DataColumn("MDisp", typeof(double)));//8-2,6
+                dt.Columns.Add(new System.Data.DataColumn("MTryOut", typeof(double)));//9-2,7
+
+                dt.Columns.Add(new System.Data.DataColumn("DDesign", typeof(double)));//10-3,8
+                dt.Columns.Add(new System.Data.DataColumn("DAssly", typeof(double)));//11-3,9
+                dt.Columns.Add(new System.Data.DataColumn("DCert", typeof(double)));//12-3,10
+                dt.Columns.Add(new System.Data.DataColumn("DTrials", typeof(double)));//13-3,11
+                dt.Columns.Add(new System.Data.DataColumn("DIC", typeof(double)));//14-3,12
+                dt.Columns.Add(new System.Data.DataColumn("DDisp", typeof(double)));//15-3,13
+                dt.Columns.Add(new System.Data.DataColumn("DTryOut", typeof(double)));//16-3,14
+
+                dt.Columns.Add(new System.Data.DataColumn("HyrLink", typeof(string)));//17
+
+                string selectQuery = fun.select("Distinct WONo,CompId", "tblPM_ManPowerPlanning", "CompId='" + CompId + "'");
+                SqlCommand myCommand = new SqlCommand(selectQuery, con);
+                SqlDataReader ds = myCommand.ExecuteReader();
+
+                DataRow dr;
+
+                while (ds.Read())
+                {
+                    dr = dt.NewRow();
+
+                    dr[0] = ds["WONo"].ToString();
+                    dr[1] = Convert.ToInt32(ds["CompId"]);
+
+                    string selectQuery2 = "SELECT SD_Cust_WorkOrder_Master.TaskProjectTitle FROM tblPM_ManPowerPlanning INNER JOIN SD_Cust_WorkOrder_Master ON tblPM_ManPowerPlanning.WONo = SD_Cust_WorkOrder_Master.WONo AND SD_Cust_WorkOrder_Master.WONo='" + ds["WONo"] + "'";
+                    SqlCommand myCommand2 = new SqlCommand(selectQuery2, con);
+                    SqlDataReader ds2 = myCommand2.ExecuteReader();
+                    ds2.Read();
+
+                    dr[2] = ds2["TaskProjectTitle"].ToString();
+
+                    //Mechanical
+                    //CUS
+                    if (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 2, 1) > 0 && CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 2, 1) > 0)//Design
+                    {
+                        dr[3] = (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 2, 1) / CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 2, 1)) * 100;
+                    }
+                    else
+                    {
+                        dr[3] = 0;
+                    }
+
+                    if (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 2, 2) > 0 && CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 2, 2) > 0)//Assly
+                    {
+                        dr[4] = (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 2, 2) / CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 2, 2)) * 100;
+                    }
+                    else
+                    {
+                        dr[4] = 0;
+                    }
+
+                    if (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 2, 3) > 0 && CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 2, 3) > 0)//Cert
+                    {
+                        dr[5] = (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 2, 3) / CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 2, 3)) * 100;
+                    }
+                    else
+                    {
+                        dr[5] = 0;
+                    }
+
+                    if (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 2, 4) > 0 && CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 2, 4) > 0)//Trials
+                    {
+                        dr[6] = (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 2, 4) / CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 2, 4)) * 100;
+                    }
+                    else
+                    {
+                        dr[6] = 0;
+                    }
+
+                    if (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 2, 5) > 0 && CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 2, 5) > 0)//I&C
+                    {
+                        dr[7] = (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 2, 5) / CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 2, 5)) * 100;
+                    }
+                    else
+                    {
+                        dr[7] = 0;
+                    }
+
+                    if (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 2, 6) > 0 && CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 2, 6) > 0)//Disp
+                    {
+                        dr[8] = (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 2, 6) / CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 2, 6)) * 100;
+                    }
+                    else
+                    {
+                        dr[8] = 0;
+                    }
+
+                    if (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 2, 7) > 0 && CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 2, 7) > 0)//TryOut
+                    {
+                        dr[9] = (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 2, 7) / CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 2, 7)) * 100;
+                    }
+                    else
+                    {
+                        dr[9] = 0;
+                    }
+
+                    //Electrical
+
+                    if (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 3, 8) > 0 && CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 3, 8) > 0)//Design
+                    {
+                        dr[10] = (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 3, 8) / CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 3, 8)) * 100;
+                    }
+                    else
+                    {
+                        dr[10] = 0;
+                    }
+
+                    if (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 3, 9) > 0 && CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 3, 9) > 0)//Assly
+                    {
+                        dr[11] = (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 3, 9) / CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 3, 9)) * 100;
+                    }
+                    else
+                    {
+                        dr[11] = 0;
+                    }
+
+                    if (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 3, 10) > 0 && CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 3, 10) > 0)//Cert
+                    {
+                        dr[12] = (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 3, 10) / CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 3, 10)) * 100;
+                    }
+                    else
+                    {
+                        dr[12] = 0;
+                    }
+
+                    if (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 3, 11) > 0 && CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 3, 11) > 0)//Trials
+                    {
+                        dr[13] = (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 3, 11) / CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 3,11)) * 100;
+                    }
+                    else
+                    {
+                        dr[13] = 0;
+                    }
+
+                    if (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 3, 12) > 0 && CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 3, 12) > 0)//I&C
+                    {
+                        dr[14] = (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 3, 12) / CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 3, 12)) * 100;
+                    }
+                    else
+                    {
+                        dr[14] = 0;
+                    }
+
+                    if (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 3, 13) > 0 && CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 3, 13) > 0)//Disp
+                    {
+                        dr[15] = (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 3, 13) / CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 3, 13)) * 100;
+                    }
+                    else
+                    {
+                        dr[15] = 0;
+                    }
+
+                    if (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 3, 14) > 0 && CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 3, 14) > 0)//TryOut
+                    {
+                        dr[16] = (CUS.GetTotalUtilizeHrs_WONo(ds["WONo"].ToString(), 3, 14) / CUS.GetTotalAllocatedHrs_WONo(ds["WONo"].ToString(), 3, 14)) * 100;
+                    }
+                    else
+                    {
+                        dr[16] = 0;
+                    }
+
+                    string getRandomKey = fun.GetRandomAlphaNumeric();
+                    dr[17] = "HrsBudgetSummary_Equip.aspx?ModId=14&&SubModId=&wono=" + ds["WONo"].ToString() + "&Key=" + getRandomKey + "&PKey="+Key+"";
+
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+
+                DataSet Xsd = new HrsBudgetSummary();
+                Xsd.Tables[0].Merge(dt);
+                Xsd.AcceptChanges();
+
+                string reportPath = Server.MapPath("~/Module/MIS/Transactions/Reports/HrsBudgetSummary.rpt");
+                report.Load(reportPath);
+                report.SetDataSource(Xsd);
+
+                string Address = fun.CompAdd(CompId);
+                report.SetParameterValue("Address", Address);
+
+                CrystalReportViewer1.ReportSource = report;
+                Session[Key] = report;
+
+                con.Close();
+            }
+            else
+            {
+                Key = Request.QueryString["Key"].ToString();
+                ReportDocument doc = (ReportDocument)Session[Key];
+                CrystalReportViewer1.ReportSource = doc;
+            }
+
+        }
+        catch (Exception et)
+        {
+
+        }
+
+    }
+    
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        report = new ReportDocument();
+    }
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        report.Close();
+        report.Dispose();
+        GC.Collect();
+    }
+
+    
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Menu.aspx?ModId=14&SubModId=");
+    }
+}

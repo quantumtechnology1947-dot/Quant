@@ -1,0 +1,415 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Transactions/WorkOrder_Release.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="WorkOrder_Release.aspx.cs" Inherits="Module_SalesDistribution_Transactions_WorkOrder_Release" Title="ERP" Theme="Default" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %> 
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+<table width="100%" align="center" cellpadding="0" cellspacing="0" Class="fontcss">
+        <tr>
+            <td>
+                <table width="100%" align="center" cellpadding="0" cellspacing="0">
+                    <tr >                   
+                        <td height="21px" style="background:url(../../../images/hdbg.JPG)"  class="fontcsswhite" >&nbsp;<strong>Work Order -Release </strong>
+                       
+                        </td>
+                    </tr>
+                    
+                    <tr>
+            <td class="fontcsswhite" height="25" >
+            
+                <asp:DropDownList ID="DropDownList1" runat="server" Width="200px" 
+                    CssClass="box3" 
+                    onselectedindexchanged="DropDownList1_SelectedIndexChanged" 
+                    AutoPostBack="True">
+                    <asp:ListItem Value="Select">Select</asp:ListItem>
+                    <asp:ListItem Value="0">Customer Name</asp:ListItem>
+                    <asp:ListItem Value="1">Enquiry No</asp:ListItem>
+                     <asp:ListItem Value="2">PO No</asp:ListItem>
+                       <asp:ListItem Value="3">WO No</asp:ListItem>
+                </asp:DropDownList>
+            
+                <asp:TextBox ID="txtEnqId" runat="server"  CssClass="box3" 
+                    Width="150px"></asp:TextBox>
+                 <asp:TextBox ID="TxtSearchValue" runat="server" CssClass="box3" Width="350px"></asp:TextBox>
+                      <cc1:AutoCompleteExtender ID="TxtSearchValue_AutoCompleteExtender" 
+                    runat="server" CompletionInterval="100" CompletionSetCount="1" 
+                                            DelimiterCharacters="" Enabled="True" FirstRowSelected="True" 
+                                            MinimumPrefixLength="1" ServiceMethod="sql" ServicePath="" 
+                                            ShowOnlyCurrentWordInCompletionListItem="True" 
+                                            TargetControlID="TxtSearchValue" UseContextKey="True" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                </cc1:AutoCompleteExtender> 
+                    
+                    
+                       
+        <asp:Button ID="btnSearch" runat="server" 
+            Text="Search" CssClass="redbox" onclick="btnSearch_Click"  />
+                        &nbsp;<asp:Label ID="Label2" runat="server" 
+                    style="font-weight: 700; color: #FF0000"></asp:Label>
+                        </td>
+             </tr>
+
+
+             <tr>
+         <td>
+                     
+                  <asp:GridView ID="GridView1" runat="server" AllowPaging="True"  CssClass="yui-datatable-theme"
+                    AllowSorting="True" AutoGenerateColumns="False" 
+                    DataKeyNames="Id" RowStyle-HorizontalAlign ="Center"
+                    
+                    onpageindexchanging="GridView1_PageIndexChanging" Width="100%" PageSize="20" 
+                      onselectedindexchanged="GridView1_SelectedIndexChanged">
+
+                      <PagerSettings PageButtonCount="40" />
+
+<RowStyle HorizontalAlign="Center"></RowStyle>
+
+            <Columns>
+            <asp:TemplateField HeaderText="SN" ItemStyle-HorizontalAlign="Right"><ItemTemplate><%# Container.DataItemIndex+1 %></ItemTemplate>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+                </asp:TemplateField>
+ <asp:BoundField DataField="FinYear" HeaderText="Fin Yrs">
+                                        <ItemStyle Width="8%" HorizontalAlign="Center" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="CustomerName" 
+                    HeaderText="CustomerName" >
+                                        <ItemStyle HorizontalAlign="Left" Width="16%" />
+                </asp:BoundField>
+                                  <asp:BoundField DataField="CustomerId" HeaderText="Code" >
+                                      <ItemStyle HorizontalAlign="Center" />
+                </asp:BoundField>
+                                  <asp:BoundField DataField="EnqId" HeaderText="Enquiry No" >
+                                      <ItemStyle HorizontalAlign="Center" Width="8%" />
+                </asp:BoundField>
+                                  <asp:BoundField DataField="PONo" HeaderText="PO No" >
+                                      <ItemStyle HorizontalAlign="Left" />
+                </asp:BoundField>
+                                  <asp:HyperLinkField DataNavigateUrlFields="CustomerId,EnqId,Id,PONo,WONo" 
+                    HeaderText="WO No" 
+                    DataNavigateUrlFormatString="~/Module/SalesDistribution/Transactions/WorkOrder_ReleaseRPT.aspx?CustomerId={0}&amp;EnqId={1}&amp;Id={2}&amp;PONo={3}&amp;WONo={4}&amp;ModId=2&amp;SubModId=15" 
+                    DataTextField="WONo" 
+                    
+                    NavigateUrl="~/Module/SalesDistribution/Transactions/WorkOrder_ReleaseRPT.aspx" >
+                    <ItemStyle HorizontalAlign="Center" />
+                </asp:HyperLinkField>
+                                  <asp:BoundField DataField="SysDate" HeaderText="Gen. Date" >
+                                      <ItemStyle HorizontalAlign="Center" />
+                </asp:BoundField>
+                                  <asp:BoundField DataField="EmployeeName" HeaderText="Gen. By" >
+                            
+                                      <ItemStyle HorizontalAlign="Left" Width="32%" />
+                </asp:BoundField>
+                <asp:BoundField DataField="Id" HeaderText=" WO Id" Visible ="false">  </asp:BoundField>
+                            
+            </Columns>
+             <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+           
+       </asp:GridView>
+                     
+           
+
+                    </td>
+             </tr>
+              </table>
+            </td>
+        </tr>
+        
+        
+        
+        </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Transactions/WorkOrder_Release.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using Telerik.Web.UI;
+
+public partial class Module_SalesDistribution_Transactions_WorkOrder_Release : System.Web.UI.Page
+{
+
+    clsFunctions fun = new clsFunctions();
+    DataSet DS = new DataSet();
+
+    string CId = "";
+    string Eid = "";
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+       try
+        {
+            Label2.Text = "";
+            if (Request.QueryString["msg"] != "")
+            {
+                Label2.Text = Request.QueryString["msg"];
+            }
+            if (!Page.IsPostBack)
+            {
+                txtEnqId.Visible = false;
+                this.BindDataCust(CId, Eid);
+
+            }
+        }
+         catch (Exception ex)
+        {
+        }
+    }
+
+
+
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            GridView1.PageIndex = e.NewPageIndex;
+
+            this.BindDataCust(CId, Eid);
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            this.BindDataCust(TxtSearchValue.Text, txtEnqId.Text);
+        }
+       catch (Exception ex)
+        {
+        }
+
+    }
+
+    public void BindDataCust(string Cid, string EID)
+    {
+       try
+        {
+            string sId = Session["username"].ToString();
+            int FinYearId = Convert.ToInt32(Session["finyear"]);
+            int CompId = Convert.ToInt32(Session["compid"]);
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            DataTable dt = new DataTable();
+            con.Open();
+            string x = "";
+            if (DropDownList1.SelectedValue == "1")
+            {
+                if (txtEnqId.Text != "")
+                {
+                    x = " AND EnqId='" + txtEnqId.Text + "'";
+                }
+            }
+            if (DropDownList1.SelectedValue == "2")
+            {
+                if (txtEnqId.Text != "")
+                {
+                    x = " AND PONo='" + txtEnqId.Text + "'";
+                }
+            }
+
+            if (DropDownList1.SelectedValue == "3")
+            {
+                if (txtEnqId.Text != "")
+                {
+                    x = " AND WONo='" + txtEnqId.Text + "'";
+                }
+            }
+
+            if (DropDownList1.SelectedValue == "Select")
+            {
+                txtEnqId.Visible = true;               
+                TxtSearchValue.Visible = false;
+            }
+
+            string y = "";
+
+            if (DropDownList1.SelectedValue == "0")
+            {
+                if (TxtSearchValue.Text != "")
+                {
+
+                    string Custid = fun.getCode(TxtSearchValue.Text);
+                    y = " AND CustomerId='" + Custid + "'";
+                }
+            }
+
+            string strCustWo = fun.select("Id,EnqId,CustomerId,WONo,PONo,SessionId,FinYearId,REPLACE(CONVERT(varchar, CONVERT(datetime, SUBSTRING(SD_Cust_WorkOrder_Master.SysDate, CHARINDEX('-', SD_Cust_WorkOrder_Master.SysDate) + 1, 2) + '-' + LEFT(SD_Cust_WorkOrder_Master.SysDate,CHARINDEX('-', SD_Cust_WorkOrder_Master.SysDate) - 1) + '-' + RIGHT(SD_Cust_WorkOrder_Master.SysDate, CHARINDEX('-', REVERSE(SD_Cust_WorkOrder_Master.SysDate)) - 1)), 103), '/', '-')AS SysDate", "SD_Cust_WorkOrder_Master", "FinYearId<='" + FinYearId + "' AND CloseOpen='0'  AND CompId='" + CompId + "'" + x + y + "Order by WONo ASC");
+           
+            SqlCommand cmdCustWo = new SqlCommand(strCustWo, con);
+            SqlDataAdapter daCustWo = new SqlDataAdapter(cmdCustWo);
+            DataSet DSCustWo = new DataSet();
+            daCustWo.Fill(DSCustWo);            
+            dt.Columns.Add(new System.Data.DataColumn("FinYear", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("CustomerName", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("CustomerId", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("PONo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("EnqId", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("SysDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("EmployeeName", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(string)));
+            DataRow dr;
+            for (int i = 0; i < DSCustWo.Tables[0].Rows.Count; i++)
+            {                
+                dr = dt.NewRow();
+                if (DSCustWo.Tables[0].Rows.Count > 0)
+                {
+                    string StrCust = fun.select("CustomerName,CustomerId", "SD_Cust_Master", "CompId='" + CompId + "'  AND  CustomerId='" + DSCustWo.Tables[0].Rows[i]["CustomerId"].ToString() + "'");
+                  
+
+                    SqlCommand cmdCust = new SqlCommand(StrCust, con);
+                    SqlDataAdapter daCust = new SqlDataAdapter(cmdCust);
+                    DataSet DSCust = new DataSet();
+                    daCust.Fill(DSCust);
+                    string stryr = fun.select("FinYear", "tblFinancial_master", "FinYearId='" + DSCustWo.Tables[0].Rows[i]["FinYearId"].ToString() + "'");
+                    SqlCommand cmdyr = new SqlCommand(stryr, con);
+                    SqlDataAdapter dayr = new SqlDataAdapter(cmdyr);
+                    DataSet DSyr = new DataSet();
+                    dayr.Fill(DSyr);
+
+                    string strEmp = fun.select("Title+'.'+EmployeeName As EmpLoyeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + DSCustWo.Tables[0].Rows[i]["SessionId"] + "'");
+
+                    SqlCommand cmdEmp = new SqlCommand(strEmp, con);
+                    SqlDataAdapter daEmp = new SqlDataAdapter(cmdEmp);
+                    DataSet DSEmp = new DataSet();
+                    daEmp.Fill(DSEmp);
+                    if (DSyr.Tables[0].Rows.Count>0)
+                    {
+                    dr[0] = DSyr.Tables[0].Rows[0]["FinYear"].ToString();
+                    }
+                    if (DSCust.Tables[0].Rows.Count>0)
+                    {
+                    dr[1] = DSCust.Tables[0].Rows[0]["CustomerName"].ToString();
+                    dr[2] = DSCust.Tables[0].Rows[0]["CustomerId"].ToString();
+                    }
+                    dr[3] = DSCustWo.Tables[0].Rows[i]["PONo"].ToString();
+                    dr[4] = DSCustWo.Tables[0].Rows[i]["WONo"].ToString();
+                    dr[5] = DSCustWo.Tables[0].Rows[i]["EnqId"].ToString();
+                    dr[6] = DSCustWo.Tables[0].Rows[i]["SysDate"].ToString();
+                    if (DSEmp.Tables[0].Rows.Count>0)
+                    {
+                    dr[7] = DSEmp.Tables[0].Rows[0]["EmployeeName"].ToString();
+                    }
+                    dr[8] = DSCustWo.Tables[0].Rows[i]["Id"].ToString();
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+
+                }
+            }
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
+            con.Close();
+
+
+
+        }
+
+        catch (Exception ex)
+        { }
+    }
+
+
+
+    protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (DropDownList1.SelectedValue == "0")
+        {
+            txtEnqId.Visible = false;
+            TxtSearchValue.Visible = true;
+            TxtSearchValue.Text = "";
+            this.BindDataCust(CId, Eid);
+        }
+
+
+        if (DropDownList1.SelectedValue == "1" || DropDownList1.SelectedValue == "2" || DropDownList1.SelectedValue == "Select" || DropDownList1.SelectedValue == "3")
+        {
+            txtEnqId.Visible = true;
+            TxtSearchValue.Visible = false;
+            txtEnqId.Text = "";
+            this.BindDataCust(CId, Eid);
+        }                                                                                                                                                                      
+
+    }
+
+
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] sql(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        int CompId = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        con.Open();
+        string cmdStr = fun.select("CustomerId,CustomerName", "SD_Cust_master","CompId='"+CompId+"'");
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds, "SD_Cust_master");
+        con.Close();
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                //if (main.Length == 10)
+                //    break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }
+
+
+
+
+
+
+    protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+}

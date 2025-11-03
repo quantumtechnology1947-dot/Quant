@@ -1,0 +1,234 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Masters/CategoryEdit.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="CategoryEdit.aspx.cs" Inherits="Module_Design_Masters_CategoryEdit" Title="ERP"  Theme="Default" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style2
+        {
+            height: 24px;
+        }
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+<table cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td>
+    <table cellpadding="0" cellspacing="0" width="70%" align="center">
+        <tr>
+            <td align="center" valign="top">&nbsp;</td>
+        </tr>
+        <tr>
+            <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp; 
+                Item Category - Edit</b></td>
+        </tr>
+        <tr>
+            <td align="center" valign="top">
+                <asp:GridView ID="GridView1" 
+                runat="server" 
+                AllowPaging="True"
+                AutoGenerateColumns="False" 
+                DataKeyNames="CId" 
+                DataSourceID="LocalSqlServer"
+                CssClass="yui-datatable-theme" Width="100%" 
+                    onrowdatabound="GridView1_RowDataBound" 
+                    onrowupdated="GridView1_RowUpdated" onrowcommand="GridView1_RowCommand" 
+                    PageSize="20">
+<FooterStyle Wrap="True"></FooterStyle>
+                    <Columns>
+                        <asp:TemplateField HeaderText="SN" SortExpression="SN">
+                        <ItemTemplate>
+                        <%# Container.DataItemIndex+1 %>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" />
+                        </asp:TemplateField>                        
+                        <asp:CommandField  ButtonType="Link" ShowEditButton="True" ValidationGroup="c" >                        
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:CommandField>
+                        <asp:TemplateField HeaderText="CId" Visible="false">
+                        <ItemTemplate>
+                            <asp:Label ID="Label1" runat="server" Text='<% #Eval("CId") %>'></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="Category" SortExpression="CName">
+                            <EditItemTemplate>
+                                <asp:TextBox ID="txtCate" CssClass="box3" runat="server" Width="95%" Text='<%# Bind("CName") %>'></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="ReqCat" runat="server"  ValidationGroup="c" ControlToValidate="txtCate"
+                           ErrorMessage="*"></asp:RequiredFieldValidator>
+                            </EditItemTemplate>
+                            <ItemTemplate>
+                                <asp:Label ID="Label2" runat="server" Text='<%# Bind("CName") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Left" Width="70%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Symbol" SortExpression="Symbol">
+                            <EditItemTemplate>                                                        
+                            <asp:Label ID="lblSy" runat="server" Text='<%# Bind("Symbol") %>'></asp:Label>
+                            </EditItemTemplate>
+                            <ItemTemplate>
+                                <asp:Label ID="Label3" runat="server" Text='<%# Bind("Symbol") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Has SubCategory" Visible="false">
+                        <ItemTemplate>
+                        <asp:Label ID="lblsubcatNo" runat="server" Text='<%#Eval("HasSubCat") %>'>    </asp:Label>
+                        </ItemTemplate>  
+                        
+                         <EditItemTemplate>
+                                <asp:CheckBox ID="CheckBox1" runat="server" /> 
+                         </EditItemTemplate>                     
+                        
+                            <HeaderStyle Font-Bold="True" HorizontalAlign="Center" VerticalAlign="Middle" />
+                            <ItemStyle HorizontalAlign="Left" />
+                        </asp:TemplateField>
+                        
+                    </Columns>
+                     <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                    
+              </asp:GridView>
+                
+                <asp:Label ID="lblMessage" runat="server" Font-Bold="True" ForeColor="Red"></asp:Label>
+                
+                <asp:SqlDataSource ID="LocalSqlServer" runat="server" 
+                    ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                    ProviderName="System.Data.SqlClient" 
+                    SelectCommand="SELECT [CId], [CName], [Symbol],[HasSubCat] FROM [tblDG_Category_Master]WHERE (([CompId] = @CompId) AND ([FinYearId] &lt;= @FinYearId)) order by [CId] desc"           
+                    UpdateCommand="UPDATE [tblDG_Category_Master] SET [CName] = @CName2 WHERE [CId] = @CId2"  >
+                    <UpdateParameters>
+                        <asp:Parameter Name="CName2" Type="String" />                        
+                        <asp:Parameter Name="CId2" Type="Int32" />                      
+                        
+                    </UpdateParameters>
+                   <SelectParameters>
+                        <asp:SessionParameter Name="CompId" SessionField="compid" Type="Int32" />
+                        <asp:SessionParameter Name="FinYearId" SessionField="finyear" Type="Int32" />
+                    </SelectParameters>
+                </asp:SqlDataSource>                
+             
+                
+               </td>
+        </tr>
+        </table>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Masters/CategoryEdit.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_Design_Masters_CategoryEdit : System.Web.UI.Page
+{
+
+    clsFunctions fun = new clsFunctions();
+
+    string compid = "";
+    string finyrsid = "";
+    string sessionid = "";
+    string connStr = "";
+    SqlConnection con;
+    int s = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            lblMessage.Text = "";
+            compid = Session["compid"].ToString();
+            finyrsid = Session["finyear"].ToString();
+            sessionid = Session["username"].ToString();
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+
+        }
+
+        catch (Exception ex)
+        {
+        }
+
+    }
+
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            LinkButton upd = (LinkButton)e.Row.Cells[1].Controls[0];
+            upd.Attributes.Add("onclick", "return confirmationUpdate();");
+        }
+
+    }
+    protected void GridView1_RowUpdated(object sender, GridViewUpdatedEventArgs e)
+    {
+        if (s > 0)
+        {
+            lblMessage.Text = "Record Updated.";
+        }
+    }
+
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+
+        try
+        {
+            if (e.CommandName == "Update")
+            {
+                int rowIndex = Convert.ToInt32(e.CommandArgument);
+                GridViewRow row = GridView1.Rows[rowIndex];
+                int CId = 0;
+                CId = Convert.ToInt32(((Label)row.FindControl("Label1")).Text);
+                string strCname = ((TextBox)row.FindControl("txtCate")).Text;
+                LocalSqlServer.UpdateParameters["CId2"].DefaultValue = CId.ToString();
+                LocalSqlServer.UpdateParameters["CName2"].DefaultValue = strCname.ToString();
+                LocalSqlServer.Update();
+                s++;
+            }
+
+        }
+
+        catch (Exception ex)
+        { }
+    }
+}

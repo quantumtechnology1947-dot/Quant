@@ -1,0 +1,785 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/Debit_Note.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Debit_Note.aspx.cs" Inherits="Module_Accounts_Transactions_Debit_Note" Title="ERP" Theme="Default" %>
+
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite">
+            <b>&nbsp;Debit Note</b></td>
+        </tr>
+        <tr>
+    
+            <td align="left">
+                <asp:GridView ID="GridView1" runat="server" AllowPaging="True"  DataKeyNames="Id"
+                    AutoGenerateColumns="False" CssClass="yui-datatable-theme" PageSize="20" 
+                    ShowFooter="True" Width="100%"  
+                    onpageindexchanging="GridView1_PageIndexChanging" 
+                    onrowcommand="GridView1_RowCommand" onrowdeleting="GridView1_RowDeleting" 
+                    onrowediting="GridView1_RowEditing" onrowupdating="GridView1_RowUpdating" 
+                    onrowcancelingedit="GridView1_RowCancelingEdit" 
+                    >
+                    <PagerSettings PageButtonCount="40" />
+                    <Columns>
+                        <asp:TemplateField HeaderText="SN">
+                         <ItemTemplate>
+                        <%# Container.DataItemIndex+1 %>
+                        </ItemTemplate>
+                        <ItemStyle HorizontalAlign="right" Width="2%" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField ShowHeader="False">
+                            <ItemTemplate>
+                                <asp:LinkButton ID="LinkButton1" OnClientClick="return " runat="server" CausesValidation="False" 
+                                    CommandName="Edit" Text="Edit"></asp:LinkButton>
+                            </ItemTemplate>
+                            <EditItemTemplate>
+                                <asp:LinkButton ID="LinkButton3" ValidationGroup ="A"  OnClientClick=" return confirmationAdd()"
+                                 runat="server" CausesValidation="True" 
+                                    CommandName="Update" Text="Update"></asp:LinkButton>
+                                &nbsp;<asp:LinkButton ID="LinkButton4" runat="server" CausesValidation="False" 
+                                    CommandName="Cancel" Text="Cancel"></asp:LinkButton>
+                            </EditItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        
+                        
+                        <asp:TemplateField ShowHeader="False">
+                            <ItemTemplate>
+                                <asp:LinkButton ID="LinkButton2" runat="server" CausesValidation="False" 
+                                 OnClientClick=" return confirmationDelete()"
+                                    CommandName="Delete" Text="Delete"></asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField  Visible="false">
+                        <ItemTemplate>
+                            <asp:Label ID="lblNo" runat="server" Text='<%#Eval("Id")%>'></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="5%" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="Date">
+                        <ItemTemplate>
+                            <asp:Label ID="lblDate" runat="server" Text='<%#Eval("Date")%>'></asp:Label>
+                            </ItemTemplate>
+                            <EditItemTemplate>                         
+                            
+                              <asp:TextBox    ID="txtDate1" runat="server" CssClass="box3"  Text='<%#Eval("Date")%>' Width="80%" ></asp:TextBox>
+                                <cc1:CalendarExtender  ID="txtDate1_CalendarExtender" runat="server" Enabled="True" 
+                                    Format="dd-MM-yyyy" TargetControlID="txtDate1">
+                                    </cc1:CalendarExtender>
+                                    <asp:RequiredFieldValidator ID="ReqtexttxtDate1" runat="server" ValidationGroup="A"
+                                    ControlToValidate="txtDate1" ErrorMessage="*" >
+                                    </asp:RequiredFieldValidator>
+                                    <asp:RegularExpressionValidator ID="RegtexttxtDate1" runat="server" ValidationGroup="A"
+                                    ControlToValidate="txtDate1" ErrorMessage="*" 
+                                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$"   >
+                                    </asp:RegularExpressionValidator>
+                            
+                            
+                            
+                            
+                            </EditItemTemplate>
+                            <FooterTemplate>                   
+                            
+                              <asp:TextBox    ID="txtDate2" runat="server" CssClass="box3"  Width="80%"></asp:TextBox>
+                                <cc1:CalendarExtender  ID="txtDate2_CalendarExtender" runat="server" Enabled="True" 
+                                    Format="dd-MM-yyyy" TargetControlID="txtDate2">
+                                    </cc1:CalendarExtender>
+                                    <asp:RequiredFieldValidator ID="ReqtexttxtDate2" runat="server" ValidationGroup="B"
+                                    ControlToValidate="txtDate2" ErrorMessage="*" >
+                                    </asp:RequiredFieldValidator>
+                                    <asp:RegularExpressionValidator ID="RegtexttxtDate2" runat="server" ValidationGroup="B"
+                                    ControlToValidate="txtDate2" ErrorMessage="*" 
+                                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$"   >
+                                    </asp:RegularExpressionValidator> 
+                            
+                            </FooterTemplate>                            
+                            <ItemStyle HorizontalAlign="Center"  Width="8%"  />
+                        </asp:TemplateField>
+                        
+                        
+                        <asp:TemplateField HeaderText="Debit No">
+                        <ItemTemplate>
+                            <asp:Label ID="lblDebitno" runat="server" Text='<%#Eval("DebitNo")%>'></asp:Label>
+                            </ItemTemplate> 
+                            <ItemStyle HorizontalAlign="Center" Width="5%" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="Type">
+                        <ItemTemplate>
+                            <asp:Label ID="lblType" runat="server" Text='<%#Eval("Types")%>'></asp:Label>
+                        </ItemTemplate>
+                        <EditItemTemplate>
+                        <asp:DropDownList ID="DrpList1" runat="server" AutoPostBack="true" DataSourceID="SqlDataSource1" 
+                        DataTextField="Description" DataValueField="Id" onselectedindexchanged="DrpList1_SelectedIndexChanged">
+                            </asp:DropDownList>
+                            <asp:Label ID="lblType1" Visible="false" runat="server" Text='<%#Eval("typ")%>'></asp:Label>
+                        </EditItemTemplate>
+                        <FooterTemplate>
+                        <asp:DropDownList ID="DrpList2" runat="server"  AutoPostBack="true" DataSourceID="SqlDataSource1"
+                        DataTextField="Description" DataValueField="Id"  onselectedindexchanged="DrpList2_SelectedIndexChanged">
+                            </asp:DropDownList>
+                        </FooterTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="7%"  />
+                        </asp:TemplateField>
+                        
+                        
+                         <asp:TemplateField HeaderText="Debit To">
+                        <ItemTemplate>
+                            <asp:Label ID="lblDebitto" runat="server" Text='<%#Eval("SCE")%>'></asp:Label>
+                        </ItemTemplate>
+                        <EditItemTemplate>
+                        <asp:TextBox ID="txtDebitto1" Text='<%#Eval("SCE")%>' runat="server" CssClass="box3" Width="94%" ></asp:TextBox> 
+                            <cc1:AutoCompleteExtender ID="AutoCompleteExtender2" 
+                            runat="server" CompletionInterval="100" CompletionSetCount="1" 
+                            DelimiterCharacters="" Enabled="True" FirstRowSelected="True" 
+                            MinimumPrefixLength="1" ServiceMethod="sql2" ServicePath="" 
+                            ShowOnlyCurrentWordInCompletionListItem="True" 
+                            TargetControlID="txtDebitto1" UseContextKey="True" CompletionListItemCssClass="bg" 
+                            CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                            </cc1:AutoCompleteExtender> 
+                                       <asp:RequiredFieldValidator ID="RequiredFieldValidator9" runat="server" 
+                                    ControlToValidate="txtDebitto1" ErrorMessage="*" 
+                                    ValidationGroup="A"></asp:RequiredFieldValidator>
+                            
+                        </EditItemTemplate>
+                        
+                        <FooterTemplate>
+                        <asp:TextBox ID="txtDebitto2" runat="server" CssClass="box3" Width="94%" ></asp:TextBox>    
+                            <cc1:AutoCompleteExtender ID="AutoCompleteExtender2" 
+                            runat="server" CompletionInterval="100" CompletionSetCount="1" 
+                            DelimiterCharacters="" Enabled="True" FirstRowSelected="True" 
+                            MinimumPrefixLength="1" ServiceMethod="sql" ServicePath="" 
+                            ShowOnlyCurrentWordInCompletionListItem="True" 
+                            TargetControlID="txtDebitto2" UseContextKey="True" CompletionListItemCssClass="bg" 
+                            CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                            </cc1:AutoCompleteExtender>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator9" runat="server" 
+                                    ControlToValidate="txtDebitto2" ErrorMessage="*" 
+                                    ValidationGroup="B"></asp:RequiredFieldValidator>
+                        </FooterTemplate>
+                            <ItemStyle HorizontalAlign="Left" Width="30%" />
+                        </asp:TemplateField>
+                        
+                         <asp:TemplateField HeaderText="Reference">
+                        <ItemTemplate>
+                            <asp:Label ID="lblReference" runat="server" Text='<%#Eval("Refrence")%>'></asp:Label>
+                        </ItemTemplate>
+                        <EditItemTemplate>
+                        <asp:TextBox ID="txtReference1" Text='<%#Eval("Refrence")%>' runat="server" CssClass="box3"  Width="94%" Height="30Px"
+                        TextMode="MultiLine" >  </asp:TextBox>
+                        </EditItemTemplate>
+                        <FooterTemplate>
+                        <asp:TextBox ID="txtReference2" runat="server" CssClass="box3"  Width="94%"  Height="30Px" TextMode="MultiLine" >
+                        </asp:TextBox>
+                        </FooterTemplate>
+                            <ItemStyle HorizontalAlign="Left" Width="15%" />
+                        </asp:TemplateField>
+                        
+                         <asp:TemplateField HeaderText="Particulars">
+                        <ItemTemplate>
+                            <asp:Label ID="lblParticulars" runat="server" Text='<%#Eval("Particulars")%>'></asp:Label>
+                        </ItemTemplate>
+                        <EditItemTemplate>
+                        <asp:TextBox ID="txtParticulars1" Text='<%#Eval("Particulars")%>' runat="server" CssClass="box3"  Width="94%" Height="30Px"
+                          TextMode="MultiLine" ></asp:TextBox>
+                        </EditItemTemplate>
+                        
+                        <FooterTemplate>
+                        <asp:TextBox ID="txtParticulars2" runat="server" CssClass="box3"  Width="94%" Height="30Px"
+                         TextMode="MultiLine"></asp:TextBox>
+                        </FooterTemplate>                        
+                            <ItemStyle HorizontalAlign="Left" Width="15%" />
+                        </asp:TemplateField>                       
+                        
+                        
+                        <asp:TemplateField HeaderText="Amount">
+                        <ItemTemplate>
+                            <asp:Label ID="lblAmt" runat="server" Text='<%#Eval("Amount")%>'></asp:Label>
+                        </ItemTemplate>
+                        <EditItemTemplate>
+                        <asp:TextBox ID="txtAmt1"  Width="85%"  Text='<%#Eval("Amount")%>' runat="server" CssClass="box3"></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
+                                ControlToValidate="txtAmt1" ValidationGroup="A" ErrorMessage="*" ></asp:RequiredFieldValidator>
+                                
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtAmt1"                                         ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="A" ErrorMessage="*">
+                            </asp:RegularExpressionValidator>
+                            
+                        </EditItemTemplate>
+                        
+                        <FooterTemplate>
+                        <asp:TextBox ID="txtAmt2"  Width="85%"  runat="server" CssClass="box3"></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
+                                ControlToValidate="txtAmt2" ErrorMessage="*" ValidationGroup="B"></asp:RequiredFieldValidator>
+                                
+                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" 
+                                ControlToValidate="txtAmt2" ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="B" ErrorMessage="*">
+                                </asp:RegularExpressionValidator>
+                        </FooterTemplate>
+                            <ItemStyle HorizontalAlign="Right"  Width="10%"/>
+                        </asp:TemplateField>
+                       
+                        <asp:TemplateField> 
+                          <FooterTemplate>
+                          <asp:Button ID="btnAdd" runat="server" CssClass="redbox" Text=" Add "   OnClientClick=" return confirmationAdd()"
+                                CommandName="Add" ValidationGroup="B" />
+                          </FooterTemplate>               
+                            <ItemStyle Width="3%" />
+                        </asp:TemplateField>
+                    </Columns>
+                    
+                    
+                    
+                    <EmptyDataTemplate>
+                    <table cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        <td align="center">
+                            <asp:Label ID="Label2" runat="server" style="font-weight: 700" Text="Date"></asp:Label>
+                        </td>
+                        <td align="center">
+                            <asp:Label ID="Label3" runat="server" style="font-weight: 700" Text="Type"></asp:Label>
+                        </td>
+                        <td align="center">
+                            <asp:Label ID="Label4" runat="server" style="font-weight: 700" Text="Debit To"></asp:Label>
+                        </td>
+                        <td align="center">
+                            <asp:Label ID="Label5" runat="server" style="font-weight: 700" Text="Refrence"></asp:Label>
+                        </td>
+                        <td align="center">
+                            <asp:Label ID="Label6" runat="server" style="font-weight: 700" Text="Particulars"></asp:Label>
+                        </td>
+                        <td align="center">
+                            <asp:Label ID="Label7" runat="server" style="font-weight: 700" Text="Amount"></asp:Label>
+                        </td>
+                        <td>
+                            &nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td valign="top" align="center">
+                            <asp:TextBox ID="txtDate3" runat="server" CssClass="box3" Width="90px"></asp:TextBox>
+                      
+                             <cc1:CalendarExtender  ID="txtDate1_CalendarExtender" runat="server" Enabled="True" 
+                                    Format="dd-MM-yyyy" TargetControlID="txtDate3">
+                                    </cc1:CalendarExtender>
+                                    <asp:RequiredFieldValidator ID="ReqtexttxtDate1" runat="server" ValidationGroup="C"
+                                    ControlToValidate="txtDate3" ErrorMessage="*" >
+                                    </asp:RequiredFieldValidator>
+                                    <asp:RegularExpressionValidator ID="RegtexttxtDate1" runat="server" ValidationGroup="C"
+                                    ControlToValidate="txtDate3" ErrorMessage="*" 
+                                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$"   >
+                                    </asp:RegularExpressionValidator>
+                            
+                        </td>
+                        <td align="center" valign="top">
+                            <asp:DropDownList ID="DrpList3" runat="server" AutoPostBack="true"
+                                DataSourceID="SqlDataSource1" DataTextField="Description" DataValueField="Id"                                onselectedindexchanged="DrpList3_SelectedIndexChanged">
+                            </asp:DropDownList>
+                           
+                        </td>
+                        <td align="left" valign="top">
+                          <asp:TextBox ID="TxtSCE" runat="server" CssClass="box3" Width="300px"></asp:TextBox> 
+                            <cc1:AutoCompleteExtender ID="AutoCompleteExtender2" 
+                            runat="server" CompletionInterval="100" CompletionSetCount="1" 
+                            DelimiterCharacters="" Enabled="True" FirstRowSelected="True" 
+                            MinimumPrefixLength="1" ServiceMethod="sql" ServicePath="" 
+                            ShowOnlyCurrentWordInCompletionListItem="True" 
+                            TargetControlID="TxtSCE" UseContextKey="True" CompletionListItemCssClass="bg" 
+                            CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                            </cc1:AutoCompleteExtender>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator9" runat="server" 
+                                    ControlToValidate="TxtSCE" ErrorMessage="*" 
+                                    ValidationGroup="C"></asp:RequiredFieldValidator> 
+                          
+                        </td>
+                        
+                         <td align="center" valign="top">
+                          <asp:TextBox ID="TxtRefrence" runat="server" CssClass="box3" TextMode="MultiLine" Height="30Px" Width="170px">
+                          </asp:TextBox> 
+                        </td>
+                         <td align="center" valign="top">
+                          <asp:TextBox ID="TxtParticulars" runat="server" CssClass="box3" TextMode="MultiLine" Height="30Px" Width="170px">
+                          </asp:TextBox> 
+                        </td>
+                        <td align="center" valign="top">
+                            <asp:TextBox ID="txtAmt3" runat="server" CssClass="box3" Width="100px"></asp:TextBox>
+                            
+                              <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
+                                ControlToValidate="txtAmt3" ValidationGroup="C" ErrorMessage="*" ></asp:RequiredFieldValidator>
+                                
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtAmt3"                                         ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="C" ErrorMessage="*">
+                            </asp:RegularExpressionValidator>
+                            
+                        &nbsp;
+                        </td>
+                      
+                        <td valign="top">
+                            <asp:Button ID="btnAdd3" runat="server" CssClass="redbox" Text=" Add "  OnClientClick=" return confirmationAdd()"
+                                CommandName="Add1" ValidationGroup="C" />
+                        </td>
+                    </tr>
+                </table>
+                    </EmptyDataTemplate>
+                    
+                    
+                </asp:GridView>
+                
+            </td>
+        </tr>
+    </table>
+   
+     <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+                                ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                                ProviderName="System.Data.SqlClient" 
+                                SelectCommand="SELECT * FROM [tblACC_DebitType]"></asp:SqlDataSource>
+                                
+                            
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/Debit_Note.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_Accounts_Transactions_Debit_Note : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    SqlConnection con;
+    string Sid = string.Empty;
+    int Cid = 0;
+    int Fyid = 0;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            string connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+
+            Sid = Session["username"].ToString();
+            Cid = Convert.ToInt32(Session["compid"]);
+            Fyid = Convert.ToInt32(Session["finyear"]);
+
+            if (!IsPostBack)
+            {
+                this.fillgrid();
+            }
+
+            string val = "";
+            string sql = fun.select("*", "tblACC_DebitNote", "CompId='" + Cid + "' AND FinYearId<='" + Fyid + "' Order by Id Desc");
+            SqlCommand cmdsql = new SqlCommand(sql, con);
+            SqlDataAdapter dasql = new SqlDataAdapter(cmdsql);
+            DataSet dssql = new DataSet();
+            dasql.Fill(dssql);
+            if (dssql.Tables[0].Rows.Count > 0)
+            {
+                val = ((DropDownList)GridView1.FooterRow.FindControl("DrpList2")).SelectedValue;
+            }
+            else
+            {
+                val = ((DropDownList)GridView1.Controls[0].Controls[0].FindControl("DrpList3")).SelectedValue;
+            }
+
+            Session["val1"] = val;
+        }
+         catch (Exception er) { }
+    }
+
+    public void fillgrid()
+    {
+        try
+        {
+            con.Open();
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Date", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("DebitNo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Types", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("SCE", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Refrence", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Particulars", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Amount", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("typ", typeof(string)));
+
+            string sql = fun.select("*", "tblACC_DebitNote", "CompId='" + Cid + "' AND FinYearId<='" + Fyid + "' Order by Id Desc");
+
+            SqlCommand cmdsql = new SqlCommand(sql, con);
+            SqlDataAdapter dasql = new SqlDataAdapter(cmdsql);
+            DataSet dssql = new DataSet();
+            dasql.Fill(dssql);
+
+            DataRow dr;
+
+            for (int d = 0; d < dssql.Tables[0].Rows.Count; d++)
+            {
+                dr = dt.NewRow();
+
+                dr[0] = dssql.Tables[0].Rows[d]["Id"].ToString();
+                dr[1] = dssql.Tables[0].Rows[d]["Date"].ToString();
+                dr[2] = dssql.Tables[0].Rows[d]["DebitNo"].ToString();
+
+                string sql2 = fun.select("*", "tblACC_DebitType", "Id='" + dssql.Tables[0].Rows[d]["Types"].ToString() + "'");
+                SqlCommand cmdsql2 = new SqlCommand(sql2, con);
+                SqlDataAdapter dasql2 = new SqlDataAdapter(cmdsql2);
+                DataSet dssql2 = new DataSet();
+                dasql2.Fill(dssql2);
+
+                dr[3] = dssql2.Tables[0].Rows[0]["Description"].ToString();
+                dr[4] = fun.EmpCustSupplierNames(Convert.ToInt32(dssql.Tables[0].Rows[d]["Types"].ToString()), dssql.Tables[0].Rows[d]["SCE"].ToString(), Cid);
+                dr[5] = dssql.Tables[0].Rows[d]["Refrence"].ToString();
+                dr[6] = dssql.Tables[0].Rows[d]["Particulars"].ToString();
+                dr[7] = dssql.Tables[0].Rows[d]["Amount"].ToString();
+                dr[8] = dssql.Tables[0].Rows[d]["Types"].ToString();
+
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }
+
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
+
+            con.Close();
+
+        }
+        catch (Exception er) { }
+    }
+
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+       try
+        {
+            string sysDate = fun.getCurrDate();
+            string sysTime = fun.getCurrTime();
+
+            if (e.CommandName == "Add")
+            {
+                GridViewRow row = (GridViewRow)(((Button)e.CommandSource).NamingContainer);
+
+                string date = ((TextBox)row.FindControl("txtDate2")).Text;
+                int typ = Convert.ToInt32(((DropDownList)row.FindControl("DrpList2")).SelectedValue);
+                string defor = fun.getCode(((TextBox)row.FindControl("txtDebitto2")).Text);
+                string refr = ((TextBox)row.FindControl("txtReference2")).Text;
+                string part = ((TextBox)row.FindControl("txtParticulars2")).Text;
+                string amt = ((TextBox)row.FindControl("txtAmt2")).Text;
+
+                string Strpvevno = fun.select("DebitNo", "tblACC_DebitNote", "CompId='" + Cid + "' AND FinYearId='" + Fyid + "' order by DebitNo desc");
+
+                SqlCommand cmdpvevno = new SqlCommand(Strpvevno, con);
+                SqlDataAdapter DApvevno = new SqlDataAdapter(cmdpvevno);
+                DataSet DSpvevno = new DataSet();
+                DApvevno.Fill(DSpvevno, "tblACC_DebitNote");
+                string PVEVNo = "";
+
+                if (DSpvevno.Tables[0].Rows.Count > 0)
+                {
+                    PVEVNo = (Convert.ToInt32(DSpvevno.Tables[0].Rows[0]["DebitNo"]) + 1).ToString("D4");
+                }
+                else
+                {
+                    PVEVNo = "0001";
+                }
+
+
+                int EmpSupId = fun.chkEmpCustSupplierCode(defor, typ, Cid);
+                 if (EmpSupId == 1 && ((DropDownList)row.FindControl("DrpList2")).SelectedValue != "0" && ((TextBox)row.FindControl("txtDebitto2")).Text != "" && ((TextBox)row.FindControl("txtDate2")).Text != "" && fun.DateValidation(((TextBox)row.FindControl("txtDate2")).Text) == true && amt != "" && fun.NumberValidationQty(amt) == true)
+                 {
+                     string SqlInsert = fun.insert("tblACC_DebitNote", "SysDate,SysTime,CompId,SessionId,FinYearId,Date,DebitNo,SCE,Amount,Refrence,Particulars,Types", "'" + sysDate + "','" + sysTime + "','" + Cid + "','" + Sid + "','" + Fyid + "','" + date + "','" + PVEVNo + "','" + defor + "','" + Convert.ToDouble(decimal.Parse(amt).ToString("N2")) + "','" + refr + "','" + part + "','" + typ + "'");
+                    SqlCommand cmd = new SqlCommand(SqlInsert, con);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                    Page.Response.Redirect(Page.Request.Url.ToString(), true);
+                }
+                else
+                {
+                    string myStringVariable = string.Empty;
+                    myStringVariable = "Invalid data entry.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable + "');", true);
+                }
+
+                
+            }
+
+            if (e.CommandName == "Add1")
+            {
+                GridViewRow row = (GridViewRow)(((Button)e.CommandSource).NamingContainer);
+
+                string date = ((TextBox)row.FindControl("txtDate3")).Text;
+                int typ =Convert.ToInt32( ((DropDownList)row.FindControl("DrpList3")).SelectedValue);
+                string defor = fun.getCode(((TextBox)row.FindControl("TxtSCE")).Text);
+                string refr = ((TextBox)row.FindControl("TxtRefrence")).Text;
+                string part = ((TextBox)row.FindControl("TxtParticulars")).Text;
+                string amt = ((TextBox)row.FindControl("txtAmt3")).Text;
+
+                string Strpvevno = fun.select("DebitNo", "tblACC_DebitNote", "CompId='" + Cid + "' AND FinYearId='" + Fyid + "' order by DebitNo desc");
+
+                SqlCommand cmdpvevno = new SqlCommand(Strpvevno, con);
+                SqlDataAdapter DApvevno = new SqlDataAdapter(cmdpvevno);
+                DataSet DSpvevno = new DataSet();
+                DApvevno.Fill(DSpvevno);
+                string PVEVNo = "";
+                             
+                if (DSpvevno.Tables[0].Rows.Count > 0)
+                {
+                    PVEVNo = (Convert.ToInt32(DSpvevno.Tables[0].Rows[0]["DebitNo"]) + 1).ToString("D4");
+                }
+                else
+                {
+                    PVEVNo = "0001";
+                }
+
+                int EmpSupId = fun.chkEmpCustSupplierCode(defor, typ, Cid);
+
+                if (EmpSupId == 1 && ((DropDownList)row.FindControl("DrpList3")).SelectedValue != "0" && ((TextBox)row.FindControl("TxtSCE")).Text != "" && ((TextBox)row.FindControl("txtDate3")).Text != "" && fun.DateValidation(((TextBox)row.FindControl("txtDate3")).Text) == true && amt != "" && fun.NumberValidationQty(amt) == true)
+                {
+                    string SqlInsert = fun.insert("tblACC_DebitNote", "SysDate,SysTime,CompId,SessionId,FinYearId,Date,DebitNo,SCE,Amount,Refrence,Particulars,Types", "'" + sysDate + "','" + sysTime + "','" + Cid + "','" + Sid + "','" + Fyid + "','" + date + "','" + PVEVNo + "','" + defor + "','" + Convert.ToDouble(decimal.Parse(amt).ToString("N2")) + "','" + refr + "','" + part + "','" + typ + "'");
+                    SqlCommand cmd = new SqlCommand(SqlInsert, con);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                    Page.Response.Redirect(Page.Request.Url.ToString(), true);
+                }
+                else
+                {
+                    string myStringVariable = string.Empty;
+                    myStringVariable = "Invalid data entry.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable + "');", true);
+                }
+
+            }
+        }
+
+    catch (Exception er) { }
+    }
+
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            GridView1.PageIndex = e.NewPageIndex;
+
+            this.fillgrid();
+        }
+        catch (Exception er) { }
+    }
+
+    protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+        try
+        {
+            GridView1.EditIndex = e.NewEditIndex;
+            this.fillgrid();
+            int index1 = GridView1.EditIndex;
+            GridViewRow row = GridView1.Rows[index1];
+           ((DropDownList)row.FindControl("DrpList1")).SelectedValue = ((Label)row.FindControl("lblType1")).Text;
+        }
+        catch (Exception er) { }
+    }
+
+    protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+        try
+        {
+            int index1 = GridView1.EditIndex;
+            GridViewRow row = GridView1.Rows[index1];
+            int id1 = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Value);
+            string date = ((TextBox)row.FindControl("txtDate1")).Text;
+            int typ =Convert.ToInt32( ((DropDownList)row.FindControl("DrpList1")).SelectedValue);
+            string defor = fun.getCode(((TextBox)row.FindControl("txtDebitto1")).Text);
+            string refr = ((TextBox)row.FindControl("txtReference1")).Text;
+            string part = ((TextBox)row.FindControl("txtParticulars1")).Text;
+            string amt = ((TextBox)row.FindControl("txtAmt1")).Text;
+            int EmpSupId = fun.chkEmpCustSupplierCode(defor, typ, Cid);
+            if (EmpSupId == 1 && ((DropDownList)row.FindControl("DrpList1")).SelectedValue != "0" && ((TextBox)row.FindControl("txtDebitto1")).Text != "" && ((TextBox)row.FindControl("txtDate1")).Text != "" && fun.DateValidation(((TextBox)row.FindControl("txtDate1")).Text) == true && amt != "" && fun.NumberValidationQty(amt) == true)
+            {
+                string sql1 = fun.update("tblACC_DebitNote", "Date='" + date + "',SCE='" + defor + "',Amount='" + Convert.ToDouble(decimal.Parse(amt).ToString("N2")) + "',Refrence='" + refr + "',Particulars='" + part + "',Types='" + typ + "'", "Id=" + id1 + " And CompId='" + Cid + "'");
+                SqlCommand cmd1 = new SqlCommand(sql1, con);
+                con.Open();
+                cmd1.ExecuteNonQuery();
+                con.Close();
+
+                GridView1.EditIndex = -1;
+                this.fillgrid();
+
+                Page.Response.Redirect(Page.Request.Url.ToString(), true);
+            }
+        }
+        catch (Exception s)
+        {
+        }
+    }
+
+    protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+        try
+        {
+            int id = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Value);
+            SqlCommand cmd = new SqlCommand(fun.delete("tblACC_DebitNote", "Id='" + id + "' And CompId='" + Cid + "'"), con);
+            con.Open();
+            cmd.ExecuteNonQuery();
+            con.Close();
+            Page.Response.Redirect(Page.Request.Url.ToString(), true);
+        }
+        catch (Exception er) { }
+
+    }
+
+    protected void GridView1_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    {
+        GridView1.EditIndex = -1;
+        this.fillgrid();
+    }
+
+    protected void DrpList1_SelectedIndexChanged(object sender, EventArgs e)
+    {        
+       DropDownList x = (DropDownList)sender;
+       GridViewRow grv = (GridViewRow)x.NamingContainer;
+       ((TextBox)grv.FindControl("txtDebitto1")).Text = "";
+       string a = x.SelectedValue;
+       Session["valE1"] = a;
+       
+    }
+
+    protected void DrpList3_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ((TextBox)GridView1.Controls[0].Controls[0].FindControl("TxtSCE")).Text = "";
+    }
+
+    protected void DrpList2_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ((TextBox)GridView1.FooterRow.FindControl("txtDebitto2")).Text = "";
+    }    
+
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] sql(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        int CompId = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        con.Open();
+
+        string cmdStr = "";
+
+        string val = HttpContext.Current.Session["Val1"].ToString();
+
+        switch (val)
+        {   
+               case "1":
+                cmdStr = fun.select("EmpId,EmployeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "' Order by EmployeeName");
+                break;            
+                 case "2":
+                cmdStr = fun.select("CustomerId,CustomerName", "SD_Cust_master", "CompId='" + CompId + "' Order by CustomerName");
+                break;
+                case "3":
+                cmdStr = fun.select("SupplierId,SupplierName", "tblMM_Supplier_master", "CompId='" + CompId + "' Order by SupplierName");
+                break;
+        }     
+
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds);
+        con.Close();
+
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                //if (main.Length == 10)
+                //    break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }    
+
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] sql2(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        int CompId = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        con.Open();
+
+        string cmdStr = "";
+
+        string val = HttpContext.Current.Session["ValE1"].ToString();
+
+        switch (val)
+        {
+            case "1":
+                cmdStr = fun.select("EmpId,EmployeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "' Order by EmployeeName");
+                break;
+            case "2":
+                cmdStr = fun.select("CustomerId,CustomerName", "SD_Cust_master", "CompId='" + CompId + "' Order by CustomerName");
+                break;
+            case "3":
+                cmdStr = fun.select("SupplierId,SupplierName", "tblMM_Supplier_master", "CompId='" + CompId + "' Order by SupplierName");
+                break;
+        }
+
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds);
+        con.Close();
+
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                //if (main.Length == 10)
+                //    break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }
+
+
+}
+
+
+

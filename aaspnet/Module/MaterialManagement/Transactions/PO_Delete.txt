@@ -1,0 +1,387 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Transactions/PO_Delete.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="PO_Delete.aspx.cs" Inherits="Module_MaterialManagement_Transactions_PO_Delete" Title="ERP" Theme="Default" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style2
+        {
+            height: 26px;
+        }
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+ <table align="left" cellpadding="0" cellspacing="0"
+        width="100%">
+        
+                            <tr>
+                        <td align="left" valign="middle"  scope="col" 
+                style="background:url(../../../images/hdbg.JPG)" class="fontcsswhite" height="21">
+        &nbsp;<b>PO - Delete</b></td>
+                    </tr>
+        <tr>
+            <td>
+                <table cellpadding="0" cellspacing="0" width="80%" align="left">
+
+                     <tr>
+                        <td height="25">
+                       
+                            &nbsp;
+                            <asp:DropDownList ID="drpfield" runat="server" CssClass="box3" 
+                                onselectedindexchanged="drpfield_SelectedIndexChanged" AutoPostBack="True">
+                                <asp:ListItem Value="0">Employee Name</asp:ListItem>
+                                <asp:ListItem Value="1">PO No</asp:ListItem>
+                            </asp:DropDownList>
+&nbsp;
+                <asp:TextBox ID="txtEmpName" runat="server" CssClass="box3" Width="350px"></asp:TextBox>
+                             
+                            <cc1:AutoCompleteExtender ID="txtEmpName_AutoCompleteExtender" runat="server" 
+                                DelimiterCharacters="" Enabled="True" ServiceMethod="GetCompletionList" 
+                                ServicePath="" TargetControlID="txtEmpName" UseContextKey="True" CompletionInterval="100" CompletionSetCount="2" FirstRowSelected="True" MinimumPrefixLength="1" ShowOnlyCurrentWordInCompletionListItem="True" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                            </cc1:AutoCompleteExtender>
+                             
+                            <asp:TextBox ID="txtpoNo" runat="server"  Visible="False" CssClass="box3"></asp:TextBox>
+&nbsp;<asp:Button ID="btnSearch" runat="server" CssClass="redbox"  Text="Search" 
+                                onclick="btnSearch_Click" />
+                        &nbsp;<asp:Button ID="btnCancel" runat="server" CssClass="redbox" 
+                                onclick="btnCancel_Click" Text="Cancel" />
+                        </td>
+                    <tr>
+                        <td>
+                            <asp:GridView ID="GridView2" runat="server"
+                                PageSize="20" Width="100%" 
+                                AutoGenerateColumns="False" AllowPaging="True" 
+                                CssClass="yui-datatable-theme" onrowcommand="GridView2_RowCommand" 
+                                onpageindexchanging="GridView2_PageIndexChanging1">
+                                <FooterStyle Wrap="True"></FooterStyle>
+                                  <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                                <PagerSettings PageButtonCount="40" />
+                <Columns>
+               <asp:TemplateField HeaderText="SN" ItemStyle-HorizontalAlign="Right">
+                <ItemTemplate><%#Container.DataItemIndex+1%></ItemTemplate>             
+                <HeaderStyle Font-Size="10pt" />
+                <ItemStyle HorizontalAlign="Right" VerticalAlign="Top" />
+                 </asp:TemplateField>
+                           <asp:TemplateField>
+                           <ItemTemplate>
+                           <asp:LinkButton ID ="lnkButton" Text="Select" runat ="server" CommandName="sel">
+                           </asp:LinkButton>
+                           </ItemTemplate>
+                               <ItemStyle HorizontalAlign="Center" />
+                           </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Id" Visible="false">
+                          <ItemTemplate>
+                        <asp:Label ID="lblId" Text='<%# Eval("Id") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                         </asp:TemplateField>
+                           <asp:TemplateField HeaderText="Fin Year">
+                          <ItemTemplate>
+                        <asp:Label ID="lblFinYear" Text='<%# Eval("FinYear") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                        <ItemStyle HorizontalAlign="Center" />
+                         </asp:TemplateField>
+                         <asp:TemplateField HeaderText="PO No">
+                        <ItemTemplate>
+                        <asp:Label ID="lblpono" Text='<%# Eval("PONo") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                       
+                        <asp:TemplateField HeaderText="Date">
+                            <ItemStyle HorizontalAlign="Center" />
+                            <ItemTemplate>
+                            <asp:Label ID="lblDate" runat="server" Text='<%# Eval("Date") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                             
+                        <asp:TemplateField HeaderText="Amd No">
+                        <ItemTemplate>
+                        <asp:Label ID="lblTime" Text='<%# Eval("AmdNo") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+
+                        <asp:TemplateField HeaderText="Gen. By">
+                        <ItemTemplate>
+                        <asp:Label ID="lblGenBy" Text='<%# Eval("GenBy") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle Width="50%" />
+                        </asp:TemplateField>
+                        
+                </Columns>
+               <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                    <FooterStyle Wrap="True">
+                    </FooterStyle>
+                            </asp:GridView>
+                        </td>
+                    </tr>
+                    </table>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Transactions/PO_Delete.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_MaterialManagement_Transactions_PO_Delete : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string SupCode = "";
+    int CompId = 0;
+    string po = "";
+    string emp = "";
+    string FyId = "";
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            SupCode = Request.QueryString["Code"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+            FyId = Session["finyear"].ToString();
+
+            if (!IsPostBack)
+            {
+                this.LoadData(po, emp);
+            }
+        }
+        catch (Exception et)
+        {
+        }
+    }
+
+    public void LoadData(string poNo, string empid)
+    {
+        string str = fun.Connection();
+        SqlConnection con = new SqlConnection(str);
+        DataTable dt = new DataTable();
+
+        con.Open();
+        try
+        {
+           
+            dt.Columns.Add(new System.Data.DataColumn("PONo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Date", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("AmdNo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("GenBy", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("FinYear", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(string)));
+
+            DataRow dr;
+
+            string x = "";
+            if (drpfield.SelectedValue == "1")
+            {
+                if (txtpoNo.Text != "")
+                {
+                    x = " AND PONo='" + txtpoNo.Text + "'";
+                }
+            }
+            string y = "";
+            if (drpfield.SelectedValue == "0")
+            {
+                if (txtEmpName.Text != "")
+                {
+                    y = " AND SessionId='" + fun.getCode(txtEmpName.Text) + "'";
+                }
+            }
+
+            string StrSql = fun.select("Id,PONo,FinYearId,SysDate,SysTime,SessionId,AmendmentNo", "tblMM_PO_Master", "SupplierId='" + SupCode + "' AND FinYearId<='" + FyId + "' AND CompId='" + CompId + "'" + x + y + " Order By PONo Desc");
+
+            SqlCommand cmdsupId = new SqlCommand(StrSql, con);
+            SqlDataAdapter dasupId = new SqlDataAdapter(cmdsupId);
+            DataSet DSSql = new DataSet();
+            dasupId.Fill(DSSql);
+
+            for (int i = 0; i < DSSql.Tables[0].Rows.Count; i++)
+            {
+
+                dr = dt.NewRow();
+
+                // For Gen. By
+                string sqlGenBy = fun.select("Title+'. '+EmployeeName AS GenBy", "tblHR_OfficeStaff", "EmpId='" + DSSql.Tables[0].Rows[i]["SessionId"].ToString() + "'AND CompId='"+CompId+"'");
+
+                SqlCommand cmdGenBy = new SqlCommand(sqlGenBy, con);
+                SqlDataAdapter daGenBy = new SqlDataAdapter(cmdGenBy);
+                DataSet DSGenBy = new DataSet();
+                daGenBy.Fill(DSGenBy);
+
+                if (DSGenBy.Tables[0].Rows.Count > 0)
+                {
+                    dr[0] = DSSql.Tables[0].Rows[i]["PONo"].ToString();
+                    string Date = fun.FromDate(DSSql.Tables[0].Rows[i]["SysDate"].ToString());
+                    dr[1] = Date;
+                    dr[2] = DSSql.Tables[0].Rows[i]["AmendmentNo"].ToString();
+                    dr[3] = DSGenBy.Tables[0].Rows[0]["GenBy"].ToString();
+
+                    //For Fin Year
+                    string sqlFinYear = fun.select("FinYear", "tblFinancial_master", "CompId='" + CompId + "' AND FinYearId='" + DSSql.Tables[0].Rows[i]["FinYearId"].ToString() + "'");
+                    SqlCommand cmdFinYear = new SqlCommand(sqlFinYear, con);
+                    SqlDataAdapter daFinYear = new SqlDataAdapter(cmdFinYear);
+                    DataSet DSFinYear = new DataSet();
+                    daFinYear.Fill(DSFinYear);
+
+                    dr[4] = DSFinYear.Tables[0].Rows[0]["FinYear"].ToString();
+                    dr[5] = DSSql.Tables[0].Rows[i]["Id"].ToString();
+
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+            }
+
+            GridView2.DataSource = dt;
+            GridView2.DataBind();
+
+        }
+        catch (Exception ex)
+        { }
+      finally
+        {
+            con.Close();
+        }
+    }
+
+    protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView2.PageIndex = e.NewPageIndex;
+        this.LoadData(po, emp);
+    }
+
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        string str = fun.Connection();
+        SqlConnection con = new SqlConnection(str);
+
+        try
+        {
+            if (e.CommandName == "sel")
+            {
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                string pono = ((Label)row.FindControl("lblpono")).Text;
+                string mid = ((Label)row.FindControl("lblId")).Text;
+
+                string StrFlag = fun.select("PRSPRFlag", "tblMM_PO_Master", "SupplierId='" + SupCode + "' And tblMM_PO_Master.PONo='" + pono + "' AND CompId='" + CompId + "'");
+                SqlCommand cmdFlag = new SqlCommand(StrFlag, con);
+                SqlDataAdapter daFlag = new SqlDataAdapter(cmdFlag);
+                DataSet DSFlag = new DataSet();
+                daFlag.Fill(DSFlag);
+
+                Response.Redirect("PO_Delete_Details.aspx?mid=" + mid + "&pono=" + pono + "&Code=" + SupCode + "&ModId=6&SubModId=35");
+
+            }
+        }
+        catch (Exception ex) { }
+        finally
+        { con.Close(); }
+    }
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("PO_Delete_Supplier.aspx?ModId=6&SubModId=35");
+    }
+    protected void drpfield_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (drpfield.SelectedValue == "1")
+        {
+            txtpoNo.Visible = true;
+            txtpoNo.Text = "";
+            txtEmpName.Visible = false;
+            this.LoadData(po, emp);
+        }
+        else
+        {
+            txtpoNo.Visible = false;
+            txtEmpName.Visible = true;
+            txtEmpName.Text = "";
+            this.LoadData(po, emp);
+        }
+    }
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        this.LoadData(txtpoNo.Text, txtEmpName.Text);
+    }
+
+    protected void GridView2_PageIndexChanging1(object sender, GridViewPageEventArgs e)
+    {
+        GridView2.PageIndex = e.NewPageIndex;
+        this.LoadData(po, emp);
+    }
+
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] GetCompletionList(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        int CompId = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        con.Open();
+        string cmdStr = fun.select("EmpId,EmployeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "'");
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds, "tblHR_OfficeStaff");
+        con.Close();
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                //if (main.Length == 10)
+                //    break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }
+}

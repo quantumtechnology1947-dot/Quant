@@ -1,0 +1,338 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Transactions/GoodsReceivedReceipt_GRR_Edit.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="GoodsReceivedReceipt_GRR_Edit.aspx.cs" Inherits="Module_Inventory_Transactions_GoodsReceivedReceipt_GRR_Edit" Title="ERP" Theme ="Default" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />  
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+      <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style2
+        {
+            height: 27px;
+        }
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="left" cellpadding="0" cellspacing="0"  width ="100%">
+        <tr>
+            <td align="left" valign="middle" 
+                style="background:url(../../../images/hdbg.JPG)" height="21" 
+                class="fontcsswhite"><b>&nbsp;Goods Received Receipt [GRR] - Edit</b></td>
+        </tr>
+        <tr>
+            <td class="style2">
+&nbsp;<asp:Label ID="Label2" runat="server" Text="Supplier :"></asp:Label>
+&nbsp;<asp:TextBox ID="txtSupplier" runat="server" Width="320px" CssClass="box3"></asp:TextBox>
+                <cc1:AutoCompleteExtender ID="txtSupplier_AutoCompleteExtender1" 
+                    runat="server" CompletionInterval="100" CompletionSetCount="1"
+                    DelimiterCharacters="" Enabled="True" FirstRowSelected="True"
+                    MinimumPrefixLength="1" ServiceMethod="sql" ServicePath="" 
+                    ShowOnlyCurrentWordInCompletionListItem="True" 
+                    TargetControlID="txtSupplier" UseContextKey="true" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                </cc1:AutoCompleteExtender>                           
+            &nbsp;<asp:Button ID="btnSearch" runat="server" CssClass="redbox" 
+                    Text="Search" onclick="btnSearch_Click" />
+                           
+            </td>
+        </tr>       
+        <tr>
+            <td align="left">
+                <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" 
+                    CssClass="yui-datatable-theme" DataKeyNames="Id" AllowPaging="True" 
+                    Width="100%" onrowcommand="GridView2_RowCommand" 
+                    onpageindexchanging="GridView2_PageIndexChanging" PageSize="20">
+                    <PagerSettings PageButtonCount="40" />
+                    <Columns>
+                        <asp:TemplateField HeaderText="SN">
+                        <ItemTemplate><%#Container.DataItemIndex+1  %></ItemTemplate>
+                                    <HeaderStyle Font-Size="10pt" />
+                                    <ItemStyle HorizontalAlign="Right" VerticalAlign="Top" Width="3%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                        <ItemTemplate>
+                        <asp:LinkButton ID="btnlnk" runat="Server" CommandName="Sel" Text="Select" />
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="3%" />
+                        </asp:TemplateField>
+                         <asp:TemplateField HeaderText="Id" Visible="false">
+                        <ItemTemplate>
+                        <asp:Label ID="lblId" runat="Server" Text='<%#Eval("Id")%>'/>
+                        </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Fin Year Id" Visible="false">
+                        <ItemTemplate>
+                        <asp:Label ID="lblFinId" runat="Server" Text='<%#Eval("FinYearId")%>'/>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="8%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Fin Year">
+                        <ItemTemplate>
+                        <asp:Label ID="lblFin" runat="Server" Text='<%#Eval("FinYear")%>'/>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="7%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="GRR No">
+                        <ItemTemplate>
+                        <asp:Label ID="lblGrrNo" runat="Server" Text='<%#Eval("GRRNo")%>'/>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="7%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Date">
+                        <ItemTemplate>
+                        <asp:Label ID="lbldate" runat="Server" Text='<%#Eval("SysDate")%>'/>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="7%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="GIN Id" Visible="false">
+                         <ItemTemplate>
+                        <asp:Label ID="lblGinId" runat="Server" Text='<%#Eval("GINId")%>'/>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="7%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="GIN No">
+                         <ItemTemplate>
+                        <asp:Label ID="lblGin" runat="Server" Text='<%#Eval("GINNo")%>'/>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="7%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="PONo">
+                        <ItemTemplate>
+                        <asp:Label ID="lblpo" runat="Server" Text='<%#Eval("PONo")%>'/>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="7%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Name of Supplier">
+                        <ItemTemplate>
+                        <asp:Label ID="lblsupp" runat="Server" Text='<%#Eval("Supplier")%>'/>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Left" Width="35%" />
+                        </asp:TemplateField>
+                         <asp:TemplateField HeaderText="Sup Id" Visible="false">
+                        <ItemTemplate>
+                        <asp:Label ID="lblsupId" runat="Server" Text='<%#Eval("SupId")%>'/>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="8%" />
+                        </asp:TemplateField>                        
+                        
+                        <asp:TemplateField HeaderText="Challan No">
+                        <ItemTemplate>
+                        <asp:Label ID="lblchno" runat="Server" Text='<%#Eval("ChNO")%>'/>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="8%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Challan Date">
+                        <ItemTemplate>
+                        <asp:Label ID="lblchdt" runat="Server" Text='<%#Eval("ChDT")%>'/>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="9%" />
+                        </asp:TemplateField>
+                        
+                    </Columns>
+                     <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    
+                    </EmptyDataTemplate>
+                                            <FooterStyle Wrap="True">
+                                            </FooterStyle>
+                                            <%--<HeaderStyle  Wrap="false" />--%>
+                    
+                </asp:GridView>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Transactions/GoodsReceivedReceipt_GRR_Edit.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_Inventory_Transactions_GoodsReceivedReceipt_GRR_Edit : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();    
+    SqlConnection con;
+
+    string sId = "";
+    int FinYearId = 0;
+    int CompId = 0;
+    string SupId = "";
+    string connStr ="";
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            sId = Session["username"].ToString();
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            CompId = Convert.ToInt32(Session["compid"]);
+            if (!IsPostBack)
+            {
+                this.loadData(SupId);
+            }
+        }
+        catch (Exception ex) { }
+    }
+
+    public void loadData(string spid)
+    {
+      try
+        {            
+            con.Open();
+            string x = "";
+            if (spid != "")
+            {
+                x = " And tblMM_PO_Master.SupplierId='" + spid + "'";
+            } 
+            SqlDataAdapter da = new SqlDataAdapter("Sp_GRR_Edit", con);
+            da.SelectCommand.CommandType = CommandType.StoredProcedure;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@CompId", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@CompId"].Value = CompId;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@FinId", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@FinId"].Value = FinYearId;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@x", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@x"].Value = x;
+            DataSet DSitem = new DataSet();
+            da.Fill(DSitem);
+            GridView2.DataSource = DSitem;
+            GridView2.DataBind();   
+            con.Close();
+
+        }
+        catch (Exception ex) { }
+    }
+
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] sql(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        int CompId =Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        SqlConnection con = new SqlConnection(connStr);
+        con.Open();
+        string cmdStr = fun.select("SupplierId,SupplierName", "tblMM_Supplier_master", "CompId='" + CompId + "'");
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds, "tblMM_Supplier_master");
+        con.Close();
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                //if (main.Length == 10)
+                //    break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }
+
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            if (e.CommandName == "Sel")
+            {
+
+                
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+
+                string Supid = ((Label)row.FindControl("lblsupId")).Text;
+                string GrrNo = ((Label)row.FindControl("lblGrrNo")).Text;
+                string GinNo = ((Label)row.FindControl("lblGin")).Text;
+                string GinId = ((Label)row.FindControl("lblGinId")).Text;
+                string poNo = ((Label)row.FindControl("lblpo")).Text;
+                int fyid = Convert.ToInt32(((Label)row.FindControl("lblFinId")).Text);
+                int Id = Convert.ToInt32(((Label)row.FindControl("lblId")).Text);
+               
+
+               
+               Response.Redirect("GoodsReceivedReceipt_GRR_Edit_Details.aspx?Id=" + Id + "&SupId=" + Supid + "&GRRNo=" + GrrNo + "&GINNo=" + GinNo + "&GINId=" + GinId + "&PONo=" + poNo + "&FyId=" + fyid + "&ModId=9&SubModId=38");
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {    try
+        {     
+        GridView2.PageIndex = e.NewPageIndex;
+        string sid = "";
+       
+            sid = fun.getCode(txtSupplier.Text);
+
+            if (sid != "")
+            {
+                this.loadData(sid);
+            }
+            else
+            {
+                this.loadData(SupId);
+            }
+        }
+        catch (Exception ex)
+        { }
+    }
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        string sid = "";
+        try
+        {
+            sid = fun.getCode(txtSupplier.Text);
+
+            if (sid != "")
+            {
+                this.loadData(sid);
+            }
+            else
+            {
+                this.loadData(SupId);
+            }
+        }
+        catch (Exception ex)
+        { }
+
+    }
+}
+

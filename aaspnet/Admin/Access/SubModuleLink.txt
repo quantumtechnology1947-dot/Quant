@@ -1,0 +1,236 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Admin/Access/SubModuleLink.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="SubModuleLink.aspx.cs" Inherits="Admin_Access_SubModuleLink" Title="ERP" Theme="Default" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+    <script src="../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+    .style1
+    {
+        width: 100%;
+    }
+    .style3
+    {
+        width: 135px;
+    }
+</style>
+ 
+
+<link type="text/css" href="../../Css/yui-datatable.css" rel="stylesheet" />
+    <link href="../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+    <p><br /></p><p></p>
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="center" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+    <td >
+        
+        &nbsp;</td>
+</tr>
+<tr>
+    <td >
+        
+    </td>
+</tr>
+ <tr>
+                <td>
+                    <table align="center" cellpadding="0" cellspacing="0" class="box3" width="500">
+                        <tr>
+                            <td colspan="2" style="background:url('../../images/hdbg.JPG')" height="21" 
+                                class="fontcsswhite">&nbsp;<strong>Sub Module Link</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="style3">
+                                &nbsp;&nbsp;<asp:Label ID="Label2" runat="server" Text="Sub Module Name "></asp:Label>
+                            </td>
+                            <td height="25">
+        <asp:DropDownList ID="DrpSubModuleName" runat="server" AutoPostBack="True" 
+            DataSourceID="SqlDataSource1"
+            DataValueField="SubModId" CssClass="box3" DataTextField="SubModName">
+        </asp:DropDownList>
+                                <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+                                    ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                                    ProviderName="System.Data.SqlClient" 
+                                    SelectCommand="SELECT [SubModId], [SubModName] FROM [tblSubModule_Master] Order by [SubModId]">
+                                </asp:SqlDataSource>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="style3">
+                                &nbsp;&nbsp;<asp:Label ID="Label3" runat="server" Text="Access "></asp:Label>
+                            </td>
+                            <td height="25">
+        <asp:DropDownList ID="DrpAccess" runat="server" AutoPostBack="True" CssClass="box3">
+            <asp:ListItem Value="1">New</asp:ListItem>
+            <asp:ListItem Value="2">Edit</asp:ListItem>
+            <asp:ListItem Value="3">Delete</asp:ListItem>
+            <asp:ListItem Value="4">Print</asp:ListItem>
+        </asp:DropDownList>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="style3">
+                                &nbsp; <asp:Label ID="Label4" runat="server" Text="Link Page "></asp:Label>
+                            </td>
+                            <td height="25">
+        <asp:TextBox ID="TxtLinkPage" runat="server" CssClass="box3"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="style3" height="35">
+                                &nbsp;</td>
+                            <td>
+        <asp:Button ID="BtnSave" runat="server" onclick="BtnSave_Click" Text="Save" CssClass="redbox" />
+                                <asp:Button ID="Button1" runat="server" CssClass="redbox" 
+                                    onclick="Button1_Click" Text="Cancel" />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    &nbsp;</td>
+            </tr>
+            <tr>
+                <td align="center">
+                 <asp:Panel ID="Panel1" runat ="server" ScrollBars="Auto" Width="70%" Height="315px" >
+        <asp:GridView ID="GridView2" Width="100%" runat="server" 
+            AutoGenerateColumns="False" 
+            DataKeyNames="SubModLinkId" DataSourceID="LocalSqlServer" 
+                        CssClass="yui-datatable-theme">
+            <Columns>
+                <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" >
+                    <ItemStyle Width="4%" HorizontalAlign="Center" />
+                </asp:CommandField>
+                <asp:BoundField DataField="SubModLinkId" HeaderText="SubModLinkId" 
+                    InsertVisible="False" ReadOnly="True" SortExpression="SubModLinkId" >
+                    <ItemStyle Width="5%" HorizontalAlign="Center" />
+                </asp:BoundField>
+                <asp:BoundField DataField="SubModId" HeaderText="SubModId" SortExpression="SubModId" Visible ="false" >
+                    <ItemStyle Width="8%" HorizontalAlign="Center" />
+                </asp:BoundField>
+                
+                 <asp:TemplateField HeaderText="Sub Module Id - Sub Module Name" 
+                    SortExpression="SubModuleName">
+                <ItemTemplate>
+                <asp:Label ID="lblSubModuleName" runat="server" Text='<%#Eval("SubModuleName") %>'> </asp:Label>
+                </ItemTemplate>                      
+                    <ItemStyle Width="20%" />
+                </asp:TemplateField>
+                
+                
+                <asp:BoundField DataField="Access" HeaderText="Access" 
+                    SortExpression="Access" >
+                    <ItemStyle Width="5%" />
+                </asp:BoundField>
+                <asp:BoundField DataField="LinkPage" HeaderText="LinkPage" 
+                    SortExpression="LinkPage" >
+                    <ItemStyle Width="20%" />
+                </asp:BoundField>
+            </Columns>
+            
+        </asp:GridView>
+                    <asp:SqlDataSource ID="LocalSqlServer" runat="server" 
+                        ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                        
+                        SelectCommand="SELECT [tblSubModLink_Master].[SubModLinkId],[tblSubModLink_Master].[SubModId],Convert(Varchar,[tblSubModLink_Master].[SubModId])+'  - '+[tblSubModule_Master].[SubModName]AS SubModuleName,CASE WHEN [tblSubModLink_Master].[Access]=1 THEN '1 - New' WHEN [tblSubModLink_Master].[Access]=2 THEN '2 - Edit' WHEN [tblSubModLink_Master].[Access]=3 THEN '3 - Delete' ELSE'4 - Print'END AS Access,[tblSubModLink_Master].[LinkPage] FROM [tblSubModLink_Master],[tblSubModule_Master] WHERE [tblSubModLink_Master].[SubModId]=[tblSubModule_Master].[SubModId]Order by[tblSubModLink_Master].[SubModLinkId] Desc" 
+                        
+                        DeleteCommand="DELETE FROM [tblSubModLink_Master] WHERE [SubModLinkId] = @SubModLinkId" 
+                        InsertCommand="INSERT INTO [tblSubModLink_Master] ([SubModId], [Access], [LinkPage]) VALUES (@SubModId, @Access, @LinkPage)" 
+                        
+                        
+                        UpdateCommand="UPDATE [tblSubModLink_Master] SET  [Access] = @Access, [LinkPage] = @LinkPage WHERE [SubModLinkId] = @SubModLinkId">
+                        <DeleteParameters>
+                            <asp:Parameter Name="SubModLinkId" Type="Int32" />
+                        </DeleteParameters>
+                        <UpdateParameters>
+                            <asp:Parameter Name="SubModId" Type="Int32" />
+                            <asp:Parameter Name="Access" Type="Int32" />
+                            <asp:Parameter Name="LinkPage" Type="String" />
+                            <asp:Parameter Name="SubModLinkId" Type="Int32" />
+                        </UpdateParameters>
+                        <InsertParameters>
+                            <asp:Parameter Name="SubModId" Type="Int32" />
+                            <asp:Parameter Name="Access" Type="Int32" />
+                            <asp:Parameter Name="LinkPage" Type="String" />
+                        </InsertParameters>
+                    </asp:SqlDataSource>
+                    </asp:Panel>   
+                </td>
+            </tr>
+        </table>
+        &nbsp;</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Admin/Access/SubModuleLink.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Admin_Access_SubModuleLink : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
+    protected void BtnSave_Click(object sender, EventArgs e)
+    {
+         string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+
+        try
+        {
+            con.Open();
+             string cmdstr = fun.insert("tblSubModLink_Master",
+             "SubModId,Access,LinkPage", "'" +DrpSubModuleName.SelectedValue+ "','" +DrpAccess.SelectedValue+ "','" +TxtLinkPage.Text+ "'");
+
+        SqlCommand cmd = new SqlCommand(cmdstr, con);
+        cmd.ExecuteNonQuery();
+        con.Close();
+        Page.Response.Redirect(Page.Request.Url.ToString(), true);
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            //con.close();
+        }
+
+    }
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("../Menu.aspx");
+    }
+   
+}

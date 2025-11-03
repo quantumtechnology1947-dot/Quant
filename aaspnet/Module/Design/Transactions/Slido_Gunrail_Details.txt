@@ -1,0 +1,679 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Transactions/Slido_Gunrail_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Slido_Gunrail_Details.aspx.cs" Inherits="Module_Design_Transactions_Slido_Gunrail_Details" Title="ERP" Theme="Default" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+<table width="100%" align="center" cellpadding="0" cellspacing="0" Class="fontcss">
+        <tr>
+            <td>
+                <asp:Panel ID="Panel1" Height="440px" ScrollBars="Auto" runat="server">
+               
+                <table width="100%" align="center" cellpadding="0" cellspacing="0">
+                    <tr height="21">
+                        <td style="background:url(../../../images/hdbg.JPG)" class="fontcsswhite" 
+                            colspan="2" ><strong>&nbsp;Slido Gunrail - New For WONo: 
+                            <asp:Label ID="lblWono" runat="server" Text=""></asp:Label>
+                          </strong>
+                        </td>
+                    </tr>  
+                    <tr>
+                     <td align="center" ><strong>Cross Rail</strong></td>
+                     <td align="center" ><strong>Long Rail</strong></td>
+                    </tr>          
+
+             <tr>
+            
+            <td align="center" width="50%">
+                     
+                <asp:GridView ID="SearchGridView1" runat="server" AllowPaging="True"  ShowFooter="True"
+                    AutoGenerateColumns="False" CssClass="yui-datatable-theme"
+                    DataKeyNames="Id" RowStyle-HorizontalAlign ="Center"  PageSize="20"                 
+                    Width="95%" 
+                    DataSourceID="SqlDataSource1" onrowcommand="SearchGridView1_RowCommand" 
+                    onrowdatabound="SearchGridView1_RowDataBound" >            
+                    <PagerSettings PageButtonCount="40" />
+            
+            <RowStyle />
+            <Columns>
+                
+                <asp:CommandField ShowDeleteButton="True" />
+                
+                <asp:TemplateField HeaderText="SN" ItemStyle-HorizontalAlign="Right">
+                           
+                
+                <ItemTemplate>
+                <%#Container.DataItemIndex+1  %>
+                </ItemTemplate>              
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+                </asp:TemplateField>
+                
+                <asp:TemplateField HeaderText="Length in Meter">
+                  <ItemTemplate>
+                      <asp:Label ID="lbllenMtr" runat="server" Text='<%# Bind("Length") %>'></asp:Label>
+                  </ItemTemplate>                   
+                  <FooterTemplate>
+                    <asp:TextBox ID="txtLenMTR"  CssClass="box3" Width="83%"  runat="server" Text=""></asp:TextBox>
+                      <asp:RequiredFieldValidator ID="ReqLenMTRF" ControlToValidate="txtLenMTR" ValidationGroup="CRF" runat="server" ErrorMessage="*"></asp:RequiredFieldValidator>
+                      <asp:RegularExpressionValidator ID="RegLenMTR" runat="server" 
+                                    ControlToValidate="txtLenMTR" ErrorMessage="*" 
+                                    ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="CRF"></asp:RegularExpressionValidator>
+                  </FooterTemplate>
+                  <ItemStyle HorizontalAlign="right"  />
+                </asp:TemplateField>
+                                  
+                <asp:TemplateField HeaderText="Numbers" Visible="true">
+                  <ItemTemplate>
+                      <asp:Label ID="lblNo" runat="server" Text='<%# Bind("No") %>'></asp:Label>
+                  </ItemTemplate>                  
+                   <FooterTemplate>
+                      <asp:TextBox ID="txtNoRows" Width="83%"  CssClass="box3" runat="server" Text=""></asp:TextBox>
+                      <asp:RequiredFieldValidator ID="ReqNOF" ControlToValidate="txtNoRows" ValidationGroup="CRF" runat="server" ErrorMessage="*"></asp:RequiredFieldValidator>
+                      <asp:RegularExpressionValidator ID="RegNoRows" runat="server" 
+                                    ControlToValidate="txtNoRows" ErrorMessage="*" 
+                                    ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="CRF"></asp:RegularExpressionValidator>                      
+                      
+                  </FooterTemplate>
+                   <ItemStyle HorizontalAlign="right"  />
+                  
+                </asp:TemplateField>
+                
+                <asp:TemplateField HeaderText="Total" Visible="true">
+                  <ItemTemplate>
+                      <asp:Label ID="lblTot" runat="server" Text='<%# Bind("Total") %>'></asp:Label>
+                  </ItemTemplate>                              
+                  <FooterTemplate>                  
+                <asp:Button ID="btnAddCRF"  ValidationGroup="CRF" runat="server" OnClientClick="return confirmationAdd();" CssClass="redbox" CommandName="AddCRF" Text="Submit" />
+                </FooterTemplate> 
+                <FooterStyle Width="20%"  HorizontalAlign="center" />
+                <ItemStyle Width="20%"  HorizontalAlign="Right" />                
+                </asp:TemplateField>
+                                 
+                            
+            </Columns>
+               <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <th> SN</th>                  
+                    <th>Length in Meter</th>
+                    <th>No of Rows</th>
+                     <th></th>                  
+                    </tr>
+                    <tr>
+                    <td align="center"> 1                 
+                    </td>
+                    
+                    <td> 
+                         <asp:TextBox ID="txtLenMtrECR" Width="90%"  CssClass="box3" runat="server"></asp:TextBox>   
+                         <asp:RequiredFieldValidator ID="ReqLenMTRE" ControlToValidate="txtLenMtrECR" ValidationGroup="CRE" runat="server" ErrorMessage="*"></asp:RequiredFieldValidator>  
+                         <asp:RegularExpressionValidator ID="RegLenMtrECR" runat="server" 
+                                    ControlToValidate="txtLenMtrECR" ErrorMessage="*" 
+                                    ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="CRE"></asp:RegularExpressionValidator>           
+                    </td>
+                    <td > 
+                         <asp:TextBox ID="txtNRowECR" Width="90%" CssClass="box3" runat="server"></asp:TextBox> 
+                         <asp:RequiredFieldValidator ID="ReqNOE" ControlToValidate="txtNRowECR" ValidationGroup="CRE" runat="server" ErrorMessage="*"></asp:RequiredFieldValidator>   
+                          <asp:RegularExpressionValidator ID="RegNRowECR" runat="server" 
+                                    ControlToValidate="txtNRowECR" ErrorMessage="*" 
+                                    ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="CRE"></asp:RegularExpressionValidator>  
+                                    
+                    </td>
+                     <td align="center"> 
+                    <asp:Button ID="btnAddECR" ValidationGroup="CRE" runat="server" OnClientClick="return confirmationAdd();" CssClass="redbox" CommandName="AddECR" Text="Submit" />                 
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+            
+        </asp:GridView>
+
+   
+
+                <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+                   ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                    DeleteCommand="DELETE FROM [tblDG_Gunrail_CrossRail_Temp] WHERE [Id] = @Id" 
+                    InsertCommand="INSERT INTO [tblDG_Gunrail_CrossRail_Temp] ([Length], [No], [SessionId], [CompId]) VALUES (@Length, @No, @SessionId, @CompId)" 
+                    ProviderName="System.Data.SqlClient" 
+                    SelectCommand="SELECT Id,Length,No,SessionId,CompId,Round((Length*No),3) As Total  FROM [tblDG_Gunrail_CrossRail_Temp] where [SessionId] = @SessionId And [CompId] = @CompId" 
+                    UpdateCommand="UPDATE [tblDG_Gunrail_CrossRail_Temp] SET [Length] = @Length,[Total] = @Total , [No] = @No, [SessionId] = @SessionId, [CompId] = @CompId WHERE [Id] = @Id">
+                    <DeleteParameters>
+                        <asp:Parameter Name="Id" Type="Int32" />
+                    </DeleteParameters>
+                    <UpdateParameters>
+                        <asp:Parameter Name="Length" Type="Double" />
+                        <asp:Parameter Name="No" Type="Double" />
+                        <asp:Parameter Name="Total" Type="Double" />
+                        <asp:Parameter Name="SessionId" Type="String" />
+                        <asp:Parameter Name="CompId" Type="Int32" />
+                        <asp:Parameter Name="Id" Type="Int32" />
+                    </UpdateParameters>
+                    <InsertParameters>
+                        <asp:Parameter Name="Length" Type="Double" />
+                        <asp:Parameter Name="No" Type="Double" />
+                         <asp:Parameter Name="Total" Type="Double" />
+                        <asp:Parameter Name="SessionId" Type="String" />
+                        <asp:Parameter Name="CompId" Type="Int32" />
+                    </InsertParameters>
+                    
+                     <SelectParameters>
+                    
+                    <asp:SessionParameter Name="SessionId" SessionField="username" Type="String" />
+                     <asp:SessionParameter Name="CompId" SessionField="compid" Type="Int32" />
+                    </SelectParameters>
+                </asp:SqlDataSource>
+
+
+            </td>
+            
+            
+             <td align="center" width="50%">
+                     
+                <asp:GridView ID="GridView1" runat="server" AllowPaging="True"   ShowFooter="True"
+                     AutoGenerateColumns="False" CssClass="yui-datatable-theme"
+                    DataKeyNames="Id" RowStyle-HorizontalAlign ="Center"  PageSize="20"                 
+                    Width="95%" 
+                     DataSourceID="SqlDataSource2" onrowcommand="GridView1_RowCommand" 
+                     onrowdatabound="GridView1_RowDataBound" >            
+                    <PagerSettings PageButtonCount="40" />
+            
+            <RowStyle />
+             <Columns>
+                
+                 <asp:CommandField ShowDeleteButton="True" />
+                
+                <asp:TemplateField HeaderText="SN" ItemStyle-HorizontalAlign="Right">
+                           
+                
+                <ItemTemplate>
+                <%#Container.DataItemIndex+1  %>
+                </ItemTemplate>
+                
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+                </asp:TemplateField>
+                
+                <asp:TemplateField HeaderText="Length in Meter">
+                  <ItemTemplate>
+                      <asp:Label ID="lbllenMtr" runat="server" Text='<%# Bind("Length") %>'></asp:Label>
+                  </ItemTemplate>  
+                  <FooterTemplate>
+                      <asp:TextBox ID="txtLenMTR"  CssClass="box3" Width="83%" runat="server" Text=""></asp:TextBox>
+                      <asp:RequiredFieldValidator ID="ReqLenMTLRF" ControlToValidate="txtLenMTR" ValidationGroup="LRF" runat="server" ErrorMessage="*"></asp:RequiredFieldValidator>
+                       <asp:RegularExpressionValidator ID="RegLenMTLRF" runat="server" 
+                                    ControlToValidate="txtLenMTR" ErrorMessage="*" 
+                                    ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="LRF"></asp:RegularExpressionValidator>
+                  </FooterTemplate>
+                 <ItemStyle HorizontalAlign="right"  />
+                </asp:TemplateField>
+                                  
+                <asp:TemplateField HeaderText="No of Rows" Visible="true">
+                  <ItemTemplate>
+                      <asp:Label ID="lblNo" runat="server" Text='<%# Bind("No") %>'></asp:Label>
+                  </ItemTemplate>                
+                   <FooterTemplate>
+                      <asp:TextBox ID="txtNoRows"  CssClass="box3" Width="83%" runat="server" Text=""></asp:TextBox>
+                      <asp:RequiredFieldValidator ID="ReqNOLRF" ControlToValidate="txtNoRows" ValidationGroup="LRF" runat="server" ErrorMessage="*"></asp:RequiredFieldValidator>
+                      <asp:RegularExpressionValidator ID="RegNoRowsLRF" runat="server" 
+                                    ControlToValidate="txtNoRows" ErrorMessage="*" 
+                                    ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="LRF"></asp:RegularExpressionValidator>
+                  </FooterTemplate>
+                  
+                <ItemStyle   HorizontalAlign="Right" />   
+                </asp:TemplateField>
+                
+                <asp:TemplateField HeaderText="Total" Visible="true">
+                  <ItemTemplate>
+                      <asp:Label ID="lblTot" runat="server" Text='<%# Bind("Total") %>'></asp:Label>
+                  </ItemTemplate> 
+                  <FooterTemplate>                  
+                <asp:Button ID="btnAddLRF" runat="server" OnClientClick="return confirmationAdd();" ValidationGroup="LRF" CssClass="redbox" CommandName="AddLRF" Text="Submit" />
+                </FooterTemplate> 
+                <FooterStyle Width="20%"  HorizontalAlign="center" />
+                <ItemStyle Width="20%"  HorizontalAlign="Right" />                
+                </asp:TemplateField>
+                                 
+                            
+            </Columns>
+                <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <th> SN</th>                    
+                    <th>Length in Meter</th>
+                    <th>No of Rows</th>
+                    <th></th>                    
+                    </tr>
+                    <tr>
+                    <td align="center"> 1                 
+                    </td>
+                    
+                    <td> 
+                         <asp:TextBox ID="txtLenMtrELR"  Width="90%" CssClass="box3" runat="server"></asp:TextBox> 
+                         <asp:RequiredFieldValidator ID="ReqLENLRE" ControlToValidate="txtLenMtrELR" ValidationGroup="LRE" runat="server" ErrorMessage="*"></asp:RequiredFieldValidator> 
+                          <asp:RegularExpressionValidator ID="RegLenMtrELR" runat="server" 
+                                    ControlToValidate="txtLenMtrELR" ErrorMessage="*" 
+                                    ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="LRE"></asp:RegularExpressionValidator>              
+                    </td>
+                    <td > 
+                         <asp:TextBox ID="txtNRowELR"  Width="90%" CssClass="box3" runat="server"></asp:TextBox>  
+                          <asp:RequiredFieldValidator ID="ReqNRowELR" ControlToValidate="txtNRowELR" ValidationGroup="LRE" runat="server" ErrorMessage="*"></asp:RequiredFieldValidator>   
+                           <asp:RegularExpressionValidator ID="RegNRowELR" runat="server" 
+                                    ControlToValidate="txtNRowELR" ErrorMessage="*" 
+                                    ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="LRE"></asp:RegularExpressionValidator>                   
+                    </td>
+                   <td align="center"> 
+                    <asp:Button ID="btnAddELR" runat="server" OnClientClick="return confirmationAdd();" ValidationGroup="LRE" CssClass="redbox" CommandName="AddELR" Text="Submit" />                 
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+            
+        </asp:GridView>
+
+      <asp:SqlDataSource ID="SqlDataSource2" runat="server" 
+                   ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                    DeleteCommand="DELETE FROM [tblDG_Gunrail_LongRail_Temp] WHERE [Id] = @Id" 
+                    InsertCommand="INSERT INTO [tblDG_Gunrail_LongRail_Temp] ([Length], [No], [SessionId], [CompId]) VALUES (@Length, @No, @SessionId, @CompId)" 
+                    ProviderName="System.Data.SqlClient" 
+                    SelectCommand="SELECT Id,Length,No,SessionId,CompId,Round((Length*No),3) As Total  FROM [tblDG_Gunrail_LongRail_Temp] where [SessionId] = @SessionId And [CompId] = @CompId" 
+                    UpdateCommand="UPDATE [tblDG_Gunrail_LongRail_Temp] SET [Length] = @Length,[Total] = @Total ,[No] = @No, [SessionId] = @SessionId, [CompId] = @CompId WHERE [Id] = @Id">
+                    <DeleteParameters>
+                        <asp:Parameter Name="Id" Type="Int32" />
+                    </DeleteParameters>
+                    <UpdateParameters>
+                        <asp:Parameter Name="Length" Type="Double" />
+                        <asp:Parameter Name="No" Type="Double" />
+                        <asp:Parameter Name="Total" Type="Double" />
+                        <asp:Parameter Name="SessionId" Type="String" />
+                        <asp:Parameter Name="CompId" Type="Int32" />
+                        <asp:Parameter Name="Id" Type="Int32" />
+                    </UpdateParameters>
+                    <InsertParameters>
+                        <asp:Parameter Name="Length" Type="Double" />
+                        <asp:Parameter Name="No" Type="Double" />
+                        <asp:Parameter Name="Total" Type="Double" />
+                        <asp:Parameter Name="SessionId" Type="String" />
+                        <asp:Parameter Name="CompId" Type="Int32" />
+                    </InsertParameters>
+                     <SelectParameters>
+                    
+                    <asp:SessionParameter Name="SessionId" SessionField="username" Type="String" />
+                     <asp:SessionParameter Name="CompId" SessionField="compid" Type="Int32" />
+                    </SelectParameters>
+                </asp:SqlDataSource>
+
+
+            </td>            
+            
+             </tr>
+            
+              </table> 
+              </asp:Panel>
+            </td>
+        </tr>
+        
+        <tr>
+        <td align="center">
+           <table cellpadding="0" cellspacing="0" width="600">
+                    <tr>
+                        <td>
+                            <asp:Label ID="lblType" runat="server" Font-Bold="True" Text="Type :"></asp:Label>
+                        </td>
+                        <td align="left">
+                            <asp:RadioButtonList ID="RadioButtonList1" runat="server" 
+                                RepeatDirection="Horizontal">
+                                <asp:ListItem Selected="True" Value="0">Swivel</asp:ListItem>
+                                <asp:ListItem Value="1">Fixed</asp:ListItem>
+                            </asp:RadioButtonList>
+                        </td>
+                        <td align="right">
+                            <asp:Label ID="lblSupportPitch" runat="server" Font-Bold="True" 
+                                Text="Support Pitch :"></asp:Label>
+                        </td>
+                        <td align="left">
+&nbsp;
+                            <asp:TextBox ID="txtPitch" runat="server" CssClass="box3" Width="80px"></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="ReqPitch" ControlToValidate="txtPitch" ValidationGroup="PIT" runat="server" ErrorMessage="*"></asp:RequiredFieldValidator>
+                       <asp:RegularExpressionValidator ID="RegPitch" runat="server" 
+                                    ControlToValidate="txtPitch" ErrorMessage="*" 
+                                    ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="PIT"></asp:RegularExpressionValidator>
+&nbsp;<asp:Button ID="btnProceed"  ValidationGroup="PIT" runat="server" CssClass="redbox" 
+                                onclientclick="return confirmationAdd();" Text="Proceed" 
+                                onclick="btnProceed_Click" />
+&nbsp;<asp:Button ID="btncancel" runat="server" CssClass="redbox" Text="Cancel" onclick="btncancel_Click" />
+                        </td>
+                    </tr>
+                </table>
+        </td>
+        </tr>
+        
+        </table>
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Transactions/Slido_Gunrail_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_Design_Transactions_Slido_Gunrail_Details : System.Web.UI.Page
+{
+    int CompId = 0;
+    int FinYearId=0;
+    string SId = string.Empty;
+    string WONo = string.Empty;
+    clsFunctions fun = new clsFunctions();
+    SqlConnection con;
+    string ConnStr = string.Empty;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+        CompId = Convert.ToInt32(Session["compid"]);
+        FinYearId = Convert.ToInt32(Session["finyear"]);
+        SId = Session["username"].ToString();
+        ConnStr = fun.Connection();
+        con = new SqlConnection(ConnStr);
+        if (!string.IsNullOrEmpty(Request.QueryString["WONo"]))
+        {
+            WONo = Request.QueryString["WONo"].ToString();
+            lblWono.Text = WONo;
+        }
+        }
+        catch (Exception er) { }
+    }   
+    protected void SearchGridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+
+        try
+        {
+            double length = 0;
+            double NoOfRow = 0;
+            if (e.CommandName == "AddCRF")
+            {
+
+                length = Convert.ToDouble(((TextBox)SearchGridView1.FooterRow.FindControl("txtLenMTR")).Text);
+                NoOfRow = Convert.ToDouble(((TextBox)SearchGridView1.FooterRow.FindControl("txtNoRows")).Text);
+                if (length != 0 && NoOfRow != 0 && SId != "" && CompId != 0)
+                {
+                    SqlDataSource1.InsertParameters["CompId"].DefaultValue = CompId.ToString();
+                    SqlDataSource1.InsertParameters["SessionId"].DefaultValue = SId;
+                    SqlDataSource1.InsertParameters["Length"].DefaultValue = length.ToString();
+                    SqlDataSource1.InsertParameters["No"].DefaultValue = NoOfRow.ToString();
+                    SqlDataSource1.Insert();
+                    Page.Response.Redirect(Page.Request.Url.ToString(), true);
+                }
+                else
+                {
+
+                }
+            }
+
+            if (e.CommandName == "AddECR")
+            {
+                 length = Convert.ToDouble(((TextBox)SearchGridView1.Controls[0].Controls[0].FindControl("txtLenMtrECR")).Text);
+                 NoOfRow = Convert.ToDouble(((TextBox)SearchGridView1.Controls[0].Controls[0].FindControl("txtNRowECR")).Text);
+                if (length != 0 && NoOfRow != 0 && SId != "" && CompId != 0)
+                {
+                    SqlDataSource1.InsertParameters["CompId"].DefaultValue = CompId.ToString();
+                    SqlDataSource1.InsertParameters["SessionId"].DefaultValue = SId;
+                    SqlDataSource1.InsertParameters["Length"].DefaultValue = length.ToString();
+                    SqlDataSource1.InsertParameters["No"].DefaultValue = NoOfRow.ToString();
+                    SqlDataSource1.Insert();
+                    Page.Response.Redirect(Page.Request.Url.ToString(), true);
+                }
+            }
+        }
+
+        catch (Exception er) { }
+
+    }
+    protected void SearchGridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            LinkButton edit = (LinkButton)e.Row.Cells[0].Controls[0];
+            edit.Attributes.Add("onclick", "return confirmationDelete();");
+
+        }
+    }
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            LinkButton edit = (LinkButton)e.Row.Cells[0].Controls[0];
+            edit.Attributes.Add("onclick", "return confirmationDelete();");
+
+        }
+    }
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+
+        try
+        {
+            double length = 0;
+            double NoOfRow = 0;
+            if (e.CommandName == "AddLRF")
+            {
+
+                length = Convert.ToDouble(((TextBox)GridView1.FooterRow.FindControl("txtLenMTR")).Text);
+                NoOfRow = Convert.ToDouble(((TextBox)GridView1.FooterRow.FindControl("txtNoRows")).Text);
+                if (length != 0 && NoOfRow != 0 && SId != "" && CompId != 0)
+                {
+                    SqlDataSource2.InsertParameters["CompId"].DefaultValue = CompId.ToString();
+                    SqlDataSource2.InsertParameters["SessionId"].DefaultValue = SId;
+                    SqlDataSource2.InsertParameters["Length"].DefaultValue = length.ToString();
+                    SqlDataSource2.InsertParameters["No"].DefaultValue = NoOfRow.ToString();
+                    SqlDataSource2.Insert();
+                    Page.Response.Redirect(Page.Request.Url.ToString(), true);
+                }                
+            }
+
+            if (e.CommandName == "AddELR")
+            {
+                length = Convert.ToDouble(((TextBox)GridView1.Controls[0].Controls[0].FindControl("txtLenMtrELR")).Text);
+                NoOfRow = Convert.ToDouble(((TextBox)GridView1.Controls[0].Controls[0].FindControl("txtNRowELR")).Text);
+                if (length != 0 && NoOfRow != 0 && SId != "" && CompId != 0)
+                {
+                    SqlDataSource2.InsertParameters["CompId"].DefaultValue = CompId.ToString();
+                    SqlDataSource2.InsertParameters["SessionId"].DefaultValue = SId;
+                    SqlDataSource2.InsertParameters["Length"].DefaultValue = length.ToString();
+                    SqlDataSource2.InsertParameters["No"].DefaultValue = NoOfRow.ToString();
+                    SqlDataSource2.Insert();
+                    Page.Response.Redirect(Page.Request.Url.ToString(), true);
+                }
+            }
+        }
+
+        catch (Exception er) { }
+
+    }
+    protected void btnProceed_Click(object sender, EventArgs e)
+    {       
+        try
+        {            
+            string CDate = fun.getCurrDate();
+            string CTime = fun.getCurrTime();
+            double Pitch = 0;           
+            int Type = 0;
+            Type = Convert.ToInt32(RadioButtonList1.SelectedValue);
+            string sqlCRTemp = fun.select("*", "tblDG_Gunrail_CrossRail_Temp", "CompId='" + CompId + "' AND SessionId='" + SId + "'");
+            SqlCommand cmdCRTemp = new SqlCommand(sqlCRTemp, con);
+            SqlDataAdapter daCRTemp = new SqlDataAdapter(cmdCRTemp);
+            DataSet DSCRTemp = new DataSet();
+            daCRTemp.Fill(DSCRTemp);
+            string sqlLRTemp = fun.select("*", "tblDG_Gunrail_LongRail_Temp", "CompId='" + CompId + "' AND SessionId='" + SId + "'");
+            SqlCommand cmdLRTemp = new SqlCommand(sqlLRTemp, con);
+            SqlDataAdapter daLRTemp = new SqlDataAdapter(cmdLRTemp);
+            DataSet DSLRTemp = new DataSet();
+            daLRTemp.Fill(DSLRTemp);
+            if (DSCRTemp.Tables[0].Rows.Count > 0 && DSLRTemp.Tables[0].Rows.Count > 0 && txtPitch.Text != string.Empty )
+            {
+                Pitch = Convert.ToDouble(txtPitch.Text);
+                string StrPitchMaster = fun.insert("tblDG_Gunrail_Pitch_Master", "SysDate,SysTime,SessionId,CompId,FinYearId,Pitch,WONo,Type", "'" + CDate + "','" + CTime + "','" + SId + "','" + CompId + "','" + FinYearId + "','" + Pitch + "','" + WONo + "','" + Type + "'");
+                SqlCommand cmd11 = new SqlCommand(StrPitchMaster, con);
+                con.Open();
+                cmd11.ExecuteNonQuery();
+                con.Close();
+                string sqlMId = fun.select("Id", "tblDG_Gunrail_Pitch_Master", "CompId='" + CompId + "' Order By Id Desc");
+                SqlCommand cmdMId = new SqlCommand(sqlMId, con);
+                SqlDataAdapter DAMId = new SqlDataAdapter(cmdMId);
+                DataSet DSMId = new DataSet();
+                DAMId.Fill(DSMId);
+                string MId = DSMId.Tables[0].Rows[0]["Id"].ToString();
+                for (int p = 0; p < DSCRTemp.Tables[0].Rows.Count; p++)
+                {                   
+                    string StrCRDetails = fun.insert("tblDG_Gunrail_CrossRail", "MId,Length,No", "'" + MId + "','" + Convert.ToDouble(decimal.Parse(DSCRTemp.Tables[0].Rows[p]["Length"].ToString()).ToString("N3")) + "','" + Convert.ToDouble(decimal.Parse(DSCRTemp.Tables[0].Rows[p]["No"].ToString()).ToString("N3")) + "'");
+                    SqlCommand cmd15 = new SqlCommand(StrCRDetails, con);
+                    con.Open();
+                    cmd15.ExecuteNonQuery();
+                    con.Close(); 
+                }
+                string delsql = fun.delete("tblDG_Gunrail_CrossRail_Temp", "CompId='" + CompId + "' AND SessionId='" + SId + "'");
+                SqlCommand cmd12 = new SqlCommand(delsql, con);
+                con.Open();
+                cmd12.ExecuteNonQuery();
+                con.Close();
+                for (int p1 = 0; p1 < DSLRTemp.Tables[0].Rows.Count; p1++)
+                {
+                    string StrCRDetails = fun.insert("tblDG_Gunrail_LongRail", "MId,Length,No", "'" + MId + "','" + Convert.ToDouble(decimal.Parse(DSLRTemp.Tables[0].Rows[p1]["Length"].ToString()).ToString("N3")) + "','" + Convert.ToDouble(decimal.Parse(DSLRTemp.Tables[0].Rows[p1]["No"].ToString()).ToString("N3")) + "'");
+                    SqlCommand cmd15 = new SqlCommand(StrCRDetails, con);
+                    con.Open();
+                    cmd15.ExecuteNonQuery();
+                    con.Close();
+                }
+                string delsqlLR = fun.delete("tblDG_Gunrail_LongRail_Temp", "CompId='" + CompId + "' AND SessionId='" + SId + "'");
+                SqlCommand cmdLR = new SqlCommand(delsqlLR, con);
+                con.Open();
+                cmdLR.ExecuteNonQuery();
+                con.Close();
+
+                ///
+
+                /// for LOng Rail ...............           
+                string SQLLOng = fun.select("Length,No,Pitch", "tblDG_Gunrail_LongRail,tblDG_Gunrail_Pitch_Master ", "tblDG_Gunrail_Pitch_Master.WONo='" + WONo + "' And tblDG_Gunrail_Pitch_Master.Id=tblDG_Gunrail_LongRail.MId ");
+                SqlCommand cmdLong = new SqlCommand(SQLLOng, con);
+                SqlDataAdapter DALong = new SqlDataAdapter(cmdLong);
+                DataSet DSLong = new DataSet();
+                DALong.Fill(DSLong);
+                double AbcFracValue = 0;
+                double WithoutFractionalValue = 0;
+                double TLongRow_no_coloumn = 0;
+                double TLongRow_with_coloumn = 0;
+                double pitch = 0;
+                double TLongRow = 0;
+                double TLColumn = 0;
+                double SumLongRailColumn = 0;
+                if (DSLong.Tables[0].Rows.Count > 0)
+                {
+                    for (int k = 0; k < DSLong.Tables[0].Rows.Count; k++)
+                    {
+                        double LongRow_no_coloumn = 0;
+                        double LongRow_with_coloumn = 0;
+                        double Length = Convert.ToDouble(DSLong.Tables[0].Rows[k]["Length"]);
+                        double No = Convert.ToDouble(DSLong.Tables[0].Rows[k]["No"]);
+                        AbcFracValue = fun.get(Length / 6);
+                        LongRow_no_coloumn = ((AbcFracValue + 1) - 2);
+                        TLongRow_no_coloumn += LongRow_no_coloumn * No;
+                        pitch = Convert.ToDouble(DSLong.Tables[0].Rows[k]["Pitch"]);
+                        WithoutFractionalValue = fun.get((Length / pitch) + 1);
+                        LongRow_with_coloumn = (WithoutFractionalValue - LongRow_no_coloumn);
+                        TLongRow_with_coloumn += LongRow_with_coloumn * No;
+                        TLongRow += Length * No;
+                        TLColumn += No * No;
+                        SumLongRailColumn += No;
+                    }
+                }
+
+
+                /// for Cross Rail
+                string SQLcross = fun.select("Length,No", "tblDG_Gunrail_CrossRail,tblDG_Gunrail_Pitch_Master ", "tblDG_Gunrail_Pitch_Master.WONo='" + WONo + "'  And tblDG_Gunrail_Pitch_Master.Id=tblDG_Gunrail_CrossRail.MId ");
+                SqlCommand cmdcross = new SqlCommand(SQLcross, con);
+                SqlDataAdapter DAcross = new SqlDataAdapter(cmdcross);
+                DataSet DScross = new DataSet();
+                DAcross.Fill(DScross);
+                double TCrossRow = 0;
+                double TCColumn = 0;
+                double SumLongCross = 0;
+                double TwiceTC = 0;
+                if (DScross.Tables[0].Rows.Count > 0)
+                {
+
+                    for (int l = 0; l < DScross.Tables[0].Rows.Count; l++)
+                    {
+                        double Length = Convert.ToDouble(DScross.Tables[0].Rows[l]["Length"]);
+                        double No = Convert.ToDouble(DScross.Tables[0].Rows[l]["No"]);
+                        TCrossRow += Length * No;
+                        TCColumn += No;
+                    }
+
+                    SumLongCross = TCrossRow + TLongRow;
+                    TwiceTC = TCColumn * 2;
+
+                }
+
+                // to convert Gun To BOm
+                int destCid = fun.getBOMCId(WONo, CompId, FinYearId);
+                string getparent2 = fun.select("CId", "tblDG_GUNRAIL_BOM_Master", " PId='0'");
+                SqlCommand checkparent2 = new SqlCommand(getparent2, con);
+                SqlDataAdapter daparent2 = new SqlDataAdapter(checkparent2);
+                DataSet dsparent2 = new DataSet();
+                daparent2.Fill(dsparent2, "tblDG_GUNRAIL_BOM_Master");
+                for (int k = 0; k < dsparent2.Tables[0].Rows.Count;k++ )
+                {
+                    int srcCId =Convert.ToInt32(dsparent2.Tables[0].Rows[k][0]);
+                    fun.CopyGunRailToWO(srcCId, WONo, CompId, SId, FinYearId, 0, destCid, TCColumn, TLongRow_with_coloumn, TLongRow_no_coloumn, SumLongRailColumn,TCrossRow , TLongRow);
+                }
+
+              Page.Response.Redirect(Page.Request.Url.ToString(), true);
+            }
+            else
+            {
+                string myStringVariable = string.Empty;
+                myStringVariable = "Invalid data entry.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable + "');", true);
+            }
+        }
+     catch (Exception es)
+        {
+
+        }
+
+    }    
+    protected void btncancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/Design/Transactions/Slido_Gunrail_WO_Grid.aspx?ModId=3&SubModId=131");
+    }
+}

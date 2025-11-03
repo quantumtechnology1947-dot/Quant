@@ -1,0 +1,269 @@
+graph TB
+    %% Category Management Module Architecture Diagram
+    
+    subgraph "Work Order Categories"
+        A[WO Category Management]
+        A1[WO_Category_Dashboard<br/>Category overview and management]
+        A2[Category Creation<br/>New category setup]
+        A3[Category Modification<br/>Update existing categories]
+        A4[Category Hierarchy<br/>Parent-child relationships]
+        A5[Category Status<br/>Active/inactive management]
+    end
+    
+    subgraph "Work Order Sub-Categories"
+        B[WO Sub-Category Management]
+        B1[WO_SubCategory_Dashboard<br/>Sub-category overview]
+        B2[Sub-Category Creation<br/>New sub-category setup]
+        B3[Sub-Category Mapping<br/>Link to parent categories]
+        B4[Sub-Category Attributes<br/>Properties and specifications]
+        B5[Sub-Category Validation<br/>Business rule enforcement]
+    end
+    
+    subgraph "Work Order Types"
+        C[WO Types Management]
+        C1[WOTypes.aspx<br/>Work order type definitions]
+        C2[Type Classification<br/>Service vs product types]
+        C3[Type Attributes<br/>Type-specific properties]
+        C4[Workflow Mapping<br/>Type-specific processes]
+        C5[Pricing Models<br/>Type-based pricing]
+    end
+    
+    subgraph "Database Structure"
+        D[Category Tables]
+        D1[tblSD_WO_Category<br/>Main category table]
+        D2[tblSD_WO_SubCategory<br/>Sub-category table]
+        D3[Category_Master<br/>Product categories]
+        D4[WO_Type_Master<br/>Work order types]
+        D5[Category_Attributes<br/>Extended properties]
+    end
+    
+    subgraph "Category Hierarchy"
+        E[Hierarchical Structure]
+        E1[Root Categories<br/>Top-level classifications]
+        E2[Parent Categories<br/>Main category groups]
+        E3[Child Categories<br/>Sub-classifications]
+        E4[Leaf Categories<br/>Final level categories]
+        E5[Cross-References<br/>Category relationships]
+    end
+    
+    subgraph "Category Attributes"
+        F[Category Properties]
+        F1[Category Code<br/>Unique identifier]
+        F2[Category Name<br/>Display name]
+        F3[Description<br/>Detailed description]
+        F4[Category Type<br/>Service/Product classification]
+        F5[Status Flag<br/>Active/Inactive status]
+        F6[Sort Order<br/>Display sequence]
+        F7[Parent Reference<br/>Hierarchy link]
+    end
+    
+    subgraph "Business Rules"
+        G[Category Business Logic]
+        G1[Unique Code Validation<br/>Prevent duplicate codes]
+        G2[Hierarchy Validation<br/>Prevent circular references]
+        G3[Dependency Checks<br/>Usage validation before deletion]
+        G4[Status Propagation<br/>Parent-child status rules]
+        G5[Naming Conventions<br/>Standard naming rules]
+    end
+    
+    subgraph "Integration Points"
+        H[System Integration]
+        H1[Work Order System<br/>Category selection in WO]
+        H2[Quotation System<br/>Category-based pricing]
+        H3[Cost Sheet System<br/>Category-specific costing]
+        H4[Reporting System<br/>Category-wise reports]
+        H5[Product Master<br/>Product categorization]
+        H6[Service Master<br/>Service categorization]
+    end
+    
+    subgraph "User Interface"
+        I[Category UI Components]
+        I1[Category Tree View<br/>Hierarchical display]
+        I2[Category Dropdown<br/>Selection controls]
+        I3[Category Search<br/>Find categories]
+        I4[Category Filter<br/>Filter by attributes]
+        I5[Bulk Operations<br/>Mass updates]
+        I6[Import/Export<br/>Data transfer]
+    end
+    
+    subgraph "Category Workflows"
+        J[Category Processes]
+        J1[Category Creation Workflow<br/>New category approval]
+        J2[Category Modification Workflow<br/>Change approval process]
+        J3[Category Retirement<br/>Deactivation process]
+        J4[Category Migration<br/>Data movement between categories]
+        J5[Category Audit<br/>Change tracking and history]
+    end
+    
+    subgraph "Validation Framework"
+        K[Category Validation]
+        K1[Code Format Validation<br/>Standard code patterns]
+        K2[Name Uniqueness<br/>Prevent duplicate names]
+        K3[Hierarchy Depth Limits<br/>Maximum nesting levels]
+        K4[Reference Integrity<br/>Foreign key validation]
+        K5[Business Rule Validation<br/>Custom business rules]
+    end
+    
+    subgraph "Category Analytics"
+        L[Category Intelligence]
+        L1[Usage Statistics<br/>Category utilization metrics]
+        L2[Performance Analysis<br/>Category-wise performance]
+        L3[Trend Analysis<br/>Category usage trends]
+        L4[Optimization Suggestions<br/>Category structure improvements]
+        L5[Impact Analysis<br/>Change impact assessment]
+    end
+    
+    %% Main Category Relationships
+    A --> A1
+    A --> A2
+    A --> A3
+    A --> A4
+    A --> A5
+    
+    B --> B1
+    B --> B2
+    B --> B3
+    B --> B4
+    B --> B5
+    
+    C --> C1
+    C --> C2
+    C --> C3
+    C --> C4
+    C --> C5
+    
+    %% Database Relationships
+    D --> D1
+    D --> D2
+    D --> D3
+    D --> D4
+    D --> D5
+    
+    A --> D1
+    B --> D2
+    C --> D4
+    
+    %% Hierarchy Relationships
+    E --> E1
+    E --> E2
+    E --> E3
+    E --> E4
+    E --> E5
+    
+    A4 --> E
+    B3 --> E
+    
+    %% Attribute Relationships
+    F --> F1
+    F --> F2
+    F --> F3
+    F --> F4
+    F --> F5
+    F --> F6
+    F --> F7
+    
+    D1 --> F
+    D2 --> F
+    
+    %% Business Rules Relationships
+    G --> G1
+    G --> G2
+    G --> G3
+    G --> G4
+    G --> G5
+    
+    A2 --> G
+    B2 --> G
+    C1 --> G
+    
+    %% Integration Relationships
+    H --> H1
+    H --> H2
+    H --> H3
+    H --> H4
+    H --> H5
+    H --> H6
+    
+    A --> H1
+    A --> H2
+    A --> H3
+    B --> H1
+    C --> H1
+    
+    %% UI Relationships
+    I --> I1
+    I --> I2
+    I --> I3
+    I --> I4
+    I --> I5
+    I --> I6
+    
+    A1 --> I1
+    B1 --> I1
+    C1 --> I2
+    
+    %% Workflow Relationships
+    J --> J1
+    J --> J2
+    J --> J3
+    J --> J4
+    J --> J5
+    
+    A2 --> J1
+    A3 --> J2
+    A5 --> J3
+    
+    %% Validation Relationships
+    K --> K1
+    K --> K2
+    K --> K3
+    K --> K4
+    K --> K5
+    
+    G --> K
+    J --> K
+    
+    %% Analytics Relationships
+    L --> L1
+    L --> L2
+    L --> L3
+    L --> L4
+    L --> L5
+    
+    H4 --> L
+    A1 --> L1
+    B1 --> L1
+    
+    %% Cross-Module Relationships
+    E2 --> E3
+    E3 --> E4
+    F7 --> E2
+    G2 --> E
+    G4 --> E
+    
+    %% Styling
+    classDef categoryClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef subcategoryClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef typeClass fill:#e8eaf6,stroke:#3f51b5,stroke-width:2px
+    classDef dbClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef hierarchyClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef attributeClass fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef businessClass fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    classDef integrationClass fill:#e0f2f1,stroke:#004d40,stroke-width:2px
+    classDef uiClass fill:#f9fbe7,stroke:#827717,stroke-width:2px
+    classDef workflowClass fill:#fff8e1,stroke:#ff6f00,stroke-width:2px
+    classDef validationClass fill:#fafafa,stroke:#424242,stroke-width:2px
+    classDef analyticsClass fill:#e3f2fd,stroke:#0d47a1,stroke-width:2px
+    
+    class A,A1,A2,A3,A4,A5 categoryClass
+    class B,B1,B2,B3,B4,B5 subcategoryClass
+    class C,C1,C2,C3,C4,C5 typeClass
+    class D,D1,D2,D3,D4,D5 dbClass
+    class E,E1,E2,E3,E4,E5 hierarchyClass
+    class F,F1,F2,F3,F4,F5,F6,F7 attributeClass
+    class G,G1,G2,G3,G4,G5 businessClass
+    class H,H1,H2,H3,H4,H5,H6 integrationClass
+    class I,I1,I2,I3,I4,I5,I6 uiClass
+    class J,J1,J2,J3,J4,J5 workflowClass
+    class K,K1,K2,K3,K4,K5 validationClass
+    class L,L1,L2,L3,L4,L5 analyticsClass

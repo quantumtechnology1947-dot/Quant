@@ -1,0 +1,1087 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Transactions/WoItems.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="WoItems.aspx.cs" EnableEventValidation="false" Inherits="Module_Design_Transactions_WoItems" Title="ERP" Theme="Default" %>
+
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function OnChanged(sender, args)
+        {
+            ServerUtilities.SetTabIndex(sender.get_activeTabIndex());
+        }
+    </script>
+    <style type="text/css">
+        .style22
+        {
+            height: 28px;
+        }
+        .style23
+        {
+            height: 30px;
+        }
+        .style24
+        {
+            height: 19px;
+        }
+        .style25
+        {
+            font-weight: bold;
+        }
+        .style26
+        {
+            height: 28px;
+            font-weight: bold;
+        }
+        .style27
+        {
+            height: 19px;
+            font-weight: bold;
+        }
+        .style28
+        {
+            height: 30px;
+            font-weight: bold;
+        }
+        </style>
+    
+    </asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td align="left" valign="top">
+                <table cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;TPL Items&nbsp;&nbsp;WoNo:&nbsp;<asp:Label ID="lblwono" Font-Bold="true"  runat="server"></asp:Label>&nbsp;&nbsp;&nbsp;Assly No:&nbsp;<asp:Label ID="lblasslyno" runat="server"></asp:Label></b>
+                    </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <cc1:TabContainer ID="TabContainer1" runat="server"  Height="434px" 
+                                AutoPostBack="True" 
+                                onactivetabchanged="TabContainer1_ActiveTabChanged" ActiveTabIndex="0" 
+                                 Width="100%" >
+                                <cc1:TabPanel ID="TabPanel1" runat="server" HeaderText="Item Master" >
+                                    <HeaderTemplate>
+                                    Item Master</HeaderTemplate>
+                                    <ContentTemplate><table width ="100%" cellpadding="0" cellspacing="0">
+                                    <tr><td class="style12" valign="middle" height="25" ><asp:DropDownList ID="DrpCategory" runat="server" 
+                    AutoPostBack="True" 
+                    onselectedindexchanged="DrpCategory_SelectedIndexChanged" 
+                    CssClass="box3"></asp:DropDownList>&nbsp; <asp:DropDownList ID="DrpSubCategory" runat="server" 
+                    AutoPostBack="True" 
+                    onselectedindexchanged="DrpSubCategory_SelectedIndexChanged" 
+                    CssClass="box3"></asp:DropDownList>&nbsp;&nbsp;&nbsp;<asp:DropDownList ID="DrpSearchCode" 
+                                            runat="server" AutoPostBack="True" CssClass="box3" 
+                                            onselectedindexchanged="DrpSearchCode_SelectedIndexChanged"><asp:ListItem Value="Select">Select</asp:ListItem><asp:ListItem Value="tblDG_Item_Master.ItemCode">Item Code</asp:ListItem><asp:ListItem Value="tblDG_Item_Master.ManfDesc">Manuf. Description</asp:ListItem><asp:ListItem Value="tblDG_Item_Master.PurchDesc">Purchase Description</asp:ListItem><asp:ListItem Value="tblDG_Item_Master.Location">Location</asp:ListItem></asp:DropDownList>&nbsp;<asp:TextBox ID="txtSearchItemCode" runat="server" Width="200px" 
+                    CssClass="box3"></asp:TextBox>&nbsp;<asp:DropDownList ID="DropDownList3" runat="server" 
+                                style="margin-bottom: 0px" Width="155px" AutoPostBack="True" CssClass="box3" 
+                                            onselectedindexchanged="DropDownList3_SelectedIndexChanged">
+                                        </asp:DropDownList>&nbsp;
+                                        
+                                        
+                                         <asp:Button ID="btnSearch" runat="server" 
+            Text="Search" CssClass="redbox" onclick="btnSearch_Click"  />&nbsp;
+            <asp:Button ID="btnCancel" runat="server" CssClass="redbox" onclick="btnCancel_Click" Text="Cancel" /></td></tr>
+            <tr><td class="fontcss" height="207" 
+                                                valign="top" align="right" colspan="3" style="text-align: left">
+                <asp:GridView ID="GridView2" 
+                                                runat="server" AllowPaging="True" OnPageIndexChanging="GridView2_PageIndexChanging"
+                    CssClass="yui-datatable-theme" AutoGenerateColumns="False" OnRowCommand="GridView2_RowCommand" 
+         Width="100%" PageSize="12"><Columns><asp:TemplateField HeaderText="SN"><ItemTemplate>
+                                                                    <%# Container.DataItemIndex+1 %>
+                                                                </ItemTemplate><HeaderStyle Font-Size="10pt" /><ItemStyle HorizontalAlign="Right" VerticalAlign="Top" /></asp:TemplateField><asp:TemplateField HeaderText="Req Qty"><ItemTemplate><asp:TextBox ID="txtQty" runat="server" CssClass="box3" 
+                                                                        onblur="javascript:if(isNaN(this.value)==true){ this.value=''; }" 
+                                                                        onfocus="javascript:if(isNaN(this.value)==true){ this.value=''; }" 
+                                                                        onkeyup="javascript:if(isNaN(this.value)==true){ this.value=''; }" 
+                                                                        Width="60px" />
+                                                                        
+                                                                         <asp:RegularExpressionValidator ID="RegQty" runat="server" 
+                                                        ControlToValidate="txtQty" ErrorMessage="*" 
+                                                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="as"></asp:RegularExpressionValidator>
+                                                                        </ItemTemplate>
+                            <ItemStyle VerticalAlign="Top" Width="7%" /></asp:TemplateField>
+                    <asp:TemplateField>
+                    <ItemTemplate>
+                    <asp:Button ID="btnadd" CommandName="Add"  CssClass="redbox"  ValidationGroup="as" runat="server"  OnClientClick=" return confirmationAdd()" 
+                    Text="Add">
+                    </asp:Button>
+                    </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Top" Width="2%" />
+                    </asp:TemplateField>
+                    
+                    <asp:TemplateField HeaderText="Id" Visible="False"><ItemTemplate><asp:Label ID="lblid" runat="server" Text='<%#Eval("Id") %>'> </asp:Label></ItemTemplate><ItemStyle VerticalAlign="Top" /></asp:TemplateField><asp:BoundField DataField="Category" HeaderText="Category" Visible="False"><ItemStyle VerticalAlign="Top" /></asp:BoundField><asp:BoundField DataField="SubCategory" HeaderText="SubCategory" 
+                                                                Visible="False"><ItemStyle VerticalAlign="Top" /></asp:BoundField><asp:TemplateField HeaderText="Item Code"><ItemTemplate><asp:Label ID="lblitemcode" runat="server" Text='<%#Eval("ItemCode") %>'> </asp:Label></ItemTemplate>
+                            <ItemStyle VerticalAlign="Top" HorizontalAlign="Center" /></asp:TemplateField><asp:TemplateField HeaderText="Manf Desc"><ItemTemplate><asp:Label ID="lblManfDesc" runat="server" Text='<%#Eval("ManfDesc") %>'> </asp:Label></ItemTemplate><ItemStyle VerticalAlign="Top" Width="28%" /></asp:TemplateField><asp:TemplateField HeaderText="UOM"><ItemTemplate><asp:Label ID="lblUOMBasic" runat="server" Text='<%#Eval("UOMBasic") %>'> </asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Center" VerticalAlign="Top" /></asp:TemplateField><asp:TemplateField HeaderText="Purch Desc"><ItemTemplate><asp:Label ID="lblPurchDesc" runat="server" Text='<%#Eval("PurchDesc") %>'> </asp:Label></ItemTemplate><ItemStyle VerticalAlign="Top" Width="28%" /></asp:TemplateField><asp:TemplateField HeaderText="UOM"><ItemTemplate><asp:Label ID="lblUOMPurchase" runat="server" Text='<%#Eval("UOMPurchase") %>'> </asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Center" VerticalAlign="Top" /></asp:TemplateField><asp:TemplateField HeaderText="Location"><ItemTemplate><asp:Label ID="lblLocation" runat="server" Text='<%#Eval("Location") %>'> </asp:Label></ItemTemplate><ItemStyle VerticalAlign="Top" /></asp:TemplateField></Columns>
+                    <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate><FooterStyle Font-Bold="False" /><HeaderStyle Font-Size="9pt" />
+                            </asp:GridView></td></tr><tr><td align="right" class="fontcss" valign="top"></td></tr></table>      
+                                </ContentTemplate>
+                                </cc1:TabPanel>
+               
+               
+<cc1:TabPanel  runat="server" ID="TabPanel2" HeaderText="New Items" >
+    <HeaderTemplate>
+                                New Items</HeaderTemplate>
+    <ContentTemplate><table cellpadding="0" cellspacing="0" 
+            style="height: 67px; width: 47%;" ><tr>
+            <td align="right" class="style25" 
+                style="text-align: left" valign="middle">Category</td><td align="right" class="style34" style="text-align: left" valign="middle" 
+                height="30"><asp:DropDownList ID="DDLCategory" runat="server" CssClass="box3"></asp:DropDownList>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server" 
+                    ControlToValidate="DDLCategory" ErrorMessage="*" ValidationGroup="assub" 
+                    InitialValue="Select Category"></asp:RequiredFieldValidator></td></tr><tr valign="middle">
+            <td 
+            align="right" class="style25" style="text-align: left" 
+            valign="middle"  >Part No</td><td class="style42" align="right" 
+                style="text-align: left" valign="middle" height="30"><asp:Label ID="lblWo" runat="server"></asp:Label><asp:TextBox ID="txtPartNo" runat="server" CssClass="box3" 
+                    onblur="javascript:if(isNaN(this.value)==true){ this.value=''; }" 
+                    onfocus="javascript:if(isNaN(this.value)==true){ this.value=''; }" 
+                    onkeyup="javascript:if(isNaN(this.value)==true){ this.value=''; }" 
+                    Width="160px"></asp:TextBox><asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
+                    ControlToValidate="txtPartNo" ErrorMessage="*" ValidationGroup="assub"></asp:RequiredFieldValidator>
+                <asp:TextBox ID="TxtCounter" runat="server" BorderWidth="0px" ReadOnly="True" 
+                    Width="20px"></asp:TextBox>
+            </td></tr><tr>
+            <td align="right" class="style26" style="text-align: left" valign="middle">Revision </td><td align="right" class="fontcss" style="text-align: left" valign="middle" 
+                height="30"><asp:CheckBox ID="CKRevision" runat="server" AutoPostBack="True" /></td></tr><tr>
+            <td align="right" class="style26" style="text-align: left" valign="top">Manf Desc</td><td align="right" class="fontcss" style="text-align: left" valign="middle"><asp:TextBox ID="txtManfDescription" runat="server" CssClass="box3" 
+                    Height="58px" TextMode="MultiLine" Width="320px"></asp:TextBox><asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" 
+                    ControlToValidate="txtManfDescription" ErrorMessage="*" ValidationGroup="assub"></asp:RequiredFieldValidator></td></tr><tr>
+            <td align="right" class="style26" style="text-align: left" valign="top">Purchase Desc</td><td align="right" class="fontcss" style="text-align: left" valign="middle">
+            <asp:TextBox ID="txtPurchDescription" runat="server" CssClass="box3" 
+                    Height="58px" TextMode="MultiLine" Width="320px"></asp:TextBox><asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" 
+                    ControlToValidate="txtPurchDescription" ErrorMessage="*" 
+                    ValidationGroup="assub"></asp:RequiredFieldValidator></td></tr><tr>
+            <td align="right" class="style26" style="text-align: left" valign="middle">Unit Purchase</td><td align="right" class="style22" style="text-align: left" valign="middle"><asp:DropDownList ID="DDLUnitBasic" runat="server" CssClass="box3"></asp:DropDownList>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" 
+                    ControlToValidate="DDLUnitBasic" ErrorMessage="*" 
+                ValidationGroup="assub" InitialValue="Select"></asp:RequiredFieldValidator></td></tr><tr>
+            <td align="right" class="style27" style="text-align: left" valign="middle">Unit Basic</td><td align="right" class="style24" style="text-align: left" valign="bottom"><asp:DropDownList ID="DDLUnitPurchase" runat="server" CssClass="box3"></asp:DropDownList>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator7" runat="server" 
+                    ControlToValidate="DDLUnitPurchase" ErrorMessage="*" 
+                ValidationGroup="assub" InitialValue="Select"></asp:RequiredFieldValidator></td></tr><tr>
+            <td align="right" class="style28" style="text-align: left" valign="middle">Required Qty</td><td align="right" class="style23" style="text-align: left" valign="middle"><asp:TextBox ID="txtQuntity" runat="server" CssClass="box3" 
+                    onblur="javascript:if(isNaN(this.value)==true){ this.value=''; }" 
+                    onfocus="javascript:if(isNaN(this.value)==true){ this.value=''; }" 
+                    onkeyup="javascript:if(isNaN(this.value)==true){ this.value=''; }" Width="50px"></asp:TextBox><asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
+                    ControlToValidate="txtQuntity" ErrorMessage="*" ValidationGroup="assub"></asp:RequiredFieldValidator>
+            <asp:RegularExpressionValidator ID="RegQty" runat="server" 
+                ControlToValidate="txtQuntity" ErrorMessage="*" 
+                ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="assub"></asp:RegularExpressionValidator>
+            </td></tr><tr><td align="right" class="style35" style="text-align: left" valign="top"></td><td align="right" class="style36" style="text-align: left" valign="middle" 
+                height="30">
+                
+                
+                <asp:Button ID="btnSubmit" runat="server" CssClass="redbox"  OnClientClick=" return confirmationAdd()" 
+                    OnClick="btnSubmit_Click" Text="Add" ValidationGroup="assub" />
+                    <asp:Button ID="Button1" runat="server" CssClass="redbox" 
+                    OnClick="Button1_Click1" Text="Cancel" /><asp:Label ID="lblMsg1" 
+                    runat="server" ForeColor="Red" style="font-weight: 700"></asp:Label>
+                <asp:Label ID="lblMsg" runat="server" ForeColor="Red" style="font-weight: 700"></asp:Label></td></tr></table>
+
+                                </ContentTemplate>
+                             
+</cc1:TabPanel>
+                                <cc1:TabPanel ID="TabPanel3" runat="server" HeaderText="Copy From">
+                                    <HeaderTemplate>
+                                    Copy From</HeaderTemplate>
+                                <ContentTemplate><table width="100%"><tr><td><iframe ID="frm2" frameborder="0" runat="server" height="415px" scrolling="auto" width="100%"></iframe></td></tr>
+                                
+                                <tr>
+                                <td align="right">
+                                <b>
+<asp:Button ID="Button3" runat="server" CssClass="redbox" 
+    onclick="btnCancel_Click" Text="Cancel" />
+                        </b>
+                                </td>
+                                </tr>
+                                
+                                </table>
+                                </ContentTemplate>   
+                                </cc1:TabPanel>
+                                <cc1:TabPanel ID="TabPanel4" runat="server" HeaderText="Selected Items">
+                                    <ContentTemplate><table align="left" cellpadding="0" cellspacing="0"
+                                            width="100%" class="fontcss"><tr><td  valign="top"><asp:GridView ID="GridView4" 
+                                                runat="server" AllowPaging="True"  PageSize="12"
+                                                        AutoGenerateColumns="False" CssClass="yui-datatable-theme" DataKeyNames="Id" 
+                                                        OnRowCommand="GridView4_RowCommand" OnRowDeleting="GridView4_RowDeleting" 
+                                                        Width="100%" onpageindexchanging="GridView4_PageIndexChanging"><Columns><asp:TemplateField HeaderText="SN">
+                                                                    <ItemTemplate>
+                                                                        <%# Container.DataItemIndex+1 %>
+                                                                    </ItemTemplate>
+                                                                    <ItemStyle HorizontalAlign="Right" />
+                                                                </asp:TemplateField><asp:TemplateField><ItemTemplate><asp:LinkButton ID="btndelete" OnClientClick=" return confirmationDelete()" runat="server" CommandName="del" Text="Delete"></asp:LinkButton></ItemTemplate><ItemStyle HorizontalAlign="Center" /></asp:TemplateField><asp:TemplateField HeaderText="Id" Visible="False"><ItemTemplate><asp:Label ID="lblid" runat="server" Text='<%#Eval("Id") %>'></asp:Label></ItemTemplate></asp:TemplateField><asp:TemplateField HeaderText="Item Code"><ItemTemplate><asp:Label ID="lblic" runat="server" Text='<%#Eval("ItemCode") %>'></asp:Label></ItemTemplate>
+                                                <ItemStyle HorizontalAlign="Center" /></asp:TemplateField><asp:TemplateField HeaderText="Manf Desc"><ItemTemplate><asp:Label ID="lblmanfdesc0" runat="server" Text='<%#Eval("ManfDesc") %>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Left" Width="24%" /></asp:TemplateField><asp:TemplateField HeaderText="UOM"><ItemTemplate><asp:Label ID="lblUOMB" runat="server" Text='<%#Eval("UOMBasic") %>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="5%" /></asp:TemplateField><asp:TemplateField HeaderText="Purch Desc"><ItemTemplate><asp:Label ID="lblpurchdesc0" runat="server" Text='<%#Eval("PurchDesc") %>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Left" Width="24%" /></asp:TemplateField><asp:TemplateField HeaderText="UOM"><ItemTemplate><asp:Label ID="lblUOMP" runat="server" Text='<%#Eval("UOMPurchase") %>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="5%" /></asp:TemplateField><asp:TemplateField HeaderText="Assly Qty"><ItemTemplate><asp:Label ID="lblasslyqty" runat="server" Text='<%#Eval("AsslyQty") %>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Right" /></asp:TemplateField><asp:TemplateField HeaderText="Req Qty"><ItemTemplate><asp:Label ID="lblreqqty" runat="server" Text='<%#Eval("Qty") %>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Right" /></asp:TemplateField><asp:TemplateField HeaderText="BOM Qty"><ItemTemplate><asp:Label ID="lblBOMQty" runat="server" Text='<%#Eval("BOMQty") %>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Right" /></asp:TemplateField></Columns> 
+                    <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate></asp:GridView></td></tr><tr><td align="right" height="25">
+                          <asp:Button ID="btnproceed" runat="server" CssClass="redbox" OnClientClick=" return confirmationAdd()"  onclick="btnproceed_Click" Text="Add To TPL" />&nbsp;
+                <asp:Button ID="btnCovBom" runat="server" CssClass="redbox" onclick="Button1_Click" OnClientClick=" return confirmationAdd()" Text="Add To TPL &amp; BOM" />&nbsp;<asp:Button ID="Button4" runat="server" CssClass="redbox" onclick="btnCancel_Click" Text="Cancel" />&nbsp;</td></tr></table>
+                                    </ContentTemplate>
+                                </cc1:TabPanel>
+                            </cc1:TabContainer>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Transactions/WoItems.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Security.Cryptography;
+using System.Collections.Generic;
+public partial class Module_Design_Transactions_WoItems : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string wono = "";
+    int wlen = 0;
+    string connStr = "";
+    SqlConnection con;
+    int CompId = 0;
+    string SId = "";
+    int FinYearId = 0;
+    int parentid = 0;
+    int childid = 0;
+    string AsslyNo = "";
+    DataSet dsnm = new DataSet();
+    public void Fillgridview(string sd, string A, string B, string s)
+    {
+        try
+        {
+            string sql = "";           
+            string x = "";
+            ///  Not to Show Root Assembly In Item to add 
+            string x1 = "";
+            List<int> li = new List<int>();
+            li = fun.getTPLBOMRootnode(childid, wono, CompId, SId, FinYearId, "tblDG_TPL_Master");
+            if (li.Count > 0)
+            {
+                x1 = "and tblDG_Item_Master.Id!='" + li[0] + "'";
+               
+            }    
+
+            if (sd != "Select Category")
+            {
+                string y = "";
+                if (A != "Select SubCategory")
+                {
+                    y = "  And tblDG_Item_Master.SCId='" + A + "'";
+                }
+                x = " AND  tblDG_Item_Master.CId='" + sd + "'";
+
+                string z = "";
+                string p = "";
+                txtSearchItemCode.Visible = true;
+                if (B != "Select")
+                {
+                    if (B == "tblDG_Item_Master.ItemCode")
+                    {
+                        txtSearchItemCode.Visible = true;
+                        p = " And tblDG_Item_Master.ItemCode Like '" + s + "%'";
+                    }
+
+                    if (B == "tblDG_Item_Master.ManfDesc")
+                    {
+                        txtSearchItemCode.Visible = true;
+                        p = " And tblDG_Item_Master.ManfDesc Like '%" + s + "%'";
+                    }
+                    if (B == "tblDG_Item_Master.PurchDesc")
+                    {
+                        txtSearchItemCode.Visible = true;
+                        p = " And tblDG_Item_Master.PurchDesc Like '%" + s + "%'";
+                    }
+
+                    if (B == "tblDG_Item_Master.Location")
+                    {
+                        txtSearchItemCode.Visible = false;
+                        DropDownList3.Visible = true;
+                        p = " And tblDG_Item_Master.Location='" + DropDownList3.SelectedValue + "'";
+                    }
+
+                }
+
+                sql = fun.select("tblDG_Item_Master.Id,tblDG_Item_Master.ManfDesc,tblDG_Item_Master.StockQty,tblDG_Item_Master.PurchDesc,Unit_Master.Symbol As UOMBasic,vw_Unit_Master.Symbol As UOMPurchase, tblDG_Item_Master.ItemCode,tblDG_Item_Master.Location", "tblDG_Category_Master,Unit_Master,vw_Unit_Master,tblDG_Item_Master", "tblDG_Item_Master.CId=tblDG_Category_Master.CId and Unit_Master.Id=tblDG_Item_Master.UOMBasic and vw_Unit_Master.Id=tblDG_Item_Master.UOMPurchase" + x + "" + y + "" + p + " AND tblDG_Item_Master.CompId='" + CompId + "'AND tblDG_Item_Master.FinYearId<='" + FinYearId + "'AND tblDG_Item_Master.Id!='" + AsslyNo + "' And tblDG_Item_Master.Absolute!='1'" + x1 + " ");
+
+            }
+            else
+            {
+                sql = fun.select("tblDG_Item_Master.Id,tblDG_Item_Master.ManfDesc,tblDG_Item_Master.StockQty,tblDG_Item_Master.PurchDesc,Unit_Master.Symbol As UOMBasic,vw_Unit_Master.Symbol As UOMPurchase, tblDG_Item_Master.ItemCode,tblDG_Item_Master.Location", " tblDG_Category_Master,tblDG_Item_Master,Unit_Master,vw_Unit_Master", "tblDG_Item_Master.CId=tblDG_Category_Master.CId and Unit_Master.Id=tblDG_Item_Master.UOMBasic and vw_Unit_Master.Id=tblDG_Item_Master.UOMPurchase AND tblDG_Item_Master.CompId='" + CompId + "'AND tblDG_Item_Master.FinYearId<='" + FinYearId + "'AND tblDG_Item_Master.Id!='" + AsslyNo + "' And tblDG_Item_Master.Absolute!='1'" + x1 + " ");
+
+            }
+          
+            fun.binddropdwn(sql, GridView2,CompId);
+            
+        }
+        catch(Exception ep)
+        {
+
+        }
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        connStr = fun.Connection();
+        con = new SqlConnection(connStr);
+        try
+        {
+        DropDownList3.Visible = false;
+        lblMsg.Text = "";
+        lblMsg1.Text = "";
+        CompId = Convert.ToInt32(Session["compid"]);
+        FinYearId = Convert.ToInt32(Session["finyear"]);
+        SId = Session["username"].ToString();
+        wono = (Request.QueryString["WONo"].ToString());
+        wlen = wono.Length;
+        AsslyNo =(Request.QueryString["ItemId"]);
+        parentid = Convert.ToInt32((Request.QueryString["PId"]));
+        childid = Convert.ToInt32((Request.QueryString["CId"]));   
+           
+            if (!IsPostBack)
+            {
+
+                fun.drpDesignCategory(DrpCategory, DrpSubCategory);
+                fun.drpCategoryOnly(DDLCategory);
+                fun.drpunit(DDLUnitBasic);
+                fun.drpunit(DDLUnitPurchase);
+
+                if (DrpSearchCode.SelectedValue == "Select")
+                {
+                    DropDownList3.Visible = false;
+                    txtSearchItemCode.Visible = true;
+                }
+                string loc = fun.select1("Id,LocationLabel+''+tblDG_Location_Master.LocationNo As Location", "tblDG_Location_Master");
+                SqlCommand Cmdloc = new SqlCommand(loc, con);
+                SqlDataAdapter DAloc = new SqlDataAdapter(Cmdloc);
+                DataSet DSloc = new DataSet();
+                DAloc.Fill(DSloc, "tblDG_Location_Master");
+                DropDownList3.DataSource = DSloc.Tables["tblDG_Location_Master"];
+                DropDownList3.DataTextField = "Location";
+                DropDownList3.DataValueField = "Id";
+                DropDownList3.DataBind();
+                DropDownList3.Items.Insert(0, "Select");            
+
+                string sd = DrpCategory.SelectedValue;
+                string b = DrpSubCategory.SelectedValue;
+                string c = DrpSearchCode.SelectedValue;
+                string d = txtSearchItemCode.Text;
+                this.Fillgridview(sd, b, c, d);
+                TabContainer1.OnClientActiveTabChanged = "OnChanged";
+                TabContainer1.ActiveTabIndex = Convert.ToInt32(Session["TabIndex"] ?? "0");      
+           }
+            
+               lblwono.Text = wono.ToString();
+            // To Show Assembly in which part is to copy.
+               SqlCommand cmditm = new SqlCommand(fun.select("ItemCode", "tblDG_Item_Master", "Id='" +AsslyNo + "'AND CompId='" + CompId + "'AND FinYearId<='" + FinYearId + "'"), con);
+               SqlDataAdapter daitm = new SqlDataAdapter(cmditm);
+               DataSet dsitm = new DataSet();
+               daitm.Fill(dsitm);
+               if (dsitm.Tables[0].Rows.Count > 0)
+               {
+                   lblasslyno.Text = dsitm.Tables[0].Rows[0]["ItemCode"].ToString();
+               }
+                // For Tab Copy
+                frm2.Attributes["src"] = "TPL_Design_CopyWo.aspx?WONoDest=" + wono + "&DestPId=" + parentid + "&DestCId=" + childid + "";                
+                this.FillDatagrid();
+                int partlimit = 0;
+                int abc = fun.ItemCodeLimit(CompId);
+                partlimit = fun.SetBomItemLimit(abc,wlen);
+                txtPartNo.MaxLength = partlimit;                
+                TxtCounter.Text = partlimit.ToString();
+        }
+        catch (Exception ex)
+        {
+       
+        }
+        finally
+        {
+            con.Close();
+        }
+
+    }
+    
+
+    public void FillDatagrid()
+    {
+        //// Get Assly No & Qty
+
+        try
+        {
+            SqlCommand cmdgrid = new SqlCommand(fun.select("*", "tblDG_TPLItem_Temp", "WONo='" + wono + "' AND Childid='" + childid + "' AND CompId='" + CompId + "'Order by Id Desc"), con);
+
+            SqlDataAdapter dagrid = new SqlDataAdapter(cmdgrid);
+            DataSet dsgrid = new DataSet();
+            dagrid.Fill(dsgrid);
+
+            double AsslyNewqty = fun.RecurQty(wono, parentid, childid, 1, CompId, FinYearId);
+
+            // View Selected Item
+            DataTable dtNew = new DataTable();
+            dtNew.Columns.Add("ItemCode", typeof(string));
+            dtNew.Columns.Add("ManfDesc", typeof(string));
+            dtNew.Columns.Add("UOMBasic", typeof(string));
+            dtNew.Columns.Add("PurchDesc", typeof(string));
+            dtNew.Columns.Add("UOMPurchase", typeof(string));
+            dtNew.Columns.Add("AsslyQty", typeof(string));
+            dtNew.Columns.Add("Qty", typeof(double));
+            dtNew.Columns.Add("BOMQty", typeof(double));
+            dtNew.Columns.Add("Id", typeof(int));
+            DataRow drNew;
+            string ItemCode = "";
+            string MangDesc = "";
+            string PurchDesc = "";
+            string UOMBasic = "";
+            string UOMPurch = "";
+
+            for (int k = 0; k < dsgrid.Tables[0].Rows.Count; k++)
+            {
+                drNew = dtNew.NewRow();
+
+
+
+                if (dsgrid.Tables[0].Rows[k]["ItemId"] != DBNull.Value)
+                {
+                    SqlCommand cmditm = new SqlCommand(fun.select("tblDG_Item_Master.ItemCode,tblDG_Item_Master.ManfDesc,tblDG_Item_Master.PurchDesc,Unit_Master.Symbol As UBasic,vw_Unit_Master.Symbol As UPurch", "tblDG_Item_Master,vw_Unit_Master,Unit_Master", "tblDG_Item_Master.Id='" + dsgrid.Tables[0].Rows[k]["ItemId"].ToString() + "' AND Unit_Master.Id=tblDG_Item_Master.UOMBasic AND vw_Unit_Master.Id=tblDG_Item_Master.UOMPurchase AND tblDG_Item_Master.CompId='" + CompId + "'AND tblDG_Item_Master.FinYearId<='" + FinYearId + "'"), con);
+                    SqlDataAdapter daitm = new SqlDataAdapter(cmditm);
+                    DataSet dsitm = new DataSet();
+                    daitm.Fill(dsitm);
+                    ItemCode = dsitm.Tables[0].Rows[0]["ItemCode"].ToString();
+                    MangDesc = dsitm.Tables[0].Rows[0]["ManfDesc"].ToString();
+                    PurchDesc = dsitm.Tables[0].Rows[0]["PurchDesc"].ToString();
+                    UOMBasic = dsitm.Tables[0].Rows[0]["UBasic"].ToString();
+                    UOMPurch = dsitm.Tables[0].Rows[0]["UPurch"].ToString();
+                }
+                else
+                {
+                    ItemCode = dsgrid.Tables[0].Rows[k]["ItemCode"].ToString();
+                    MangDesc = dsgrid.Tables[0].Rows[k]["ManfDesc"].ToString();
+                    PurchDesc = dsgrid.Tables[0].Rows[k]["PurchDesc"].ToString();
+                    SqlCommand cmduombasic = new SqlCommand(fun.select("Symbol", "Unit_Master", "Id='" + dsgrid.Tables[0].Rows[k]["UOMBasic"].ToString() + "'"), con);
+                    SqlDataAdapter dauombasic = new SqlDataAdapter(cmduombasic);
+                    DataSet dsuombasic = new DataSet();
+                    dauombasic.Fill(dsuombasic);
+                    UOMBasic = dsuombasic.Tables[0].Rows[0]["Symbol"].ToString();
+                    SqlCommand cmduompurch = new SqlCommand(fun.select("Symbol", "Unit_Master", "Id='" + dsgrid.Tables[0].Rows[k]["UOMPurchase"].ToString() + "'"), con);
+                    SqlDataAdapter dauompurch = new SqlDataAdapter(cmduompurch);
+                    DataSet dsuompurch = new DataSet();
+                    dauompurch.Fill(dsuompurch);
+                    UOMPurch = dsuompurch.Tables[0].Rows[0]["Symbol"].ToString();
+                }
+
+                drNew[0] = ItemCode;
+                drNew[1] = MangDesc;
+                drNew[2] = UOMBasic;
+                drNew[3] = PurchDesc;
+                drNew[4] = UOMPurch;
+                drNew[5] = Convert.ToDouble(decimal.Parse(AsslyNewqty.ToString()).ToString("N3"));
+                drNew[6] = Convert.ToDouble(decimal.Parse(dsgrid.Tables[0].Rows[k]["Qty"].ToString()).ToString("N3"));
+                drNew[7] = Convert.ToDouble(decimal.Parse((AsslyNewqty * Convert.ToDouble(decimal.Parse(dsgrid.Tables[0].Rows[k]["Qty"].ToString()).ToString("N3"))).ToString()).ToString("N3"));
+                drNew[8] = Convert.ToInt32(dsgrid.Tables[0].Rows[k]["Id"]);
+
+                dtNew.Rows.Add(drNew);
+                dtNew.AcceptChanges();
+            }
+
+            GridView4.DataSource = dtNew;
+            GridView4.DataBind();
+
+        }
+        catch (Exception ex) { }
+        finally { con.Close(); }
+    }
+
+   public void GridView4_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+       try
+        {
+            if (e.CommandName == "del")
+            {
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                string Id = ((Label)row.FindControl("lblid")).Text;
+                string SId = Session["username"].ToString();
+                string connStr = fun.Connection();
+                SqlConnection con = new SqlConnection(connStr);
+                con.Open();
+                string StrDel = fun.delete("tblDG_TPLItem_Temp ", "Id='" + Id + "' AND SessionId='" + SId + "' AND CompId='" + CompId + "'");
+                SqlCommand cmdgrid = new SqlCommand(StrDel, con);
+                cmdgrid.ExecuteNonQuery();
+                con.Close();
+                Page.Response.Redirect(Page.Request.Url.ToString(), true);
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    public void GridView4_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+       
+    }
+  
+
+   public void GridView3_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+       
+    }
+
+   protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        DataSet ItemDs = new DataSet();
+
+        try
+        {
+            if (e.CommandName == "Add")
+            {
+                GridViewRow row = (GridViewRow)(((Button)e.CommandSource).NamingContainer);
+                string txtQty = ((TextBox)row.FindControl("txtQty")).Text;
+                int CId = Convert.ToInt32(Session["compid"]);
+                string SId = Session["username"].ToString();
+                string wono =(Request.QueryString["WONo"].ToString());
+                int childid = Convert.ToInt32((Request.QueryString["CId"].ToString()));
+                int Id = Convert.ToInt32(((Label)row.FindControl("lblId")).Text);
+                string ItemId = fun.select("ItemId", "tblDG_TPLItem_Temp", "ItemId='" + Id + "'And CompId='" + CompId + "'And SessionId='" + SId + "'And WONo='" + wono.ToString() + "' And ChildId='" + childid + "' ");
+                SqlCommand itemCmd = new SqlCommand(ItemId, con);
+                SqlDataAdapter itemDa = new SqlDataAdapter(itemCmd);
+                itemDa.Fill(ItemDs, "tblDG_TPLItem_Temp");
+                con.Open();              
+               
+                // To get Weldment
+                string Weldment = fun.select("Weldments", "tblDG_TPL_Master", "ItemId='" + AsslyNo + "'And CompId='" + CompId + "'And WONo='" + wono.ToString() + "' And CId='" + childid + "' ");
+                SqlCommand WeldmentCmd = new SqlCommand(Weldment, con);
+                SqlDataAdapter WeldmentDa = new SqlDataAdapter(WeldmentCmd);
+                DataSet WeldmentDs = new DataSet();
+                WeldmentDa.Fill(WeldmentDs, "tblDG_TPL_Master");
+                int weld = 0;
+                if (WeldmentDs.Tables[0].Rows.Count > 0)
+                {
+                    if (Convert.ToInt32(WeldmentDs.Tables[0].Rows[0][0]) == 1)
+                    {
+                        weld = 1;
+                    }
+                    else
+                    {
+                        weld = 0;
+                    }
+                }
+
+                if (txtQty != "" )
+               {
+                   if (fun.NumberValidationQty(txtQty) == true)
+                   {
+
+                       if (ItemDs.Tables[0].Rows.Count == 0)
+                       {
+                           if (Convert.ToDouble(txtQty) > 0)
+                           {
+                               string strcmd = fun.insert("tblDG_TPLItem_Temp", "CompId,SessionId,WONo,ItemId,Qty,ChildId", "'" + CId + "','" + SId.ToString() + "','" + wono.ToString() + "','" + Id + "','" + txtQty.ToString() + "','" + childid + "','" + weld + "'");
+                               SqlCommand cmdgrid = new SqlCommand(strcmd, con);
+                               cmdgrid.ExecuteNonQuery();
+                               Page.Response.Redirect(Page.Request.Url.ToString(), true);
+                           }
+                           else
+                           {
+                               string mystringmsg = string.Empty;
+                               mystringmsg = "Req.Qty must be greater than zero.";
+                               ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('" + mystringmsg + "');", true);
+                           }
+                       }
+
+                       else
+                       {
+                           string mystringmsg = string.Empty;
+                           mystringmsg = "Record Already Inserted";
+                           ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('" + mystringmsg + "');", true);
+                       }
+                   }
+               }
+               else
+               {
+                   string mystringmsg = string.Empty;
+                   mystringmsg = "Req. Qty should not be blank.";
+                   ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('" + mystringmsg + "');", true);
+               }
+               
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+    }
+
+    public void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            GridView2.PageIndex = e.NewPageIndex;
+            string sd = DrpCategory.SelectedValue;
+            string b = DrpSubCategory.SelectedValue;
+            string c = DrpSearchCode.SelectedValue;
+            string d = txtSearchItemCode.Text;
+            this.Fillgridview(sd, b, c, d);
+
+        }
+       catch (Exception ch)
+        {
+        }
+    }
+
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            string sd = DrpCategory.SelectedValue;
+            string b = DrpSubCategory.SelectedValue;
+            string c = DrpSearchCode.SelectedValue;
+            string d = txtSearchItemCode.Text;
+            this.Fillgridview(sd, b, c, d);
+        }
+       catch (Exception ch)
+        {
+        }
+
+    }
+    protected void DrpCategory_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        try
+        {
+            if (DrpCategory.SelectedValue != "Select Category")
+            {
+                string StrCat = fun.select("CId,SCId,Symbol+' - '+SCName As SubCatName", "tblDG_SubCategory_Master", "CId=" + DrpCategory.SelectedValue + "AND CompId='" + CompId + "'AND FinYearId<='" + FinYearId + "' ");
+                SqlCommand Cmd1 = new SqlCommand(StrCat, con);
+                SqlDataAdapter DA1 = new SqlDataAdapter(Cmd1);
+                DataSet DS2 = new DataSet();
+                DA1.Fill(DS2, "tblDG_SubCategory_Master");
+                DrpSubCategory.DataSource = DS2.Tables["tblDG_SubCategory_Master"];
+                DrpSubCategory.DataTextField = "SubCatName";
+                DrpSubCategory.DataValueField = "SCId";
+                DrpSubCategory.DataBind();
+                DrpSubCategory.Items.Insert(0, "Select SubCategory");
+
+                string sd = DrpCategory.SelectedValue;
+                string b = DrpSubCategory.SelectedValue;
+                string c = DrpSearchCode.SelectedValue;
+                string d = txtSearchItemCode.Text;
+                this.Fillgridview(sd, b, c, d);
+            }
+           
+            
+            txtSearchItemCode.Text = "";
+        }
+        catch (Exception ch)
+        {
+        }
+        finally
+        {
+            con.Close();
+        }
+
+    }
+    protected void DrpSubCategory_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (DrpSubCategory.SelectedItem.Text != "Select SubCategory")
+            {
+                string sd = DrpCategory.SelectedValue;
+                string b = DrpSubCategory.SelectedValue;
+                string c = DrpSearchCode.SelectedValue;
+                string d = txtSearchItemCode.Text;
+                this.Fillgridview(sd, b, c, d);
+            }
+        }
+        catch (Exception ch)
+        {
+        }
+        finally
+        {
+
+        }
+    }
+
+
+    protected void btnSubmit_Click(object sender, EventArgs e)
+    {
+        // Add New User Define Items        
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);        
+        string msg1 = "";
+        con.Open();
+
+      try
+        {
+
+        string CDate = fun.getCurrDate();
+        string CTime = fun.getCurrTime();
+        int CompId = Convert.ToInt32(Session["compid"]);
+        int FinYearId = Convert.ToInt32(Session["finyear"]);
+        string sId = Session["username"].ToString();
+        string wono = (Request.QueryString["WONo"].ToString());
+        int childid = Convert.ToInt32((Request.QueryString["CId"].ToString()));
+        int PId = Convert.ToInt32((Request.QueryString["PId"].ToString()));
+        int r=0;
+        int p = 0;
+        if (CKRevision.Checked == true)
+        {
+            DataSet dsrev = new DataSet();
+            string cmdrev = fun.select("*", "tblDG_Item_Master", "CompId='" + CompId + "'AND FinYearId<='" + FinYearId + "'AND CId='" + DDLCategory.SelectedValue + "'AND PartNo='" + (wono + txtPartNo.Text) + "' Order by Id Desc");
+            
+            SqlCommand cmd21 = new SqlCommand(cmdrev, con);
+            SqlDataAdapter darev = new SqlDataAdapter(cmd21);
+            darev.Fill(dsrev, "tblDG_Item_Master");
+            cmd21.ExecuteNonQuery();
+
+            if (dsrev.Tables[0].Rows.Count > 0)
+            {
+                r = Convert.ToInt32(dsrev.Tables[0].Rows[0]["Revision"]) + 1;
+
+                msg1 = "" + r + " revision of";
+            }
+            else
+            {
+                r = 0;
+            }
+        }
+        else
+        {
+            r = 0;
+        }
+
+        string PartNo = wono + txtPartNo.Text;
+        int cid = Convert.ToInt32(DDLCategory.SelectedValue);
+        string ItemCode = fun.createAssemblyCode(cid, PartNo, r,CompId,FinYearId);
+        if (txtQuntity.Text != "" && fun.NumberValidationQty(txtQuntity.Text) == true)
+        {
+            string cmdict = fun.select("*", "tblDG_TPLItem_Temp", "ChildId='" + childid + "' AND WONo='" + wono + "' AND CompId='" + CompId + "'AND ItemCode='" + ItemCode + "'");
+            SqlCommand cmdt = new SqlCommand(cmdict, con);
+            SqlDataAdapter daict = new SqlDataAdapter(cmdt);
+            DataSet dsict = new DataSet();
+            daict.Fill(dsict, "tblDG_Item_Master");
+            cmdt.ExecuteNonQuery();
+            if (r < 10 && dsict.Tables[0].Rows.Count == 0)
+            {
+                if (Convert.ToDouble(txtQuntity.Text) > 0)
+                {
+                    int partlimit = 0;
+                    int abc = fun.ItemCodeLimit(CompId);
+                    partlimit = fun.SetBomItemLimit(abc, wlen);
+                    txtPartNo.MaxLength = partlimit;
+                    if (txtPartNo.Text.Length == txtPartNo.MaxLength)
+                    {
+                        string cmdstrItemMaster = fun.insert("tblDG_TPLItem_Temp",
+                         "SessionId,CompId,WONo,CId,ChildId,PartNo,Revision,ItemCode,ManfDesc,PurchDesc,UOMBasic,UOMPurchase,Qty",
+                         "'" + sId.ToString() + "','" + CompId + "','" + wono + "','" + DDLCategory.SelectedValue + "','" + childid + "','" + PartNo + "','" + r.ToString() + "','" + ItemCode + "','" + txtManfDescription.Text + "','" + txtPurchDescription.Text + "','" + DDLUnitBasic.SelectedValue + "','" + DDLUnitPurchase.SelectedValue + "','" + txtQuntity.Text + "'");
+                        SqlCommand cmd = new SqlCommand(cmdstrItemMaster, con);
+                        cmd.ExecuteNonQuery();
+                        Page.Response.Redirect(Page.Request.Url.ToString(), true);
+                    }
+                    else
+                    {
+                        string myStringVariable = string.Empty;
+                        string myStringVariable1 = "Part number should be";
+                        string myStringVariable2 = "digit.";
+                        string Strabc = Convert.ToString(partlimit);
+                        myStringVariable = myStringVariable1 + " " + Strabc + " " + myStringVariable2;
+                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable + "');", true);
+
+                    }
+                }
+                else
+                {
+                    string mystringmsg = string.Empty;
+                    mystringmsg = "Req.Qty must be greater than zero.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('" + mystringmsg + "');", true);
+                }
+            }
+            else
+            {
+                string mystringmsg = string.Empty;
+                mystringmsg = "Record Already Inserted!";
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('" + mystringmsg + "');", true);
+            }
+        }
+    }
+   catch (Exception ex)
+    {
+
+    }
+   finally
+    {
+        con.Close();
+    }
+}
+
+
+protected void btnCancel_Click(object sender, EventArgs e)
+{
+    Response.Redirect("TPL_Design_WO_TreeView.aspx?WONo=" +wono + "&ModId=3&SubModId=23");
+}
+
+
+
+protected void TabContainer1_ActiveTabChanged(object sender, EventArgs e)
+{
+   
+    Session.Remove("TabIndex");
+}
+
+public void AddToTPLBOM(int cnv)
+{
+    try
+    {
+        
+        string wono = Request.QueryString["WONo"].ToString();
+        int parentid = Convert.ToInt32(Request.QueryString["PId"]);
+        int childid = Convert.ToInt32(Request.QueryString["CId"]);
+        string sysdate = fun.getCurrDate();
+        string CTime = fun.getCurrTime();
+        string connStr = fun.Connection();
+
+        SqlConnection con = new SqlConnection(connStr);
+        con.Open();
+
+        //To Get Data from Temp Table to Insert Into Item Master, TPL & BOM Table
+
+        string cmdstr = fun.select("*", "tblDG_TPLItem_Temp", "CompId='" + CompId + "'And SessionId='" + SId.ToString() + "'And WONo='" + wono.ToString() + "'");
+        SqlCommand sql = new SqlCommand(cmdstr, con);
+        SqlDataAdapter sqlDa = new SqlDataAdapter(sql);
+        DataSet sqlDs = new DataSet();
+        sqlDa.Fill(sqlDs, "tblDG_TPLItem_Temp");
+
+        if (sqlDs.Tables[0].Rows.Count > 0)
+        {
+            for (int i = 0; i < sqlDs.Tables[0].Rows.Count; i++)
+            {
+                int NextCid = fun.getTPLCId(wono,CompId,FinYearId);
+
+                if (sqlDs.Tables[0].Rows[i]["ItemId"] == DBNull.Value) //New Item Created
+                {
+                    string cmdItemcode = fun.select("*", "tblDG_Item_Master", "ItemCode='" + sqlDs.Tables[0].Rows[i]["ItemCode"].ToString() + "'And CompId='" + CompId + "' AND FinYearId<='"+FinYearId+"'");
+                    SqlCommand sqlCode = new SqlCommand(cmdItemcode, con);
+                    SqlDataAdapter sqlDaCode = new SqlDataAdapter(sqlCode);
+                    DataSet sqlDsCode = new DataSet();
+                    sqlDaCode.Fill(sqlDsCode, "tblDG_Item_Master");
+
+                    if (sqlDsCode.Tables[0].Rows.Count == 0)
+                    {
+                        string OpBalDate = fun.FromDate(fun.getOpeningDate(Convert.ToInt32(sqlDs.Tables[0].Rows[i]["CompId"]), FinYearId));
+
+                        string cmdInsert = fun.insert("tblDG_Item_Master", "SysDate,SysTime,CompId,FinYearId,SessionId,CId,PartNo,Revision,ItemCode,ManfDesc,PurchDesc,UOMBasic,UOMPurchase,OpeningBalDate,OpeningBalQty", "'" + sysdate.ToString() + "','" + CTime.ToString() + "','" + Convert.ToInt32(sqlDs.Tables[0].Rows[i]["CompId"]) + "','" + FinYearId + "','" + sqlDs.Tables[0].Rows[i]["SessionId"].ToString() + "','" + Convert.ToInt32(sqlDs.Tables[0].Rows[i]["CId"]) + "','" + sqlDs.Tables[0].Rows[i]["PartNo"].ToString() + "','" + Convert.ToInt32(sqlDs.Tables[0].Rows[i]["Revision"]) + "','" + sqlDs.Tables[0].Rows[i]["ItemCode"].ToString() + "','" + sqlDs.Tables[0].Rows[i]["ManfDesc"].ToString() + "','" + sqlDs.Tables[0].Rows[i]["PurchDesc"].ToString() + "','" + Convert.ToInt32(sqlDs.Tables[0].Rows[i]["UOMBasic"]) + "','" + Convert.ToInt32(sqlDs.Tables[0].Rows[i]["UOMPurchase"]) + "','"+OpBalDate+"','0'");
+
+                        SqlCommand sqlInsert = new SqlCommand(cmdInsert, con);
+                        sqlInsert.ExecuteNonQuery();
+                    }
+
+                    string getItemId = fun.select("*", "tblDG_Item_Master", "ItemCode='" + sqlDs.Tables[0].Rows[i]["ItemCode"].ToString() + "'And CompId='" + CompId + "'AND FinYearId<='" + FinYearId + "'");
+                    SqlCommand sqlget = new SqlCommand(getItemId, con);
+                    SqlDataAdapter sqlDaget = new SqlDataAdapter(sqlget);
+                    DataSet sqlDsget = new DataSet();
+                    sqlDaget.Fill(sqlDsget, "tblDG_Item_Master");
+
+                    string cmdtplId = fun.select("ItemId", "tblDG_TPL_Master", " CompId='" + CompId + "' AND FinYearId<='" + FinYearId + "'And WONo='" + wono.ToString() + "'And PId='" + parentid.ToString() + "'And CId='" + childid.ToString() + "' And ItemId='" + sqlDsget.Tables[0].Rows[0]["Id"].ToString() + "'");
+                    SqlCommand sqltplId = new SqlCommand(cmdtplId, con);
+                    SqlDataAdapter sqlDatplId = new SqlDataAdapter(sqltplId);
+                    DataSet sqlDstplId = new DataSet();
+                    sqlDatplId.Fill(sqlDstplId, "tblDG_TPL_Master");
+
+                    if (sqlDstplId.Tables[0].Rows.Count == 0)
+                    {
+                        string cmdInsert = fun.insert("tblDG_TPL_Master", "SysDate,SysTime,CompId,FinYearId,SessionId,WONo,PId,CId,ItemId,Qty,ConvertToBOM,Weldments", "'" + sysdate.ToString() + "','" + CTime.ToString() + "','" + CompId + "','" + FinYearId + "','" + SId.ToString() + "','" + wono.ToString() + "','" + childid.ToString() + "','" + NextCid + "','" + sqlDsget.Tables[0].Rows[0]["Id"].ToString() + "','" + sqlDs.Tables[0].Rows[i]["Qty"].ToString() + "','" + cnv + "','" + sqlDs.Tables[0].Rows[i]["Weldments"].ToString() + "'");
+                        SqlCommand sqlInsert = new SqlCommand(cmdInsert, con);
+                        sqlInsert.ExecuteNonQuery();
+
+                        if (cnv == 1)
+                        {
+                            string cmdBOM = fun.insert("tblDG_BOM_Master", "SysDate,SysTime,CompId,FinYearId,SessionId,WONo,PId,CId,ItemId,Qty,Weldments", "'" + sysdate.ToString() + "','" + CTime.ToString() + "','" + CompId+ "','" + FinYearId + "','" + SId.ToString() + "','" + wono.ToString() + "','" + childid.ToString() + "','" + NextCid + "','" + sqlDsget.Tables[0].Rows[0]["Id"].ToString() + "','" + sqlDs.Tables[0].Rows[i]["Qty"].ToString() + "','" + sqlDs.Tables[0].Rows[i]["Weldments"].ToString() + "'");
+                            SqlCommand sqlBOM = new SqlCommand(cmdBOM, con);
+                            sqlBOM.ExecuteNonQuery();
+
+                            ///Updating UpdateWO Field 
+                            string sqlwo = fun.update("SD_Cust_WorkOrder_Master", "UpdateWO='1'", "WONo='" + wono + "' And  CompId='" + CompId + "' ");
+                            SqlCommand cmdwo = new SqlCommand(sqlwo, con);
+                            cmdwo.ExecuteNonQuery();
+                        }
+                    }
+                }
+                else //From Item Master
+                {
+                    string cmdItemId2 = fun.select("Id", "tblDG_Item_Master", " CompId='" + CompId + "' AND FinYearId<='" + FinYearId + "'And Id='" + sqlDs.Tables[0].Rows[i]["ItemId"].ToString() + "' ");
+
+                    SqlCommand sqlId2 = new SqlCommand(cmdItemId2, con);
+                    SqlDataAdapter sqlDaId2 = new SqlDataAdapter(sqlId2);
+                    DataSet sqlDsId2 = new DataSet();
+                    sqlDaId2.Fill(sqlDsId2, "tblDG_Item_Master");
+
+                    if (sqlDsId2.Tables[0].Rows.Count > 0)
+                    {
+                        string cmdtplId2 = fun.select("ItemId", "tblDG_TPL_Master", "CompId='" + CompId + "' AND FinYearId<='" + FinYearId + "'And WONo='" + wono.ToString() + "'And PId='" + childid.ToString() + "' And ItemId='" + sqlDsId2.Tables[0].Rows[0]["Id"].ToString() + "' ");
+                        SqlCommand sqltplId2 = new SqlCommand(cmdtplId2, con);
+                        SqlDataAdapter sqlDatplId2 = new SqlDataAdapter(sqltplId2);
+                        DataSet sqlDstplId2 = new DataSet();
+                        sqlDatplId2.Fill(sqlDstplId2, "tblDG_TPL_Master");
+
+                        if (sqlDstplId2.Tables[0].Rows.Count == 0)
+                        {
+                            string cmdInsert2 = fun.insert("tblDG_TPL_Master", "SysDate,SysTime,CompId,FinYearId,SessionId,WONo,PId,CId,ItemId,Qty,ConvertToBOM,Weldments", "'" + sysdate.ToString() + "','" + CTime.ToString() + "','" +CompId + "','" + FinYearId + "','" + SId.ToString() + "','" + wono.ToString() + "','" + childid.ToString() + "','" + NextCid + "','" + sqlDsId2.Tables[0].Rows[0]["Id"].ToString() + "','" + sqlDs.Tables[0].Rows[i]["Qty"].ToString() + "','" + cnv + "','" + sqlDs.Tables[0].Rows[i]["Weldments"].ToString() + "'");
+                            SqlCommand sqlInsert2 = new SqlCommand(cmdInsert2, con);
+                            sqlInsert2.ExecuteNonQuery();
+
+                            if (cnv == 1)
+                            {
+                                string cmdBOM2 = fun.insert("tblDG_BOM_Master", "SysDate,SysTime,CompId,FinYearId,SessionId,WONo,PId,CId,ItemId,Qty,Weldments", "'" + sysdate.ToString() + "','" + CTime.ToString() + "','" + CompId + "','" + FinYearId + "','" + SId.ToString() + "','" + wono.ToString() + "','" + childid.ToString() + "','" + NextCid + "','" + sqlDsId2.Tables[0].Rows[0]["Id"].ToString() + "','" + sqlDs.Tables[0].Rows[i]["Qty"].ToString() + "','" + sqlDs.Tables[0].Rows[i]["Weldments"].ToString() + "'");
+                                SqlCommand sqlBOM2 = new SqlCommand(cmdBOM2, con);
+                                sqlBOM2.ExecuteNonQuery();
+
+                                ///Updating UpdateWO Field 
+                                string sqlwo = fun.update("SD_Cust_WorkOrder_Master", "UpdateWO='1'", "WONo='" + wono + "' And  CompId='" + CompId+ "' ");
+                                SqlCommand cmdwo = new SqlCommand(sqlwo, con);
+                                cmdwo.ExecuteNonQuery();
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        this.clearTempDb(CompId, SId, wono);
+        Response.Redirect("TPL_Design_WO_TreeView.aspx?WONo=" + wono + "&ModId=3&SubModId=23");
+    }
+    catch (Exception ex)
+    {
+
+    }
+}
+
+
+    protected void btnproceed_Click(object sender, EventArgs e)
+    {
+        //To Store records with item Id null in tblDG_TPLItem_Temp to Item Master Table
+        
+        this.AddToTPLBOM(0);
+    }
+
+    public void clearTempDb(int getCId, string getSId, string getwono)
+    {
+       
+        try
+        {//To Empty Temp table After Insert into permanant table
+        connStr = fun.Connection();
+        con = new SqlConnection(connStr);
+        con.Open();
+        string strDelete = fun.delete("tblDG_TPLItem_Temp", "CompId='" + getCId + "'And SessionId='" + getSId + "'And WONo='" + getwono + "'");
+
+        SqlCommand sqlDelete = new SqlCommand(strDelete, con);
+        sqlDelete.ExecuteNonQuery();
+        }
+
+        catch (Exception ex) { }
+    }
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        // Convert to BOM
+        this.AddToTPLBOM(1);
+    }
+    protected void Button1_Click1(object sender, EventArgs e)
+    {
+        Response.Redirect("TPL_Design_WO_TreeView.aspx?WONo=" + wono + "&ModId=3&SubModId=23");
+    }
+    
+    protected void DropDownList3_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        string sd = DrpCategory.SelectedValue;
+        string b = DrpSubCategory.SelectedValue;
+        string c = DrpSearchCode.SelectedValue;
+        string d = txtSearchItemCode.Text;
+        this.Fillgridview(sd, b, c, d);
+    }
+    protected void GridView4_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView4.PageIndex = e.NewPageIndex;
+        this.FillDatagrid();
+    }
+    protected void DrpSearchCode_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+        try
+        {
+            if (DrpSearchCode.SelectedValue == "tblDG_Item_Master.Location")
+            {
+                DropDownList3.Visible = true;
+                txtSearchItemCode.Visible = false;
+            }
+            else
+            {
+                DropDownList3.Visible = false;
+                txtSearchItemCode.Visible = true;
+            }
+        }
+
+        catch (Exception ex) { }
+        
+    }
+
+   
+}

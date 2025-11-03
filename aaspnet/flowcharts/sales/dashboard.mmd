@@ -1,0 +1,179 @@
+graph TB
+    %% Sales Distribution Dashboard Module Architecture Diagram
+    
+    subgraph "Presentation Layer"
+        A[Dashboard.aspx<br/>Sales Distribution Main Dashboard]
+        A1[Master Page<br/>MasterPage.master]
+        A2[JavaScript Files<br/>loadingNotifier.js]
+    end
+    
+    subgraph "Code-Behind Layer"
+        B[Dashboard.aspx.cs<br/>Module_SalesDistribution_Dashboard Class]
+        B1[Page_Load Event<br/>Basic initialization]
+    end
+    
+    subgraph "Navigation Structure"
+        C[Module Navigation]
+        C1[Masters Section<br/>Customer, Products, Categories]
+        C2[Transactions Section<br/>Enquiry, Quotation, PO, Work Orders]
+        C3[Reports Section<br/>Various business reports]
+    end
+    
+    subgraph "Masters Module"
+        D[Master Data Management]
+        D1[Customer Master<br/>Customer information management]
+        D2[Product Master<br/>Category_Master table]
+        D3[Category Management<br/>Work Order categories]
+        D4[Sub-Category Management<br/>Work Order sub-categories]
+        D5[WO Types<br/>Work Order types]
+        D6[WO Release & Dispatch Authority<br/>Authorization management]
+    end
+    
+    subgraph "Transactions Module"
+        E[Transaction Processing]
+        E1[Customer Enquiry<br/>SD_Cust_Enquiry_Master]
+        E2[Quotation Workflow<br/>SD_Cust_Quotation_Master]
+        E3[Customer PO<br/>Purchase Order management]
+        E4[Work Order<br/>SD_Cust_WorkOrder_Master]
+        E5[Work Order Release<br/>SD_Cust_WorkOrder_Release]
+        E6[Work Order Dispatch<br/>SD_Cust_WorkOrder_Dispatch]
+        E7[Cost Sheet<br/>Cost calculations]
+    end
+    
+    subgraph "Reports Module"
+        F[Reporting System]
+        F1[Customer Reports<br/>Customer master reports]
+        F2[Enquiry Reports<br/>Customer enquiry reports]
+        F3[Quotation Reports<br/>Quotation tracking]
+        F4[PO Reports<br/>Purchase order reports]
+        F5[Work Order Reports<br/>WO tracking and status]
+    end
+    
+    subgraph "Database Layer"
+        G[Core Tables]
+        G1[SD_Cust_Master<br/>Customer master data]
+        G2[SD_Cust_Enquiry_Master<br/>Customer enquiries]
+        G3[SD_Cust_Quotation_Master<br/>Quotation headers]
+        G4[SD_Cust_Quotation_Details_Temp<br/>Quotation line items]
+        G5[SD_Cust_WorkOrder_Master<br/>Work order headers]
+        G6[Category_Master<br/>Product categories]
+        G7[tblSD_WO_Category<br/>Work order categories]
+        G8[tblSD_WO_SubCategory<br/>Work order sub-categories]
+        G9[tblFile_Attachment<br/>Document attachments]
+    end
+    
+    subgraph "Business Workflow"
+        H[Sales Process Flow]
+        H1[Customer Registration<br/>New customer setup]
+        H2[Enquiry Creation<br/>Customer enquiry capture]
+        H3[Quotation Process<br/>Create → Check → Approve → Authorize]
+        H4[PO Processing<br/>Customer purchase order]
+        H5[Work Order Creation<br/>Internal work order]
+        H6[WO Release & Dispatch<br/>Production and delivery]
+    end
+    
+    subgraph "User Roles & Access"
+        I[Role-Based Access]
+        I1[Sales Team<br/>Enquiry and quotation management]
+        I2[Approval Authority<br/>Quotation approval workflow]
+        I3[Production Team<br/>Work order management]
+        I4[Dispatch Team<br/>Delivery coordination]
+        I5[Management<br/>Reports and oversight]
+    end
+    
+    %% Relationships
+    A --> A1
+    A --> A2
+    A --> B
+    A --> C
+    
+    B --> B1
+    
+    C --> C1
+    C --> C2
+    C --> C3
+    
+    C1 --> D
+    C2 --> E
+    C3 --> F
+    
+    D --> D1
+    D --> D2
+    D --> D3
+    D --> D4
+    D --> D5
+    D --> D6
+    
+    E --> E1
+    E --> E2
+    E --> E3
+    E --> E4
+    E --> E5
+    E --> E6
+    E --> E7
+    
+    F --> F1
+    F --> F2
+    F --> F3
+    F --> F4
+    F --> F5
+    
+    D1 --> G1
+    D2 --> G6
+    D3 --> G7
+    D4 --> G8
+    E1 --> G2
+    E2 --> G3
+    E2 --> G4
+    E4 --> G5
+    E1 --> G9
+    
+    H --> H1
+    H --> H2
+    H --> H3
+    H --> H4
+    H --> H5
+    H --> H6
+    
+    H1 --> D1
+    H2 --> E1
+    H3 --> E2
+    H4 --> E3
+    H5 --> E4
+    H6 --> E5
+    H6 --> E6
+    
+    I --> I1
+    I --> I2
+    I --> I3
+    I --> I4
+    I --> I5
+    
+    I1 --> E1
+    I1 --> E2
+    I2 --> E2
+    I3 --> E4
+    I4 --> E5
+    I4 --> E6
+    I5 --> F
+    
+    %% Styling
+    classDef presentationClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef codeClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef navigationClass fill:#e8eaf6,stroke:#3f51b5,stroke-width:2px
+    classDef mastersClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef transactionClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef reportsClass fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef dbClass fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    classDef workflowClass fill:#e0f2f1,stroke:#004d40,stroke-width:2px
+    classDef roleClass fill:#f9fbe7,stroke:#827717,stroke-width:2px
+    
+    class A,A1,A2 presentationClass
+    class B,B1 codeClass
+    class C,C1,C2,C3 navigationClass
+    class D,D1,D2,D3,D4,D5,D6 mastersClass
+    class E,E1,E2,E3,E4,E5,E6,E7 transactionClass
+    class F,F1,F2,F3,F4,F5 reportsClass
+    class G,G1,G2,G3,G4,G5,G6,G7,G8,G9 dbClass
+    class H,H1,H2,H3,H4,H5,H6 workflowClass
+    class I,I1,I2,I3,I4,I5 roleClass

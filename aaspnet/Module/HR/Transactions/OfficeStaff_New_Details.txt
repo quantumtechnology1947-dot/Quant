@@ -1,0 +1,773 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Transactions/OfficeStaff_New_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="OfficeStaff_New_Details.aspx.cs" Inherits="Module_HR_Transactions_OfficeStaff_New_Details" Title="ERP" Theme="Default" %>
+
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+     <script type="text/javascript">
+        function OnChanged(sender, args)
+        {
+            ServerUtilities.SetTabIndex(sender.get_activeTabIndex());
+        }
+</script>
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="left" cellpadding="0" cellspacing="0" 
+        style="height: 301px; width: 100%">
+        <tr>
+            <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;Staff - New</b></td>
+        </tr>
+        <tr>
+            <td valign="top">
+   
+    <cc1:TabContainer ID="TabContainer1"  runat="server" Height="297px" ActiveTabIndex="0" 
+        Width="99%" onactivetabchanged="TabContainer1_ActiveTabChanged">
+        <cc1:TabPanel runat="server" HeaderText="Official Info" ID="TabPanel1">
+            <HeaderTemplate>
+                Official Info
+            </HeaderTemplate>
+            <ContentTemplate><table align="left" cellpadding="0" cellspacing="0" width="100%"><tr>
+                <td 
+                    class="style40" height="25"><asp:Label ID="Label2" runat="server" Text="Emp Id"></asp:Label></td>
+                <td 
+                    class="style39" ><asp:Label ID="lblEmpId" runat="server"></asp:Label></td>
+                <td 
+                    class="style38" ><asp:Label ID="Label58" runat="server" Text="Offer Id"></asp:Label></td><td class="style4" ><asp:Label ID="lbloffid" runat="server"></asp:Label></td></tr><tr>
+                <td 
+                    class="style40" height="25"><asp:Label ID="Label4" runat="server" Text="Name of  Employee"></asp:Label></td>
+                <td 
+                    class="style7" colspan="3"><asp:DropDownList ID="DrpEmpTitle" runat="server"  CssClass="box3"><asp:ListItem>Mr</asp:ListItem><asp:ListItem>Mrs</asp:ListItem><asp:ListItem>Miss</asp:ListItem></asp:DropDownList><asp:TextBox ID="TxtEmpName" runat="server" style="margin-bottom: 0px" 
+                                Width="300px" CssClass="box3"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="ReqEmpName" runat="server" 
+                        ControlToValidate="TxtEmpName" ErrorMessage="*" ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                </td>
+                </tr><tr><td class="style40" height="25">
+                        <asp:Label ID="Label11" runat="server" Text="Designation"></asp:Label>
+                    </td>
+                    <td 
+                        class="style39">
+                        <asp:DropDownList ID="DrpDesignation" runat="server" CssClass="box3" 
+                                DataSourceID="SqlDesignation" DataTextField="Designation" 
+                                DataValueField="Id"><asp:ListItem Value="1">pqr</asp:ListItem><asp:ListItem Value="2">stu</asp:ListItem></asp:DropDownList><asp:SqlDataSource ID="SqlDesignation" runat="server" 
+                                ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                                SelectCommand="SELECT Id, Type + ' - ' + Symbol AS Designation FROM tblHR_Designation"></asp:SqlDataSource>
+                        <asp:RequiredFieldValidator ID="ReqDesign" runat="server" 
+                            ControlToValidate="DrpDesignation" ErrorMessage="*" InitialValue="Select" 
+                            ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                    </td>
+                    <td 
+                        class="style38"><asp:Label ID="Label9" runat="server" Text="Department"></asp:Label></td>
+                    <td>
+                        <asp:DropDownList ID="DrpDepartment" runat="server" CssClass="box3" 
+                            DataSourceID="SqlDept" DataTextField="DeptName" DataValueField="Id">
+                        </asp:DropDownList>
+                        <asp:SqlDataSource ID="SqlDept" runat="server" 
+                            ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                            SelectCommand="SELECT Id, Description + ' - ' + Symbol AS DeptName FROM tblHR_Departments">
+                        </asp:SqlDataSource>
+                        <asp:RequiredFieldValidator ID="ReqDesign5" runat="server" 
+                            ControlToValidate="DrpDepartment" ErrorMessage="*" InitialValue="Select" 
+                            ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                    </td>
+                    </tr><tr>
+                    <td class="style40" height="25">
+                        <asp:Label ID="Label7" runat="server" Text="Swap Card No"></asp:Label>
+                    </td>
+                    <td 
+                        class="style39"><asp:DropDownList ID="DrpSwapcardNo" runat="server" CssClass="box3"
+                               ></asp:DropDownList>
+                            
+                        <asp:RequiredFieldValidator ID="ReqDesign0" runat="server" 
+                            ControlToValidate="DrpSwapcardNo" ErrorMessage="*" InitialValue="Select" 
+                            ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                    </td>
+                    <td 
+                        class="style38"><asp:Label ID="Label13" runat="server" Text="Director of Dept."></asp:Label></td>
+                    <td>
+                        <asp:DropDownList ID="DrpDirectorName" runat="server" CssClass="box3" 
+                            DataSourceID="SqlDirectors" DataTextField="EmployeeName" DataValueField="UserId" 
+                            Height="18px">
+                            <asp:ListItem></asp:ListItem>
+                        </asp:DropDownList>
+                        <asp:SqlDataSource ID="SqlDirectors" runat="server" 
+                            ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                            SelectCommand="SELECT tblHR_OfficeStaff.UserId, tblHR_OfficeStaff.EmployeeName FROM tblHR_Designation INNER JOIN tblHR_OfficeStaff ON tblHR_Designation.Id = tblHR_OfficeStaff.Designation WHERE (tblHR_OfficeStaff.Designation = tblHR_Designation.Id AND tblHR_OfficeStaff.Designation =2 OR tblHR_OfficeStaff.Designation =3)">
+                        </asp:SqlDataSource>
+                        <asp:RequiredFieldValidator ID="ReqDesign6" runat="server" 
+                            ControlToValidate="DrpDirectorName" ErrorMessage="*" InitialValue="Select" 
+                            ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                    </td>
+                    </tr><tr>
+                    <td class="style40" height="25">
+                        <asp:Label ID="Label10" runat="server" Text="Under BG"></asp:Label>
+                    </td>
+                    <td 
+                        class="style39">
+                        <asp:DropDownList ID="DrpBGGroup" runat="server" CssClass="box3"
+                                DataSourceID="SqlBGGroup" DataTextField="Symbol" 
+                                DataValueField="Id"></asp:DropDownList><asp:SqlDataSource ID="SqlBGGroup" runat="server" 
+                                ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                                
+                                SelectCommand="SELECT [Id], [Name] + ' - ' + [Symbol] As Symbol  FROM [BusinessGroup] "></asp:SqlDataSource>
+                        <asp:RequiredFieldValidator ID="ReqDesign1" runat="server" 
+                            ControlToValidate="DrpBGGroup" ErrorMessage="*" InitialValue="Select" 
+                            ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                    </td>
+                    <td 
+                        class="style38"><asp:Label ID="Label14" runat="server" Text="Group Leader"></asp:Label></td>
+                    <td>
+                        <asp:DropDownList ID="DrpGroupLeader" runat="server" CssClass="box3" 
+                            DataSourceID="Sqlgroup" DataTextField="EmployeeName" DataValueField="UserId" 
+                            Height="18px">
+                        </asp:DropDownList>
+                        <asp:SqlDataSource ID="Sqlgroup" runat="server" 
+                            ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                            SelectCommand="SELECT tblHR_OfficeStaff.UserId, tblHR_OfficeStaff.EmployeeName FROM tblHR_Designation INNER JOIN tblHR_OfficeStaff ON tblHR_Designation.Id = tblHR_OfficeStaff.Designation WHERE (tblHR_OfficeStaff.Designation = tblHR_Designation.Id AND tblHR_OfficeStaff.Designation =7)">
+                        </asp:SqlDataSource>
+                        <asp:RequiredFieldValidator ID="ReqDesign7" runat="server" 
+                            ControlToValidate="DrpGroupLeader" ErrorMessage="*" InitialValue="Select" 
+                            ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                    </td>
+                    </tr><tr>
+                    <td class="style40" height="25">
+                        <asp:Label ID="Label15" runat="server" Text="Dept.  Head"></asp:Label>
+                    </td>
+                    <td 
+                        class="style39">
+                        <asp:DropDownList ID="DrpDeptHead" runat="server" CssClass="box3"
+                                DataSourceID="SqlDeptHead" DataTextField="EmployeeName" 
+                                DataValueField="UserId"></asp:DropDownList><asp:SqlDataSource ID="SqlDeptHead" runat="server" 
+                                ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"                                 
+                                SelectCommand="SELECT  tblHR_OfficeStaff.UserId,  tblHR_OfficeStaff.EmployeeName FROM tblHR_Designation INNER JOIN tblHR_OfficeStaff ON tblHR_Designation.Id = tblHR_OfficeStaff.Designation WHERE tblHR_OfficeStaff.Designation = tblHR_Designation.Id AND tblHR_OfficeStaff.UserId!=1"></asp:SqlDataSource>
+                        <asp:RequiredFieldValidator ID="ReqDesign2" runat="server" 
+                            ControlToValidate="DrpDeptHead" ErrorMessage="*" InitialValue="Select" 
+                            ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                    </td>
+                    <td 
+                        class="style38">Corp. <asp:Label ID="Label12" runat="server" Text="Mobile No."></asp:Label></td>
+                    <td>
+                        <asp:DropDownList ID="DrpMobileNo" runat="server" CssClass="box3" 
+                             >
+                        </asp:DropDownList>
+                        <asp:RequiredFieldValidator ID="ReqDesign8" runat="server" 
+                            ControlToValidate="DrpMobileNo" ErrorMessage="*" InitialValue="Select" 
+                            ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                    </td>
+                    </tr><tr>
+                    <td class="style40" height="25">
+                        <asp:Label ID="Label16" runat="server" Text="Grade"></asp:Label>
+                    </td>
+                    <td 
+                        class="style39">
+                        <asp:DropDownList ID="DrpGrade" runat="server" CssClass="box3"
+                                DataSourceID="SqlGrade" DataTextField="Symbol" DataValueField="Id" 
+                                Height="18px"></asp:DropDownList><asp:SqlDataSource ID="SqlGrade" runat="server" 
+                                ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                                SelectCommand="SELECT [Id], [Description] + ' - ' + [Symbol] As Symbol  FROM [tblHR_Grade]"></asp:SqlDataSource>
+                        <asp:RequiredFieldValidator ID="ReqDesign3" runat="server" 
+                            ControlToValidate="DrpGrade" ErrorMessage="*" InitialValue="Select" 
+                            ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                    </td>
+                    <td 
+                        class="style38"><asp:Label ID="Label23" runat="server" Text="Contact No."></asp:Label></td>
+                    <td>
+                        <asp:TextBox ID="TxtContactNo" runat="server" CssClass="box3"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="ReqContNO" runat="server" 
+                            ControlToValidate="TxtContactNo" ErrorMessage="*" ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                    </td>
+                    </tr><tr>
+                    <td class="style40" height="25">
+                        <asp:Label ID="Label6" runat="server" Text="E-Mail"></asp:Label>
+                    </td>
+                <td 
+                    class="style39"><asp:TextBox ID="TxtMail" runat="server"  CssClass="box3" Width="200px"></asp:TextBox>
+                    <asp:RegularExpressionValidator ID="RegEmail" runat="server" 
+                        ControlToValidate="TxtMail" ErrorMessage="*" 
+                        ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" 
+                        ValidationGroup="acbd"></asp:RegularExpressionValidator>
+                    </td>
+                <td 
+                    class="style38"><asp:Label ID="Label24" runat="server" Text="ERP-Mail"></asp:Label></td>
+                <td>
+                    <asp:TextBox ID="TxtERPMail" runat="server" CssClass="box3"></asp:TextBox>
+                    <asp:RegularExpressionValidator ID="RegErpEmail" runat="server" 
+                        ControlToValidate="TxtERPMail" ErrorMessage="*" 
+                        ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" 
+                        ValidationGroup="acbd"></asp:RegularExpressionValidator>
+                    </td>
+                </tr><tr>
+                    <td class="style40" height="25">
+                        <asp:Label ID="Label18" runat="server" Text="Extension No."></asp:Label>
+                        
+                </td>
+                <td 
+                    class="style39"><asp:DropDownList ID="DrpExtensionNo" runat="server" CssClass="box3"
+                                DataSourceID="SqlExtension" DataTextField="ExtNo" 
+                        DataValueField="Id"></asp:DropDownList><asp:SqlDataSource ID="SqlExtension" runat="server" 
+                                ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                                SelectCommand="SELECT [ExtNo], [Id] FROM [tblHR_IntercomExt]"></asp:SqlDataSource>
+                    <asp:RequiredFieldValidator ID="ReqDesign4" runat="server" 
+                        ControlToValidate="DrpExtensionNo" ErrorMessage="*" InitialValue="Select" 
+                        ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                    </td>
+                <td 
+                    class="style38">
+                    <asp:Label ID="Label25" runat="server" Text="Joining Date"></asp:Label>
+                </td>
+                <td align="left">
+                    <asp:TextBox ID="TxtJoinDate" runat="server" CssClass="box3" Width="80px"></asp:TextBox>
+                    <cc1:CalendarExtender ID="TxtJoinDate_CalendarExtender" runat="server" 
+                        Enabled="True" Format="dd-MM-yyyy" CssClass="cal_Theme2" PopupPosition="BottomRight"
+                        TargetControlID="TxtJoinDate">
+                    </cc1:CalendarExtender>
+                    <asp:RequiredFieldValidator ID="ReqJoinDt" runat="server" 
+                        ControlToValidate="TxtJoinDate" ErrorMessage="*" ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                        <asp:RegularExpressionValidator ID="RegJODateVal" runat="server" 
+                                    ControlToValidate="TxtJoinDate" ErrorMessage="*" 
+                                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" ValidationGroup="acbd"></asp:RegularExpressionValidator>
+                    </td>
+                </tr><tr>
+                    <td class="style40" height="25">
+                        <asp:Label ID="Label19" runat="server" Text="Resignation Date"></asp:Label>
+                    </td>
+                    <td 
+                        class="style39">
+                        <asp:TextBox ID="TxtResignDate" runat="server" CssClass="box3" Width="80px"></asp:TextBox>
+                        <cc1:CalendarExtender ID="TxtResignDate_CalendarExtender" runat="server" 
+                            Enabled="True" Format="dd-MM-yyyy" CssClass="cal_Theme2" PopupPosition="BottomRight" 
+                            TargetControlID="TxtResignDate">
+                        </cc1:CalendarExtender>
+                        <asp:Label ID="Label59" runat="server" Font-Size="Small" ForeColor="Red" 
+                                     Text="* Reset Swap Card No and Corp. Mobile No. to Not Applicable."></asp:Label>
+                    </td>
+                    <td 
+                        class="style38">&nbsp;</td>
+                    <td align="left">
+                        &nbsp;</td>
+                    </tr><tr>
+                <td class="style40" 
+                    height="25">&nbsp;</td>
+                <td 
+                    class="style39">&nbsp;</td><td class="style38">&#160;</td><td><asp:Button ID="btnnxt" runat="server" CssClass="redbox" Text="Next" 
+                                onclick="btnnxt_Click" />&nbsp;<asp:Button ID="BtnCancel2" ValidationGroup="sdsd" runat="server" CssClass="redbox" 
+                                OnClick="BtnCancel_Click" Text="Cancel" /></td></tr>
+                </table>
+            </ContentTemplate>
+        
+</cc1:TabPanel>
+        
+        
+         <cc1:TabPanel runat="server" HeaderText="Personal Info" ID="TabPanel2">
+        <ContentTemplate><table style="width: 99%"  ><tr><td colspan="2"><asp:Label ID="Label29" runat="server" Text="Permanent Address"></asp:Label></td><td colspan="2"><asp:Label ID="Label32" runat="server" Text="Correspondence Address"></asp:Label></td></tr><tr><td colspan="2">
+            <asp:TextBox  CssClass="box3" ID="TxtPermanentAddress" runat="server" TextMode="MultiLine" 
+                    Width="360px"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="ReqPermantAdd" runat="server" 
+                ControlToValidate="TxtPermanentAddress" ErrorMessage="*" ValidationGroup="acbd"></asp:RequiredFieldValidator>
+            </td><td colspan="2"><asp:TextBox  CssClass="box3" ID="TxtCAddress" runat="server" 
+                    TextMode="MultiLine" Width="395px"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="ReqCorrspoAdd" runat="server" 
+                    ControlToValidate="TxtCAddress" ErrorMessage="*" ValidationGroup="acbd"></asp:RequiredFieldValidator>
+            </td></tr><tr><td class="style22" height="25"><asp:Label ID="Label31" runat="server" Text="E-Mail"></asp:Label></td>
+            <td class="style6"><asp:TextBox ID="TxtEmail"  CssClass="box3" runat="server" 
+                    Width="200px"></asp:TextBox>
+                <asp:RegularExpressionValidator ID="RegEmail0" runat="server" 
+                    ControlToValidate="TxtEmail" ErrorMessage="*" 
+                    ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" 
+                    ValidationGroup="acbd"></asp:RegularExpressionValidator>
+                </td><td class="style21"><asp:Label ID="Label30" runat="server" Text="Date Of Birth"></asp:Label></td><td class="style14">
+                <asp:TextBox  CssClass="box3" ID="TxtDateofBirth" 
+                    runat="server"></asp:TextBox>
+                    
+                    <cc1:CalendarExtender ID="TxtDateofBirth_CalendarExtender" runat="server"  CssClass="cal_Theme2" PopupPosition="BottomRight"
+                    Enabled="True" Format="dd-MM-yyyy" TargetControlID="TxtDateofBirth"></cc1:CalendarExtender>
+                    
+                <asp:RequiredFieldValidator ID="ReqDOB" runat="server"
+                    ControlToValidate="TxtDateofBirth" ErrorMessage="*" ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator ID="RegBirthDateVal" runat="server" 
+                                    ControlToValidate="TxtDateofBirth" ErrorMessage="*" 
+                                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                    ValidationGroup="acbd"></asp:RegularExpressionValidator>
+                </td></tr><tr><td class="style22" height="25"><asp:Label ID="Label36" runat="server" Text="Gender"></asp:Label></td>
+                <td class="style6">
+                <asp:DropDownList ID="DrpGender" runat="server" CssClass="box3">
+                <asp:ListItem Value="Select">Select</asp:ListItem>
+                <asp:ListItem Value="M" >Male</asp:ListItem>
+                <asp:ListItem Value="F">Female</asp:ListItem>
+                </asp:DropDownList>
+                    <asp:RequiredFieldValidator ID="ReqGender" runat="server" 
+                        ControlToValidate="DrpGender" ErrorMessage="*" InitialValue="Select" 
+                        ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                </td><td class="style21"><asp:Label ID="Label34" runat="server" Text="Martial Status"></asp:Label></td><td class="style14"><asp:RadioButton ID="RdbtnMarried" runat="server" GroupName="Marriage" 
+                    Text="Married" ></asp:RadioButton><asp:RadioButton ID="RdbtnUnmarried" runat="server" Checked="True" 
+                        GroupName="Marriage" Text="Unmarried" /></td></tr><tr><td class="style22" height="25"><asp:Label ID="Label33" runat="server" Text="Blood Group"></asp:Label></td>
+                <td class="style6">
+                    <asp:DropDownList ID="DrpBloodGroup" runat="server" CssClass="box3">
+                        <asp:ListItem Value="Select">Select</asp:ListItem>
+                         <asp:ListItem Value="Not Known">Not Known</asp:ListItem>
+                        <asp:ListItem Value="O+">O+</asp:ListItem>
+                        <asp:ListItem Value="O-">O-</asp:ListItem>
+                        <asp:ListItem>A+</asp:ListItem>
+                        <asp:ListItem>A-</asp:ListItem>
+                        <asp:ListItem>B+</asp:ListItem>
+                        <asp:ListItem>B-</asp:ListItem>
+                        <asp:ListItem>AB+</asp:ListItem>
+                        <asp:ListItem>AB-</asp:ListItem>
+                    </asp:DropDownList>
+                    <asp:RequiredFieldValidator ID="ReqGender0" runat="server" 
+                        ControlToValidate="DrpBloodGroup" ErrorMessage="*" InitialValue="Select" 
+                        ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                </td><td class="style21"><asp:Label ID="Label35" runat="server" Text="Height"></asp:Label></td><td class="style14"><asp:TextBox ID="TxtHeight"  CssClass="box3" runat="server"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="ReqHeight" runat="server" 
+                    ControlToValidate="TxtHeight" ErrorMessage="*" ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                </td></tr><tr><td class="style22" height="25" ><asp:Label ID="Label39" runat="server" Text="Weight"></asp:Label></td>
+            <td class="style6" ><asp:TextBox ID="TxtWeight"  CssClass="box3" runat="server"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="ReqWeight" runat="server" 
+                    ControlToValidate="TxtWeight" ErrorMessage="*" ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                </td><td class="style19" colspan="2"><asp:Label ID="Label41" runat="server" Text="Physically Handicapped"></asp:Label>&nbsp;&nbsp;<asp:RadioButton ID="RdbtnYes" runat="server" GroupName="Physicllyhandicapped" 
+                    Text="Yes" /><asp:RadioButton ID="RdbtnNo" runat="server" Checked="True" 
+                    GroupName="Physicllyhandicapped" Text="No" /></td></tr><tr><td class="style22" height="25"><asp:Label ID="Label37" runat="server" Text="Religion"></asp:Label></td>
+                <td class="style6"><asp:TextBox ID="TxtReligion"  CssClass="box3" runat="server"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="ReqReligion" runat="server" 
+                        ControlToValidate="TxtReligion" ErrorMessage="*" ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                </td><td class="style21" ><asp:Label ID="Label38" runat="server" Text="Cast"></asp:Label></td><td class="style14"><asp:TextBox ID="TxtCast"  CssClass="box3" runat="server"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="ReqCast" runat="server" 
+                    ControlToValidate="TxtCast" ErrorMessage="*" ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                </td></tr><tr><td class="style23"></td>
+            <td class="style6"></td><td class="style20"></td><td align="right" class="style15"><asp:Button ID="btnNext2" runat="server" 
+                    onclick="btnNext2_Click" Text="Next" CssClass="redbox" />&nbsp;<asp:Button ID="BtnCancel1" runat="server" CssClass="redbox" 
+                    OnClick="BtnCancel_Click" Text="Cancel" /></td></tr></table>
+        
+        </ContentTemplate>
+        
+        
+</cc1:TabPanel>
+        
+        <cc1:TabPanel runat="server" HeaderText="Edu. Quali. & Work Experience" ID="TabPanel3">
+        <ContentTemplate><table class="style34"  ><tr><td class="style7" height="22"><asp:Label ID="Label44" runat="server" Text="Educational Qualification"></asp:Label></td>
+            <td><asp:TextBox ID="TxtEducatinalQualificatin" runat="server" CssClass="box3" 
+                Width="223px"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="ReqEduQual" runat="server" 
+                    ControlToValidate="TxtEducatinalQualificatin" ErrorMessage="*" 
+                    ValidationGroup="acbd"></asp:RequiredFieldValidator>
+            </td></tr><tr><td class="style7" valign="top">
+                <asp:Label ID="Label42" runat="server" Text="Additional Qualification"></asp:Label>
+                </td>
+                <td>
+                    <asp:TextBox ID="TxtAdditionalQualification" runat="server" CssClass="box3" 
+                        Height="68px" TextMode="MultiLine" Width="336px"></asp:TextBox>
+                </td>
+            </tr><tr><td class="style7" height="22"><asp:Label ID="Label48" runat="server" Text="Last Company Name"></asp:Label></td><td 
+                    class="style2">
+                <asp:TextBox ID="TxtLastCompanyName"  CssClass="box3" 
+                        runat="server" Width="250px"></asp:TextBox></td></tr><tr>
+                <td class="style7" height="22"><asp:Label ID="Label46" runat="server" Text="Total Experience"></asp:Label></td><td 
+                class="style2"><asp:TextBox ID="TxtTotalExperience" CssClass="box3" runat="server"></asp:TextBox></td></tr><tr>
+                <td class="style7">
+                    <asp:Label ID="Label49" runat="server" Text="Working Duration"></asp:Label>
+                </td><td 
+                class="style2">
+                    <asp:TextBox ID="TxtWorkingDuration" runat="server" CssClass="box3"></asp:TextBox>
+            </td></tr>
+            <tr>
+                <td class="style7">
+                    &nbsp;</td>
+                <td align="char" class="style2">
+                    &nbsp;</td>
+            </tr>
+            <tr><td class="style7"></td><td class="style2">&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="style7">
+                    &nbsp;</td>
+                <td align="right" class="style2">
+                    <asp:Button ID="btnNext3" runat="server" CssClass="redbox" 
+                        OnClick="btnNext3_Click" Text="Next" />
+                    <asp:Button ID="BtnCancel0" runat="server" CssClass="redbox" 
+                        OnClick="BtnCancel_Click" Text="Cancel" />
+                </td>
+            </tr>
+            </table></ContentTemplate></cc1:TabPanel>
+        
+         <cc1:TabPanel runat="server" HeaderText="Others" ID="TabPanel4">
+        <ContentTemplate><table style="width: 523px"  ><tr><td class="style35" height="25"><asp:Label ID="Label51" runat="server" Text="Current CTC"></asp:Label></td>
+            <td class="style36"><asp:TextBox ID="TxtCurrentCTC"  CssClass="box3" runat="server"></asp:TextBox></td>
+            <td class="style37" height="25"><asp:Label ID="Label54" runat="server" Text="Bank Acc No."></asp:Label></td><td><asp:TextBox ID="TxtBankAccNo"  CssClass="box3" runat="server"></asp:TextBox></td></tr><tr>
+            <td class="style35" height="25"><asp:Label ID="Label53" runat="server" Text="PF  No."></asp:Label></td>
+            <td class="style36"><asp:TextBox ID="TxtPFNo"  CssClass="box3" runat="server"></asp:TextBox></td>
+            <td class="style37" height="25"><asp:Label ID="Label55" runat="server" Text="PAN No."></asp:Label></td><td><asp:TextBox  CssClass="box3" ID="TxtPANNo" runat="server"></asp:TextBox></td></tr><tr>
+            <td class="style35" height="25"><asp:Label ID="Label56" runat="server" Text="Passport No."></asp:Label></td>
+            <td class="style36"><asp:TextBox ID="TxtPassportNo"  CssClass="box3" runat="server"></asp:TextBox></td>
+            <td class="style37" height="25"><asp:Label ID="Label52" runat="server" Text="Expiry Date"></asp:Label></td><td><asp:TextBox ID="TxtExpiryDate"  CssClass="box3" runat="server"></asp:TextBox><cc1:CalendarExtender ID="TxtExpiryDate_CalendarExtender" runat="server" 
+                  CssClass="cal_Theme2" PopupPosition="BottomRight"  Enabled="True" TargetControlID="TxtExpiryDate" Format="dd-MM-yyyy"></cc1:CalendarExtender>
+            <asp:RegularExpressionValidator ID="RegTxtExpiryDate" runat="server" 
+                ControlToValidate="TxtExpiryDate" ErrorMessage="*" 
+                ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                ValidationGroup="acbd"></asp:RegularExpressionValidator>
+            </td></tr><tr><td colspan="2" height="25"><asp:Label ID="Label57" runat="server" Text="Additional Information"></asp:Label></td><td colspan="2">&#160;</td></tr><tr><td align="left" colspan="4"><asp:TextBox ID="TxtAdditionalInformation" runat="server" Height="66px"  
+                CssClass="box3" TextMode="MultiLine" Width="325px"></asp:TextBox></td></tr><tr>
+                <td align="left" class="style35">
+                    <asp:Label ID="Label27" runat="server" Text="Upload Photo"></asp:Label>
+                </td>
+                <td align="left" colspan="3">
+                    <asp:FileUpload ID="FileUploadPhoto" runat="server" CssClass="box3" />
+                </td>
+            </tr>
+            <tr>
+                <td align="left" class="style35">
+                    <asp:Label ID="Label28" runat="server" Text="Upload CV"></asp:Label>
+                </td>
+                <td align="left" colspan="3">
+                    <asp:FileUpload ID="FileUploadControl" runat="server" CssClass="box3" />
+                </td>
+            </tr>
+            <tr>
+                <td align="right" colspan="4">
+                    <asp:Button ID="BtnSubmit" runat="server" CssClass="redbox" ValidationGroup="acbd"
+                        OnClick="BtnSubmit_Click" OnClientClick="return confirmationAdd() " Text="Submit" />
+                    &nbsp; <asp:Button ID="BtnCancel" runat="server" CssClass="redbox" 
+                        OnClick="BtnCancel_Click" Text="Cancel" />
+                </td>
+            </tr>
+            </table>
+          
+          
+        </ContentTemplate>
+        
+</cc1:TabPanel>
+    
+
+         </cc1:TabContainer>
+               
+   
+            </td>
+        </tr>
+    </table>
+               
+   
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+ 
+              
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Transactions/OfficeStaff_New_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.IO;
+
+public partial class Module_HR_Transactions_OfficeStaff_New_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    DataSet DS = new DataSet();
+    DataSet DSPref = new DataSet();
+    int Offid = 0;
+    string Comprefix = "";
+    string custIdStr="";
+    string a = "";
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            TxtJoinDate.Attributes.Add("readonly", "readonly");
+            TxtResignDate.Attributes.Add("readonly", "readonly");
+            TxtDateofBirth.Attributes.Add("readonly", "readonly");
+            TxtExpiryDate.Attributes.Add("readonly", "readonly");
+
+            string constr = fun.Connection();
+            SqlConnection con = new SqlConnection(constr);
+            int CompId = Convert.ToInt32(Session["compid"]);
+            string StrSql = fun.select("EmpId", "tblHR_OfficeStaff", "CompId='" + CompId + "'order by EmpId Desc");
+            SqlCommand cmd2 = new SqlCommand(StrSql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd2);
+            da.Fill(DS, "tblHR_OfficeStaff");
+            // To Get Prefix Of Company
+            string StrPrefix = fun.select("Prefix", "tblCompany_master", "CompId='" + CompId + "'");
+            SqlCommand cmdPref = new SqlCommand(StrPrefix, con);
+            SqlDataAdapter daPref = new SqlDataAdapter(cmdPref);
+            daPref.Fill(DSPref, "tblCompany_master");
+            if (DSPref.Tables[0].Rows.Count > 0)
+            {
+                Comprefix = DSPref.Tables[0].Rows[0]["Prefix"].ToString();
+            }
+
+            if (DS.Tables[0].Rows.Count > 0)
+            {
+                string getcuststr = DS.Tables[0].Rows[0][0].ToString();
+                foreach (char c in getcuststr)
+                {
+                    if (Char.IsDigit(c))
+                    {
+                        a = a + c;
+                    }
+                }
+                int incstr = Convert.ToInt32(a) + 1;
+                custIdStr = Comprefix + incstr.ToString("D4");
+
+            }
+            else
+            {
+                custIdStr = Comprefix + "0001";
+            }
+
+            Offid = Convert.ToInt32(Request.QueryString["OfferId"]);
+            lblEmpId.Text = custIdStr;
+            lbloffid.Text = Offid.ToString();
+            TabContainer1.OnClientActiveTabChanged = "OnChanged";
+            TabContainer1.ActiveTabIndex = Convert.ToInt32(Session["TabIndex"] ?? "0");
+
+            if (!IsPostBack)
+            {
+                string StrEmpName = fun.select("Title,EmployeeName", "tblHR_Offer_Master", "OfferId='" + Offid + "'");
+                SqlCommand cmdEmpName = new SqlCommand(StrEmpName, con);
+                DataSet DSEmpName = new DataSet();
+                SqlDataAdapter daEmpName = new SqlDataAdapter(cmdEmpName);
+                daEmpName.Fill(DSEmpName, "tblHR_Offer_Master");
+                if (DSEmpName.Tables[0].Rows.Count > 0)
+                {
+                    TxtEmpName.Text = DSEmpName.Tables[0].Rows[0]["EmployeeName"].ToString();
+                    DrpEmpTitle.SelectedValue = DSEmpName.Tables[0].Rows[0]["Title"].ToString();
+                }
+            
+
+            // For Swap card no               
+            string stSwapcardNo = fun.select("Id,SwapCardNo ", "tblHR_SwapCard", "Id='1' OR Id NOT IN (select SwapCardNo from tblHR_OfficeStaff where SwapCardNo is not null AND CompId='" + CompId + "')");
+            SqlCommand cmdSwapcardNo = new SqlCommand(stSwapcardNo, con);
+            SqlDataAdapter daSwapcardNo = new SqlDataAdapter(cmdSwapcardNo);
+            DataSet dsSwapcardNo = new DataSet();
+            daSwapcardNo.Fill(dsSwapcardNo, "tblHR_SwapCard");
+            DrpSwapcardNo.DataSource = dsSwapcardNo.Tables["tblHR_SwapCard"];
+            DrpSwapcardNo.DataValueField = "Id";
+            DrpSwapcardNo.DataTextField = "SwapCardNo";
+            DrpSwapcardNo.DataBind();
+
+            // For Coporate Mobile No 
+            string stMobileNo = fun.select("Id,MobileNo ", "tblHR_CoporateMobileNo", "Id='1' OR Id NOT IN (select MobileNo from tblHR_OfficeStaff where MobileNo is not null AND CompId='" + CompId + "')");
+            SqlCommand cmdMobileNo = new SqlCommand(stMobileNo, con);
+            SqlDataAdapter daMobileNo = new SqlDataAdapter(cmdMobileNo);
+            DataSet dsMobileNo = new DataSet();
+            daMobileNo.Fill(dsMobileNo, "tblHR_CoporateMobileNo");
+            DrpMobileNo.DataSource = dsMobileNo.Tables["tblHR_CoporateMobileNo"];
+            DrpMobileNo.DataValueField = "Id";
+            DrpMobileNo.DataTextField = "MobileNo";
+            DrpMobileNo.DataBind();
+
+            }
+
+        }
+
+         catch (Exception ex)
+        {
+        }
+    }
+
+    protected void BtnSubmit_Click(object sender, EventArgs e)
+    {
+        string constr = fun.Connection();
+        SqlConnection con = new SqlConnection(constr);
+
+        try
+        {
+            string CDate = fun.getCurrDate();
+            string CTime = fun.getCurrTime();
+
+            string sId = Session["username"].ToString();
+            int CompId = Convert.ToInt32(Session["compid"]);
+            int FinYearId = Convert.ToInt32(Session["finyear"]);
+
+            Offid = Convert.ToInt32(Request.QueryString["OfferId"]);
+
+            string joinDate = fun.FromDate(TxtJoinDate.Text);
+
+            string ResignDate = "";
+            if (TxtResignDate.Text == "")
+            {
+                ResignDate = "";
+            }
+            else
+            {
+                ResignDate = fun.FromDate(TxtResignDate.Text);
+            }
+
+
+            string DOB = "";
+            if (TxtDateofBirth.Text == "")
+            {
+                DOB = "";
+            }
+            else
+            {
+                DOB = fun.FromDate(TxtDateofBirth.Text);
+            }
+
+
+            string ExDate = "";
+            if (TxtExpiryDate.Text == "")
+            {
+                ExDate = "";
+            }
+            else
+            {
+                ExDate = fun.FromDate(TxtExpiryDate.Text);
+            }
+
+            int martielstatus = 0;
+            if (RdbtnMarried.Checked == true)
+            {
+                martielstatus = 1;
+            }
+            else
+            {
+                martielstatus = 0;
+            }
+            int Physicalstatus = 0;
+            if (RdbtnYes.Checked == true)
+            {
+                Physicalstatus = 1;
+            }
+            else
+            {
+                Physicalstatus = 0;
+            }
+
+            // Upload Photo
+
+            string strfilename = "";
+            HttpPostedFile myfile = FileUploadPhoto.PostedFile;
+            Byte[] mydata = null;
+
+            if (FileUploadPhoto.PostedFile != null)
+            {
+                Stream fs = FileUploadPhoto.PostedFile.InputStream;
+                BinaryReader br = new BinaryReader(fs);
+                mydata = br.ReadBytes((Int32)fs.Length);
+                strfilename = Path.GetFileName(myfile.FileName);
+            }
+
+
+            // Upload CV
+
+            string strcv = "";
+            HttpPostedFile mycv = FileUploadControl.PostedFile;
+            Byte[] mycvdata = null;
+
+            if (FileUploadControl.PostedFile != null)
+            {
+                Stream fscv = FileUploadControl.PostedFile.InputStream;
+                BinaryReader brcv = new BinaryReader(fscv);
+                mycvdata = brcv.ReadBytes((Int32)fscv.Length);
+                strcv = Path.GetFileName(mycv.FileName);
+            }
+
+            con.Open();
+            string StrEmp = fun.select("EmpId","tblHR_OfficeStaff","CompId='"+CompId+"'Order by  EmpId Desc");
+            SqlCommand cmd2 = new SqlCommand(StrEmp, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd2);
+            da.Fill(DS, "tblHR_OfficeStaff");
+            string PrefixStr = fun.select("Prefix","tblCompany_master","CompId='" + CompId + "'");
+            SqlCommand cmdPref = new SqlCommand(PrefixStr, con);
+            SqlDataAdapter daPref = new SqlDataAdapter(cmdPref);
+            daPref.Fill(DSPref, "tblCompany_master");
+            string Comprefix = DSPref.Tables[0].Rows[0][0].ToString();
+            string custIdStr = "";
+
+            if (DS.Tables[0].Rows.Count > 0)
+            {
+                string getcuststr = DS.Tables[0].Rows[0][0].ToString();
+                string a = "";
+
+                foreach (char c in getcuststr)
+                {
+                    if (Char.IsDigit(c))
+                    {
+                        a = a + c;
+                    }
+                }
+                int incstr = Convert.ToInt32(a) + 1;
+                custIdStr = Comprefix + incstr.ToString("D4");
+            }
+            else
+            {
+                custIdStr = Comprefix + "0001";
+            }           
+           
+
+            if (fun.EmailValidation(TxtEmail.Text) == true && fun.EmailValidation(TxtERPMail.Text) == true && fun.EmailValidation(TxtMail.Text) == true && TxtEmpName.Text != "" && TxtContactNo.Text != "" && joinDate.ToString() != "" && TxtPermanentAddress.Text != "" && TxtCAddress.Text != "" && DOB.ToString() != "" && DrpGender.SelectedValue != "Select" && TxtHeight.Text != "" && TxtWeight.Text != "" && TxtReligion.Text != "" && TxtCast.Text != "" && TxtEducatinalQualificatin.Text != "" && custIdStr.ToString() != "" && CDate.ToString() != "" && CTime.ToString() != "" && DrpBloodGroup.SelectedValue != "Select" && fun.DateValidation(TxtJoinDate.Text) == true && fun.DateValidation(TxtDateofBirth.Text) == true && fun.DateValidation(TxtExpiryDate.Text) == true)
+
+            {
+                
+                string strInsert = fun.insert("tblHR_OfficeStaff", "OfferId, EmpId,SysDate,SysTime,FinYearId,CompId,SessionId,Title,EmployeeName,SwapCardNo,Department,BGGroup,DirectorsName,DeptHead,GroupLeader,Designation,Grade,MobileNo,ContactNo,CompanyEmail,EmailId1,ExtensionNo,JoiningDate,ResignationDate,PhotoFileName,PhotoSize,PhotoContentType,PhotoData,PermanentAddress,CorrespondenceAddress,EmailId2,DateOfBirth,Gender,MartialStatus,BloodGroup,Height,Weight,PhysicallyHandycapped,Religion,Cast,EducationalQualification,AdditionalQualification,LastCompanyName,WorkingDuration,TotalExperience,CVFileName,CVSize,CVContentType,CVData,CurrentCTC,BankAccountNo,PFNo,PANNo,PassPortNo,ExpiryDate,AdditionalInformation", "'" + Offid + "','" + custIdStr + "','" + CDate + "','" + CTime + "','" + FinYearId + "','" + CompId + "','" + sId + "','" + DrpEmpTitle.SelectedItem + "','" + TxtEmpName.Text + "','" + DrpSwapcardNo.SelectedValue + "','" + DrpDepartment.SelectedValue + "','" + DrpBGGroup.SelectedValue + "','" + DrpDirectorName.SelectedValue + "','" + DrpDeptHead.SelectedValue + "','" + DrpGroupLeader.SelectedValue + "','" + DrpDesignation.SelectedValue + "','" + DrpGrade.SelectedValue + "','" + DrpMobileNo.SelectedValue + "','" + TxtContactNo.Text + "','" + TxtMail.Text + "','" + TxtERPMail.Text + "','" + DrpExtensionNo.SelectedValue + "','" + joinDate + "','" + ResignDate + "','" + strfilename + "','" + mydata.Length + "','" + myfile.ContentType + "',@Data,'" + TxtPermanentAddress.Text + "','" + TxtCAddress.Text + "','" + TxtEmail.Text + "','" + DOB + "','" + DrpGender.SelectedValue + "','" + martielstatus + "','" + DrpBloodGroup.SelectedValue + "','" + TxtHeight.Text + "','" + TxtWeight.Text + "','" + Physicalstatus + "','" + TxtReligion.Text + "','" + TxtCast.Text + "','" + TxtEducatinalQualificatin.Text + "','" + TxtAdditionalQualification.Text + "','" + TxtLastCompanyName.Text + "','" + TxtWorkingDuration.Text + "','" + TxtTotalExperience.Text + "','" + strcv + "','" + mycvdata.Length + "','" + mycv.ContentType + "',@CV,'" + TxtCurrentCTC.Text + "','" + TxtBankAccNo.Text + "','" + TxtPFNo.Text + "','" + TxtPANNo.Text + "','" + TxtPassportNo.Text + "','" + ExDate + "','" + TxtAdditionalInformation.Text + "'");
+
+                SqlCommand cmd1 = new SqlCommand(strInsert, con);
+                cmd1.Parameters.AddWithValue("@Data", mydata);
+                cmd1.Parameters.AddWithValue("@CV", mycvdata);
+                cmd1.ExecuteNonQuery();
+                
+                
+                Response.Redirect("OfficeStaff_New.aspx?ModId=12&SubModId=24&msg=Staff data is entered.");
+            }
+            
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+    }
+
+    protected void btnnxt_Click(object sender, EventArgs e)
+    {
+        TabContainer1.ActiveTab = TabContainer1.Tabs[1];
+    }
+
+    protected void btnNext2_Click(object sender, EventArgs e)
+    {
+        TabContainer1.ActiveTab = TabContainer1.Tabs[2];
+    }
+ 
+    protected void btnNext3_Click(object sender, EventArgs e)
+    {
+        TabContainer1.ActiveTab = TabContainer1.Tabs[3];
+    }
+
+    protected void BtnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("OfficeStaff_New.aspx?ModId=12&SubModId=24");
+    }
+
+    protected void TabContainer1_ActiveTabChanged(object sender, EventArgs e)
+    {
+        Session.Remove("TabIndex");
+    }
+}

@@ -1,0 +1,432 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/ServiceTaxInvoice_Print_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master"  AutoEventWireup="true" CodeFile="ServiceTaxInvoice_Print_Details.aspx.cs" Inherits="Module_Accounts_Transactions_ServiceTaxInvoice_Print_Details" Title="ERP" Theme="Default" %>
+
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head"  Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style2
+        {
+            width: 100%;
+        }
+        .style3
+        {
+        }
+        .style4
+        {
+            height: 34px;
+        }
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+    
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7"  ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+     <table align="left" cellpadding="0" cellspacing="0" class="style2">
+        <tr>
+            <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)" colspan="2">
+        &nbsp;<b>Service Tax Invoice - Print</b>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" class="style3">
+               <asp:Panel ID="Panel1" runat="server" Width="100%" Height="450px" ScrollBars="Auto">
+                    <CR:CrystalReportSource ID="CrystalReportSource1" runat="server">
+                        <Report FileName="~/Module/Accounts/Reports/ServiceTaxInvoice.rpt">
+                        </Report>
+                    </CR:CrystalReportSource>
+                    <CR:CrystalReportViewer ID="CrystalReportViewer1" HasCrystalLogo="False"
+                    runat="server" AutoDataBind="true" ReportSourceID="CrystalReportSource1" 
+                    DisplayGroupTree="False" EnableDatabaseLogonPrompt="False" 
+                    EnableParameterPrompt="False" ReuseParameterValuesOnRefresh="True" />
+                </asp:Panel>
+                    
+                    </td>
+            <td align="center" valign="top">
+                &nbsp;</td>
+        </tr>
+        <tr>
+            <td align="center" class="style3">
+            <asp:Button ID="btnCancel" runat="server" Text="Cancel" 
+                 CssClass="redbox" onclick="btnCancel_Click" />
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/ServiceTaxInvoice_Print_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using iTextSharp.text;
+using MKB.TimePicker;
+using CrystalDecisions.CrystalReports.Engine;
+using System.Threading;
+using System.Globalization;
+
+public partial class Module_Accounts_Transactions_ServiceTaxInvoice_Print_Details : System.Web.UI.Page
+{
+   clsFunctions fun = new clsFunctions();
+    DataSet DS = new DataSet();  
+    int CompId = 0;
+    int FinYearId = 0;
+    string invId = "";  
+    string CCode = "";
+    string  InvNo = "";
+    string PrintType = "";
+    ReportDocument cryRpt = new ReportDocument();
+    string Key = string.Empty;
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        try
+        {
+            if (!IsPostBack)
+            {
+                Key = Request.QueryString["Key"].ToString();
+                // use US English culture throughout the examples
+                Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
+                string wordsIss;
+
+                con.Open();
+
+                FinYearId = Convert.ToInt32(Session["finyear"]);
+                CompId = Convert.ToInt32(Session["compid"]);
+                invId = fun.Decrypt(Request.QueryString["invid"].ToString());
+                InvNo = fun.Decrypt(Request.QueryString["InvNo"]);
+                CCode = fun.Decrypt(Request.QueryString["cid"].ToString());
+                PrintType = fun.Decrypt(Request.QueryString["PT"].ToString());
+                string StrCmd = fun.select("*", "tblACC_ServiceTaxInvoice_Master", "CompId='" + CompId + "' AND InvoiceNo='" + InvNo + "' AND Id='" + invId + "'");
+                SqlCommand Cmdgrid = new SqlCommand(StrCmd, con);
+
+
+                SqlDataAdapter dagrid = new SqlDataAdapter(Cmdgrid);
+                DataSet dsrs = new DataSet();
+
+                dagrid.Fill(dsrs);
+
+                DataTable dt = new DataTable();
+
+                dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+                dt.Columns.Add(new System.Data.DataColumn("SysDate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("InvoiceNo", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("PONo", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("DateOfIssueInvoice", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));
+                dt.Columns.Add(new System.Data.DataColumn("TimeOfIssueInvoice", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("DutyRate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("CustomerCode", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("CustomerCategory", typeof(string)));
+
+                dt.Columns.Add(new System.Data.DataColumn("Buyer_name", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Buyer_cotper", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Buyer_ph", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Buyer_email", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Buyer_ecc", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Buyer_tin", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Buyer_mob", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Buyer_fax", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Buyer_vat", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Cong_name", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Cong_cotper", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Cong_ph", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Cong_email", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Cong_ecc", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Cong_tin", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Cong_mob", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Cong_fax", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Cong_vat", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("AddType", typeof(int)));
+                dt.Columns.Add(new System.Data.DataColumn("AddAmt", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("DeductionType", typeof(int)));
+                dt.Columns.Add(new System.Data.DataColumn("Deduction", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("ServiceTax", typeof(int)));
+                dt.Columns.Add(new System.Data.DataColumn("TaxableServices", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("PODate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("POId", typeof(int)));
+
+                DataSet sertaxInvoice = new DataSet();
+                DataRow dr;
+
+                for (int i = 0; i < dsrs.Tables[0].Rows.Count; i++)
+                {
+                    dr = dt.NewRow();
+
+                    if (dsrs.Tables[0].Rows.Count > 0)
+                    {
+                        dr[0] = dsrs.Tables[0].Rows[0]["Id"].ToString();
+                        dr[1] = fun.FromDateDMY(dsrs.Tables[0].Rows[0]["SysDate"].ToString());
+                        dr[2] = dsrs.Tables[0].Rows[0]["InvoiceNo"].ToString();
+                        dr[3] = dsrs.Tables[0].Rows[0]["PONo"].ToString();
+                        //For WOno
+
+                        string WN1 = dsrs.Tables[0].Rows[0]["WONo"].ToString();
+
+                        string[] split = WN1.Split(new Char[] { ',' });
+                        string WoNO = "";
+                        for (int d = 0; d < split.Length - 1; d++)
+                        {
+
+                            string sqlWoNo = fun.select("WONo", "SD_Cust_WorkOrder_Master", "Id='" + split[d] + "' AND CompId='" + CompId + "'");
+                            SqlCommand cmdWoNo = new SqlCommand(sqlWoNo, con);
+                            SqlDataAdapter daWoNo = new SqlDataAdapter(cmdWoNo);
+                            DataSet dsWoNo = new DataSet();
+                            daWoNo.Fill(dsWoNo);
+
+                            if (dsWoNo.Tables[0].Rows.Count > 0)
+                            {
+                                WoNO += dsWoNo.Tables[0].Rows[0][0].ToString() + ",";
+                            }
+                        }
+                        dr[4] = WoNO;
+                        dr[5] = fun.FromDateDMY(dsrs.Tables[0].Rows[0]["DateOfIssueInvoice"].ToString());
+                        dr[6] = dsrs.Tables[0].Rows[0]["CompId"].ToString();
+                        dr[7] = dsrs.Tables[0].Rows[0]["TimeOfIssueInvoice"].ToString();
+                        dr[8] = dsrs.Tables[0].Rows[0]["DutyRate"].ToString();
+                        dr[9] = dsrs.Tables[0].Rows[0]["CustomerCode"].ToString();
+
+                        //   Customer Category
+                        string sqlConsigneeCat = fun.select("Description", "tblACC_Service_Category", "Id='" + dsrs.Tables[0].Rows[0]["CustomerCategory"] + "'");
+                        SqlCommand cmdConsigneeCat = new SqlCommand(sqlConsigneeCat, con);
+                        SqlDataAdapter DAConsigneeCat = new SqlDataAdapter(cmdConsigneeCat);
+                        DataSet DSConsigneeCat = new DataSet();
+                        DAConsigneeCat.Fill(DSConsigneeCat);
+
+                        if (DSConsigneeCat.Tables[0].Rows.Count > 0)
+                        {
+                            dr[10] = DSConsigneeCat.Tables[0].Rows[0]["Description"].ToString();
+                        }
+
+                        dr[11] = dsrs.Tables[0].Rows[0]["Buyer_name"].ToString();
+                        dr[12] = dsrs.Tables[0].Rows[0]["Buyer_cotper"].ToString();
+                        dr[13] = dsrs.Tables[0].Rows[0]["Buyer_ph"].ToString();
+                        dr[14] = dsrs.Tables[0].Rows[0]["Buyer_email"].ToString();
+                        dr[15] = dsrs.Tables[0].Rows[0]["Buyer_ecc"].ToString();
+                        dr[16] = dsrs.Tables[0].Rows[0]["Buyer_tin"].ToString();
+                        dr[17] = dsrs.Tables[0].Rows[0]["Buyer_mob"].ToString();
+                        dr[18] = dsrs.Tables[0].Rows[0]["Buyer_fax"].ToString();
+                        dr[19] = dsrs.Tables[0].Rows[0]["Buyer_vat"].ToString();
+                        dr[20] = dsrs.Tables[0].Rows[0]["Cong_name"].ToString();
+
+                        dr[21] = dsrs.Tables[0].Rows[0]["Cong_cotper"].ToString();
+                        dr[22] = dsrs.Tables[0].Rows[0]["Cong_ph"].ToString();
+                        dr[23] = dsrs.Tables[0].Rows[0]["Cong_email"].ToString();
+                        dr[24] = dsrs.Tables[0].Rows[0]["Cong_ecc"].ToString();
+                        dr[25] = dsrs.Tables[0].Rows[0]["Cong_tin"].ToString();
+                        dr[26] = dsrs.Tables[0].Rows[0]["Cong_mob"].ToString();
+                        dr[27] = dsrs.Tables[0].Rows[0]["Cong_fax"].ToString();
+                        dr[28] = dsrs.Tables[0].Rows[0]["Cong_vat"].ToString();
+                        dr[29] = Convert.ToInt32(dsrs.Tables[0].Rows[0]["AddType"].ToString());
+                        dr[30] = dsrs.Tables[0].Rows[0]["AddAmt"].ToString();
+
+                        dr[31] = Convert.ToInt32(dsrs.Tables[0].Rows[0]["DeductionType"].ToString());
+                        dr[32] = dsrs.Tables[0].Rows[0]["Deduction"].ToString();
+                        dr[33] = dsrs.Tables[0].Rows[0]["ServiceTax"].ToString();
+
+                        //    Taxable Services
+                        string sqlTaxSer = fun.select("Description", "tblACC_TaxableServices", "Id='" + dsrs.Tables[0].Rows[0]["TaxableServices"] + "'");
+                        SqlCommand cmdTaxSer = new SqlCommand(sqlTaxSer, con);
+                        SqlDataAdapter DATaxSer = new SqlDataAdapter(cmdTaxSer);
+                        DataSet DSTaxSer = new DataSet();
+                        DATaxSer.Fill(DSTaxSer);
+
+
+                        if (DSTaxSer.Tables[0].Rows.Count > 0)
+                        {
+                            dr[34] = DSTaxSer.Tables[0].Rows[0]["Description"].ToString();
+                        }
+
+                        //   PO Date
+                        string sqlPO = fun.select("SysDate As PODate", "SD_Cust_PO_Master", "POId='" + dsrs.Tables[0].Rows[0]["POId"] + "' And CompId='" + CompId + "'");
+                        SqlCommand cmdPO = new SqlCommand(sqlPO, con);
+                        SqlDataAdapter DAPO = new SqlDataAdapter(cmdPO);
+                        DataSet DSPO = new DataSet();
+                        DAPO.Fill(DSPO);
+                        dr[35] = fun.FromDateDMY(DSPO.Tables[0].Rows[0]["PODate"].ToString());
+                        dr[36] = Convert.ToInt32(dsrs.Tables[0].Rows[0]["POId"]);
+                    }
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+
+                sertaxInvoice.Tables.Add(dt);
+                DataSet xsdds = new SerTaxInvoice();
+                xsdds.Tables[0].Merge(sertaxInvoice.Tables[0]);
+                xsdds.AcceptChanges();
+                cryRpt = new ReportDocument();
+                cryRpt.Load(Server.MapPath("~/Module/Accounts/Reports/ServiceTaxInvoice.rpt"));
+                cryRpt.SetDataSource(xsdds);
+
+
+                if (dsrs.Tables[0].Rows.Count > 0)
+                {
+
+                    //  For Invoice No
+                    string cmdStr = fun.select("FinYearFrom,FinYearTo", "tblFinancial_master", "CompId='" + dsrs.Tables[0].Rows[0]["CompId"] + "' And FinYearId='" + dsrs.Tables[0].Rows[0]["FinYearId"].ToString() + "'");
+                    SqlCommand cmd = new SqlCommand(cmdStr, con);
+                    SqlDataAdapter DA = new SqlDataAdapter(cmd);
+                    DA.Fill(DS, "Financial");
+                    string fY = "";
+                    if (DS.Tables[0].Rows.Count > 0)
+                    {
+
+                        string FinYearFrD = DS.Tables[0].Rows[0]["FinYearFrom"].ToString();
+                        string FDY = fun.FromDateYear(FinYearFrD);
+                        string s = FDY.Substring(2);
+                        string FinYearToD = DS.Tables[0].Rows[0]["FinYearTo"].ToString();
+                        string TDY = fun.ToDateYear(FinYearToD);
+                        string g = TDY.Substring(2);
+                        fY = string.Concat(s, g);
+                        string InvoiceNo = dsrs.Tables[0].Rows[0]["InvoiceNo"].ToString() + "/" + fY;
+                        cryRpt.SetParameterValue("InvoiceNo", InvoiceNo);
+
+                    }
+
+
+                    //   Buyer_Address 
+                    string strBuyer_add = dsrs.Tables[0].Rows[0]["Buyer_add"].ToString();
+                    string strBuyer_country = fun.select("CountryName", "tblcountry", "CId='" + dsrs.Tables[0].Rows[0]["Buyer_country"] + "'");
+                    string strBuyer_state = fun.select("StateName", "tblState", "SId='" + dsrs.Tables[0].Rows[0]["Buyer_state"] + "'");
+                    string strBuyer_city = fun.select("CityName", "tblCity", "CityId='" + dsrs.Tables[0].Rows[0]["Buyer_city"] + "'");
+                    SqlCommand Cmd1 = new SqlCommand(strBuyer_country, con);
+                    SqlCommand Cmd2 = new SqlCommand(strBuyer_state, con);
+                    SqlCommand Cmd3 = new SqlCommand(strBuyer_city, con);
+                    SqlDataAdapter DA1 = new SqlDataAdapter(Cmd1);
+                    SqlDataAdapter DA2 = new SqlDataAdapter(Cmd2);
+                    SqlDataAdapter DA3 = new SqlDataAdapter(Cmd3);
+                    DataSet ds1 = new DataSet();
+                    DataSet ds2 = new DataSet();
+                    DataSet ds3 = new DataSet();
+                    DA1.Fill(ds1, "tblCountry");
+                    DA2.Fill(ds2, "tblState");
+                    DA3.Fill(ds3, "tblcity");
+
+                    string Buyer_Address = strBuyer_add + ",\n" + ds3.Tables[0].Rows[0]["CityName"].ToString() + ", " + ds2.Tables[0].Rows[0]["StateName"].ToString() + ",\n" + ds1.Tables[0].Rows[0]["CountryName"].ToString() + ".";
+                    cryRpt.SetParameterValue("Buyer_Address", Buyer_Address);
+
+                    //   Consignee_Address 
+                    string strCong_add = dsrs.Tables[0].Rows[0]["Cong_add"].ToString();
+                    string strCong_country = fun.select("CountryName", "tblcountry", "CId='" + dsrs.Tables[0].Rows[0]["Cong_country"] + "'");
+                    string strCong_state = fun.select("StateName", "tblState", "SId='" + dsrs.Tables[0].Rows[0]["Cong_state"] + "'");
+                    string strCong_city = fun.select("CityName", "tblCity", "CityId='" + dsrs.Tables[0].Rows[0]["Cong_city"] + "'");
+                    SqlCommand Cmd11 = new SqlCommand(strCong_country, con);
+                    SqlCommand Cmd21 = new SqlCommand(strCong_state, con);
+                    SqlCommand Cmd31 = new SqlCommand(strCong_city, con);
+                    SqlDataAdapter DA11 = new SqlDataAdapter(Cmd11);
+                    SqlDataAdapter DA21 = new SqlDataAdapter(Cmd21);
+                    SqlDataAdapter DA31 = new SqlDataAdapter(Cmd31);
+                    DataSet ds11 = new DataSet();
+                    DataSet ds21 = new DataSet();
+                    DataSet ds31 = new DataSet();
+                    DA11.Fill(ds11, "tblCountry");
+                    DA21.Fill(ds21, "tblState");
+                    DA31.Fill(ds31, "tblcity");
+
+                    string Consignee_Address = strCong_add + ",\n" + ds31.Tables[0].Rows[0]["CityName"].ToString() + ", " + ds21.Tables[0].Rows[0]["StateName"].ToString() + ",\n" + ds11.Tables[0].Rows[0]["CountryName"].ToString() + ".";
+                    cryRpt.SetParameterValue("Consignee_Address", Consignee_Address);
+
+                    //   Company Address     
+                    string CompAdd = fun.select("*", "tblCompany_master", "CompId='" + CompId + "'");
+                    SqlCommand cmdCompAdd = new SqlCommand(CompAdd, con);
+                    SqlDataAdapter daCompAdd = new SqlDataAdapter(cmdCompAdd);
+                    DataSet dsCompAdd = new DataSet();
+                    daCompAdd.Fill(dsCompAdd, "tblCompany_master");
+
+                    string Address = dsCompAdd.Tables[0].Rows[0]["RegdAddress"].ToString() + ",\n" + fun.getCity(Convert.ToInt32(dsCompAdd.Tables[0].Rows[0]["RegdCity"]), 1) + ", " + fun.getState(Convert.ToInt32(dsCompAdd.Tables[0].Rows[0]["RegdState"]), 1) + ", " + fun.getCountry(Convert.ToInt32(dsCompAdd.Tables[0].Rows[0]["RegdCountry"]), 1) + " PIN No.-" + dsCompAdd.Tables[0].Rows[0]["RegdPinCode"].ToString() + ".\n" + "Ph No.-" + dsCompAdd.Tables[0].Rows[0]["RegdContactNo"].ToString() + ", " + " Fax No.-" + dsCompAdd.Tables[0].Rows[0]["RegdFaxNo"].ToString() + "\n" + "Email No.-" + dsCompAdd.Tables[0].Rows[0]["RegdEmail"].ToString();
+
+                    cryRpt.SetParameterValue("Address", Address);
+
+                    // Date And Time in Text- Date Of Removal &Time Of Removal
+
+                    string DateIssWord = fun.FromDateDMY(dsrs.Tables[0].Rows[0]["DateOfIssueInvoice"].ToString());
+                    string MDYDateStrIss = fun.FromDateMDY(DateIssWord);
+                    DateTime dt4 = DateTime.Parse(MDYDateStrIss);
+                    wordsIss = fun.DateToText(dt4, false, true);
+                    string TimeInWordIss = dsrs.Tables[0].Rows[0]["TimeOfIssueInvoice"].ToString();
+                    string wordsIssTime = fun.TimeToText(TimeInWordIss);
+                    cryRpt.SetParameterValue("wordsIss", wordsIss);
+                    cryRpt.SetParameterValue("wordsIssTime", wordsIssTime);
+
+
+                }
+
+                cryRpt.SetParameterValue("PrintType", PrintType);
+
+                CrystalReportViewer1.ReportSource = cryRpt;
+                Session[Key] = cryRpt;
+
+            }
+
+            else
+            {
+                ReportDocument doc = (ReportDocument)Session[Key];
+                CrystalReportViewer1.ReportSource = doc;
+            }
+
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+            con.Close();
+        }
+    }
+
+
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        cryRpt = new ReportDocument();
+    }
+
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("ServiceTaxInvoice_Print.aspx?ModId=11&SubModId=52");
+    }
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        cryRpt.Close();
+        cryRpt.Dispose();
+        GC.Collect();
+    }
+
+
+}

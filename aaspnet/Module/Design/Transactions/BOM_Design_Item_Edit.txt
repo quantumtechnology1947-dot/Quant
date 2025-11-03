@@ -1,0 +1,320 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Transactions/BOM_Design_Item_Edit.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="BOM_Design_Item_Edit.aspx.cs" Inherits="Module_Design_Transactions_BOM_Design_Item_Edit" Title="ERP" Theme="Default"  %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+   <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+        <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    
+    <style type="text/css">
+        .style2
+        {
+            height: 22px;
+        }
+    </style>
+    
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+ <table cellpadding="0" width="100%" cellspacing="0">
+    <tr>
+    <td style="background:url(../../../images/hdbg.JPG)" class="fontcsswhite" 
+            height="21">&nbsp;<b>BOM 
+        Item - Edit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WO No:&nbsp;<asp:Label runat="server" ID="lblWONo"></asp:Label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b>
+        </td>
+    </tr>
+        <tr>
+            <td align="center" class="style25" valign="top">
+                <table align="left" cellpadding="0" cellspacing="0" class="fontcss" width="500">
+                    <tr>
+                        <td align="left">
+                            &nbsp;</td>
+                        <td align="left" height="22">
+                            Item Code</td>
+                        <td align="left">
+                <asp:Label ID="lblItemCode" runat="server"></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left">
+                            &nbsp;</td>
+                        <td align="left" valign="top">
+                            Description&nbsp; </td>
+                        <td align="left" valign="top" height="25PX">
+                            <asp:Label ID="lblMfDesc" runat="server"></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="style2">
+                            </td>
+                        <td align="left" class="style2">
+                            UOM</td>
+                        <td align="left" class="style2">
+                            <asp:Label ID="lblUOMB" runat="server"></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="style34">
+                            &nbsp;</td>
+                        <td align="left" class="style34" height="22">
+                            Unit
+                            Qty</td>
+                        <td align="left">
+                <asp:TextBox ID="txtQuntity" runat="server" Width="99px" CssClass="box3"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
+                    ControlToValidate="txtQuntity" ValidationGroup="val" ErrorMessage="*"></asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator runat="server" 
+                                ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ControlToValidate="txtQuntity" 
+                                ErrorMessage="*" ValidationGroup="val" ID="RegQty"></asp:RegularExpressionValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="style34">
+                            &nbsp;</td>
+                        <td align="left" class="style34" height="22">
+                            Revision</td>
+                        <td align="left">
+                <asp:TextBox ID="txtRevision" runat="server" Width="99px" CssClass="box3"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="ReqtxtRevision" runat="server" 
+                    ControlToValidate="txtRevision" ValidationGroup="val" ErrorMessage="*"></asp:RequiredFieldValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="style34">
+                            &nbsp;</td>
+                        <td align="left" class="style34" height="35">
+                            &nbsp;</td>
+                        <td align="left">
+                <asp:Button ID="btnUpdate" runat="server" Text="Update" ValidationGroup="val"  OnClientClick=" return confirmationUpdate()" 
+                    onclick="btnUpdate_Click" CssClass="redbox" />
+                            &nbsp;<asp:Button ID="btncancel" runat="server" 
+                    onclick="btncancel_Click" Text="Cancel" CssClass="redbox" />
+                        </td>
+                    </tr>
+                    </table>
+            </td>
+        </tr>
+        </table>
+        
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Transactions/BOM_Design_Item_Edit.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.IO;
+using System.Security.Cryptography;
+public partial class Module_Design_Transactions_BOM_Design_Item_Edit : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string wono = "";
+    int itemId = 0;
+    int Category = 0;
+    string asslyId = "";  
+    string sId = "";
+    int CompId =0;
+    int FinYearId = 0; 
+    string uom = "";
+    string ItemCId = string.Empty;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        string connStr1 = fun.Connection();
+        SqlConnection con1 = new SqlConnection(connStr1);
+        try
+        {
+            asslyId = Request.QueryString["Id"];
+            wono = Request.QueryString["WONo"];
+            lblWONo.Text = wono;
+            sId = Session["username"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            DataSet DS = new DataSet();
+
+            itemId = Convert.ToInt32(Request.QueryString["ItemId"]);
+
+            if (!IsPostBack)
+            {
+                string cmdStr = fun.select("tblDG_Item_Master.Id,tblDG_Item_Master.CId As ItemCId,tblDG_Item_Master.UOMBasic,Unit_Master.Symbol as bUOM,tblDG_Item_Master.UOMBasic,tblDG_BOM_Master.CId,tblDG_BOM_Master.WONo,tblDG_Item_Master.PartNo,tblDG_Item_Master.ItemCode,tblDG_Item_Master.ManfDesc,tblDG_BOM_Master.Qty,tblDG_Item_Master.FileName,tblDG_BOM_Master.Revision", "Unit_Master,tblDG_Item_Master,tblDG_BOM_Master", "tblDG_Item_Master.Id=tblDG_BOM_Master.ItemId AND tblDG_BOM_Master.WONo='" + wono + "' AND tblDG_BOM_Master.ItemId='" + itemId + "' AND Unit_Master.Id = tblDG_Item_Master.UOMBasic AND tblDG_BOM_Master.CompId='" + CompId + "' AND tblDG_BOM_Master.FinYearId<='" + FinYearId + "'AND tblDG_BOM_Master.Id='" + asslyId + "'");
+                SqlCommand cmd = new SqlCommand(cmdStr, con1);
+                SqlDataAdapter DA = new SqlDataAdapter(cmd);
+                DA.Fill(DS);
+
+                if (DS.Tables[0].Rows.Count > 0)
+                {
+
+
+                    lblItemCode.Text = fun.GetItemCode_PartNo(CompId, Convert.ToInt32(DS.Tables[0].Rows[0]["Id"].ToString()));
+                    lblMfDesc.Text = DS.Tables[0].Rows[0]["ManfDesc"].ToString();
+                    lblUOMB.Text = DS.Tables[0].Rows[0]["bUOM"].ToString();
+                    txtQuntity.Text = DS.Tables[0].Rows[0]["Qty"].ToString();
+                    uom = DS.Tables[0].Rows[0]["UOMBasic"].ToString();
+                    ItemCId = DS.Tables[0].Rows[0]["ItemCId"].ToString();
+                    txtRevision.Text = DS.Tables[0].Rows[0]["Revision"].ToString();
+                }
+            }
+
+
+
+        }
+        catch (Exception es)
+        {
+
+        }
+
+        finally
+        {
+            con1.Close();
+        }
+    }
+
+    protected void btnUpdate_Click(object sender, EventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        try
+        {
+
+            string msg = "";
+            con.Open();
+            string CDate = fun.getCurrDate();
+            string CTime = fun.getCurrTime();
+            int CId = Convert.ToInt32(Request.QueryString["CId"]);
+            int PID = 0;
+            string WODesignDate = fun.select(" TaskDesignFinalization_TDate", " SD_Cust_WorkOrder_Master", "WONo='" + wono + "'");
+            SqlCommand CmdDate = new SqlCommand(WODesignDate, con);
+            SqlDataAdapter DaDate = new SqlDataAdapter(CmdDate);
+            DataSet DsDate = new DataSet();
+            DaDate.Fill(DsDate);
+            string Designdate = (DsDate.Tables[0].Rows[0][0].ToString());
+
+
+
+            if (Convert.ToDateTime(Designdate) >= Convert.ToDateTime(CDate))
+            {
+
+                if (txtQuntity.Text != "" && fun.NumberValidationQty(txtQuntity.Text) == true)
+                {
+                    string cmdbom = fun.select("*", "tblDG_BOM_Master", "CompId='" + CompId + "' AND FinYearId<='" + FinYearId + "' AND ItemId='" + itemId + "' AND WONo='" + wono + "' AND CId='" + CId + "'");
+
+                    DataSet DS10 = new DataSet();
+                    string connStr10 = fun.Connection();
+                    SqlConnection con10 = new SqlConnection(connStr10);
+                    SqlCommand cmdBomMaster = new SqlCommand(cmdbom, con10);
+                    SqlDataAdapter DA10 = new SqlDataAdapter(cmdBomMaster);
+                    DA10.Fill(DS10);
+                    string AmendmentNo = "";
+                    if (DS10.Tables[0].Rows.Count > 0 && DS10.Tables[0].Rows[0]["AmdNo"] != DBNull.Value)
+                    {
+
+                        int PONstr = Convert.ToInt32(DS10.Tables[0].Rows[0]["AmdNo"].ToString()) + 1;
+                        AmendmentNo = PONstr.ToString();
+                    }
+                    else
+                    {
+                        AmendmentNo = "0";
+                    }
+
+                    string x = string.Empty;
+                    if (ItemCId != string.Empty)
+                    {
+                        x = lblMfDesc.Text;
+                    }
+
+                    string StrAmd = fun.insert("tblDG_BOM_Amd", "SysDate,SysTime,SessionId,CompId,FinYearId,WONo,BOMId,PId,CId,ItemId,Description,UOM,AmdNo,Qty", "'" + CDate.ToString() + "','" + CTime.ToString() + "','" + sId.ToString() + "','" + CompId + "','" + FinYearId + "','" + wono + "','" + DS10.Tables[0].Rows[0]["Id"].ToString() + "','" + DS10.Tables[0].Rows[0]["PId"].ToString() + "','" + DS10.Tables[0].Rows[0]["CId"].ToString() + "', '" + itemId + "' , '" + x + "', '" + uom + "','" + DS10.Tables[0].Rows[0]["AmdNo"].ToString() + "','" + DS10.Tables[0].Rows[0]["Qty"].ToString() + "' ");
+
+                    SqlCommand cmdAmd = new SqlCommand(StrAmd, con);
+                    cmdAmd.ExecuteNonQuery();
+
+
+                    string cmdstrTplMaster = fun.update("tblDG_BOM_Master", "SysDate='" + CDate.ToString() + "',SysTime='" + CTime.ToString() + "',SessionId='" + sId.ToString() + "',Qty='" + Convert.ToDouble(decimal.Parse((txtQuntity.Text).ToString()).ToString("N3")) + "',AmdNo='" + AmendmentNo + "',Revision='" + txtRevision.Text + "'", "CompId='" + CompId + "' AND ItemId='" + itemId + "' AND WONo='" + wono + "' AND Id='" + asslyId + "' AND CId='" + CId + "'");
+                    SqlCommand cmdTplMaster = new SqlCommand(cmdstrTplMaster, con);
+                    cmdTplMaster.ExecuteNonQuery();
+
+                    int j = 0;
+                    if (DS10.Tables[0].Rows.Count > 0)
+                    {
+                        //For Qty only
+                        string addtobom = fun.update("tblDG_BOM_Master",
+                        "SysDate='" + CDate.ToString() + "',SysTime='" + CTime.ToString() + "',SessionId='" + sId.ToString() + "',Qty='" + Convert.ToDouble(decimal.Parse((txtQuntity.Text).ToString()).ToString("N3")) + "',AmdNo='" + AmendmentNo + "'", "CompId='" + CompId + "' AND ItemId='" + itemId + "' AND WONo='" + wono + "' AND CId='" + CId + "'");
+                        SqlCommand cmdaddtobom = new SqlCommand(addtobom, con);
+                        cmdaddtobom.ExecuteNonQuery();
+                        //For Revision only
+                        string addtobom1 = fun.update("tblDG_BOM_Master","Revision='" + txtRevision.Text + "' ", "CompId='" + CompId + "'AND ItemId='" +itemId + "' AND WONo='" + wono + "'");
+                        SqlCommand cmdaddtobom1 = new SqlCommand(addtobom1, con);
+                        cmdaddtobom1.ExecuteNonQuery();
+                        j++;
+                    }
+                    msg = "BOM is Updated sucessfully.";
+                    if (j > 0)
+                    {
+                        Page.Response.Redirect("BOM_Design_WO_TreeView_Edit.aspx?WONo=" + wono + "&msg=" + msg + "&ModId=3&SubModId=26");
+                    }
+                }
+
+            }
+            else
+            {
+
+                if (txtQuntity.Text != "" && fun.NumberValidationQty(txtQuntity.Text) == true)
+                {
+
+
+                    string cmdbom = fun.select("PId", "tblDG_BOM_Master", "CompId='" + CompId + "' AND FinYearId<='" + FinYearId + "' AND ItemId='" + itemId + "' AND WONo='" + wono + "' AND CId='" + CId + "'");
+
+                    DataSet DS10 = new DataSet();
+                    string connStr10 = fun.Connection();
+                    SqlConnection con10 = new SqlConnection(connStr10);
+                    SqlCommand cmdBomMaster = new SqlCommand(cmdbom, con10);
+                    SqlDataAdapter DA10 = new SqlDataAdapter(cmdBomMaster);
+                    DA10.Fill(DS10);
+                    PID = Convert.ToInt32(DS10.Tables[0].Rows[0]["PId"].ToString());
+                    Response.Redirect("ECN_Master_Edit.aspx?ItemId=" + itemId + "&WONo=" + wono + "&CId=" + CId + "&ParentId=" + PID + "&Qty=" + txtQuntity.Text + "&Id=" + asslyId + "&Revision=" + txtRevision.Text + "");
+
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+    }
+
+    protected void btncancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("BOM_Design_WO_TreeView_Edit.aspx?WONo=" +wono + "&ModId=3&SubModId=26");
+    }
+ 
+}

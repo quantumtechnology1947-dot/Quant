@@ -1,0 +1,272 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Machinery/Masters/Machinery_Print_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Machinery_Print_Details.aspx.cs" Inherits="Module_Machinery_Masters_Machinery_Print_Details" Title="ERP" Theme="Default" %>
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+<table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)">
+        &nbsp;<b>Machinery - Print</b>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" class="style3">
+                <asp:Panel ID="Panel1" runat="server" ScrollBars="Auto" Width="100%" Height="452">
+                
+                <CR:CrystalReportViewer ID="CrystalReportViewer1" 
+                    runat="server" AutoDataBind="true" ReportSourceID="CrystalReportSource1" 
+                    DisplayGroupTree="False" EnableDatabaseLogonPrompt="False" HasCrystalLogo="False"
+                    EnableParameterPrompt="False" />
+                <CR:CrystalReportSource ID="CrystalReportSource1" runat="server">
+                  <Report FileName="~/Module/Machinery/Masters/Reports/Machinery.rpt">
+                    </Report>
+                </CR:CrystalReportSource>
+                    </asp:Panel>
+                    </td>
+        </tr>
+        <tr>
+            <td align="center" class="style3">
+                <asp:Button ID="Cancel" runat="server" Text="Cancel" CssClass="redbox" 
+                    valign="top" onclick="Cancel_Click" />
+                    
+                    </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Machinery/Masters/Machinery_Print_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using CrystalDecisions.CrystalReports.Engine;
+using System.Data.SqlClient;
+
+public partial class Module_Machinery_Masters_Machinery_Print_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    private ReportDocument report = new ReportDocument(); 
+    string sId = "";
+    int CompId = 0;
+    int FinYearId = 0;
+    int itemId = 0;
+    string Key = string.Empty;
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            DataSet DSMachine = new DataSet();
+            DataTable dt = new DataTable();
+            try
+            {
+                string id = Request.QueryString["Id"];
+                itemId = Convert.ToInt32(id);
+
+                sId = Session["username"].ToString();
+                CompId = Convert.ToInt32(Session["compid"]);
+                FinYearId = Convert.ToInt32(Session["finyear"]);
+                Key = Request.QueryString["Key"].ToString();
+                con.Open();
+
+                string StrMachine = fun.select("*", "tblMS_Master", " ItemId='" + itemId + "' AND CompId='" + CompId + "' And FinYearId<='" + FinYearId + "'  ");
+                SqlCommand cmdMachine = new SqlCommand(StrMachine, con);
+                SqlDataAdapter DAMachine = new SqlDataAdapter(cmdMachine);
+
+                DAMachine.Fill(DSMachine);
+
+
+
+                dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+                dt.Columns.Add(new System.Data.DataColumn("SysDate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));
+                dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("UOM", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Name", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Make", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Model", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Capacity", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("PurchaseDate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("SupplierName", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Cost", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("WarrantyExpiryDate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("LifeDate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("ReceivedDate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Insurance", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("InsuranceExpiryDate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Puttouse", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Incharge", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Location", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("PMDays", typeof(string)));
+
+                DataRow dr;
+
+                dr = dt.NewRow();
+                if (DSMachine.Tables[0].Rows.Count > 0)
+                {
+                    dr[0] = Convert.ToInt32(DSMachine.Tables[0].Rows[0]["Id"].ToString());
+                    dr[1] = fun.FromDateDMY(DSMachine.Tables[0].Rows[0]["SysDate"].ToString());
+                    dr[2] = Convert.ToInt32(DSMachine.Tables[0].Rows[0]["CompId"]);
+
+                    string sql1 = fun.select("tblDG_Item_Master.ItemCode,tblDG_Item_Master.ManfDesc,Unit_Master.Symbol As UOMBasic", "tblDG_Item_Master,Unit_Master,vw_Unit_Master", " tblDG_Item_Master.Id='" + itemId + "' AND Unit_Master.Id=tblDG_Item_Master.UOMBasic AND tblDG_Item_Master.CompId='" + CompId + "'");
+
+                    SqlCommand cmd1 = new SqlCommand(sql1, con);
+                    SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+                    DataSet DS1 = new DataSet();
+                    da1.Fill(DS1);
+                    if (DS1.Tables[0].Rows.Count > 0)
+                    {
+                        dr[3] = DS1.Tables[0].Rows[0]["ItemCode"].ToString();
+                        dr[4] = DS1.Tables[0].Rows[0]["UOMBasic"].ToString();
+                        dr[5] = DS1.Tables[0].Rows[0]["ManfDesc"].ToString();
+                    }
+                    dr[6] = DSMachine.Tables[0].Rows[0]["Make"].ToString();
+                    dr[7] = DSMachine.Tables[0].Rows[0]["Model"].ToString();
+                    dr[8] = DSMachine.Tables[0].Rows[0]["Capacity"].ToString();
+                    dr[9] = fun.FromDateDMY(DSMachine.Tables[0].Rows[0]["PurchaseDate"].ToString());
+
+                    string SupplierName = "";
+                    string StrSupp = fun.select("SupplierName +' ['+SupplierId+']'", "tblMM_Supplier_master", "CompId='" + CompId + "' And SupplierId='" + DSMachine.Tables[0].Rows[0]["SupplierName"].ToString() + "'");
+                    SqlCommand CmdSupp = new SqlCommand(StrSupp, con);
+                    DataSet DsSupp = new DataSet();
+                    SqlDataAdapter daSupp = new SqlDataAdapter(CmdSupp);
+                    daSupp.Fill(DsSupp, "tblMM_Supplier_master");
+                    if (DsSupp.Tables[0].Rows.Count > 0)
+                    {
+                        SupplierName = DsSupp.Tables[0].Rows[0][0].ToString();
+                    }
+                    dr[10] = SupplierName;
+                    dr[11] = Convert.ToDouble(DSMachine.Tables[0].Rows[0]["Cost"].ToString());
+                    dr[12] = fun.FromDateDMY(DSMachine.Tables[0].Rows[0]["WarrantyExpiryDate"].ToString());
+                    dr[13] = fun.FromDateDMY(DSMachine.Tables[0].Rows[0]["LifeDate"].ToString());
+                    dr[14] = fun.FromDateDMY(DSMachine.Tables[0].Rows[0]["ReceivedDate"].ToString());
+
+                    string Insurance = "";
+                    if (DSMachine.Tables[0].Rows[0]["Insurance"].ToString() == "0")
+                    {
+                        Insurance = "No";
+                    }
+                    else
+                    {
+                        Insurance = "Yes";
+                    }
+                    dr[15] = Insurance;
+
+                    string InsuranceExpiryDate = "";
+                    if (DSMachine.Tables[0].Rows[0]["InsuranceExpiryDate"].ToString() != "")
+                    {
+                        InsuranceExpiryDate = fun.FromDateDMY(DSMachine.Tables[0].Rows[0]["InsuranceExpiryDate"].ToString());
+                    }
+                    else
+                    {
+                        InsuranceExpiryDate = "NA";
+                    }
+
+                    dr[16] = InsuranceExpiryDate;
+
+                    dr[17] = fun.FromDateDMY(DSMachine.Tables[0].Rows[0]["Puttouse"].ToString());
+
+                    string Incharge = "";
+                    string StrIncharge = fun.select("EmployeeName+' ['+EmpId+']' ", "tblHR_OfficeStaff", "CompId='" + CompId + "' And EmpId='" + DSMachine.Tables[0].Rows[0]["Incharge"].ToString() + "'");
+                    SqlCommand CmdIncharge = new SqlCommand(StrIncharge, con);
+                    DataSet DsIncharge = new DataSet();
+                    SqlDataAdapter daIncharge = new SqlDataAdapter(CmdIncharge);
+                    daIncharge.Fill(DsIncharge, "tblHR_OfficeStaff");
+                    if (DsIncharge.Tables[0].Rows.Count > 0)
+                    {
+                        Incharge = DsIncharge.Tables[0].Rows[0][0].ToString();
+                    }
+                    dr[18] = Incharge;
+                    dr[19] = DSMachine.Tables[0].Rows[0]["Location"].ToString();
+                    dr[20] = DSMachine.Tables[0].Rows[0]["PMDays"].ToString();
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+
+                    DataSet xsd = new Machinery();
+                    xsd.Tables[0].Merge(dt);
+                    string reportPath = Server.MapPath("~/Module/Machinery/Masters/Reports/Machinery.rpt");
+                    report.Load(reportPath);
+                    report.SetDataSource(xsd);
+
+                    string Address = fun.CompAdd(CompId);
+                    report.SetParameterValue("Address", Address);
+                    CrystalReportViewer1.ReportSource = report;
+                    Session[Key] = report;
+                }
+            }
+            catch (Exception ex) { }
+
+            finally
+            {
+                DSMachine.Clear();
+                DSMachine.Dispose();
+                dt.Clear();
+                dt.Dispose();
+                con.Close();
+                con.Dispose();
+            }
+           
+        }
+
+        else
+        {
+            Key = Request.QueryString["Key"].ToString();
+            ReportDocument doc = (ReportDocument)Session[Key];
+            CrystalReportViewer1.ReportSource = doc;
+        }
+    }
+
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        report = new ReportDocument();
+    }
+    protected void Cancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Machinery_Print.aspx?ModId=&SubModId=");
+    }
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        report.Close();
+        report.Dispose();
+        GC.Collect();
+    }
+}

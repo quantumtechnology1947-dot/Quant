@@ -1,0 +1,277 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/DBPerformance.aspx.txt ===
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="DBPerformance.aspx.cs" Inherits="DBPerformance" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Database Performance</title>
+    <link href="Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .grid { width: 98%; margin: 10px auto; border-collapse: collapse; }
+        .grid th { background-color: #4CAF50; color: white; font-weight: bold; padding: 8px; }
+        .grid td { padding: 6px; border: 1px solid #ddd; }
+        .grid tr:nth-child(even) { background-color: #f2f2f2; }
+        .section { margin: 20px 0; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        h3 { color: #4CAF50; }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div align="center">
+        <h2>SQL Server Performance Analysis</h2>
+        
+        <div class="section">
+            <h3>Active Connections</h3>
+            <p>View currently active connections to the database.</p>
+            <asp:Button ID="btnConnections" runat="server" Text="Show Active Connections" 
+                onclick="btnConnections_Click" CssClass="redbox" />
+            
+            <asp:GridView ID="GridConnections" runat="server" CssClass="grid" 
+                AutoGenerateColumns="true" AllowPaging="True" PageSize="15"
+                EmptyDataText="No active connections found.">
+            </asp:GridView>
+        </div>
+        
+        <div class="section">
+            <h3>Active Queries</h3>
+            <p>View currently running queries on the database.</p>
+            <asp:Button ID="btnQueries" runat="server" Text="Show Active Queries" 
+                onclick="btnQueries_Click" CssClass="redbox" />
+            
+            <asp:GridView ID="GridQueries" runat="server" CssClass="grid" 
+                AutoGenerateColumns="true" AllowPaging="True" PageSize="10"
+                EmptyDataText="No active queries found.">
+            </asp:GridView>
+        </div>
+        
+        <div class="section">
+            <h3>Connection Pool Information</h3>
+            <p>View SQL Server connection pool statistics.</p>
+            <asp:Button ID="btnPool" runat="server" Text="Show Connection Pool Stats" 
+                onclick="btnPool_Click" CssClass="redbox" />
+            
+            <asp:GridView ID="GridPool" runat="server" CssClass="grid" 
+                AutoGenerateColumns="true" AllowPaging="True" PageSize="10"
+                EmptyDataText="No connection pool statistics available.">
+            </asp:GridView>
+        </div>
+        
+        <div class="section">
+            <h3>Reset Connection Pool</h3>
+            <p>Clear all connections in the connection pool.</p>
+            <asp:Button ID="btnClearPool" runat="server" Text="Clear Connection Pool" 
+                onclick="btnClearPool_Click" CssClass="redbox" />
+            <br /><br />
+            <asp:Label ID="lblStatus" runat="server" Text=""></asp:Label>
+        </div>
+    </div>
+    </form>
+</body>
+</html> 
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/DBPerformance.aspx.cs ===
+
+using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class DBPerformance : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        
+    }
+    
+    protected void btnConnections_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            // Get active connections
+            DataTable dt = GetActiveConnections();
+            GridConnections.DataSource = dt;
+            GridConnections.DataBind();
+        }
+        catch (Exception ex)
+        {
+            lblStatus.Text = "Error retrieving connections: " + ex.Message;
+            lblStatus.ForeColor = System.Drawing.Color.Red;
+        }
+    }
+    
+    protected void btnQueries_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            // Get currently running queries
+            DataTable dt = GetActiveQueries();
+            GridQueries.DataSource = dt;
+            GridQueries.DataBind();
+        }
+        catch (Exception ex)
+        {
+            lblStatus.Text = "Error retrieving queries: " + ex.Message;
+            lblStatus.ForeColor = System.Drawing.Color.Red;
+        }
+    }
+    
+    protected void btnPool_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            // Get connection pool statistics
+            DataTable dt = GetPoolStats();
+            GridPool.DataSource = dt;
+            GridPool.DataBind();
+        }
+        catch (Exception ex)
+        {
+            lblStatus.Text = "Error retrieving pool stats: " + ex.Message;
+            lblStatus.ForeColor = System.Drawing.Color.Red;
+        }
+    }
+    
+    protected void btnClearPool_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            // Clear connection pool
+            SqlConnection.ClearAllPools();
+            
+            // Test a new connection
+            string connStr = fun.Connection();
+            using (SqlConnection con = new SqlConnection(connStr))
+            {
+                con.Open();
+                con.Close();
+            }
+            
+            lblStatus.Text = "Connection pool has been successfully cleared. " + 
+                            "All connections have been reset. " + 
+                            DateTime.Now.ToString();
+            lblStatus.ForeColor = System.Drawing.Color.Green;
+        }
+        catch (Exception ex)
+        {
+            lblStatus.Text = "Error clearing connection pool: " + ex.Message;
+            lblStatus.ForeColor = System.Drawing.Color.Red;
+        }
+    }
+    
+    private DataTable GetActiveConnections()
+    {
+        string connStr = fun.Connection();
+        using (SqlConnection con = new SqlConnection(connStr))
+        {
+            con.Open();
+            
+            string sql = @"
+                SELECT 
+                    DB_NAME(dbid) as DatabaseName,
+                    COUNT(dbid) as NumberOfConnections,
+                    loginame as LoginName,
+                    hostname as HostName,
+                    program_name as ProgramName
+                FROM
+                    sys.sysprocesses
+                WHERE 
+                    dbid > 0
+                GROUP BY 
+                    dbid, loginame, hostname, program_name
+                ORDER BY 
+                    COUNT(dbid) DESC";
+                    
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            return dt;
+        }
+    }
+    
+    private DataTable GetActiveQueries()
+    {
+        string connStr = fun.Connection();
+        using (SqlConnection con = new SqlConnection(connStr))
+        {
+            con.Open();
+            
+            string sql = @"
+                SELECT TOP 50
+                    r.session_id as SessionID,
+                    DB_NAME(r.database_id) as DatabaseName,
+                    SUBSTRING(t.text, (r.statement_start_offset/2)+1, 
+                        ((CASE r.statement_end_offset WHEN -1 THEN DATALENGTH(t.text) 
+                        ELSE r.statement_end_offset END - r.statement_start_offset)/2) + 1) as QueryText,
+                    r.status as Status,
+                    r.blocking_session_id as BlockingSessionID,
+                    r.wait_time as WaitTime,
+                    r.wait_type as WaitType,
+                    r.cpu_time as CPUTime,
+                    r.total_elapsed_time as TotalElapsedTime,
+                    r.reads as Reads,
+                    r.writes as Writes,
+                    s.login_name as LoginName,
+                    s.host_name as HostName,
+                    s.program_name as ProgramName
+                FROM 
+                    sys.dm_exec_requests r
+                CROSS APPLY 
+                    sys.dm_exec_sql_text(r.sql_handle) t
+                INNER JOIN 
+                    sys.dm_exec_sessions s ON r.session_id = s.session_id
+                WHERE 
+                    r.session_id > 50
+                ORDER BY 
+                    r.total_elapsed_time DESC";
+                    
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            return dt;
+        }
+    }
+    
+    private DataTable GetPoolStats()
+    {
+        string connStr = fun.Connection();
+        using (SqlConnection con = new SqlConnection(connStr))
+        {
+            con.Open();
+            
+            string sql = @"
+                SELECT 
+                    DB_NAME(database_id) as DatabaseName,
+                    COUNT(*) as PooledConnections,
+                    SUM(CASE WHEN is_open = 1 THEN 1 ELSE 0 END) as OpenConnections,
+                    MAX(connect_time) as LastConnect,
+                    MAX(disconnect_time) as LastDisconnect
+                FROM 
+                    sys.dm_exec_connections
+                GROUP BY 
+                    database_id
+                ORDER BY 
+                    COUNT(*) DESC";
+                    
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            return dt;
+        }
+    }
+} 

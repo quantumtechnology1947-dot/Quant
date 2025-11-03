@@ -1,0 +1,651 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Reports/MultipleReports.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="MultipleReports.aspx.cs" Inherits="Module_HR_Reports_MultipleReports" Title="ERP" Theme ="Default"  %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table width="120%">
+      
+  
+    <tr>
+            <td class="fontcsswhite" height="25" valign="middle" >
+            
+                <asp:DropDownList ID="DrpCriteria" runat="server" Width="200px" 
+                    AutoPostBack="True" 
+                    onselectedindexchanged="DrpCriteria_SelectedIndexChanged" Height="21px" 
+                    CssClass="box3">
+                    
+                     <asp:ListItem Value="Select" >Select</asp:ListItem>
+                     
+                     <asp:ListItem Value="tblHR_Departments.DeptName">Department</asp:ListItem>
+                      <asp:ListItem Value="BusinessGroup.BGGroup">BusinessGroup</asp:ListItem>
+                      <asp:ListItem Value="tblHR_Designation.Designation">Designation</asp:ListItem>
+                       <asp:ListItem Value="tblHR_Grade.Symbol">Grade</asp:ListItem>
+                    
+                </asp:DropDownList> 
+                
+                 &nbsp;<asp:DropDownList ID="DrpSubCriteria" runat="server" Width="200px" 
+                    Height="21px" 
+                    CssClass="box3" AutoPostBack="True" 
+                    onselectedindexchanged="DrpSubCriteria_SelectedIndexChanged">
+                    
+                </asp:DropDownList>
+            
+                &nbsp;&nbsp;<asp:DropDownList ID="DrpSearch" runat="server" Height="21px" 
+                    Width="200px" CssClass="box3" AutoPostBack="True" 
+                    onselectedindexchanged="DrpSearch_SelectedIndexChanged">
+                  <asp:ListItem Value="Select" >Select</asp:ListItem>
+                     <asp:ListItem Value="0">EmpId</asp:ListItem>
+                     <asp:ListItem Value="1">EmployeeName</asp:ListItem>
+                       <asp:ListItem Value="2">Gender</asp:ListItem>
+                       <asp:ListItem Value="3">MobileNo</asp:ListItem>
+                     <asp:ListItem Value="4">SwapCardNo</asp:ListItem>
+                     <asp:ListItem Value="5">Resigned</asp:ListItem>
+                    
+                </asp:DropDownList>
+<asp:TextBox ID="txtEmpName" runat="server" CssClass="box3" Visible="False" Width="250px"></asp:TextBox>
+                             
+                            <cc1:AutoCompleteExtender ID="txtEmpName_AutoCompleteExtender" runat="server" 
+                                DelimiterCharacters="" Enabled="True" ServiceMethod="GetCompletionList" 
+                                ServicePath="" TargetControlID="txtEmpName" UseContextKey="True" CompletionInterval="100" CompletionSetCount="2" FirstRowSelected="True" MinimumPrefixLength="1" ShowOnlyCurrentWordInCompletionListItem="True" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                            </cc1:AutoCompleteExtender>
+            
+                <asp:TextBox ID="txtSearch" runat="server" Width="207px" 
+                    CssClass="box3" Height="18px"></asp:TextBox>
+                
+        &nbsp;&nbsp;&nbsp;&nbsp;
+                
+        <asp:Button ID="btnSearch" runat="server" 
+            Text="Search" CssClass="redbox" onclick="btnSearch_Click"  />
+                        </td>
+             </tr>
+  
+  
+ <tr>
+ 
+ 
+ <td>
+  
+ <asp:GridView ID="GridView2" runat="server" AllowPaging="True"  OnPageIndexChanging="GridView2_PageIndexChanging"
+                    CssClass="yui-datatable-theme" AutoGenerateColumns="False" 
+         Width="100%" onrowcommand="GridView2_RowCommand" PageSize="20">
+                 <PagerSettings PageButtonCount="40" />
+                 <Columns>
+                                                 
+                            <%--<asp:HyperLinkField DataNavigateUrlFields="EmpId"  DataNavigateUrlFormatString="~/Module/HR/Transactions/OfficeStaff_Print_Details.aspx?EmpId={0}&ModId=12&SubModId="  Text="Select" />--%>
+                           <asp:TemplateField HeaderText="SN" ItemStyle-HorizontalAlign="Center"><ItemTemplate> <%# Container.DataItemIndex + 1%> 
+                        </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Right"></ItemStyle>
+                        </asp:TemplateField>
+                           <asp:TemplateField HeaderText="">
+                            <ItemTemplate>
+                                <asp:LinkButton ID="LinkButton1" Text="select" CommandName="sel" runat="server"></asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Fin Year">
+                            <ItemTemplate>
+                            <asp:Label ID="lblFinYear" runat="server" Text='<%# Eval("FinYear") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                            </asp:TemplateField>                          
+                        <asp:TemplateField HeaderText="Emp Id">
+                            <ItemTemplate>
+                            <asp:Label ID="lblEmpId" runat="server" Text='<%# Eval("EmpId") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                            </asp:TemplateField>
+                        
+                        <%--<asp:BoundField DataField="EmpId" HeaderText="EmpId" />--%>
+                        <asp:BoundField DataField="EmpName" HeaderText="Employee Name" />
+                        <asp:BoundField DataField="DeptName" HeaderText="Dept" >
+                            <ItemStyle HorizontalAlign="Center" />
+                            </asp:BoundField>
+                        <asp:BoundField DataField="BGGroup" HeaderText="BG Group" >
+                            <ItemStyle HorizontalAlign="Center" />
+                            </asp:BoundField>
+                        <asp:BoundField DataField="Designation" HeaderText="Designation" />
+                        <asp:BoundField DataField="Grade" HeaderText="Grade" >
+                            <ItemStyle HorizontalAlign="Center" />
+                            </asp:BoundField>
+                        <asp:BoundField DataField="Gender" HeaderText="Gender" >
+                            <ItemStyle HorizontalAlign="Center" />
+                            </asp:BoundField>
+                        <asp:BoundField DataField="MobileNo" HeaderText="Mobile No" >
+                            <ItemStyle HorizontalAlign="Center" />
+                            </asp:BoundField>
+                        <asp:BoundField DataField="EmailId1" HeaderText="ERP Mail" />
+                        <asp:BoundField DataField="EmailId2" HeaderText="Email Id" />                 
+                        <asp:BoundField DataField="SwapCardNo" HeaderText="SwapCard No" />
+                        <asp:TemplateField HeaderText="Joining Date  " SortExpression="  JoiningDate  ">
+                    <ItemTemplate>
+                        <asp:Label ID="lblJoinDate" runat="server" Text='<%# Bind("JoiningDate") %>'></asp:Label>
+                    </ItemTemplate>                   
+                    <ItemStyle HorizontalAlign="Center" />
+                </asp:TemplateField>                
+                            <asp:TemplateField HeaderText="Resign Date" SortExpression="ResignationDate">
+                                <ItemTemplate>
+                                    <asp:Label ID="Label1" runat="server" Text='<%# Bind("ResignationDate") %>'></asp:Label>
+                                </ItemTemplate>
+                               
+                                <ItemStyle HorizontalAlign="Center" />
+                            </asp:TemplateField>
+                            
+                         </Columns>
+                        <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                        
+                </asp:GridView>
+                
+             </td>   
+             </tr>
+         </table>        
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Reports/MultipleReports.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.IO;
+using iTextSharp.text;
+using iTextSharp.text.html.simpleparser;
+using iTextSharp.text.pdf;
+
+public partial class Module_HR_Reports_MultipleReports : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string dp1 = "";
+    string dp2 = "";
+    string tx = "";
+    string U = "";
+    int CompId = 0;
+    int FinYearId = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        try
+        {
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            if (!IsPostBack)
+            {
+
+                DrpSubCriteria.Items.Clear();
+                DrpSubCriteria.Items.Insert(0, "Select");
+                this.binddropdwn(dp1, dp2, tx);
+            }
+        }
+        catch (Exception ex) { }
+
+    }
+
+    public void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+       try
+        {
+            GridView2.PageIndex = e.NewPageIndex;
+            this.binddropdwn(dp1, dp2,tx); 
+
+        }
+        catch (Exception ch)
+        {
+        }
+    }
+
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (DrpSearch.SelectedValue == "1")
+            {
+                this.binddropdwn(DrpCriteria.SelectedValue, DrpSubCriteria.SelectedValue, txtEmpName.Text);
+            }
+            else
+            {
+                this.binddropdwn(DrpCriteria.SelectedValue, DrpSubCriteria.SelectedValue, txtSearch.Text);
+            }
+        }
+        catch (Exception ch)
+        {
+        }
+
+    }
+
+    protected void DrpCriteria_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+
+        try
+        {
+            if (DrpCriteria.SelectedItem.Text == "Department")
+            {
+                string StrSql = fun.select1("tblHR_Departments.Id,tblHR_Departments.Symbol + '-' +tblHR_Departments.Description AS DeptName ", "tblHR_Departments ");
+                SqlCommand Cmddept = new SqlCommand(StrSql, con);
+                SqlDataAdapter dadept = new SqlDataAdapter(Cmddept);
+                DataSet dsdept = new DataSet();
+                dadept.Fill(dsdept, "tblHR_Departments");
+                DrpSubCriteria.DataSource = dsdept.Tables["tblHR_Departments"];
+                DrpSubCriteria.DataTextField = "DeptName";
+                DrpSubCriteria.DataValueField = "Id";
+                DrpSubCriteria.DataBind();
+                DrpSubCriteria.Items.Insert(0, "Select");
+
+
+            }
+
+            if (DrpCriteria.SelectedItem.Text == "Grade")
+            {
+                string StrGrade = fun.select1("Id,Symbol", "tblHR_Grade");
+                SqlCommand Cmdgrade = new SqlCommand(StrGrade, con);
+                SqlDataAdapter dagrade = new SqlDataAdapter(Cmdgrade);
+                DataSet dsgrade = new DataSet();
+                dagrade.Fill(dsgrade, "tblHR_Grade");
+
+                DrpSubCriteria.DataSource = dsgrade.Tables["tblHR_Grade"];
+                DrpSubCriteria.DataTextField = "Symbol";
+                DrpSubCriteria.DataValueField = "Id";
+                DrpSubCriteria.DataBind();
+                DrpSubCriteria.Items.Insert(0, "Select");
+
+            }
+
+            if (DrpCriteria.SelectedItem.Text == "Designation")
+            {
+                string StrDesign = fun.select1("tblHR_Designation.Id,tblHR_Designation.Symbol+'-'+tblHR_Designation.Type  As designation", "tblHR_Designation");
+                SqlCommand Cmddesignation = new SqlCommand(StrDesign, con);
+                SqlDataAdapter dadesignation = new SqlDataAdapter(Cmddesignation);
+                DataSet dsdesignation = new DataSet();
+                dadesignation.Fill(dsdesignation, "tblHR_Designation");
+
+                DrpSubCriteria.DataSource = dsdesignation.Tables["tblHR_Designation"];
+                DrpSubCriteria.DataTextField = "designation";
+                DrpSubCriteria.DataValueField = "Id";
+                DrpSubCriteria.DataBind();
+                DrpSubCriteria.Items.Insert(0, "Select");
+
+            }
+
+            if (DrpCriteria.SelectedItem.Text == "BusinessGroup")
+            {
+                string StrBG = fun.select1("Id,Symbol", "BusinessGroup");
+                SqlCommand Cmdbg = new SqlCommand(StrBG, con);
+                SqlDataAdapter dabg = new SqlDataAdapter(Cmdbg);
+                DataSet dsbg = new DataSet();
+                dabg.Fill(dsbg, "BusinessGroup");
+
+                DrpSubCriteria.DataSource = dsbg.Tables["BusinessGroup"];
+                DrpSubCriteria.DataTextField = "Symbol";
+                DrpSubCriteria.DataValueField = "Id";
+                DrpSubCriteria.DataBind();
+                DrpSubCriteria.Items.Insert(0, "Select");
+
+            }
+        }
+        catch (Exception ex) { };
+
+    }
+
+    protected void DrpSubCriteria_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        this.binddropdwn(DrpCriteria.SelectedValue, DrpSubCriteria.SelectedValue, tx);
+    }
+
+    public void binddropdwn(string drp1,string drp2, string Txvalue )
+    {
+            string connStr = fun.Connection();
+            DataSet DS3 = new DataSet();
+            SqlConnection con = new SqlConnection(connStr);
+        try
+        {
+            string X = "";
+            if (DrpCriteria.SelectedItem.Text == "Department")
+            {                
+                X = "AND Department=" + drp2 + "";
+            }
+            string Y = "";
+            if (DrpCriteria.SelectedItem.Text == "BusinessGroup")
+            {
+                Y = "AND BGGroup='" + drp2 + "'";
+            }
+            string Z = "";
+            if (DrpCriteria.SelectedItem.Text == "Grade")
+            {
+                Z = " AND Grade=" + drp2 + "";
+            }
+            string R = "";
+            if (DrpCriteria.SelectedItem.Text == "Designation")
+            {
+                R = " AND Designation=" + drp2 + "";
+            }
+           
+            // ....................
+            string S = "";
+            string T = "";
+            string P = "";
+            string RES = "";
+            if (DrpCriteria.SelectedValue == "Select")
+            {
+                if (DrpSearch.SelectedValue == "0")
+                {
+                    if (txtSearch.Text != "")
+                    {
+                        S = " AND EmpId='" + Txvalue + "'";
+                    }
+                }
+
+
+                if (DrpSearch.SelectedValue == "1")
+                {
+                    if (txtEmpName.Text != "")
+                    {
+                        T = " And  EmpId='" + fun.getCode(txtEmpName.Text) + "'";
+                    }
+                }
+
+                if (DrpSearch.SelectedValue == "2")
+                {
+                    if (txtSearch.Text != "")
+                    {
+                        P = "Gender='" + Txvalue + "'";
+                    }
+                }
+
+                if (DrpSearch.SelectedItem.Text == "Resigned")
+                {
+
+                    RES = " And  ResignationDate!=''";
+
+                }
+                else
+                {
+                    RES = " And  ResignationDate=''";
+                }
+            }
+
+
+            if (DrpCriteria.SelectedValue != "Select")
+            {
+
+                if (DrpSearch.SelectedItem.Text == "EmpId")
+                {
+                    if (txtSearch.Text != "")
+                    {
+                        S = " And  EmpId='" + Txvalue + "'";
+                    }
+                }
+
+
+                if (DrpSearch.SelectedItem.Text == "EmployeeName")
+                {
+                    if (txtEmpName.Text != "")
+                    {
+                        T = " And  EmpId='" + fun.getCode(txtEmpName.Text) + "'";
+                    }
+                }
+
+                if (DrpSearch.SelectedItem.Text == "Gender")
+                {
+                    if (txtSearch.Text != "")
+                    {
+                        P = " And  Gender='" + Txvalue + "'";
+                    }
+                }
+                if (DrpSearch.SelectedItem.Text == "Resigned")
+                {
+
+                    RES = " And  ResignationDate!=''";
+                }
+                else
+                {
+                    RES = " And  ResignationDate=''";
+                }
+            }
+
+            string order="Order By UserID Desc";
+            string Company = "CompId='" + CompId + "'";
+            string FinYear = "And FinYearId<='" +FinYearId + "'";
+            string sqlgrid = fun.select("FinYearId,EmpId,Gender,Department,BGGroup,Designation,SwapCardNo,Grade,Title + ' ' +EmployeeName as EmpName,MobileNo,Gender,EmailId1,EmailId2,JoiningDate,ResignationDate", "tblHR_OfficeStaff", " UserID!='1' AND " + Company + FinYear + X + Y + Z + R + P + T + S + RES + order);        
+            SqlCommand cmdgrid = new SqlCommand(sqlgrid, con);           
+            SqlDataAdapter dagrid = new SqlDataAdapter(cmdgrid);
+            DataSet dsgrid = new DataSet();           
+            dagrid.Fill(dsgrid);            
+            DataTable dt = new DataTable();
+        
+            dt.Columns.Add(new System.Data.DataColumn("EmpId", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("EmpName", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("DeptName", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Designation", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Grade", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("BGGroup", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Gender", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("MobileNo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("EmailId1", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("EmailId2", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("SwapCardNo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("FinYear", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("JoiningDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ResignationDate", typeof(string)));
+
+            for (int i = 0; i < dsgrid.Tables[0].Rows.Count; i++)
+            {
+                DataRow dr;
+                dr = dt.NewRow();
+                if (dsgrid.Tables[0].Rows.Count > 0)
+                {
+
+                    string sqldept = fun.select("Id,Symbol AS DeptName", "tblHR_Departments", "Id='" + dsgrid.Tables[0].Rows[i]["Department"].ToString() + "'");
+
+                    SqlCommand cmddept = new SqlCommand(sqldept, con);
+
+                    SqlDataAdapter dadept = new SqlDataAdapter(cmddept);
+                    DataSet dsdept = new DataSet();
+                    dadept.Fill(dsdept);
+
+                    string sqlBG = fun.select("Symbol AS BGGroup ", "BusinessGroup", "Id='" + dsgrid.Tables[0].Rows[i]["BGGroup"].ToString() + "'");
+
+                    SqlCommand cmdBG = new SqlCommand(sqlBG, con);
+
+                    SqlDataAdapter daBG = new SqlDataAdapter(cmdBG);
+                    DataSet dsBG = new DataSet();
+                    daBG.Fill(dsBG);
+                    if (dsBG.Tables[0].Rows.Count > 0)
+                    {
+
+                        dr[5] = dsBG.Tables[0].Rows[0]["BGGroup"].ToString();
+                    }
+                    string sqlDG = fun.select(" Symbol + '-' + Type AS Designation", "tblHR_Designation", "Id='" + dsgrid.Tables[0].Rows[i]["Designation"].ToString() + "'");
+
+                    SqlCommand cmdDG = new SqlCommand(sqlDG, con);
+
+                    SqlDataAdapter daDG = new SqlDataAdapter(cmdDG);
+                    DataSet dsDG = new DataSet();
+                    daDG.Fill(dsDG);
+                    if (dsDG.Tables[0].Rows.Count > 0)
+                    {
+                        dr[3] = dsDG.Tables[0].Rows[0]["Designation"].ToString();
+                    }
+                    if (DrpSearch.SelectedValue == "3")
+                    {
+                        if (txtSearch.Text != "")
+                        {
+                            U = " And  MobileNo='" + Txvalue + "'";
+                        }
+                    }
+
+                    string sqlMB = fun.select("MobileNo", "tblHR_CoporateMobileNo", "Id='" + dsgrid.Tables[0].Rows[i]["MobileNo"].ToString() + "'" + U);
+
+                    SqlCommand cmdMB = new SqlCommand(sqlMB, con);
+                    SqlDataAdapter daMB = new SqlDataAdapter(cmdMB);
+                    DataSet dsMB = new DataSet();
+                    daMB.Fill(dsMB);
+                    if (dsMB.Tables[0].Rows.Count > 0)
+                    {
+                        dr[7] = dsMB.Tables[0].Rows[0]["MobileNo"].ToString();
+
+                        string V = "";
+                        if (DrpSearch.SelectedValue == "4")
+                        {
+                            if (txtSearch.Text != "")
+                            {
+                                V = " And SwapCardNo='" + Txvalue + "'";
+                            }
+                        }
+
+                        string sqlSW = fun.select("Id,SwapCardNo", "tblHR_SwapCard", "Id='" + dsgrid.Tables[0].Rows[i]["SwapCardNo"] + "'" + V);
+                        SqlCommand cmdSW = new SqlCommand(sqlSW, con);
+                        SqlDataAdapter daSW = new SqlDataAdapter(cmdSW);
+                        DataSet dsSW = new DataSet();
+                        daSW.Fill(dsSW);
+                        if (dsSW.Tables[0].Rows.Count > 0)
+                        {
+                            dr[10] = dsSW.Tables[0].Rows[0]["SwapCardNo"].ToString();
+
+                            string sqlGR = fun.select("Symbol As Grade", "tblHR_Grade", "Id='" + dsgrid.Tables[0].Rows[i]["Grade"] + "'");
+
+                            SqlCommand cmdGR = new SqlCommand(sqlGR, con);
+                            SqlDataAdapter daGR = new SqlDataAdapter(cmdGR);
+                            DataSet dsGR = new DataSet();
+                            daGR.Fill(dsGR);
+                            if (dsGR.Tables[0].Rows.Count > 0)
+                            {
+                                dr[4] = dsGR.Tables[0].Rows[0]["Grade"].ToString();
+                                dr[0] = dsgrid.Tables[0].Rows[i]["EmpId"].ToString();
+                                dr[1] = dsgrid.Tables[0].Rows[i]["EmpName"].ToString();
+                                dr[2] = dsdept.Tables[0].Rows[0]["DeptName"].ToString();
+                                dr[6] = dsgrid.Tables[0].Rows[i]["Gender"].ToString();
+                                dr[8] = dsgrid.Tables[0].Rows[i]["EmailId1"].ToString();
+                                dr[9] = dsgrid.Tables[0].Rows[i]["EmailId2"].ToString();
+
+                                string sqlFinYear = fun.select("FinYear", "tblFinancial_master", "CompId='" + CompId + "' AND FinYearId='" + dsgrid.Tables[0].Rows[i]["FinYearId"].ToString() + "'");
+                                SqlCommand cmdFinYear = new SqlCommand(sqlFinYear, con);
+                                SqlDataAdapter daFinYear = new SqlDataAdapter(cmdFinYear);
+                                DataSet DSFinYear = new DataSet();
+                                daFinYear.Fill(DSFinYear);
+                                dr[11] = DSFinYear.Tables[0].Rows[0]["FinYear"].ToString();
+                                dr[12] = fun.FromDate(dsgrid.Tables[0].Rows[i]["JoiningDate"].ToString());
+                                dr[13] = fun.FromDate(dsgrid.Tables[0].Rows[i]["ResignationDate"].ToString());
+                                dt.Rows.Add(dr);
+                                dt.AcceptChanges();
+                            }
+                        }
+                    }
+                }
+               
+            }
+            GridView2.DataSource = dt;
+            GridView2.DataBind();
+           
+       
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+            con.Close();
+        }
+
+    }
+
+
+
+    protected void DrpSearch_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (DrpSearch.SelectedValue == "1")
+        {
+            txtEmpName.Visible = true;
+            txtSearch.Visible = false;
+            this.binddropdwn(dp1, dp2, txtEmpName.Text);
+            txtSearch.Text = "";
+        }
+        else
+        {
+            txtEmpName.Visible = false;
+            txtSearch.Visible = true;
+            this.binddropdwn(dp1, dp2, tx);
+            txtSearch.Text = "";
+        }
+
+    }
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "sel")
+        {
+            GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+            string EmpId = ((Label)row.FindControl("lblEmpId")).Text;
+            string prevPage = "2";
+            string getRandomKey = fun.GetRandomAlphaNumeric();
+            Response.Redirect("~/Module/HR/Transactions/OfficeStaff_Print_Details.aspx?EmpId=" + EmpId + "&ModId=12&SubModId=&PagePrev=" + prevPage + "&Key=" + getRandomKey + "");
+        }
+    }
+
+
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] GetCompletionList(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        con.Open();
+        int CompId = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        string cmdStr = fun.select("EmpId,EmployeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "'");
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds, "tblHR_OfficeStaff");
+        con.Close();
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                //if (main.Length == 10)
+                //break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }
+}

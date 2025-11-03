@@ -1,0 +1,821 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/ProjectManagement/Transactions/ManPowerPlanning.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ManPowerPlanning.aspx.cs" Inherits="Module_ProjectManagement_Transactions_ManPowerPlanning" Title="ERP"  Theme ="Default" %>
+<%@ Register assembly="TimePicker" namespace="MKB.TimePicker" tagprefix="MKB" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .style6
+        {
+            font-weight: bold;
+        }
+        .style9
+        {
+            height: 11px;
+        }
+        .style11
+        {
+            width: 100%;
+            float: left;
+        }
+        .style12
+        {
+            width: 60px;
+        }
+        .style14
+        {
+            width: 168px;
+        }
+        .style15
+        {
+            width: 145px;
+        }
+    </style>
+    </asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+ 
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+<table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)">
+        &nbsp;<b>Man Power Planning - New</b></td>
+        </tr>        
+       
+        <tr>
+        <td height="25px">
+            <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" 
+                Width="100%" Height="420px">
+                <cc1:TabPanel runat="server" HeaderText="Planning" ID="Planning">
+                
+                
+                    <ContentTemplate>
+                        <table align="left" cellpadding="0" cellspacing="0" width="800px">
+                            <tr>
+                                <td align="left" height="30" valign="middle">
+                                    &nbsp;<asp:Label ID="Label2" runat="server" CssClass="style4" 
+                                        style="font-weight: bold" Text="Select BG Group:"></asp:Label>
+                                    &nbsp;<asp:DropDownList ID="DrpCategory" runat="server" AutoPostBack="True" 
+                                        CssClass="box3" DataSourceID="SqlBGGroup" DataTextField="Symbol" 
+                                        DataValueField="Id" Height="21px" 
+                                        onselectedindexchanged="DrpCategory_SelectedIndexChanged">
+                                    </asp:DropDownList>
+                                    <asp:RequiredFieldValidator ID="ReqBGgroup" runat="server" 
+                                        ControlToValidate="DrpCategory" ErrorMessage="*" InitialValue="Select" 
+                                        ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <asp:Panel ID="Panel1" runat="server" Height="390px" ScrollBars="Auto" 
+                                        Width="100%">
+                                        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" 
+                                            CssClass="yui-datatable-theme" 
+                                            OnPageIndexChanging="GridView1_PageIndexChanging" 
+                                            OnRowCommand="GridView1_RowCommand" PageSize="20" Width="100%">
+                                            <Columns>
+                                                <asp:TemplateField HeaderText="SN">
+                                                    <ItemTemplate>
+                                                        <%# Container.DataItemIndex + 1%>
+                                                    </ItemTemplate>
+                                                    <ItemStyle HorizontalAlign="Right" Width="2%" />
+                                                </asp:TemplateField>
+                                                
+                                                <asp:TemplateField HeaderText="Employee Name">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblEmployeeName" runat="server" 
+                                                            Text='<%# Bind("EmployeeName") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                    <ItemStyle HorizontalAlign="Left" Width="16%" />
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Id" Visible="False">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblId" runat="server" Text='<%# Bind("Id") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                    <ItemStyle VerticalAlign="Top" />
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Designation">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblDesignation" runat="server" Text='<%# Bind("Designation") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                    <ItemStyle HorizontalAlign="Left" Width="10%" />
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Date">
+                                                    <ItemTemplate>
+                                                        <asp:TextBox ID="TxtDate" runat="server" CssClass="box3" Width="70px"></asp:TextBox>
+                                                        <cc1:CalendarExtender ID="TxtDate_CalendarExtender" runat="server" 
+                                                            CssClass="cal_Theme2" Enabled="True" Format="dd-MM-yyyy" 
+                                                            PopupPosition="BottomRight" TargetControlID="TxtDate">
+                                                        </cc1:CalendarExtender>
+                                                    </ItemTemplate>
+                                                    <ItemStyle HorizontalAlign="Left" Width="8%" />
+                                                </asp:TemplateField>
+                                                <asp:TemplateField>
+                                                    <ItemTemplate>
+                                                        <asp:DropDownList ID="Drpwodept" runat="server" AutoPostBack="true" 
+                                                            CssClass="box3" onselectedindexchanged="Drpwodept_SelectedIndexChanged">
+                                                            <asp:ListItem Text="WONo" Value="1">
+                                                            </asp:ListItem>
+                                                            <asp:ListItem Text="BG" Value="2">
+                                                            </asp:ListItem>
+                                                        </asp:DropDownList>
+                                                    </ItemTemplate>
+                                                    <ItemStyle HorizontalAlign="Left" Width="3%" />
+                                                </asp:TemplateField>
+                                                
+                                                <asp:TemplateField HeaderText="WO No/Dept">
+                                                    <ItemTemplate>
+                                                        <asp:TextBox ID="TxtWONo" runat="server" CssClass="box3" Width="90%"></asp:TextBox>
+                                                        <asp:DropDownList ID="DrpDepartment" runat="server" CssClass="box3" 
+                                                            DataSourceID="SqlDept" DataTextField="DeptName" DataValueField="Id" 
+                                                            Visible="false">
+                                                        </asp:DropDownList>
+                                                        <asp:SqlDataSource ID="SqlDept" runat="server" 
+                                                            ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                                                            SelectCommand="SELECT Id, Symbol AS DeptName FROM BusinessGroup">
+                                                        </asp:SqlDataSource>
+                                                    </ItemTemplate>
+                                                    <ItemStyle HorizontalAlign="Left" Width="6%" />
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Status">
+                                                    <ItemTemplate>
+                                                        <asp:DropDownList ID="Drptype" runat="server" CssClass="box3">
+                                                            <asp:ListItem Text="Present" Value="1"></asp:ListItem>
+                                                            <asp:ListItem Text="Absent" Value="2"></asp:ListItem>
+                                                            <asp:ListItem Text="Onsite" Value="3"></asp:ListItem>
+                                                            <asp:ListItem Text="PL" Value="4"></asp:ListItem>
+                                                        </asp:DropDownList>
+                                                    </ItemTemplate>
+                                                    <ItemStyle VerticalAlign="Top" Width="3%" />
+                                                </asp:TemplateField>
+                                                <asp:TemplateField>
+                                                    <ItemTemplate>
+                                                        <asp:Button ID="BtnAdd" runat="server" CommandName="add" CssClass="redbox" Text="Select" ValidationGroup="A" />
+                                                    </ItemTemplate>
+                                                    <ItemStyle HorizontalAlign="Center" Width="3%" />
+                                                </asp:TemplateField>
+                                            </Columns>
+                                            <EmptyDataTemplate>
+                                                <table class="fontcss" width="100%">
+                                                    <tr>
+                                                        <td align="center">
+                                                            <asp:Label ID="Label1" runat="server" Font-Size="Larger" ForeColor="maroon" 
+                                                                Text="No data to display !"> </asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </EmptyDataTemplate>
+                                            <FooterStyle Font-Bold="False" />
+                                            <HeaderStyle Font-Size="9pt" />
+                                        </asp:GridView>
+                                        <asp:SqlDataSource ID="SqlBGGroup" runat="server" 
+                                            ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                                            SelectCommand="SELECT [Id], [Symbol] As Symbol  FROM [BusinessGroup]">
+                                        </asp:SqlDataSource>
+                                    </asp:Panel>
+                                </td>
+                            </tr>
+                        </table>
+                    </ContentTemplate>
+                
+                
+                </cc1:TabPanel>
+               
+                <cc1:TabPanel ID="TabPanel1" runat="server" HeaderText="Details">
+                    <HeaderTemplate>
+                        Details
+                    </HeaderTemplate>
+                    <ContentTemplate>
+                      <table align="left" cellpadding="0" cellspacing="0" class="fontcss" width="100%">
+                                        <tr>
+                                            <td class="style9">
+                                                &nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="style9">
+                                                <table cellpadding="0" cellspacing="0" class="style11">
+                                                    <tr>
+                                                        <td class="style15" height="21">
+                                                            <asp:Label ID="Label3" runat="server" CssClass="style6" Text="Name of Employee"></asp:Label>
+                                                        </td>
+                                                        <td colspan="3">
+                                                            : <asp:Label ID="lblEmpName" runat="server"></asp:Label>
+                                                            <asp:Label ID="lblEmpId" runat="server" Visible="False"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="style15" height="21">
+                                                            <asp:Label ID="Label4" runat="server" CssClass="style6" Text="Designation"></asp:Label>
+                                                        </td>
+                                                        <td class="style14">
+                                                            :
+                                                            <asp:Label ID="lblDesig" runat="server"></asp:Label>
+                                                        </td>
+                                                        <td class="style12">
+                                                            <asp:Label ID="lbldrp" runat="server" CssClass="style6"></asp:Label>
+                                                        </td>
+                                                        <td>
+                                                            :
+                                                            <asp:Label ID="lblWODept" runat="server"></asp:Label>
+                                                            <asp:Label ID="lblWODeptId" runat="server" Visible="False"></asp:Label>
+                                                            <asp:Label ID="lblBGId" runat="server" Visible="False"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="style15" height="21">
+                                                            <asp:Label ID="Label5" runat="server" CssClass="style6" Text="Date"></asp:Label>
+                                                        </td>
+                                                        <td class="style14">
+                                                            :
+                                                            <asp:Label ID="lblDOB" runat="server"></asp:Label>
+                                                        </td>
+                                                        <td class="style12">
+                                                            <asp:Label ID="Label7" runat="server" CssClass="style6" Text="Status"></asp:Label>
+                                                        </td>
+                                                        <td>
+                                                            :
+                                                            <asp:Label ID="lblStatus" runat="server"></asp:Label>
+                                                            <asp:Label ID="lblStatusId" runat="server" Visible="False"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <asp:Panel ID="Panel3" runat="server" Height="320px" ScrollBars="Auto" 
+                                                    Width="100%">
+                                                    <asp:GridView ID="GridView3" runat="server" AutoGenerateColumns="False" 
+                                                        CssClass="yui-datatable-theme" Width="80%">
+                                                        <Columns>
+                                                           <asp:TemplateField>
+                                                    <ItemTemplate>
+                                                        <asp:CheckBox ID="ChkSelect" runat="server"  oncheckedchanged="ChkSelect_CheckedChanged" AutoPostBack="true" />
+                                                    </ItemTemplate>
+                                                    <ItemStyle HorizontalAlign="Center" Width="2%" VerticalAlign="Top" />
+                                                </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Equip No">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblEquipNo" runat="server" Text='<%# Bind("ItemCode") %>'> </asp:Label>
+                                                                </ItemTemplate>
+                                                                <ItemStyle HorizontalAlign="Center" VerticalAlign="Top" Width="100px" />
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Desc">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lbldesc" runat="server" Text='<%# Bind("ManfDesc") %>'> </asp:Label>
+                                                                </ItemTemplate>
+                                                                <ItemStyle HorizontalAlign="Left" VerticalAlign="Top" />
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField>
+                                                                <ItemTemplate>
+                                                                    <asp:DropDownList ID="drpCat" runat="server" AutoPostBack="True"  DataSourceID="SqlCategory" DataTextField="Category" DataValueField="Id"   onselectedindexchanged="drpCat_SelectedIndexChanged" Enabled="false">
+                                                                    </asp:DropDownList>
+                                                                </ItemTemplate>
+                                                                <ItemStyle HorizontalAlign="Center" VerticalAlign="Top" />
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField>
+                                                                <ItemTemplate>
+                                                                    <asp:DropDownList ID="drpSubCat" runat="server" Enable="False" Enabled="false">
+                                                                    </asp:DropDownList>
+                                                                </ItemTemplate>
+                                                                <ItemStyle HorizontalAlign="Center" VerticalAlign="Top" />
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Planned">
+                                                                <ItemTemplate>
+                                                                    <asp:TextBox ID="txtPlanned" runat="server" TextMode="MultiLine"></asp:TextBox>
+                                                                </ItemTemplate>
+                                                                <ItemStyle HorizontalAlign="Left" VerticalAlign="Top" Width="200px" />
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Actual">
+                                                                <ItemTemplate>
+                                                                    <asp:TextBox ID="txtActual" runat="server" TextMode="MultiLine">
+                                                                    </asp:TextBox>
+                                                                    
+                                                                </ItemTemplate>
+                                                                <ItemStyle HorizontalAlign="Left" VerticalAlign="Top" Width="200px" />
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Hrs">
+                                                                <ItemTemplate>
+                                                                    <asp:TextBox ID="txtHrs" runat="server" Width="40px" > </asp:TextBox>
+  <asp:RegularExpressionValidator ID="ExptxtHrs" runat="server" ControlToValidate="txtHrs" ErrorMessage="*" ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="B"></asp:RegularExpressionValidator>
+                                                                    
+                                                                </ItemTemplate>
+                                                                <ItemStyle HorizontalAlign="Left" VerticalAlign="Top" Width="60px" />
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField  Visible="False">
+                                                            <ItemTemplate >
+                                                                    <asp:label ID="lblEquipId" runat="server" Text='<%# Bind("ItemId") %>'>
+                                                                    </asp:label>
+                                                                    
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                        </Columns>
+                                                    </asp:GridView> 
+                                                </asp:Panel>
+                                               
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" height="25">
+                                                <asp:Button ID="btnSelect" runat="server" CssClass="redbox" Text=" Add "  
+                                                    ValidationGroup="B" onclick="btnSelect_Click"/>
+                                                <asp:SqlDataSource ID="SqlCategory" runat="server" 
+                                                    ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                                                    SelectCommand="SELECT Id,Category FROM tblMIS_BudgetHrs_Field_Category Order by Id ASC">
+                                                </asp:SqlDataSource>
+                                            </td>
+                                        </tr>
+                                    </table>
+                    </ContentTemplate>
+                </cc1:TabPanel>
+            
+            </cc1:TabContainer>
+        </td>
+        </tr>
+        
+       
+        </table>
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/ProjectManagement/Transactions/ManPowerPlanning.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using MKB.TimePicker;
+
+public partial class Module_ProjectManagement_Transactions_ManPowerPlanning : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    string SId = "";
+    int CompId = 0;
+    int FinYearId = 0;
+    string bgid = "0";
+    Cal_Used_Hours CUH = new Cal_Used_Hours();
+   
+    string empid = string.Empty;
+    string dt = string.Empty;
+    string drpwonodept = string.Empty;
+    string Drptype = string.Empty;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        SId = Session["username"].ToString();
+        CompId = Convert.ToInt32(Session["compid"]);
+        FinYearId = Convert.ToInt32(Session["finyear"]);
+        connStr = fun.Connection();
+        con = new SqlConnection(connStr);
+        
+        try
+        {
+            if (!IsPostBack)
+            {
+                this.LoadData(bgid);
+            }
+        }
+       catch (Exception ex)
+        {
+        }
+    }
+    public void LoadData(string BGId)
+    {
+        try
+        {
+            string typ = DrpCategory.SelectedValue; 
+            string y = "";           
+
+            if (DrpCategory.SelectedValue != "1")
+            {
+                y = " AND tblHR_OfficeStaff.BGGroup='" + typ + "'";
+            }
+            string sql = fun.select("tblHR_OfficeStaff.EmpId As Id,tblHR_OfficeStaff.EmployeeName,tblHR_Designation.Type AS Designation", "tblHR_OfficeStaff,tblHR_Designation", " tblHR_Designation.Id=tblHR_OfficeStaff.Designation And tblHR_OfficeStaff.CompId='" + CompId + "' AND tblHR_OfficeStaff.ResignationDate=''" + y);
+            SqlCommand cmd = new SqlCommand(sql, con);
+            con.Open();
+            SqlDataReader rdr = cmd.ExecuteReader();           
+            GridView1.DataSource = rdr;           
+            GridView1.DataBind();
+
+            foreach (GridViewRow gv in GridView1.Rows)
+            {
+                ((TextBox)gv.FindControl("TxtDate")).Attributes.Add("readonly", "readonly");
+            }
+            
+        }
+        catch (Exception ep)
+        {
+        }
+        finally
+        {
+            con.Close(); 
+        }
+    }
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView1.PageIndex = e.NewPageIndex;
+        this.LoadData(DrpCategory.SelectedValue);
+
+    }
+    //protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    //{ 
+    //    try
+    //    {
+    //        if (e.CommandName == "add")
+    //        {
+    //            string CDate = fun.getCurrDate();               
+    //            string CTime = fun.getCurrTime();
+    //            GridViewRow grv = (GridViewRow)(((Button)e.CommandSource).NamingContainer);
+    //            string empid =(((Label)grv.FindControl("lblId")).Text);
+    //            int GradeId = Convert.ToInt32((((Label)grv.FindControl("lblGradeId")).Text));
+    //            string date = (((TextBox)grv.FindControl("TxtDate")).Text);                
+    //            string wono = "";
+    //            int deptid = 0;                
+    //            int k = 0;
+    //            double GradeWiseBalHours = 0;
+    //            if (((DropDownList)grv.FindControl("Drpwodept")).SelectedValue == "1" && ((TextBox)grv.FindControl("TxtWONo")).Text != "")
+    //            {
+    //                if (fun.CheckValidWONo(((TextBox)grv.FindControl("TxtWONo")).Text, CompId, FinYearId) == true)
+    //                {
+    //                    wono = ((TextBox)grv.FindControl("TxtWONo")).Text;
+    //                    GradeWiseBalHours = CUH.BalanceHours_WONO(GradeId, wono, CompId, FinYearId, 2); 
+    //                }
+    //                else  
+    //                {
+    //                    k++;
+    //                    string mystring = string.Empty;
+    //                    mystring = "WONo is invalid.";
+    //                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+    //                }
+    //            }
+    //            else
+    //            {
+    //                deptid = Convert.ToInt32(((DropDownList)grv.FindControl("DrpDepartment")).SelectedValue);
+    //                GradeWiseBalHours = CUH.BalanceHours(GradeId,deptid, CompId, FinYearId, 2);
+    //            }                       
+    //            double number = 0;
+    //            double Temp_Hours = 0;                              
+    //            number = Convert.ToDouble(((TextBox)grv.FindControl("TxtHrs")).Text);
+    //            Temp_Hours=Convert.ToDouble(CUH.TotFillPart(GradeId,wono,deptid,CompId,FinYearId,1));
+    //            string ActualDs = string.Empty;
+    //            ActualDs = ((TextBox)grv.FindControl("TxtActual")).Text;
+
+    //            if (number>0)
+    //            {
+                    
+    //                if (((GradeWiseBalHours) >= (number + Temp_Hours)))
+    //                {
+    //                    if (k == 0 && ((TextBox)grv.FindControl("TxtDate")).Text != "" && fun.DateValidation(((TextBox)grv.FindControl("TxtDate")).Text) == true && !string.IsNullOrEmpty(((TextBox)grv.FindControl("TxtHrs")).Text) && fun.NumberValidation(((TextBox)grv.FindControl("TxtHrs")).Text))
+    //                    {                            
+    //                        string typ = ((DropDownList)grv.FindControl("Drptype")).SelectedValue;
+    //                        string Desc = ((TextBox)grv.FindControl("TxtDesc")).Text;               
+    //                        con.Open();
+    //                        string Str = fun.insert("tblPM_ManPowerPlanning_Temp", "SessionId , CompId, EmpId , Date , WONo, Dept, Types, Description,Hours,ActualDesc", "'" + SId + "','" + CompId + "','" + empid + "','" + fun.FromDate(date) + "','" + wono + "','" + deptid + "','" + typ + "','" + Desc + "'," + number + ",'" + ActualDs + "'");
+
+    //                        SqlCommand Cmd = new SqlCommand(Str, con);
+    //                        Cmd.ExecuteNonQuery();
+    //                        con.Close();
+    //                        this.LoadData(bgid);
+    //                        this.Loadgrid();
+    //                    }
+    //                    else
+    //                    {
+    //                        string mystring = string.Empty;
+    //                        mystring = "Invalid input.";
+    //                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+    //                    }
+    //                }
+    //                else
+    //                {
+    //                    string mystring = string.Empty;
+    //                    mystring = "Only " + Math.Round((GradeWiseBalHours - Temp_Hours), 2) + " hours are remained.";
+    //                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+    //                }
+    //            }
+    //            else
+    //            {
+    //                string mystring = string.Empty;
+    //                mystring = "Hours must be greater than Zero.";
+    //                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+    //            } 
+
+    //        }
+    //    }catch(Exception ex)
+    //    {
+    //    }
+    //}
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {        
+        if (e.CommandName == "add")
+        {
+            con.Open();
+            GridViewRow grv = (GridViewRow)(((Button)e.CommandSource).NamingContainer);                       
+    
+            empid = (((Label)grv.FindControl("lblId")).Text);
+            lblEmpId.Text = empid;
+            dt = (((TextBox)grv.FindControl("TxtDate")).Text);                       
+            drpwonodept = (((DropDownList)grv.FindControl("Drpwodept")).SelectedValue);
+            lblWODeptId.Text = drpwonodept;
+            Drptype = (((DropDownList)grv.FindControl("Drptype")).SelectedItem.Text);
+            lblStatusId.Text = ((DropDownList)grv.FindControl("Drptype")).SelectedValue;
+
+            if (dt != "" && fun.DateValidation(((TextBox)grv.FindControl("TxtDate")).Text) == true )
+            {
+                string sql1 = fun.select("EmployeeName,Designation", "tblHR_OfficeStaff", "EmpId='" + empid + "'");
+                SqlCommand cmd1 = new SqlCommand(sql1, con);
+                SqlDataReader DS = cmd1.ExecuteReader();
+                DS.Read();
+
+                string sql2 = fun.select("Type", "tblHR_Designation", "Id='" + DS["Designation"] + "'");
+                SqlCommand cmd2 = new SqlCommand(sql2, con);
+                SqlDataReader DS2 = cmd2.ExecuteReader();
+                DS2.Read();
+
+                string x = string.Empty;
+                string y = string.Empty;
+                int z = 1;
+
+                if (drpwonodept == "1")
+                {
+                    y = "WO No";
+
+                    if ((((TextBox)grv.FindControl("TxtWONo")).Text) != "")
+                    {
+                        x = (((TextBox)grv.FindControl("TxtWONo")).Text);
+                        z = 1;
+                    }
+                    else
+                    {
+                        z = 0;
+                        string mystring = string.Empty;
+                        mystring = "Enter valid data to proceed.";
+                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+                    }
+                }
+                else
+                {
+                    z = 1;
+                    y = "BG";
+                    string sql3 = fun.select("Symbol", "BusinessGroup", "Id='" + (((DropDownList)grv.FindControl("DrpDepartment")).SelectedValue) + "'");
+                    SqlCommand cmd3 = new SqlCommand(sql3, con);
+                    SqlDataReader DS3 = cmd3.ExecuteReader();
+                    DS3.Read();
+                    lblBGId.Text=((DropDownList)grv.FindControl("DrpDepartment")).SelectedValue;
+                    x = DS3["Symbol"].ToString();
+                }
+
+                if (z == 1)
+                {
+                    lbldrp.Text = y;
+                    lblEmpName.Text = DS["EmployeeName"].ToString();
+                    lblDesig.Text = DS2["Type"].ToString();
+                    lblDOB.Text = dt;
+                    lblWODept.Text = x;
+                    lblStatus.Text = Drptype;
+
+                    this.FillEquDrp(x, CompId.ToString());
+                    TabContainer1.ActiveTabIndex = 1;
+                }
+            }
+            else
+            {
+                string mystring = string.Empty;
+                mystring = "Enter valid data to proceed.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+            }
+
+            con.Close();            
+        }
+    }
+    protected void DrpCategory_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        this.LoadData(DrpCategory.SelectedValue);
+    }
+    protected void Drpwodept_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+        foreach (GridViewRow grv in GridView1.Rows)
+        {
+            if (((DropDownList)grv.FindControl("Drpwodept")).SelectedValue == "2")
+            {
+                ((DropDownList)grv.FindControl("DrpDepartment")).Visible = true;
+                ((TextBox)grv.FindControl("TxtWONo")).Visible = false;
+            }
+            else
+            {
+                ((DropDownList)grv.FindControl("DrpDepartment")).Visible = false;
+                ((TextBox)grv.FindControl("TxtWONo")).Visible = true;
+
+            }
+        }        
+    }
+    public void FillEquDrp(string wonosrc, string CompId)
+    {
+        try
+        {
+        
+        SqlDataAdapter adapter = new SqlDataAdapter("HrsBudgetBOMEquipNo", con);
+        adapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+        adapter.SelectCommand.Parameters.Add(new SqlParameter("@CompId", SqlDbType.VarChar));
+        adapter.SelectCommand.Parameters["@CompId"].Value = CompId;
+        adapter.SelectCommand.Parameters.Add(new SqlParameter("@WONo", SqlDbType.VarChar));
+        adapter.SelectCommand.Parameters["@WONo"].Value = wonosrc;
+
+        DataSet DS = new DataSet();
+        adapter.Fill(DS);
+        
+        GridView3.DataSource = DS;
+        GridView3.DataBind();
+
+        }
+        catch (Exception ex1)
+        {
+
+        }
+    }
+    protected void drpCat_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            DropDownList ddl = (DropDownList)sender;
+            GridViewRow grv = (GridViewRow)ddl.Parent.Parent;
+                                                
+            if ((((DropDownList)grv.FindControl("drpCat")).SelectedValue) != "1")
+            {
+                SqlCommand cmd = new SqlCommand();
+                SqlDataAdapter da = new SqlDataAdapter("HrsBudgetSubCategory", con);
+                da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                da.SelectCommand.Parameters.Add(new SqlParameter("@CatId", SqlDbType.Int));
+                da.SelectCommand.Parameters["@CatId"].Value = ((DropDownList)grv.FindControl("drpCat")).SelectedValue;
+                DataSet DSitem = new DataSet();
+                da.Fill(DSitem);
+                ((DropDownList)grv.FindControl("drpSubCat")).DataSource = DSitem;
+                ((DropDownList)grv.FindControl("drpSubCat")).DataTextField = "SubCategory";
+                ((DropDownList)grv.FindControl("drpSubCat")).DataValueField = "Id";
+                ((DropDownList)grv.FindControl("drpSubCat")).DataBind();              
+            }
+            else
+            {
+                ((DropDownList)grv.FindControl("drpSubCat")).Items.Clear();
+            }
+            TabContainer1.ActiveTabIndex = 1;
+        }
+        catch (Exception ex1)
+        {
+
+        }
+    }
+    protected void ChkSelect_CheckedChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            CheckBox x = (CheckBox)sender;
+            GridViewRow grv = (GridViewRow)x.NamingContainer;
+
+            if (((CheckBox)grv.FindControl("ChkSelect")).Checked == true)
+            {
+                ((DropDownList)grv.FindControl("drpCat")).Enabled = true;
+                ((DropDownList)grv.FindControl("drpSubCat")).Enabled = true;
+            }
+            else
+            {
+                ((DropDownList)grv.FindControl("drpSubCat")).Items.Clear();
+                ((DropDownList)grv.FindControl("drpCat")).SelectedIndex = 0;
+                ((DropDownList)grv.FindControl("drpCat")).Enabled = false;
+                ((DropDownList)grv.FindControl("drpSubCat")).Enabled = false;
+            }
+        }
+        catch (Exception ex1)
+        {
+
+        }
+    }
+    protected void btnSelect_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            int z = 0;
+            int q = 0;
+            string CDate = fun.getCurrDate();
+            string CTime = fun.getCurrTime();
+            string WONo = lblWODept.Text;
+            string BG = lblBGId.Text;
+
+            foreach (GridViewRow grv in GridView3.Rows)
+            {
+                if (((CheckBox)grv.FindControl("ChkSelect")).Checked == true)
+                {
+                    if (((DropDownList)grv.FindControl("drpCat")).SelectedValue != "1")
+                    {                        
+                        //Check Hrs Budget
+                        double AllocatedHrs_WONo = 0;
+                        double UtilizeHrs_WONo = 0;
+                        double BalanceHrs_WONo = 0;
+
+                        AllocatedHrs_WONo = Convert.ToDouble(CUH.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(((Label)grv.FindControl("lblEquipId")).Text), Convert.ToInt32(((DropDownList)grv.FindControl("drpCat")).SelectedValue), Convert.ToInt32(((DropDownList)grv.FindControl("drpSubCat")).SelectedValue)));
+
+                        UtilizeHrs_WONo = Convert.ToDouble(CUH.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(((Label)grv.FindControl("lblEquipId")).Text), Convert.ToInt32(((DropDownList)grv.FindControl("drpCat")).SelectedValue), Convert.ToInt32(((DropDownList)grv.FindControl("drpSubCat")).SelectedValue)));
+
+                        BalanceHrs_WONo = Math.Round((AllocatedHrs_WONo - UtilizeHrs_WONo), 2);
+
+                        if ( BalanceHrs_WONo > 0 && BalanceHrs_WONo>=Convert.ToDouble(((TextBox)grv.FindControl("txtHrs")).Text))
+                        {
+                            q++;
+
+                        }
+                        else
+                        {
+                            z++;
+                        }
+                    }
+                    else
+                    {
+                        z++;
+                    }
+                }
+            }
+
+            if (q > 0)
+            {   
+                string Str = fun.insert("tblPM_ManPowerPlanning", "SysDate,SysTime,FinYearId,SessionId,CompId,EmpId, Date,WONo,Dept,Types", "'" + CDate + "','" + CTime + "','" + FinYearId + "','" + SId + "','" + CompId + "','" + lblEmpId.Text + "','" + fun.FromDate(lblDOB.Text) + "','" + WONo + "','" + BG + "','" + lblStatusId.Text + "'");
+
+                con.Open();
+                SqlCommand Cmd = new SqlCommand(Str, con);
+                Cmd.ExecuteNonQuery();
+                con.Close();
+
+                string Str2 = fun.select1("Id", "tblPM_ManPowerPlanning Order by Id DESC");
+                con.Open();
+                SqlCommand Cmd2 = new SqlCommand(Str2, con);
+                SqlDataReader rdr = Cmd2.ExecuteReader();
+                rdr.Read();
+
+                foreach (GridViewRow grv in GridView3.Rows)
+                {
+                    if (((CheckBox)grv.FindControl("ChkSelect")).Checked == true)
+                    {
+                        if (((DropDownList)grv.FindControl("drpCat")).SelectedValue != "1" && !string.IsNullOrEmpty(((TextBox)grv.FindControl("txtHrs")).Text) && fun.NumberValidation(((TextBox)grv.FindControl("txtHrs")).Text))
+                        {
+                            string Str3 = fun.insert("tblPM_ManPowerPlanning_Details", "MId,EquipId,Category,SubCategory,PlannedDesc,ActualDesc,Hour", "'" + Convert.ToInt32(rdr["Id"]) + "','" + ((Label)grv.FindControl("lblEquipId")).Text + "','" + ((DropDownList)grv.FindControl("drpCat")).SelectedValue + "','" + ((DropDownList)grv.FindControl("drpSubCat")).SelectedValue + "','" + ((TextBox)grv.FindControl("txtPlanned")).Text + "','" + ((TextBox)grv.FindControl("txtActual")).Text + "','" + ((TextBox)grv.FindControl("txtHrs")).Text + "'");
+
+                            SqlCommand Cmd3 = new SqlCommand(Str3, con);
+                            Cmd3.ExecuteNonQuery();
+                        }
+                    }
+                }
+
+                con.Close();
+            }
+
+            if (z > 0)
+            {
+                string mystring = string.Empty;
+                mystring = "Enter valid data to proceed or check assigned/balance Hrs budget.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+            }
+            else
+            {
+                Page.Response.Redirect(Page.Request.Url.ToString(), true);
+            }
+
+        }
+        catch (Exception et)
+        {
+        }
+    }    
+
+
+}

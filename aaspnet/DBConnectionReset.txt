@@ -1,0 +1,81 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/DBConnectionReset.aspx.txt ===
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="DBConnectionReset.aspx.cs" Inherits="DBConnectionReset" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Connection Pool Reset</title>
+    <link href="Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="Javascript/PopUpMsg.js" type="text/javascript"></script>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div align="center">
+        <h2>SQL Connection Pool Reset</h2>
+        <p>Click the button below to clear all connections in the pool.</p>
+        <asp:Button ID="Button1" runat="server" Text="Clear Connection Pool" OnClientClick="return confirmation();" onclick="Button1_Click" 
+            CssClass="redbox" />
+        <br /><br />
+        <asp:Label ID="lblStatus" runat="server" Text=""></asp:Label>
+    </div>
+    </form>
+</body>
+</html> 
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/DBConnectionReset.aspx.cs ===
+
+using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class DBConnectionReset : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        
+    }
+    
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            // Get the connection string from web.config
+            var connString = ConfigurationManager.ConnectionStrings["LocalSqlServer"];
+            string strConnString = connString.ConnectionString;
+            
+            // This call clears all connections from the pool
+            SqlConnection.ClearAllPools();
+            
+            // Test a new connection to make sure it works
+            using (SqlConnection con = new SqlConnection(strConnString))
+            {
+                con.Open();
+                con.Close();
+            }
+            
+            lblStatus.Text = "Connection pool has been successfully cleared. " + 
+                            "All connections have been reset. " + 
+                            DateTime.Now.ToString();
+            lblStatus.ForeColor = System.Drawing.Color.Green;
+        }
+        catch (Exception ex)
+        {
+            lblStatus.Text = "Error clearing connection pool: " + ex.Message;
+            lblStatus.ForeColor = System.Drawing.Color.Red;
+        }
+    }
+} 

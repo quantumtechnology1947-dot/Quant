@@ -1,0 +1,274 @@
+graph TB
+    %% Sales Distribution Reports Module Architecture Diagram
+    
+    subgraph "Customer Reports"
+        A[Customer Master Reports]
+        A1[CustomerMaster_Report<br/>Customer listing and details]
+        A2[Customer Analysis<br/>Customer performance metrics]
+        A3[Customer Contact Report<br/>Communication details]
+        A4[Customer Address Report<br/>Location-wise analysis]
+        A5[Customer Tax Report<br/>Tax compliance information]
+    end
+    
+    subgraph "Enquiry Reports"
+        B[Customer Enquiry Reports]
+        B1[CustEnquiry_Report<br/>Enquiry listing and status]
+        B2[Enquiry Analysis<br/>Enquiry trends and patterns]
+        B3[Enquiry Follow-up<br/>Pending enquiries]
+        B4[Enquiry Conversion<br/>Success rate analysis]
+        B5[Source Analysis<br/>Enquiry origin tracking]
+    end
+    
+    subgraph "Quotation Reports"
+        C[Quotation Management Reports]
+        C1[Quotation_Report<br/>Quote listing and status]
+        C2[Quotation Analysis<br/>Quote performance metrics]
+        C3[Pending Quotations<br/>Workflow status tracking]
+        C4[Quotation Conversion<br/>Quote to order ratio]
+        C5[Price Analysis<br/>Pricing trends and margins]
+        C6[Approval Status<br/>Workflow progress tracking]
+    end
+    
+    subgraph "Purchase Order Reports"
+        D[Customer PO Reports]
+        D1[CustPO_Report<br/>PO listing and details]
+        D2[PO Analysis<br/>Order performance metrics]
+        D3[Delivery Performance<br/>On-time delivery tracking]
+        D4[PO Value Analysis<br/>Revenue and margin reports]
+        D5[Customer PO Trends<br/>Ordering pattern analysis]
+    end
+    
+    subgraph "Work Order Reports"
+        E[Work Order Management Reports]
+        E1[WorkOrder_Report<br/>WO listing and status]
+        E2[Production Reports<br/>Manufacturing progress]
+        E3[Dispatch Reports<br/>Delivery status tracking]
+        E4[WO Performance<br/>Efficiency metrics]
+        E5[Resource Utilization<br/>Capacity analysis]
+        E6[Quality Reports<br/>QC and compliance]
+    end
+    
+    subgraph "Financial Reports"
+        F[Financial Analysis Reports]
+        F1[Revenue Reports<br/>Sales performance]
+        F2[Margin Analysis<br/>Profitability reports]
+        F3[Cost Analysis<br/>Cost breakdown reports]
+        F4[Outstanding Reports<br/>Receivables tracking]
+        F5[Payment Analysis<br/>Collection performance]
+    end
+    
+    subgraph "Report Infrastructure"
+        G[Reporting Framework]
+        G1[Crystal Reports<br/>Report engine]
+        G2[Report Viewer<br/>Web-based viewing]
+        G3[Export Functions<br/>PDF, Excel, Word]
+        G4[Print Management<br/>Printing capabilities]
+        G5[Email Integration<br/>Report distribution]
+        G6[Scheduled Reports<br/>Automated generation]
+    end
+    
+    subgraph "Data Sources"
+        H[Report Data Sources]
+        H1[SD_Cust_Master<br/>Customer data]
+        H2[SD_Cust_Enquiry_Master<br/>Enquiry data]
+        H3[SD_Cust_Quotation_Master<br/>Quotation data]
+        H4[SD_Cust_PO_Master<br/>Purchase order data]
+        H5[SD_Cust_WorkOrder_Master<br/>Work order data]
+        H6[Financial Tables<br/>Accounting data]
+    end
+    
+    subgraph "Report Parameters"
+        I[Filter & Parameters]
+        I1[Date Range Filters<br/>Time period selection]
+        I2[Customer Filters<br/>Customer-specific reports]
+        I3[Status Filters<br/>Workflow status selection]
+        I4[Category Filters<br/>Product/service categories]
+        I5[User Filters<br/>User-specific data]
+        I6[Company Filters<br/>Multi-company support]
+    end
+    
+    subgraph "Dashboard Integration"
+        J[Management Dashboards]
+        J1[Executive Dashboard<br/>High-level KPIs]
+        J2[Sales Dashboard<br/>Sales performance metrics]
+        J3[Operations Dashboard<br/>Operational efficiency]
+        J4[Financial Dashboard<br/>Financial performance]
+        J5[Customer Dashboard<br/>Customer relationship metrics]
+    end
+    
+    subgraph "Report Security"
+        K[Access Control]
+        K1[Role-Based Access<br/>User role permissions]
+        K2[Data Security<br/>Sensitive data protection]
+        K3[Report Permissions<br/>Report-level access]
+        K4[Customer Data Privacy<br/>Confidentiality controls]
+        K5[Audit Trail<br/>Report access logging]
+    end
+    
+    subgraph "Report Automation"
+        L[Automated Reporting]
+        L1[Scheduled Generation<br/>Automatic report creation]
+        L2[Email Distribution<br/>Automated delivery]
+        L3[Alert System<br/>Exception reporting]
+        L4[Batch Processing<br/>Bulk report generation]
+        L5[Archive Management<br/>Historical report storage]
+    end
+    
+    %% Report Category Relationships
+    A --> A1
+    A --> A2
+    A --> A3
+    A --> A4
+    A --> A5
+    
+    B --> B1
+    B --> B2
+    B --> B3
+    B --> B4
+    B --> B5
+    
+    C --> C1
+    C --> C2
+    C --> C3
+    C --> C4
+    C --> C5
+    C --> C6
+    
+    D --> D1
+    D --> D2
+    D --> D3
+    D --> D4
+    D --> D5
+    
+    E --> E1
+    E --> E2
+    E --> E3
+    E --> E4
+    E --> E5
+    E --> E6
+    
+    F --> F1
+    F --> F2
+    F --> F3
+    F --> F4
+    F --> F5
+    
+    %% Infrastructure Relationships
+    G --> G1
+    G --> G2
+    G --> G3
+    G --> G4
+    G --> G5
+    G --> G6
+    
+    %% Data Source Relationships
+    H --> H1
+    H --> H2
+    H --> H3
+    H --> H4
+    H --> H5
+    H --> H6
+    
+    %% Parameter Relationships
+    I --> I1
+    I --> I2
+    I --> I3
+    I --> I4
+    I --> I5
+    I --> I6
+    
+    %% Dashboard Relationships
+    J --> J1
+    J --> J2
+    J --> J3
+    J --> J4
+    J --> J5
+    
+    %% Security Relationships
+    K --> K1
+    K --> K2
+    K --> K3
+    K --> K4
+    K --> K5
+    
+    %% Automation Relationships
+    L --> L1
+    L --> L2
+    L --> L3
+    L --> L4
+    L --> L5
+    
+    %% Data Flow Relationships
+    A1 --> H1
+    B1 --> H2
+    C1 --> H3
+    D1 --> H4
+    E1 --> H5
+    F1 --> H6
+    
+    %% Infrastructure Integration
+    A --> G
+    B --> G
+    C --> G
+    D --> G
+    E --> G
+    F --> G
+    
+    %% Parameter Integration
+    A --> I
+    B --> I
+    C --> I
+    D --> I
+    E --> I
+    F --> I
+    
+    %% Dashboard Integration
+    A2 --> J5
+    B4 --> J2
+    C4 --> J2
+    D4 --> J4
+    E4 --> J3
+    F1 --> J1
+    
+    %% Security Integration
+    A --> K
+    B --> K
+    C --> K
+    D --> K
+    E --> K
+    F --> K
+    
+    %% Automation Integration
+    A --> L
+    B --> L
+    C --> L
+    D --> L
+    E --> L
+    F --> L
+    
+    %% Styling
+    classDef customerClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef enquiryClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef quotationClass fill:#e8eaf6,stroke:#3f51b5,stroke-width:2px
+    classDef poClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef workorderClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef financialClass fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef infrastructureClass fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    classDef dataClass fill:#e0f2f1,stroke:#004d40,stroke-width:2px
+    classDef parameterClass fill:#f9fbe7,stroke:#827717,stroke-width:2px
+    classDef dashboardClass fill:#fff8e1,stroke:#ff6f00,stroke-width:2px
+    classDef securityClass fill:#fafafa,stroke:#424242,stroke-width:2px
+    classDef automationClass fill:#e3f2fd,stroke:#0d47a1,stroke-width:2px
+    
+    class A,A1,A2,A3,A4,A5 customerClass
+    class B,B1,B2,B3,B4,B5 enquiryClass
+    class C,C1,C2,C3,C4,C5,C6 quotationClass
+    class D,D1,D2,D3,D4,D5 poClass
+    class E,E1,E2,E3,E4,E5,E6 workorderClass
+    class F,F1,F2,F3,F4,F5 financialClass
+    class G,G1,G2,G3,G4,G5,G6 infrastructureClass
+    class H,H1,H2,H3,H4,H5,H6 dataClass
+    class I,I1,I2,I3,I4,I5,I6 parameterClass
+    class J,J1,J2,J3,J4,J5 dashboardClass
+    class K,K1,K2,K3,K4,K5 securityClass
+    class L,L1,L2,L3,L4,L5 automationClass

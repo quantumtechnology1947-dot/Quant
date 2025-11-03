@@ -1,0 +1,809 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Transactions/OfficeStaff_Edit_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="OfficeStaff_Edit_Details.aspx.cs" Inherits="Module_HR_Transactions_OfficeStaff_Edit_Deatails" Title="ERP" Theme="Default" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+<script type="text/javascript">
+        function OnChanged(sender, args)
+        {
+            ServerUtilities.SetTabIndex(sender.get_activeTabIndex());
+        }
+</script>
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+    <table align="left" cellpadding="0" cellspacing="0" width="100%" 
+        style="height: 301px">
+    <tr>
+        <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;Staff - Edit</b></td>
+    </tr>
+    <tr>
+        <td valign="top">
+   
+    <cc1:TabContainer ID="TabContainer1"  runat="server" ActiveTabIndex="0"  Height="300px" 
+                Width="100%" onactivetabchanged="TabContainer1_ActiveTabChanged" 
+                >
+        <cc1:TabPanel runat="server" HeaderText="Official Info" ID="TabPanel1" Height="300">
+            <HeaderTemplate>Official Info
+            </HeaderTemplate>
+            <ContentTemplate><table align="left" cellpadding="0" cellspacing="0" width="100%"><tr><td class="style12" height="25"><asp:Label ID="Label2" runat="server" Text="Emp Id"></asp:Label></td><td class="style11"><asp:Label ID="lblEmpId" runat="server"></asp:Label></td><td class="style10"><asp:Label ID="Label58" runat="server" Text="Offer Id"></asp:Label></td><td><asp:Label ID="lbloffid" runat="server"></asp:Label></td></tr><tr><td class="style12" height="25"><asp:Label ID="Label4" runat="server" Text="Name of  Employee"></asp:Label></td><td colspan="3"><asp:DropDownList ID="DrpEmpTitle" runat="server" CssClass="box3"><asp:ListItem>Mr</asp:ListItem><asp:ListItem>Mrs</asp:ListItem><asp:ListItem>Miss</asp:ListItem></asp:DropDownList><asp:TextBox ID="TxtEmpName" runat="server" style="margin-bottom: 0px" CssClass="box3" 
+                            Width="300px"></asp:TextBox><asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" 
+                            ControlToValidate="TxtEmpName" ErrorMessage="*" ValidationGroup="acbd"></asp:RequiredFieldValidator></td></tr><tr><td class="style12" height="25"><asp:Label ID="Label11" runat="server" Text="Designation"></asp:Label></td><td class="style11">
+                    <asp:DropDownList ID="DrpDesignation" runat="server" CssClass="box3" Width="180px"
+                        DataSourceID="SqlDesignation" DataTextField="Designation" 
+                        DataValueField="Id"></asp:DropDownList><asp:SqlDataSource ID="SqlDesignation" runat="server" 
+                        ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                        SelectCommand="SELECT Id, [Type] + ' - ' + [Symbol] AS Designation FROM tblHR_Designation"></asp:SqlDataSource><asp:RequiredFieldValidator ID="ReqDesign" runat="server" 
+                            ControlToValidate="DrpDesignation" ErrorMessage="*" InitialValue="Select" 
+                            ValidationGroup="acbd"></asp:RequiredFieldValidator></td><td class="style10"><asp:Label ID="Label9" runat="server" Text="Department"></asp:Label></td><td><asp:DropDownList ID="DrpDepartment" runat="server" CssClass="box3"
+                        DataSourceID="SqlDept" DataTextField="DeptName" DataValueField="Id"></asp:DropDownList><asp:SqlDataSource ID="SqlDept" runat="server" 
+                        ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                        SelectCommand="SELECT Id, Symbol AS DeptName FROM tblHR_Departments"></asp:SqlDataSource><asp:RequiredFieldValidator ID="ReqDept" runat="server" 
+                            ControlToValidate="DrpDepartment" ErrorMessage="*" InitialValue="Select" 
+                            ValidationGroup="acbd"></asp:RequiredFieldValidator></td></tr>
+                            
+                            <tr>
+                            
+                            <td class="style12" height="25"><asp:Label ID="Label7" runat="server" Text="Swap Card No"></asp:Label></td>
+           <td >
+                            <asp:DropDownList ID="DrpSwapcardNo" runat="server" CssClass="box3"  >
+                            </asp:DropDownList>                            
+                            <asp:RequiredFieldValidator ID="ReqSwapNo" runat="server" 
+                            ControlToValidate="DrpSwapcardNo" ErrorMessage="*" InitialValue="Select" 
+                            ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                            </td>
+                            
+                            <td class="style10"><asp:Label ID="Label13" runat="server" Text="Director of Dept."></asp:Label></td><td>
+                            
+                            <asp:DropDownList ID="DrpDirectorName" runat="server" CssClass="box3"
+                            ></asp:DropDownList> 
+                            
+                            <tr><td class="style12" height="25"><asp:Label ID="Label10" runat="server" Text="Under BG"></asp:Label></td>                            
+                            <td class="style11"><asp:DropDownList ID="DrpBGGroup" runat="server" CssClass="box3"
+                            DataSourceID="SqlBGGroup" DataTextField="Symbol" DataValueField="Id"></asp:DropDownList><asp:SqlDataSource ID="SqlBGGroup" runat="server" 
+                            ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                            SelectCommand="SELECT [Id], [Name] + ' - ' + [Symbol] As Symbol  FROM [BusinessGroup]"></asp:SqlDataSource><asp:RequiredFieldValidator ID="ReqBGgroup" runat="server" 
+                            ControlToValidate="DrpBGGroup" ErrorMessage="*" InitialValue="Select" 
+                            ValidationGroup="acbd"></asp:RequiredFieldValidator></td>                            
+                            
+                            <td class="style10"><asp:Label ID="lblGRPLDR" runat="server" Text="Group Leader"></asp:Label></td><td>
+                            
+                            <asp:DropDownList ID="DrpGroupLeader" runat="server" CssClass="box3"
+                             ></asp:DropDownList>                           
+                            
+                            
+                            </tr><tr>
+                            
+                            <td class="style12" height="25"><asp:Label ID="Label15" runat="server" Text="Dept.  Head"></asp:Label></td>
+                            
+                            <td class="style11"><asp:DropDownList ID="DrpDeptHead" runat="server" CssClass="box3"
+                             DataTextField="EmployeeName" 
+                            DataValueField="UserID" Width="180px"></asp:DropDownList> 
+                            
+                            </td>
+                            <td class="style10"><asp:Label ID="Label12" runat="server" Text="Corp. Mobile No."></asp:Label></td><td>
+                            <asp:DropDownList ID="DrpMobileNo" runat="server" CssClass="box3" >
+                            </asp:DropDownList>
+                            
+                            <asp:RequiredFieldValidator ID="ReqBGgroup4" runat="server" 
+                            ControlToValidate="DrpMobileNo" ErrorMessage="*" InitialValue="Select" 
+                            ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                            </td></tr><tr><td class="style12" height="25"><asp:Label ID="Label16" runat="server" Text="Grade"></asp:Label></td><td class="style11"><asp:DropDownList ID="DrpGrade" runat="server" CssClass="box3"
+                            DataSourceID="SqlGrade" DataTextField="Symbol" DataValueField="Id"></asp:DropDownList><asp:SqlDataSource ID="SqlGrade" runat="server" 
+                            ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                            SelectCommand="SELECT [Id], [Description] + ' - ' + [Symbol] As Symbol  FROM [tblHR_Grade]"></asp:SqlDataSource><asp:RequiredFieldValidator ID="ReqGrade" runat="server" 
+                            ControlToValidate="DrpGrade" ErrorMessage="*" InitialValue="Select" 
+                            ValidationGroup="acbd"></asp:RequiredFieldValidator></td><td class="style10"><asp:Label ID="Label23" runat="server" Text="Contact No."></asp:Label></td><td><asp:TextBox ID="TxtContactNo" runat="server" CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" 
+                            ControlToValidate="TxtContactNo" ErrorMessage="*" ValidationGroup="acbd"></asp:RequiredFieldValidator></td></tr><tr><td class="style12" height="25"><asp:Label ID="Label6" runat="server" Text="E-Mail"></asp:Label></td><td class="style11"><asp:TextBox ID="TxtMail" runat="server" CssClass="box3" Width="200px"></asp:TextBox><asp:RegularExpressionValidator ID="RegEmail" runat="server" 
+                            ControlToValidate="TxtMail" ErrorMessage="*" 
+                            ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" 
+                            ValidationGroup="acbd"></asp:RegularExpressionValidator></td><td class="style10"><asp:Label ID="Label24" runat="server" Text="ERP-Mail"></asp:Label></td><td><asp:TextBox ID="TxtERPMail" runat="server" CssClass="box3"></asp:TextBox><asp:RegularExpressionValidator ID="RegEmail0" runat="server" 
+                            ControlToValidate="TxtERPMail" ErrorMessage="*" 
+                            ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" 
+                            ValidationGroup="acbd"></asp:RegularExpressionValidator></td></tr><tr><td class="style12" height="25"><asp:Label ID="Label18" runat="server" Text="Extension No."></asp:Label></td><td class="style11"><asp:DropDownList ID="DrpExtensionNo" runat="server" CssClass="box3"
+                            DataSourceID="SqlExtension" DataTextField="ExtNo" DataValueField="Id"></asp:DropDownList><asp:SqlDataSource ID="SqlExtension" runat="server" 
+                            ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                            SelectCommand="SELECT [ExtNo], [Id] FROM [tblHR_IntercomExt]"></asp:SqlDataSource><asp:RequiredFieldValidator ID="ReqExtNo" runat="server" 
+                            ControlToValidate="DrpExtensionNo" ErrorMessage="*" InitialValue="Select" 
+                            ValidationGroup="acbd"></asp:RequiredFieldValidator></td><td class="style10"><asp:Label ID="Label25" runat="server" Text="Joining Date"></asp:Label></td><td><asp:TextBox ID="TxtJoinDate" runat="server" CssClass="box3"></asp:TextBox><cc1:CalendarExtender ID="TxtJoinDate_CalendarExtender" runat="server" CssClass="cal_Theme2" PopupPosition="BottomRight" 
+                            Enabled="True" Format="dd-MM-yyyy" TargetControlID="TxtJoinDate"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ValidationGroup="acbd" 
+                        ControlToValidate="TxtJoinDate" ErrorMessage="*"></asp:RequiredFieldValidator>
+                        <asp:RegularExpressionValidator ID="RegJoinDateVal" runat="server" 
+                                    ControlToValidate="TxtJoinDate" ErrorMessage="*" 
+                                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                    ValidationGroup="acbd"></asp:RegularExpressionValidator>
+                        </td>
+                        </tr>
+                        <tr><td class="style12" height="25"><asp:Label ID="Label19" runat="server" Text="Resignation Date"></asp:Label></td><td class="style11"><asp:TextBox ID="TxtResignDate" runat="server" Width="80px" CssClass="box3"></asp:TextBox><cc1:CalendarExtender ID="TxtResignDate_CalendarExtender" runat="server" CssClass="cal_Theme2" PopupPosition="BottomRight"
+                            Enabled="True" Format="dd-MM-yyyy" TargetControlID="TxtResignDate"></cc1:CalendarExtender>
+                            
+                            <asp:Label ID="Label59" runat="server" Font-Size="Small" ForeColor="Red" 
+                                     Text="* Reset Swap Card No and Corp. Mobile No. to Not Applicable."></asp:Label>
+                            </td><td class="style10">&nbsp;</td><td>&nbsp;</td></tr><tr><td class="style12" height="25">&#160;</td><td class="style11">&#160;</td><td class="style10">&#160;</td><td><asp:Button ID="btnNext1" runat="server" CssClass="redbox" 
+                            OnClick="btnNext1_Click" Text="Next" /><asp:Button ID="BtnCancel2" runat="server" CssClass="redbox" 
+                            OnClick="BtnCancel_Click" Text="Cancel" /></td></tr></table>
+            </ContentTemplate>
+        
+        
+</cc1:TabPanel>
+             
+         <cc1:TabPanel runat="server" HeaderText="Personal Info" ID="TabPanel2">
+        <ContentTemplate><table style="width: 99%"  ><tr><td colspan="2" height="25"><asp:Label ID="Label29" runat="server" Text="Permanent Address"></asp:Label></td><td colspan="2"><asp:Label ID="Label32" runat="server" Text="Correspondence Address"></asp:Label></td></tr><tr><td colspan="2"><asp:TextBox ID="TxtPermanentAddress" runat="server" TextMode="MultiLine" CssClass="box3"
+                    Width="374px"></asp:TextBox><asp:RequiredFieldValidator ID="ReqPersonalEmail6" runat="server" 
+                    ControlToValidate="TxtPermanentAddress" ErrorMessage="*" ValidationGroup="acbd"></asp:RequiredFieldValidator></td><td colspan="2"><asp:TextBox ID="TxtCAddress" runat="server" TextMode="MultiLine" Width="408px" CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqPersonalEmail7" runat="server" 
+                    ControlToValidate="TxtCAddress" ErrorMessage="*" ValidationGroup="acbd"></asp:RequiredFieldValidator></td></tr><tr><td class="style4" height="25"><asp:Label ID="Label31" runat="server" Text="E-Mail"></asp:Label></td><td class="style3"><asp:TextBox ID="TxtEmail" runat="server" CssClass="box3" Width="200px"></asp:TextBox><asp:RegularExpressionValidator ID="RegEmail1" runat="server" 
+                    ControlToValidate="TxtEmail" ErrorMessage="*" 
+                    ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" 
+                        ValidationGroup="acbd"></asp:RegularExpressionValidator></td><td class="style2"><asp:Label ID="Label30" runat="server" Text="Date Of Birth"></asp:Label></td><td><asp:TextBox 
+                    ID="TxtDateofBirth" runat="server" CssClass="box3"></asp:TextBox><cc1:CalendarExtender ID="TxtDateofBirth_CalendarExtender" runat="server" CssClass="cal_Theme2" PopupPosition="BottomRight"
+                    Enabled="True" Format="dd-MM-yyyy" TargetControlID="TxtDateofBirth"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="ReqDOB" runat="server" 
+                        ControlToValidate="TxtDateofBirth" ErrorMessage="*" ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                        <asp:RegularExpressionValidator ID="RegularBirth" runat="server" 
+                                    ControlToValidate="TxtDateofBirth" ErrorMessage="*" 
+                                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                    ValidationGroup="acbd"></asp:RegularExpressionValidator>
+                        </td></tr><tr><td class="style4" height="25"><asp:Label ID="Label36" runat="server" Text="Gender"></asp:Label></td><td class="style3">
+                        <asp:DropDownList ID="DrpGender" runat="server" CssClass="box3"><asp:ListItem Value="Select">Select</asp:ListItem><asp:ListItem Value="M">Male</asp:ListItem><asp:ListItem Value="F">Female</asp:ListItem></asp:DropDownList><asp:RequiredFieldValidator ID="ReqGender" runat="server" 
+                        ControlToValidate="DrpGender" ErrorMessage="*" InitialValue="Select" 
+                        ValidationGroup="acbd"></asp:RequiredFieldValidator></td><td class="style2" ><asp:Label ID="Label34" runat="server" Text="Martial Status"></asp:Label></td><td><asp:RadioButton ID="RdbtnMarried" runat="server" GroupName="Marriage" 
+                        Text="Married"></asp:RadioButton><asp:RadioButton ID="RdbtnUnmarried" runat="server" GroupName="Marriage" 
+                        Text="Unmarried" />
+                <tr>
+                    <td class="style4" height="25">
+                        <asp:Label ID="Label33" runat="server" Text="Blood Group"></asp:Label>
+                    </td>
+                    <td class="style3">
+                        <asp:DropDownList ID="DrpBloodGroup" runat="server" CssClass="box3">
+                            <asp:ListItem Value="Select">Select</asp:ListItem>
+                            <asp:ListItem Value="Not Known">Not Known</asp:ListItem>
+                            <asp:ListItem Value="O+">O+</asp:ListItem>
+                            <asp:ListItem Value="O-">O-</asp:ListItem>
+                            <asp:ListItem>A+</asp:ListItem>
+                            <asp:ListItem>A-</asp:ListItem>
+                            <asp:ListItem>B+</asp:ListItem>
+                            <asp:ListItem>B-</asp:ListItem>
+                            <asp:ListItem>AB+</asp:ListItem>
+                            <asp:ListItem>AB-</asp:ListItem>
+                        </asp:DropDownList>
+                        <asp:RequiredFieldValidator ID="ReqPersonalEmail0" runat="server" 
+                            ControlToValidate="DrpBloodGroup" ErrorMessage="*" InitialValue="Select" 
+                            ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                    </td>
+                    <td class="style2">
+                        <asp:Label ID="Label35" runat="server" Text="Height"></asp:Label>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="TxtHeight" runat="server" CssClass="box3"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="ReqPersonalEmail4" runat="server" 
+                            ControlToValidate="TxtHeight" ErrorMessage="*" ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style4" height="25">
+                        <asp:Label ID="Label39" runat="server" Text="Weight"></asp:Label>
+                    </td>
+                    <td class="style3">
+                        <asp:TextBox ID="TxtWeight" runat="server" CssClass="box3"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="ReqPersonalEmail1" runat="server" 
+                            ControlToValidate="TxtWeight" ErrorMessage="*" ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                    </td>
+                    <td colspan="2">
+                        <asp:Label ID="Label41" runat="server" Text="Physically Handicapped"></asp:Label>
+                        <asp:RadioButton ID="RdbtnYes" runat="server" GroupName="Physicllyhandicapped" 
+                            Text="Yes" />
+                        <asp:RadioButton ID="RdbtnNo" runat="server" GroupName="Physicllyhandicapped" 
+                            Text="No" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style4" height="25">
+                        <asp:Label ID="Label37" runat="server" Text="Religion"></asp:Label>
+                    </td>
+                    <td class="style3">
+                        <asp:TextBox ID="TxtReligion" runat="server" CssClass="box3"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="ReqPersonalEmail2" runat="server" 
+                            ControlToValidate="TxtReligion" ErrorMessage="*" ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                    </td>
+                    <td class="style2">
+                        <asp:Label ID="Label38" runat="server" Text="Cast"></asp:Label>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="TxtCast" runat="server" CssClass="box3"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="ReqPersonalEmail3" runat="server" 
+                            ControlToValidate="TxtCast" ErrorMessage="*" ValidationGroup="acbd"></asp:RequiredFieldValidator>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style4">
+                        &nbsp;</td>
+                    <td class="style3">
+                        &nbsp;</td>
+                    <td class="style2">
+                        &nbsp;</td>
+                    <td align="right">
+                        &nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="style4">
+                        &nbsp;</td>
+                    <td class="style3">
+                        &nbsp;</td>
+                    <td class="style2">
+                        &nbsp;</td>
+                    <td align="right">
+                        <asp:Button ID="btnNext2" runat="server" CssClass="redbox" 
+                            OnClick="btnNext2_Click" Text="Next" />
+                        <asp:Button ID="Button1" runat="server" CssClass="redbox" 
+                            OnClick="Button1_Click" Text="Cancel" />
+                    </td>
+                </tr>
+                </td></tr></table>
+        
+            </ContentTemplate>
+        
+        
+</cc1:TabPanel>
+        
+        <cc1:TabPanel runat="server" HeaderText="Edu. Quali. & Work Experience" ID="TabPanel3">
+        <ContentTemplate><table style="width: 521px"  ><tr><td class="style3" height="25"><asp:Label ID="Label44" runat="server" Text="Educational Qualification"></asp:Label></td><td><asp:TextBox ID="TxtEducatinalQualificatin" runat="server" CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqEduQual" runat="server" 
+                    ControlToValidate="TxtEducatinalQualificatin" ErrorMessage="*" 
+                    ValidationGroup="acbd"></asp:RequiredFieldValidator></td></tr><tr><td class="style3" valign="top"><asp:Label ID="Label42" runat="server" Text="Additional Qualification"></asp:Label></td><td><asp:TextBox ID="TxtAdditionalQualification" runat="server" CssClass="box3" 
+                        Height="68px" TextMode="MultiLine" Width="336px"></asp:TextBox></td></tr><tr><td class="style3" height="25"><asp:Label ID="Label48" runat="server" Text="Last Company Name"></asp:Label></td><td><asp:TextBox ID="TxtLastCompanyName" runat="server" CssClass="box3" 
+                        Width="250px"></asp:TextBox></td></tr><tr><td class="style3" height="25"><asp:Label ID="Label46" runat="server" Text="Total Experience"></asp:Label></td><td><asp:TextBox ID="TxtTotalExperience" runat="server" CssClass="box3"></asp:TextBox></td></tr><tr><td class="style3" height="25"><asp:Label ID="Label49" runat="server" Text="Working Duration"></asp:Label></td><td><asp:TextBox ID="TxtWorkingDuration" runat="server" CssClass="box3"></asp:TextBox></td></tr><tr><td class="style3">&#160;</td><td align="right" class="style2">&#160;</td></tr><tr><td class="style3"></td><td align="right" class="style2"><asp:Button ID="btnNext3" runat="server" CssClass="redbox" 
+                        OnClick="btnNext3_Click" Text="Next" /><asp:Button ID="btnCancel3" runat="server" CssClass="redbox" 
+                        OnClick="btnCancel_Click" Text="Cancel" /></td></tr></table>
+         
+        
+         
+        
+            </ContentTemplate>
+        
+</cc1:TabPanel>
+        
+        
+        
+         <cc1:TabPanel runat="server" HeaderText="Others" ID="TabPanel4">
+        <ContentTemplate><table align="left" cellpadding="2" cellspacing="2" width="50%"><tr><td colspan="4" valign="top"><table align="left" cellpadding="0" cellspacing="0"  width="100%"><tr><td height="25"><asp:Label ID="Label51" runat="server" Text="Current CTC"></asp:Label></td><td><asp:TextBox ID="TxtCurrentCTC" runat="server" CssClass="box3"></asp:TextBox></td><td><asp:Label ID="Label54" runat="server" Text="Bank Acc No."></asp:Label></td><td><asp:TextBox ID="TxtBankAccNo" runat="server" CssClass="box3"></asp:TextBox></td></tr><tr><td height="25"><asp:Label ID="Label53" runat="server" Text="PF  No."></asp:Label></td><td><asp:TextBox ID="TxtPFNo" runat="server" CssClass="box3"></asp:TextBox></td><td><asp:Label ID="Label55" runat="server" Text="PAN No."></asp:Label></td><td><asp:TextBox ID="TxtPANNo" runat="server" CssClass="box3"></asp:TextBox></td></tr><tr><td height="25"><asp:Label ID="Label56" runat="server" Text="Passport No."></asp:Label></td><td><asp:TextBox ID="TxtPassportNo" runat="server" CssClass="box3"></asp:TextBox></td><td><asp:Label ID="Label52" runat="server" Text="Expiry Date"></asp:Label></td><td><asp:TextBox ID="TxtExpiryDate" runat="server" CssClass="box3"></asp:TextBox><cc1:CalendarExtender ID="TxtExpiryDate_CalendarExtender" runat="server" CssClass="cal_Theme2" PopupPosition="BottomRight"
+                                        Enabled="True" Format="dd-MM-yyyy" TargetControlID="TxtExpiryDate"></cc1:CalendarExtender>
+                                        <asp:RegularExpressionValidator ID="RegTxtExpiryDate" runat="server" 
+                                    ControlToValidate="TxtExpiryDate" ErrorMessage="*" 
+                                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                    ValidationGroup="acbd"></asp:RegularExpressionValidator>
+                                        </td></tr></table></td></tr><tr><td class="style10" colspan="4" valign="top" height="25"><asp:Label ID="Label57" runat="server" Text="Additional Information"></asp:Label></td></tr><tr><td class="style14" colspan="4" valign="top"><asp:TextBox ID="TxtAdditionalInformation" runat="server" CssClass="box3" 
+                            Height="66px" TextMode="MultiLine" Width="325px"></asp:TextBox></td></tr>
+                            <tr><td class="style16" height="25"><asp:Label ID="Label27" runat="server" Text="Upload Photo"></asp:Label></td>
+                            <td class="style13" colspan="3"><asp:FileUpload ID="FileUploadPhoto" runat="server" /><asp:Label ID="lblcv" runat="server"></asp:Label><asp:ImageButton ID="ImageButton2" runat="server" ImageUrl="~/images/cross.gif" 
+                            OnClick="ImageButton2_Click" /></td>
+                                <tr>
+                                    <td class="style16" height="25">
+                                        <asp:Label ID="Label28" runat="server" Text="Upload CV"></asp:Label>
+                                    </td>
+                                    <td class="style13" colspan="3">
+                                        <asp:FileUpload ID="FileUploadControl" runat="server" />
+                                        <asp:HyperLink ID="HyperLink1" runat="server"></asp:HyperLink>
+                                        <asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="~/images/cross.gif" 
+                                            OnClick="ImageButton1_Click" />
+                                    </td>
+                                    <tr>
+                                        <td class="style16">
+                                            &nbsp;</td>
+                                        <td class="style15">
+                                            &nbsp;</td>
+                                        <td class="style17">
+                                            &nbsp;</td>
+                                        <td align="right" class="style11">
+                                            <asp:Button ID="BtnUpdate" runat="server" CssClass="redbox" 
+                                                OnClick="BtnUpdate_Click" OnClientClick="return confirmationUpdate()" 
+                                                Text="Update" ValidationGroup="acbd" />
+                                            <asp:Button ID="BtnCancel" runat="server" CssClass="redbox" 
+                                                OnClick="BtnCancel_Click1" Text="Cancel" />
+                                        </td>
+                                    </tr>
+                                </tr>
+                            </tr>
+                            </table>
+          
+          
+            </ContentTemplate>
+        
+</cc1:TabPanel>
+            </cc1:TabContainer>
+
+
+
+            </td>
+        </tr>
+    </table>
+
+
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Transactions/OfficeStaff_Edit_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.IO;
+using System.Text.RegularExpressions;
+
+public partial class Module_HR_Transactions_OfficeStaff_Edit_Deatails : System.Web.UI.Page
+{
+   
+    clsFunctions fun = new clsFunctions();
+  
+    int id = 0;
+    
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+      try
+        {
+            string constr = fun.Connection();
+            SqlConnection con = new SqlConnection(constr);
+            string CDate = fun.getCurrDate();
+            string CTime = fun.getCurrTime();
+            string EId = Request.QueryString["EmpId"];
+            string sId = Session["username"].ToString();
+            int CompId = Convert.ToInt32(Session["compid"]);
+            int FinYearId = Convert.ToInt32(Session["finyear"]);
+
+
+            TxtJoinDate.Attributes.Add("readonly", "readonly");
+            TxtResignDate.Attributes.Add("readonly", "readonly");
+            TxtDateofBirth.Attributes.Add("readonly", "readonly");
+            TxtExpiryDate.Attributes.Add("readonly", "readonly");
+
+
+            string SWId="";
+            string MobId = "";
+            con.Open();            
+            string sql = fun.select("UserID,EmpId,OfferId,FinYearId,CompId,Title,EmployeeName,SwapCardNo,Department,BGGroup,DirectorsName,DeptHead,GroupLeader,Designation,Grade,MobileNo,ContactNo,CompanyEmail,EmailId1,ExtensionNo,JoiningDate,ResignationDate,PhotoFileName,PhotoSize,PhotoContentType,PhotoData,PermanentAddress,CorrespondenceAddress,EmailId2,DateOfBirth,Gender,MartialStatus,BloodGroup,Height,Weight,PhysicallyHandycapped,Religion,Cast,EducationalQualification,AdditionalQualification,LastCompanyName,WorkingDuration,TotalExperience,CurrentCTC,CVFileName,CVSize,CVContentType,CVData, BankAccountNo,PFNo,PANNo,PassPortNo,ExpiryDate,AdditionalInformation,WR ","tblHR_OfficeStaff", "CompId='"+CompId+"'  and EmpId='" + EId + "'");
+
+           
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+              DataSet DS  = new DataSet(); 
+              da.Fill(DS);
+
+              if (DS.Tables[0].Rows.Count>0)
+              {
+                  id = Convert.ToInt32(DS.Tables[0].Rows[0]["UserID"].ToString());                 
+                 
+                  if (!IsPostBack)
+                  {
+
+                      //fun.filldrp(DrpDeptHead, 6,id);
+                      fun.depthead(DrpDeptHead,id);
+                      fun.filldrp(DrpGroupLeader, 7,id);
+                      fun.filldrpDirector(DrpDirectorName,id);
+                      lblEmpId.Text = DS.Tables[0].Rows[0]["EmpId"].ToString();
+                      lbloffid.Text = DS.Tables[0].Rows[0]["OfferId"].ToString();
+                      DrpEmpTitle.SelectedValue = DS.Tables[0].Rows[0]["Title"].ToString();
+                      TxtEmpName.Text = DS.Tables[0].Rows[0]["EmployeeName"].ToString();
+                      if (DS.Tables[0].Rows[0]["SwapCardNo"].ToString()!="")
+                      {
+                      SWId = DS.Tables[0].Rows[0]["SwapCardNo"].ToString();
+                      }
+                      if (DS.Tables[0].Rows[0]["Department"].ToString() != "")
+                      {
+                          DrpDepartment.SelectedValue = DS.Tables[0].Rows[0]["Department"].ToString();
+                      }
+                      if (DS.Tables[0].Rows[0]["BGGroup"].ToString() != "")
+                      {
+                          DrpBGGroup.SelectedValue = DS.Tables[0].Rows[0]["BGGroup"].ToString();
+                      }
+                      if (DS.Tables[0].Rows[0]["DirectorsName"].ToString() != "")
+                      {
+                          DrpDirectorName.SelectedValue = DS.Tables[0].Rows[0]["DirectorsName"].ToString();
+                      }
+                      if (DS.Tables[0].Rows[0]["DeptHead"].ToString() != "")
+                      {
+                          DrpDeptHead.SelectedValue = DS.Tables[0].Rows[0]["DeptHead"].ToString();                         
+                      }          
+    
+                      if (DS.Tables[0].Rows[0]["GroupLeader"].ToString() != "")
+                      {
+                          DrpGroupLeader.SelectedValue = DS.Tables[0].Rows[0]["GroupLeader"].ToString();                          
+                      }
+                      if (DS.Tables[0].Rows[0]["Designation"].ToString() != "")
+                      {
+                          DrpDesignation.SelectedValue = DS.Tables[0].Rows[0]["Designation"].ToString();
+                      }
+                      if (DS.Tables[0].Rows[0]["MobileNo"].ToString() != "")
+                      {
+                          MobId = DS.Tables[0].Rows[0]["MobileNo"].ToString();
+                      }
+
+                      if (DS.Tables[0].Rows[0]["Grade"].ToString() != "")
+                      {
+                          DrpGrade.SelectedValue = DS.Tables[0].Rows[0]["Grade"].ToString();
+                      }
+                      TxtContactNo.Text = DS.Tables[0].Rows[0]["ContactNo"].ToString();
+                      TxtMail.Text = DS.Tables[0].Rows[0]["CompanyEmail"].ToString();
+                      TxtERPMail.Text = DS.Tables[0].Rows[0]["EmailId1"].ToString();
+                      if (DS.Tables[0].Rows[0]["ExtensionNo"].ToString() != "")
+                      {
+                          DrpExtensionNo.SelectedValue = DS.Tables[0].Rows[0]["ExtensionNo"].ToString();
+                      }
+                      TxtJoinDate.Text = fun.FromDateDMY(DS.Tables[0].Rows[0]["JoiningDate"].ToString());
+                      string ResignDate = DS.Tables[0].Rows[0]["ResignationDate"].ToString();
+
+                      if (ResignDate == "")
+                      {
+                          TxtResignDate.Text = "";
+                      }
+                      else
+                      {
+                          TxtResignDate.Text = fun.FromDateDMY(ResignDate);
+                      }
+
+                      string ExDate = DS.Tables[0].Rows[0]["ExpiryDate"].ToString();
+                      if (ExDate == "")
+                      {
+                          TxtExpiryDate.Text = "";
+                      }
+                      else
+                      {
+                          TxtExpiryDate.Text = fun.FromDateDMY(ExDate);
+                      }
+                      TxtPermanentAddress.Text = DS.Tables[0].Rows[0]["PermanentAddress"].ToString();
+                      TxtCAddress.Text = DS.Tables[0].Rows[0]["CorrespondenceAddress"].ToString();
+
+                      TxtEmail.Text = DS.Tables[0].Rows[0]["EmailId2"].ToString();
+
+                      string dob = DS.Tables[0].Rows[0]["DateOfBirth"].ToString();
+                      if (dob == "")
+                      {
+                          TxtDateofBirth.Text = "";
+                      }
+                      else
+                      {
+                          TxtDateofBirth.Text = fun.FromDateDMY(DS.Tables[0].Rows[0]["DateOfBirth"].ToString());
+                      }
+
+                      DrpGender.SelectedValue = DS.Tables[0].Rows[0]["Gender"].ToString();                     
+                      int status = Convert.ToInt32(DS.Tables[0].Rows[0]["MartialStatus"].ToString());
+                      if (status == 1)
+                      {
+                          RdbtnMarried.Checked = true;
+                      }
+                      else
+                      {
+                          RdbtnUnmarried.Checked = true;
+                      }
+
+                      DrpBloodGroup.SelectedValue = DS.Tables[0].Rows[0]["BloodGroup"].ToString();
+                      TxtHeight.Text = DS.Tables[0].Rows[0]["Height"].ToString();
+                      TxtWeight.Text = DS.Tables[0].Rows[0]["Weight"].ToString();
+
+                      int ph = Convert.ToInt32(DS.Tables[0].Rows[0]["PhysicallyHandycapped"].ToString());
+                      if (ph == 1)
+                      {
+                          RdbtnYes.Checked = true;
+                      }
+                      else
+                      {
+                          RdbtnNo.Checked = true;
+                      }
+
+                      TxtReligion.Text = DS.Tables[0].Rows[0]["Religion"].ToString();
+                      TxtCast.Text = DS.Tables[0].Rows[0]["Cast"].ToString();
+                      TxtEducatinalQualificatin.Text = DS.Tables[0].Rows[0]["EducationalQualification"].ToString();
+                      TxtAdditionalQualification.Text = DS.Tables[0].Rows[0]["AdditionalQualification"].ToString();
+                      TxtLastCompanyName.Text = DS.Tables[0].Rows[0]["LastCompanyName"].ToString();
+                      TxtWorkingDuration.Text = DS.Tables[0].Rows[0]["WorkingDuration"].ToString();
+                      TxtTotalExperience.Text = DS.Tables[0].Rows[0]["TotalExperience"].ToString();
+                      TxtCurrentCTC.Text = DS.Tables[0].Rows[0]["CurrentCTC"].ToString();
+                      TxtBankAccNo.Text = DS.Tables[0].Rows[0]["BankAccountNo"].ToString();
+                      TxtPFNo.Text = DS.Tables[0].Rows[0]["PFNo"].ToString();
+                      TxtPANNo.Text = DS.Tables[0].Rows[0]["PANNo"].ToString();
+                      TxtPassportNo.Text = DS.Tables[0].Rows[0]["PassportNo"].ToString();
+                      TxtAdditionalInformation.Text = DS.Tables[0].Rows[0]["AdditionalInformation"].ToString();
+                      ImageButton2.Visible = false;
+                      FileUploadPhoto.Visible = true;
+                      if (DS.Tables[0].Rows[0]["PhotoFileName"].ToString() != "" && DS.Tables[0].Rows[0]["PhotoFileName"] != DBNull.Value)
+                      {
+                          ImageButton2.Visible = true;
+                          lblcv.Text = DS.Tables[0].Rows[0]["PhotoFileName"].ToString();
+                          FileUploadPhoto.Visible = false;
+                      }
+                      ImageButton1.Visible = false;
+                      FileUploadControl.Visible = true;
+                      HyperLink1.Text = "";
+                      if (DS.Tables[0].Rows[0]["CVFileName"].ToString() != "" && DS.Tables[0].Rows[0]["CVFileName"] != DBNull.Value)
+                      {
+                          ImageButton1.Visible = true;
+                          HyperLink1.Text = DS.Tables[0].Rows[0]["CVFileName"].ToString();
+                          HyperLink1.NavigateUrl = "~/Controls/DownloadFile.aspx?id=" + id + "&tbl=tblHR_OfficeStaff&qfd=CVData&qfn=CVFileName&qct=CVContentType";
+                          FileUploadControl.Visible = false;
+                      }
+                      
+                       // For Swap card no               
+                      string stSwapcardNo = fun.select("Id,SwapCardNo ", "tblHR_SwapCard", " Id='1' OR  Id='"+SWId+"' OR Id NOT IN (select SwapCardNo from tblHR_OfficeStaff where SwapCardNo is not null AND CompId='" + CompId + "')");
+                      SqlCommand cmdSwapcardNo = new SqlCommand(stSwapcardNo, con);
+                      SqlDataAdapter daSwapcardNo = new SqlDataAdapter(cmdSwapcardNo);
+                      DataSet dsSwapcardNo = new DataSet();
+                      daSwapcardNo.Fill(dsSwapcardNo, "tblHR_SwapCard");
+                      DrpSwapcardNo.DataSource = dsSwapcardNo.Tables["tblHR_SwapCard"];
+                      DrpSwapcardNo.DataValueField = "Id";
+                      DrpSwapcardNo.DataTextField = "SwapCardNo";
+                      DrpSwapcardNo.DataBind();
+                      DrpSwapcardNo.SelectedValue = SWId;
+
+                      // For Coporate Mobile No 
+                      string stMobileNo = fun.select("Id,MobileNo ", "tblHR_CoporateMobileNo", "Id='1' OR  Id='" + MobId + "' OR  Id NOT IN (select MobileNo from tblHR_OfficeStaff where MobileNo is not null AND CompId='" + CompId + "')");
+                      SqlCommand cmdMobileNo = new SqlCommand(stMobileNo, con);
+                      SqlDataAdapter daMobileNo = new SqlDataAdapter(cmdMobileNo);
+                      DataSet dsMobileNo = new DataSet();
+                      daMobileNo.Fill(dsMobileNo, "tblHR_CoporateMobileNo");
+                      DrpMobileNo.DataSource = dsMobileNo.Tables["tblHR_CoporateMobileNo"];
+                      DrpMobileNo.DataValueField = "Id";
+                      DrpMobileNo.DataTextField = "MobileNo";
+                      DrpMobileNo.DataBind();
+                      DrpMobileNo.SelectedValue = MobId;                      
+                      
+                  }
+                      TabContainer1.OnClientActiveTabChanged = "OnChanged";
+                      TabContainer1.ActiveTabIndex = Convert.ToInt32(Session["TabIndex"] ?? "0");
+             }
+        }
+     catch (Exception ex)
+        {
+
+        }
+
+    }
+
+   
+
+
+    protected void BtnUpdate_Click(object sender, EventArgs e)
+    {
+        string EId = Request.QueryString["EmpId"];
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+
+        try
+        {
+            con.Open();
+            string CDate = fun.getCurrDate();
+            string CTime = fun.getCurrTime();
+            string sId = Session["username"].ToString();
+            int cId = Convert.ToInt32(Session["compid"]);
+            
+            string joinDate = fun.FromDate(TxtJoinDate.Text);
+            
+            string ResignDate = "";
+            if (TxtResignDate.Text == "")
+            {
+                ResignDate = "";
+            }
+            else
+            {
+                ResignDate = fun.FromDate(TxtResignDate.Text);
+            }
+           
+            string DOB = "";
+            if (TxtDateofBirth.Text == "")
+            {
+                DOB = "";
+            }
+            else
+            {
+                DOB = fun.FromDate(TxtDateofBirth.Text);
+            }
+
+            string ExDate = "";
+            if (TxtExpiryDate.Text == "")
+            {
+                ExDate = "";
+            }
+            else
+            {
+                ExDate = fun.FromDate(TxtExpiryDate.Text);
+            }
+
+            int martielstatus = 0;
+            if (RdbtnMarried.Checked == true)
+            {
+                martielstatus = 1;
+            }
+            else
+            {
+                martielstatus = 0;
+            }
+            int Physicalstatus = 0;
+            if (RdbtnYes.Checked == true)
+            {
+                Physicalstatus = 1;
+            }
+            else
+            {
+                Physicalstatus = 0;
+            }
+
+            // Upload Photo
+
+            string strfilename = "";
+            HttpPostedFile myfile = FileUploadPhoto.PostedFile;
+            Byte[] mydata = null;
+
+            if (FileUploadPhoto.PostedFile != null)
+            {
+                Stream fs = FileUploadPhoto.PostedFile.InputStream;
+                BinaryReader br = new BinaryReader(fs);
+                mydata = br.ReadBytes((Int32)fs.Length);
+                strfilename = Path.GetFileName(myfile.FileName);
+
+                string cmdph = fun.update("tblHR_OfficeStaff", "PhotoFileName='" + strfilename + "',PhotoSize='" + mydata.Length + "',PhotoContentType='" + myfile.ContentType + "',PhotoData=@Data", "EmpId='" + EId + "'");
+
+                SqlCommand cmdph1 = new SqlCommand(cmdph, con);
+                cmdph1.Parameters.AddWithValue("@Data", mydata);
+                cmdph1.ExecuteNonQuery();
+
+            }
+
+            // Upload CV
+
+            string strcv = "";
+            HttpPostedFile mycv = FileUploadControl.PostedFile;
+            Byte[] mycvdata = null;
+
+            if (FileUploadControl.PostedFile != null)
+            {
+                Stream fscv = FileUploadControl.PostedFile.InputStream;
+                BinaryReader brcv = new BinaryReader(fscv);
+                mycvdata = brcv.ReadBytes((Int32)fscv.Length);
+                strcv = Path.GetFileName(mycv.FileName);
+
+                string cmdcv = fun.update("tblHR_OfficeStaff", "CVFileName='" + strcv + "',CVSize='" + mycvdata.Length + "',CVContentType='" + mycv.ContentType + "',CVData=@CV", "EmpId='" + EId + "'");
+
+                SqlCommand cmdcv1 = new SqlCommand(cmdcv, con);
+                cmdcv1.Parameters.AddWithValue("@CV", mycvdata);
+                cmdcv1.ExecuteNonQuery();
+
+            }
+
+            string HOD = "";
+            string MD = "";
+            string TL = "";
+            if (DrpDeptHead.SelectedValue != "Select")
+            {
+                HOD = DrpDeptHead.SelectedValue;               
+            }
+            if(DrpGroupLeader.SelectedValue != "Select") 
+            {                
+                TL = DrpGroupLeader.SelectedValue;
+               
+            }
+            if( DrpDirectorName.SelectedValue != "Select")
+            {
+                MD = DrpDirectorName.SelectedValue;                
+            }
+
+
+            if (fun.EmailValidation(TxtEmail.Text) == true && fun.EmailValidation(TxtERPMail.Text) == true && fun.EmailValidation(TxtMail.Text) && DrpEmpTitle.SelectedValue != "Select" && TxtEmpName.Text != "" && DrpBGGroup.SelectedValue != "Select" && TxtContactNo.Text != "" && joinDate.ToString() != "" && TxtPermanentAddress.Text != "" && TxtCAddress.Text != "" && DOB.ToString() != "" && DrpGender.SelectedValue != "Select" && TxtHeight.Text != "" && TxtWeight.Text != "" && TxtReligion.Text != "" && TxtCast.Text != "" && TxtEducatinalQualificatin.Text != "" && EId.ToString() != "" && DrpBloodGroup.SelectedValue != "Select" && fun.DateValidation(TxtJoinDate.Text) == true && fun.DateValidation(TxtDateofBirth.Text) == true && fun.DateValidation(TxtExpiryDate.Text) == true)
+            {
+                string cmdstr = fun.update("tblHR_OfficeStaff", "Title='" + DrpEmpTitle.SelectedValue + "', EMployeeName='" + TxtEmpName.Text + "',SwapCardNo='" + DrpSwapcardNo.SelectedValue + "',Department='" + DrpDepartment.SelectedValue + "',BGGroup='" + DrpBGGroup.SelectedValue + "',DirectorsName='" + MD + "',DeptHead='" + HOD + "',GroupLeader='" + TL + "',Designation='" + DrpDesignation.SelectedValue + "',Grade='" + DrpGrade.SelectedValue + "',MobileNo='" + DrpMobileNo.SelectedValue + "',ContactNo='" + TxtContactNo.Text + "',CompanyEmail='" + TxtMail.Text + "',EmailId1='" + TxtERPMail.Text + "',ExtensionNo='" + DrpExtensionNo.SelectedValue + "',JoiningDate='" + joinDate + "',ResignationDate='" + ResignDate + "',PermanentAddress='" + TxtPermanentAddress.Text + "',CorrespondenceAddress='" + TxtCAddress.Text + "',EmailId2='" + TxtEmail.Text + "',DateOfBirth='" + DOB + "',Gender='" + DrpGender.SelectedValue + "',MartialStatus='" + martielstatus + "',BloodGroup='" + DrpBloodGroup.SelectedValue + "',Height='" + TxtHeight.Text + "',Weight='" + TxtWeight.Text + "',PhysicallyHandycapped='" + Physicalstatus + "',Religion='" + TxtReligion.Text + "',Cast='" + TxtCast.Text + "',EducationalQualification='" + TxtEducatinalQualificatin.Text + "',AdditionalQualification='" + TxtAdditionalQualification.Text + "',LastCompanyName='" + TxtLastCompanyName.Text + "',WorkingDuration='" + TxtWorkingDuration.Text + "',TotalExperience='" + TxtTotalExperience.Text + "',CurrentCTC='" + TxtCurrentCTC.Text + "',BankAccountNo='" + TxtBankAccNo.Text + "',PFNo='" + TxtPFNo.Text + "',PANNo='" + TxtPANNo .Text+ "',PassPortNo='" + TxtPassportNo.Text + "',ExpiryDate='" + ExDate + "',AdditionalInformation='" + TxtAdditionalInformation.Text + "'", "EmpId='" + EId + "'");
+                
+                SqlCommand cmd = new SqlCommand(cmdstr, con);
+                cmd.ExecuteNonQuery();
+                Response.Redirect("OfficeStaff_Edit.aspx?EmpId=0001&ModId=12&SubModId=24&msg=Staff data is updated.");                
+            }
+        }
+        
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+            con.Close();
+        }
+
+    }
+
+    protected void btnNext1_Click(object sender, EventArgs e)
+    {
+         TabContainer1.ActiveTab = TabContainer1.Tabs[1];
+    }
+
+    protected void btnNext2_Click(object sender, EventArgs e)
+    {
+        TabContainer1.ActiveTab = TabContainer1.Tabs[2];
+    }
+    protected void btnNext3_Click(object sender, EventArgs e)
+    {
+        TabContainer1.ActiveTab = TabContainer1.Tabs[3];
+
+    }
+    protected void BtnCancel_Click(object sender, EventArgs e)
+    {
+        Page.Response.Redirect("OfficeStaff_Edit.aspx?EmpId=0001&ModId=12&SubModId=24");
+    }
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        Page.Response.Redirect("OfficeStaff_Edit.aspx?EmpId=0001&ModId=12&SubModId=24");
+    }
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Page.Response.Redirect("OfficeStaff_Edit.aspx?EmpId=0001&ModId=12&SubModId=24");
+    }
+    protected void BtnCancel_Click1(object sender, EventArgs e)
+    {
+        Page.Response.Redirect("OfficeStaff_Edit.aspx?EmpId=0001&ModId=12&SubModId=24");
+    }
+
+    protected void ImageButton2_Click(object sender, ImageClickEventArgs e)
+    {
+        try
+        {
+            string connStr2 = fun.Connection();
+            SqlConnection con2 = new SqlConnection(connStr2);
+            con2.Open();
+            string sql2 = fun.update("tblHR_OfficeStaff", "PhotoFileName=NULL,PhotoSize=NULL,PhotoContentType=NULL,PhotoData=NULL", "UserId='" + id + "'");
+            
+            SqlCommand cmd = new SqlCommand(sql2, con2);
+            cmd.ExecuteNonQuery();
+            con2.Close();
+            Page.Response.Redirect(Page.Request.Url.ToString(), true);
+        }
+        catch (Exception es)
+        {
+
+        }
+    }
+    protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
+    {
+        try
+        {
+            string connStr3 = fun.Connection();
+            SqlConnection con3 = new SqlConnection(connStr3);
+            con3.Open();
+            string sql3 = fun.update("tblHR_OfficeStaff", "CVFileName=NULL,CVSize=NULL,CVContentType=NULL,CVData=NULL", "UserId='" + id + "'");
+            SqlCommand cmd3 = new SqlCommand(sql3, con3);
+            cmd3.ExecuteNonQuery();
+            con3.Close();
+            Page.Response.Redirect(Page.Request.Url.ToString(), true);
+        }
+        catch (Exception es)
+        {
+
+        }
+    }
+    protected void TabContainer1_ActiveTabChanged(object sender, EventArgs e)
+    {
+        Session.Remove("TabIndex");
+
+    }
+}

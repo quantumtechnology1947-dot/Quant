@@ -1,0 +1,930 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Transactions/WorkOrder_Dispatch_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="WorkOrder_Dispatch_Details.aspx.cs" Inherits="Module_SalesDistribution_Transactions_WorkOrder_Dispatch_Details" Title="ERP" Theme="Default" %>
+<%@ Register Assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
+
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+   
+    <style  type="text/css">
+        .style2
+        {
+            text-align: left;
+            width: 137px;
+        }
+        .style3
+        {
+            width: 137px;
+        }
+        .style4
+        {
+            width: 677px;
+        }
+        .fontcss
+        {
+            width: 291px;
+        }
+        .style5
+        {
+            text-align: left;
+            width: 137px;
+            height: 33px;
+        }
+        .style6
+        {
+            height: 33px;
+        }
+    </style>
+    
+    
+
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+  <script type="text/javascript">
+var prm = Sys.WebForms.PageRequestManager.getInstance();
+//Raised before processing of an asynchronous postback starts and the postback request is sent to the server.
+prm.add_beginRequest(BeginRequestHandler);
+// Raised after an asynchronous postback is finished and control has been returned to the browser.
+prm.add_endRequest(EndRequestHandler);
+function BeginRequestHandler(sender, args) {
+//Shows the modal popup - the update progress
+var popup = $find('<%= modalPopup.ClientID %>');
+if (popup != null) {
+popup.show();
+}
+}
+
+function EndRequestHandler(sender, args) {
+//Hide the modal popup - the update progress
+var popup = $find('<%= modalPopup.ClientID %>');
+if (popup != null) {
+popup.hide();
+}
+}
+</script>
+<div>
+<asp:UpdateProgress ID="UpdateProgress" runat="server">
+<ProgressTemplate>
+<asp:Image ID="Image1" ImageUrl="~/images/spinner-big.gif" AlternateText="Processing" runat="server" />
+</ProgressTemplate>
+</asp:UpdateProgress>
+<cc1:ModalPopupExtender ID="modalPopup" runat="server" TargetControlID="UpdateProgress"
+PopupControlID="UpdateProgress" BackgroundCssClass="modalPopup" />
+<asp:UpdatePanel ID="pnlData" runat="server" UpdateMode="Conditional">
+<ContentTemplate>
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+<td align="left" colspan="2" height="21px" style="background:url(../../../images/hdbg.JPG)" class="fontcsswhite" >
+    &nbsp;<strong>Work Order - Dispatch</strong></td>
+
+</tr>
+
+<tr>
+<td align="left" colspan="2">
+<asp:Panel ID="Panel1" ScrollBars="Auto" Height="215px" runat="server">
+    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" 
+        CssClass="yui-datatable-theme" Width="100%">
+        <Columns>
+            <asp:TemplateField HeaderText="SN">
+                <ItemTemplate>
+                    <%# Container.DataItemIndex+1 %>
+                </ItemTemplate>
+                <ItemStyle HorizontalAlign="Right" />
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="CK">
+                <ItemTemplate>
+                    <asp:CheckBox ID="CheckBox1" runat="server" 
+                        oncheckedchanged="CheckBox1_CheckedChanged" />
+                </ItemTemplate>
+                <ItemStyle HorizontalAlign="Center" />
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="To DA Qty">
+                <ItemTemplate>
+                    <asp:TextBox ID="TextBox1" runat="server" CssClass="box3" Width="60" />
+                    <asp:RequiredFieldValidator ID="Req" runat="server" 
+                        ControlToValidate="TextBox1" ErrorMessage="*" ValidationGroup="A">
+                    </asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator ID="RegQty" runat="server" 
+                        ControlToValidate="TextBox1" ErrorMessage="*" 
+                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="A">
+                    </asp:RegularExpressionValidator>
+                </ItemTemplate>
+                <ItemStyle HorizontalAlign="Center" Width="8%" />
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="Id" Visible="false">
+                <ItemTemplate>
+                    <asp:Label ID="lblid" runat="server" Text='<%#Eval("Id") %>'> </asp:Label>
+                </ItemTemplate>
+                <ItemStyle HorizontalAlign="Right" />
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="Item Code">
+                <ItemTemplate>
+                    <asp:Label ID="lblic" runat="server" Text='<%#Eval("ItemCode") %>'></asp:Label>
+                </ItemTemplate>
+                <ItemStyle HorizontalAlign="Left" Width="14%" />
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="Description">
+                <ItemTemplate>
+                    <asp:Label ID="lbldesc" runat="server" Text='<%#Eval("Description") %>'></asp:Label>
+                </ItemTemplate>
+                <ItemStyle HorizontalAlign="Left" Width="40%" />
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="Qty">
+                <ItemTemplate>
+                    <asp:Label ID="lblqty" runat="server" Text='<%#Eval("Qty") %>'></asp:Label>
+                </ItemTemplate>
+                <ItemStyle HorizontalAlign="Right" Width="8%" />
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="Released Qty">
+                <ItemTemplate>
+                    <asp:Label ID="lblrelqty" runat="server" Text='<%#Eval("ReleasedQty") %>'></asp:Label>
+                </ItemTemplate>
+                <ItemStyle HorizontalAlign="Right" />
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="DA Total Qty">
+                <ItemTemplate>
+                    <asp:Label ID="lbldaqty" runat="server" Text='<%#Eval("DATotalQty") %>'></asp:Label>
+                </ItemTemplate>
+                <ItemStyle HorizontalAlign="Right" />
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="DA Remain Qty">
+                <ItemTemplate>
+                    <asp:Label ID="lbldaremqty" runat="server" Text='<%#Eval("DARemainQty") %>'></asp:Label>
+                </ItemTemplate>
+                <ItemStyle HorizontalAlign="Right" />
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="ItemId" Visible="false">
+                <ItemTemplate>
+                    <asp:Label ID="lblitemid" runat="server" Text='<%#Eval("ItemId") %>'></asp:Label>
+                </ItemTemplate>
+            </asp:TemplateField>
+        </Columns>
+        <EmptyDataTemplate>
+            <table class="fontcss" width="100%">
+                <tr>
+                    <td align="center">
+                        <asp:Label ID="Label1" runat="server" Font-Size="Larger" ForeColor="maroon" 
+                            Text="No data to display !"> </asp:Label>
+                    </td>
+                </tr>
+            </table>
+        </EmptyDataTemplate>
+    </asp:GridView>
+</asp:Panel>
+<br />
+    
+</td>
+
+</tr>
+
+<tr>
+
+<td align="center" class="style4" valign="top">
+<asp:Panel ID="Panel2" ScrollBars="Auto" Height="205px" runat="server">
+    <asp:GridView ID="GridView2" runat="server"  
+        CssClass="yui-datatable-theme" Width="100%"
+        DataSourceID="SqlDataSource1" AutoGenerateColumns="False">
+        <Columns>    
+           <asp:TemplateField HeaderText="SN">
+        <ItemTemplate><%# Container.DataItemIndex+1 %></ItemTemplate>
+               <ItemStyle HorizontalAlign="Right" Width="4%" />
+        </asp:TemplateField>
+        <asp:TemplateField HeaderText="CK">
+        <ItemTemplate>
+        <asp:CheckBox ID="CheckBox2" runat="server"/>
+        </ItemTemplate>
+            <ItemStyle HorizontalAlign="Center" Width="3%" />
+        </asp:TemplateField>
+        
+        <asp:TemplateField HeaderText="Name of Employee">
+        <ItemTemplate>
+          <asp:Label ID="lblEmpName" runat="server" Text='<%#Eval("EmployeeName") %>'></asp:Label>
+        </ItemTemplate>
+            <ItemStyle HorizontalAlign="Left" Width="20%" />
+        </asp:TemplateField>
+         <asp:TemplateField HeaderText="Emp Id">
+        <ItemTemplate>
+          <asp:Label ID="lblEmpId" runat="server" Text='<%#Eval("EmpId") %>'></asp:Label>
+        </ItemTemplate>
+            <ItemStyle HorizontalAlign="Center" Width="8%" />
+        </asp:TemplateField>
+        
+        <asp:TemplateField HeaderText="Email Id">
+        <ItemTemplate>
+          <asp:Label ID="lblEmailId" runat="server" Text='<%#Eval("EmailId1") %>'></asp:Label>
+        </ItemTemplate>
+            <ItemStyle HorizontalAlign="Left" Width="15%" />
+        </asp:TemplateField> 
+            
+        </Columns>
+        <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+    </asp:GridView>
+    <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+        ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+        SelectCommand="SELECT [EmpId], [EmployeeName], [EmailId1] FROM [tblHR_OfficeStaff] WHERE (([DA] = @DA) AND ([ResignationDate]='') AND ([CompId]=@CompId) AND(UserID !='1'))">
+        <SelectParameters>
+            <asp:Parameter DefaultValue="1" Name="DA" Type="Int32" />
+           <asp:SessionParameter Name="CompId" SessionField="compid" Type="Int32" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+    </asp:Panel>
+    </td>
+
+<td align="left" valign="top">
+    <table cellpadding="2" cellspacing="0" class="fontcss"  align="center">
+        <tr>
+            <td class="style2">
+                <label>
+                <strong>Freight Charges by</strong></label>
+            </td>
+            <td>
+                <asp:RadioButton ID="FCustomer" runat="server" Checked="True" 
+                    GroupName="FCust" Text="Customer" />
+            </td>
+            <td>
+                <asp:RadioButton ID="FSelf" runat="server" GroupName="FCust" 
+                    Text="Self" />
+            </td>
+        </tr>
+        <tr>
+            <td class="style2">
+                <strong>Vehicle by</strong></td>
+            <td>
+                <asp:RadioButton ID="VCustomer" runat="server" Checked="True" 
+                    GroupName="VCust" Text="Customer" />
+            </td>
+            <td>
+                <asp:RadioButton ID="VSelf" runat="server" GroupName="VCust" 
+                    Text="Self" />
+            </td>
+        </tr>
+        <tr>
+            <td class="style2">
+                <strong>Octroi Charges by</strong></td>
+            <td>
+                <asp:RadioButton ID="OCustomer" runat="server" Checked="True" 
+                    GroupName="OCust" Text="Customer" />
+            </td>
+            <td>
+                <asp:RadioButton ID="OSelf" runat="server" GroupName="OCust" 
+                    Text="Self" />
+            </td>
+        </tr>
+       
+    </table>
+    </td>
+</tr>
+
+ <tr>
+    <td  align="center" colspan="2" height="30" valign="middle">
+    <asp:Button ID="Submit" runat="server" CssClass="redbox" ValidationGroup="A" OnClientClick="return confDyna('Do you really want to Dispatch this Work Order?')" onclick="Submit_Click" Text="Submit" Height="21px"/>
+    <asp:Button ID="Cancel" runat="server" CssClass="redbox"  Text="Cancel"  
+    Height="21px" onclick="Cancel_Click"/>   
+    </td>
+ </tr>
+
+</table>
+</ContentTemplate>
+</asp:UpdatePanel>
+</div>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Transactions/WorkOrder_Dispatch_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
+using System.Web.Mail;
+using System.Net;
+using System.IO;
+
+public partial class Module_SalesDistribution_Transactions_WorkOrder_Dispatch_Details : System.Web.UI.Page
+{
+
+    clsFunctions fun = new clsFunctions();
+    DataSet DS = new DataSet();
+    DataSet DS2 = new DataSet();
+    MailMessage msg = new MailMessage();
+    int CompId = 0;
+    string wono = "";
+    string wrno = "";
+    string xmlfilename = string.Empty;
+    string pdffilename = string.Empty;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            CompId = Convert.ToInt32(Session["compid"]);
+            wono = Request.QueryString["WONo"];
+            wrno = Request.QueryString["WRNo"];
+            this.GetValidate();
+            if (!IsPostBack)
+            {
+                DataTable dt = (DataTable)ViewState["vs"];
+                this.LoadData();
+            }
+        }
+       catch (Exception ex) { }
+    }
+
+    private void LoadData()
+    {
+        try
+        {
+            string str = fun.Connection();
+            SqlConnection con = new SqlConnection(str);
+            con.Open();
+            string sql = fun.select("*", "SD_Cust_WorkOrder_Release", "WRNo='" + wrno + "' And CompId='" + CompId + "'");
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(DS);
+
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Description", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Qty", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("ReleasedQty", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("DATotalQty", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("DARemainQty", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("ItemId", typeof(int)));
+
+            DataRow dr;
+
+            for (int p = 0; p < DS.Tables[0].Rows.Count; p++)
+            {
+                dr = dt.NewRow();
+                dr[0] = Convert.ToInt32(DS.Tables[0].Rows[p]["Id"]);
+
+                string sqlDesc = fun.select("ItemCode,Description,Qty", "SD_Cust_WorkOrder_Products_Details", "Id='" + DS.Tables[0].Rows[p]["ItemId"].ToString() + "' And CompId='" + CompId + "'");
+
+                SqlCommand sqldesc = new SqlCommand(sqlDesc, con);
+                SqlDataAdapter dadesc = new SqlDataAdapter(sqldesc);
+                DataSet dsdesc = new DataSet();
+                dadesc.Fill(dsdesc);
+                if (dsdesc.Tables[0].Rows.Count > 0)
+                {
+                    dr[1] = dsdesc.Tables[0].Rows[0]["ItemCode"].ToString();
+                    dr[2] = dsdesc.Tables[0].Rows[0]["Description"].ToString();
+                    dr[3] = Convert.ToDouble(decimal.Parse((dsdesc.Tables[0].Rows[0]["Qty"]).ToString()).ToString("N3"));
+                }
+                dr[4] = Convert.ToDouble(decimal.Parse((DS.Tables[0].Rows[p]["IssuedQty"]).ToString()).ToString("N3"));
+                dr[7] = Convert.ToInt32(DS.Tables[0].Rows[p]["ItemId"]);
+
+
+                string sql42 = fun.select("sum(DispatchQty) as sum_DispatchQty ", "SD_Cust_WorkOrder_Dispatch ", "ItemId='" + DS.Tables[0].Rows[p]["ItemId"].ToString() + "' AND WRId='" + Convert.ToInt32(DS.Tables[0].Rows[p]["Id"]) + "'And CompId='" + CompId + "' ");
+
+                SqlCommand cmd42 = new SqlCommand(sql42, con);
+                DataSet DS42 = new DataSet();
+                SqlDataAdapter da42 = new SqlDataAdapter(cmd42);
+                da42.Fill(DS42);
+
+                if (DS42.Tables[0].Rows.Count > 0 && DS42.Tables[0].Rows[0]["sum_DispatchQty"] != DBNull.Value)
+                {
+
+                    dr[5] = Convert.ToDouble(decimal.Parse(DS42.Tables[0].Rows[0]["sum_DispatchQty"].ToString()).ToString("N3"));
+
+                }
+                else
+                {
+                    dr[5] = 0;
+                }
+                double rqty = 0;
+                if (DS42.Tables[0].Rows[0]["sum_DispatchQty"] != DBNull.Value)
+                {
+                    rqty = Convert.ToDouble(decimal.Parse(DS.Tables[0].Rows[p]["IssuedQty"].ToString()).ToString("N3")) - Convert.ToDouble(decimal.Parse(DS42.Tables[0].Rows[0]["sum_DispatchQty"].ToString()).ToString("N3"));
+                    dr[6] = Convert.ToDouble(decimal.Parse(rqty.ToString()).ToString("N3"));
+                }
+
+                else
+                {
+                    dr[5] = 0;
+                    dr[6] = Convert.ToDouble(decimal.Parse((DS.Tables[0].Rows[p]["IssuedQty"]).ToString()).ToString("N3"));
+                }
+
+                dt.Rows.Add(dr);
+            }
+
+
+            ViewState["vs"] = dt;
+
+            if (ViewState["vs"] != null)
+            {
+                GridView1.DataSource = (DataTable)ViewState["vs"];
+                GridView1.DataBind();
+            }
+            else
+            {
+                GridView1.DataSource = dt;
+                GridView1.DataBind();
+            }
+
+            foreach (GridViewRow grv3 in GridView1.Rows)
+            {
+                if ((Convert.ToDouble(decimal.Parse(((Label)grv3.FindControl("lblrelqty")).Text).ToString("N3")) - Convert.ToDouble(decimal.Parse(((Label)grv3.FindControl("lbldaqty")).Text).ToString("N3"))) <= 0)
+                {
+                    ((TextBox)grv3.FindControl("TextBox1")).Visible = false;
+                    ((CheckBox)grv3.FindControl("CheckBox1")).Visible = false;
+                }
+            }
+
+        }
+        catch (Exception er)
+        {
+        }
+    }
+
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+
+    }
+
+    protected void Submit_Click(object sender, EventArgs e)
+    {
+        string dano = fun.TranNo("SD_Cust_WorkOrder_Dispatch", "DANo", CompId);
+        DataTable mydt = (DataTable)ViewState["vs"];
+        ReportDocument cryRpt;
+        try
+        {
+            // Insert into table 
+            int G1Count = 0;
+            int j = 0; int k = 0;
+
+            foreach (GridViewRow grv1 in GridView1.Rows)
+            {
+                CheckBox cb = (CheckBox)grv1.FindControl("CheckBox1");
+
+                if (cb.Checked == true && ((TextBox)grv1.FindControl("TextBox1")).Text != "" && fun.NumberValidationQty(((TextBox)grv1.FindControl("TextBox1")).Text) == true)
+                {
+                    k++;
+
+                    G1Count += 1;
+                    double relqty = 0;
+                    double daqty = 0;
+                    double remainqty = 0;
+                    double txtqty = 0;
+
+                    relqty = Convert.ToDouble(decimal.Parse(((Label)grv1.FindControl("lblrelqty")).Text).ToString("N3"));
+                    daqty = Convert.ToDouble(decimal.Parse(((Label)grv1.FindControl("lbldaqty")).Text).ToString("N3"));
+                    remainqty = Convert.ToDouble(decimal.Parse((relqty - daqty).ToString()).ToString("N3"));
+                    txtqty = Convert.ToDouble(decimal.Parse(((TextBox)grv1.FindControl("TextBox1")).Text).ToString("N3"));
+                    if (((remainqty - txtqty) >= 0) && ((TextBox)grv1.FindControl("TextBox1")).Text != "" && (Convert.ToDouble(((TextBox)grv1.FindControl("TextBox1")).Text) > 0))
+                    {
+                        j++;
+                    }
+                    else
+                    {
+                        j = 0;
+                    }
+                }
+            }
+
+            int G2Count = 0;
+            foreach (GridViewRow grv2 in GridView2.Rows)
+            {
+                CheckBox cb = (CheckBox)grv2.FindControl("CheckBox2");
+
+                if (cb.Checked == true)
+                {
+                    G2Count += 1;
+                }
+            }
+
+            int s = 0;
+            if (G1Count > 0 && G2Count > 0 && ((k - j) == 0))
+            {
+                int i = 0;
+                string CDate = fun.getCurrDate();
+                string CTime = fun.getCurrTime();
+                string SId = Session["username"].ToString();
+                int FinYearId = Convert.ToInt32(Session["finyear"]);
+
+                foreach (GridViewRow grv in GridView1.Rows)
+                {
+                    CheckBox cb = (CheckBox)grv.FindControl("CheckBox1");
+
+                    double relqty = 0;
+                    double daqty = 0;
+                    double remainqty = 0;
+                    double tbvalue = 0;
+                    double txtqty = 0;                 
+                    
+
+                    if (cb.Checked == true  && ((TextBox)grv.FindControl("TextBox1")).Text != "")
+                    {
+                        txtqty = Convert.ToDouble(decimal.Parse(((TextBox)grv.FindControl("TextBox1")).Text).ToString("N3"));
+                        tbvalue = Convert.ToDouble(((TextBox)grv.FindControl("TextBox1")).Text);
+                        relqty = Convert.ToDouble(decimal.Parse(((Label)grv.FindControl("lblrelqty")).Text).ToString("N3"));
+                        daqty = Convert.ToDouble(decimal.Parse(((Label)grv.FindControl("lbldaqty")).Text).ToString("N3"));
+                        remainqty = Convert.ToDouble(decimal.Parse((relqty - daqty).ToString()).ToString("N3"));
+                        if ((remainqty - txtqty) >= 0 && tbvalue > 0)
+                        {
+                            string str3 = fun.Connection();
+                            SqlConnection con3 = new SqlConnection(str3);
+                            con3.Open();
+                            TextBox tb = (TextBox)grv.FindControl("TextBox1");
+
+                            string FreightCharges = "";
+                            if (FCustomer.Checked == true)
+                            {
+                                FreightCharges = FCustomer.Text;
+                            }
+                            else if (FSelf.Checked == true)
+                            {
+                                FreightCharges = FSelf.Text;
+                            }
+
+                            string VehicleCharges = "";
+                            if (VCustomer.Checked == true)
+                            {
+                                VehicleCharges = VCustomer.Text;
+                            }
+                            else if (VSelf.Checked == true)
+                            {
+                                VehicleCharges = VSelf.Text;
+                            }
+
+                            string OctriCharges = "";
+
+                            if (OCustomer.Checked == true)
+                            {
+                                OctriCharges = OCustomer.Text;
+                            }
+                            else if (OSelf.Checked == true)
+                            {
+                                OctriCharges = OSelf.Text;
+                            }
+
+                            string sql3 = fun.insert("SD_Cust_WorkOrder_Dispatch", "SysDate,SysTime,SessionId,CompId,FinYearId,DANo,WRNo,WRId,ItemId,IssuedQty,DispatchQty,FreightCharges,Vehicleby,OctroiCharges", "'" + CDate + "','" + CTime + "','" + SId.ToString() + "','" + CompId + "','" + FinYearId + "','" + dano + "','" + wrno + "','" + mydt.Rows[i][0] + "','" + mydt.Rows[i][7] + "','" + mydt.Rows[i][4] + "','" + tb.Text + "','" + FreightCharges + "','" + VehicleCharges + "','" + OctriCharges + "'");
+                            SqlCommand cmd = new SqlCommand(sql3, con3);
+                            cmd.ExecuteNonQuery();
+                            con3.Close();
+                        }
+
+                    }
+                    i++;
+                }
+
+                // Generate Crystal report & Convert it into pdf & send mail with attachment
+
+                string sqlcheck = fun.select("*", "SD_Cust_WorkOrder_Dispatch", "DANo='" + dano + "' And CompId='" + CompId + "'");
+                string strcheck = fun.Connection();
+                SqlConnection concheck = new SqlConnection(strcheck);
+                SqlCommand cmdcheck = new SqlCommand(sqlcheck, concheck);
+                SqlDataAdapter dacheck = new SqlDataAdapter(cmdcheck);
+                DataSet dscheck = new DataSet();
+                dacheck.Fill(dscheck);
+
+                if (dscheck.Tables[0].Rows.Count > 0)
+                {
+                    DataTable dt = new DataTable();
+                    DataRow dr;
+                    dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+                    dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));//4
+                    dt.Columns.Add(new System.Data.DataColumn("Description", typeof(string)));//5
+                    dt.Columns.Add(new System.Data.DataColumn("IssuedQty", typeof(double)));//6
+                    dt.Columns.Add(new System.Data.DataColumn("DispatchQty", typeof(double)));//7
+                    dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));
+                    dt.Columns.Add(new System.Data.DataColumn("DANo", typeof(string)));
+                    dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));
+
+                    for (int u = 0; u < dscheck.Tables[0].Rows.Count; u++)
+                    {
+                        dr = dt.NewRow();
+                        dr[0] = Convert.ToInt32(dscheck.Tables[0].Rows[u]["Id"]);
+
+                        string sqlCode = fun.select("SD_Cust_WorkOrder_Products_Details.ItemCode,SD_Cust_WorkOrder_Master.WONo,SD_Cust_WorkOrder_Products_Details.Description", " SD_Cust_WorkOrder_Master,SD_Cust_WorkOrder_Products_Details", "SD_Cust_WorkOrder_Products_Details.MId=SD_Cust_WorkOrder_Master.Id AND SD_Cust_WorkOrder_Products_Details.Id='" + dscheck.Tables[0].Rows[u]["ItemId"].ToString() + "'  And SD_Cust_WorkOrder_Master.CompId='" + CompId + "' ");
+
+                        string str = fun.Connection();
+                        SqlConnection con1 = new SqlConnection(str);
+
+                        SqlCommand cmdrel = new SqlCommand(sqlCode, con1);
+                        SqlDataAdapter darel = new SqlDataAdapter(cmdrel);
+                        DataSet dsrel = new DataSet();
+                        darel.Fill(dsrel);
+                        dr[1] = dsrel.Tables[0].Rows[0]["ItemCode"].ToString();
+                        dr[2] = dsrel.Tables[0].Rows[0]["Description"].ToString();
+                        dr[3] = Convert.ToDouble(decimal.Parse((dscheck.Tables[0].Rows[u]["IssuedQty"]).ToString()).ToString("N3"));
+                        dr[4] = Convert.ToDouble(decimal.Parse((dscheck.Tables[0].Rows[u]["DispatchQty"]).ToString()).ToString("N3"));
+                        string sqlwo = fun.select("WONo", "SD_Cust_WorkOrder_Release", " Id='" + dscheck.Tables[0].Rows[u]["WRId"].ToString() + "'");
+                        SqlCommand cmdwo = new SqlCommand(sqlwo, con1);
+                        SqlDataAdapter dawo = new SqlDataAdapter(cmdwo);
+                        DataSet dswo = new DataSet();
+
+                        dawo.Fill(dswo);
+
+                        dr[5] = dswo.Tables[0].Rows[0]["WONo"].ToString();
+                        dr[6] = dscheck.Tables[0].Rows[u]["DANo"].ToString();
+                        dr[7] = Convert.ToInt32(dscheck.Tables[0].Rows[u]["CompId"]);
+
+                        dt.Rows.Add(dr);
+                        dt.AcceptChanges();
+                    }
+
+                    dt.AcceptChanges();
+
+                    DataSet tempds = new DataSet();
+                    DataSet xsdds = new SD_DA();
+
+                    xsdds.Clear();
+                    xsdds.Dispose();
+                    tempds.Tables.Add(dt);
+
+                    // Create XML
+
+                    xmlfilename = "WorkOrderDispatch_" + wono + "_" + wrno + "_" + dano + ".xml";
+
+                    tempds.WriteXml(Server.MapPath(@"~\\tempxml\\" + xmlfilename));
+                    xsdds.Tables[0].Merge(tempds.Tables[0]);
+
+                    cryRpt = new ReportDocument();
+                    cryRpt.Load(Server.MapPath(@"~\\Module\\SalesDistribution\\Transactions\\Reports\\WODispatchMail.rpt"));
+                    cryRpt.SetDataSource(xsdds);
+
+                    // Send Parameter field value
+
+                    string connStr1 = fun.Connection();
+                    SqlConnection myConnection = new SqlConnection(connStr1);
+
+                    myConnection.Open();
+                    string strcustId = "";
+                    string selectcust = fun.select("CustomerId ", "SD_Cust_WorkOrder_Master", "WONo='" + wono + "' And CompId='" + CompId + "'");
+                    SqlCommand cmdcust = new SqlCommand(selectcust, myConnection);
+                    SqlDataAdapter adcust = new SqlDataAdapter(cmdcust);
+                    DataSet dscust = new DataSet();
+                    adcust.Fill(dscust, "SD_Cust_WorkOrder_Master");
+                    if (dscust.Tables[0].Rows.Count > 0)
+                    {
+                        strcustId = dscust.Tables[0].Rows[0]["CustomerId"].ToString();
+                    }
+                    string selectQuery = fun.select("*", "SD_Cust_master", "CustomerId='" + strcustId + "' And CompId='" + CompId + "'");
+                    SqlCommand myCommand = new SqlCommand(selectQuery, myConnection);
+                    SqlDataAdapter ad = new SqlDataAdapter(myCommand);
+                    DataSet ds = new DataSet();
+                    ad.Fill(ds, "SD_Cust_master");
+                    //Registration Date
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        string RegCity = ds.Tables[0].Rows[0]["RegdCity"].ToString();
+                        string RegState = ds.Tables[0].Rows[0]["RegdState"].ToString();
+                        string RegCountry = ds.Tables[0].Rows[0]["RegdCountry"].ToString();
+                        string WorkCity = ds.Tables[0].Rows[0]["WorkCity"].ToString();
+                        string WorkState = ds.Tables[0].Rows[0]["WorkState"].ToString();
+                        string WorkCountry = ds.Tables[0].Rows[0]["WorkCountry"].ToString();
+                        string DelCity = ds.Tables[0].Rows[0]["MaterialDelCity"].ToString();
+                        string DelState = ds.Tables[0].Rows[0]["MaterialDelState"].ToString();
+                        string DelCountry = ds.Tables[0].Rows[0]["MaterialDelCountry"].ToString();
+                        string Regcity = fun.getCity(Convert.ToInt32(RegCity), 1);
+                        string Regstate = fun.getState(Convert.ToInt32(RegState), 1);
+                        string Regcountry = fun.getCountry(Convert.ToInt32(RegCountry), 1);
+                        string Workcity = fun.getCity(Convert.ToInt32(WorkCity), 1);
+                        string Workstate = fun.getState(Convert.ToInt32(WorkState), 1);
+                        string Workcountry = fun.getCountry(Convert.ToInt32(WorkCountry), 1);
+                        string Delcity = fun.getCity(Convert.ToInt32(DelCity), 1);
+                        string Delstate = fun.getState(Convert.ToInt32(DelState), 1);
+                        string Delcountry = fun.getCountry(Convert.ToInt32(DelCountry), 1);
+                        string Company = fun.getCompany(CompId);
+                        cryRpt.SetParameterValue("Company", Company);
+                        cryRpt.SetParameterValue("RegCity", Regcity);
+                        cryRpt.SetParameterValue("RegState", Regstate);
+                        cryRpt.SetParameterValue("RegCountry", Regcountry);
+                        cryRpt.SetParameterValue("WrkCity", Workcity);
+                        cryRpt.SetParameterValue("WrkState", Workstate);
+                        cryRpt.SetParameterValue("WrkCountry", Workcountry);
+                        cryRpt.SetParameterValue("DelCity", Delcity);
+                        cryRpt.SetParameterValue("DelState", Delstate);
+                        cryRpt.SetParameterValue("DelCountry", Delcountry);
+                    }
+                    // To Get Work order release(issue) date.
+                    string strwrdate = fun.select("SysDate", "SD_Cust_WorkOrder_Release", "WONo='" + wono + "' and WRNo='" + wrno + "' And CompId='" + CompId + "'");
+                    SqlCommand cmdwrdate = new SqlCommand(strwrdate, myConnection);
+                    SqlDataAdapter adwr = new SqlDataAdapter(cmdwrdate);
+                    DataSet dswr = new DataSet();
+                    adwr.Fill(dswr, "SD_Cust_WorkOrder_Release");
+                    if (dswr.Tables[0].Rows.Count > 0)
+                    {
+                        string strwrDate = fun.FromDate(dswr.Tables[0].Rows[0]["SysDate"].ToString());
+                        cryRpt.SetParameterValue("WRDate", strwrDate);
+                    }
+
+                    // To Get Work order date.
+                    string strwodate = fun.select("TaskWorkOrderDate,TaskCustInspection_FDate,TaskCustInspection_TDate ", "SD_Cust_WorkOrder_Master", "WONo='" + wono + "' And CompId='" + CompId + "'");
+                    SqlCommand cmdwodate = new SqlCommand(strwodate, myConnection);
+                    SqlDataAdapter adwo = new SqlDataAdapter(cmdwodate);
+                    DataSet dswo1 = new DataSet();
+                    adwo.Fill(dswo1, "SD_Cust_WorkOrder_Master");
+
+                    if (dswo1.Tables[0].Rows.Count > 0)
+                    {
+                        string strwoDate = fun.FromDate(dswo1.Tables[0].Rows[0]["TaskWorkOrderDate"].ToString());
+                        string CustInspection_FD = fun.FromDate(dswo1.Tables[0].Rows[0]["TaskCustInspection_FDate"].ToString());
+                        string CustInspection_TD = fun.FromDate(dswo1.Tables[0].Rows[0]["TaskCustInspection_TDate"].ToString());
+                        cryRpt.SetParameterValue("WODate", strwoDate);
+                        cryRpt.SetParameterValue("CustInspection_FD", CustInspection_FD);
+                        cryRpt.SetParameterValue("CustInspection_TD", CustInspection_TD);
+                    }
+                    //To Get Po No 
+                    string strpo = fun.select("PONo", "SD_Cust_WorkOrder_Master", "WONo='" + wono + "' And CompId='" + CompId + "'");
+                    SqlCommand cmdpo = new SqlCommand(strpo, myConnection);
+                    SqlDataAdapter adpo = new SqlDataAdapter(cmdpo);
+                    DataSet dspo = new DataSet();
+                    adpo.Fill(dspo, "SD_Cust_WorkOrder_Master");
+                    if (dspo.Tables[0].Rows.Count > 0)
+                    {
+                        string strPO = dspo.Tables[0].Rows[0]["PONo"].ToString();
+
+                        // To Get Po date.
+                        string strpodate = fun.select("PODate", "SD_Cust_PO_Master", "PONo='" + strPO + "' And CompId='" + CompId + "'");
+
+                        SqlCommand cmdpodate = new SqlCommand(strpodate, myConnection);
+                        SqlDataAdapter adpo1 = new SqlDataAdapter(cmdpodate);
+                        DataSet dspo1 = new DataSet();
+                        adpo1.Fill(dspo1, "SD_Cust_PO_Master");
+                        if (dspo1.Tables[0].Rows.Count > 0)
+                        {
+                            string strpoDate = fun.FromDate(dspo1.Tables[0].Rows[0]["PODate"].ToString());
+                            cryRpt.SetParameterValue("PODate", strpoDate);
+                        }
+                    }
+                    // To Set Address in footer
+
+                    string Address = fun.CompAdd(CompId);
+                    cryRpt.SetParameterValue("Address", Address);
+
+
+
+                    //Create PDF
+                    ExportOptions CrExportOptions;
+                    DiskFileDestinationOptions CrDiskFileDestinationOptions = new DiskFileDestinationOptions();
+
+                    //ExcelFormatOptions CrFormatTypeOptions = new ExcelFormatOptions();
+                    PdfRtfWordFormatOptions CrFormatTypeOptions = new PdfRtfWordFormatOptions();
+                    pdffilename = "WorkOrderDispatch_" + wono + "_" + wrno + " _ " + dano + ".pdf";
+
+                    CrDiskFileDestinationOptions.DiskFileName = Server.MapPath(@"~\\temppdf\\" + pdffilename);
+
+                    CrExportOptions = cryRpt.ExportOptions;
+                    {
+                        CrExportOptions.ExportDestinationType = ExportDestinationType.DiskFile;
+                        CrExportOptions.ExportFormatType = ExportFormatType.PortableDocFormat;
+                        CrExportOptions.DestinationOptions = CrDiskFileDestinationOptions;
+                        CrExportOptions.FormatOptions = CrFormatTypeOptions;
+                    }
+
+                    cryRpt.Export();
+                    cryRpt.Refresh();
+                    cryRpt.Close();
+                    cryRpt.Dispose();
+                    dt.Clear();
+                    dt.Dispose();
+                    xsdds.Clear();
+                    xsdds.Dispose();
+
+                    // Send Mail    
+                    string sqlconstr = fun.Connection();
+                    string ErpMail = "";
+                    MailAttachment attachment = new MailAttachment(Server.MapPath(@"~\\temppdf\\" + pdffilename));
+                    msg.Attachments.Add(attachment);
+
+                    foreach (GridViewRow row in GridView2.Rows)
+                    {
+                        CheckBox ecb = (CheckBox)row.FindControl("CheckBox2");
+
+                        if (ecb.Checked == true && G1Count > 0)
+                        {
+
+                            string sqlmailserverip = fun.select("MailServerIp,ErpSysmail", "tblCompany_master", "CompId = '" + CompId + "'");
+                            SqlConnection con4 = new SqlConnection(sqlconstr);
+                            SqlCommand cmd4 = new SqlCommand(sqlmailserverip, con4);
+                            SqlDataAdapter da4 = new SqlDataAdapter(cmd4);
+                            DataSet ds4 = new DataSet();
+                            da4.Fill(ds4);
+                            SmtpMail.SmtpServer = ds4.Tables[0].Rows[0]["MailServerIp"].ToString();
+                            if (ds4.Tables[0].Rows.Count > 0)
+                            {
+                                ErpMail = ds4.Tables[0].Rows[0]["ErpSysmail"].ToString();
+                            }
+
+                            msg.From = ErpMail;
+                            if (((Label)row.FindControl("lblEmailId")).Text != "")
+                            {
+                                msg.To = ((Label)row.FindControl("lblEmailId")).Text + ";";
+                            }
+                            else
+                            {
+                                msg.To = ErpMail;
+                            }
+                            msg.Subject = "Work Order Dispatch WONo: " + wono + " WRNo: " + wrno + " DANo: " + dano;
+                            
+                            msg.Body = "Dear Sir, This is Auto generated mail by ERP system, please do not reply.<br><br> Thank you.";
+                            msg.BodyFormat = MailFormat.Html;
+                            SmtpMail.Send(msg);
+                        }
+
+                    }
+                    
+                    s++;                    
+
+                }
+            }
+
+            // Delete Generated Files xml & pdf
+            File.Delete(Server.MapPath(@"~\\tempxml\\" + xmlfilename));
+            File.Delete(Server.MapPath(@"~\\temppdf\\" + pdffilename));
+            System.Threading.Thread.Sleep(1000);
+            if (s > 0)
+            {
+                Response.Redirect("~/Module/SalesDistribution/Transactions/WorkOrder_Dispatch.aspx?ModId=2&amp;SubModId=54&msg=Dispatch of Work order No." + wono + " is completed.");
+            }
+            else
+            {
+                string mystring = string.Empty;
+                mystring = "Invalid input details are found.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    protected void Cancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("WorkOrder_Dispatch.aspx?ModId=2&SubModId=54");
+    }
+    protected void CheckBox1_CheckedChanged(object sender, EventArgs e)
+    {
+        this.GetValidate();
+
+    }
+
+    public void GetValidate()
+    {
+        try
+        {
+
+            foreach (GridViewRow grv in GridView1.Rows)
+            {
+                if (((CheckBox)grv.FindControl("CheckBox1")).Checked == true)
+                {
+
+                    ((RequiredFieldValidator)grv.FindControl("Req")).Visible = true;
+
+                }
+                else
+                {
+
+                    ((RequiredFieldValidator)grv.FindControl("Req")).Visible = false;
+                }
+            }
+
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+
+
+}

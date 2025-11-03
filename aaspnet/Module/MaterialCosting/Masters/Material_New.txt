@@ -1,0 +1,309 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialCosting/Masters/Material_New.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Material_New.aspx.cs" Inherits="Module_MaterialCosting_Material_New" Title="ERP" Theme ="Default"  %>
+
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style6
+        {
+            height: 55px;
+        }
+        .style11
+        {
+            width: 101px;
+        }
+        .style13
+        {
+            height: 27px;
+        }
+        .style14
+        {
+            height: 32px;
+        }
+        .style15
+        {
+            height: 32px;
+        }
+        .style16
+        {
+            height: 22px;
+        }
+        .style17
+        {
+            height: 24px;
+        }
+        .style18
+        {
+            height: 20px;
+        }
+        .style19
+        {
+            height: 20px;
+            width: 101px;
+        }
+        .style20
+        {
+            height: 22px;
+            width: 101px;
+        }
+        .style21
+        {
+            height: 24px;
+            width: 101px;
+        }
+        .style22
+        {
+            width: 590px;
+            height: 10px;
+        }
+    </style>
+    
+
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script> 
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+    <table  width="60%" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+            <td>
+                <table align="center" cellpadding="0" cellspacing="0" style="width: 55%" 
+                    class="box3">
+                    <tr>
+                        <td colspan="2" align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>
+                            &nbsp;Material Live Cost - New</b></td>
+                    </tr>
+                    <tr>
+                        <td class="style11" valign="top">
+                            &nbsp;</td>
+                        <td>
+                            &nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="style19" valign="top">
+                &nbsp; Material</td>
+                        <td class="style18">
+                <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="True" 
+                    DataSourceID="SqlDataSource1" DataTextField="Material" DataValueField="Id" 
+                                CssClass="box3" ondatabound="DropDownList1_DataBound" 
+                                onselectedindexchanged="DropDownList1_SelectedIndexChanged">
+                    <asp:ListItem Value="0">Select</asp:ListItem>
+                </asp:DropDownList>
+                            <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+                                ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                                ProviderName="System.Data.SqlClient" 
+                                SelectCommand="SELECT [Id], [Material] FROM [tblDG_Material]">
+                            </asp:SqlDataSource>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="style20">
+                &nbsp; UOM</td>
+                        <td class="style16">
+                            <asp:Label ID="lblUOM" runat="server"></asp:Label>
+                        </td>
+                    </tr>
+                    <tr valign="middle">
+                        <td class="style21">
+                &nbsp; Cost</td>
+                        <td class="style17">
+                <asp:TextBox ID="TxtCost" runat="server" CssClass="box3" onkeyup="javascript:if(isNaN(this.value)=true{this.value='';}"></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
+                                ControlToValidate="TxtCost" ValidationGroup="AB" ErrorMessage="*"></asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator ID="RegTxtCost" runat="server" 
+                                ControlToValidate="TxtCost" ErrorMessage="*" 
+                                ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="AB"></asp:RegularExpressionValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="style11">
+                &nbsp; Effective Date</td>
+                        <td class="style13">
+                <asp:TextBox ID="TxtDate" runat="server" CssClass="box3" Font-Size="10pt" Width="84px"></asp:TextBox>
+                <cc1:CalendarExtender ID="TxtDate_CalendarExtender" runat="server" 
+                    Enabled="True" Format="dd-MM-yyyy" TargetControlID="TxtDate">
+                </cc1:CalendarExtender>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server"  ValidationGroup="AB"
+                                ControlToValidate="TxtDate" ErrorMessage="*"></asp:RequiredFieldValidator>
+<asp:RegularExpressionValidator runat="server" 
+                                ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                ControlToValidate="TxtDate" ErrorMessage="*" ValidationGroup="AB" 
+                                ID="RegTxtDate"></asp:RegularExpressionValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="style14">
+                            &nbsp;</td>
+                        <td class="style15">
+                <asp:Button ID="BtnInsert" runat="server" onclick="BtnInsert_Click" ValidationGroup="AB"  OnClientClick="return confirmationAdd()"
+                    Text=" Add " CssClass="redbox" />
+                        </td>
+                    </tr>
+                </table>
+                <table> <tr> <td class="style22"></td></tr></table>
+            </td>
+        </tr>
+        <tr>
+            <td class="style6" align="left" valign="top">
+                <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" Width="100%" 
+                    DataKeyNames="Id" DataSourceID="SqlDataSource2" 
+                    CssClass="yui-datatable-theme" AllowPaging="True" PageSize="10">
+                    <Columns>
+                    <asp:TemplateField HeaderText="SN" ItemStyle-HorizontalAlign="Center"><ItemTemplate> <%# Container.DataItemIndex + 1%> </ItemTemplate>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+                        </asp:TemplateField>
+                        <asp:BoundField DataField="Id" HeaderText="Id" InsertVisible="False" 
+                            ReadOnly="True" SortExpression="Id" Visible="False" />
+                        <asp:BoundField DataField="Material" HeaderText="Material" 
+                            SortExpression="Material" >
+                            <ItemStyle HorizontalAlign="Left" Width="45%" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="EffDate" HeaderText="Eff Date" 
+                            SortExpression="EffDate" >
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="LiveCost" HeaderText="Live Cost" 
+                            SortExpression="LiveCost" >
+                            <ItemStyle HorizontalAlign="Right" />
+                        </asp:BoundField>
+                    </Columns>
+                    <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                </asp:GridView>
+                <asp:SqlDataSource ID="SqlDataSource2" runat="server" 
+                    ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                    
+                    SelectCommand="SELECT tblMLC_LiveCost.Id, tblDG_Material.Material, REPLACE(CONVERT(varchar, CONVERT(datetime, SUBSTRING(tblMLC_LiveCost.EffDate , CHARINDEX('-', tblMLC_LiveCost.EffDate ) + 1, 2) + '-' + LEFT(tblMLC_LiveCost.EffDate ,CHARINDEX('-', tblMLC_LiveCost.EffDate ) - 1) + '-' + RIGHT(tblMLC_LiveCost.EffDate , CHARINDEX('-', REVERSE(tblMLC_LiveCost.EffDate )) - 1)), 103), '/', '-')AS  EffDate   , tblMLC_LiveCost.LiveCost FROM tblMLC_LiveCost INNER JOIN tblDG_Material ON tblMLC_LiveCost.Material = tblDG_Material.Id order by Id Desc">
+                </asp:SqlDataSource>
+                </td>
+        </tr>
+        </table>
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialCosting/Masters/Material_New.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_MaterialCosting_Material_New : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        
+    }
+
+    protected void BtnInsert_Click(object sender, EventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        string CDate = fun.getCurrDate();
+        string CTime = fun.getCurrTime();
+       
+        try
+        {
+            string sId = Session["username"].ToString();
+            int CompId = Convert.ToInt32(Session["compid"]);
+            int FinYearId = Convert.ToInt32(Session["finyear"]);
+            string Effdate = fun.FromDate(TxtDate.Text);
+            con.Open();
+            if (Effdate != "" && TxtCost.Text != "" && fun.NumberValidationQty(TxtCost.Text) == true && fun.DateValidation(TxtDate.Text) == true)
+            {
+            string insert = fun.insert("tblMLC_LiveCost", "SySDate,SysTime,CompId,FinYearId,SessionId,Material,EffDate,LiveCost", "'" + CDate + "','" + CTime + "','" + CompId + "','" + FinYearId + "','" + sId + "','" + DropDownList1.SelectedValue + "','" + Effdate + "','" + TxtCost.Text + "'");
+
+            SqlCommand cmd = new SqlCommand(insert, con);
+            cmd.ExecuteNonQuery();
+            con.Close();
+            Page.Response.Redirect(Page.Request.Url.ToString(), true);
+            }
+        }
+        catch (Exception ex) 
+        { 
+
+        }
+        finally
+        {
+           
+        }
+    }
+
+    protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+         this.getUnitName();
+    }
+
+    protected void getUnitName()
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+
+        try
+        {
+            con.Open();
+
+            string sel = fun.select("Unit_Master.Symbol,tblDG_Material.Unit", "Unit_Master,tblDG_Material", "tblDG_Material.Id=" + DropDownList1.SelectedValue + " AND Unit_Master.Id=tblDG_Material.Unit");
+
+            SqlCommand cmd = new SqlCommand(sel, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                lblUOM.Text = ds.Tables[0].Rows[0]["Symbol"].ToString();
+            }
+            con.Close();
+
+        }
+        catch(Exception ex)
+        {
+
+        }
+    }
+    protected void DropDownList1_DataBound(object sender, EventArgs e)
+    {
+        DropDownList1.SelectedIndex = 0;
+        this.getUnitName();
+    }
+}

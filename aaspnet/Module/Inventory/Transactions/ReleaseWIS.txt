@@ -1,0 +1,378 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Transactions/ReleaseWIS.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ReleaseWIS.aspx.cs" Inherits="Module_Inventory_Transactions_ReleaseWIS" Title="ERP" Theme ="Default" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+     <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    
+
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+    
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td  align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;Release WO for WIS</b></td>
+        </tr>
+        
+        <tr>
+            <td height="28px">
+            
+            
+                &nbsp;&nbsp;
+                <asp:DropDownList ID="DrpWOType" runat="server" AutoPostBack="True" 
+                    CssClass="box3" onselectedindexchanged="DrpWOType_SelectedIndexChanged">
+                </asp:DropDownList>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WONo &nbsp;<asp:TextBox ID="TxtWONo" 
+                    runat="server" CssClass="box3"></asp:TextBox>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:Button ID="Button1" runat="server" CssClass="redbox" 
+                    onclick="Button1_Click" Text="Search" />
+            
+            
+            </td>
+            
+            </tr>
+        <tr>
+            <td>
+                <asp:GridView ID="GridView2" runat="server" CssClass="yui-datatable-theme" 
+                    AllowPaging="True" AutoGenerateColumns="False" Width="100%" 
+                    onrowcommand="GridView2_RowCommand" 
+                    onpageindexchanging="GridView2_PageIndexChanging" PageSize="20">
+                    <PagerSettings PageButtonCount="40" />
+                    <Columns>
+                        <asp:TemplateField HeaderText="SN">
+                        <ItemTemplate>
+                        <%# Container.DataItemIndex+1 %>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" />
+                        </asp:TemplateField>                        
+                        <asp:TemplateField>
+                          <ItemTemplate>
+                            <asp:Button  ID="btnRelease" CommandName="add" runat="server"  Text="Release" CssClass="redbox" />
+                             <asp:Button ID="btnstop" CommandName="stp" runat="server" Text="Stop" CssClass="redbox" Visible="false" />
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />                        
+                        </asp:TemplateField>
+                           
+                        <asp:TemplateField HeaderText="Id" Visible="false">
+                            <ItemTemplate>
+                            <asp:Label ID="lblId" runat="server" Text='<%#Eval("Id") %>' />
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="WO No">
+                            <ItemTemplate>
+                            <asp:Label ID="lblwono" runat="server" Text='<%#Eval("WONo") %>' />
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Date">
+                            <ItemTemplate>
+                            <asp:Label ID="lbldate" runat="server" Text='<%#Eval("SysDate") %>' />
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Project Title">
+                            <ItemTemplate>
+                            <asp:Label ID="lblprjtitle" runat="server" Text='<%#Eval("PrjTitle") %>'  />
+                            </ItemTemplate>
+                            <ItemStyle Width="40%" HorizontalAlign="Left" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Rel Count">
+                        <ItemTemplate>
+                        <asp:LinkButton ID="btncnt" runat="server" CommandName="Sel"  Text='<%#Eval("counts") %>'></asp:LinkButton>     </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Rel Date">
+                            <ItemTemplate>
+                            <asp:Label ID="lblreldate" runat="server" Text='<%#Eval("ReleaseDate") %>' />
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Rel Time">
+                         <ItemTemplate>
+                            <asp:Label ID="lblreltime" runat="server" Text='<%#Eval("ReleaseTime") %>' />
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Release By">
+                         <ItemTemplate>
+                            <asp:Label ID="lblrelby" runat="server" Text='<%#Eval("ReleaseBy") %>' />
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Left" Width="25%"/>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="ReleaseWIS" Visible="false">
+                         <ItemTemplate>
+                            <asp:Label ID="lblrelwis" runat="server" Text='<%#Eval("ReleaseWIS") %>' />
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Left" Width="25%"/>
+                        </asp:TemplateField>
+                    </Columns>
+                    <EmptyDataTemplate>
+                                    <table width="100%" class="fontcss"><tr><td align="center" >
+                                    <asp:Label ID="Label1" runat="server"  Text="No  data found to display" Font-Bold="true"
+    Font-Names="Calibri" ForeColor="red"></asp:Label></td></tr>
+    </table>
+                                    </EmptyDataTemplate>
+                </asp:GridView>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Transactions/ReleaseWIS.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_Inventory_Transactions_ReleaseWIS : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+   
+    int CompId = 0;
+    int FinYearId = 0;
+    string SId = "";
+    string connStr = "";
+    SqlConnection con;
+    string CDate = "";
+    string CTime = "";
+    string Wo = "";
+    int h = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            CompId = Convert.ToInt32(Session["compid"]);
+            SId = Session["username"].ToString();
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            CDate = fun.getCurrDate();
+            CTime = fun.getCurrTime();
+            if (!IsPostBack)
+            {
+                string StrCat = fun.select("CId,Symbol+' - '+CName as Category", "tblSD_WO_Category", "CompId='" + CompId + "'");
+                SqlCommand Cmd = new SqlCommand(StrCat, con);
+                SqlDataAdapter DA = new SqlDataAdapter(Cmd);
+                DataSet DS = new DataSet();
+                DA.Fill(DS, "tblSD_WO_Category");
+                DrpWOType.DataSource = DS.Tables["tblSD_WO_Category"];
+                DrpWOType.DataTextField = "Category";
+                DrpWOType.DataValueField = "CId";
+                DrpWOType.DataBind();
+                DrpWOType.Items.Insert(0, "WO Category");
+                this.loadgrid(Wo,h);
+            }
+        }
+       catch(Exception ex){}
+    }
+
+    public void loadgrid(string WO,int C)
+    {
+        try
+        {
+            con.Open();
+            string x="";
+            if (TxtWONo.Text != "")
+            {
+                x = " AND WONo='" + WO + "'";
+            }
+            string Z = "";
+            if (DrpWOType.SelectedValue != "WO Category")
+            {
+
+                Z = " AND CId='" + Convert.ToInt32(DrpWOType.SelectedValue) + "'";
+            }
+
+
+            SqlCommand Cmdgrid = new SqlCommand(fun.select("Id,SysDate ,WONo,TaskProjectTitle,ReleaseWIS", "SD_Cust_WorkOrder_Master", "CompId='" + CompId + "' AND CloseOpen='0' " + Z + x + "  Order by WONo ASC"), con);            
+            SqlDataReader rdr = Cmdgrid.ExecuteReader();
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("SysDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("PrjTitle", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ReleaseDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ReleaseTime", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ReleaseBy", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ReleaseWIS", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("counts", typeof(int)));           
+            DataRow dr;
+            while (rdr.Read())
+            {
+                dr = dt.NewRow();
+
+                dr[0] = rdr["Id"].ToString();
+                dr[1] = fun.FromDateDMY(rdr["SysDate"].ToString());
+                dr[2] = rdr["WONo"].ToString();
+                dr[3] = rdr["TaskProjectTitle"].ToString();
+
+                SqlCommand Cmdgrid1 = new SqlCommand(fun.select("ReleaseSysDate,ReleaseSysTime,ReleaseBy", "tblInv_WORelease_WIS", "CompId='" + CompId + "' AND WONo='" + rdr["WONo"].ToString() + "' Order by Id Desc"), con);
+                SqlDataAdapter dagrid1 = new SqlDataAdapter(Cmdgrid1);
+                DataSet DS1 = new DataSet();
+                dagrid1.Fill(DS1);
+
+                if (DS1.Tables[0].Rows.Count > 0)
+                {
+                    dr[4] = fun.FromDateDMY(DS1.Tables[0].Rows[0]["ReleaseSysDate"].ToString());
+                    dr[5] = DS1.Tables[0].Rows[0]["ReleaseSysTime"].ToString();
+
+                    if (DS1.Tables[0].Rows[0]["ReleaseBy"] != DBNull.Value)
+                    {
+                        string sqlGenBy = fun.select("tblHR_OfficeStaff.Title+'. '+tblHR_OfficeStaff.EmployeeName AS GenBy", "tblHR_OfficeStaff", "tblHR_OfficeStaff.EmpId='" + DS1.Tables[0].Rows[0]["ReleaseBy"].ToString() + "'");
+                        SqlCommand cmdGenBy = new SqlCommand(sqlGenBy, con);
+                        SqlDataAdapter daGenBy = new SqlDataAdapter(cmdGenBy);
+                        DataSet DSGenBy = new DataSet();
+                        daGenBy.Fill(DSGenBy);
+                        if (DSGenBy.Tables[0].Rows.Count > 0)
+                        {
+                            dr[6] = DSGenBy.Tables[0].Rows[0]["GenBy"].ToString();
+                        }
+                    }
+                }
+
+                dr[7] = rdr["ReleaseWIS"].ToString();
+                string count = fun.select("Count(WONo) As counts", "tblInv_WORelease_WIS", "WONo='" + rdr["WONo"].ToString() + "'");
+                SqlCommand sqlc = new SqlCommand(count, con);
+                SqlDataAdapter dac = new SqlDataAdapter(sqlc);
+
+                DataSet DSc = new DataSet();
+                dac.Fill(DSc);
+                if (DSc.Tables[0].Rows.Count > 0)
+                {
+                    dr[8] = Convert.ToInt32(DSc.Tables[0].Rows[0]["counts"]);
+                }
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }         
+
+                GridView2.DataSource = dt;
+                GridView2.DataBind();
+
+                foreach (GridViewRow grv in GridView2.Rows)
+                {
+                    string id = ((Label)grv.FindControl("lblId")).Text;
+                    string Relwis = ((Label)grv.FindControl("lblrelwis")).Text;
+
+                    if (Relwis != "0")
+                    {
+                        ((Button)grv.FindControl("btnstop")).Visible = true;
+                        ((Button)grv.FindControl("btnRelease")).Visible = false;
+                    }
+                }
+            
+            
+        }
+        catch (Exception st)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+        
+    }
+
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+       
+        string id = "";
+        string wono = ""; 
+        con.Open();
+       try
+        {
+            if (e.CommandName == "add")
+            { 
+                GridViewRow row = (GridViewRow)(((Button)e.CommandSource).NamingContainer);
+                id = ((Label)row.FindControl("lblId")).Text;
+                wono = ((Label)row.FindControl("lblwono")).Text; 
+                SqlCommand Cmdgrid = new SqlCommand(fun.update("SD_Cust_WorkOrder_Master", "ReleaseWIS='1'", "CompId='" + CompId + "' AND Id='" + id + "'"), con);
+                Cmdgrid.ExecuteNonQuery();
+
+                SqlCommand Cmdgrid1 = new SqlCommand(fun.insert("tblInv_WORelease_WIS", "CompId,FinYearId,WONo,ReleaseSysDate,ReleaseSysTime,ReleaseBy", "'" + CompId + "','" + FinYearId + "','" + wono + "','" + CDate + "','" + CTime + "','" + SId + "'"), con);
+                Cmdgrid1.ExecuteNonQuery();
+
+                Page.Response.Redirect(Page.Request.Url.ToString(), true);
+
+            }
+
+            if (e.CommandName == "stp")
+            {
+                GridViewRow row = (GridViewRow)(((Button)e.CommandSource).NamingContainer);
+                id = ((Label)row.FindControl("lblId")).Text;
+
+                SqlCommand Cmdgrid = new SqlCommand(fun.update("SD_Cust_WorkOrder_Master", "ReleaseWIS='0'", "CompId='" + CompId + "' AND Id='" + id + "'"), con);
+                Cmdgrid.ExecuteNonQuery();
+                Page.Response.Redirect(Page.Request.Url.ToString(), true);
+            }
+
+            if (e.CommandName == "Sel")
+            {
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+             
+                wono = ((Label)row.FindControl("lblwono")).Text; 
+                Response.Redirect("ReleaseWIS_Details.aspx?wn="+wono+"&cid="+CompId+"");
+            }
+        }
+    catch (Exception stt)
+        {
+
+        }
+     finally
+        {
+            con.Close();
+        }
+    }
+
+
+    protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView2.PageIndex = e.NewPageIndex;
+        this.loadgrid(Wo,h);
+    }
+    protected void Button1_Click(object sender, EventArgs e)
+    {        
+            this.loadgrid(TxtWONo.Text, h);       
+    }
+    protected void DrpWOType_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (DrpWOType.SelectedValue != "WO Category")
+        {
+            int k = Convert.ToInt32(DrpWOType.SelectedValue);
+            this.loadgrid(Wo, k);
+        }
+        else
+        {
+            this.loadgrid(Wo, h);
+        }
+    }
+}

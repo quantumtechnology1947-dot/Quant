@@ -1,0 +1,502 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MIS/Reports/QA_POwise.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="QA_POwise.aspx.cs" Inherits="Module_MIS_Reports_QA_POwise" Title="ERP" Theme="Default" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<%@ Register Assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"
+    Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
+    
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" 
+        Height="455px"  Width="100%" >
+        <cc1:TabPanel runat="server" HeaderText="QA Report" ID="TabPanel1">            
+        <ContentTemplate>
+ <table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)" colspan="2">
+        &nbsp;<b>QA-PO Wise Report</b>
+            </td>
+        </tr>
+        <tr>
+            <td align="Left">
+                <asp:Panel ID="Panel1" runat="server" Height="438px" ScrollBars="Auto" 
+                    Width="100%">
+                    <CR:CrystalReportSource ID="CrystalReportSource1"   runat="server">
+        <Report FileName="Module\MIS\Reports\QA_POWise_Print.rpt">
+        </Report>
+    </CR:CrystalReportSource>
+<CR:CrystalReportViewer ID="CrystalReportViewer1" DisplayGroupTree="False" 
+                        EnableDatabaseLogonPrompt="False" EnableParameterPrompt="False"  
+                        ReportSourceID="CrystalReportSource1" runat="server" HasCrystalLogo="False"
+    AutoDataBind="True" />
+                </asp:Panel>
+                    
+                    </td>
+            <td align="center" valign="top">
+                &nbsp;</td>
+        </tr>
+       
+    </table>  
+  </ContentTemplate>
+  </cc1:TabPanel>  
+  
+  <cc1:TabPanel runat="server" Width="100%" HeaderText="QA Graph" ID="TabPanel2">            
+  <ContentTemplate>
+      <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+      <ContentTemplate>
+      <fieldset style="width: 98%" align="left">
+   
+   <legend>UOM Wise QA Chart Of Supplier</legend>
+   
+   
+   <div> 
+       <asp:Label ID="lblSup" runat="server" Font-Bold="True" Text="Supplier Name:"></asp:Label> 
+       <asp:TextBox ID="txtSupplier" Width="350px" runat="server"></asp:TextBox>
+       <asp:Button ID="btnSearch" runat="server" CssClass="redbox" 
+           onclick="btnSearch_Click" Text="Search" />
+       <cc1:AutoCompleteExtender ID="txtSupplier_AutoCompleteExtender" runat="server" 
+                                DelimiterCharacters="" Enabled="True" ServiceMethod="GetCompletionList2" 
+                                ServicePath="" TargetControlID="txtSupplier" UseContextKey="True" CompletionInterval="100" CompletionSetCount="2" FirstRowSelected="True" MinimumPrefixLength="1" ShowOnlyCurrentWordInCompletionListItem="True" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                            </cc1:AutoCompleteExtender>
+       
+        </div>
+    <div align="center" >   
+    <asp:Chart ID="Chart1" Height="400px" Width="800px"    runat="server" 
+            TextAntiAliasingQuality="Normal" >
+        <Series>
+            <asp:series Name="Series1" Font="Microsoft Sans Serif, 8pt" Color="Red" 
+                ChartArea="ChartArea1" CustomProperties="DrawingStyle=Cylinder, PointWidth=0.2" 
+                IsValueShownAsLabel="True"   LabelBackColor="255, 192, 192" Legend="Legend1" 
+                LegendText="PO Qty"></asp:series>	
+            <asp:series Name="Series2" Font="Microsoft Sans Serif, 8pt" Color="Green" 
+                ChartArea="ChartArea1" CustomProperties="DrawingStyle=Cylinder, PointWidth=0.2" 
+                IsValueShownAsLabel="True" LabelBackColor="192, 255, 192" Legend="Legend1" 
+                LegendText="GQN Qty"></asp:series>	
+             <asp:series Name="Series3" Font="Microsoft Sans Serif, 8pt" Color="Blue" 
+                ChartArea="ChartArea1" CustomProperties="DrawingStyle=Cylinder, PointWidth=0.2" 
+                IsValueShownAsLabel="True" LabelBackColor="192, 192, 255" Legend="Legend1" 
+                LegendText="GSN Qty"></asp:series>
+              <asp:series Name="Series4" Font="Microsoft Sans Serif, 8pt" 
+                Color="DarkMagenta" ChartArea="ChartArea1" 
+                CustomProperties="DrawingStyle=Cylinder, PointWidth=0.2" 
+                IsValueShownAsLabel="True" LabelBackColor="255, 128, 255" Legend="Legend1" 
+                LegendText="PVEV Qty"></asp:series>		
+        </Series>
+        
+        <ChartAreas>
+        
+            <asp:ChartArea Name="ChartArea1" BackColor="224, 224, 224" BorderColor="Silver" 
+                            ShadowColor="DimGray"> 
+                                     
+            
+             <Position Height="100" Width="100" Auto="False" />
+                <AxisX IsLabelAutoFit="False">
+                    <LabelStyle Angle="-90" />
+                </AxisX>
+                <Area3DStyle LightStyle="Realistic" Enable3D="True" />
+            </asp:ChartArea>
+        </ChartAreas>
+        <Legends>
+            <asp:Legend Name="Legend1">
+            </asp:Legend>
+        </Legends>
+        <Titles>
+            <asp:Title Name="QA Report" Alignment="TopCenter" 
+                Font="Microsoft Sans Serif, 12pt, style=Bold" Text="QA Report">
+            </asp:Title>
+        </Titles>
+    </asp:Chart>
+    
+    
+   </div>   
+  
+   </fieldset>  
+      
+      </ContentTemplate>
+      </asp:UpdatePanel>
+  
+   
+  </ContentTemplate>
+  </cc1:TabPanel>  
+  </cc1:TabContainer>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+    
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MIS/Reports/QA_POwise.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+using System.Web.UI.DataVisualization.Charting;
+using System.Drawing;
+using System.Collections.Generic;
+using System.Reflection;
+
+public partial class Module_MIS_Reports_QA_POwise : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    int FinYearId = 0;
+    int CompId = 0;    
+    string connStr = string.Empty;
+    SqlConnection con;
+    private ReportDocument report = new ReportDocument();
+    string Key = string.Empty;
+    protected void Page_Init(object sender, EventArgs e)
+    {
+
+        try
+        {
+            Key = Request.QueryString["Key"].ToString();
+            if (!IsPostBack)
+            {
+                connStr = fun.Connection();
+                con = new SqlConnection(connStr);
+                FinYearId = Convert.ToInt32(Session["finyear"]);
+                CompId = Convert.ToInt32(Session["compid"]);
+                con.Open();               
+               
+                   
+                string StrSql = "Select ROW_NUMBER() OVER(ORDER BY Id)AS SrNo,Id,PONo,tblMM_Supplier_master.SupplierName+'['+ tblMM_Supplier_master.SupplierId+']' As Supplier,PRSPRFlag from tblMM_PO_Master inner join tblMM_Supplier_master on tblMM_Supplier_master.SupplierId=tblMM_PO_Master.SupplierId And tblMM_PO_Master.FinyearId=" + FinYearId + " order by Id ";
+                SqlCommand cmdsupId = new SqlCommand(StrSql, con);
+                SqlDataReader Xrdr = cmdsupId.ExecuteReader();
+                DataTable dt2 = new DataTable();
+                DataTable dt = new DataTable();
+                DataRow dr2;
+                dt2.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+                dt2.Columns.Add(new System.Data.DataColumn("PONo", typeof(string)));
+                dt2.Columns.Add(new System.Data.DataColumn("Supplier", typeof(string)));
+                dt2.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));
+                dt2.Columns.Add(new System.Data.DataColumn("SrNo", typeof(Int64)));                
+                while (Xrdr.Read())
+                {
+                    dr2 = dt2.NewRow();
+                    dr2[0] = Xrdr["Id"];
+                    dr2[1] = Xrdr["PONo"].ToString();
+                    dr2[2] = Xrdr["Supplier"].ToString();
+                    dr2[3] = CompId;
+                    dr2[4] = Convert.ToInt64(Xrdr["SrNo"]);
+                    string StrFlag = string.Empty;
+                    if (Xrdr["PRSPRFlag"].ToString() == "0")
+                    {
+                       StrFlag = "select ROW_NUMBER()OVER (ORDER BY ItemCode)AS SrNo,AH,ItemCode,Description,UOM,POQty,MId,AccQty,AccNo,PvevQty,PvevNo from View_QA_PR where MId='" + Xrdr["Id"].ToString() + "' ";                                                                  
+                    }
+                    else if (Xrdr["PRSPRFlag"].ToString() == "1")
+                    {
+                        StrFlag = "select ROW_NUMBER()OVER (ORDER BY ItemCode)AS SrNo,AH,ItemCode,Description,UOM,POQty,MId,AccQty,AccNo,PvevQty,PvevNo from View_QA_SPR where MId='" + Xrdr["Id"].ToString() + "' ";                                              
+
+                    }
+                    SqlCommand cmdFlag = new SqlCommand(StrFlag, con);
+                    SqlDataReader rdr = cmdFlag.ExecuteReader();
+                    dt.Load(rdr);
+                    dt2.Rows.Add(dr2);
+                    dt2.AcceptChanges();
+                }
+                DataSet xsdds = new QA_POWise();
+                
+                xsdds.Tables[0].Merge(dt2);
+                xsdds.Tables[1].Merge(dt);
+                xsdds.AcceptChanges();
+                string reportPath = Server.MapPath("~/Module/MIS/Reports/QA_POWise_Print.rpt");
+                report.Load(reportPath);
+                report.SetDataSource(xsdds);
+                string Company = fun.getCompany(CompId);
+                report.SetParameterValue("Company", Company);
+                string Address = fun.CompAdd(CompId);
+                report.SetParameterValue("Address", Address);
+                CrystalReportViewer1.ReportSource = report;
+                Session[Key] = report;
+                con.Close();
+
+            }
+            else
+            {
+                Key = Request.QueryString["Key"].ToString();
+                ReportDocument doc = (ReportDocument)Session[Key];
+                CrystalReportViewer1.ReportSource = doc;
+            }
+
+        }
+
+        catch(Exception ex)
+        {
+        }
+    } 
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        report = new ReportDocument();
+        connStr = fun.Connection();
+        con = new SqlConnection(connStr);        
+        FinYearId = Convert.ToInt32(Session["finyear"]);       
+        CompId = Convert.ToInt32(Session["compid"]);
+        Key = Request.QueryString["Key"].ToString();       
+    }  
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        report.Close();
+        report.Dispose();
+        GC.Collect();
+    }
+    public void drawgraph()
+    {
+
+        try
+        {
+           
+            DataTable dt = new DataTable();
+            Chart1.ChartAreas[0].BackColor = Color.LightGoldenrodYellow;
+            Chart1.ChartAreas[0].Area3DStyle.PointDepth = 100;
+            Chart1.ChartAreas[0].Area3DStyle.PointGapDepth = 100;
+            Chart1.ChartAreas[0].AxisY.IsStartedFromZero = true;
+            Chart1.ChartAreas[0].AxisX.Interval = 1;
+            string sqlfin = "Select FinYear from tblfinancial_master Where FinYearId='" + FinYearId + "'";
+            SqlCommand cmdfin = new SqlCommand(sqlfin, con);
+            SqlDataAdapter dafin = new SqlDataAdapter(cmdfin);
+            DataSet dsfin = new DataSet();
+            dafin.Fill(dsfin);
+            if (dsfin.Tables[0].Rows.Count > 0)
+            {
+                Chart1.ChartAreas[0].AxisX.Title = "Fin. Year  " + dsfin.Tables[0].Rows[0][0].ToString();
+            }
+            string z = "";
+            if (txtSupplier.Text != "")
+            {
+                z = " AND SupplierId='" + fun.getCode(txtSupplier.Text) + "'";
+                DataTable DT = new DataTable();
+                DT.Columns.Add(new System.Data.DataColumn("UOM", typeof(string)));
+                DT.Columns.Add(new System.Data.DataColumn("POQty", typeof(double)));
+                DT.Columns.Add(new System.Data.DataColumn("GQNQty", typeof(double)));
+                DT.Columns.Add(new System.Data.DataColumn("GSNQty", typeof(double)));
+                DT.Columns.Add(new System.Data.DataColumn("PVEVQty", typeof(double)));
+                DataRow dr;
+                string sql1 = "SELECT UOM,Sum([POQty]) As POQty FROM [dbo].[View_QA_PR] where FinYearId=" + FinYearId + "" + z + "   group by  UOM union All SELECT UOM,Sum([POQty]) As POQty FROM [dbo].[View_QA_SPR] where FinYearId=" + FinYearId + "" + z + "  group by  UOM";
+                SqlCommand cmd1 = new SqlCommand(sql1, con);
+                DataSet ds1 = new DataSet();
+                SqlDataAdapter adp1 = new SqlDataAdapter(cmd1);
+                adp1.Fill(ds1);
+                for (int i = 0; i < ds1.Tables[0].Rows.Count; i++)
+                {
+                    dr = DT.NewRow();
+                    dr[0] = ds1.Tables[0].Rows[i]["UOM"].ToString();
+                    dr[1] = Math.Round(Convert.ToDouble(ds1.Tables[0].Rows[i]["POQty"]), 2);
+                    dr[2] = 0;
+                    dr[3] = 0;
+                    dr[4] = 0;
+                    DT.Rows.Add(dr);
+                    DT.AcceptChanges();
+                }
+
+                string sql2 = "SELECT UOM,Sum([GQNQty]) As GQNQty  FROM View_GQN_UOM_Graph where FinYearId=" + FinYearId + " " + z + " group by UOM";
+                SqlCommand cmd2 = new SqlCommand(sql2, con);
+                DataSet ds2 = new DataSet();
+                SqlDataAdapter adp2 = new SqlDataAdapter(cmd2);
+                adp2.Fill(ds2);
+                for (int i = 0; i < ds2.Tables[0].Rows.Count; i++)
+                {
+                    dr = DT.NewRow();
+                    dr[0] = ds2.Tables[0].Rows[i]["UOM"].ToString();
+                    dr[1] = 0;
+                    dr[2] = Math.Round(Convert.ToDouble(ds2.Tables[0].Rows[i]["GQNQty"]), 2);
+                    dr[3] = 0;
+                    dr[4] = 0;
+                    DT.Rows.Add(dr);
+                    DT.AcceptChanges();
+                }
+                string sql3 = "SELECT UOM,Sum([GSNQty]) As GSNQty  FROM View_GSN_UOM_Graph where FinYearId=" + FinYearId + " " + z + " group by UOM";
+                SqlCommand cmd3 = new SqlCommand(sql3, con);
+                DataSet ds3 = new DataSet();
+                SqlDataAdapter adp3 = new SqlDataAdapter(cmd3);
+                adp3.Fill(ds3);
+                for (int i = 0; i < ds3.Tables[0].Rows.Count; i++)
+                {
+                    dr = DT.NewRow();
+                    dr[0] = ds3.Tables[0].Rows[i]["UOM"].ToString();
+                    dr[1] = 0;
+                    dr[2] = 0;
+                    dr[3] = Math.Round(Convert.ToDouble(ds3.Tables[0].Rows[i]["GSNQty"]), 2);
+                    dr[4] = 0;
+                    DT.Rows.Add(dr);
+                    DT.AcceptChanges();
+                }
+
+                string sql4 = "SELECT UOM,Sum([PvevQty]) As PvevQty  FROM View_PVEV_UOM_Graph where FinYearId=" + FinYearId + " " + z + " group by UOM";
+                SqlCommand cmd4 = new SqlCommand(sql4, con);
+                DataSet ds4 = new DataSet();
+                SqlDataAdapter adp4 = new SqlDataAdapter(cmd4);
+                adp4.Fill(ds4);
+                for (int i = 0; i < ds4.Tables[0].Rows.Count; i++)
+                {
+                    dr = DT.NewRow();
+                    dr[0] = ds4.Tables[0].Rows[i]["UOM"].ToString();
+                    dr[1] = 0;
+                    dr[2] = 0;
+                    dr[3] = 0;
+                    dr[4] = Math.Round(Convert.ToDouble(ds4.Tables[0].Rows[i]["PvevQty"]), 2);
+                    DT.Rows.Add(dr);
+                    DT.AcceptChanges();
+                }
+
+                var grpbyfilter = from row in DT.AsEnumerable()
+                                  group row by new
+                                  {
+                                      x = row.Field<string>("UOM")
+                                  } into grp
+                                  let row1 = grp.First()
+                                  select new
+                                  {
+                                      UOM = row1.Field<string>("UOM"),
+                                      PO = grp.Sum(r => r.Field<double>("POQty")),
+                                      GQN = grp.Sum(r => r.Field<double>("GQNQty")),
+                                      GSN = grp.Sum(r => r.Field<double>("GSNQty")),
+                                      PVEV = grp.Sum(r => r.Field<double>("PVevQty")),
+                                  };
+
+
+                dt = LINQToDataTable(grpbyfilter);
+                string[] x = new string[dt.Rows.Count];
+                double[] y = new double[dt.Rows.Count];
+                double[] y1 = new double[dt.Rows.Count];
+                double[] y2 = new double[dt.Rows.Count];
+                double[] y3 = new double[dt.Rows.Count];
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    x[i] = dt.Rows[i]["UOM"].ToString();
+                    y[i] = Convert.ToDouble(dt.Rows[i][1]);
+                    if (dt.Rows[i][2] != DBNull.Value)
+                    {
+                        y1[i] = Convert.ToDouble(dt.Rows[i][2]);
+                    }
+                    else
+                    {
+                        y1[i] = 0;
+                    }
+
+                    if (dt.Rows[i][3] != DBNull.Value)
+                    {
+                        y2[i] = Convert.ToDouble(dt.Rows[i][3]);
+                    }
+                    else
+                    {
+                        y2[i] = 0;
+                    }
+
+                    if (dt.Rows[i][4] != DBNull.Value)
+                    {
+                        y3[i] = Convert.ToDouble(dt.Rows[i][4]);
+                    }
+                    else
+                    {
+                        y3[i] = 0;
+                    }
+
+                }
+
+                Chart1.Series[0].Points.DataBindXY(x, y);
+                Chart1.Series[1].Points.DataBindXY(x, y1);
+                Chart1.Series[2].Points.DataBindXY(x, y2);
+                Chart1.Series[3].Points.DataBindXY(x, y3);
+
+            }
+        }
+
+        catch(Exception ex)
+        {
+        }
+       
+       
+    }
+    public DataTable LINQToDataTable<T>(IEnumerable<T> varlist)
+    {
+        DataTable dtReturns = new DataTable();
+        PropertyInfo[] oProps = null;
+        if (varlist == null)
+        {
+            return dtReturns;
+        }
+        foreach (T rec in varlist)
+        {
+            if (oProps == null)
+            {
+                oProps = ((Type)rec.GetType()).GetProperties();
+                foreach (PropertyInfo pi in oProps)
+                {
+                    Type colType = pi.PropertyType;
+                    if ((colType.IsGenericType) && (colType.GetGenericTypeDefinition() == typeof(Nullable<>)))
+                    {
+                        colType = colType.GetGenericArguments()[0];
+                    }
+                    dtReturns.Columns.Add(new DataColumn(pi.Name, colType));
+                }
+            }
+
+            DataRow dr = dtReturns.NewRow();
+
+            foreach (PropertyInfo pi in oProps)
+            {
+                dr[pi.Name] = pi.GetValue(rec, null) == null ? DBNull.Value : pi.GetValue(rec, null);
+            }
+
+            dtReturns.Rows.Add(dr);
+        }
+        return dtReturns;
+    }
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] GetCompletionList2(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        int CompId = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        con.Open();
+        string cmdStr = fun.select("SupplierId,SupplierName", "tblMM_Supplier_master", "CompId='" + CompId + "'");
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds, "tblMM_Supplier_master");
+        con.Close();
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                //if (main.Length == 10)
+                //    break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        this.drawgraph();
+    }
+}

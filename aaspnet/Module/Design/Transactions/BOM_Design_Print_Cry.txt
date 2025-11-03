@@ -1,0 +1,518 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Transactions/BOM_Design_Print_Cry.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="BOM_Design_Print_Cry.aspx.cs" Inherits="Module_Design_Transactions_BOM_Design_Print_Cry" Title="ERP" Theme="Default"  %>
+
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style2
+        {
+            width: 914px;
+        }
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+    <p><br /></p><p></p>
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="center" cellpadding="0" cellspacing="0" width="100%">
+    
+    <tr>
+        <td align="left" valign="middle"  scope="col" 
+                style="background:url(../../../images/hdbg.JPG)" class="fontcsswhite" height="21">
+        &nbsp;<b>BOM - Print</b></td>            
+    </tr>
+    
+    <tr>
+        <td align="center">
+        <asp:Panel ID="Panel1" runat="server" Height="450px" ScrollBars="Auto">
+            <CR:CrystalReportViewer ID="CrystalReportViewer1" HasCrystalLogo="False"  runat="server" 
+                AutoDataBind="true" ReportSourceID="CrystalReportSource1" 
+                DisplayGroupTree="False" EnableDatabaseLogonPrompt="False" 
+                EnableParameterPrompt="False" ReuseParameterValuesOnRefresh="True" />
+            <CR:CrystalReportSource ID="CrystalReportSource1" runat="server">
+                <Report FileName="~\Module\Design\Transactions\Reports\BOM_Print_ALL.rpt">
+                </Report>
+            </CR:CrystalReportSource>
+            </asp:Panel>
+        </td>
+    </tr>
+     <tr>
+     <td align="center" valign="top">
+            <asp:Button ID="Button2" runat="server" CssClass="redbox" onclick="Button1_Click" Text="Cancel" />
+        </td>
+    </tr>
+</table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Transactions/BOM_Design_Print_Cry.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+using System.Security.Cryptography;
+using System.Collections.Generic;
+public partial class Module_Design_Transactions_BOM_Design_Print_Cry : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    private ReportDocument report = new ReportDocument();
+    DataTable DT = new DataTable();
+    DataRow DR;
+    string WONo = "";
+    int CompId = 0;
+    string sId = "";
+    int FinYearId = 0;
+    string StartDate = "";
+    string UpToDate = "";
+    int drpVal = 0;
+    string connStr = string.Empty;
+    string Key = string.Empty;
+    SqlConnection con ;
+    
+    protected void Page_Init(object sender, EventArgs e)
+    {        
+        if (!IsPostBack)
+        {
+            DataTable DT2 = new DataTable();
+            DataSet DSGunRail2 = new DataSet();
+            DataSet DS9 = new DataSet();
+            DataSet DSGunRail = new DataSet();
+            DataSet DSGunRail9 = new DataSet();
+
+            try
+            {
+                sId = Session["username"].ToString();
+                CompId = Convert.ToInt32(Session["compid"]);
+                FinYearId = Convert.ToInt32(Session["finyear"]);
+                connStr = fun.Connection();
+                con = new SqlConnection(connStr);
+                con.Open();
+                Key = Request.QueryString["Key"].ToString();
+                if (!string.IsNullOrEmpty(Request.QueryString["SD"]))
+                {
+                    StartDate = Request.QueryString["SD"].ToString();
+                }
+                if (!string.IsNullOrEmpty(Request.QueryString["TD"]))
+                {
+                    UpToDate = Request.QueryString["TD"].ToString();
+                }
+
+                if (Request.QueryString["DrpVal"] != "")
+                {
+                    drpVal = Convert.ToInt32(Request.QueryString["DrpVal"]);
+                }
+                if (Request.QueryString["wono"] != "")
+                {
+                    WONo = Request.QueryString["wono"].ToString();
+
+                    string sql = "";
+                    if (Request.QueryString["PId"] != "" && Request.QueryString["CId"] != "")
+                    {
+                        int PId = Convert.ToInt32(Request.QueryString["PId"].ToString());
+                        int CId = Convert.ToInt32(Request.QueryString["CId"].ToString());
+                        sql = fun.select("CId", "tblDG_BOM_Master", "WONo='" + WONo + "' AND PId='" + PId + "' AND CId='" + CId + "' AND FinYearId<='" + FinYearId + "'And CompId='" + CompId + "'");
+                    }
+                    else
+                    {
+                        sql = fun.select("CId", "tblDG_BOM_Master", "WONo='" + WONo + "' AND PId='0' AND FinYearId<='" + FinYearId + "'And CompId='" + CompId + "'");
+                    }
+
+                    SqlCommand cmd = new SqlCommand(sql, con);
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);                    
+                    da.Fill(DS9, "tblDG_BOM_Master");
+                    DT.Columns.Add("ItemCode", typeof(string));
+                    DT.Columns.Add("ManfDesc", typeof(string));
+                    DT.Columns.Add("UOM", typeof(string));
+                    DT.Columns.Add("Qty", typeof(double));
+                    DT.Columns.Add("BOMQty", typeof(double));
+                    DT.Columns.Add("WONo", typeof(string));
+                    DT.Columns.Add("CompId", typeof(int));
+                    DT.Columns.Add("AC", typeof(string));
+                    DT.Columns.Add("StartDate", typeof(string));
+                    DT.Columns.Add(new System.Data.DataColumn("Revision", typeof(string)));
+
+                    for (int i = 0; i < DS9.Tables[0].Rows.Count; i++)
+                    {
+                        if (drpVal == 0)
+                        {
+                            DT2 = getPrintnode(Convert.ToInt32(DS9.Tables[0].Rows[i]["CId"]), WONo, CompId);
+                        }
+                        else
+                        {
+                            DT2 = GetDataTable(drpVal);
+                        }
+                        
+                    }
+                    // Get Company Name
+                    string Company = fun.getCompany(CompId);
+                    // Get Address
+                    string Address = fun.CompAdd(CompId);
+                    // Get Project Title
+                    string Title = fun.getProjectTitle(WONo);
+
+                    //string SqlGunRail = "SELECT tblDG_Gunrail_Pitch_Master.WONo, tblDG_Gunrail_Pitch_Master.Pitch,(Case When Type =0 then 'Swivel' Else 'Fixed' END)As Type, tblDG_Gunrail_LongRail.Length as LongrailLength ,tblDG_Gunrail_LongRail.No As LongrailNo, tblDG_Gunrail_CrossRail.Length AS CrossrailLength, tblDG_Gunrail_CrossRail.No AS CrossrailNo FROM tblDG_Gunrail_Pitch_Master INNER JOIN tblDG_Gunrail_LongRail ON tblDG_Gunrail_Pitch_Master.Id = tblDG_Gunrail_LongRail.MId INNER JOIN tblDG_Gunrail_CrossRail ON tblDG_Gunrail_Pitch_Master.Id = tblDG_Gunrail_CrossRail.MId And tblDG_Gunrail_Pitch_Master.WONo='" + WONo + "' And tblDG_Gunrail_Pitch_Master.CompId='" + CompId + "'";
+                    
+                    string SqlGunRail = "SELECT tblDG_Gunrail_Pitch_Master.WONo, tblDG_Gunrail_Pitch_Master.Pitch,(Case When Type =0 then 'Swivel' Else 'Fixed' END)As Type, tblDG_Gunrail_LongRail.Length as LongrailLength ,tblDG_Gunrail_LongRail.No As LongrailNo FROM tblDG_Gunrail_Pitch_Master INNER JOIN tblDG_Gunrail_LongRail ON tblDG_Gunrail_Pitch_Master.Id = tblDG_Gunrail_LongRail.MId And tblDG_Gunrail_Pitch_Master.WONo='" + WONo + "' And tblDG_Gunrail_Pitch_Master.CompId='" + CompId + "'";
+
+                    SqlCommand cmdGunRail = new SqlCommand(SqlGunRail, con);
+                    SqlDataAdapter daGunRail = new SqlDataAdapter(cmdGunRail);
+                    daGunRail.Fill(DSGunRail);
+
+
+                    string SqlGunRail9 = "SELECT tblDG_Gunrail_Pitch_Master.WONo, tblDG_Gunrail_Pitch_Master.Pitch,(Case When Type =0 then 'Swivel' Else 'Fixed' END)As Type, tblDG_Gunrail_CrossRail.Length AS CrossrailLength, tblDG_Gunrail_CrossRail.No AS CrossrailNo FROM tblDG_Gunrail_Pitch_Master INNER JOIN tblDG_Gunrail_CrossRail ON tblDG_Gunrail_Pitch_Master.Id = tblDG_Gunrail_CrossRail.MId And tblDG_Gunrail_Pitch_Master.WONo='" + WONo + "' And tblDG_Gunrail_Pitch_Master.CompId='" + CompId + "'";
+                                       
+                    SqlCommand cmdGunRail9 = new SqlCommand(SqlGunRail9, con);
+                    SqlDataAdapter daGunRail9 = new SqlDataAdapter(cmdGunRail9);
+                    daGunRail9.Fill(DSGunRail9);
+
+                    DSGunRail.Merge(DSGunRail9);
+
+                    //string SqlGunRail2 = "SELECT tblDG_Gunrail_Pitch_Dispatch_Master.WONo, tblDG_Gunrail_Pitch_Dispatch_Master.Pitch,(Case When Type =0 then 'Swivel' Else 'Fixed' END)As Type, tblDG_Gunrail_LongRail_Dispatch.Length as LongrailLength ,tblDG_Gunrail_LongRail_Dispatch.No As LongrailNo, tblDG_Gunrail_CrossRail_Dispatch.Length AS CrossrailLength, tblDG_Gunrail_CrossRail_Dispatch.No AS CrossrailNo FROM tblDG_Gunrail_Pitch_Dispatch_Master INNER JOIN tblDG_Gunrail_LongRail_Dispatch ON tblDG_Gunrail_Pitch_Dispatch_Master.Id = tblDG_Gunrail_LongRail_Dispatch.MId INNER JOIN tblDG_Gunrail_CrossRail_Dispatch ON tblDG_Gunrail_Pitch_Dispatch_Master.Id = tblDG_Gunrail_CrossRail_Dispatch.MId And tblDG_Gunrail_Pitch_Dispatch_Master.WONo='" + WONo + "' And tblDG_Gunrail_Pitch_Dispatch_Master.CompId='" + CompId + "'";
+                    
+                    //LongRail
+                    string SqlGunRail2 = "SELECT tblDG_Gunrail_Pitch_Dispatch_Master.WONo, tblDG_Gunrail_Pitch_Dispatch_Master.Pitch,(Case When Type =0 then 'Swivel' Else 'Fixed' END)As Type, tblDG_Gunrail_LongRail_Dispatch.Length as LongrailLength ,tblDG_Gunrail_LongRail_Dispatch.No As LongrailNo   FROM tblDG_Gunrail_Pitch_Dispatch_Master INNER JOIN tblDG_Gunrail_LongRail_Dispatch ON tblDG_Gunrail_Pitch_Dispatch_Master.Id = tblDG_Gunrail_LongRail_Dispatch.MId And tblDG_Gunrail_Pitch_Dispatch_Master.WONo='" + WONo + "' And tblDG_Gunrail_Pitch_Dispatch_Master.CompId='" + CompId + "'";
+                    SqlCommand cmdGunRail2 = new SqlCommand(SqlGunRail2, con);
+                    SqlDataAdapter daGunRail2 = new SqlDataAdapter(cmdGunRail2);
+                    daGunRail2.Fill(DSGunRail2);
+
+                    //CrossRail
+                    string SqlGunRail7 = "SELECT tblDG_Gunrail_Pitch_Dispatch_Master.WONo, tblDG_Gunrail_Pitch_Dispatch_Master.Pitch,(Case When Type =0 then 'Swivel' Else 'Fixed' END)As Type, tblDG_Gunrail_CrossRail_Dispatch.Length AS CrossrailLength, tblDG_Gunrail_CrossRail_Dispatch.No AS CrossrailNo FROM tblDG_Gunrail_Pitch_Dispatch_Master INNER JOIN tblDG_Gunrail_CrossRail_Dispatch ON tblDG_Gunrail_Pitch_Dispatch_Master.Id = tblDG_Gunrail_CrossRail_Dispatch.MId And tblDG_Gunrail_Pitch_Dispatch_Master.WONo='" + WONo + "' And tblDG_Gunrail_Pitch_Dispatch_Master.CompId='" + CompId + "'";
+                    SqlCommand cmdGunRail7 = new SqlCommand(SqlGunRail7, con);
+                    SqlDataAdapter daGunRail7 = new SqlDataAdapter(cmdGunRail7);
+                    DataSet DSGunRail7 = new DataSet();
+                    daGunRail7.Fill(DSGunRail7);
+
+                    DSGunRail2.Merge(DSGunRail7);
+
+                    string reportPath = Server.MapPath("~/Module/Design/Transactions/Reports/BOM_Print_ALL.rpt");
+                    report.Load(reportPath);
+                    DataSet xsdds = new BOM();
+                    xsdds.Tables[0].Merge(DT2);
+
+                    if (DSGunRail.Tables[0].Rows.Count > 0)
+                    {
+                        xsdds.Tables[1].Merge(DSGunRail.Tables[0]);
+                    }
+                    else if (DSGunRail2.Tables[0].Rows.Count > 0)
+                    {
+                        xsdds.Tables[1].Merge(DSGunRail2.Tables[0]);
+                    }
+
+                    xsdds.AcceptChanges();
+                    report.SetDataSource(xsdds);
+                    report.SetParameterValue("Company", Company);
+                    report.SetParameterValue("Address", Address);
+                    report.SetParameterValue("Title", Title);
+                    CrystalReportViewer1.ReportSource = report;
+                    CrystalReportViewer1.EnableViewState = true;                   
+                    Session[Key] = report;
+                }                
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+                DT.Clear();
+                DT.Dispose();
+                DT2.Clear();
+                DT2.Dispose();
+                DSGunRail2.Clear();
+                DSGunRail2.Dispose();
+                DSGunRail.Clear();
+                DSGunRail.Dispose();
+                DS9.Clear();
+                DS9.Dispose();
+            }
+           
+        }
+        else
+        {
+            Key = Request.QueryString["Key"].ToString();
+            ReportDocument doc = (ReportDocument)Session[Key];           
+            CrystalReportViewer1.ReportSource = doc;
+        }
+    }
+   
+    protected void Page_Load(object sender, EventArgs e)
+    {       
+        if (!string.IsNullOrEmpty(Request.QueryString["SD"]))
+        {
+            StartDate = Request.QueryString["SD"].ToString();
+        }
+        if (!string.IsNullOrEmpty(Request.QueryString["TD"]))
+        {
+            UpToDate = Request.QueryString["TD"].ToString();
+        }
+        if (Request.QueryString["wono"] != "")
+        {
+            WONo = Request.QueryString["wono"].ToString();
+        }
+        if (Request.QueryString["DrpVal"] != "")
+        {
+            drpVal = Convert.ToInt32(Request.QueryString["DrpVal"]);
+        }
+
+        report = new ReportDocument();
+    }
+
+    public DataTable GetDataTable(int drpValue)
+    {
+
+        SqlDataAdapter adapter = new SqlDataAdapter();
+        DataTable myDataTable = new DataTable();
+        DataSet DS = new DataSet();
+        
+        try
+        {
+            myDataTable.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));
+            myDataTable.Columns.Add(new System.Data.DataColumn("ManfDesc", typeof(string)));
+            myDataTable.Columns.Add(new System.Data.DataColumn("UOM", typeof(string)));
+            myDataTable.Columns.Add(new System.Data.DataColumn("Qty", typeof(double)));
+            myDataTable.Columns.Add(new System.Data.DataColumn("BOMQty", typeof(double)));
+            myDataTable.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));
+            myDataTable.Columns.Add(new System.Data.DataColumn("CompId", typeof(Int32)));
+            myDataTable.Columns.Add(new System.Data.DataColumn("AC", typeof(string)));
+            myDataTable.Columns.Add(new System.Data.DataColumn("StartDate", typeof(string)));
+            myDataTable.Columns.Add(new System.Data.DataColumn("Revision", typeof(string)));
+
+            DataRow dr;
+                           
+                string StrCId = string.Empty;
+                if (drpValue == 2)
+                {                   
+                    StrCId = "And tblDG_Item_Master.CId is null";
+                }
+                else if (drpValue == 1)
+                {
+                    StrCId = "And tblDG_Item_Master.CId is not null";
+                }
+                
+                adapter = new SqlDataAdapter("Get_BOM_DateWise", con);
+                adapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                adapter.SelectCommand.Parameters.Add(new SqlParameter("@CompId", SqlDbType.VarChar));
+                adapter.SelectCommand.Parameters["@CompId"].Value = CompId;
+                adapter.SelectCommand.Parameters.Add(new SqlParameter("@FinYearId", SqlDbType.VarChar));
+                adapter.SelectCommand.Parameters["@FinYearId"].Value = FinYearId;
+                adapter.SelectCommand.Parameters.Add(new SqlParameter("@WONo", SqlDbType.VarChar));
+                adapter.SelectCommand.Parameters["@WONo"].Value = WONo;
+                adapter.SelectCommand.Parameters.Add(new SqlParameter("@StartDate", SqlDbType.VarChar));
+                adapter.SelectCommand.Parameters["@StartDate"].Value = fun.FromDate(StartDate);
+                adapter.SelectCommand.Parameters.Add(new SqlParameter("@UpToDate", SqlDbType.VarChar));
+                adapter.SelectCommand.Parameters["@UpToDate"].Value = fun.FromDate(UpToDate);
+                adapter.SelectCommand.Parameters.Add(new SqlParameter("@ItemCId", SqlDbType.VarChar));
+                adapter.SelectCommand.Parameters["@ItemCId"].Value = StrCId;
+                adapter.Fill(DS, "tblDG_BOM_Master");
+
+                for (int p = 0; p < DS.Tables[0].Rows.Count; p++)
+                {
+
+                    dr = myDataTable.NewRow();                    
+                    if (DS.Tables[0].Rows[p]["ItemCat"] != DBNull.Value)
+                    {
+                        dr[0] = DS.Tables[0].Rows[p]["ItemCode"].ToString();
+                    }
+
+                    else
+                    {
+                        dr[0] = DS.Tables[0].Rows[p]["PartNo"].ToString();
+                    }
+                    dr[1] = DS.Tables[0].Rows[p]["ManfDesc"].ToString();
+                    dr[2] = DS.Tables[0].Rows[p]["Symbol"].ToString();
+                    dr[3] = Convert.ToDouble(DS.Tables[0].Rows[p]["Qty"]);
+
+                    List<double> g = new List<double>();
+                    g = fun.BOMTreeQty(WONo, Convert.ToInt32(DS.Tables[0].Rows[p][2]), Convert.ToInt32(DS.Tables[0].Rows[p][3]));
+
+                    double h = 1;
+
+                    for (int j = 0; j < g.Count; j++)
+                    {
+                        h = h * g[j];
+                    }
+
+                    dr[4] = decimal.Parse(h.ToString()).ToString("N3");
+                    dr[5] = WONo;
+                    dr[6] = CompId;
+                    dr[7] = "";
+                    dr[8] = fun.FromDateDMY(DS.Tables[0].Rows[p]["SysDate"].ToString());
+                    dr[9] = DS.Tables[0].Rows[p]["Revision"].ToString(); 
+                    g.Clear();
+                    myDataTable.Rows.Add(dr);
+                    myDataTable.AcceptChanges();
+                }            
+
+        }
+        catch (Exception ex)
+        {
+            DS.Clear();
+            DS.Dispose();
+            myDataTable.Dispose();
+        }
+        finally
+        {           
+        }
+        myDataTable.DefaultView.Sort = "ItemCode ASC";
+        myDataTable = myDataTable.DefaultView.ToTable(true);
+        return myDataTable;
+    }    
+
+    public DataTable getPrintnode(int node, string wono, int compid)
+    {
+         DataSet DS = new DataSet();
+         DataSet dsparent = new DataSet();                        
+         DataSet dsparent2 = new DataSet();
+        
+       try
+        {
+           
+            SqlDataAdapter adapter = new SqlDataAdapter("Get_BOM_Print", con);
+            adapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+            adapter.SelectCommand.Parameters.Add(new SqlParameter("@CompId", SqlDbType.VarChar));
+            adapter.SelectCommand.Parameters["@CompId"].Value = CompId;
+            adapter.SelectCommand.Parameters.Add(new SqlParameter("@FinYearId", SqlDbType.VarChar));
+            adapter.SelectCommand.Parameters["@FinYearId"].Value = FinYearId;
+            adapter.SelectCommand.Parameters.Add(new SqlParameter("@WONo", SqlDbType.VarChar));
+            adapter.SelectCommand.Parameters["@WONo"].Value = wono;
+            adapter.SelectCommand.Parameters.Add(new SqlParameter("@StartDate", SqlDbType.VarChar));
+            adapter.SelectCommand.Parameters["@StartDate"].Value = fun.FromDate(StartDate);
+            adapter.SelectCommand.Parameters.Add(new SqlParameter("@UpToDate", SqlDbType.VarChar));
+            adapter.SelectCommand.Parameters["@UpToDate"].Value = fun.FromDate(UpToDate);
+            adapter.SelectCommand.Parameters.Add(new SqlParameter("@CId", SqlDbType.VarChar));
+            adapter.SelectCommand.Parameters["@CId"].Value = node;            
+            adapter.Fill(dsparent2, "tblDG_BOM_Master");
+            DR = DT.NewRow();
+            if (dsparent2.Tables[0].Rows.Count > 0)
+            {
+                DR[0] = fun.GetItemCode_PartNo(CompId, Convert.ToInt32(dsparent2.Tables[0].Rows[0]["Id"].ToString()));
+                DR[1] = dsparent2.Tables[0].Rows[0]["ManfDesc"].ToString();
+                DR[2] = dsparent2.Tables[0].Rows[0]["Symbol"].ToString();
+                DR[3] = Convert.ToDouble(dsparent2.Tables[0].Rows[0]["Qty"]);
+                DR[4] = Convert.ToDouble(fun.BOMRecurQty(wono, Convert.ToInt32(dsparent2.Tables[0].Rows[0]["PId"]), node, 1, CompId, FinYearId));
+                DR[5] = wono;
+                DR[6] = Convert.ToInt32(CompId);
+                DR[7] = "A";
+                DR[8] = fun.FromDateDMY(dsparent2.Tables[0].Rows[0]["SysDate"].ToString());
+                DR[9] = dsparent2.Tables[0].Rows[0]["Revision"].ToString();
+                DT.Rows.Add(DR);
+            }
+           
+            SqlDataAdapter daparent = new SqlDataAdapter("Get_BOM_Print2", con);
+            daparent.SelectCommand.CommandType = CommandType.StoredProcedure;
+            daparent.SelectCommand.Parameters.Add(new SqlParameter("@CompId", SqlDbType.VarChar));
+            daparent.SelectCommand.Parameters["@CompId"].Value = CompId;
+            daparent.SelectCommand.Parameters.Add(new SqlParameter("@FinYearId", SqlDbType.VarChar));
+            daparent.SelectCommand.Parameters["@FinYearId"].Value = FinYearId;
+            daparent.SelectCommand.Parameters.Add(new SqlParameter("@WONo", SqlDbType.VarChar));
+            daparent.SelectCommand.Parameters["@WONo"].Value = wono;
+            daparent.SelectCommand.Parameters.Add(new SqlParameter("@StartDate", SqlDbType.VarChar));
+            daparent.SelectCommand.Parameters["@StartDate"].Value = fun.FromDate(StartDate);
+            daparent.SelectCommand.Parameters.Add(new SqlParameter("@UpToDate", SqlDbType.VarChar));
+            daparent.SelectCommand.Parameters["@UpToDate"].Value = fun.FromDate(UpToDate);
+            daparent.SelectCommand.Parameters.Add(new SqlParameter("@CId", SqlDbType.VarChar));
+            daparent.SelectCommand.Parameters["@CId"].Value = node;            
+            daparent.Fill(dsparent, "tblDG_BOM_Master");
+
+            for (int h = 0; h < dsparent.Tables[0].Rows.Count; h++)
+            {
+                DR = DT.NewRow();
+                DR[0] = fun.GetItemCode_PartNo(CompId, Convert.ToInt32(dsparent.Tables[0].Rows[h]["Id"].ToString()));
+                DR[1] = dsparent.Tables[0].Rows[h]["ManfDesc"].ToString();
+                DR[2] = dsparent.Tables[0].Rows[h]["Symbol"].ToString();
+                DR[3] = Convert.ToDouble(dsparent.Tables[0].Rows[h]["Qty"]);
+                DR[4] = Convert.ToDouble(fun.BOMRecurQty(wono, Convert.ToInt32(dsparent.Tables[0].Rows[h]["PId"]), Convert.ToInt32(dsparent.Tables[0].Rows[h]["CId"]), 1, CompId, FinYearId));                
+                DR[5] = wono;
+                DR[6] = Convert.ToInt32(CompId);
+                DR[7] = "C";
+                DR[8] = fun.FromDateDMY(dsparent.Tables[0].Rows[h]["SysDate"].ToString());
+                DR[9] = dsparent.Tables[0].Rows[h]["Revision"].ToString();
+                DT.Rows.Add(DR);  
+                DataSet DS2 = new DataSet();
+                SqlDataAdapter da2 = new SqlDataAdapter("Get_BOM_Print2", con);
+                da2.SelectCommand.CommandType = CommandType.StoredProcedure;
+                da2.SelectCommand.Parameters.Add(new SqlParameter("@CompId", SqlDbType.VarChar));
+                da2.SelectCommand.Parameters["@CompId"].Value = CompId;
+                da2.SelectCommand.Parameters.Add(new SqlParameter("@FinYearId", SqlDbType.VarChar));
+                da2.SelectCommand.Parameters["@FinYearId"].Value = FinYearId;
+                da2.SelectCommand.Parameters.Add(new SqlParameter("@WONo", SqlDbType.VarChar));
+                da2.SelectCommand.Parameters["@WONo"].Value = wono;
+                da2.SelectCommand.Parameters.Add(new SqlParameter("@StartDate", SqlDbType.VarChar));
+                da2.SelectCommand.Parameters["@StartDate"].Value = fun.FromDate(StartDate);
+                da2.SelectCommand.Parameters.Add(new SqlParameter("@UpToDate", SqlDbType.VarChar));
+                da2.SelectCommand.Parameters["@UpToDate"].Value = fun.FromDate(UpToDate);
+                da2.SelectCommand.Parameters.Add(new SqlParameter("@CId", SqlDbType.VarChar));
+                da2.SelectCommand.Parameters["@CId"].Value = dsparent.Tables[0].Rows[h]["CId"];                
+                da2.Fill(DS2, "tblDG_BOM_Master");
+                if (DS2.Tables[0].Rows.Count > 0)
+                {
+                    for (int j = 0; j < DS2.Tables[0].Rows.Count; j++)
+                    {
+                        this.getPrintnode(Convert.ToInt32(DS2.Tables[0].Rows[j]["CId"]), wono, compid);
+                    }
+                }
+            }
+            
+            DT.AcceptChanges();           
+          
+
+        }
+        catch (Exception x)
+        {
+        }
+        finally
+        {
+            dsparent2.Clear();
+            dsparent2.Dispose();
+            dsparent.Clear();
+            dsparent.Dispose();           
+            DT.Dispose();
+        }
+       
+        //DT.DefaultView.Sort = "ItemCode ASC";
+       // DT = DT.DefaultView.ToTable(true);
+        return DT;
+    }
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("BOM_Design_Print_Tree.aspx?WONo=" +WONo + "&SD="+StartDate+"&TD="+UpToDate+"&ModId=3&SubModId=26");
+    }
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        report.Close();
+        report.Dispose();
+        GC.Collect();
+    }
+}

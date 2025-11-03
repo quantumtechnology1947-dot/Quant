@@ -1,0 +1,588 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/ProjectManagement/Transactions/ProjectPlanning.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ProjectPlanning.aspx.cs" Inherits="Module_ProjectManagement_Transactions_ProjectPlanning" Title="ERP"  Theme ="Default"%>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+<table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)">
+        &nbsp;<b>Project Planning</b></td>
+        </tr>
+        <tr>
+        <td>
+
+        <table align="left" cellpadding="0" 
+            cellspacing="0" width="100%" style="height: 162px"><tr>
+                <td 
+                    height="25" colspan="3" valign="middle" ><b>&nbsp;&nbsp; WONo: </b>
+                    <asp:TextBox ID="txtWono" runat="server" CssClass="box3"></asp:TextBox>
+                    &nbsp;&nbsp;&nbsp; 
+                <asp:DropDownList runat="server" AutoPostBack="True" DataTextField="CName" DataValueField="CId" CssClass="box3" ID="DDLTaskWOType" OnSelectedIndexChanged="DDLTaskWOType_SelectedIndexChanged"></asp:DropDownList>
+        &nbsp;&nbsp;&nbsp;
+                    <asp:Button ID="btnSearch" runat="server" CssClass="redbox" 
+                        onclick="btnSearch_Click" Text="Search" />
+                        <asp:Label ID="lblWNo" runat="server" Visible="false" Text=""></asp:Label>
+                </td></tr><tr>
+                <td class="fontcss" valign="top" width="49%">
+                    <asp:Panel ID="Panel1" Height="447px" ScrollBars="Auto" runat="server">                    
+                <asp:GridView ID="GridView2" runat="server" 
+                    AutoGenerateColumns="False" CssClass="yui-datatable-theme" 
+                    OnPageIndexChanging="GridView2_PageIndexChanging" 
+                Width="100%" AllowPaging="True" PageSize="20" onrowcommand="GridView2_RowCommand">
+                
+                    <PagerSettings PageButtonCount="40" />
+                
+                <Columns><asp:TemplateField 
+                        HeaderText="SN"><ItemTemplate><%#Container.DataItemIndex+1  %>
+                    </ItemTemplate>
+                    <HeaderStyle Font-Size="10pt" />
+                    <ItemStyle HorizontalAlign="Right" VerticalAlign="Top" Width="2%" />
+                    </asp:TemplateField>
+                    
+                  
+                    <asp:TemplateField HeaderText="Id" Visible="False"><ItemTemplate><asp:Label
+                     ID="lblId" runat="server" Text='<%# Bind("Id") %>'></asp:Label></ItemTemplate><ItemStyle VerticalAlign="Top" />
+                     </asp:TemplateField>
+                     
+                     <asp:TemplateField HeaderText="Fin Year" >
+                    <ItemTemplate>
+                    <asp:Label ID="lblFinYear" runat="server" Text='<%# Bind("FinYear") %>'></asp:Label>
+                    </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Center" Width="7%" />
+                    </asp:TemplateField>
+                    
+                    <asp:TemplateField HeaderText="WONo" >
+                    <ItemTemplate>
+                    <%--<asp:Label ID="lblWONo" runat="server" Text='<%# Bind("WONo") %>'></asp:Label>--%>
+                        <asp:LinkButton ID="lbtnWONo" CommandName="Abc" runat="server" Text='<%# Bind("WONo") %>'>WONo</asp:LinkButton>
+                    </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Center" Width="7%" />
+                    </asp:TemplateField>                
+                    
+                      <asp:TemplateField HeaderText="Date" >
+                    <ItemTemplate>
+                    <asp:Label ID="lblDate" runat="server" Text='<%# Bind("Date") %>'></asp:Label>
+                    </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Center" Width="7%" />
+                    </asp:TemplateField>
+                      <asp:TemplateField HeaderText="Project Tittle" >
+                    <ItemTemplate>
+                    <asp:Label ID="lblProjectTittle" runat="server" Text='<%# Bind("ProjectTittle") %>'></asp:Label>
+                    </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Left" Width="75%" />
+                    </asp:TemplateField>
+                    
+                        </Columns>
+                        <EmptyDataTemplate>
+                        
+                        <table width="100%" class="fontcss"><tr><td align="center"><asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon"> </asp:Label></td></tr></table>
+                        </EmptyDataTemplate>
+                        <FooterStyle Font-Bold="False" />
+                        <HeaderStyle Font-Size="9pt" />
+                        </asp:GridView>
+                 </asp:Panel></td>
+                <td class="fontcss" valign="top" width="20">
+                    &nbsp; </td>
+                <td class="fontcss" valign="top" width="49%">
+                
+                    <asp:Panel ID="Panel2" Height="447px" ScrollBars="Auto" runat="server" 
+                        Visible="False">
+                   
+                    <asp:GridView ID="GridView3" runat="server"  ShowFooter="true" AllowPaging="True" 
+                        AutoGenerateColumns="False" CssClass="yui-datatable-theme" DataKeyNames="Id" 
+                        OnPageIndexChanging="GridView3_PageIndexChanging" 
+                        OnRowCommand="GridView3_RowCommand" PageSize="23" Width="100%">
+                        <Columns>
+                            <asp:TemplateField HeaderText="SN">
+                                <ItemTemplate>
+                                    <%#Container.DataItemIndex+1  %>
+                                </ItemTemplate>
+                                <HeaderStyle Font-Size="10pt" />
+                                <ItemStyle HorizontalAlign="Right" VerticalAlign="Top" Width="2%" />
+                            </asp:TemplateField>
+                            
+                            <asp:TemplateField HeaderText="Id" SortExpression="Id" Visible="False">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblId" runat="server" Text='<%#Eval("Id") %>'> </asp:Label>
+                                </ItemTemplate>
+                                <ItemStyle Width="2%" />
+                            </asp:TemplateField>
+                            
+                            <asp:TemplateField>
+                                <ItemTemplate>
+                                    <asp:LinkButton ID="linkBtn" runat="server" CommandName="del" 
+                                        OnClientClick=" return confirmationDelete()" Text="Delete"> </asp:LinkButton>
+                                </ItemTemplate>
+                                
+                                
+                                <HeaderStyle Font-Size="10pt" />
+                                <ItemStyle HorizontalAlign="Center" VerticalAlign="Top" Width="4%" />
+                            </asp:TemplateField>
+                            
+                      <asp:TemplateField HeaderText="Date" >
+                    <ItemTemplate>
+                    <asp:Label ID="lblPLNDate" runat="server" Text='<%# Bind("PLNDate") %>'></asp:Label>
+                    </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Center" Width="7%" />
+                    </asp:TemplateField>
+                    
+                    <asp:TemplateField HeaderText="WONo"  Visible ="true">
+                    <ItemTemplate>
+                   
+                        <asp:Label ID="lblWONo" runat="server" Text='<%# Bind("WONo") %>'></asp:Label>
+                    </ItemTemplate>
+                    
+                    <FooterTemplate>
+                        <asp:Label ID="lblWONo2" runat="server" Text=""></asp:Label>
+                    </FooterTemplate>
+                    <FooterStyle HorizontalAlign="Center" Width="7%" />
+                    <ItemStyle HorizontalAlign="Center" Width="7%" />
+                    </asp:TemplateField>
+                    
+                    
+                      <asp:TemplateField HeaderText="File" >
+                    <ItemTemplate>
+                        <asp:LinkButton ID="btnlnkImg" CommandName="downloadImg" Visible="true"  Text='<%# Bind("FileName") %>' runat="server"></asp:LinkButton>
+                    </ItemTemplate>
+                    
+                    <FooterTemplate>
+                         <asp:FileUpload ID="FileUpload1" runat="server" />
+                    </FooterTemplate>
+                    <FooterStyle HorizontalAlign="Center" Width="5%" />
+                    <ItemStyle HorizontalAlign="Center" Width="3%" />
+                    </asp:TemplateField>
+                    
+                    <asp:TemplateField HeaderText="" >
+                    <FooterTemplate>
+                        <asp:Button ID="btnFAdd"  runat="server" Text="Add" CssClass="redbox" CommandName="Add" OnClientClick=" return confirmationAdd()" />
+                    </FooterTemplate>
+                    <FooterStyle HorizontalAlign="Center" Width="3%" />
+                    </asp:TemplateField>
+                    
+                        </Columns>
+                        
+                        <EmptyDataTemplate>                          
+                            
+                            <table border="1pt" style="border-color:GrayText" width="100%"><tr>
+                             
+                             <th>
+                                SN
+                             </th>
+                             <th>
+                                 WONo
+                             </th>
+                             <th >
+                                 File
+                             </th>
+                             
+                             <th>
+                             </th>
+                             </tr>
+                             <tr>
+                             <td  align="center">
+                                        <asp:Label ID="lblSN" runat="server" Text="1"></asp:Label>
+                                 </td>
+                           
+                                 <td  align="center">
+                                        <asp:Label ID="lblWONo1" runat="server" Text=""></asp:Label>
+                                 </td>
+                                 <td >
+                                     <asp:FileUpload ID="FileUpload2"  runat="server" />
+                                 </td>
+                                 <td align="center">
+                                      <asp:Button ID="btnFAdd1"  runat="server" Text="Add" CssClass="redbox"  OnClientClick=" return confirmationAdd()" CommandName="Add1" />
+                                 </td>
+                                 
+                             </tr>
+                             </table>                            
+                            
+                        </EmptyDataTemplate>
+                    </asp:GridView> 
+                    </asp:Panel>
+                </td>
+            </tr></table>
+            
+           
+                
+                
+                
+        </td>
+        </tr>
+        </table>
+
+
+ 
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/ProjectManagement/Transactions/ProjectPlanning.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.IO;
+
+public partial class Module_ProjectManagement_Transactions_ProjectPlanning : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    int CompId = 0;
+    int FyId = 0;
+    string SId = "";
+    string wono = "";
+    string wnup = "";
+    int h = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            CompId = Convert.ToInt32(Session["compid"]);
+            FyId = Convert.ToInt32(Session["finyear"]);
+            SId = Session["username"].ToString();
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            if (!IsPostBack)
+            {
+                lblWNo.Text = wnup;              
+                this.FillDataUpLoad(wnup);
+
+                string StrCat = fun.select("CId,Symbol+' - '+CName as Category", "tblSD_WO_Category", "CompId='" + CompId + "'");
+                SqlCommand Cmd = new SqlCommand(StrCat, con);
+                SqlDataAdapter DA = new SqlDataAdapter(Cmd);
+                DataSet DS = new DataSet();
+                DA.Fill(DS, "tblSD_WO_Category");
+                DDLTaskWOType.DataSource = DS.Tables["tblSD_WO_Category"];
+                DDLTaskWOType.DataTextField = "Category";
+                DDLTaskWOType.DataValueField = "CId";
+                DDLTaskWOType.DataBind();
+                DDLTaskWOType.Items.Insert(0, "WO Category");        
+
+                this.FillData(wono,h);
+
+
+
+
+            }
+        }
+        catch (Exception ex) { }
+
+
+    }
+    protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            GridView2.PageIndex = e.NewPageIndex;
+            this.FillData(wono,h);
+            lblWNo.Text = "";
+            this.FillDataUpLoad(lblWNo.Text);
+            Panel2.Visible = false;
+        }
+        catch (Exception ex) { }
+
+    }
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            this.FillData(wono,h);
+            lblWNo.Text = "";
+            this.FillDataUpLoad(lblWNo.Text);
+            Panel2.Visible = false;
+        }
+        catch (Exception ex) { }
+
+    }
+    public void FillData(string wono,int c)
+    {
+        try
+        {
+            con.Open();
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("FinYear", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Date", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ProjectTittle", typeof(string)));
+            DataRow dr;
+
+            string x = "";
+
+            if (txtWono.Text != "")
+            {
+                x = " AND WONo='" + txtWono.Text + "'";
+
+            }
+
+            string Z = "";
+            if (DDLTaskWOType.SelectedValue != "WO Category")
+            {
+
+                Z = " AND CId='" + Convert.ToInt32(DDLTaskWOType.SelectedValue) + "'";
+            }
+
+
+            string sql = fun.select("*", "SD_Cust_WorkOrder_Master", "FinYearId<='" + FyId + "' AND CloseOpen='0' AND CompId='" + CompId + "'" + x + Z + "Order by WONo ASC");
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet DS = new DataSet();
+            da.Fill(DS);
+
+            for (int p = 0; p < DS.Tables[0].Rows.Count; p++)
+            {
+                dr = dt.NewRow();
+
+                dr[0] = DS.Tables[0].Rows[p]["Id"].ToString();
+                string stryr = fun.select("FinYear", "tblFinancial_master", "FinYearId='" + DS.Tables[0].Rows[p]["FinYearId"].ToString() + "'");
+                SqlCommand cmdyr = new SqlCommand(stryr, con);
+                SqlDataAdapter dayr = new SqlDataAdapter(cmdyr);
+                DataSet DSyr = new DataSet();
+                dayr.Fill(DSyr);
+                if (DSyr.Tables[0].Rows.Count > 0)
+                {
+                    dr[1] = DSyr.Tables[0].Rows[0]["FinYear"].ToString();
+                }
+                dr[2] = DS.Tables[0].Rows[p]["WONo"].ToString();
+                dr[3] = fun.FromDateDMY(DS.Tables[0].Rows[p]["TaskWorkOrderDate"].ToString());
+                dr[4] = DS.Tables[0].Rows[p]["TaskProjectTitle"].ToString();
+
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }
+            GridView2.DataSource = dt;
+            GridView2.DataBind();
+            con.Close();
+        }
+        catch (Exception ex) { }
+    }
+
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            if (e.CommandName == "Abc")
+            {
+                GridViewRow grv = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                wnup = ((LinkButton)grv.FindControl("lbtnWONo")).Text;
+                lblWNo.Text = wnup;
+                this.FillDataUpLoad(wnup);
+                Panel2.Visible = true;
+            }
+        }
+        catch (Exception ex) { }
+    }
+
+    public void FillDataUpLoad(string wnup)
+    {
+        try
+        {
+
+            con.Open();
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("PLNDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("FileName", typeof(string)));
+            DataRow dr;
+
+            string sql = fun.select("*", "tblPM_ProjectPlanning_Master", "FinYearId<='" + FyId + "' AND CompId='" + CompId + "'  AND WONo='" + wnup + "' Order by Id Desc");
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet DS = new DataSet();
+            da.Fill(DS);
+
+            for (int q = 0; q < DS.Tables[0].Rows.Count; q++)
+            {
+                dr = dt.NewRow();
+                dr[0] = DS.Tables[0].Rows[q]["Id"].ToString();
+                dr[1] = fun.FromDateDMY(DS.Tables[0].Rows[q]["SysDate"].ToString());
+                dr[2] = DS.Tables[0].Rows[q]["WONo"].ToString();
+                if (DS.Tables[0].Rows[0]["FileName"].ToString() != "" && DS.Tables[0].Rows[0]["FileName"] != DBNull.Value)
+                {
+                    dr[3] = "View";
+                }
+
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }
+            GridView3.DataSource = dt;
+            GridView3.DataBind();
+            con.Close();
+            if (GridView3.Rows.Count == 0)
+            {
+                ((Label)GridView3.Controls[0].Controls[0].FindControl("lblWONo1")).Text = lblWNo.Text;
+            }
+            if (GridView3.Rows.Count > 0)
+            {
+
+
+                ((Label)GridView3.FooterRow.FindControl("lblWONo2")).Text = lblWNo.Text;
+            }
+        }
+        catch (Exception ex) { }
+
+    }
+
+    protected void GridView3_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            GridView3.PageIndex = e.NewPageIndex;
+            this.FillDataUpLoad(lblWNo.Text);
+        }
+        catch (Exception ex) { }
+
+    }
+    protected void GridView3_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            string CDate = fun.getCurrDate();
+            string CTime = fun.getCurrTime();
+
+            if (e.CommandName == "Add")
+            {
+                string strcv = "";
+                string wn1 = ((Label)GridView3.FooterRow.FindControl("lblWONo2")).Text;
+                HttpPostedFile mycv = ((FileUpload)GridView3.FooterRow.FindControl("FileUpload1")).PostedFile;
+                Byte[] mycvdata = null;
+
+                if (((FileUpload)GridView3.FooterRow.FindControl("FileUpload1")) != null)
+                {
+                    Stream fscv = ((FileUpload)GridView3.FooterRow.FindControl("FileUpload1")).PostedFile.InputStream;
+                    BinaryReader brcv = new BinaryReader(fscv);
+                    mycvdata = brcv.ReadBytes((Int32)fscv.Length);
+                    strcv = Path.GetFileName(mycv.FileName);
+                }
+
+                if (strcv != string.Empty && wn1 != string.Empty)
+                {
+                    string StrUp = fun.insert("tblPM_ProjectPlanning_Master", "SysDate, SysTime , CompId, FinYearId , SessionId, WONo, FileName , FileSize, ContentType, FileData", "'" + CDate + "','" + CTime + "','" + CompId + "','" + FyId + "','" + SId + "','" + wn1 + "','" + strcv + "','" + mycvdata.Length + "','" + mycv.ContentType + "',@Data");
+
+                    SqlCommand cmdUp = new SqlCommand(StrUp, con);
+                    cmdUp.Parameters.AddWithValue("@Data", mycvdata);
+                    con.Open();
+                    cmdUp.ExecuteNonQuery();
+                    con.Close();
+                    this.FillDataUpLoad(wn1);
+                }
+                else
+                {
+                    string myStringVariable = string.Empty;
+                    myStringVariable = "Please Upload the file.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable + "');", true);
+                }
+
+            }
+
+            if (e.CommandName == "Add1")
+            {
+                string strcv = "";
+                GridViewRow row = (GridViewRow)(((Button)e.CommandSource).NamingContainer);
+                string wn2 = ((Label)GridView3.Controls[0].Controls[0].FindControl("lblWONo1")).Text;
+                HttpPostedFile mycv = ((FileUpload)GridView3.Controls[0].Controls[0].FindControl("FileUpload2")).PostedFile;
+                Byte[] mycvdata = null;
+
+                if (((FileUpload)GridView3.Controls[0].Controls[0].FindControl("FileUpload2")) != null)
+                {
+                    Stream fscv = ((FileUpload)GridView3.Controls[0].Controls[0].FindControl("FileUpload2")).PostedFile.InputStream;
+                    BinaryReader brcv = new BinaryReader(fscv);
+                    mycvdata = brcv.ReadBytes((Int32)fscv.Length);
+                    strcv = Path.GetFileName(mycv.FileName);
+                }
+
+                if (strcv != string.Empty && wn2 != string.Empty)
+                {
+                    string StrUp1 = fun.insert("tblPM_ProjectPlanning_Master", "SysDate, SysTime , CompId, FinYearId , SessionId, WONo, FileName , FileSize, ContentType, FileData", "'" + CDate + "','" + CTime + "','" + CompId + "','" + FyId + "','" + SId + "','" + wn2 + "','" + strcv + "','" + mycvdata.Length + "','" + mycv.ContentType + "',@Data");
+
+                    SqlCommand cmdUp1 = new SqlCommand(StrUp1, con);
+                    cmdUp1.Parameters.AddWithValue("@Data", mycvdata);
+                    con.Open();
+                    cmdUp1.ExecuteNonQuery();
+                    con.Close();
+                    this.FillDataUpLoad(wn2);
+                }
+                else
+                {
+                    string myStringVariable = string.Empty;
+                    myStringVariable = "Please Upload the file.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable + "');", true);
+                }
+
+            }
+
+            if (e.CommandName == "del")
+            {
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                int id = Convert.ToInt32(((Label)row.FindControl("lblId")).Text);
+                string wn = ((Label)row.FindControl("lblWONo")).Text;
+                con.Open();
+                string sql = fun.delete("tblPM_ProjectPlanning_Master", "CompId='" + CompId + "'AND Id='" + id + "'");
+                SqlCommand cmd = new SqlCommand(sql, con);
+                cmd.ExecuteNonQuery();
+                con.Close();
+                this.FillDataUpLoad(wn);
+            }
+
+            if (e.CommandName == "downloadImg")
+            {
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                int id = Convert.ToInt32(((Label)row.FindControl("lblId")).Text);
+                Response.Redirect("~/Controls/DownloadFile.aspx?Id=" + id + "&tbl=tblPM_ProjectPlanning_Master&qfd=FileData&qfn=FileName&qct=ContentType");
+
+            }
+
+
+
+        }
+        catch (Exception ex) { }
+    }
+
+
+
+    protected void DDLTaskWOType_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (DDLTaskWOType.SelectedValue != "WO Category")
+        {
+            int k = Convert.ToInt32(DDLTaskWOType.SelectedValue);
+            this.FillData(wono, k);
+        }
+        else
+        {
+            this.FillData(wono, h);
+        }
+
+    }
+}

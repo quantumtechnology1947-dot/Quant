@@ -1,0 +1,346 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MIS/Transactions/Budget_Labour_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Budget_Labour_Details.aspx.cs" Inherits="Module_Accounts_Transactions_BudgetDetails" Title="ERP" Theme ="Default" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style3
+        {
+            height: 24px;
+            }
+        .style4
+        {
+            height: 40px;
+        }
+        </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td>
+                &nbsp;</td>
+        </tr>
+        <tr>
+            <td>
+    <table align="center" cellpadding="0" cellspacing="0" width="50%" class="box3">
+ 
+        <tr>
+            <td align="left" valign="middle"  scope="col"  
+                            style="background:url(../../../images/hdbg.JPG)" class="fontcsswhite" 
+                            height="21">
+                            &nbsp;<b>Labour Budget</b></td>
+        </tr>
+    
+        <tr>
+            <td align="left" class="style3" >
+                &nbsp;
+                <asp:Label ID="Label2" runat="server" Text="Budget Code"></asp:Label>
+            &nbsp;&nbsp;&nbsp;
+                <asp:Label ID="lblCode" runat="server" Font-Bold="True" 
+                    ForeColor="#3333FF"></asp:Label>
+                &nbsp;
+                </td>
+        </tr>
+        <tr>
+            <td align="left" class="style3">
+                &nbsp;
+                <asp:Label ID="Label4" runat="server" Text="Description"></asp:Label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:Label ID="lblDesc" runat="server"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" 
+                    DataKeyNames="Id"  Width="100%" ShowFooter="True"
+                    AllowPaging="True" CssClass="yui-datatable-theme" 
+                    onrowcommand="GridView2_RowCommand" 
+                    onrowupdating="GridView2_RowUpdating" PageSize="20"  >
+                    <PagerSettings PageButtonCount="40" />
+                    <Columns>
+                    
+                     <asp:TemplateField HeaderText="SN" SortExpression="Id">
+                        <ItemTemplate>
+                        <%# Container.DataItemIndex+1 %>
+                        </ItemTemplate>
+                       
+                        <ItemStyle HorizontalAlign="Right" />
+                        </asp:TemplateField>
+                       
+                       <asp:TemplateField HeaderText="CK">
+        <ItemTemplate>
+        <asp:CheckBox ID="CheckBox1" OnCheckedChanged="CheckBox1_CheckedChanged" AutoPostBack="true"  runat="server"/>
+        </ItemTemplate>
+                           <ItemStyle HorizontalAlign="Center" />
+        </asp:TemplateField>
+                           
+                        <asp:TemplateField HeaderText="Id" SortExpression="Id" Visible="false">
+                        <ItemTemplate>
+                        <asp:Label ID="lblId" runat="server" Text='<%#Eval("Id") %>'>    </asp:Label>                                  </ItemTemplate>
+                        
+                        </asp:TemplateField>
+                        
+                        
+                        
+                         <asp:TemplateField HeaderText="Date" SortExpression="Date">
+                        <ItemTemplate>
+                        <asp:Label ID="lblDate" runat="server" Text='<%#Eval("SysDate") %>'>    </asp:Label>                                  </ItemTemplate>
+                        
+                             <ItemStyle HorizontalAlign="Center" />
+                        
+                        </asp:TemplateField>
+                        
+                         <asp:TemplateField HeaderText="Time" SortExpression="Time">
+                        <ItemTemplate>
+                        <asp:Label ID="lblTime" runat="server" Text='<%#Eval("SysTime") %>'>    </asp:Label>                                  </ItemTemplate>
+                        
+                             <ItemStyle HorizontalAlign="Center" />
+                        
+                        </asp:TemplateField>
+                        
+                        
+                          <asp:TemplateField HeaderText="Amount" SortExpression="Amount">
+                        <ItemTemplate>
+              <asp:Label ID="lblAmount" runat="server" Text='<%#Eval("Amount")%>' >    </asp:Label> 
+                        
+                           <asp:TextBox ID="TxtAmount" runat="server" Text='<%#Eval("Amount")%>' Visible="false"  ValidationGroup="A">
+                                </asp:TextBox>
+                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ErrorMessage="*" ControlToValidate="TxtAmount" ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="A"></asp:RegularExpressionValidator>
+                                </ItemTemplate>
+                       
+                        
+                          <FooterTemplate> 
+                  <asp:Button ID="BtnUpdate" runat="server"  ValidationGroup="A" Text="Update" CommandName="Update" CssClass="redbox" />
+                   <asp:Button ID="BtnDelete" runat="server" Text="Delete" CommandName="Deletes" CssClass="redbox" />
+                  </FooterTemplate>
+                        
+                              <FooterStyle HorizontalAlign="Right" />
+                        
+                              <ItemStyle HorizontalAlign="Right" />
+                        
+                        </asp:TemplateField>
+                    
+                       
+                    </Columns>
+                </asp:GridView>
+            </td>
+        </tr>
+        
+       
+        <tr>
+            <td align="center" class="style4">
+                <asp:Label ID="lblMessage" runat="server" Text="Label" Font-Bold="True" 
+                    ForeColor="#3333FF"></asp:Label>
+                    &nbsp;<asp:Button ID="BtnExport" runat="server" onclick="BtnExport_Click" 
+                    Text="Export" CssClass="redbox" />
+            &nbsp;<asp:Button ID="btnCancel" runat="server" CssClass="redbox" 
+                    onclick="btnCancel_Click" Text="Cancel" />
+            </td>
+        </tr>
+        
+       
+        </table>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MIS/Transactions/Budget_Labour_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.IO;
+using iTextSharp.text;
+using iTextSharp.text.html.simpleparser;
+using iTextSharp.text.pdf;
+
+public partial class Module_Accounts_Transactions_BudgetDetails : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    int CompId = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        CompId = Convert.ToInt32(Session["compid"]);
+          lblMessage.Text = "";
+        if (!IsPostBack)
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+
+            try
+            {
+                
+            string Code = Request.QueryString["Id"];
+         
+            SqlCommand cmd = new SqlCommand("Select tblACC_Budget_Transactions.Id,REPLACE(CONVERT (varchar, CONVERT (datetime, SUBSTRING(tblACC_Budget_Transactions.SysDate , CHARINDEX('-',tblACC_Budget_Transactions.SysDate ) + 1, 2) + '-' + LEFT (tblACC_Budget_Transactions.SysDate , CHARINDEX('-', tblACC_Budget_Transactions.SysDate ) - 1) + '-' + RIGHT (tblACC_Budget_Transactions.SysDate , CHARINDEX('-', REVERSE(tblACC_Budget_Transactions.SysDate )) - 1)), 103), '/', '-') AS SysDate,tblACC_Budget_Transactions.SysTime,tblACC_Budget_Transactions.BudgetCode,  AccHead.Description,AccHead.Symbol,tblACC_Budget_Transactions.Amount  from  AccHead ,tblACC_Budget_Transactions where tblACC_Budget_Transactions.BudgetCode=AccHead.Id  and  AccHead.Id='" + Code + "'", con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            GridView2.DataSource = ds;
+            GridView2.DataBind();
+            lblDesc.Text = ds.Tables[0].Rows[0]["Description"].ToString();
+            lblCode.Text = ds.Tables[0].Rows[0]["Symbol"].ToString();
+            }
+         catch(Exception ex){}
+        }
+
+    }
+   
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        
+        try
+        {
+        string CDate = fun.getCurrDate();
+        string CTime = fun.getCurrTime();
+        string sId = Session["username"].ToString();
+      
+   int  FinYearId =Convert.ToInt32( Session["finyear"]);
+        if (e.CommandName == "Update")
+        {
+            con.Open();
+            foreach (GridViewRow grv in GridView2.Rows)
+            {
+                if (((CheckBox)grv.FindControl("CheckBox1")).Checked == true)
+                {
+                   
+                    double Amt =Math.Round(Convert.ToDouble(((TextBox)grv.FindControl("TxtAmount")).Text),2);
+                    int id = Convert.ToInt32(((Label)grv.FindControl("lblId")).Text);
+                    if(Amt>0)
+                    {
+
+                    string update = ("Update   tblACC_Budget_Transactions  set SysDate='" + CDate + "'  ,SysTime='" + CTime + "',CompId='" + CompId + "',FinYearId='" + FinYearId + "',SessionId='" + sId + "'  ,Amount='" + Amt + "'  where Id='" + id + "' ");
+                    SqlCommand cmd = new SqlCommand(update, con);
+                    cmd.ExecuteNonQuery();
+                    lblMessage.Text = "Record Updated";
+                    }
+                } 
+                }
+            Page.Response.Redirect(Page.Request.Url.ToString(), true);
+
+            }
+        }
+
+            catch(Exception ex){}
+        finally
+        {
+            con.Close();                 
+        }
+        
+        // Code to Delete 
+        try
+        {
+         if (e.CommandName == "Deletes")
+            {
+                con.Open();
+                foreach (GridViewRow grv in GridView2.Rows)
+                {
+                    if (((CheckBox)grv.FindControl("CheckBox1")).Checked == true)
+                    {
+
+                        int id = Convert.ToInt32(((Label)grv.FindControl("lblId")).Text);
+
+                        string delete = (" Delete from tblACC_Budget_Transactions where  Id='" + id + "'");
+                        SqlCommand cmd = new SqlCommand(delete, con);
+                        cmd.ExecuteNonQuery();
+lblMessage.Text = "Record Deleted";
+                    }
+                   
+                }
+ Page.Response.Redirect(Page.Request.Url.ToString(), true);
+            }
+        }
+        catch (Exception ex){}
+        finally
+        {
+            con.Close();          
+           
+        }
+
+    }
+    
+    protected void CheckBox1_CheckedChanged(object sender, EventArgs e)
+    {
+       try
+       {
+        foreach (GridViewRow grv in GridView2.Rows)
+        {
+            if (((CheckBox)grv.FindControl("CheckBox1")).Checked == true)
+            {
+              
+            ((TextBox)grv.FindControl("TxtAmount")).Visible = true;
+                ((Label)grv.FindControl("lblAmount")).Visible=false;
+            } 
+
+            else
+            {
+                ((Label)grv.FindControl("lblAmount")).Visible = true;
+              ((TextBox)grv.FindControl("TxtAmount")).Visible = false;
+
+            }
+
+        }
+        }
+        catch (Exception ex)
+        {
+        }       
+    } 
+   
+    protected void BtnExport_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            string Code = Request.QueryString["Id"];
+            Response.Redirect("~/Module/MIS/Transactions/Budget_Dept_Print.aspx?Id=" + Code + "");
+        }
+        catch(Exception ex)
+        {
+        }
+    }
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/MIS/Transactions/Dashboard.aspx?ModId=14");
+    }
+    protected void GridView2_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+        try
+        {
+            Page.Response.Redirect(Page.Request.Url.ToString(), true);
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+}

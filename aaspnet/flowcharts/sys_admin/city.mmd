@@ -1,0 +1,230 @@
+graph TB
+    %% City Module Architecture Diagram
+    
+    subgraph "Presentation Layer"
+        A[City.aspx<br/>ASP.NET Web Form]
+        A1[Master Page<br/>MasterPage.master]
+        A2[CSS Stylesheets<br/>yui-datatable.css<br/>StyleSheet.css]
+        A3[JavaScript Files<br/>PopUpMsg.js<br/>loadingNotifier.js]
+    end
+    
+    subgraph "Code-Behind Layer"
+        B[City.aspx.cs<br/>Module_SysAdmin_City Class]
+        B1[Page_Load Event]
+        B2[DrpCountry_SelectedIndexChanged Event]
+        B3[Drpstate_SelectedIndexChanged Event]
+        B4[GridView1_RowCommand Event]
+        B5[GridView1_RowDataBound Event]
+        B6[GridView1_RowEditing Event]
+        B7[GridView1_RowUpdating Event]
+        B8[GridView1_RowCancelingEdit Event]
+        B9[GridView1_PageIndexChanging Event]
+        B10[loadata Method]
+    end
+    
+    subgraph "Filter Controls"
+        FC[Cascading Dropdowns]
+        FC1[Country Dropdown<br/>DrpCountry - AutoPostBack]
+        FC2[State Dropdown<br/>Drpstate - AutoPostBack]
+        FC3[Dynamic State Loading<br/>Based on Country Selection]
+        FC4[Dynamic City Filtering<br/>Based on State Selection]
+    end
+    
+    subgraph "Data Access Layer"
+        C[Manual SQL Operations<br/>clsFunctions]
+        C1[SELECT Cities<br/>SELECT * FROM tblCity<br/>WHERE SId (Optional)]
+        C2[INSERT Command<br/>INSERT INTO tblCity<br/>SId, CityName]
+        C3[UPDATE Command<br/>UPDATE tblCity SET<br/>SId, CityName WHERE CityId]
+        C4[DELETE Command<br/>DELETE FROM tblCity<br/>WHERE CityId]
+        C5[Country Lookup<br/>SELECT * FROM tblCountry]
+        C6[State Lookup<br/>SELECT * FROM tblState<br/>WHERE CId]
+    end
+    
+    subgraph "Database Layer"
+        D[(tblCity Table)]
+        D1[CityId - INT<br/>Primary Key<br/>Auto Increment]
+        D2[CityName - STRING<br/>Required Field]
+        D3[SId - INT<br/>Foreign Key to tblState]
+        
+        D4[(tblState Table)]
+        D5[SId - INT<br/>Primary Key]
+        D6[StateName - STRING]
+        D7[CId - INT<br/>Foreign Key to tblCountry]
+        
+        D8[(tblCountry Table)]
+        D9[CId - INT<br/>Primary Key]
+        D10[CountryName - STRING]
+    end
+    
+    subgraph "UI Components"
+        E[GridView1<br/>Data Grid Control]
+        E1[Edit Button<br/>CommandField]
+        E2[Delete Button<br/>Custom LinkButton]
+        E3[Serial Number Column<br/>Auto Generated]
+        E4[City Name Column<br/>TemplateField]
+        E5[Footer Row<br/>Insert Controls]
+        E6[Paging Support<br/>PageSize=17]
+        E7[Conditional Display<br/>Based on State Selection]
+    end
+    
+    subgraph "Validation Layer"
+        F[RequiredFieldValidator]
+        F1[City Name Validation<br/>ValidationGroup A, B & SG]
+        F2[State Selection Required<br/>Business Logic validation]
+        F3[Conditional Insert<br/>Only when State selected]
+    end
+    
+    subgraph "Utility Functions"
+        G[clsFunctions Class]
+        G1[Connection Method<br/>Database connection string]
+        G2[select Method<br/>Dynamic SELECT with WHERE]
+        G3[select1 Method<br/>Simple SELECT queries]
+        G4[insert Method<br/>Dynamic INSERT queries]
+        G5[update Method<br/>Dynamic UPDATE queries]
+        G6[delete Method<br/>Dynamic DELETE queries]
+    end
+    
+    subgraph "Business Logic"
+        H[City Management Logic]
+        H1[Hierarchical Filtering<br/>Country → State → City]
+        H2[State Dependency<br/>Cities must belong to a state]
+        H3[Dynamic Loading<br/>Load cities based on state filter]
+        H4[Cascading Updates<br/>Maintain referential integrity]
+        H5[Conditional Operations<br/>CRUD operations require state selection]
+    end
+    
+    subgraph "User Actions"
+        I[CRUD Operations]
+        I1[Create New City<br/>Add Command with State]
+        I2[Read City List<br/>Filtered by State]
+        I3[Update City<br/>Edit Command with State]
+        I4[Delete City<br/>Del Command]
+        I5[Filter Cities<br/>By Country and State]
+    end
+    
+    subgraph "JavaScript Confirmations"
+        J[Client-Side Validations]
+        J1[confirmationAdd<br/>Insert confirmation]
+        J2[confirmationUpdate<br/>Edit confirmation]
+        J3[confirmationDelete<br/>Delete confirmation]
+    end
+    
+    %% Relationships
+    A --> A1
+    A --> A2
+    A --> A3
+    A --> B
+    A --> FC
+    A --> E
+    A --> F
+    
+    B --> B1
+    B --> B2
+    B --> B3
+    B --> B4
+    B --> B5
+    B --> B6
+    B --> B7
+    B --> B8
+    B --> B9
+    B --> B10
+    B --> G
+    B --> H
+    
+    FC --> FC1
+    FC --> FC2
+    FC --> FC3
+    FC --> FC4
+    
+    B2 --> FC3
+    B3 --> FC4
+    B4 --> I1
+    B4 --> I4
+    B7 --> I3
+    
+    E --> E1
+    E --> E2
+    E --> E3
+    E --> E4
+    E --> E5
+    E --> E6
+    E --> E7
+    
+    F --> F1
+    F --> F2
+    F --> F3
+    
+    C --> C1
+    C --> C2
+    C --> C3
+    C --> C4
+    C --> C5
+    C --> C6
+    C --> G
+    
+    D --> D1
+    D --> D2
+    D --> D3
+    D4 --> D5
+    D4 --> D6
+    D4 --> D7
+    D8 --> D9
+    D8 --> D10
+    
+    D3 --> D5
+    D7 --> D9
+    
+    G --> G1
+    G --> G2
+    G --> G3
+    G --> G4
+    G --> G5
+    G --> G6
+    
+    H --> H1
+    H --> H2
+    H --> H3
+    H --> H4
+    H --> H5
+    
+    I --> I1
+    I --> I2
+    I --> I3
+    I --> I4
+    I --> I5
+    
+    E1 --> J2
+    E2 --> J3
+    E5 --> J1
+    
+    FC1 --> D8
+    FC2 --> D4
+    E7 --> FC2
+    H1 --> FC
+    H2 --> D4
+    H3 --> FC4
+    
+    %% Styling
+    classDef presentationClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef codeClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef filterClass fill:#e8eaf6,stroke:#3f51b5,stroke-width:2px
+    classDef dataClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef dbClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef uiClass fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef validationClass fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    classDef utilityClass fill:#e0f2f1,stroke:#004d40,stroke-width:2px
+    classDef businessClass fill:#f9fbe7,stroke:#827717,stroke-width:2px
+    classDef actionClass fill:#e3f2fd,stroke:#0d47a1,stroke-width:2px
+    classDef jsClass fill:#fff8e1,stroke:#ff6f00,stroke-width:2px
+    
+    class A,A1,A2,A3 presentationClass
+    class B,B1,B2,B3,B4,B5,B6,B7,B8,B9,B10 codeClass
+    class FC,FC1,FC2,FC3,FC4 filterClass
+    class C,C1,C2,C3,C4,C5,C6 dataClass
+    class D,D1,D2,D3,D4,D5,D6,D7,D8,D9,D10 dbClass
+    class E,E1,E2,E3,E4,E5,E6,E7 uiClass
+    class F,F1,F2,F3 validationClass
+    class G,G1,G2,G3,G4,G5,G6 utilityClass
+    class H,H1,H2,H3,H4,H5 businessClass
+    class I,I1,I2,I3,I4,I5 actionClass
+    class J,J1,J2,J3 jsClass

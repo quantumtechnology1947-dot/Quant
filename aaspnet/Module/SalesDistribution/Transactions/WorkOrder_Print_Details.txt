@@ -1,0 +1,360 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Transactions/WorkOrder_Print_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="WorkOrder_Print_Details.aspx.cs" Inherits="Module_SalesDistribution_Reports_WorkOrder_Print_Details" Title="ERP" Theme ="Default" %>
+
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+    .style1
+    {
+        width: 100%;
+    }
+</style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+    <p><br /></p><p></p>
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+ 
+    <table align="center" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+        <td align="center">
+            <asp:Panel ID="Panel1" runat="server" Width="100%" Height="450" ScrollBars="Auto">            
+        <CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" HasCrystalLogo="False"
+        AutoDataBind="true" DisplayGroupTree="False" EnableDatabaseLogonPrompt="False" 
+                EnableParameterPrompt="False" />
+       <CR:CrystalReportSource ID="CrystalReportSource1" runat="server">
+       </CR:CrystalReportSource>    
+            </asp:Panel>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <asp:Button ID="btnCl" runat="server" CssClass="redbox" onclick="Button1_Click" Text="Cancel" />
+        </td>
+    </tr>
+</table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Transactions/WorkOrder_Print_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using CrystalDecisions.CrystalReports.Engine;
+using System.Data.SqlClient;
+
+public partial class Module_SalesDistribution_Reports_WorkOrder_Print_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    private ReportDocument report = new ReportDocument();
+
+         string strcustId = "";
+         string strenqId ="";
+         string strpoId ="";
+         string poId ="";
+         string Id ="";
+         int CId = 0;
+         string Key = string.Empty;
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            string connStr1 = fun.Connection();
+            SqlConnection myConnection = new SqlConnection(connStr1);
+            myConnection.Open();
+            try
+            {
+              
+               
+                 strcustId = Request.QueryString["CustomerId"].ToString();
+                 strenqId = Request.QueryString["EnqId"].ToString();
+                 strpoId = Request.QueryString["PONo"].ToString();                
+                 poId = Request.QueryString["POId"].ToString();
+                 Id = Request.QueryString["Id"].ToString();
+                 Key = Request.QueryString["Key"].ToString();
+
+                 CId = Convert.ToInt32(Session["compid"]);
+
+                // To pass values in crystal report from  SD_Cust_PO_Master
+
+                string selectQuery = fun.select("*", "SD_Cust_WorkOrder_Master", "POId='" + poId + "'AND PONo='" + strpoId + "' And EnqId='" + strenqId + "'And Id='" + Id + "'And CustomerId='" + strcustId + "'And CompId='" + CId + "' ");
+                SqlCommand myCommand = new SqlCommand(selectQuery, myConnection);
+                SqlDataAdapter ad = new SqlDataAdapter(myCommand);
+                DataSet ds = new DataSet();
+                ad.Fill(ds, "SD_Cust_WorkOrder_Master");
+                string reportPath = Server.MapPath("~/Module/SalesDistribution/Transactions/Reports/CustWo.rpt");
+                report.Load(reportPath);
+                report.SetDataSource(ds);
+
+                // TO SET Country,city,State Parameter to Crystal Report  
+
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    int shipciti = Convert.ToInt32(ds.Tables[0].Rows[0]["ShippingCity"]);
+                    string shipcity = fun.getCity(shipciti, 1);
+                    int shipst = Convert.ToInt32(ds.Tables[0].Rows[0]["ShippingState"]);
+                    string shipstate = fun.getState(shipst, 1);
+                    int shipcnt = Convert.ToInt32(ds.Tables[0].Rows[0]["ShippingCountry"]);
+                    string shipcountry = fun.getCountry(shipcnt, 1);
+                    // TO SET Parameter to Crystal Report  
+
+                    string taskwodate = ds.Tables[0].Rows[0]["TaskWorkOrderDate"].ToString();
+                    string TaskWorkOrderDate = fun.FromDateDMY(taskwodate);
+
+                    string tasktargetDAP_fdate = ds.Tables[0].Rows[0]["TaskTargetDAP_FDate"].ToString();
+                    string TaskTargetDAP_FDate = fun.FromDateDMY(tasktargetDAP_fdate);
+
+                    string tasktargetDAP_tdate = ds.Tables[0].Rows[0]["TaskTargetDAP_TDate"].ToString();
+                    string TaskTargetDAP_TDate = fun.ToDateDMY(tasktargetDAP_tdate);
+
+                    string taskdesignfinalization_fdate = ds.Tables[0].Rows[0]["TaskDesignFinalization_FDate"].ToString();
+                    string TaskDesignFinalization_FDate = fun.FromDateDMY(taskdesignfinalization_fdate);
+
+                    string taskdesignfinalization_tdate = ds.Tables[0].Rows[0]["TaskDesignFinalization_TDate"].ToString();
+                    string TaskDesignFinalization_TDate = fun.ToDateDMY(taskdesignfinalization_tdate);
+
+                    string tasktargetmanufg_fdate = ds.Tables[0].Rows[0]["TaskTargetManufg_FDate"].ToString();
+                    string TaskTargetManufg_FDate = fun.FromDateDMY(tasktargetmanufg_fdate);
+
+                    string tasktargetmanufg_tdate = ds.Tables[0].Rows[0]["TaskTargetManufg_TDate"].ToString();
+                    string TaskTargetManufg_TDate = fun.ToDateDMY(tasktargetmanufg_tdate);
+                    //
+                    string tasktargettryOut_fDate = ds.Tables[0].Rows[0]["TaskTargetTryOut_FDate"].ToString();
+                    string TaskTargetTryOut_FDate = fun.FromDateDMY(tasktargettryOut_fDate);
+
+                    string tasktargettryOut_tDate = ds.Tables[0].Rows[0]["TaskTargetTryOut_TDate"].ToString();
+                    string TaskTargetTryOut_TDate = fun.ToDateDMY(tasktargettryOut_tDate);
+                    //
+
+                    string tasktargetdespach_fdate = ds.Tables[0].Rows[0]["TaskTargetDespach_FDate"].ToString();
+                    string TaskTargetDespach_FDate = fun.FromDateDMY(tasktargetdespach_fdate);
+
+                    string tasktargetdespach_tdate = ds.Tables[0].Rows[0]["TaskTargetDespach_TDate"].ToString();
+                    string TaskTargetDespach_TDate = fun.ToDateDMY(tasktargetdespach_tdate);
+                    //
+
+                    string tasktargetinstalation_fdate = ds.Tables[0].Rows[0]["TaskTargetInstalation_FDate"].ToString();
+                    string TaskTargetInstalation_FDate = fun.FromDateDMY(tasktargetinstalation_fdate);
+
+                    string tasktargetinstalation_tdate = ds.Tables[0].Rows[0]["TaskTargetInstalation_TDate"].ToString();
+                    string TaskTargetInstalation_TDate = fun.ToDateDMY(tasktargetinstalation_tdate);
+
+                    //
+
+                    string tasktargetassembly_fdate = ds.Tables[0].Rows[0]["TaskTargetAssembly_FDate"].ToString();
+                    string TaskTargetAssembly_FDate = fun.FromDateDMY(tasktargetassembly_fdate);
+
+                    string tasktargetassembly_tdate = ds.Tables[0].Rows[0]["TaskTargetAssembly_TDate"].ToString();
+                    string TaskTargetAssembly_TDate = fun.ToDateDMY(tasktargetassembly_tdate);
+                    //
+
+                    string taskcustinspection_fdate = ds.Tables[0].Rows[0]["TaskCustInspection_FDate"].ToString();
+                    string TaskCustInspection_FDate = fun.FromDateDMY(taskcustinspection_fdate);
+
+                    string taskcustinspection_tdate = ds.Tables[0].Rows[0]["TaskCustInspection_TDate"].ToString();
+                    string TaskCustInspection_TDate = fun.ToDateDMY(taskcustinspection_tdate);
+                    //
+
+                    string ManufMaterialDate = fun.ToDateDMY(ds.Tables[0].Rows[0]["ManufMaterialDate"].ToString());
+                    string BoughtoutMaterialDate = fun.ToDateDMY(ds.Tables[0].Rows[0]["BoughtoutMaterialDate"].ToString());
+                    //
+                    report.SetParameterValue("shipcity", shipcity);
+                    report.SetParameterValue("shipstate", shipstate);
+                    report.SetParameterValue("shipcountry", shipcountry);
+
+                    report.SetParameterValue("TaskWorkOrderDate", TaskWorkOrderDate);
+                    report.SetParameterValue("TaskTargetDAP_FDate", TaskTargetDAP_FDate);
+                    report.SetParameterValue("TaskTargetDAP_TDate", TaskTargetDAP_TDate);
+
+                    report.SetParameterValue("TaskDesignFinalization_FDate", TaskDesignFinalization_FDate);
+                    report.SetParameterValue("TaskDesignFinalization_TDate", TaskDesignFinalization_TDate);
+
+                    report.SetParameterValue("TaskTargetManufg_FDate", TaskTargetManufg_FDate);
+                    report.SetParameterValue("TaskTargetManufg_TDate", TaskTargetManufg_TDate);
+
+                    report.SetParameterValue("TaskTargetTryOut_FDate", TaskTargetTryOut_FDate);
+                    report.SetParameterValue("TaskTargetTryOut_TDate", TaskTargetTryOut_TDate);
+
+                    report.SetParameterValue("TaskTargetDespach_FDate", TaskTargetDespach_FDate);
+                    report.SetParameterValue("TaskTargetDespach_TDate", TaskTargetDespach_TDate);
+
+                    report.SetParameterValue("TaskTargetInstalation_FDate", TaskTargetInstalation_FDate);
+                    report.SetParameterValue("TaskTargetInstalation_TDate", TaskTargetInstalation_TDate);
+
+                    report.SetParameterValue("TaskTargetAssembly_FDate", TaskTargetAssembly_FDate);
+                    report.SetParameterValue("TaskTargetAssembly_TDate", TaskTargetAssembly_TDate);
+
+                    report.SetParameterValue("TaskCustInspection_FDate", TaskCustInspection_FDate);
+                    report.SetParameterValue("TaskCustInspection_TDate", TaskCustInspection_TDate);
+
+                    report.SetParameterValue("ManufMaterialDate", ManufMaterialDate);
+                    report.SetParameterValue("BoughtoutMaterialDate", BoughtoutMaterialDate);
+
+
+                    SqlCommand sqlcmd = new SqlCommand(fun.select("Symbol+' - '+CName as Category", "tblSD_WO_Category", "CId='" + ds.Tables[0].Rows[0]["CId"].ToString() + "'"), myConnection);
+                    SqlDataAdapter ad2 = new SqlDataAdapter(sqlcmd);
+                    DataSet ds2 = new DataSet();
+                    ad2.Fill(ds2, "tblSD_WO_Category");
+                    if (ds2.Tables[0].Rows.Count > 0)
+                    {
+                        report.SetParameterValue("ec", ds2.Tables[0].Rows[0]["Category"].ToString());
+                    }
+                    else
+                    {
+                        report.SetParameterValue("ec", "NA");
+                    }
+
+                    //Buyer
+
+                    string sqlBuyer = fun.select("tblMM_Buyer_Master.Id,tblMM_Buyer_Master.Category+Convert(Varchar,tblMM_Buyer_Master.Nos)+' - '+tblHR_OfficeStaff.EmployeeName+' ['+tblMM_Buyer_Master.EmpId+' ]' As Buyer", "tblMM_Buyer_Master,tblHR_OfficeStaff", "tblMM_Buyer_Master.EmpId=tblHR_OfficeStaff.EmpId AND tblMM_Buyer_Master.Id='" + Convert.ToInt32(ds.Tables[0].Rows[0]["Buyer"].ToString()) + "' ");
+
+                    SqlCommand cmdBuyer = new SqlCommand(sqlBuyer, myConnection);
+                    SqlDataAdapter DABuyer = new SqlDataAdapter(cmdBuyer);
+                    DataSet DSBuyer = new DataSet();
+                    DABuyer.Fill(DSBuyer, "tblMM_Buyer_Master");
+
+                    if (DSBuyer.Tables[0].Rows.Count > 0)
+                    {
+                        report.SetParameterValue("Buyer", DSBuyer.Tables[0].Rows[0]["Buyer"].ToString());
+                    }
+
+                    else
+                    {
+                        report.SetParameterValue("Buyer", "NA");
+                    }
+
+                    //WO_Category
+                    SqlCommand sqlcmd1 = new SqlCommand(fun.select("Symbol+' - '+SCName as SubCategory", "tblSD_WO_SubCategory", "SCId='" + ds.Tables[0].Rows[0]["SCId"].ToString() + "'"), myConnection);
+                    SqlDataAdapter ad21 = new SqlDataAdapter(sqlcmd1);
+                    DataSet ds21 = new DataSet();
+                    ad21.Fill(ds21, "tblSD_WO_Category");
+                    if (ds21.Tables[0].Rows.Count > 0)
+                    {
+                        report.SetParameterValue("Sub", ds21.Tables[0].Rows[0]["SubCategory"].ToString());
+                    }
+
+                    else
+                    {
+                        report.SetParameterValue("Sub", "NA");
+                    }
+
+                    // To Show Company Name on Crystal Report
+
+                    string Address = fun.CompAdd(CId);
+                    report.SetParameterValue("Address", Address);
+
+                    string Company = fun.getCompany(CId);
+
+                    report.SetParameterValue("Company", Company);
+                    report.SetParameterValue("PONo", strpoId);
+
+                    // Parameter field For Instruction
+
+                    string instruction = "";
+
+                    if (Convert.ToInt32(ds.Tables[0].Rows[0]["InstractionPrimerPainting"]) == 1)
+                    {
+                        instruction += "Primer Painting,";
+                    }
+
+                    if (Convert.ToInt32(ds.Tables[0].Rows[0]["InstractionPainting"]) == 1)
+                    {
+                        instruction += " Painting,";
+                    }
+
+                    if (Convert.ToInt32(ds.Tables[0].Rows[0]["InstractionSelfCertRept"]) == 1)
+                    {
+                        instruction += " Self Certification Report ";
+                    }
+
+                    instruction += ds.Tables[0].Rows[0]["InstractionOther"].ToString();
+                    report.SetParameterValue("instruction", instruction);
+                }
+                string selectproduct = fun.select("ItemCode,Description,Qty ", "SD_Cust_WorkOrder_Products_Details", "MId='" + Id + "'And CompId='" + CId + "'");
+                SqlCommand myProduct = new SqlCommand(selectproduct, myConnection);
+                SqlDataAdapter adproduct = new SqlDataAdapter(myProduct);
+                DataSet dsproduct = new DataSet();
+                adproduct.Fill(dsproduct, "SD_Cust_WorkOrder_Products_Details");
+                DataTable dtb = new DataTable();
+                dtb.Columns.Add(new System.Data.DataColumn("Item Code", typeof(string)));
+                dtb.Columns.Add(new System.Data.DataColumn("Description", typeof(string)));
+                dtb.Columns.Add(new System.Data.DataColumn("Quantity", typeof(string)));
+
+                DataRow drb;
+
+                for (int p = 0; p < dsproduct.Tables[0].Rows.Count; p++)
+                {
+                    drb = dtb.NewRow();
+                    drb[0] = dsproduct.Tables[0].Rows[p][0].ToString();                   
+                    drb[1] = dsproduct.Tables[0].Rows[p][1].ToString();
+                    drb[2] = dsproduct.Tables[0].Rows[p][2].ToString();
+                    dtb.Rows.Add(drb);
+                    dtb.AcceptChanges();
+                }
+
+                CrystalReportViewer1.ReportSource = report;
+                Session[Key] = report;
+            }
+            catch (Exception ex)
+            {
+
+            }
+           finally
+            {
+                myConnection.Close();
+                myConnection.Dispose();
+            }
+           
+        }
+
+        else
+        {
+            Key = Request.QueryString["Key"].ToString();
+            ReportDocument doc = (ReportDocument)Session[Key];
+            CrystalReportViewer1.ReportSource = doc;
+        }
+    }
+
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        report = new ReportDocument();
+    }
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("WorkOrder_Print.aspx?ModId=2&SubModId=13");
+    }
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        report.Close();
+        report.Dispose();
+        GC.Collect();
+    }
+}

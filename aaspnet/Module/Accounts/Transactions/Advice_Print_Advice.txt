@@ -1,0 +1,287 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/Advice_Print_Advice.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Advice_Print_Advice.aspx.cs" Inherits="Module_Accounts_Transactions_Advice_Print_Advice" Title="ERP" Theme="Default" %>
+
+<%@ Register Assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"
+    Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">         
+          
+          
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+   
+   <table width="100%">
+   
+   <tr>
+   <td align="center">
+    <asp:Panel ID="Panel1" ScrollBars="Auto"  Width="100%" Height="430px"  runat="server">
+   
+    <CR:CrystalReportViewer ID="CrystalReportViewer2"   AutoDataBind="True"  HasCrystalLogo="False"
+        ReportSourceID="CrystalReportSource2" runat="server" EnableParameterPrompt="false" 
+        EnableDatabaseLogonPrompt="False" DisplayGroupTree="False" 
+        ReuseParameterValuesOnRefresh="True" Height="50px" Width="100%"  />
+    <CR:CrystalReportSource ID="CrystalReportSource2"  runat="server">
+        <Report FileName="~/Module/Accounts/Reports/Advice_Print_Advice.rpt">
+        </Report>
+    </CR:CrystalReportSource> 
+    </asp:Panel>
+   </td>
+   </tr>
+   
+   <tr>
+   <td  align="center" style="height:25px; ">   
+       <asp:Button ID="btnCancel" runat="server" CssClass="redbox" Text="Cancel" 
+           onclick="btnCancel_Click" /></td>
+   </tr>
+   
+   </table>     
+    
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/Advice_Print_Advice.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+
+public partial class Module_Accounts_Transactions_Advice_Print_Advice : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    int CompId = 0;
+    int FinYearId = 0;
+    string sId = "";
+    int Id = 0;
+    ReportDocument cryRpt = new ReportDocument();
+    string Key = string.Empty;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        cryRpt = new ReportDocument();
+    }
+
+
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        try
+        {
+            Key = Request.QueryString["Key"].ToString();
+
+            if (!IsPostBack)
+            {
+
+                connStr = fun.Connection();
+                con = new SqlConnection(connStr);
+                CompId = Convert.ToInt32(Session["compid"]);
+                FinYearId = Convert.ToInt32(Session["finyear"]);
+                sId = Session["username"].ToString();
+                if (!string.IsNullOrEmpty(Request.QueryString["Id"]))
+                {
+
+                    Id = Convert.ToInt32(Request.QueryString["Id"]);
+                }
+
+                DataTable dt = new DataTable();
+                string str = "SELECT * FROM tblACC_Advice_Payment_Master where CompId='" + CompId + "' And Id='" + Id + "' And FinYearId<='" + FinYearId + "' Order By Id desc";
+
+
+                SqlCommand cmdCustWo = new SqlCommand(str, con);
+                SqlDataAdapter daCustWo = new SqlDataAdapter(cmdCustWo);
+                DataSet DSCustWo = new DataSet();
+                daCustWo.Fill(DSCustWo);
+
+                dt.Columns.Add(new System.Data.DataColumn("PaidTo", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));
+                dt.Columns.Add(new System.Data.DataColumn("ChequeDate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Amount", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("Address", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("ADNo", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("ChequeNo", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("SysDate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("BillNo", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("TypeECS", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("ECS", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("InvoiceNo", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Particulars", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("InvDate", typeof(string)));
+                DataRow dr;
+                if (DSCustWo.Tables[0].Rows.Count > 0)
+                {
+
+                    string st1 = "SELECT * FROM tblACC_Advice_Payment_Details INNER JOIN tblACC_Advice_Payment_Master ON tblACC_Advice_Payment_Details.MId =tblACC_Advice_Payment_Master.Id And tblACC_Advice_Payment_Master.Id='" + Id + "' ";
+                    SqlCommand cmd1 = new SqlCommand(st1, con);
+                    SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+                    DataSet DS1 = new DataSet();
+                    da1.Fill(DS1);
+                    for (int i = 0; i < DS1.Tables[0].Rows.Count; i++)
+                    {
+
+                        dr = dt.NewRow();
+
+                        dr[5] = DSCustWo.Tables[0].Rows[0]["ADNo"].ToString();
+                        dr[12] = DS1.Tables[0].Rows[0]["Particular"].ToString();
+                        int ac = Convert.ToInt32(DSCustWo.Tables[0].Rows[0]["Type"]);
+                        switch (ac)
+                        {
+                            case 1:
+                                dr[8] = "-";
+                                dr[11] = DS1.Tables[0].Rows[i]["ProformaInvNo"].ToString();
+                                dr[13] = fun.FromDateDMY(DS1.Tables[0].Rows[i]["InvDate"].ToString());
+                                break;
+                            case 2:
+                                dr[8] = "-";
+                                dr[11] = "-";
+                                dr[13] = "-";
+                                break;
+                            case 3:
+                                dr[8] = "-";
+                                dr[11] = "-";
+                                dr[13] = "-";
+                                break;
+                            case 4:
+                                string billNo = "";
+                                if (DS1.Tables[0].Rows.Count > 0)
+                                {
+
+                                    string st = "SELECT tblACC_BillBooking_Master.BillNo FROM tblACC_BillBooking_Details INNER JOIN tblACC_BillBooking_Master ON tblACC_BillBooking_Details.MId =tblACC_BillBooking_Master.Id And tblACC_BillBooking_Master.Id='" + DS1.Tables[0].Rows[i][0].ToString() + "' ";
+                                    SqlCommand cmd = new SqlCommand(st, con);
+                                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                                    DataSet DS = new DataSet();
+                                    da.Fill(DS);
+                                    if (DS.Tables[0].Rows.Count > 0)
+                                    {
+                                        billNo = DS.Tables[0].Rows[0][0].ToString();
+                                    }
+
+                                }
+                                dr[8] = billNo;
+                                dr[11] = "-";
+                                dr[13] = "-";
+                                break;
+                        }
+
+
+                        int ac1 = Convert.ToInt32(DSCustWo.Tables[0].Rows[0]["ECSType"]);
+                        switch (ac1)
+                        {
+                            case 1:
+                                dr[9] = "Employee Code";
+                                break;
+                            case 2:
+                                dr[9] = "Customer Code";
+                                break;
+
+                            case 3:
+
+                                dr[9] = "Supplier Code";
+                                break;
+                        }
+
+
+
+                        string Abc = fun.ECSNames(Convert.ToInt32(DSCustWo.Tables[0].Rows[0]["ECSType"].ToString()), DSCustWo.Tables[0].Rows[0]["PayTo"].ToString(), CompId);
+                        dr[0] = Abc;
+                       
+                        dr[1] = CompId;
+                        dr[2] = fun.FromDateDMY(DSCustWo.Tables[0].Rows[0]["ChequeDate"].ToString());
+                        dr[6] = DSCustWo.Tables[0].Rows[0]["ChequeNo"].ToString();
+                        double DtlsAmt = 0;
+                        DtlsAmt = Convert.ToDouble(decimal.Parse((DS1.Tables[0].Rows[i]["Amount"]).ToString()).ToString("N3"));
+                        dr[3] = DtlsAmt;
+                        dr[4] = fun.ECSAddress(Convert.ToInt32(DSCustWo.Tables[0].Rows[0]["ECSType"].ToString()), DSCustWo.Tables[0].Rows[0]["PayTo"].ToString(), CompId);
+                        dr[7] = fun.FromDateDMY(DSCustWo.Tables[0].Rows[0]["SysDate"].ToString());
+                        dr[10] = DSCustWo.Tables[0].Rows[0]["PayTo"].ToString();
+                        dt.Rows.Add(dr);
+                        dt.AcceptChanges();
+                    }
+                }
+                DataSet Xads = new Advice();
+                Xads.Tables[0].Merge(dt);
+                Xads.AcceptChanges();
+                cryRpt = new ReportDocument();
+
+                cryRpt.Load(Server.MapPath("~/Module/Accounts/Reports/Advice_Print_Advice.rpt"));
+                cryRpt.SetDataSource(Xads);
+                string CompAdd = fun.CompAdd(CompId);
+                cryRpt.SetParameterValue("CompAdd", CompAdd);
+
+                CrystalReportViewer2.ReportSource = cryRpt;
+                Session[Key] = cryRpt;
+                CrystalReportViewer2.DisplayGroupTree = false;
+                CrystalReportViewer2.DisplayToolbar = true;
+                CrystalReportViewer2.EnableDrillDown = false;
+                CrystalReportViewer2.SeparatePages = true;
+
+                //CrystalReportViewer2.ReportSource = cryRpt2;
+            }
+            else
+            {
+                ReportDocument doc = (ReportDocument)Session[Key];
+                CrystalReportViewer2.ReportSource = doc;
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+    }
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer2.Dispose();
+        this.CrystalReportViewer2 = null;
+        cryRpt.Close();
+        cryRpt.Dispose();
+        GC.Collect();
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/Accounts/Transactions/Advice_print.aspx?ModId=11&SubModId=119");
+    }
+
+
+
+    protected void CrystalReportViewer1_Load(object sender, EventArgs e)
+    {
+        
+    }
+    protected void CrystalReportViewer1_Init(object sender, EventArgs e)
+    {
+
+    }
+
+    
+
+
+
+}
+

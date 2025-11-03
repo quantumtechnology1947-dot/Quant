@@ -1,0 +1,274 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Machinery/Transactions/Schedule_New_Items_BySplit.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Schedule_New_Items_BySplit.aspx.cs" Inherits="Module_Machinery_Transactions_Schedule_New_Items_BySplit" Title="ERP" Theme="Default" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+      <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style2
+        {
+            width: 100%;
+        }
+        </style>
+        <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+<table width="100%">
+<tr><td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;Job-Sheduling Input-New</b></td></tr>
+<tr>
+<td align="left" valign="middle"  height="21" ><b>&nbsp;WONo :&nbsp;&nbsp;<asp:Label ID="lblWoNo" runat="server" Text=""></asp:Label> </b></td>
+</tr>
+</table>
+    
+    <table align="left" cellpadding="0" cellspacing="0" class="style2"><tr><td align="center"><asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" 
+                    CssClass="yui-datatable-theme"  AllowPaging="True" 
+                    Width="100%" onrowcommand="GridView2_RowCommand" ><FooterStyle Wrap="True"></FooterStyle><Columns><asp:TemplateField HeaderText="SN"><ItemTemplate><%#Container.DataItemIndex+1  %>
+            </ItemTemplate><HeaderStyle Font-Size="10pt" /><ItemStyle HorizontalAlign="Right" VerticalAlign="Top" Width="3%" /></asp:TemplateField><asp:TemplateField 
+            HeaderText="ItemId" Visible="False"><ItemTemplate><asp:Label ID="lblItemId" runat="Server" Text='<%#Eval("ItemId")%>'/>
+            </ItemTemplate></asp:TemplateField>
+            <asp:TemplateField 
+            HeaderText="Id" Visible="False"><ItemTemplate><asp:Label ID="lblId" runat="Server" Text='<%#Eval("Id")%>'/>
+            </ItemTemplate></asp:TemplateField>
+           
+            <asp:TemplateField HeaderText="ItemCode"><ItemTemplate>           
+                      
+                <asp:LinkButton ID="btnMove"  Text='<%#Eval("ItemCode")%>' CommandName="move" runat="server"></asp:LinkButton>
+            </ItemTemplate><ItemStyle HorizontalAlign="center" Width="8%" /></asp:TemplateField>
+            
+            <asp:TemplateField HeaderText="Description"><ItemTemplate><asp:Label ID="lblDesc" runat="Server" Text='<%#Eval("ManfDesc")%>'/>
+            </ItemTemplate><ItemStyle HorizontalAlign="Left" Width="20%" /></asp:TemplateField><asp:TemplateField HeaderText="UOM"><ItemTemplate><asp:Label ID="lblUOM" runat="Server" Text='<%#Eval("Symbol")%>'/></ItemTemplate><ItemStyle 
+                HorizontalAlign="Center" Width="4%" /></asp:TemplateField><asp:TemplateField HeaderText=" BOM Qty"><ItemTemplate><asp:Label ID="lblQty" runat="Server" Text='<%#Eval("Qty")%>'/></ItemTemplate><ItemStyle 
+                HorizontalAlign="Center" Width="5%" /></asp:TemplateField> 
+        </Columns><EmptyDataTemplate><table width="100%" class="fontcss"><tr><td align="center"><asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon"> </asp:Label></td></tr></table>
+        </EmptyDataTemplate></asp:GridView></td></tr>
+        <tr>
+            <td align="center" height="25" valign="middle">
+                <asp:Button ID="btnCancel" runat="server" CssClass="redbox" 
+                    onclick="btnCancel_Click" Text="Cancel" />
+            </td>
+        </tr>
+        </table>  
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Machinery/Transactions/Schedule_New_Items_BySplit.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Collections.Generic;
+
+public partial class Module_Machinery_Transactions_Schedule_New_Items_BySplit : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    int CompId = 0;
+    int Id = 0;
+    string SId = "";
+    int itemId = 0;
+    string WONo = "";
+    int FinYearId = 0;
+    string Type = "";
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        try
+        {
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            if (!string.IsNullOrEmpty(Request.QueryString["WONo"]))
+            {
+                WONo = Request.QueryString["WONo"].ToString();
+            }
+            if (!string.IsNullOrEmpty(Request.QueryString["Type"]))
+            {
+                Type = Request.QueryString["Type"].ToString();
+            }
+            if (!string.IsNullOrEmpty(Request.QueryString["Item"]))
+            {
+                itemId = Convert.ToInt32(Request.QueryString["Item"]);
+            }
+
+            if (!string.IsNullOrEmpty(Request.QueryString["Id"]))
+            {
+                Id = Convert.ToInt32(Request.QueryString["Id"]);
+            }
+            CompId = Convert.ToInt32(Session["compid"]);
+            lblWoNo.Text = WONo;
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            SId = Session["username"].ToString();
+            if (!Page.IsPostBack)
+            {
+                this.fillgrid();
+            }
+
+            string sql = fun.delete("tblMS_JobSchedule_Details_Temp", "CompId='" + CompId + "' AND SessionId='" + SId + "' ");
+            SqlCommand cmd = new SqlCommand(sql, con);
+            con.Open();
+            cmd.ExecuteNonQuery();
+            con.Close();
+
+        }
+        catch (Exception ex)
+        {
+        }
+
+
+    }
+
+
+    public void fillgrid()
+    {
+       
+        con.Open();
+        int CompId = Convert.ToInt32(Session["compid"]);
+        List<int> li = new List<int>();
+        li = this.TreeComponantBySplit(WONo, CompId,Id);
+        DataTable dt = new DataTable();
+        dt.Columns.Add(new System.Data.DataColumn("ItemId", typeof(int)));
+        dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));
+        dt.Columns.Add(new System.Data.DataColumn("ManfDesc", typeof(string)));
+        dt.Columns.Add(new System.Data.DataColumn("Symbol", typeof(string)));
+        dt.Columns.Add(new System.Data.DataColumn("Qty", typeof(double)));
+        dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+        DataRow dr;
+       
+        for (int i = 0; i < li.Count; i++)
+        {
+
+            if (li.Count > 0)
+            {
+                string sql = fun.select("tblDG_BOM_Master.PId,tblDG_BOM_Master.CId,tblDG_BOM_Master.Id,tblDG_BOM_Master.ItemId,tblDG_Item_Master.ManfDesc,Unit_Master.Symbol As UOMBasic,tblDG_Item_Master.ItemCode,tblDG_BOM_Master.Qty", " tblDG_BOM_Master,tblDG_Item_Master,Unit_Master", " Unit_Master.Id=tblDG_Item_Master.UOMBasic and tblDG_Item_Master.Id=tblDG_BOM_Master.ItemId and tblDG_BOM_Master.WONo='" + WONo + "' and  tblDG_BOM_Master.Id='" + Convert.ToInt32(li[i]) + "' And tblDG_BOM_Master.CompId='" + CompId + "'And tblDG_BOM_Master.FinYearId<='" + FinYearId + "'And tblDG_BOM_Master.CId Not In(Select tblDG_BOM_Master.PId from tblDG_BOM_Master where tblDG_BOM_Master.WONo='" + WONo + "'And tblDG_BOM_Master.CompId='" + CompId + "'Group By tblDG_BOM_Master.PId) ");               
+                SqlCommand cmd = new SqlCommand(sql, con);
+                DataSet DS3 = new DataSet();
+                SqlDataAdapter DA2 = new SqlDataAdapter(cmd);
+                DA2.Fill(DS3);                
+                if (DS3.Tables[0].Rows.Count > 0)
+                {
+
+                    dr = dt.NewRow();
+                    dr[0] = Convert.ToInt32(DS3.Tables[0].Rows[0]["ItemId"]);
+                    dr[1] = DS3.Tables[0].Rows[0]["ItemCode"].ToString();
+                    dr[2] = DS3.Tables[0].Rows[0]["ManfDesc"].ToString();
+                    dr[3] = DS3.Tables[0].Rows[0]["UOMBasic"].ToString();
+                    List<double> g = new List<double>();
+                    g = fun.BOMTreeQty(WONo, Convert.ToInt32(DS3.Tables[0].Rows[0]["PId"]), Convert.ToInt32(DS3.Tables[0].Rows[0]["CId"]));
+                    double h = 1;
+                    for (int j = 0; j < g.Count; j++)
+                    {
+                        h = h * g[j];
+                    }
+                    dr[4] = h;                   
+                    dr[5] = Convert.ToInt32(DS3.Tables[0].Rows[0]["Id"]);
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+
+            }
+        }
+
+        GridView2.DataSource = dt;
+        GridView2.DataBind();
+        con.Close();
+    }
+
+
+
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+
+            if (e.CommandName == "move")
+            {
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                int type = Convert.ToInt32(Type);
+                string Item = ((Label)row.FindControl("lblItemId")).Text;
+                string Id = ((Label)row.FindControl("lblId")).Text;
+                if (Item != "" && type == 1)
+                {
+                    Response.Redirect("Schedule_New_Items.aspx?WONo=" + WONo + "&Item=" + Item + "&Type=" + type + "&Id="+Id+"&ModId=15&SubModId=69");
+                }
+                
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Schedule_New_Details.aspx?WONo=" + WONo + "&ModId=15&SubModId=69");
+    }
+    List<int> componantBySplit = new List<int>();
+    public List<int> TreeComponantBySplit(string wono, int Compid, int Id)
+    {
+
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        
+        try
+        {
+            DataSet DS = new DataSet();
+            DataSet DS2 = new DataSet();
+            string cmdStr = fun.select("CId", "tblDG_BOM_Master", "WONo='" + wono + "' And Id='" + Id + "'And CompId='" + Compid + "'");
+            SqlCommand cmd = new SqlCommand(cmdStr, con);
+            SqlDataAdapter DA = new SqlDataAdapter(cmd);
+            DA.Fill(DS, "tblDG_BOM_Master");
+          
+            if (DS.Tables[0].Rows.Count > 0)
+            {
+                              
+                for (int j = 0; j < DS.Tables[0].Rows.Count; j++)
+                {
+
+                    string cmdStr2 = fun.select("Id", "tblDG_BOM_Master", " WONo='" + wono + "' And CompId='" + Compid + "' And PId='" + Convert.ToInt32(DS.Tables[0].Rows[j]["CId"]) + "'");
+                    SqlCommand cmd2 = new SqlCommand(cmdStr2, con);
+                    SqlDataAdapter DA2 = new SqlDataAdapter(cmd2);
+                    DA2.Fill(DS2, "tblDG_BOM_Master");                   
+                    for (int j1 = 0; j1 < DS2.Tables[0].Rows.Count; j1++)
+                    {                        
+                        componantBySplit.Add(Convert.ToInt32(DS2.Tables[0].Rows[j1]["Id"]));
+                    } 
+                    
+                } 
+               
+            }
+
+
+        }
+       catch (Exception ex)
+        {
+
+        }
+        return componantBySplit;
+    }
+    
+}

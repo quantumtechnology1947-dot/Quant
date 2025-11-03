@@ -1,0 +1,422 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Machinery/Transactions/Schedule_Dashboard.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Schedule_Dashboard.aspx.cs" Inherits="Module_Machinery_Transactions_Schedule_Dashboard"  Title="ERP" Theme="Default" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<%@ Register assembly="TimePicker" namespace="MKB.TimePicker" tagprefix="MKB" %>
+
+
+<%@ Register assembly="Telerik.Web.UI" namespace="Telerik.Web.UI" tagprefix="telerik" %>
+
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/Calendar.MyCustomSkin.css" rel="stylesheet" type="text/css" />
+    
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style2
+        {
+            width: 100%;
+        }
+        .style3
+        {
+            color: red;
+        }
+        .style4
+        {
+            color: #FF9900;
+        }
+        .style5
+        {
+            color: #00CC66;
+        }
+        </style>
+        
+        
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    
+    <script type="text/javascript">
+        function OnChanged(sender, args)
+        {
+            ServerUtilities.SetTabIndex(sender.get_activeTabIndex());
+        }
+    </script>
+    <table align="left" cellpadding="0" cellspacing="0" class="style2">
+        <tr>
+            <td align="left" class="fontcsswhite" height="20" scope="col" style="background: url(../../../images/hdbg.JPG)" valign="middle">&nbsp;<b>Machine Schedule Details</b></td>
+        </tr>
+        <tr>
+            <td align="left">
+                <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" 
+                    Width="100%" AutoPostBack="True">
+                    <cc1:TabPanel runat="server" HeaderText="Machine Details" ID="PR">                       
+                        
+                        
+                        
+
+                    
+<HeaderTemplate>Machine Details</HeaderTemplate><ContentTemplate><table align="center" cellpadding="0" cellspacing="0" 
+                                style="width: 100%"><tr><td height="25" valign="middle">&#160;<b>Schedule for :</b>&#160;<asp:Label ID="lblMachineName" runat="server" 
+                                        style="font-weight: 700"></asp:Label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="style3">* Days shown in</span> <span 
+                                    class="style3"><asp:TextBox ID="TextBox4" runat="server" BackColor="Red" BorderColor="Red" 
+                                    Enabled="False" ForeColor="Red" Height="10px" ReadOnly="True" Width="15px"></asp:TextBox>&#160;weekends.&#160;&#160; <asp:TextBox ID="TextBox2" runat="server" BackColor="Orange" 
+                                    BorderColor="Orange" Enabled="False" ForeColor="Red" Height="10px" 
+                                    ReadOnly="True" Width="15px"></asp:TextBox>&#160;&nbsp;</span><span class="style4">Machine&nbsp; Busy .</span><span class="style3">&nbsp; <asp:TextBox ID="TextBox3" runat="server" BackColor="#33CC33" 
+                                    BorderColor="#33CC33" Enabled="False" ForeColor="Red" Height="10px" 
+                                    ReadOnly="True" Width="15px"></asp:TextBox>&#160;</span><span class="style5">Machine&nbsp; Available.</span></td></tr><tr><td>
+                            <telerik:RadCalendar 
+        ID="RadCalendar1" runat="server" AutoPostBack="True"  SelectedDate=""
+        SingleViewColumns="42" SingleViewRows="1" Skin="Vista" ViewSelectorText="x"  
+        Width="100%" DayNameFormat="Short" EnableMultiSelect="False"  RangeMinDate=""
+            EnableNavigationAnimation="True" ShowRowHeaders="False" ondayrender="RadCalendar1_DayRender" 
+            
+            DateRangeSeparator=" -" 
+            EnableKeyboardNavigation="True" ><WeekendDayStyle   
+        CssClass="rcWeekend"   Wrap="True" BorderStyle="Solid"></WeekendDayStyle><calendartablestyle cssclass="rcMainTable"></calendartablestyle><OtherMonthDayStyle CssClass="rcOtherMonth"></OtherMonthDayStyle><outofrangedaystyle cssclass="rcOutOfRange"></outofrangedaystyle><disableddaystyle cssclass="rcDisabled"></disableddaystyle><SelectedDayStyle CssClass="rcSelected"></SelectedDayStyle><dayoverstyle cssclass="rcHover"></dayoverstyle><fastnavigationstyle cssclass="RadCalendarMonthView RadCalendarMonthView_Vista"></fastnavigationstyle><viewselectorstyle cssclass="rcViewSel"></viewselectorstyle></telerik:RadCalendar></td></tr><tr><td  style="height:10px;"></td></tr><tr><td><asp:GridView ID="GridView1" runat="server" 
+            AllowPaging="True" AutoGenerateColumns="False" CssClass="yui-datatable-theme" 
+            DataKeyNames="Id" OnPageIndexChanging="GridView1_PageIndexChanging" 
+            OnRowCommand="GridView1_RowCommand" PageSize="15" Width="100%"><Columns><asp:TemplateField HeaderText="SN"><ItemTemplate>
+            <%#Container.DataItemIndex+1 %></ItemTemplate><ItemStyle HorizontalAlign="Right" VerticalAlign="Top" Width="2%"></ItemStyle></asp:TemplateField><asp:TemplateField HeaderText="WO No"><ItemTemplate><asp:Label ID="lblWONo" 
+                    runat="server" Text='<%#Eval("WONo")%>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="3.5%"></ItemStyle></asp:TemplateField><asp:TemplateField HeaderText="Job No"><ItemTemplate><asp:Label ID="lblJobNo" 
+                    runat="server" Text='<%#Eval("JobNo")%>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="3.5%"></ItemStyle></asp:TemplateField><asp:TemplateField HeaderText="Item Code"><ItemTemplate><asp:Label ID="lblItemCode" 
+                    runat="server" Text='<%#Eval("ItemCode")%>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="5%"></ItemStyle></asp:TemplateField><asp:TemplateField HeaderText="Description"><ItemTemplate><asp:Label ID="lblDesc" 
+                    runat="server" Text='<%#Eval("ManfDesc")%>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Left" Width="12%"></ItemStyle></asp:TemplateField><asp:TemplateField HeaderText=" Qty"><ItemTemplate><asp:Label ID="lblBomQty" 
+                    runat="server" Text='<%#Eval("BomQty")%>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Right" Width="4%"></ItemStyle></asp:TemplateField>
+                    <asp:TemplateField HeaderText="UOM"><ItemTemplate><asp:Label ID="lblUOM" 
+                    runat="server" Text='<%#Eval("UOM")%>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="3%"></ItemStyle></asp:TemplateField>
+                    <asp:TemplateField HeaderText="Shift"><ItemTemplate><asp:Label ID="lblShift" 
+                    runat="server" Text='<%#Eval("Shift")%>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="3%"></ItemStyle></asp:TemplateField>
+                    <asp:TemplateField HeaderText="I/p Qty"><ItemTemplate><asp:Label ID="lblInputQty" 
+                    runat="server" Text='<%#Eval("InputQty")%>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Right" Width="4%"></ItemStyle></asp:TemplateField><asp:TemplateField HeaderText="O/p Qty"><ItemTemplate><asp:Label 
+                    ID="lblOutputQty" runat="server" Text='<%#Eval("OutputQty")%>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Right" Width="4%"></ItemStyle></asp:TemplateField><asp:TemplateField HeaderText="From Date"><ItemTemplate><asp:Label ID="lblfromDate" 
+                    runat="server" Text='<%#Eval("FromDate")%>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="4%"></ItemStyle></asp:TemplateField><asp:TemplateField HeaderText="To Date"><ItemTemplate><asp:Label ID="lblToDate" 
+                    runat="server" Text='<%#Eval("ToDate")%>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="4%"></ItemStyle></asp:TemplateField><asp:TemplateField HeaderText=" From Time"><ItemTemplate><asp:Label 
+                    ID="lblFromTime" runat="server" Text='<%#Eval("FromTime")%>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="5.5%"></ItemStyle></asp:TemplateField><asp:TemplateField HeaderText=" To Time"><ItemTemplate><asp:Label ID="lblToTime" 
+                    runat="server" Text='<%#Eval("ToTime")%>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="5%"></ItemStyle></asp:TemplateField><asp:TemplateField HeaderText="Process" ><ItemTemplate><asp:Label 
+                    ID="lblProcess" runat="server" Text='<%#Eval("Process")%>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="5%"></ItemStyle></asp:TemplateField><asp:TemplateField HeaderText="Operator" ><ItemTemplate><asp:Label 
+                    ID="lblOperator" runat="server" Text='<%#Eval("Operator")%>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="6%"></ItemStyle></asp:TemplateField><asp:TemplateField HeaderText="Id" Visible="False"><ItemTemplate><asp:Label 
+                    ID="lblId" runat="server" Text='<%#Eval("Id")%>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="1%"></ItemStyle></asp:TemplateField></Columns><EmptyDataTemplate><table class="fontcss" width="100%"><tr><td align="center"><asp:Label ID="Label1" runat="server" Font-Size="Larger" ForeColor="maroon" 
+                            Text="No data to display !"> </asp:Label></td></tr></table></EmptyDataTemplate><FooterStyle 
+            Wrap="True"></FooterStyle></asp:GridView></td></tr><tr><td align="center" height="25" valign="middle"><asp:Button ID="BtnCancel" runat="server" CssClass="redbox" 
+                                        onclick="BtnCancel_Click" Text="Cancel" /></td><td 
+            align="center" height="15">&#160;</td></tr></table></ContentTemplate></cc1:TabPanel>
+                  
+                </cc1:TabContainer>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Machinery/Transactions/Schedule_Dashboard.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Collections.Generic;
+using Telerik.Web.UI;
+
+public partial class Module_Machinery_Transactions_Schedule_Dashboard : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    int CompId = 0;
+    string SId = "";
+    string MachinId = "";
+    string Id = "";
+    int FinYearId = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            SId = Session["username"].ToString();
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+
+            if (!string.IsNullOrEmpty(Request.QueryString["ProcessId"].ToString()))
+            {
+                Id = Request.QueryString["ProcessId"].ToString();
+            }
+            if (!string.IsNullOrEmpty(Request.QueryString["MachineId"].ToString()))
+            {
+                MachinId = Request.QueryString["MachineId"].ToString();
+                string sqlBom = fun.select("tblDG_Item_Master.ManfDesc"," tblDG_Item_Master",
+" tblDG_Item_Master.Id='" + Convert.ToInt32(MachinId) + "' And tblDG_Item_Master.CompId='" + CompId + "'And tblDG_Item_Master.FinYearId<='" + FinYearId + "' ");           
+            SqlCommand cmdBom = new SqlCommand(sqlBom, con);
+            DataSet DSBom = new DataSet();
+            SqlDataAdapter DABom = new SqlDataAdapter(cmdBom);
+            DABom.Fill(DSBom);
+
+            if (DSBom.Tables[0].Rows.Count > 0)
+            {
+                lblMachineName.Text = DSBom.Tables[0].Rows[0]["ManfDesc"].ToString();
+            }
+            }  
+            if(!Page.IsPostBack)
+            {
+
+            RadCalendar1.SelectedDate = Convert.ToDateTime(fun.getCurrDate());
+
+            }  
+        }
+        catch(Exception ex)
+        {
+        }
+    }
+
+    
+
+    public void fillgrid()
+    {      
+        try
+        {       
+        DataTable dt = new DataTable();
+        dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+        dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));
+        dt.Columns.Add(new System.Data.DataColumn("JobNo", typeof(string)));               
+        dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));
+        dt.Columns.Add(new System.Data.DataColumn("ManfDesc", typeof(string)));
+        dt.Columns.Add(new System.Data.DataColumn("BomQty", typeof(double)));
+        dt.Columns.Add(new System.Data.DataColumn("UOM", typeof(string)));
+        dt.Columns.Add(new System.Data.DataColumn("InputQty", typeof(double)));
+        dt.Columns.Add(new System.Data.DataColumn("OutputQty", typeof(double)));
+        dt.Columns.Add(new System.Data.DataColumn("FromDate", typeof(string)));
+        dt.Columns.Add(new System.Data.DataColumn("ToDate", typeof(string)));
+        dt.Columns.Add(new System.Data.DataColumn("FromTime", typeof(string)));
+        dt.Columns.Add(new System.Data.DataColumn("ToTime", typeof(string)));
+        dt.Columns.Add(new System.Data.DataColumn("Operator", typeof(string)));
+        dt.Columns.Add(new System.Data.DataColumn("Process", typeof(string)));
+        dt.Columns.Add(new System.Data.DataColumn("Shift", typeof(string)));
+        DataRow dr;
+        DateTime FromDate;           
+        DateTime FromDate1;
+        DateTime FromDate2;
+        string sqlproDt = fun.select("tblMS_JobSchedule_Details.FromDate,tblMS_JobSchedule_Details.ToDate", "tblMS_JobSchedule_Details,tblMS_JobShedule_Master", "tblMS_JobSchedule_Details.Process='" + Id + "' And tblMS_JobShedule_Master.Id=tblMS_JobSchedule_Details.MId And tblMS_JobShedule_Master.CompId='" + CompId + "' And tblMS_JobSchedule_Details.Released!='1'");
+        SqlDataAdapter daproDt = new SqlDataAdapter(sqlproDt, con);
+        DataSet DSproDt = new DataSet();
+        daproDt.Fill(DSproDt);
+        if (DSproDt.Tables[0].Rows.Count > 0)
+        {
+            for (int i2 = 0; i2 < DSproDt.Tables[0].Rows.Count; i2++)
+            {
+
+
+                int abc = ((Convert.ToDateTime(DSproDt.Tables[0].Rows[i2][1].ToString())) - ((Convert.ToDateTime(DSproDt.Tables[0].Rows[i2][0].ToString())))).Days;
+                FromDate = Convert.ToDateTime(DSproDt.Tables[0].Rows[i2][0].ToString());
+                FromDate2 = Convert.ToDateTime(RadCalendar1.SelectedDate);
+
+                for (int y = 0; y <= abc; y++)
+                {
+                    FromDate1 = Convert.ToDateTime(FromDate.Date.AddDays(y).ToString("MM-dd-yyyy"));
+                    if (FromDate2 == FromDate1)
+                    {
+                        string sql = fun.select("tblMS_JobShedule_Master.Id As MasterId,tblMS_JobSchedule_Details.Id As DetailsId,tblMS_JobShedule_Master.JobNo,tblMS_JobShedule_Master.WONo,tblMS_JobShedule_Master.ItemId,tblMS_JobSchedule_Details.FromDate,tblMS_JobSchedule_Details.ToDate,tblMS_JobSchedule_Details.FromTime,tblMS_JobSchedule_Details.ToTime,tblMS_JobSchedule_Details.Qty As InputQty,tblMS_JobCompletion.OutputQty,tblMS_JobCompletion.UOM,tblMS_JobSchedule_Details.Operator,tblMS_JobSchedule_Details.Process,tblMS_JobSchedule_Details.Shift", "tblMS_JobSchedule_Details,tblMS_JobShedule_Master,tblMS_JobCompletion", " tblMS_JobSchedule_Details.MachineId='" + MachinId + "'And tblMS_JobShedule_Master.CompId='" + CompId + "'And tblMS_JobShedule_Master.FinYearId<='" + FinYearId + "'And tblMS_JobSchedule_Details.FromDate ='" + DSproDt.Tables[0].Rows[i2][0].ToString() + "'And tblMS_JobSchedule_Details.ToDate ='" + DSproDt.Tables[0].Rows[i2][1].ToString() + "'And tblMS_JobSchedule_Details.MId=tblMS_JobShedule_Master.Id And tblMS_JobShedule_Master.Id=tblMS_JobCompletion.MId And tblMS_JobCompletion.DId= tblMS_JobSchedule_Details.Id order by tblMS_JobShedule_Master.Id desc ");
+
+
+                        SqlCommand cmd = new SqlCommand(sql, con);
+                        DataSet DS3 = new DataSet();
+                        SqlDataAdapter DA2 = new SqlDataAdapter(cmd);
+                        DA2.Fill(DS3);
+                        if (DS3.Tables[0].Rows.Count > 0)
+                        {
+                            for (int i = 0; i < DS3.Tables[0].Rows.Count; i++)
+                            {
+                                dr = dt.NewRow();
+                                string sqlBom = fun.select("tblDG_Item_Master.ManfDesc,tblDG_Item_Master.ItemCode,tblDG_Item_Master.StockQty", " tblDG_Item_Master",
+                                " tblDG_Item_Master.Id='" + Convert.ToInt32(DS3.Tables[0].Rows[i]["ItemId"]) + "' And tblDG_Item_Master.CompId='" + CompId + "'And tblDG_Item_Master.FinYearId<='" + FinYearId + "' ");
+                                SqlCommand cmdBom = new SqlCommand(sqlBom, con);
+                                DataSet DSBom = new DataSet();
+                                SqlDataAdapter DABom = new SqlDataAdapter(cmdBom);
+                                DABom.Fill(DSBom);
+
+                                if (DSBom.Tables[0].Rows.Count > 0)
+                                {
+                                    dr[3] = DSBom.Tables[0].Rows[0]["ItemCode"].ToString();
+                                    dr[4] = DSBom.Tables[0].Rows[0]["ManfDesc"].ToString();
+                                    dr[5] = Convert.ToDouble(DSBom.Tables[0].Rows[0]["StockQty"]);
+                                }
+                                string sqluom = fun.select("Symbol", " Unit_Master", " Id='" + Convert.ToInt32(DS3.Tables[0].Rows[i]["UOM"]) + "'");
+                                SqlCommand cmduom = new SqlCommand(sqluom, con);
+                                DataSet DSuom = new DataSet();
+                                SqlDataAdapter DAuom = new SqlDataAdapter(cmduom);
+                                DAuom.Fill(DSuom);
+                                if (DSuom.Tables[0].Rows.Count > 0)
+                                {
+                                    dr[6] = DSuom.Tables[0].Rows[0]["Symbol"].ToString();
+                                }
+
+                                string sqlop = fun.select("EmployeeName As Operator", "tblHR_OfficeStaff", "CompId='" + CompId + "' And EmpId='" + DS3.Tables[0].Rows[i]["Operator"].ToString() + "'");
+                                SqlDataAdapter daop = new SqlDataAdapter(sqlop, con);
+                                DataSet DSop = new DataSet();
+                                daop.Fill(DSop, "tblHR_OfficeStaff");
+                                if (DSop.Tables[0].Rows.Count > 0)
+                                {
+                                    dr[13] = DSop.Tables[0].Rows[0]["Operator"].ToString();
+                                }
+                                string sqlpro = fun.select("ProcessName", "tblPln_Process_Master", "Id='" + DS3.Tables[0].Rows[i]["Process"].ToString() + "'");
+                                SqlDataAdapter dapro = new SqlDataAdapter(sqlpro, con);
+                                DataSet DSpro = new DataSet();
+                                dapro.Fill(DSpro, "tblPln_Process_Master");
+                                if (DSpro.Tables[0].Rows.Count > 0)
+                                {
+                                    dr[14] = DSpro.Tables[0].Rows[0]["ProcessName"].ToString();
+                                }
+                                dr[0] = Convert.ToInt32(DS3.Tables[0].Rows[i]["MasterId"]);
+                                dr[1] = DS3.Tables[0].Rows[i]["WONo"].ToString();
+                                dr[2] = DS3.Tables[0].Rows[i]["JobNo"].ToString();
+                                dr[7] = Convert.ToDouble(DS3.Tables[0].Rows[i]["InputQty"]);
+                                dr[8] = Convert.ToDouble(DS3.Tables[0].Rows[i]["OutputQty"]);
+                                dr[9] = fun.FromDateDMY(DS3.Tables[0].Rows[i]["FromDate"].ToString());
+                                dr[10] = fun.FromDateDMY(DS3.Tables[0].Rows[i]["ToDate"].ToString());
+                                dr[11] = DS3.Tables[0].Rows[i]["FromTime"].ToString();
+                                dr[12] = DS3.Tables[0].Rows[i]["ToTime"].ToString();
+                                if (DS3.Tables[0].Rows[0]["Shift"].ToString() == "0")
+                                {
+                                    dr[15] = "Day";
+                                }
+                                else
+                                {
+                                    dr[15] = "Night";
+                                }
+                                dt.Rows.Add(dr);
+                                dt.AcceptChanges();
+                            }
+
+                        }
+
+                    }
+                }
+            }
+
+        }
+        
+        GridView1.DataSource = dt;
+        GridView1.DataBind();
+        con.Close();
+        }
+        catch(Exception ex)
+        {
+        }
+    }
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView1.PageIndex = e.NewPageIndex;
+        this.fillgrid();
+    }
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+    }
+    protected void BtnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Schedule_Process_Dashboard.aspx?Id="+MachinId+"&ModId=15&SubModId=70");
+    }
+    
+
+    protected void Page_Init(object sender, System.EventArgs e)
+    {
+        RadCalendar1.DayRender += new Telerik.Web.UI.Calendar.DayRenderEventHandler(RadCalendar1_DayRender);
+        
+    }
+
+   
+    protected void RadCalendar1_DayRender(object sender, Telerik.Web.UI.Calendar.DayRenderEventArgs e)
+    {
+
+        try
+        {
+            if (e.Day.Date.DayOfWeek == DayOfWeek.Sunday)
+            {
+                e.Cell.Font.Bold = true;
+                e.Cell.BackColor = System.Drawing.Color.Red;
+            }
+            DateTime FromDate;
+            DateTime FromDate1;
+            DateTime ToDate;
+            DateTime FromDate2;
+            string sqlproFromDt = fun.select("tblMS_JobSchedule_Details.FromDate,tblMS_JobSchedule_Details.ToDate", "tblMS_JobSchedule_Details,tblMS_JobShedule_Master,tblMS_JobCompletion", "tblMS_JobSchedule_Details.Process='" + Id + "' And  tblMS_JobCompletion.DId= tblMS_JobSchedule_Details.Id And tblMS_JobShedule_Master.Id=tblMS_JobSchedule_Details.MId And tblMS_JobSchedule_Details.Released!='1' Order by tblMS_JobSchedule_Details.FromDate Asc");
+            SqlDataAdapter daproFromDt = new SqlDataAdapter(sqlproFromDt, con);
+            DataSet DSproFromDt = new DataSet();
+            daproFromDt.Fill(DSproFromDt, "tblMS_JobSchedule_Details");
+            if (DSproFromDt.Tables[0].Rows.Count>0)
+            {
+                for (int i = 0; i < DSproFromDt.Tables[0].Rows.Count; i++)
+                {
+                    int abc = ((Convert.ToDateTime(DSproFromDt.Tables[0].Rows[i][1].ToString())) - ((Convert.ToDateTime(DSproFromDt.Tables[0].Rows[i][0].ToString())))).Days;
+                    FromDate = Convert.ToDateTime(DSproFromDt.Tables[0].Rows[i][0].ToString());
+                    ToDate = Convert.ToDateTime(DSproFromDt.Tables[0].Rows[i][1].ToString());
+                    FromDate2 = Convert.ToDateTime(RadCalendar1.SelectedDate);
+                    for (int y = 0; y <= abc; y++)
+                    {
+                        FromDate1 = Convert.ToDateTime(FromDate.Date.AddDays(y).ToString("MM-dd-yyyy"));
+                        if (e.Day.Date == FromDate1)
+                        {
+                            e.Cell.Font.Bold = true;
+                            e.Cell.BackColor = System.Drawing.Color.Orange;
+
+                            if (e.Day.Date.DayOfWeek == DayOfWeek.Sunday)
+                            {
+                                e.Cell.Font.Bold = true;
+                                e.Cell.BackColor = System.Drawing.Color.Red;
+
+                            }
+
+                        }
+                        else if (e.Day.Date > ToDate)
+                        {
+                            e.Cell.Font.Bold = true;
+                            e.Cell.BackColor = System.Drawing.Color.PaleGreen;
+                            if (e.Day.Date.DayOfWeek == DayOfWeek.Sunday)
+                            {
+                                e.Cell.Font.Bold = true;
+                                e.Cell.BackColor = System.Drawing.Color.Red;
+
+                            }
+                        }
+                    }
+                }
+                
+                this.fillgrid();
+            }
+
+            
+        }
+         catch(Exception ex)
+        {
+        }
+        
+    }
+
+    protected void RadCalendar1_PreRender(object sender, EventArgs e)
+    {
+        
+    }
+}

@@ -1,0 +1,253 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Reports/RateLockUnlock_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="RateLockUnlock_Details.aspx.cs" Inherits="Module_MaterialManagement_Reports_RateLockUnlock_Details" Theme ="Default" %>
+
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>ERP</title>
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        #form1
+        {
+            width: 1104px;
+            height: 279px;
+        }
+      
+    </style>
+   
+</head>
+<body style="margin-bottom:0; margin-left:0; margin-right:0; margin-top:0;">
+    <form id="form1" runat="server">
+    
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td>
+                <CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server"  Width="100%"
+                    AutoDataBind="true" ReportSourceID="CrystalReportSource1" HasCrystalLogo="False"
+                    EnableDatabaseLogonPrompt="False" EnableParameterPrompt="False" 
+                    DisplayGroupTree="False" />
+                <CR:CrystalReportSource ID="CrystalReportSource1" runat="server">
+                    <Report FileName="Module\MaterialManagement\Reports\RateLockUnlock.rpt">
+                        
+                    </Report>
+                </CR:CrystalReportSource>
+                
+            </td>
+        </tr>
+        </table>
+    
+    </form>
+</body>
+</html>
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Reports/RateLockUnlock_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using CrystalDecisions.CrystalReports.Engine;
+using System.Data.SqlClient;
+using System.IO;
+using System.Security.Cryptography;
+
+public partial class Module_MaterialManagement_Reports_RateLockUnlock_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+
+    string Cat = "";
+    string CWType = "";
+    string SearchCode = "";
+    string SearchItemCode = "";
+    string FDate = "";
+    string TDate = "";
+    string LockBy = "";
+    int CompId = 0;
+    string Loc = "";
+    int FinYearId = 0;
+    DataSet DS = new DataSet();
+    string Key = string.Empty;
+    private ReportDocument cryRpt = new ReportDocument();
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            con.Open();
+
+            try
+            {
+                CompId = Convert.ToInt32(Session["compid"]);
+                FinYearId = Convert.ToInt32(Session["finyear"]);
+                Cat = Request.QueryString["category"].ToString();
+                CWType = Request.QueryString["Type"].ToString();
+                SearchCode = Request.QueryString["SearchCode"].ToString();
+                SearchItemCode = Request.QueryString["SearchItemCode"].ToString();
+                Loc = Request.QueryString["loc"].ToString();
+                FDate = Request.QueryString["FDate"].ToString();
+                TDate = Request.QueryString["TDate"].ToString();
+                LockBy = Request.QueryString["LockedBy"].ToString();
+                Key = Request.QueryString["Key"].ToString();
+
+                string x = "";
+                string p = "";
+                string q = "";
+                string Z = "";
+                string D = "";
+
+                if (CWType != "Select")
+                {
+                    if (CWType == "Category")
+                    {
+                        if (Cat != "Select")
+                        {
+
+                            x = " AND tblDG_Item_Master.CId='" + Cat + "'";
+
+                            if (SearchCode != "0")
+                            {
+                                if (SearchCode == "1")
+                                {
+
+                                    p = " And tblDG_Item_Master.ItemCode Like '" + SearchItemCode + "%'";
+                                }
+
+                                if (SearchCode == "2")
+                                {
+
+                                    p = " And tblDG_Item_Master.ManfDesc Like '%" + SearchItemCode + "%'";
+                                }
+
+
+                            }
+                            q = " And tblDG_Item_Master.CompId='" + CompId + "' And tblDG_Item_Master.FinYearId<='" + FinYearId + "'";
+
+                            if (LockBy != "0")
+                            {
+                                Z = " And tblMM_RateLockUnLock_Master.SessionId='" + LockBy + "' ";
+                            }
+
+                            if (FDate != "0" && TDate != "0")
+                            {
+                                D = " And tblMM_RateLockUnLock_Master.SysDate between '" + FDate + "'    and '" + TDate + "'  ";
+                            }
+
+                        }
+
+
+                    }
+
+                    else if (CWType != "Select" && CWType == "WOItems")
+                    {
+
+                        if (SearchCode != "0")
+                        {
+                            if (SearchCode == "1")
+                            {
+
+                                p = " And tblDG_Item_Master.ItemCode Like '%" + SearchItemCode + "%'";
+                            }
+
+                            if (SearchCode == "2")
+                            {
+
+                                p = " And tblDG_Item_Master.ManfDesc Like '%" + SearchItemCode + "%'";
+                            }
+                        }
+
+                        if (LockBy != "0")
+                        {
+                            Z = " And tblMM_RateLockUnLock_Master.SessionId='" + LockBy + "' ";
+                        }
+
+                        if (FDate != "0" && TDate != "0")
+                        {
+                            D = " And tblMM_RateLockUnLock_Master.SysDate between '" + FDate + "'    and '" + TDate + "'  ";
+                        }
+
+                        q = " And tblDG_Item_Master.CompId='" + CompId + "' And tblDG_Item_Master.FinYearId<='" + FinYearId + "'";
+
+                    }
+
+                    SqlCommand cmd = new SqlCommand();
+                    SqlDataAdapter da = new SqlDataAdapter("GetRateLockUnlockPrint", con);
+                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    da.SelectCommand.Parameters.Add(new SqlParameter("@startIndex", SqlDbType.VarChar));
+                    da.SelectCommand.Parameters["@startIndex"].Value = Cat;
+                    da.SelectCommand.Parameters.Add(new SqlParameter("@pageSize", SqlDbType.VarChar));
+                    da.SelectCommand.Parameters["@pageSize"].Value = x;
+                    da.SelectCommand.Parameters.Add(new SqlParameter("@startIndex1", SqlDbType.VarChar));
+                    da.SelectCommand.Parameters["@startIndex1"].Value = p;
+                    da.SelectCommand.Parameters.Add(new SqlParameter("@pageSize1", SqlDbType.VarChar));
+                    da.SelectCommand.Parameters["@pageSize1"].Value = q;
+                    da.SelectCommand.Parameters.Add(new SqlParameter("@drpType", SqlDbType.VarChar));
+                    da.SelectCommand.Parameters["@drpType"].Value = CWType;
+                    da.SelectCommand.Parameters.Add(new SqlParameter("@drpCode", SqlDbType.VarChar));
+                    da.SelectCommand.Parameters["@drpCode"].Value = SearchCode;
+                    da.SelectCommand.Parameters.Add(new SqlParameter("@SessionId", SqlDbType.VarChar));
+                    da.SelectCommand.Parameters["@SessionId"].Value = Z;
+                    da.SelectCommand.Parameters.Add(new SqlParameter("@Sysdate", SqlDbType.VarChar));
+                    da.SelectCommand.Parameters["@Sysdate"].Value = D;
+                    DataSet DSitem = new DataSet();
+                    da.Fill(DSitem);
+                    DataSet xsdds = new RateLockUnlock();
+                    xsdds.Tables[0].Merge(DSitem.Tables[0]);
+                    xsdds.AcceptChanges();
+                    cryRpt = new ReportDocument();
+                    cryRpt.Load(Server.MapPath("~/Module/MaterialManagement/Reports/RateLockUnlock.rpt"));
+                    cryRpt.SetDataSource(xsdds);
+                    string Address = fun.CompAdd(CompId);
+                    cryRpt.SetParameterValue("Address", Address);
+                    CrystalReportViewer1.ReportSource = cryRpt;
+                    Session[Key] = cryRpt;
+
+                }
+
+            }
+            catch (Exception ex) { }
+            finally
+            {
+                DS.Clear();
+                DS.Dispose();
+                con.Close();
+                con.Dispose();
+
+            }
+        }
+        else
+        {
+            Key = Request.QueryString["Key"].ToString();
+            ReportDocument doc = (ReportDocument)Session[Key];
+            CrystalReportViewer1.ReportSource = doc;
+        }
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        cryRpt = new ReportDocument();
+    }
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        cryRpt.Close();
+        cryRpt.Dispose();
+        GC.Collect();
+    }
+
+}

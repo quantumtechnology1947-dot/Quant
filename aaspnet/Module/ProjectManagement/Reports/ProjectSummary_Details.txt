@@ -1,0 +1,560 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/ProjectManagement/Reports/ProjectSummary_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ProjectSummary_Details.aspx.cs" Inherits="Module_ProjectSummary_ProjectSummary_Details" Title="ERP" Theme="Default" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<%@ Register assembly="System.Web.DataVisualization, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" namespace="System.Web.UI.DataVisualization.Charting" tagprefix="asp" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style2
+        {
+            width: 100%;
+            float: left;
+        }
+    </style>
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+<cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="710px" >    
+    <cc1:TabPanel ID="TabPanel1" runat="server" HeaderText="Graphical View" >
+    
+        <HeaderTemplate>
+            Graphical View
+        </HeaderTemplate>
+    
+        <ContentTemplate>
+                        <table align="left" cellpadding="0" cellspacing="0" class="style2">
+                            <tr>
+                                <td>
+                                    <strong>&nbsp;Project Summary for WO No: </strong>&nbsp;<asp:Label ID="lblWo" runat="server"></asp:Label>
+                                    <asp:Button ID="BtnCancel" runat="server" CssClass="redbox" Text="Cancel" 
+                                        onclick="BtnCancel_Click" />
+                                    </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    
+                        <asp:Chart ID="Chart1" runat="server" Height="700px" Palette="EarthTones" 
+                            Width="1300px">
+                            <Legends>
+                                <asp:Legend BackColor="255, 255, 192" Name="Legend1" Title="Project Status">
+                                    <Position Auto="False" Height="7" Width="10" X="3.71929" Y="90" />
+                                </asp:Legend>
+                            </Legends>
+                            <Series>
+                                <asp:Series ChartArea="ChartArea1" ChartType="Bar" 
+                                    CustomProperties="DrawingStyle=Cylinder, PointWidth=0.1" 
+                                    Font="Microsoft Sans Serif, 8pt, style=Bold" IsValueShownAsLabel="True" 
+                                    LabelBorderDashStyle="NotSet" LabelBorderWidth="0" Legend="Legend1" 
+                                    MarkerSize="2" Name="Progress" YValuesPerPoint="2">
+                                    <EmptyPointStyle CustomProperties="DrawingStyle=Default" />
+                                    <SmartLabelStyle CalloutLineDashStyle="Dot" IsMarkerOverlappingAllowed="True" />
+                                </asp:Series>
+                            </Series>
+                            <ChartAreas>
+                                <asp:ChartArea BackColor="White" BorderColor="Gray" Name="ChartArea1" 
+                                    ShadowColor="Transparent">
+                                    <AxisX IsLabelAutoFit="False" LabelAutoFitStyle="WordWrap" Title="Assembly No" 
+                                       >
+                                        <MajorGrid LineColor="Gainsboro" />
+                                    </AxisX>
+                                    <AxisY Interval="5" IsLabelAutoFit="False" Maximum="100" Minimum="0" 
+                                        Title=" Work Progress in(%)">
+                                        <MajorGrid LineColor="Gainsboro" />
+                                        <LabelStyle Font="Microsoft Sans Serif, 8pt, style=Bold" />
+                                    </AxisY>
+                                    <Position Auto="False" Height="85" Width="100" />
+                                    <InnerPlotPosition Auto="False" Height="100" Width="80" X="13" />
+                                    <Area3DStyle Enable3D="True" Inclination="40" PointDepth="50" Rotation="15" 
+                                        WallWidth="10" />
+                                </asp:ChartArea>
+                            </ChartAreas>
+                        </asp:Chart>
+                        </td>
+                            </tr>
+            </table>
+            </ContentTemplate>
+            </cc1:TabPanel>
+            <cc1:TabPanel ID="TabPanel2" runat="server" HeaderText=" Detail View">
+    <ContentTemplate>
+        <asp:GridView ID="GridView1" Width="100%" CssClass="yui-datatable-theme" runat="server" 
+            AutoGenerateColumns="False" onrowcommand="GridView1_RowCommand" 
+            PageSize="20">
+            <Columns>
+             <asp:TemplateField HeaderText="SN">
+                <ItemTemplate>
+                <%#Container.DataItemIndex+1  %>
+                </ItemTemplate>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="ItemId" Visible="False">
+                <ItemTemplate>
+                    <asp:Label ID="lblItemId" runat="server" Text='<%# Eval("ItemId") %>'></asp:Label>
+                </ItemTemplate>
+                </asp:TemplateField>
+                
+                <asp:TemplateField HeaderText="WONo" Visible="False">
+                <ItemTemplate>
+                    <asp:Label ID="lblWONo" runat="server" Text='<%# Eval("WONo") %>'></asp:Label>
+                </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="PId" Visible="False">
+                <ItemTemplate>
+                    <asp:Label ID="lblPId" runat="server" Text='<%# Eval("PId") %>'></asp:Label>
+                </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="CId" Visible="False">
+                <ItemTemplate>
+                    <asp:Label ID="lblCId" runat="server" Text='<%# Eval("CId") %>'></asp:Label>
+                </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Item Code">
+                <ItemTemplate>
+                   <%-- <asp:Label ID="lblItemcode" runat="server" Text='<%# Eval("ItemCode") %>'></asp:Label>--%>
+                    <asp:LinkButton ID="LinkButton1" runat="server" Text='<%# Eval("ItemCode") %>' CommandName="sel"></asp:LinkButton>
+                </ItemTemplate>
+                <ItemStyle HorizontalAlign="Center" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Description">
+                <ItemTemplate>
+                    <asp:Label ID="lblDesc" runat="server" Text='<%# Eval("Description") %>'></asp:Label>
+                </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Left" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="UOM">
+                <ItemTemplate>
+                    <asp:Label ID="lblUOM" runat="server" Text='<%# Eval("UOM") %>'></asp:Label>
+                </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Center" />
+                </asp:TemplateField>
+                
+                <asp:TemplateField HeaderText="Unit Qty"  Visible="False">
+                <ItemTemplate>
+                    <asp:Label ID="lblUnitQty" runat="server" Text='<%# Eval("UnitQty") %>'></asp:Label>
+                </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Right" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="BOM Qty">
+                <ItemTemplate>
+                    <asp:Label ID="lblBOMQty" runat="server" Text='<%# Eval("BOMQty") %>'></asp:Label>
+                </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Right" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Weld" Visible="False">
+                <ItemTemplate>
+                    <asp:Label ID="lblWeld" runat="server" Text='<%# Eval("Weld") %>'></asp:Label>
+                </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Stock Qty" Visible="False">
+                <ItemTemplate>
+                    <asp:Label ID="lblStockQty" runat="server" Text='<%# Eval("StockQty") %>'></asp:Label>
+                </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Right" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Tot.WIS Qty" Visible="False">
+                <ItemTemplate>
+                    <asp:Label ID="lblTotWISQty" runat="server" Text='<%# Eval("TotWISQty") %>'></asp:Label>
+                </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Right" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Dry Run Qty" Visible="False">
+                <ItemTemplate>
+                    <asp:Label ID="lblDryRunQty" runat="server" Text='<%# Eval("DryRunQty") %>'></asp:Label>
+                </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Right" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Bal.BOM Qty">
+                <ItemTemplate>
+                    <asp:Label ID="lblBalanceBOMQty" runat="server" Text='<%# Eval("BalanceBOMQty") %>'></asp:Label>
+                </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Right" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="After Stock Qty" Visible="False">
+                <ItemTemplate>
+                    <asp:Label ID="lblAfterStockQty" runat="server" Text='<%# Eval("AfterStockQty") %>'></asp:Label>
+                </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Right" />
+                </asp:TemplateField>             
+                 <asp:TemplateField HeaderText="Progress in(%)">
+                <ItemTemplate>
+                    <asp:Label ID="lblprogerss" runat="server" Text='<%# Eval("Progress") %>'></asp:Label>
+                </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Right" />
+                </asp:TemplateField>  
+                
+            </Columns>
+            <EmptyDataTemplate>
+            <table width="100%">
+            <tr>
+            <td align="center">
+                <asp:Label ID="Label1" ForeColor="Maroon" runat="server" Text="No Data to display"></asp:Label>
+            </td>
+            </tr>
+            </table>
+            
+            </EmptyDataTemplate>
+            
+            
+            
+        </asp:GridView>
+   
+    
+</ContentTemplate>
+</cc1:TabPanel>
+</cc1:TabContainer>
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/ProjectManagement/Reports/ProjectSummary_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Collections.Generic;
+//using System.Windows.Controls.DataVisualization.Charting;
+using System.Web.UI.DataVisualization.Charting;
+public partial class Module_ProjectSummary_ProjectSummary_Details : System.Web.UI.Page
+{
+    string wono = "";
+    int CompId = 0;
+    int FinYearId = 0;
+    string ConnString = "";
+    SqlConnection conn; 
+    clsFunctions fun = new clsFunctions();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        ConnString = fun.Connection();
+        conn = new SqlConnection(ConnString);
+        if (!String.IsNullOrEmpty(Request.QueryString["WONo"]))
+        {
+            lblWo.Text = Request.QueryString["WONo"].ToString();
+            wono = Request.QueryString["WONo"].ToString();
+        }
+
+        this.GetDataTable(); 
+        DataTable myDataTable = new DataTable();
+        DataSet DS = new DataSet(); 
+        CompId = Convert.ToInt32(Session["compid"]);
+        FinYearId= Convert.ToInt32(Session["finyear"]);
+      try
+        {
+            conn.Open();            
+            string SqlStr = fun.select("ItemId,PId,CId", "tblDG_BOM_Master", "WONo='" + wono + "' AND PId='0' AND CompId=" + CompId + " Order By CId DESC");
+            SqlCommand Strcmd = new SqlCommand(SqlStr, conn);
+            SqlDataAdapter adapter1 = new SqlDataAdapter(Strcmd);
+            adapter1.Fill(DS, "tblDG_BOM_Master");  
+            myDataTable.Columns.Add(new System.Data.DataColumn("ct", typeof(string)));
+            myDataTable.Columns.Add(new System.Data.DataColumn("id", typeof(string)));          
+            DataRow dr;
+
+            if (DS.Tables[0].Rows.Count > 0)
+            {
+                for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
+                {
+                    double TotWISQty = 0;
+                    double BomQty = 0;
+                    double TotWM = 0;
+
+                    dr = myDataTable.NewRow();
+
+                    adapter1.SelectCommand = new SqlCommand(fun.select("ItemCode", "tblDG_Item_Master", "Id='" + DS.Tables[0].Rows[i][0].ToString() + "' AND CompId=" + CompId + ""), conn);
+                    DataSet DS1 = new DataSet();
+                    adapter1.Fill(DS1, "tblDG_Item_Master");
+
+                    if (DS1.Tables[0].Rows.Count > 0)
+                    {
+                        dr[0] = DS1.Tables[0].Rows[0]["ItemCode"].ToString();
+
+                        int PID = Convert.ToInt32(DS.Tables[0].Rows[i][1]);
+                        int CID = Convert.ToInt32(DS.Tables[0].Rows[i][2]);
+
+                        //Cal. BOM Qty
+                        BomQty = Convert.ToDouble(decimal.Parse(fun.BOMRecurQty(wono, PID, CID, 1, CompId, FinYearId).ToString()).ToString("N3"));
+                        //Cal. Total WIS Issued Qty
+                        string TWISQtySql = fun.select("sum(tblInv_WIS_Details.IssuedQty) as sum_IssuedQty", "tblInv_WIS_Master,tblInv_WIS_Details", "tblInv_WIS_Master.WISNo=tblInv_WIS_Details.WISNo AND tblInv_WIS_Master.WONo='" + wono + "' AND tblInv_WIS_Master.CompId='" + CompId + "' AND tblInv_WIS_Details.ItemId='" + DS.Tables[0].Rows[i]["ItemId"].ToString() + "' AND tblInv_WIS_Details.PId='" + DS.Tables[0].Rows[i]["PId"].ToString() + "' AND tblInv_WIS_Details.CId='" + DS.Tables[0].Rows[i]["CId"].ToString() + "'");
+                        SqlCommand TWISQtycmd = new SqlCommand(TWISQtySql, conn);
+                        SqlDataAdapter TWISQtyDr = new SqlDataAdapter(TWISQtycmd);
+                        DataSet TWISQtyDs = new DataSet();
+                        TWISQtyDr.Fill(TWISQtyDs);
+                        if (TWISQtyDs.Tables[0].Rows[0]["sum_IssuedQty"] != DBNull.Value && TWISQtyDs.Tables[0].Rows.Count > 0)
+                        {
+
+                            TotWISQty = Convert.ToDouble(decimal.Parse((TWISQtyDs.Tables[0].Rows[0]["sum_IssuedQty"]).ToString()).ToString("N3"));
+                        }
+                        ///  Get MIN Qty 
+                        ///  
+                        string SqlMin = fun.select("tblInv_MaterialIssue_Master.MINNo,tblInv_MaterialIssue_Master.SysDate,tblInv_MaterialIssue_Master.SessionId ,tblInv_MaterialIssue_Details.IssueQty", "tblInv_MaterialIssue_Details,tblInv_MaterialIssue_Master,tblInv_MaterialRequisition_Master,tblInv_MaterialRequisition_Details", " tblInv_MaterialIssue_Master.Id=tblInv_MaterialIssue_Details.MId AND tblInv_MaterialIssue_Master.CompId='" + CompId + "' And tblInv_MaterialRequisition_Master.Id=tblInv_MaterialRequisition_Details.MId AND tblInv_MaterialRequisition_Master.Id=tblInv_MaterialIssue_Master.MRSId And tblInv_MaterialRequisition_Details.Id=tblInv_MaterialIssue_Details.MRSId And tblInv_MaterialRequisition_Details.ItemId='" + DS.Tables[0].Rows[i]["ItemId"].ToString() + "' And tblInv_MaterialRequisition_Details.WONo='" + wono + "'   ");
+
+                        SqlCommand CmdMIn = new SqlCommand(SqlMin, conn);
+                        SqlDataAdapter daMIN = new SqlDataAdapter(CmdMIn);
+                        DataSet DSMin = new DataSet();
+                        daMIN.Fill(DSMin);
+                        double MINQty = 0;
+                        for (int min = 0; min < DSMin.Tables[0].Rows.Count; min++)
+                        {
+
+                            MINQty = Convert.ToDouble(decimal.Parse(DSMin.Tables[0].Rows[min]["IssueQty"].ToString()).ToString("N3"));
+                        }
+
+                        TotWM = Convert.ToDouble(decimal.Parse((((TotWISQty + MINQty) * 100) / BomQty).ToString()).ToString("N3"));
+                        dr[1] = TotWM.ToString();
+                        myDataTable.Rows.Add(dr);
+                        myDataTable.AcceptChanges();
+                    }
+                }
+
+                Chart1.Series[0].YValueMembers = myDataTable.Columns[1].ToString();
+                Chart1.Series[0].XValueMember = myDataTable.Columns[0].ToString();
+                Chart1.DataSource = myDataTable;
+                Chart1.DataBind();
+                Chart1.Visible = true;
+            }          
+            
+
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+
+
+
+    public void GetDataTable()
+    {
+        
+        
+        DataTable myDataTable = new DataTable();
+        DataSet DS = new DataSet(); 
+        conn.Open();     
+        CompId = Convert.ToInt32(Session["compid"]);
+        try
+        {
+
+            string SqlStr = fun.select("ItemId,WONo,PId,CId,Qty,Weldments", "tblDG_BOM_Master", "WONo='" + wono + "' AND PId='0' Order By PId ASC");
+            SqlCommand Strcmd = new SqlCommand(SqlStr, conn);
+            SqlDataAdapter adapter = new SqlDataAdapter(Strcmd);
+            adapter.Fill(DS, "tblDG_BOM_Master");
+            myDataTable.Columns.Add(new System.Data.DataColumn("ItemId", typeof(int)));//0
+            myDataTable.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));//1
+            myDataTable.Columns.Add(new System.Data.DataColumn("PId", typeof(int)));//2
+            myDataTable.Columns.Add(new System.Data.DataColumn("CId", typeof(int)));//3
+            myDataTable.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));//4
+            myDataTable.Columns.Add(new System.Data.DataColumn("Description", typeof(string)));//5
+            myDataTable.Columns.Add(new System.Data.DataColumn("UOM", typeof(string)));//6
+            myDataTable.Columns.Add(new System.Data.DataColumn("UnitQty", typeof(string)));//7
+            myDataTable.Columns.Add(new System.Data.DataColumn("BOMQty", typeof(string)));//8
+            myDataTable.Columns.Add(new System.Data.DataColumn("Weld", typeof(string)));//9
+            myDataTable.Columns.Add(new System.Data.DataColumn("StockQty", typeof(string)));//10
+            myDataTable.Columns.Add(new System.Data.DataColumn("TotWISQty", typeof(string)));   //11 
+            myDataTable.Columns.Add(new System.Data.DataColumn("DryRunQty", typeof(string)));//12
+            myDataTable.Columns.Add(new System.Data.DataColumn("BalanceBOMQty", typeof(string)));//13
+            myDataTable.Columns.Add(new System.Data.DataColumn("AfterStockQty", typeof(string)));//14
+            myDataTable.Columns.Add(new System.Data.DataColumn("Progress", typeof(string)));//15
+
+            DataRow dr;
+
+            for (int p = 0; p < DS.Tables[0].Rows.Count; p++)
+            {
+                dr = myDataTable.NewRow();
+                dr[0] = DS.Tables[0].Rows[p][0];
+                dr[1] = DS.Tables[0].Rows[p][1].ToString();
+                dr[2] = DS.Tables[0].Rows[p][2];
+                dr[3] = DS.Tables[0].Rows[p][3];
+                dr[7] = DS.Tables[0].Rows[p][4];
+
+
+                ///  Get MIN Qty 
+                ///  
+                string SqlMin = fun.select("tblInv_MaterialIssue_Master.MINNo,tblInv_MaterialIssue_Master.SysDate,tblInv_MaterialIssue_Master.SessionId ,tblInv_MaterialIssue_Details.IssueQty", "tblInv_MaterialIssue_Details,tblInv_MaterialIssue_Master,tblInv_MaterialRequisition_Master,tblInv_MaterialRequisition_Details", " tblInv_MaterialIssue_Master.Id=tblInv_MaterialIssue_Details.MId AND tblInv_MaterialIssue_Master.CompId='" + CompId + "' And tblInv_MaterialRequisition_Master.Id=tblInv_MaterialRequisition_Details.MId AND tblInv_MaterialRequisition_Master.Id=tblInv_MaterialIssue_Master.MRSId And tblInv_MaterialRequisition_Details.Id=tblInv_MaterialIssue_Details.MRSId And tblInv_MaterialRequisition_Details.ItemId='" + DS.Tables[0].Rows[p][0].ToString() + "' And tblInv_MaterialRequisition_Details.WONo='" + wono + "'   ");
+
+                SqlCommand CmdMIn = new SqlCommand(SqlMin, conn);
+                SqlDataAdapter daMIN = new SqlDataAdapter(CmdMIn);
+                DataSet DSMin = new DataSet();
+                daMIN.Fill(DSMin);
+                double MINQty = 0;
+                for (int min = 0; min < DSMin.Tables[0].Rows.Count; min++)
+                {
+
+                    MINQty = Convert.ToDouble(decimal.Parse(DSMin.Tables[0].Rows[min]["IssueQty"].ToString()).ToString("N3"));
+                }
+
+                string icSql = fun.select("*", "tblDG_Item_Master", "Id='" + dr[0] + "' AND CompId=" + CompId + "");
+                SqlCommand cmditemCode = new SqlCommand(icSql, conn);
+                SqlDataAdapter Dr = new SqlDataAdapter(cmditemCode);
+                DataSet DsIt = new DataSet();
+                Dr.Fill(DsIt, "tblDG_Item_Master");
+
+                dr[4] = DsIt.Tables[0].Rows[0]["ItemCode"].ToString();
+                dr[5] = DsIt.Tables[0].Rows[0]["ManfDesc"].ToString();
+
+                string utSql = fun.select("*", "Unit_Master", "Id='" + Convert.ToInt32(DsIt.Tables[0].Rows[0]["UOMBasic"]) + "'");
+                SqlCommand cmdut = new SqlCommand(utSql, conn);
+                SqlDataAdapter Drut = new SqlDataAdapter(cmdut);
+                DataSet Dsut = new DataSet();
+                Drut.Fill(Dsut, "tblDG_Item_Master");
+
+                dr[6] = Dsut.Tables[0].Rows[0]["Symbol"].ToString();
+
+                //Cal. BOM Qty
+                List<double> g = new List<double>();
+                g = fun.BOMTreeQty(wono, Convert.ToInt32(dr[2]), Convert.ToInt32(dr[3]));
+
+                double h = 1;
+
+                for (int j = 0; j < g.Count; j++)
+                {
+                    h = h * g[j];
+                }
+
+                double BomQty = 0;
+                BomQty = Convert.ToDouble(decimal.Parse(h.ToString()).ToString("N3"));
+                dr[8] = BomQty;
+
+                dr[9] = DS.Tables[0].Rows[p]["Weldments"].ToString();
+                dr[10] = Convert.ToDouble(decimal.Parse(DsIt.Tables[0].Rows[0]["StockQty"].ToString()).ToString("N3"));
+
+                //Cal. Total WIS Issued Qty
+
+                string TWISQtySql = fun.select("sum(tblInv_WIS_Details.IssuedQty) as sum_IssuedQty", "tblInv_WIS_Master,tblInv_WIS_Details", "tblInv_WIS_Master.WISNo=tblInv_WIS_Details.WISNo AND tblInv_WIS_Master.WONo='" + wono + "' AND tblInv_WIS_Master.CompId='" + CompId + "' AND tblInv_WIS_Details.ItemId='" + DS.Tables[0].Rows[p]["ItemId"].ToString() + "' AND tblInv_WIS_Details.PId='" + DS.Tables[0].Rows[p]["PId"].ToString() + "' AND tblInv_WIS_Details.CId='" + DS.Tables[0].Rows[p]["CId"].ToString() + "'");
+
+                SqlCommand TWISQtycmd = new SqlCommand(TWISQtySql, conn);
+                SqlDataAdapter TWISQtyDr = new SqlDataAdapter(TWISQtycmd);
+                DataSet TWISQtyDs = new DataSet();
+
+                TWISQtyDr.Fill(TWISQtyDs);
+
+                double TotWISQty = 0;
+                double BalBomQty = 0;
+                double TotWM = 0;
+
+                if (TWISQtyDs.Tables[0].Rows[0]["sum_IssuedQty"] != DBNull.Value && TWISQtyDs.Tables[0].Rows.Count > 0)
+                {
+
+                    TotWISQty = Convert.ToDouble(decimal.Parse((TWISQtyDs.Tables[0].Rows[0]["sum_IssuedQty"]).ToString()).ToString("N3"));
+                }
+
+                TotWM = Convert.ToDouble(decimal.Parse((((TotWISQty + MINQty) * 100) / BomQty).ToString()).ToString("N3"));
+
+                if (TWISQtyDs.Tables[0].Rows[0]["sum_IssuedQty"] != DBNull.Value && TWISQtyDs.Tables[0].Rows.Count > 0)
+                {
+                    dr[11] = Convert.ToDouble(decimal.Parse((TWISQtyDs.Tables[0].Rows[0]["sum_IssuedQty"]).ToString()).ToString("N3"));
+
+                    TotWISQty = Convert.ToDouble(decimal.Parse((TWISQtyDs.Tables[0].Rows[0]["sum_IssuedQty"]).ToString()).ToString("N3"));
+                }
+                else
+                {
+                    dr[11] = 0;
+                }
+
+                //Cal. Bal BOM Qty to Issue
+
+                if (h >= 0)
+                {
+                    BalBomQty = Convert.ToDouble(decimal.Parse((h - TotWISQty).ToString()).ToString("N3"));
+
+                    //Cal. Issue and Stock Qty
+
+                    double CalStockQty = 0;
+                    double CalIssueQty = 0;
+
+                    if (Convert.ToDouble(decimal.Parse(DsIt.Tables[0].Rows[0]["StockQty"].ToString()).ToString("N3")) >= 0 && BalBomQty >= 0)
+                    {
+                        if (Convert.ToDouble(decimal.Parse(DsIt.Tables[0].Rows[0]["StockQty"].ToString()).ToString("N3")) >= BalBomQty)
+                        {
+                            CalStockQty = Convert.ToDouble(decimal.Parse((DsIt.Tables[0].Rows[0]["StockQty"]).ToString()).ToString("N3")) - BalBomQty;
+                            CalIssueQty = BalBomQty;
+                        }
+                        else if (BalBomQty >= Convert.ToDouble(decimal.Parse(DsIt.Tables[0].Rows[0]["StockQty"].ToString()).ToString("N3")))
+                        {
+                            CalStockQty = 0;
+                            CalIssueQty = Convert.ToDouble(decimal.Parse(DsIt.Tables[0].Rows[0]["StockQty"].ToString()).ToString("N3"));
+                        }
+                    }
+
+                    if (Convert.ToDouble(decimal.Parse((h - (TotWISQty + CalIssueQty)).ToString()).ToString("N3")) >= 0)
+                    {
+                        dr[13] = Convert.ToDouble(decimal.Parse((h - (TotWISQty + CalIssueQty + MINQty)).ToString()).ToString("N3"));
+                    }
+                    else
+                    {
+                        dr[13] = 0;
+                    }
+                    dr[13] = Convert.ToDouble(decimal.Parse((h - (TotWISQty + CalIssueQty + MINQty)).ToString()).ToString("N3"));
+                    dr[12] = Convert.ToDouble(decimal.Parse(CalIssueQty.ToString()).ToString("N3"));
+                    dr[14] = Convert.ToDouble(decimal.Parse(CalStockQty.ToString()).ToString("N3"));
+                    dr[15] = Convert.ToDouble(decimal.Parse(TotWM.ToString()).ToString("N3"));
+                    g.Clear();
+                    myDataTable.Rows.Add(dr);
+                    myDataTable.AcceptChanges();
+                }
+            }
+                GridView1.DataSource = myDataTable;
+                GridView1.DataBind();
+
+            
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+            conn.Close();
+        }
+
+       
+    }
+
+
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "sel")
+        {           
+
+            GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+            int id = Convert.ToInt32(((Label)row.FindControl("lblItemId")).Text);
+            string Wono = ((Label)row.FindControl("lblWONo")).Text;
+            int Pid = Convert.ToInt32(((Label)row.FindControl("lblPId")).Text);
+            int Cid = Convert.ToInt32(((Label)row.FindControl("lblCId")).Text);
+            Response.Redirect("~/Module/ProjectManagement/Reports/Componant_Details.aspx?Id=" + id + "&PID=" + Pid + "&CID=" + Cid + "&WONO=" + Wono + "&ModId=&SubModId=");
+           
+           
+        }
+    }
+    protected void BtnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/ProjectManagement/Reports/ProjectSummary.aspx?ModId=7");
+       
+    }
+}

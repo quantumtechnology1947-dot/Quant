@@ -1,0 +1,710 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MIS/Reports/SalesDistribution.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="SalesDistribution.aspx.cs" Inherits="Module_MIS_Reports_SalesDistribution" Title="ERP" Theme ="Default"  %>
+
+<%@ Register assembly="System.Web.DataVisualization, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" namespace="System.Web.UI.DataVisualization.Charting" tagprefix="asp" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style2
+        {
+            width: 620px;
+        }
+       
+        .style3
+        {
+            font-size: 11pt;
+            font-weight: bold;
+        }
+       
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">    
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+    <asp:UpdatePanel ID="UpdatePanel1"  UpdateMode="Conditional" runat="server">
+    <ContentTemplate>
+    <table align="center" cellpadding="0" cellspacing="0" class="fontcss" width="98%">
+    <tr>
+    <td colspan="2" align="left" class="fontcsswhite" height="20" scope="col" style="background: url(../../../images/hdbg.JPG)" valign="middle">&nbsp;<b>Sales Distribution</b></td>
+    </tr>
+    <tr>
+    <td>&nbsp;</td>
+    </tr>
+        <tr>
+            <td class="style2" align="left" valign="top" rowspan="2">
+               
+               
+                    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" 
+                        CssClass="yui-datatable-theme" Width="100%" AllowPaging="True" GridLines="Both"
+                        
+                        
+                        PageSize="15" onpageindexchanging="GridView1_PageIndexChanging"
+     >
+                        <PagerSettings PageButtonCount="40" />
+                        <Columns>
+                            <asp:TemplateField 
+                            HeaderText="SN" ItemStyle-HorizontalAlign="Right">
+                                <ItemTemplate>
+                                    <%# Container.DataItemIndex+1 %>
+                                </ItemTemplate>
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+                            </asp:TemplateField>
+                            <asp:BoundField HeaderText="Fin Year" DataField="FinYear"/>
+                            <asp:BoundField HeaderText="Customer Name" DataField="CustomerName" >
+                                <ItemStyle HorizontalAlign="Left" Width="45%" />
+                            </asp:BoundField>
+                            <asp:BoundField HeaderText="Code" DataField="CustomerId" />
+                            <asp:BoundField HeaderText="Enq No" DataField="EnqId" >
+                                <ItemStyle Width="12%" />
+                            </asp:BoundField>
+                             <asp:BoundField HeaderText="Gen Date" DataField="SysDate" />
+                            <asp:BoundField HeaderText="Gen By" DataField="EmployeeName" />
+                          </Columns>
+                           <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                          <HeaderStyle CssClass="header" />
+                    </asp:GridView>
+                
+                
+                    
+            </td>
+            <td align="center" valign="middle" class="style3">
+                Enquiry Chart</td>
+        </tr>
+        <tr>
+            <td align="center" valign="top">
+              <asp:Chart ID="Chart1" runat="server" Height="307px" Width="379px">
+                    <series>
+                        <asp:Series Name="Series1" Font="Microsoft Sans Serif, 8pt">
+                        </asp:Series>
+                    </series>
+                    <chartareas>
+                        <asp:ChartArea Name="ChartArea1" BackColor="224, 224, 224" BorderColor="Silver" 
+                            ShadowColor="DimGray">
+                            <Position Height="100" Width="100" />
+                        </asp:ChartArea>
+                    </chartareas>
+                </asp:Chart>
+                </td>
+        </tr>
+        <tr>
+            <td class="style2" valign="top">
+                     
+                &nbsp;</td>
+            <td align="center" valign="middle" class="style3">
+                &nbsp;</td>
+        </tr>
+        <tr>
+            <td class="style2" rowspan="2" valign="top">
+                     
+                <asp:GridView ID="SearchGridView1" runat="server" AllowPaging="True" 
+                    GridLines="Both" CssClass="yui-datatable-theme"
+                    AllowSorting="True" AutoGenerateColumns="False" 
+                    DataKeyNames="PONo" RowStyle-HorizontalAlign ="Center"
+                    
+                    onpageindexchanging="SearchGridView1_PageIndexChanging" Width="100%" PageSize="15" 
+                               >
+           
+                    <PagerSettings PageButtonCount="40" />
+           
+            <RowStyle />
+                                <Columns>
+                                <asp:TemplateField HeaderText="SN" ItemStyle-HorizontalAlign="Right"><ItemTemplate><%# Container.DataItemIndex+1 %></ItemTemplate>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+                                    </asp:TemplateField>
+                                    <asp:BoundField DataField="FinYear" HeaderText="Fin Yrs">
+                                        <ItemStyle Width="8%" />
+                                    </asp:BoundField>
+                                    <asp:BoundField HeaderText="Customer Name" DataField="CustomerName">
+                                        <ItemStyle Width="30%" HorizontalAlign="Left" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="CustomerId" HeaderText="Code" />
+                                    <asp:HyperLinkField 
+                                        
+                                        DataTextField="PONo" HeaderText="PO No">
+                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                    </asp:HyperLinkField>
+                                    <asp:BoundField DataField="EnqId" HeaderText="Enq No" >
+                                        <ItemStyle Width="12%" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="SysDate" HeaderText="Gen Date" />
+                                    <asp:BoundField DataField="EmployeeName" HeaderText="Gen By" >
+                                        <ItemStyle HorizontalAlign="Left" Width="20%" />
+                                    </asp:BoundField>
+                                </Columns>
+                                 <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+        </asp:GridView>
+
+            </td>
+            <td align="center" valign="top" class="style3">
+                Customer PO Chart</td>
+        </tr>
+        <tr>
+            <td align="center" valign="top">
+                 <asp:Chart ID="Chart2" runat="server" Height="307px" Width="379px">
+                    <series>
+                        <asp:Series Name="Series1" Font="Microsoft Sans Serif, 8pt">
+                        </asp:Series>
+                    </series>
+                    <chartareas>
+                        <asp:ChartArea Name="ChartArea1" BackColor="224, 224, 224" BorderColor="Silver" 
+                            ShadowColor="DimGray">
+                            <Position Height="100" Width="100" />
+                        </asp:ChartArea>
+                    </chartareas>
+                </asp:Chart>
+            </td>
+        </tr>
+        <tr><td>
+            &nbsp;</td>
+        <td>
+            &nbsp;</td></tr>
+        <tr><td rowspan="2" valign="top">
+            
+            <asp:GridView ID="GridView2" runat="server" AllowPaging="True" GridLines="Both"
+                    AllowSorting="True" AutoGenerateColumns="False" CssClass="yui-datatable-theme"
+                    DataKeyNames="WONo" RowStyle-HorizontalAlign ="Center"                  
+                    onpageindexchanging="GridView2_PageIndexChanging" Width="100%" 
+                PageSize="15" >
+            
+                <PagerSettings PageButtonCount="40" />
+            
+            <RowStyle />
+            <Columns>
+                
+                <asp:TemplateField HeaderText="SN" ItemStyle-HorizontalAlign="Right">
+                <ItemTemplate>
+                <%#Container.DataItemIndex+1  %>
+                </ItemTemplate>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+                </asp:TemplateField>
+                                  <asp:BoundField DataField="FinYear" HeaderText="Fin Yrs">
+                                      <ItemStyle HorizontalAlign="Left" Width="8%" />
+                </asp:BoundField>
+                                  <asp:BoundField HeaderText="Customer Name" 
+                    DataField="CustomerName">
+                                      <ItemStyle HorizontalAlign="Left" Width="25%" />
+                                </asp:BoundField>
+                                  <asp:BoundField DataField="CustomerId" HeaderText="Code" />
+                                  <asp:BoundField DataField="EnqId" HeaderText="Enquiry No" />
+                                  <asp:BoundField DataField="PONo" HeaderText="PO No" />
+                                  <asp:HyperLinkField 
+                    HeaderText="WO No" 
+                    DataTextField="WONo" 
+                     />
+                                  <asp:BoundField DataField="SysDate" HeaderText="Gen. Date" />
+                                  <asp:BoundField DataField="EmployeeName" HeaderText="Gen. By" >
+                            
+                                      <ItemStyle HorizontalAlign="Left" Width="25%" />
+                                </asp:BoundField>
+                            
+            </Columns>
+            <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+        </asp:GridView>
+            
+            </td>
+        <td align="center" valign="middle" class="style3">
+            Work Order Chart</td></tr>
+        <tr>
+        <td valign="top" align="center">
+             <asp:Chart ID="Chart3" runat="server" Height="307px" Width="379px">
+                    <series>
+                        <asp:Series Name="Series1" Font="Microsoft Sans Serif, 8pt">
+                        </asp:Series>
+                    </series>
+                    <chartareas>
+                        <asp:ChartArea Name="ChartArea1" BackColor="224, 224, 224" BorderColor="Silver" 
+                            ShadowColor="DimGray">
+                            <Position Height="100" Width="100" />
+                        </asp:ChartArea>
+                    </chartareas>
+                </asp:Chart>
+            </td></tr>
+        <tr><td valign="top">
+            &nbsp;</td>
+        <td>
+            &nbsp;</td></tr>
+        <tr><td valign="top" rowspan="2">
+<asp:GridView ID="GridView3" runat="server" CssClass="yui-datatable-theme"
+        Width="100%" AllowPaging="True" AutoGenerateColumns="False" 
+                onpageindexchanging="GridView3_PageIndexChanging" PageSize="15">
+
+    <PagerSettings PageButtonCount="40" />
+
+    <Columns>
+        <asp:TemplateField HeaderText="SN">
+        <ItemTemplate><%# Container.DataItemIndex+1 %></ItemTemplate>
+            <ItemStyle Width="5%" />
+        </asp:TemplateField>
+        <asp:BoundField DataField="CustomerName" HeaderText="Customer Name">
+            <ItemStyle Width="45%" />
+        </asp:BoundField>
+        <asp:BoundField DataField="CustomerId" HeaderText="Code" />
+        <asp:BoundField DataField="WONo" HeaderText="WoNo" />
+        <asp:BoundField DataField="SysDate" HeaderText="Date of Dispatch" >
+            <ItemStyle Width="10%" />
+        </asp:BoundField>
+    </Columns>
+     <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+   
+</asp:GridView>
+            </td>
+        <td align="center" class="style3" valign="middle">
+            Work Order Dispatch Chart</td></tr>
+        <tr>
+        <td align="center" valign="top">
+             <asp:Chart ID="Chart4"  runat="server" Height="307px" Width="379px">
+                    <series>
+                        <asp:Series Name="Series1" Font="Microsoft Sans Serif, 8pt">
+                        </asp:Series>
+                    </series>
+                    <chartareas>
+                        <asp:ChartArea Name="ChartArea1" BackColor="224, 224, 224" BorderColor="Silver" 
+                            ShadowColor="DimGray">
+                            <Position Height="100" Width="100" />
+                        </asp:ChartArea>
+                    </chartareas>
+                </asp:Chart>
+            </td></tr>
+        <tr><td valign="top">
+            &nbsp;</td>
+        <td>
+            &nbsp;</td></tr>
+        <tr><td valign="top">
+            &nbsp;</td>
+        <td>
+            &nbsp;</td></tr>
+        </table>
+     
+     </ContentTemplate>
+    </asp:UpdatePanel>
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MIS/Reports/SalesDistribution.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Web.UI.DataVisualization.Charting;
+using System.Drawing;
+
+public partial class Module_MIS_Reports_SalesDistribution : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    int FinId = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {  
+        FinId = Convert.ToInt32(Session["finyear"]);
+        if (!Page.IsPostBack)
+        {
+            this.Enquirygrid();
+            this.POgrid();
+            this.WOgrid();
+            this.DAgrid();
+            this.drawgraph();            
+        }
+      
+    }
+
+    public void WOgrid()
+    {
+
+        string getSysDate = fun.revDate("SD_Cust_WorkOrder_Master.SysDate", "SysDate");
+       
+        int CId = Convert.ToInt32(Session["compid"]);
+
+        fun.TotOfModule("SD_Cust_WorkOrder_Master,SD_Cust_Master,tblHR_OfficeStaff,tblFinancial_master", " tblFinancial_master.FinYear,tblHR_OfficeStaff.EmployeeName,SD_Cust_WorkOrder_Master.PONo,SD_Cust_WorkOrder_Master.EnqId, SD_Cust_Master.CustomerName,SD_Cust_WorkOrder_Master.CustomerId,SD_Cust_WorkOrder_Master.WONo," + getSysDate + "", "tblHR_OfficeStaff.EmpId=SD_Cust_WorkOrder_Master.SessionId AND SD_Cust_WorkOrder_Master.CustomerId=SD_Cust_Master.CustomerId AND SD_Cust_WorkOrder_Master.CompId=" + CId + " AND  SD_Cust_WorkOrder_Master.FinYearId='"+FinId+"'And tblFinancial_master.FinYearId=SD_Cust_WorkOrder_Master.FinYearId Order by SD_Cust_WorkOrder_Master.Id Desc", GridView2);
+
+    }
+
+    public void Enquirygrid()
+    {
+         int CId = Convert.ToInt32(Session["compid"]);
+
+         fun.TotOfModule("SD_Cust_Enquiry_Master,tblHR_OfficeStaff,tblFinancial_master", 
+             "tblFinancial_master.FinYear,tblHR_OfficeStaff.EmployeeName,SD_Cust_Enquiry_Master.EnqId, SD_Cust_Enquiry_Master.CustomerName,SD_Cust_Enquiry_Master.POStatus,SD_Cust_Enquiry_Master.CustomerId,SD_Cust_Enquiry_Master.SessionId,REPLACE(CONVERT(varchar, CONVERT(datetime, SUBSTRING(SD_Cust_Enquiry_Master.SysDate, CHARINDEX('-', SD_Cust_Enquiry_Master.SysDate) + 1, 2) + '-' + LEFT(SD_Cust_Enquiry_Master.SysDate,CHARINDEX('-', SD_Cust_Enquiry_Master.SysDate) - 1) + '-' + RIGHT(SD_Cust_Enquiry_Master.SysDate, CHARINDEX('-', REVERSE(SD_Cust_Enquiry_Master.SysDate)) - 1)), 103), '/', '-')AS SysDate",
+
+             "  SD_Cust_Enquiry_Master.FinYearId='"+FinId+"' And tblHR_OfficeStaff.EmpId=SD_Cust_Enquiry_Master.SessionId AND SD_Cust_Enquiry_Master.CompId=" + CId + " AND tblFinancial_master.FinYearId=SD_Cust_Enquiry_Master.FinYearId Order by SD_Cust_Enquiry_Master.EnqId Desc", GridView1);    
+    }
+
+
+    public void POgrid()
+    {
+        int CId = Convert.ToInt32(Session["compid"]);
+
+        fun.TotOfModule("SD_Cust_PO_Master,SD_Cust_Master,tblHR_OfficeStaff,tblFinancial_master", "tblFinancial_master.FinYear,tblHR_OfficeStaff.EmployeeName,SD_Cust_PO_Master.PONo,SD_Cust_PO_Master.POId,SD_Cust_PO_Master.EnqId, SD_Cust_Master.CustomerName,SD_Cust_PO_Master.CustomerId,SD_Cust_PO_Master.SessionId,REPLACE(CONVERT(varchar, CONVERT(datetime, SUBSTRING(SD_Cust_PO_Master.SysDate, CHARINDEX('-', SD_Cust_PO_Master.SysDate) + 1, 2) + '-' + LEFT(SD_Cust_PO_Master.SysDate,CHARINDEX('-', SD_Cust_PO_Master.SysDate) - 1) + '-' + RIGHT(SD_Cust_PO_Master.SysDate, CHARINDEX('-', REVERSE(SD_Cust_PO_Master.SysDate)) - 1)), 103), '/', '-')AS SysDate", "tblHR_OfficeStaff.EmpId=SD_Cust_PO_Master.SessionId AND SD_Cust_PO_Master.CustomerId=SD_Cust_Master.CustomerId AND SD_Cust_PO_Master.CompId=" + CId + " AND SD_Cust_PO_Master.FinYearId='"+FinId+"' And  tblFinancial_master.FinYearId=SD_Cust_PO_Master.FinYearId Order by SD_Cust_PO_Master.POId Desc", SearchGridView1);
+
+    }
+
+    public void DAgrid()
+    {
+        int CId = Convert.ToInt32(Session["compid"]);
+        
+        fun.TotOfModule("SD_Cust_WorkOrder_Master,SD_Cust_WorkOrder_Release,SD_Cust_WorkOrder_Dispatch,SD_Cust_Master",
+            "SD_Cust_WorkOrder_Master.WONo,SD_Cust_WorkOrder_Master.CustomerId,SD_Cust_WorkOrder_Release.WRNo,SD_Cust_Master.CustomerName,REPLACE(CONVERT(varchar, CONVERT(datetime, SUBSTRING(SD_Cust_WorkOrder_Dispatch.SysDate, CHARINDEX('-', SD_Cust_WorkOrder_Dispatch.SysDate) + 1, 2) + '-' + LEFT(SD_Cust_WorkOrder_Dispatch.SysDate,CHARINDEX('-', SD_Cust_WorkOrder_Dispatch.SysDate) - 1) + '-' + RIGHT(SD_Cust_WorkOrder_Dispatch.SysDate, CHARINDEX('-', REVERSE(SD_Cust_WorkOrder_Dispatch.SysDate)) - 1)), 103), '/', '-')AS SysDate",
+            "SD_Cust_WorkOrder_Dispatch.WRNo=SD_Cust_WorkOrder_Release.WRNo AND SD_Cust_WorkOrder_Master.WONo=SD_Cust_WorkOrder_Release.WONo AND SD_Cust_Master.CustomerId = SD_Cust_WorkOrder_Master.CustomerId AND SD_Cust_WorkOrder_Master.CompId=" + CId + " And SD_Cust_WorkOrder_Dispatch.FinYearId='" + FinId + "'  And SD_Cust_WorkOrder_Release.ItemId=SD_Cust_WorkOrder_Dispatch.ItemId Order by SD_Cust_WorkOrder_Dispatch.Id Desc", GridView3);
+
+        
+    }
+
+    public void drawgraph()
+    {
+        string str = fun.Connection();
+        SqlConnection con = new SqlConnection(str);
+
+        // Monthly Enquiry =========================================================================
+
+        try
+        {
+            int fyid = Convert.ToInt32(Session["finyear"]);
+            int cid = Convert.ToInt32(Session["compid"]);
+
+            string sql3 = "Select FinYear from tblfinancial_master Where FinYearId='" + fyid + "'";
+
+            SqlCommand cmd3 = new SqlCommand(sql3, con);
+            SqlDataAdapter da3 = new SqlDataAdapter(cmd3);
+            DataSet ds3 = new DataSet();
+            da3.Fill(ds3);
+
+            Chart1.Series[0].ChartType = SeriesChartType.Column;
+            Chart1.Series[0]["DrawingStyle"] = "Cylinder";
+            Chart1.Series[0]["PointWidth"] = "0.7";
+            Chart1.Series[0].IsValueShownAsLabel = true;
+            Chart1.ChartAreas[0].AxisX.Title = "Fin. Year  " + ds3.Tables[0].Rows[0][0].ToString();
+            Chart1.ChartAreas[0].BackColor = Color.PaleGreen;
+            Chart1.ChartAreas[0].Area3DStyle.Enable3D = true;
+            Chart1.ChartAreas[0].Area3DStyle.PointDepth = 100;
+            Chart1.ChartAreas[0].Area3DStyle.PointGapDepth = 0;
+            Chart1.ChartAreas[0].AxisY.IsStartedFromZero = true;
+
+            DataTable dt = new DataTable();
+            DataTable dt2 = new DataTable();
+            DataRow dr;
+
+            dt.Columns.Add(new System.Data.DataColumn("ct", typeof(string)));
+
+            string[] mthno = new string[] { "04", "05", "06", "07", "08", "09", "10", "11", "12", "01", "02", "03" };
+
+            int k;
+
+            for (k = 0; k < mthno.Length; k++)
+            {
+                string sql = "Select count(*) as count_enq from sd_cust_enquiry_master Where SysDate like '%-" + mthno[k] + "-%' AND FinYearId='" + fyid + "' AND CompId='" + cid + "'";
+
+                SqlCommand cmd = new SqlCommand(sql, con);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+                da.Fill(ds);
+               
+                dr = dt.NewRow();
+                dr[0] = ds.Tables[0].Rows[0][0].ToString();
+                dt.Rows.Add(dr);
+            }
+
+            Chart1.ChartAreas[0].AxisX.Interval = 1;
+            Chart1.ChartAreas[0].AxisY.Title = "Total No. of Enquiries";
+            Chart1.Series[0].YValueMembers = dt.Columns[0].ToString();
+            Chart1.DataSource = dt;
+            Chart1.ChartAreas[0].AxisX.LabelStyle.Font = new Font("Arial", 8);
+            Chart1.ChartAreas[0].AxisX.LabelStyle.Angle = 45;
+            Chart1.ChartAreas[0].AxisX.CustomLabels.Add(2, 0.1, "APR");
+            Chart1.ChartAreas[0].AxisX.CustomLabels.Add(4, 0.1, "MAY");
+            Chart1.ChartAreas[0].AxisX.CustomLabels.Add(6, 0.1, "JUN");
+            Chart1.ChartAreas[0].AxisX.CustomLabels.Add(8, 0.1, "JUL");
+            Chart1.ChartAreas[0].AxisX.CustomLabels.Add(10, 0.1, "AUG");
+            Chart1.ChartAreas[0].AxisX.CustomLabels.Add(12, 0.1, "SEP");
+            Chart1.ChartAreas[0].AxisX.CustomLabels.Add(14, 0.1, "OCT");
+            Chart1.ChartAreas[0].AxisX.CustomLabels.Add(16, 0.1, "NOV");
+            Chart1.ChartAreas[0].AxisX.CustomLabels.Add(18, 0.1, "DEC");
+            Chart1.ChartAreas[0].AxisX.CustomLabels.Add(20, 0.1, "JAN");
+            Chart1.ChartAreas[0].AxisX.CustomLabels.Add(22, 0.1, "FEB");
+            Chart1.ChartAreas[0].AxisX.CustomLabels.Add(24, 0.1, "MAR");
+            Chart1.DataBind();
+            Chart1.Visible = true;
+
+            // END 
+
+            // Monthly PO ===================================================================================
+
+            Chart2.Series[0].ChartType = SeriesChartType.Column;
+            Chart2.Series[0]["DrawingStyle"] = "Cylinder";
+            Chart2.Series[0]["PointWidth"] = "0.7";
+            Chart2.Series[0].IsValueShownAsLabel = true;
+            Chart2.ChartAreas[0].AxisX.Title = "Fin. Year  " + ds3.Tables[0].Rows[0][0].ToString();
+            Chart2.ChartAreas[0].BackColor = Color.PapayaWhip;
+            Chart2.ChartAreas[0].Area3DStyle.Enable3D = true;
+            Chart2.ChartAreas[0].Area3DStyle.PointDepth = 100;
+            Chart2.ChartAreas[0].Area3DStyle.PointGapDepth = 0;
+            Chart2.ChartAreas[0].AxisY.IsStartedFromZero = true;
+
+            DataTable podt = new DataTable();
+            DataTable podt2 = new DataTable();
+            DataRow podr;
+
+            podt.Columns.Add(new System.Data.DataColumn("po", typeof(string)));
+
+            string[] pomthno = new string[] { "04", "05", "06", "07", "08", "09", "10", "11", "12", "01", "02", "03" };
+
+            int pok;
+
+            for (pok = 0; pok < mthno.Length; pok++)
+            {
+                string posql = "Select count(*) as count_po from SD_Cust_PO_Master Where SysDate like '%-" + pomthno[pok] + "-%'AND FinYearId='" + fyid + "' AND CompId='" + cid + "'";
+                SqlCommand pocmd = new SqlCommand(posql, con);
+                SqlDataAdapter poda = new SqlDataAdapter(pocmd);
+                DataSet pods = new DataSet();
+                poda.Fill(pods);
+                podr = podt.NewRow();
+                podr[0] = pods.Tables[0].Rows[0][0].ToString();
+                podt.Rows.Add(podr);
+            }
+
+            Chart2.ChartAreas[0].AxisX.Interval = 1;
+            Chart2.ChartAreas[0].AxisY.Title = "Total No. of PO";
+            Chart2.Series[0].YValueMembers = podt.Columns[0].ToString();
+            Chart2.DataSource = podt;
+            Chart2.ChartAreas[0].AxisX.LabelStyle.Font = new Font("Arial", 8);
+            Chart2.ChartAreas[0].AxisX.LabelStyle.Angle = 45;
+            Chart2.ChartAreas[0].AxisX.CustomLabels.Add(2, 0.1, "APR");
+            Chart2.ChartAreas[0].AxisX.CustomLabels.Add(4, 0.1, "MAY");
+            Chart2.ChartAreas[0].AxisX.CustomLabels.Add(6, 0.1, "JUN");
+            Chart2.ChartAreas[0].AxisX.CustomLabels.Add(8, 0.1, "JUL");
+            Chart2.ChartAreas[0].AxisX.CustomLabels.Add(10, 0.1, "AUG");
+            Chart2.ChartAreas[0].AxisX.CustomLabels.Add(12, 0.1, "SEP");
+            Chart2.ChartAreas[0].AxisX.CustomLabels.Add(14, 0.1, "OCT");
+            Chart2.ChartAreas[0].AxisX.CustomLabels.Add(16, 0.1, "NOV");
+            Chart2.ChartAreas[0].AxisX.CustomLabels.Add(18, 0.1, "DEC");
+            Chart2.ChartAreas[0].AxisX.CustomLabels.Add(20, 0.1, "JAN");
+            Chart2.ChartAreas[0].AxisX.CustomLabels.Add(22, 0.1, "FEB");
+            Chart2.ChartAreas[0].AxisX.CustomLabels.Add(24, 0.1, "MAR");
+            Chart2.DataBind();
+            Chart2.Visible = true;
+
+            // END =========================================================================================
+
+
+            // Monthly WO ===================================================================================
+
+            Chart3.Series[0].ChartType = SeriesChartType.Column;
+            Chart3.Series[0]["DrawingStyle"] = "Cylinder";
+            Chart3.Series[0]["PointWidth"] = "0.7";
+            Chart3.Series[0].IsValueShownAsLabel = true;
+            Chart3.ChartAreas[0].AxisX.Title = "Fin. Year  " + ds3.Tables[0].Rows[0][0].ToString();
+            Chart3.ChartAreas[0].BackColor = Color.PaleTurquoise;
+            Chart3.ChartAreas[0].Area3DStyle.Enable3D = true;
+            Chart3.ChartAreas[0].Area3DStyle.PointDepth = 100;
+            Chart3.ChartAreas[0].Area3DStyle.PointGapDepth = 0;
+            Chart3.ChartAreas[0].AxisY.IsStartedFromZero = true;
+
+            DataTable wodt = new DataTable();
+            DataTable wodt2 = new DataTable();
+            DataRow wodr;
+
+            wodt.Columns.Add(new System.Data.DataColumn("wo", typeof(string)));
+
+            string[] womthno = new string[] { "04", "05", "06", "07", "08", "09", "10", "11", "12", "01", "02", "03" };
+
+            int wok;
+
+            for (wok = 0; wok < mthno.Length; wok++)
+            {
+                string wosql = "Select count(*) as count_wo from SD_Cust_WorkOrder_Master Where SysDate like '%-" + womthno[wok] + "-%'AND FinYearId='" + fyid + "' AND CompId='" + cid + "'";
+                SqlCommand wocmd = new SqlCommand(wosql, con);
+                SqlDataAdapter woda = new SqlDataAdapter(wocmd);
+                DataSet wods = new DataSet();
+                woda.Fill(wods);
+                wodr = wodt.NewRow();
+                wodr[0] = wods.Tables[0].Rows[0][0].ToString();
+                wodt.Rows.Add(wodr);
+            }
+
+            Chart3.ChartAreas[0].AxisX.Interval = 1;
+            Chart3.ChartAreas[0].AxisY.Title = "Total No. of Work Order";
+            Chart3.Series[0].YValueMembers = wodt.Columns[0].ToString();
+            Chart3.DataSource = wodt;
+            Chart3.ChartAreas[0].AxisX.LabelStyle.Font = new Font("Arial", 8);
+            Chart3.ChartAreas[0].AxisX.LabelStyle.Angle = 45;
+            Chart3.ChartAreas[0].AxisX.CustomLabels.Add(2, 0.1, "APR");
+            Chart3.ChartAreas[0].AxisX.CustomLabels.Add(4, 0.1, "MAY");
+            Chart3.ChartAreas[0].AxisX.CustomLabels.Add(6, 0.1, "JUN");
+            Chart3.ChartAreas[0].AxisX.CustomLabels.Add(8, 0.1, "JUL");
+            Chart3.ChartAreas[0].AxisX.CustomLabels.Add(10, 0.1, "AUG");
+            Chart3.ChartAreas[0].AxisX.CustomLabels.Add(12, 0.1, "SEP");
+            Chart3.ChartAreas[0].AxisX.CustomLabels.Add(14, 0.1, "OCT");
+            Chart3.ChartAreas[0].AxisX.CustomLabels.Add(16, 0.1, "NOV");
+            Chart3.ChartAreas[0].AxisX.CustomLabels.Add(18, 0.1, "DEC");
+            Chart3.ChartAreas[0].AxisX.CustomLabels.Add(20, 0.1, "JAN");
+            Chart3.ChartAreas[0].AxisX.CustomLabels.Add(22, 0.1, "FEB");
+            Chart3.ChartAreas[0].AxisX.CustomLabels.Add(24, 0.1, "MAR");
+            Chart3.DataBind();
+            Chart3.Visible = true;
+
+            // END =========================================================================================
+
+
+            // Monthly DA ===================================================================================
+
+            Chart4.Series[0].ChartType = SeriesChartType.Column;
+            Chart4.Series[0]["DrawingStyle"] = "Cylinder";
+            Chart4.Series[0]["PointWidth"] = "0.7";
+            Chart4.Series[0].IsValueShownAsLabel = true;
+            Chart4.ChartAreas[0].AxisX.Title = "Fin. Year  " + ds3.Tables[0].Rows[0][0].ToString();
+            Chart4.ChartAreas[0].BackColor = Color.LightSalmon;
+            Chart4.ChartAreas[0].Area3DStyle.Enable3D = true;
+            Chart4.ChartAreas[0].Area3DStyle.PointDepth = 100;
+            Chart4.ChartAreas[0].Area3DStyle.PointGapDepth = 0;
+            Chart4.ChartAreas[0].AxisY.IsStartedFromZero = true;
+
+            DataTable dadt = new DataTable();
+            DataTable dadt2 = new DataTable();
+            DataRow dadr;
+
+            dadt.Columns.Add(new System.Data.DataColumn("da", typeof(string)));
+
+            string[] damthno = new string[] { "04", "05", "06", "07", "08", "09", "10", "11", "12", "01", "02", "03" };
+
+            int dak;
+
+            for (dak = 0; dak < mthno.Length; dak++)
+            {
+                string dasql = "Select count(*) as count_da from SD_Cust_WorkOrder_Dispatch Where SysDate like '%-" + damthno[dak] + "-%'AND FinYearId='" + fyid + "' AND CompId='" + cid + "'";
+                SqlCommand dacmd = new SqlCommand(dasql, con);
+                SqlDataAdapter dada = new SqlDataAdapter(dacmd);
+                DataSet dads = new DataSet();
+                dada.Fill(dads);               
+                dadr = dadt.NewRow();
+                dadr[0] = dads.Tables[0].Rows[0][0].ToString();
+                dadt.Rows.Add(dadr);
+            }
+
+
+            Chart4.ChartAreas[0].AxisX.Interval = 1;
+            Chart4.ChartAreas[0].AxisY.Title = "Total No. of Dispatch";
+            Chart4.Series[0].YValueMembers = dadt.Columns[0].ToString();
+            Chart4.DataSource = dadt;
+            Chart4.ChartAreas[0].AxisX.LabelStyle.Font = new Font("Arial", 8);
+            Chart4.ChartAreas[0].AxisX.LabelStyle.Angle = 45;
+            Chart4.ChartAreas[0].AxisX.CustomLabels.Add(2, 0.1, "APR");
+            Chart4.ChartAreas[0].AxisX.CustomLabels.Add(4, 0.1, "MAY");
+            Chart4.ChartAreas[0].AxisX.CustomLabels.Add(6, 0.1, "JUN");
+            Chart4.ChartAreas[0].AxisX.CustomLabels.Add(8, 0.1, "JUL");
+            Chart4.ChartAreas[0].AxisX.CustomLabels.Add(10, 0.1, "AUG");
+            Chart4.ChartAreas[0].AxisX.CustomLabels.Add(12, 0.1, "SEP");
+            Chart4.ChartAreas[0].AxisX.CustomLabels.Add(14, 0.1, "OCT");
+            Chart4.ChartAreas[0].AxisX.CustomLabels.Add(16, 0.1, "NOV");
+            Chart4.ChartAreas[0].AxisX.CustomLabels.Add(18, 0.1, "DEC");
+            Chart4.ChartAreas[0].AxisX.CustomLabels.Add(20, 0.1, "JAN");
+            Chart4.ChartAreas[0].AxisX.CustomLabels.Add(22, 0.1, "FEB");
+            Chart4.ChartAreas[0].AxisX.CustomLabels.Add(24, 0.1, "MAR");
+            Chart4.DataBind();
+            Chart4.Visible = true;
+
+            // END =========================================================================================
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+            con.Close();
+        }
+
+
+
+    }
+
+    
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView1.PageIndex = e.NewPageIndex;
+        this.Enquirygrid();
+        this.drawgraph();
+    }
+
+
+    protected void SearchGridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        SearchGridView1.PageIndex = e.NewPageIndex;
+        this.POgrid();
+        this.drawgraph();
+    }
+    protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView2.PageIndex = e.NewPageIndex;
+        this.WOgrid();
+        this.drawgraph();
+    }
+    protected void GridView3_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView3.PageIndex = e.NewPageIndex;
+        this.DAgrid();
+        this.drawgraph();
+    }
+}
+  

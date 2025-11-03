@@ -1,0 +1,195 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/Asset_Register.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Asset_Register.aspx.cs" Inherits="Module_Accounts_Transactions_Asset_Register" Title="ERP" Theme="Default" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite">
+                <b>&nbsp;Asset Register</b></td>
+        </tr>
+      <tr>
+            <td height="25" valign="middle" width="100%">
+                &nbsp;
+                <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="True" 
+                    onselectedindexchanged="DropDownList1_SelectedIndexChanged">
+                <asp:ListItem Value="0">Search All</asp:ListItem>
+                <asp:ListItem Value="1">Categoy</asp:ListItem>
+               </asp:DropDownList>
+                &nbsp;<asp:DropDownList ID="ddlCategory" runat="server" 
+                    DataSourceID="SqlDataSource1" DataTextField="Abbrivation" 
+                    DataValueField="Id" 
+                    onselectedindexchanged="ddlCategory_SelectedIndexChanged" AutoPostBack="True">
+                </asp:DropDownList>
+    
+      
+                &nbsp;<asp:DropDownList ID="ddlSubCategory" runat="server" > 
+                </asp:DropDownList>
+                      
+                &nbsp;<asp:Button ID="btnSearch" runat="server" CssClass="redbox" 
+                    Text="Search" onclick="btnSearch_Click" />
+            </td>
+        </tr>
+        <tr>
+            <td align="center" height="430" width="100%"> 
+               <iframe runat="server" id="ifrm" width="100%" height="430" frameborder="0"></iframe>
+                <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+                    ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"                   
+                    SelectCommand="SELECT Id,Abbrivation FROM tblACC_Asset_Category" >  
+                </asp:SqlDataSource>   
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/Asset_Register.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_Accounts_Transactions_Asset_Register : System.Web.UI.Page
+{
+
+    clsFunctions fun = new clsFunctions();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            if (!Page.IsPostBack)
+            {
+                ddlCategory.Visible = false;
+                ddlSubCategory.Visible = false;
+            }
+
+        }
+        catch (Exception exc)
+        {
+        }
+    }
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            string ca = "";
+            string sca = "";
+            string getRandomKey = fun.GetRandomAlphaNumeric();
+
+            if (DropDownList1.SelectedValue == "1")
+            {
+                if (ddlCategory.SelectedValue != "0")
+                {
+                    if (ddlCategory.SelectedValue != "0")
+                    {
+                        ca = ddlCategory.SelectedValue;
+                    }
+                    if (ddlSubCategory.SelectedValue != "0")
+                    {
+                        sca = ddlSubCategory.SelectedValue;
+                    }
+                    ifrm.Attributes.Add("src", "AssetRegister_Report.aspx?CAT=" + ca + "&SCAT=" + sca + "&Key=" + getRandomKey + "");
+                }
+                else
+                {
+                    string mystringmsg = string.Empty;
+                    mystringmsg = "Please select Category";
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('" + mystringmsg + "');", true);
+                    ifrm.Attributes.Add("src", "AssetRegister_Report.aspx?CAT=0&SCAT=0&Key=" + getRandomKey + "");
+                }
+            }
+            if (DropDownList1.SelectedValue == "0")
+            {
+                ifrm.Attributes.Add("src", "AssetRegister_Report.aspx?CAT=&SCAT=&Key=" + getRandomKey + "");
+            }
+
+        }
+
+        catch (Exception ex) { }
+    }
+    protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (DropDownList1.SelectedValue == "0")
+            {
+                ddlCategory.ClearSelection();
+                ddlSubCategory.ClearSelection();
+                ddlCategory.Visible = false;
+                ddlSubCategory.Visible = false;
+            }
+            if (DropDownList1.SelectedValue == "1")
+            {
+                ddlCategory.Visible = true;
+                ddlSubCategory.Visible = true;
+
+                DataSet DS1 = new DataSet();
+                string connStr1 = fun.Connection();
+                SqlConnection con1 = new SqlConnection(connStr1);
+                string cmdStr1 = fun.select("Id,(CASE WHEN MId!= 0 THEN Abbrivation ELSE 'Select'  END ) AS Abbrivation", "tblACC_Asset_SubCategory", "MId='0'");
+                SqlCommand cmd1 = new SqlCommand(cmdStr1, con1);
+                SqlDataAdapter DA1 = new SqlDataAdapter(cmd1);
+                DA1.Fill(DS1, "tblACC_Asset_SubCategory");
+                ddlSubCategory.DataSource = DS1.Tables["tblACC_Asset_SubCategory"];
+                ddlSubCategory.DataTextField = "Abbrivation";
+                ddlSubCategory.DataValueField = "Id";
+                ddlSubCategory.DataBind();
+            }
+ 
+        }
+        catch (Exception ex) { }
+    }
+    protected void ddlCategory_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (ddlCategory.SelectedIndex != 0)
+            {
+                DataSet DS = new DataSet();
+                string connStr = fun.Connection();
+                SqlConnection con = new SqlConnection(connStr);
+                string cmdStr = fun.select("Id,(CASE WHEN MId!= 0 THEN Abbrivation ELSE 'Select'  END ) AS Abbrivation", "tblACC_Asset_SubCategory", "MId='" + ddlCategory.SelectedValue + "'");
+                SqlCommand cmd = new SqlCommand(cmdStr, con);
+                SqlDataAdapter DA = new SqlDataAdapter(cmd);
+                DA.Fill(DS, "tblACC_Asset_SubCategory");
+                ddlSubCategory.DataSource = DS.Tables["tblACC_Asset_SubCategory"];
+                ddlSubCategory.DataTextField = "Abbrivation";
+                ddlSubCategory.DataValueField = "Id";
+                ddlSubCategory.DataBind();
+            }
+
+        }
+        catch (Exception ex) { }
+    }
+}

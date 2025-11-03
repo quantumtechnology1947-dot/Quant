@@ -1,0 +1,168 @@
+graph TB
+    %% Country Module Architecture Diagram
+
+    subgraph "Presentation Layer"
+        A[Country.aspx<br/>ASP.NET Web Form]
+        A1[Master Page<br/>MasterPage.master]
+        A2[CSS Stylesheets<br/>yui-datatable.css<br/>StyleSheet.css]
+        A3[JavaScript Files<br/>PopUpMsg.js<br/>loadingNotifier.js]
+    end
+
+    subgraph "Code-Behind Layer"
+        B[Country.aspx.cs<br/>Module_SysAdmin_Country Class]
+        B1[Page_Load Event]
+        B2[GridView1_RowCommand Event]
+        B3[GridView1_RowUpdated Event]
+        B4[GridView1_RowDeleted Event]
+        B5[GridView1_RowDataBound Event]
+        B6[SqlDataSource1_Inserted Event]
+    end
+
+    subgraph "Data Access Layer"
+        C[SqlDataSource<br/>LocalSqlServer]
+        C1[SELECT Command<br/>SELECT * FROM tblCountry]
+        C2[INSERT Command<br/>INSERT INTO tblCountry<br/>CountryName, Currency, Symbol]
+        C3[UPDATE Command<br/>UPDATE tblCountry SET<br/>CountryName, Currency, Symbol<br/>WHERE CId = @CId]
+        C4[DELETE Command<br/>DELETE FROM tblCountry<br/>WHERE CId = @CId]
+    end
+
+    subgraph "Database Layer"
+        D[(tblCountry Table)]
+        D1[CId - INT<br/>Primary Key<br/>Auto Increment]
+        D2[CountryName - STRING<br/>Required Field]
+        D3[Currency - STRING<br/>Required Field]
+        D4[Symbol - STRING<br/>Required Field]
+    end
+
+    subgraph "UI Components"
+        E[GridView1<br/>Data Grid Control]
+        E1[Edit Button<br/>CommandField]
+        E2[Delete Button<br/>CommandField Hidden]
+        E3[Serial Number Column<br/>Auto Generated]
+        E4[Country Name Column<br/>TemplateField]
+        E5[Currency Column<br/>TemplateField]
+        E6[Symbol Column<br/>TemplateField]
+        E7[Footer Row<br/>Insert Controls]
+        E8[Paging Support<br/>PageSize=20]
+    end
+
+    subgraph "Validation Layer"
+        F[RequiredFieldValidator]
+        F1[Country Name Validation<br/>ValidationGroup A & SG]
+        F2[Currency Validation<br/>ValidationGroup A & SG]
+        F3[Symbol Validation<br/>ValidationGroup A & SG]
+    end
+
+    subgraph "Utility Functions"
+        G[clsFunctions Class]
+        G1[getCountry Method<br/>Returns country data by ID]
+        G2[Connection Method<br/>Database connection string]
+    end
+
+    subgraph "Related Modules"
+        H[State Module<br/>References tblCountry]
+        H1[City Module<br/>Uses Country dropdown]
+        H2[Currency Module<br/>References tblCountry]
+        H3[Bank Module<br/>References tblCountry]
+        H4[Tour Intimation<br/>Uses Country data]
+    end
+
+    subgraph "User Actions"
+        I[CRUD Operations]
+        I1[Create New Country<br/>Add Command]
+        I2[Read Country List<br/>Grid Display]
+        I3[Update Country<br/>Edit Command]
+        I4[Delete Country<br/>Delete Command Hidden]
+    end
+
+    subgraph "JavaScript Confirmations"
+        J[Client-Side Validations]
+        J1[confirmationAdd<br/>Insert confirmation]
+        J2[confirmationUpdate<br/>Edit confirmation]
+        J3[confirmationDelete<br/>Delete confirmation]
+    end
+
+    %% Relationships
+    A --> A1
+    A --> A2
+    A --> A3
+    A --> B
+    A --> E
+    A --> F
+
+    B --> B1
+    B --> B2
+    B --> B3
+    B --> B4
+    B --> B5
+    B --> B6
+    B --> G
+
+    B2 --> I1
+    B3 --> I3
+    B4 --> I4
+
+    E --> E1
+    E --> E2
+    E --> E3
+    E --> E4
+    E --> E5
+    E --> E6
+    E --> E7
+    E --> E8
+
+    F --> F1
+    F --> F2
+    F --> F3
+
+    C --> C1
+    C --> C2
+    C --> C3
+    C --> C4
+    C --> D
+
+    D --> D1
+    D --> D2
+    D --> D3
+    D --> D4
+
+    G --> G1
+    G --> G2
+
+    H --> D
+    H1 --> D
+    H2 --> D
+    H3 --> D
+    H4 --> D
+
+    I --> I1
+    I --> I2
+    I --> I3
+    I --> I4
+
+    E1 --> J2
+    E2 --> J3
+    E7 --> J1
+
+    %% Styling
+    classDef presentationClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef codeClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef dataClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef dbClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef uiClass fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef validationClass fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    classDef utilityClass fill:#e0f2f1,stroke:#004d40,stroke-width:2px
+    classDef relatedClass fill:#fafafa,stroke:#424242,stroke-width:2px
+    classDef actionClass fill:#e3f2fd,stroke:#0d47a1,stroke-width:2px
+    classDef jsClass fill:#fff8e1,stroke:#ff6f00,stroke-width:2px
+
+    class A,A1,A2,A3 presentationClass
+    class B,B1,B2,B3,B4,B5,B6 codeClass
+    class C,C1,C2,C3,C4 dataClass
+    class D,D1,D2,D3,D4 dbClass
+    class E,E1,E2,E3,E4,E5,E6,E7,E8 uiClass
+    class F,F1,F2,F3 validationClass
+    class G,G1,G2 utilityClass
+    class H,H1,H2,H3,H4 relatedClass
+    class I,I1,I2,I3,I4 actionClass
+    class J,J1,J2,J3 jsClass

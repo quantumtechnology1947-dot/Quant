@@ -1,0 +1,188 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/Acc_Capital_Part_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Acc_Capital_Part_Details.aspx.cs" Inherits="Module_Accounts_Transactions_Acc_Capital_Part_Details" Theme="Default" Title="ERP" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+<table width="100%">
+    <tr>
+            <td align="left" valign="middle" 
+                style="background:url(../../../images/hdbg.JPG)" height="21" 
+                class="fontcsswhite" colspan="3">
+                <b>&nbsp;Capital(Goods)</b></td>
+        </tr>
+   <tr>
+   <td align="Left">
+    <asp:Panel ID="Panel1" ScrollBars="Auto"  Width="100%" Height="430px"  runat="server">
+         <asp:GridView ID="GridView1" runat="server" Width="70%" GridLines="None" 
+          AlternatingRowStyle-BackColor="AliceBlue" AutoGenerateColumns="False" 
+          onrowcommand="GridView1_RowCommand" CssClass="yui-datatable-theme" 
+             ShowFooter="True" onrowdatabound="GridView1_RowDataBound" EmptyDataText="No Records To Display" EmptyDataRowStyle-BackColor="Aqua" >
+      
+      <Columns>     
+      <asp:TemplateField HeaderText="SN" ItemStyle-HorizontalAlign="Right">
+                                <ItemTemplate>
+                                    <%#Container.DataItemIndex+1%>
+                                </ItemTemplate>
+                                
+                                <ItemStyle HorizontalAlign="Right" Width="5%"/>
+                            </asp:TemplateField>
+                                     
+       <asp:TemplateField HeaderText="Particulars" >
+       <ItemTemplate>       
+        <asp:LinkButton ID="LinkButton1" CommandName="Sel" Text='<%#Eval("Particulars") %>'  runat="server"></asp:LinkButton>
+       </ItemTemplate>
+           <FooterTemplate>
+       <asp:Label ID="TotLbl" Font-Bold="true" runat="server" Text="Total"></asp:Label>
+       </FooterTemplate>
+           <FooterStyle HorizontalAlign="Right" />
+       <ItemStyle HorizontalAlign="left"/>
+       </asp:TemplateField> 
+       
+       <asp:TemplateField HeaderText="Debit">   
+       
+       <ItemTemplate>       
+           <asp:Label ID="lblDrAmt" runat="server" Text='<%#Eval("TotDrAmt") %>'></asp:Label>
+       </ItemTemplate>
+       <FooterTemplate>
+       <asp:Label ID="TotDebit" runat="server" Text="0"></asp:Label>
+       </FooterTemplate>
+           <FooterStyle Width="20%" Font-Bold="true" HorizontalAlign="Right"/>
+       <HeaderStyle HorizontalAlign="Center" />   
+       <ItemStyle HorizontalAlign="Right" Width="20%"  />
+       </asp:TemplateField>     
+       
+       <asp:TemplateField HeaderText="Credit">
+       <ItemTemplate>       
+           <asp:Label ID="lblCrAmt" runat="server" Text='<%#Eval("TotCrAmt") %>'></asp:Label>
+       </ItemTemplate>
+       <FooterTemplate>
+       <asp:Label ID="TotCredit" runat="server" Text="0"></asp:Label>
+       </FooterTemplate>
+           <FooterStyle Width="20%" HorizontalAlign="Right" Font-Bold="true"/>
+           <HeaderStyle HorizontalAlign="Center" />
+       <ItemStyle HorizontalAlign="Right" Width="20%"  />
+       </asp:TemplateField>
+       
+       <asp:TemplateField Visible="false">
+       <ItemTemplate>       
+           <asp:Label ID="lblId"  runat="server" Text='<%#Eval("Id") %>'></asp:Label>
+       </ItemTemplate>
+      
+       </asp:TemplateField>       
+       
+     </Columns>
+                                 
+             <AlternatingRowStyle BackColor="AliceBlue" />
+                                 
+      </asp:GridView>
+    </asp:Panel>
+   </td>
+   </tr>
+   
+   <tr>
+   <td  align="center" style="height:25px; ">   
+       <asp:Button ID="Button1" runat="server" CssClass="redbox" Text="Cancel" 
+           onclick="btnCancel_Click" /></td>
+   </tr>
+   
+   </table>   
+
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/Acc_Capital_Part_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_Accounts_Transactions_Acc_Capital_Part_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    ACC_Loan_Liab ACA = new ACC_Loan_Liab();
+    string sId = "";
+    int CompId = 0;
+    int FinYearId = 0;
+    int MId = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            sId = Session["username"].ToString();
+            if (!string.IsNullOrEmpty(Request.QueryString["MId"]))
+            {
+                MId = Convert.ToInt32(Request.QueryString["MId"]);
+            }
+            if (!IsPostBack)
+            {
+                string StrSql = "select CreditAmt As loan,tblACC_Capital_Details.Particulars,tblACC_Capital_Details.Id from tblACC_Capital_Details inner join tblACC_Capital_Master on tblACC_Capital_Master.Id=tblACC_Capital_Details.MId And CompId=" + CompId + " AND FinYearId<=" + FinYearId + " And MId=" + MId + "";
+                DataTable dt = ACA.TotFillPart(StrSql);
+                GridView1.DataSource = dt;
+                GridView1.DataBind();
+                double Totdr = 0;
+                double Totcr = 0;
+                if (dt.Rows.Count > 0)
+                {
+                    Totcr = Convert.ToDouble(dt.Compute("Sum(TotCrAmt)", ""));
+                    Totdr = Convert.ToDouble(dt.Compute("Sum(TotDrAmt)", ""));
+                    ((Label)GridView1.FooterRow.FindControl("TotDebit")).Text = Totdr.ToString();
+                    ((Label)GridView1.FooterRow.FindControl("TotCredit")).Text = Totcr.ToString();
+                }
+            }
+            
+        }
+        catch
+        {
+
+        }
+    }
+
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/Accounts/Transactions/Acc_Capital_Particulars.aspx??ModId=11&SubModId=");
+    }
+
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        
+    }
+   
+
+}

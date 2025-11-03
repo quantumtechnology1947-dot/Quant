@@ -1,0 +1,446 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Masters/Payement_Receipt_Against.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Payement_Receipt_Against.aspx.cs" Inherits="Module_Accounts_Masters_Payement_Receipt_Against" Title="ERP" Theme="Default" %>
+
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+<table  width="100%">
+        <tr>
+            <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;Payment/Receipt Against</b></td>
+        </tr>
+        <tr>
+            <td>
+                <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" 
+                    AutoPostBack="true"
+                    Width="100%" >
+                    <cc1:TabPanel runat="server" HeaderText="Payment" ID="Add">  
+                        <ContentTemplate>
+                        
+                    <asp:Panel ID="Panel1" ScrollBars="Auto" runat="server" >
+                   <asp:GridView ID="GridView1"  
+                runat="server"
+                ShowFooter="True" 
+                AutoGenerateColumns="False" 
+                DataKeyNames="Id"                
+                DataSourceID="SqlDataSource1"              
+              OnRowCommand="GridView1_RowCommand" CssClass="yui-datatable-theme" Width="60%" 
+                    onrowdatabound="GridView1_RowDataBound" 
+                    onrowupdating="GridView1_RowUpdating">
+                    
+                   <Columns>
+                      <asp:CommandField  ShowEditButton="True" 
+                           ValidationGroup="Shree">
+                          <ItemStyle HorizontalAlign="Center" />
+                       </asp:CommandField>
+                        <asp:CommandField ShowDeleteButton="True"  >
+                         
+                            <ItemStyle HorizontalAlign="Center" />
+                       </asp:CommandField>
+                         
+                        <asp:TemplateField HeaderText="SN" SortExpression="Id">
+                        <FooterTemplate> 
+                        <asp:Button ID="btnInsert" runat="server" Text="Insert" ValidationGroup="abc" 
+                        OnClientClick=" return confirmationAdd()" CommandName="Add" CssClass="redbox" />
+                        </FooterTemplate>
+                        <ItemTemplate>
+                        <%# Container.DataItemIndex+1 %>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Description">
+                        <EditItemTemplate>
+                        <asp:TextBox ID="txtTerms1" Width="97%" runat="server" CssClass="box3"  ValidationGroup="Shree" Text='<%#Bind("Description") %>'>
+                        </asp:TextBox>
+                         <asp:RequiredFieldValidator ID="ReqTerms" ValidationGroup="Shree" ControlToValidate="txtTerms1" 
+                            runat="server" ErrorMessage="*">
+                            </asp:RequiredFieldValidator>
+                        </EditItemTemplate>
+                        
+                        <FooterTemplate>
+                        <asp:TextBox ID="txtTerms2" CssClass="box3"   Width="97%" ValidationGroup="abc" runat="server">
+                        </asp:TextBox>
+                         <asp:RequiredFieldValidator ID="ReqTerm" runat="server" ValidationGroup="abc" ControlToValidate="txtTerms2" 
+                         ErrorMessage="*"></asp:RequiredFieldValidator>
+                        </FooterTemplate>
+                        
+                        <ItemTemplate>
+                        <asp:Label ID="lblTerms" runat="server" Text='<%#Eval("Description") %>'>    </asp:Label>
+                        </ItemTemplate>
+                        
+                            <FooterStyle HorizontalAlign="Left" />
+                            <ItemStyle HorizontalAlign="Left" Width="70%" />
+                        </asp:TemplateField>                  
+                    
+                    </Columns> 
+                    <EmptyDataTemplate>
+                    <table border="1pt" style="border-color:GrayText" width="100%">
+                    <tr>
+                        <th>
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                         </tr>                      
+                    <tr>
+                        <td>
+                            <asp:Button ID="btnInsert" runat="server" CommandName="Add1" CssClass="redbox" 
+                                OnClientClick=" return confirmationAdd()" Text="Insert" ValidationGroup="pqr" />
+                        </td>
+                        <td >
+                            <asp:TextBox ID="txtTerms3" runat="server" Width="97%" CssClass="box3" 
+                                ValidationGroup="pqr">
+                            </asp:TextBox>
+                            <asp:RequiredFieldValidator ID="ReqTerm0" runat="server" 
+                                ControlToValidate="txtTerms3" ErrorMessage="*" ValidationGroup="pqr"></asp:RequiredFieldValidator>
+                        </td>
+                        
+           </tr>
+                        </table>
+                   </EmptyDataTemplate> 
+                    
+<FooterStyle Wrap="True"></FooterStyle>
+                   
+              </asp:GridView>
+                
+                <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+                    ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                    DeleteCommand="DELETE FROM [tblACC_PaymentAgainst] WHERE [Id] = @Id" 
+                    InsertCommand="INSERT INTO [tblACC_PaymentAgainst] ([Description]) VALUES (@Description)" 
+                    SelectCommand="SELECT * FROM [tblACC_PaymentAgainst]  order by [Id] desc" 
+                    UpdateCommand="UPDATE [tblACC_PaymentAgainst] SET [Description] = @Description  WHERE [Id] = @Id">
+                    <DeleteParameters>
+                        <asp:Parameter Name="Id" Type="Int32" />
+                    </DeleteParameters>
+                    <UpdateParameters>
+                        <asp:Parameter Name="Description" Type="String" />
+                        <asp:Parameter Name="Id" Type="Int32" />
+                    </UpdateParameters>
+                    <InsertParameters>
+                        <asp:Parameter Name="Description" Type="String" />
+                     
+                    </InsertParameters>
+                </asp:SqlDataSource>
+                    </asp:Panel>
+                       </ContentTemplate></cc1:TabPanel>
+                    <cc1:TabPanel ID="View" runat="server" HeaderText="Receipt">
+                            
+                        <ContentTemplate>
+            
+                <asp:Panel ID="Panel2" ScrollBars="Auto" runat="server">             
+            
+           <asp:GridView ID="GridView2"  
+                runat="server"
+                ShowFooter="True" 
+                AutoGenerateColumns="False" 
+                DataKeyNames="Id"                
+                DataSourceID="SqlDataSource2"              
+              OnRowCommand="GridView2_RowCommand" CssClass="yui-datatable-theme" Width="60%" 
+                    onrowdatabound="GridView2_RowDataBound" 
+                    onrowupdating="GridView2_RowUpdating">
+                    
+                   <Columns>
+                      <asp:CommandField  ShowEditButton="True" 
+                           ValidationGroup="Shree">
+                          <ItemStyle HorizontalAlign="Center" />
+                       </asp:CommandField>
+                        <asp:CommandField ShowDeleteButton="True"  >
+                         
+                            <ItemStyle HorizontalAlign="Center" />
+                       </asp:CommandField>
+                         
+                        <asp:TemplateField HeaderText="SN" SortExpression="Id">
+                        <FooterTemplate> 
+                        <asp:Button ID="btnInsert" runat="server" Text="Insert" ValidationGroup="abc" 
+                        OnClientClick=" return confirmationAdd()" CommandName="Add" CssClass="redbox" />
+                        </FooterTemplate>
+                        <ItemTemplate>
+                        <%# Container.DataItemIndex+1 %>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Description">
+                        <EditItemTemplate>
+                        <asp:TextBox ID="txtTerms1" Width="97%" runat="server" CssClass="box3"  ValidationGroup="Shree" Text='<%#Bind("Description") %>'>
+                        </asp:TextBox>
+                         <asp:RequiredFieldValidator ID="ReqTerms" ValidationGroup="Shree" ControlToValidate="txtTerms1" 
+                            runat="server" ErrorMessage="*">
+                            </asp:RequiredFieldValidator>
+                        </EditItemTemplate>
+                        
+                        <FooterTemplate>
+                        <asp:TextBox ID="txtTerms2" CssClass="box3"   Width="97%" ValidationGroup="abc" runat="server">
+                        </asp:TextBox>
+                         <asp:RequiredFieldValidator ID="ReqTerm" runat="server" ValidationGroup="abc" ControlToValidate="txtTerms2" 
+                         ErrorMessage="*"></asp:RequiredFieldValidator>
+                        </FooterTemplate>
+                        
+                        <ItemTemplate>
+                        <asp:Label ID="lblTerms" runat="server" Text='<%#Eval("Description") %>'>    </asp:Label>
+                        </ItemTemplate>
+                        
+                            <FooterStyle HorizontalAlign="Left" />
+                            <ItemStyle HorizontalAlign="Left" Width="70%" />
+                        </asp:TemplateField>                  
+                    
+                    </Columns> 
+                    <EmptyDataTemplate>
+                    <table border="1pt" style="border-color:GrayText" width="100%">
+                    <tr>
+                        <th>
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                         </tr>                      
+                    <tr>
+                        <td>
+                            <asp:Button ID="btnInsert" runat="server" CommandName="Add1" CssClass="redbox" 
+                                OnClientClick=" return confirmationAdd()" Text="Insert" ValidationGroup="pqr" />
+                        </td>
+                        <td >
+                            <asp:TextBox ID="txtTerms3" runat="server" Width="97%" CssClass="box3" 
+                                ValidationGroup="pqr">
+                            </asp:TextBox>
+                            <asp:RequiredFieldValidator ID="ReqTerm0" runat="server" 
+                                ControlToValidate="txtTerms3" ErrorMessage="*" ValidationGroup="pqr"></asp:RequiredFieldValidator>
+                        </td>
+                        
+           </tr>
+                        </table>
+                   </EmptyDataTemplate> 
+                    
+<FooterStyle Wrap="True"></FooterStyle>
+                   
+              </asp:GridView>
+                
+                <asp:SqlDataSource ID="SqlDataSource2" runat="server" 
+                    ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                    DeleteCommand="DELETE FROM [tblACC_ReceiptAgainst] WHERE [Id] = @Id" 
+                    InsertCommand="INSERT INTO [tblACC_ReceiptAgainst] ([Description]) VALUES (@Description)" 
+                    SelectCommand="SELECT * FROM [tblACC_ReceiptAgainst]  order by [Id] desc" 
+                    UpdateCommand="UPDATE [tblACC_ReceiptAgainst] SET [Description] = @Description  WHERE [Id] = @Id">
+                    <DeleteParameters>
+                        <asp:Parameter Name="Id" Type="Int32" />
+                    </DeleteParameters>
+                    <UpdateParameters>
+                        <asp:Parameter Name="Description" Type="String" />
+                        <asp:Parameter Name="Id" Type="Int32" />
+                    </UpdateParameters>
+                    <InsertParameters>
+                        <asp:Parameter Name="Description" Type="String" />
+                     
+                    </InsertParameters>
+                </asp:SqlDataSource>
+               </asp:Panel>
+                           </ContentTemplate></cc1:TabPanel>
+                </cc1:TabContainer>
+            </td>
+        </tr>
+        </table>
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Masters/Payement_Receipt_Against.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_Accounts_Masters_Payement_Receipt_Against : System.Web.UI.Page
+{
+
+    clsFunctions fun = new clsFunctions();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            if (e.CommandName == "Add")
+            {
+                string strTerms = ((TextBox)
+                GridView1.FooterRow.FindControl("txtTerms2")).Text;
+
+                if (strTerms != "")
+                {
+                    SqlDataSource1.InsertParameters["Description"].DefaultValue = strTerms;
+                    SqlDataSource1.Insert();
+                    //lblMessage.Text = "Record Inserted";
+                }
+            }
+            if (e.CommandName == "Add1")
+            {
+                string strTerms = ((TextBox)
+                GridView1.Controls[0].Controls[0].FindControl("txtTerms3")).Text;
+                if (strTerms != "")
+                {
+                    SqlDataSource1.InsertParameters["Description"].DefaultValue = strTerms;
+                    SqlDataSource1.Insert();
+                    //lblMessage.Text = "Record Inserted";
+                }
+            }
+        }
+        catch (Exception ex) { }
+
+    }
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton edit = (LinkButton)e.Row.Cells[0].Controls[0];
+                edit.Attributes.Add("onclick", "return confirmationUpdate();");
+            }
+
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton del = (LinkButton)e.Row.Cells[1].Controls[0];
+                del.Attributes.Add("onclick", "return confirmationDelete();");
+            }
+        }
+        catch (Exception ex) { }
+
+    }
+    protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+        try
+        {
+            string connStr = fun.Connection();
+            DataSet ds = new DataSet();
+            SqlConnection con = new SqlConnection(connStr);
+            int rowIndex = GridView1.EditIndex;
+            GridViewRow row = GridView1.Rows[rowIndex];
+            int id = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Value);
+
+            string strTerms = ((TextBox)row.FindControl("txtTerms1")).Text;
+
+            if (strTerms != "")
+            {
+                con.Open();
+                string upd = "UPDATE tblACC_PaymentAgainst SET Description ='" + strTerms + "' WHERE Id ='" + id + "'";
+                SqlCommand cmd = new SqlCommand(upd, con);
+                cmd.ExecuteNonQuery();
+                con.Close();
+
+            }
+
+        }
+        catch (Exception ex) { }
+
+    }
+
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            if (e.CommandName == "Add")
+            {
+                string strTerms = ((TextBox)
+                GridView2.FooterRow.FindControl("txtTerms2")).Text;
+
+                if (strTerms != "")
+                {
+                    SqlDataSource2.InsertParameters["Description"].DefaultValue = strTerms;
+                    SqlDataSource2.Insert();
+                    //lblMessage.Text = "Record Inserted";
+                }
+            }
+            if (e.CommandName == "Add1")
+            {
+                string strTerms = ((TextBox)
+                GridView2.Controls[0].Controls[0].FindControl("txtTerms3")).Text;
+                if (strTerms != "")
+                {
+                    SqlDataSource2.InsertParameters["Description"].DefaultValue = strTerms;
+                    SqlDataSource2.Insert();
+                    //lblMessage.Text = "Record Inserted";
+                }
+            }
+        }
+        catch (Exception ex) { }
+
+    }
+    protected void GridView2_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton edit = (LinkButton)e.Row.Cells[0].Controls[0];
+                edit.Attributes.Add("onclick", "return confirmationUpdate();");
+            }
+
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton del = (LinkButton)e.Row.Cells[1].Controls[0];
+                del.Attributes.Add("onclick", "return confirmationDelete();");
+            }
+        }
+        catch (Exception ex) { }
+
+    }
+    protected void GridView2_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+        try
+        {
+            string connStr = fun.Connection();
+            DataSet ds = new DataSet();
+            SqlConnection con = new SqlConnection(connStr);
+            int rowIndex = GridView2.EditIndex;
+            GridViewRow row = GridView2.Rows[rowIndex];
+            int id = Convert.ToInt32(GridView2.DataKeys[e.RowIndex].Value);
+
+            string strTerms = ((TextBox)row.FindControl("txtTerms1")).Text;
+
+            if (strTerms != "")
+            {
+                con.Open();
+                string upd = "UPDATE tblACC_ReceiptAgainst SET description ='" + strTerms + "' WHERE Id ='" + id + "'";
+                SqlCommand cmd = new SqlCommand(upd, con);
+                cmd.ExecuteNonQuery();
+                con.Close();
+
+            }
+
+        }
+        catch (Exception ex) { }
+
+    }
+}

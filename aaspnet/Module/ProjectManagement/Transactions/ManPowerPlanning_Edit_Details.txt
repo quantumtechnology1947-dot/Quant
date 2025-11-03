@@ -1,0 +1,446 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/ProjectManagement/Transactions/ManPowerPlanning_Edit_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ManPowerPlanning_Edit_Details.aspx.cs" Inherits="Module_ProjectManagement_Transactions_ManPowerPlanning_Edit_Details" Title="ERP"  Theme ="Default" %>
+<%@ Register assembly="TimePicker" namespace="MKB.TimePicker" tagprefix="MKB" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .style3
+        {
+            width: 100%;
+        }
+        .style4
+        {
+            height: 23px;
+        }
+    </style>
+    </asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+ 
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+<table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)">
+        &nbsp;<b>Man Power Planning - Edit</b></td>
+        </tr>
+         <tr>
+        <td>
+        
+        
+  <%--  </asp:Panel>--%>
+        <table class="style3">
+            <tr>
+                <td width="10%">
+                    &#160;</td>
+                <td width="10%">
+                    &#160;</td>
+                <td width="30%">
+                    &#160;</td>
+                <td width="10%">
+                    &#160;</td>
+                <td width="30%">
+                    &#160;</td>
+                <td width="10%">
+                    &#160;</td>
+            </tr>
+            <tr>
+                <td>
+                    &#160;</td>
+                <td>
+                    Name</td>
+                <td>
+                    <asp:Label ID="LName" runat="server"></asp:Label>
+                </td>
+                <td>
+                    Wono</td>
+                <td>
+                    <asp:TextBox ID="TWONo" runat="server" CssClass="box3" Width="150px"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RequiredFieldTWONo" runat="server" 
+                                    ControlToValidate="TWONo" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+                </td>
+                <td>
+                    &#160;</td>
+            </tr>
+            <tr>
+                <td>
+                    &#160;</td>
+                <td>
+                    Designation</td>
+                <td>
+                    <asp:Label ID="LDesignation" runat="server"></asp:Label>
+                </td>
+                <td>
+                    Dept</td>
+                <td>
+                    <asp:DropDownList ID="DrpDepartment" runat="server" CssClass="box3" 
+                        DataSourceID="SqlDept" DataTextField="DeptName" DataValueField="Id">
+                    </asp:DropDownList>
+                </td>
+                <td>
+                    &#160;</td>
+            </tr>
+            <tr>
+                <td>
+                    &#160;</td>
+                <td>
+                    Date</td>
+                <td>
+                    <asp:Label ID="Ldate" runat="server"></asp:Label>
+                </td>
+                <td>
+                    <asp:Label ID="Label3" runat="server" Text="Planed HRS"></asp:Label>
+                </td>
+                <td>
+                    <asp:TextBox ID="TAHrs" runat="server" CssClass="box3" Width="150px"></asp:TextBox>
+                       <asp:RequiredFieldValidator ID="RequiredFieldValTAHrs" runat="server" 
+                                    ControlToValidate="TAHrs" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+                                <asp:RegularExpressionValidator ID="RegularTAHrs" runat="server" 
+                                    ControlToValidate="TAHrs" ErrorMessage="*" 
+                                    ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="A"></asp:RegularExpressionValidator>
+                </td>
+                <td>
+                    &#160;</td>
+              
+            </tr>
+            <tr>
+                <td>
+                    &#160;</td>
+                <td>
+                    Type</td>
+                <td>
+                    <asp:DropDownList ID="Drptype" runat="server" CssClass="box3">
+                        <asp:ListItem Text="Present" Value="1"></asp:ListItem>
+                        <asp:ListItem Text="Absent" Value="2"></asp:ListItem>
+                        <asp:ListItem Text="Onsite" Value="3"></asp:ListItem>
+                        <asp:ListItem Text="PL" Value="4"></asp:ListItem>
+                    </asp:DropDownList>
+                </td>
+                <td>
+                    <asp:Label ID="Label2" runat="server" Text="Planed"></asp:Label>
+                </td>
+                <td rowspan="2">
+                    <asp:TextBox ID="TDescription" runat="server" CssClass="box3" 
+                        TextMode="MultiLine" Width="350px"></asp:TextBox>
+                </td>
+                <td>
+                    &#160;</td>
+            </tr>
+            <tr>
+                <td class="style4">
+                    </td>
+                <td class="style4">
+                    </td>
+                <td class="style4">
+                    </td>
+                <td class="style4">
+                    </td>
+                <td class="style4">
+                    </td>
+            </tr>
+            <tr>
+                <td>
+                    &nbsp;</td>
+                <td>
+                    &nbsp;</td>
+                <td>
+                    &nbsp;</td>
+                <td align="left">
+                    <asp:Label ID="Label4" runat="server" Text="Actual Desc"></asp:Label>
+                </td>
+                <td>
+                    <asp:TextBox ID="TActualDesc" runat="server" CssClass="box3" 
+                        TextMode="MultiLine" Width="350px"></asp:TextBox>
+                </td>
+                <td>
+                    &nbsp;</td>
+            </tr>
+            <tr>
+                <td>
+                    &nbsp;</td>
+                <td>
+                    &nbsp;</td>
+                <td>
+                    &nbsp;</td>
+                <td align="center">
+                    &nbsp;</td>
+                <td>
+                    &nbsp;</td>
+                <td>
+                    &nbsp;</td>
+            </tr>
+            <tr>
+                <td>
+                    &nbsp;</td>
+                <td align="center" colspan="4" height="100">
+                    <asp:Button ID="BtnUpdate" runat="server" CssClass="redbox" 
+                        onclick="BtnUpdate_Click" Text="Update" ValidationGroup="A" />
+                    &nbsp;
+                    <asp:Button ID="BtnCancel" runat="server" CssClass="redbox" 
+                        onclick="BtnCancel_Click" Text="Cancel" />
+            
+             <asp:SqlDataSource ID="SqlDept" runat="server" 
+                ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                SelectCommand="SELECT Id, Symbol AS DeptName FROM BusinessGroup">
+            </asp:SqlDataSource>
+                </td>
+                <td>
+                    &nbsp;</td>
+            </tr>
+        </table>
+   <%--  </asp:Panel>--%>
+      </td>
+        
+        </tr>
+    
+         <tr>
+        <td align="center">
+           
+            
+             </td>
+        </tr>
+    </table>
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/ProjectManagement/Transactions/ManPowerPlanning_Edit_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using MKB.TimePicker;
+using System.Collections.Generic;
+
+public partial class Module_ProjectManagement_Transactions_ManPowerPlanning_Edit_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    string SId = "";
+    int CompId = 0;
+    int FinYearId = 0;
+    Cal_Used_Hours CUH = new Cal_Used_Hours();
+    string Id = "0";
+    string CDate = "";
+    string CTime ="";
+    int GradeId = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        try
+        {
+            SId = Session["username"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            Id = Request.QueryString["Id"].ToString();
+            GradeId = Convert.ToInt32(Request.QueryString["GId"]);
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+
+
+            if (!IsPostBack)
+            {
+                con.Open();
+
+                string sql = fun.select("EmpId,Date,WONo,Dept,Types,Description,Hours,ActualDesc", "tblPM_ManPowerPlanning", "Id='" + Id + "'");
+                SqlCommand cmd = new SqlCommand(sql, con);
+                SqlDataReader xrdr = cmd.ExecuteReader();
+                while (xrdr.Read())
+                {
+                    string sql1 = fun.select("EmployeeName,Designation", "tblHR_OfficeStaff", "  tblHR_OfficeStaff.EmpId='" + xrdr["EmpId"].ToString() + "'");
+                    SqlCommand cmd1 = new SqlCommand(sql1, con);
+                    SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+                    DataSet DS1 = new DataSet();
+                    da1.Fill(DS1);
+
+                    if (DS1.Tables[0].Rows.Count > 0)
+                    {
+
+                        LName.Text = DS1.Tables[0].Rows[0]["EmployeeName"].ToString();
+                        string sql2 = fun.select("tblHR_Designation.Symbol+ '-' + tblHR_Designation.Type AS Designation", "tblHR_Designation", " tblHR_Designation.Id='" + DS1.Tables[0].Rows[0]["Designation"].ToString() + "'");
+
+                        SqlCommand cmd2 = new SqlCommand(sql2, con);
+                        SqlDataAdapter da2 = new SqlDataAdapter(cmd2);
+                        DataSet DS2 = new DataSet();
+                        da2.Fill(DS2);
+                        LDesignation.Text = DS2.Tables[0].Rows[0]["Designation"].ToString();
+                        Ldate.Text = fun.FromDateDMY(xrdr["Date"].ToString());
+                        string wono = "";
+                        if (xrdr["WONo"] != DBNull.Value && xrdr["WONo"].ToString() != "")
+                        {
+                            wono = xrdr["WONo"].ToString();
+                            TWONo.Enabled = true;
+                            DrpDepartment.Enabled = false;
+                        }
+                        else
+                        {
+                            wono = "NA";
+                            TWONo.Enabled = false;
+                            DrpDepartment.Enabled = true;
+                        }
+
+                        TWONo.Text = wono;
+                        string sqlDept = fun.select("Symbol", "BusinessGroup", "Id='" + xrdr["Dept"] + "'");
+                        SqlCommand cmdDept = new SqlCommand(sqlDept, con);
+                        SqlDataAdapter daDept = new SqlDataAdapter(cmdDept);
+                        DataSet DSDept = new DataSet();
+                        daDept.Fill(DSDept);
+                        if (DSDept.Tables[0].Rows.Count > 0)
+                        {
+                            DrpDepartment.SelectedValue = xrdr["Dept"].ToString();
+                        }
+                        Drptype.SelectedValue = xrdr["Types"].ToString();
+                        TDescription.Text = xrdr["Description"].ToString();
+                        TActualDesc.Text = xrdr["ActualDesc"].ToString();
+                        TAHrs.Text = xrdr["Hours"].ToString();
+                    }
+                }
+                con.Close();
+            }
+        }
+        catch(Exception ex){}
+    }
+
+
+    protected void BtnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/ProjectManagement/Transactions/ManPowerPlanning_Edit.aspx?ModId=7&SubModId=117");
+    }
+
+
+    protected void BtnUpdate_Click(object sender, EventArgs e)
+    {
+
+        try
+        {
+            CDate = fun.getCurrDate();
+            CTime = fun.getCurrTime();
+
+            string wono = "";
+            int deptid = 0;
+            int k = 0;
+            double GradeWiseBalHours = 0;
+
+            if (TWONo.Text != "NA")
+            {
+                if (fun.CheckValidWONo(TWONo.Text, CompId, FinYearId) == true)
+                {
+                    wono = TWONo.Text;
+                    GradeWiseBalHours = CUH.BalanceHours_WONO(GradeId, wono, CompId, FinYearId, 2);
+                }
+                else
+                {
+                    k++;
+                    string mystring = string.Empty;
+                    mystring = "WONo is invalid.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+                }
+            }
+            else
+            {
+                deptid = Convert.ToInt32(DrpDepartment.SelectedValue);
+                GradeWiseBalHours = CUH.BalanceHours(GradeId, deptid, CompId, FinYearId, 2);
+            }
+            double number = 0;
+            number = Convert.ToDouble(TAHrs.Text);
+            if (number > 0)
+            {
+                if (((GradeWiseBalHours) >= (number)))
+                {
+                    con.Open();
+                    if (k == 0 && !string.IsNullOrEmpty(TAHrs.Text) && fun.NumberValidation(TAHrs.Text))
+                    {
+                        string typ = Drptype.SelectedValue;
+                        string Desc = TDescription.Text;
+                        string ActualDesc = TActualDesc.Text;
+
+                        //Amendment
+                        string sql = fun.select("SysDate,SysTime,SessionId,CompId,FinYearId,EmpId,Date,WONo,Dept,Types,Description,Hours,AmendmentNo,ActualDesc", "tblPM_ManPowerPlanning", "Id='" + Id + "'");
+                        SqlCommand cmd = new SqlCommand(sql, con);
+                        SqlDataReader xrdr = cmd.ExecuteReader();
+                        while (xrdr.Read())
+                        {
+                            if (xrdr.HasRows)
+                            {
+                                string Str = fun.insert("tblPM_ManPowerPlanning_Amd", "MId,SysDate,SysTime,FinYearId,SessionId , CompId, EmpId , Date , WONo, Dept, Types, Description,Hours,AmendmentNo,ActualDesc", "'" + Convert.ToInt32(Id) + "','" + xrdr["SysDate"].ToString() + "','" + xrdr["SysTime"].ToString() + "','" + xrdr["FinYearId"].ToString() + "','" + xrdr["SessionId"].ToString() + "','" + xrdr["CompId"].ToString() + "','" + xrdr["EmpId"].ToString() + "','" + xrdr["Date"].ToString() + "','" + xrdr["WONo"].ToString() + "','" + xrdr["Dept"].ToString() + "','" + Convert.ToInt32(xrdr["Types"]) + "','" + xrdr["Description"].ToString() + "'," + Convert.ToDouble(xrdr["Hours"].ToString()) + ",'" + Convert.ToInt32(xrdr["AmendmentNo"]) + "','" + xrdr["ActualDesc"].ToString() + "'");
+                                SqlCommand Cmd = new SqlCommand(Str, con);
+                                Cmd.ExecuteNonQuery();
+
+                                //Update
+                                int AmendmentNo = 0;
+                                if (Convert.ToInt32(xrdr["AmendmentNo"]) > 0)
+                                {
+                                    AmendmentNo = Convert.ToInt32(xrdr["AmendmentNo"].ToString()) + 1;
+                                }
+                                else
+                                {
+                                    AmendmentNo = 1;
+                                }
+
+                                string Strup = fun.update("tblPM_ManPowerPlanning", "SysDate='" + CDate + "',SysTime='" + CTime + "',SessionId='" + SId + "',WONo='" + wono + "',Dept='" + deptid + "',Types='" + typ + "',Description='" + Desc + "',Hours='" + number + "',AmendmentNo='" + AmendmentNo + "',ActualDesc='" + ActualDesc + "'", " Id='" + Id + "'");
+
+                                SqlCommand cmdup = new SqlCommand(Strup, con);
+                                cmdup.ExecuteNonQuery();
+                                Response.Redirect("~/Module/ProjectManagement/Transactions/ManPowerPlanning_Edit.aspx?ModId=7&SubModId=117");
+
+                            }
+                        }
+
+                        con.Close();
+                    }
+                    else
+                    {
+                        string mystring = string.Empty;
+                        mystring = "Invalid input.";
+                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+                    }
+                }
+                else
+                {
+                    string mystring = string.Empty;
+                    mystring = "Only " + Math.Round((GradeWiseBalHours), 2) + " hours are remained.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+                }
+            }
+            else
+            {
+                string mystring = string.Empty;
+                mystring = "Hours must greater than Zero.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+            }
+        }
+        catch (Exception ex) { }
+    }
+
+}

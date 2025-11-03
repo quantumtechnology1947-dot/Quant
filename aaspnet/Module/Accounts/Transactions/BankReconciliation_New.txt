@@ -1,0 +1,846 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/BankReconciliation_New.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="BankReconciliation_New.aspx.cs" Inherits="Module_Accounts_Transactions_BankReconciliation_New" Title="ERP" Theme="Default" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+ <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+  <table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td align="left" valign="middle" 
+                style="background:url(../../../images/hdbg.JPG)" height="21" 
+                class="fontcsswhite" colspan="3">
+                <b>&nbsp;Bank Reconciliation - New</b></td>
+        </tr>
+  
+         <tr>
+            <td height="30px" valign="middle" colspan="3">
+                <asp:Panel ID="Panel2" runat="server" BorderColor="#666699" Height="125px" 
+                    ScrollBars="Auto"  Width="99%" BorderStyle="Double">
+                    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" 
+                        DataKeyNames="Id"  CssClass="yui-datatable-theme" Width="100%">
+                        <Columns>                                                     
+                           
+                            <asp:TemplateField HeaderText="SN" ItemStyle-HorizontalAlign="Right">
+                                <ItemTemplate>
+                                    <%#Container.DataItemIndex+1%>
+                                </ItemTemplate>
+                                <HeaderStyle Font-Size="10pt" />
+                                <ItemStyle HorizontalAlign="Right" VerticalAlign="Top" Width="1%" />
+                            </asp:TemplateField>
+                            
+                            <asp:BoundField DataField="Id" HeaderText="Id" InsertVisible="False" 
+                                ReadOnly="True" SortExpression="Id" Visible="False" >
+                                <ItemStyle Width="2%" />
+                            </asp:BoundField>
+                            <asp:TemplateField HeaderText=" " >
+                                <ItemTemplate>
+                                    <asp:Label ID="Label1" runat="server" Text='<%# Bind("Trans") %>'></asp:Label>
+                                </ItemTemplate>                               
+                                <ItemStyle HorizontalAlign="left" Width="15%" Font-Bold="true" />
+                            </asp:TemplateField>                                                       
+                            <asp:TemplateField HeaderText="Opening Amount" SortExpression="OpAmt">
+                                <ItemTemplate>
+                                    <asp:Label ID="Label3" runat="server" Text='<%# Bind("OpAmt") %>'></asp:Label>
+                                </ItemTemplate>
+                                
+                                <ItemStyle HorizontalAlign="Right" Width="5%" />
+                            </asp:TemplateField>
+                            
+                            <asp:TemplateField HeaderText="Closing Amount" SortExpression="ClAmt">
+                                <ItemTemplate>
+                                    <asp:Label ID="Label3" runat="server" Text='<%# Bind("ClAmt") %>'></asp:Label>
+                                </ItemTemplate>
+                                
+                                <ItemStyle HorizontalAlign="Right" Width="5%" />
+                            </asp:TemplateField>
+                        </Columns>
+                         <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                    <FooterStyle Wrap="True">
+                    </FooterStyle>
+                    </asp:GridView>
+                </asp:Panel>
+             </td>            
+        </tr>
+
+ <tr>
+ <td>
+  <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" 
+                    AutoPostBack="true">
+                    
+ <cc1:TabPanel runat="server" HeaderText="Payment" Width="100%" ID="Add">  
+                    
+                  
+
+<ContentTemplate><table width="100%"><tr><td  valign="middle"  width="100%">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <asp:CheckBox ID="chkCheckAll" runat="server" Text="Check All" 
+                    Font-Bold="True" AutoPostBack="True" 
+                    oncheckedchanged="chkCheckAll_CheckedChanged" />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <asp:CheckBox ID="chkShowAll" runat="server" Text="Show All" Font-Bold="True" 
+                    AutoPostBack="True" oncheckedchanged="chkShowAll_CheckedChanged" />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <asp:Label ID="Label4" runat="server" Text="From Date : " Font-Bold="True"></asp:Label><asp:TextBox ID="txtFromDate" runat="server" CssClass="box3" Width="80px"></asp:TextBox><cc1:CalendarExtender 
+                                    ID="txtFromDate_CalendarExtender" runat="server" Enabled="True" 
+                                    Format="dd-MM-yyyy" TargetControlID="txtFromDate"></cc1:CalendarExtender><asp:RegularExpressionValidator ID="RegtxtFromDate" runat="server" 
+                                    ControlToValidate="txtFromDate" ErrorMessage="*" 
+                                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                    ValidationGroup="B"></asp:RegularExpressionValidator>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <asp:Label ID="lblToDate" runat="server" Text="To Date : " Font-Bold="True"></asp:Label>&#160;<asp:TextBox ID="txtToDate" runat="server" CssClass="box3" Width="80px"></asp:TextBox><cc1:CalendarExtender 
+                                    ID="txtToDate_CalendarExtender" runat="server" Enabled="True" 
+                                    Format="dd-MM-yyyy" TargetControlID="txtToDate"></cc1:CalendarExtender><asp:RegularExpressionValidator ID="RegtxtToDate" runat="server" 
+                                    ControlToValidate="txtToDate" ErrorMessage="*" 
+                                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                    ValidationGroup="B"></asp:RegularExpressionValidator>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<asp:Button ID="btnSearch" runat="server" CssClass="redbox" Text="Search" 
+                    onclick="btnSearch_Click" ValidationGroup="B" /></td></tr><tr><td  ><asp:Panel ID="Panel1" runat="server" Height="240px" ScrollBars="Auto"  
+                    Width="100%" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px"><asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" 
+                    CssClass="yui-datatable-theme" DataKeyNames="Id" 
+                    Width="100%"   ><Columns><asp:TemplateField HeaderText="SN"><HeaderStyle Font-Size="10pt" /><ItemStyle HorizontalAlign="Right" VerticalAlign="Top" Width="3%" /></asp:TemplateField><asp:TemplateField HeaderText="Id" Visible="False"><ItemTemplate><asp:Label ID="lblId" runat="Server" Text='<%#Eval("Id")%>' /></ItemTemplate><ItemStyle HorizontalAlign="Left" Width="10%" /></asp:TemplateField><asp:TemplateField HeaderText="BVP No"><ItemTemplate><asp:Label ID="lblBVPNo" runat="Server" Text='<%#Eval("BVPNo")%>' /></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="6%" /></asp:TemplateField><asp:TemplateField HeaderText="Particulars"><ItemTemplate><asp:Label ID="lblParticulars" runat="Server" Text='<%#Eval("Particulars")%>' /></ItemTemplate><ItemStyle HorizontalAlign="Left" Width="17%" /></asp:TemplateField><asp:TemplateField HeaderText="Vch Type"><ItemTemplate><asp:Label ID="lblVchType" runat="Server" Text='<%#Eval("VchType")%>' /></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="6%" /></asp:TemplateField><asp:TemplateField HeaderText="Trans. Type"><ItemTemplate><asp:Label ID="lblTransactionType" runat="Server" 
+                                    Text='<%#Eval("TransactionType")%>' /></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="7%" /></asp:TemplateField><asp:TemplateField HeaderText="Inst. No"><ItemTemplate><asp:Label ID="lblInstrumentNo" runat="Server" 
+                                    Text='<%#Eval("InstrumentNo")%>' /></ItemTemplate><ItemStyle 
+                    HorizontalAlign="Left" Width="5%" /></asp:TemplateField><asp:TemplateField HeaderText="Inst. Date"><ItemTemplate><asp:Label ID="lblInstrumentDate" runat="Server" 
+                                    Text='<%#Eval("InstrumentDate")%>' /></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="7%" /></asp:TemplateField><asp:TemplateField HeaderText="Bank Name">
+                                    <ItemTemplate>
+                                    <asp:Label ID="lblBankName" runat="server" Text='<%#Eval("BankName") %>'></asp:Label>
+                                    </ItemTemplate>
+                                    <ItemStyle 
+                    HorizontalAlign="Left" Width="5%" />
+                </asp:TemplateField><asp:TemplateField HeaderText="Debit" Visible="False"><ItemTemplate><asp:Label ID="lblDebit" runat="Server" Text='<%#Eval("Debit")%>' /></ItemTemplate><ItemStyle HorizontalAlign="Right" Width="10%" /></asp:TemplateField><asp:TemplateField HeaderText="Credit"><ItemTemplate><asp:Label ID="lblCredit" runat="Server" Text='<%#Eval("Credit")%>' /></ItemTemplate><ItemStyle HorizontalAlign="Right" Width="10%" /></asp:TemplateField><asp:TemplateField ><ItemTemplate><asp:CheckBox ID="chk" runat="server" /></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="3%" /></asp:TemplateField><asp:TemplateField HeaderText="Bank Date"><ItemTemplate><asp:Label ID="Labeldate" runat="server" Visible="false"></asp:Label><asp:TextBox ID="txtBankDate" runat="server" Text="" Width="80%" CssClass="box3"> </asp:TextBox><cc1:CalendarExtender 
+                                    ID="txtBankDate_CalendarExtender" runat="server" Enabled="True" 
+                                    Format="dd-MM-yyyy" TargetControlID="txtBankDate"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="ReqtxtBankDate" runat="server" 
+                                    ControlToValidate="txtBankDate" ErrorMessage="*" ValidationGroup="A"> </asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegtxtBankDate" runat="server" 
+                                    ControlToValidate="txtBankDate" ErrorMessage="*" 
+                                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                    ValidationGroup="A"> </asp:RegularExpressionValidator></ItemTemplate><ItemStyle HorizontalAlign="Left" Width="10%" /></asp:TemplateField><asp:TemplateField HeaderText="Add. Charges"><ItemTemplate><asp:Label ID="LabelAddCharg" runat="server" Visible="false"></asp:Label><asp:TextBox ID="txtAddCharg" runat="server" Text="0" Width="80%" CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqtxtAddCharg" runat="server" 
+                                    ControlToValidate="txtAddCharg" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegtxtAddCharg" runat="server" 
+                                    ControlToValidate="txtAddCharg" ErrorMessage="*" 
+                                    ValidationExpression="^\d{1,15}(\.\d{0,3})?$" 
+                                    ValidationGroup="A"> </asp:RegularExpressionValidator></ItemTemplate><ItemStyle HorizontalAlign="Left" /></asp:TemplateField><asp:TemplateField HeaderText="Remarks"><ItemTemplate><asp:Label ID="LabelRemarks" runat="server" Visible="false"></asp:Label><asp:TextBox ID="txtRemarks" runat="server" Text="-" Width="80%" CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqtxtRemarks" runat="server" 
+                                    ControlToValidate="txtRemarks" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></ItemTemplate><ItemStyle HorizontalAlign="Left" /></asp:TemplateField></Columns><EmptyDataTemplate><table width="100%" class="fontcss"><tr><td align="center"><asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon"> </asp:Label></td></tr></table></EmptyDataTemplate><FooterStyle Wrap="True"></FooterStyle>
+                    
+                </asp:GridView></asp:Panel></td></tr><tr ><td align="center"  ><asp:Button ID="btnSubmit"  CssClass="redbox" runat="server" Text="Submit" 
+                onclick="btnSubmit_Click" />&#160;&#160;&#160;&#160;&#160;&#160; <asp:Label ID="Label2" runat="server" Font-Bold="True" Text="Total :  "></asp:Label><asp:Label ID="lblTotal" runat="server" Font-Bold="True" Text="0"></asp:Label></td></tr></table>
+   
+      </ContentTemplate></cc1:TabPanel>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+ 
+    <cc1:TabPanel   HeaderText="Receipt" ID="TabPanel1" runat="server">
+    <ContentTemplate><table width="100%"><tr><td  valign="middle"  width="100%" height="27px">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <asp:CheckBox ID="chkCheckAll_rec" runat="server" Text="Check All" 
+                    Font-Bold="True" AutoPostBack="True" 
+                    oncheckedchanged="chkCheckAll_rec_CheckedChanged" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <asp:CheckBox ID="chkshowAll_rec" runat="server" Text="Show All" Font-Bold="True" 
+                    AutoPostBack="True" oncheckedchanged="chkshowAll_rec_CheckedChanged" />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <asp:Label ID="Label5" runat="server" Text="From Date : " Font-Bold="True"></asp:Label><asp:TextBox ID="txtFromDate_rec" runat="server" CssClass="box3" Width="80px"></asp:TextBox><cc1:CalendarExtender 
+                                    ID="CalendarExtender1" runat="server" Enabled="True" 
+                                    Format="dd-MM-yyyy" TargetControlID="txtFromDate_rec"></cc1:CalendarExtender><asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" 
+                                    ControlToValidate="txtFromDate_rec" ErrorMessage="*" 
+                                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                    ValidationGroup="B"></asp:RegularExpressionValidator>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <asp:Label ID="Label6" runat="server" Text="To Date : " Font-Bold="True"></asp:Label>&#160;<asp:TextBox ID="txtToDate_rec" runat="server" CssClass="box3" Width="80px"></asp:TextBox><cc1:CalendarExtender 
+                                    ID="CalendarExtender2" runat="server" Enabled="True" 
+                                    Format="dd-MM-yyyy" TargetControlID="txtToDate_rec"></cc1:CalendarExtender><asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" 
+                                    ControlToValidate="txtToDate_rec" ErrorMessage="*" 
+                                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                    ValidationGroup="B"></asp:RegularExpressionValidator>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<asp:Button ID="btnSearch_rec" runat="server" CssClass="redbox" Text="Search" 
+                    onclick="btnSearch_rec_Click" ValidationGroup="B" /></td></tr><tr><td  ><asp:Panel ID="Panel3" runat="server" Height="240px" ScrollBars="Auto"  
+                    Width="100%" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px"><asp:GridView ID="GridView3" runat="server" AutoGenerateColumns="False" 
+                    CssClass="yui-datatable-theme" DataKeyNames="Id" 
+                    Width="100%"   ><Columns><asp:TemplateField HeaderText="SN"><HeaderStyle Font-Size="10pt" /><ItemStyle HorizontalAlign="Right" VerticalAlign="Top" Width="3%" /></asp:TemplateField><asp:TemplateField HeaderText="Id" Visible="False"><ItemTemplate><asp:Label ID="lblId_Rec" runat="Server" Text='<%#Eval("Id")%>' /></ItemTemplate><ItemStyle HorizontalAlign="Left" Width="10%" /></asp:TemplateField><asp:TemplateField HeaderText="BVR No"><ItemTemplate><asp:Label ID="lblBVRNo_Rec" runat="Server" Text='<%#Eval("BVRNo")%>' /></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="6%" /></asp:TemplateField><asp:TemplateField HeaderText="Particulars"><ItemTemplate><asp:Label ID="lblParticulars_Rec" runat="Server" Text='<%#Eval("Particulars")%>' /></ItemTemplate><ItemStyle HorizontalAlign="Left" Width="17%" /></asp:TemplateField><asp:TemplateField HeaderText="Vch Type"><ItemTemplate><asp:Label ID="lblVchType_Rec" runat="Server" Text='<%#Eval("VchType")%>' /></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="6%" /></asp:TemplateField><asp:TemplateField HeaderText="Trans. Type"><ItemTemplate><asp:Label ID="lblTransactionType_Rec" runat="Server" 
+                                    Text='<%#Eval("TransactionType")%>' /></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="7%" /></asp:TemplateField><asp:TemplateField HeaderText="Inst. No"><ItemTemplate><asp:Label ID="lblInstrumentNo_Rec" runat="Server" 
+                                    Text='<%#Eval("InstrumentNo")%>' /></ItemTemplate><ItemStyle 
+                        HorizontalAlign="Left" /></asp:TemplateField><asp:TemplateField HeaderText="Inst. Date"><ItemTemplate><asp:Label ID="lblInstrumentDate_Rec" runat="Server" 
+                                    Text='<%#Eval("InstrumentDate")%>' /></ItemTemplate><ItemStyle 
+                        HorizontalAlign="Center" Width="6%" /></asp:TemplateField><asp:TemplateField HeaderText="Bank Name"><ItemTemplate><asp:Label runat="server" ID="lblBnkName" Text='<%#Eval("BankName")%>'></asp:Label>                   
+                    </ItemTemplate>
+      <ItemStyle HorizontalAlign="Left" Width="10%" />
+                    </asp:TemplateField><asp:TemplateField HeaderText="Debit" ><ItemTemplate><asp:Label ID="lblDebit_Rec" runat="Server" Text='<%#Eval("Debit")%>' /></ItemTemplate><ItemStyle HorizontalAlign="Right" Width="10%" /></asp:TemplateField><asp:TemplateField HeaderText="Credit"  Visible="False"><ItemTemplate><asp:Label ID="lblCredit_Rec" runat="Server" Text='<%#Eval("Credit")%>' /></ItemTemplate><ItemStyle HorizontalAlign="Right" Width="10%" /></asp:TemplateField><asp:TemplateField ><ItemTemplate><asp:CheckBox ID="chk_Rec" runat="server" /></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="3%" /></asp:TemplateField><asp:TemplateField HeaderText="Bank Date"><ItemTemplate><asp:Label ID="Labeldate_Rec" runat="server" Visible="false"></asp:Label><asp:TextBox ID="txtBankDate_Rec" runat="server" Text="" Width="80%" CssClass="box3"> </asp:TextBox><cc1:CalendarExtender 
+                                    ID="txtBankDate_CalendarExtender" runat="server" Enabled="True" 
+                                    Format="dd-MM-yyyy" TargetControlID="txtBankDate_Rec"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="ReqtxtBankDate_Rec" runat="server" 
+                                    ControlToValidate="txtBankDate_Rec" ErrorMessage="*" ValidationGroup="A"> </asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegtxtBankDate_Rec" runat="server" 
+                                    ControlToValidate="txtBankDate_Rec" ErrorMessage="*" 
+                                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                    ValidationGroup="A"> </asp:RegularExpressionValidator></ItemTemplate><ItemStyle HorizontalAlign="Left" Width="10%" /></asp:TemplateField><asp:TemplateField HeaderText="Add. Charges"><ItemTemplate><asp:Label ID="LabelAddCharg_Rec" runat="server" Visible="false"></asp:Label><asp:TextBox ID="txtAddCharg_Rec" runat="server" Text="0" Width="80%" CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqtxtAddCharg" runat="server" 
+                                    ControlToValidate="txtAddCharg_Rec" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegtxtAddCharg" runat="server" 
+                                    ControlToValidate="txtAddCharg_Rec" ErrorMessage="*" 
+                                    ValidationExpression="^\d{1,15}(\.\d{0,3})?$" 
+                                    ValidationGroup="A"> </asp:RegularExpressionValidator></ItemTemplate><ItemStyle HorizontalAlign="Right" /></asp:TemplateField><asp:TemplateField HeaderText="Remarks"><ItemTemplate><asp:Label ID="LabelRemarks_Rec" runat="server" Visible="false"></asp:Label><asp:TextBox ID="txtRemarks_Rec" runat="server" Text="-" Width="80%" CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqtxtRemarks" runat="server" 
+                                    ControlToValidate="txtRemarks_Rec" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></ItemTemplate><ItemStyle HorizontalAlign="Left" /></asp:TemplateField></Columns><EmptyDataTemplate><table width="100%" class="fontcss"><tr><td align="center"><asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon"> </asp:Label></td></tr></table></EmptyDataTemplate><FooterStyle Wrap="True"></FooterStyle>
+                    
+                </asp:GridView></asp:Panel></td></tr><tr ><td align="center"  ><asp:Button ID="btnSubmitRec"  CssClass="redbox" runat="server" Text="Submit" 
+                onclick="btnSubmitRec_Click" />&#160;&#160;&#160;&#160;&#160;&#160; <asp:Label ID="Label7" runat="server" Font-Bold="True" Text="Total :  "></asp:Label><asp:Label ID="LabelREc" runat="server" Font-Bold="True" Text="0"></asp:Label></td></tr></table>
+    
+    
+      </ContentTemplate>
+    </cc1:TabPanel>
+    </cc1:TabContainer> 
+    </td>
+ </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/BankReconciliation_New.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_Accounts_Transactions_BankReconciliation_New : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string CDate = "";
+    string CTime = "";
+    string SId = "";
+    int CompId = 0;
+    int FinYearId = 0;
+    SqlConnection con;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            string connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            con.Open();
+
+            CompId = Convert.ToInt32(Session["compid"]);
+            SId = Session["username"].ToString();
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            CDate = fun.getCurrDate();
+            CTime = fun.getCurrTime();
+            
+            if (!Page.IsPostBack)
+            {
+                this.FillGrid();
+                this.loadData();
+                this.fillData();
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+    public void loadData()
+    {
+         try
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+
+            DataTable dt = new DataTable();
+
+            string sId = Session["username"].ToString();
+            int FinYearId = Convert.ToInt32(Session["finyear"]);
+            int CompId = Convert.ToInt32(Session["compid"]);
+
+            con.Open();
+            string str = "";
+
+            string s = "";
+           
+            if (txtFromDate.Text != "" && txtToDate.Text != "")
+            {
+                s = " And ChequeDate between '" + fun.FromDate(txtFromDate.Text) + "' And '" + fun.FromDate(txtToDate.Text) + "'";
+            }
+
+            if (chkShowAll.Checked)
+            {
+                str = fun.select("*", "tblACC_BankVoucher_Payment_Master", "CompId='" + CompId + "'  And FinYearId<='" + FinYearId + "' " + s);
+            }
+
+            else
+            {
+                str = "select * from tblACC_BankVoucher_Payment_Master where tblACC_BankVoucher_Payment_Master.Id not in( Select  tblACC_BankRecanciliation.BVPId  from tblACC_BankRecanciliation)" + s;
+            }
+
+            SqlCommand cmdCustWo = new SqlCommand(str, con);
+            SqlDataReader rdr1 = cmdCustWo.ExecuteReader();
+
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));//0
+            dt.Columns.Add(new System.Data.DataColumn("BVPNo", typeof(string)));//1
+            dt.Columns.Add(new System.Data.DataColumn("Particulars", typeof(string)));//2
+            dt.Columns.Add(new System.Data.DataColumn("VchType", typeof(string)));//3
+            dt.Columns.Add(new System.Data.DataColumn("TransactionType", typeof(string)));//4
+            dt.Columns.Add(new System.Data.DataColumn("InstrumentNo", typeof(string)));//5
+            dt.Columns.Add(new System.Data.DataColumn("InstrumentDate", typeof(string)));//6
+            dt.Columns.Add(new System.Data.DataColumn("Debit", typeof(double)));//7
+            dt.Columns.Add(new System.Data.DataColumn("Credit", typeof(double)));//8  
+            dt.Columns.Add(new System.Data.DataColumn("BankName", typeof(string)));//9        
+
+            DataRow dr;
+            double total1 = 0;
+
+            //for (int i = 0; i < DSCustWo.Tables[0].Rows.Count; i++)
+            while(rdr1.Read())
+            {
+                dr = dt.NewRow();
+                string Abc;
+                int num1;
+
+                if (int.TryParse(rdr1["PaidType"].ToString(), out num1))
+                {
+                    string stre = fun.select("*", "tblACC_PaidType", "Id='" + Convert.ToInt32(rdr1["PaidType"]) + "'");
+                    SqlCommand cmde = new SqlCommand(stre, con);
+                    SqlDataReader rdr = cmde.ExecuteReader();
+                    rdr.Read();
+
+                    Abc = rdr["Particulars"].ToString();
+                }
+                else
+                {
+                    Abc = fun.ECSNames(Convert.ToInt32(rdr1["ECSType"].ToString()), rdr1["PayTo"].ToString(), CompId);
+                }
+                dr[0] = Convert.ToInt32(rdr1["Id"]);
+                dr[1] = rdr1["BVPNo"].ToString();
+                dr[2] = Abc;
+                dr[3] = "Payment";
+                
+                string TranType = "";
+                switch (rdr1["TransactionType"].ToString())
+                {
+                    case "1":
+                        TranType = "RTGS";
+                        break;
+                    case "2":
+                        TranType = "NEFT";
+                        break;
+                    case "3":
+                        TranType = "DD";
+                        break;
+                    case "4":
+                        TranType = "Cheque";
+                        break;
+                }
+
+                dr[4] = TranType;
+                dr[5] = rdr1["ChequeNo"].ToString();
+                dr[6] = fun.FromDateDMY(rdr1["ChequeDate"].ToString());
+
+                double dbamt = 0;
+                double cramt = 0;
+                
+                string st1 = "SELECT tblACC_BankVoucher_Payment_Details.Amount   FROM tblACC_BankVoucher_Payment_Details,tblACC_BankVoucher_Payment_Master where  tblACC_BankVoucher_Payment_Details.MId =tblACC_BankVoucher_Payment_Master.Id And tblACC_BankVoucher_Payment_Master.Id='" + Convert.ToInt32(rdr1["Id"]) + "' ";
+               
+                SqlCommand cmd1 = new SqlCommand(st1, con);
+                SqlDataReader rdr2 = cmd1.ExecuteReader();
+                
+                double DtlsAmt = 0;
+
+                //for (int j = 0; j < DS1.Tables[0].Rows.Count; j++)
+                while(rdr2.Read())
+                {
+                    DtlsAmt += Convert.ToDouble(decimal.Parse((rdr2["Amount"]).ToString()).ToString("N3"));
+                }
+
+                double PayAmy_M = 0;
+                double AddAmt = 0;
+
+                PayAmy_M = Convert.ToDouble(rdr1["PayAmt"].ToString());
+                AddAmt = Convert.ToDouble(rdr1["AddAmt"].ToString());
+
+                int num;
+                if (int.TryParse(rdr1["PaidType"].ToString(), out num))
+                {
+                    cramt = DtlsAmt + PayAmy_M + AddAmt;
+                }
+                else
+                {
+                    cramt = DtlsAmt + PayAmy_M;
+                }
+
+                dr[7] = dbamt;
+                dr[8] = cramt;
+
+                string st99 = fun.select("*","tblACC_Bank","Id="+rdr1["Bank"].ToString()+"");               
+                SqlCommand cmd99 = new SqlCommand(st99, con);
+                SqlDataReader rdr99 = cmd99.ExecuteReader();
+                rdr99.Read();
+
+                dr[9] = rdr99["Name"].ToString();                
+                total1 += cramt;
+
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }
+
+            lblTotal.Text = total1.ToString();
+            GridView2.DataSource = dt;
+            GridView2.DataBind();
+            
+            if (chkShowAll.Checked)
+            {
+                foreach (GridViewRow grv in GridView2.Rows)
+                {
+                    int id = Convert.ToInt32(((Label)grv.FindControl("lblId")).Text);
+
+                    string str1 = " Select  *  from tblACC_BankRecanciliation where CompId='" + CompId + "'  And FinYearId<='" + FinYearId + "'  And BVPId='" + id + "'";
+                    SqlCommand cmdCustWo1 = new SqlCommand(str1, con);
+                    SqlDataReader rdr3 = cmdCustWo1.ExecuteReader();
+
+                    while (rdr3.Read())
+                    {                        
+                        ((CheckBox)grv.FindControl("chk")).Visible = false;
+                        ((TextBox)grv.FindControl("txtBankDate")).Visible = false;
+                        ((TextBox)grv.FindControl("txtAddCharg")).Visible = false;
+                        ((TextBox)grv.FindControl("txtRemarks")).Visible = false;
+                        ((Label)grv.FindControl("Labeldate")).Visible = true;
+                        ((Label)grv.FindControl("Labeldate")).Text = fun.FromDateDMY(rdr3["BankDate"].ToString());
+                        ((Label)grv.FindControl("LabelAddCharg")).Visible = true;
+                        ((Label)grv.FindControl("LabelAddCharg")).Text = rdr3["AddCharges"].ToString();
+                        ((Label)grv.FindControl("LabelRemarks")).Visible = true;
+                        ((Label)grv.FindControl("LabelRemarks")).Text = rdr3["Remarks"].ToString();
+                    }
+                }
+            }
+        }
+        catch (Exception et)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+    }
+    protected void chkCheckAll_CheckedChanged(object sender, EventArgs e)
+    {
+        if (chkCheckAll.Checked == true)
+        {
+            foreach (GridViewRow grv in GridView2.Rows)
+            {
+                ((CheckBox)grv.FindControl("chk")).Checked = true;
+            }
+        }
+        else
+        {
+            foreach (GridViewRow grv in GridView2.Rows)
+            {
+                ((CheckBox)grv.FindControl("chk")).Checked = false;
+            }
+
+        }
+    }
+    protected void btnSubmit_Click(object sender, EventArgs e)
+    {
+
+        try
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            int k = 0;
+            int z = 0;
+            foreach (GridViewRow grv in GridView2.Rows)
+            {
+                if (((CheckBox)grv.FindControl("chk")).Checked == true)
+                {
+                    k++;
+                    if (((TextBox)grv.FindControl("txtBankDate")).Text != "" && fun.DateValidation(((TextBox)grv.FindControl("txtBankDate")).Text) == true)
+                    {
+                        z++;
+                    }
+
+
+                }
+            }
+            if (z > 0 && k == z)
+            {
+                foreach (GridViewRow grv in GridView2.Rows)
+                {
+                    if (((CheckBox)grv.FindControl("chk")).Checked == true)
+                    {
+                        if (((TextBox)grv.FindControl("txtBankDate")).Text != "" && fun.DateValidation(((TextBox)grv.FindControl("txtBankDate")).Text) == true)
+                        {
+                            int bvpId = 0;
+                            bvpId = Convert.ToInt32(((Label)grv.FindControl("lblId")).Text);
+                            int bvrid = 0;
+                            string Bankdate = string.Empty;
+                            Bankdate = ((TextBox)grv.FindControl("txtBankDate")).Text;
+                            double AddCharges = 0;
+                            AddCharges =Convert.ToDouble( ((TextBox)grv.FindControl("txtAddCharg")).Text);
+                            string remarks = string.Empty;
+                            remarks = ((TextBox)grv.FindControl("txtRemarks")).Text;
+
+                            string insert = fun.insert("tblACC_BankRecanciliation", "SysDate,SysTime,CompId,FinYearId,SessionId,BVPId,BVRId,BankDate,AddCharges,Remarks", "'" + CDate + "','" + CTime + "','" + CompId + "','" + FinYearId + "','" + SId + "','" + bvpId + "','" + bvrid + "','" + fun.FromDate(Bankdate) + "','" + AddCharges + "','" + remarks + "'");
+                            con.Open();
+                            SqlCommand cmd = new SqlCommand(insert, con);
+                            cmd.ExecuteNonQuery();
+                            con.Close();
+                        }
+                    }
+                }
+
+                Page.Response.Redirect(Page.Request.Url.ToString(), true);
+            }
+            else
+            {
+                string mystringmsg = string.Empty;
+                mystringmsg = "Invalid data input .";
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('" + mystringmsg + "');", true);
+            }
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+    protected void chkShowAll_CheckedChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            this.loadData();
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            this.loadData();
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    public void FillGrid()
+    {
+        try
+        {
+            DataTable dt = new DataTable();
+            string sql = fun.select1("Id,Name", "tblACC_Bank order by OrdNo Asc");
+            SqlCommand cmdsql = new SqlCommand(sql, con);
+            SqlDataAdapter dasql = new SqlDataAdapter(cmdsql);
+            DataSet dssql = new DataSet();
+            dasql.Fill(dssql);
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Trans", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("OpAmt", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("ClAmt", typeof(double)));
+            DataRow dr;
+
+            for (int d = 0; d < dssql.Tables[0].Rows.Count; d++)
+            {
+                dr = dt.NewRow();
+
+                dr[0] = dssql.Tables[0].Rows[d]["Id"].ToString();
+                dr[1] = dssql.Tables[0].Rows[d]["Name"].ToString();
+                if (dssql.Tables[0].Rows[d]["Name"].ToString() == "Cash")
+                {
+                    dr[2] = fun.getCashOpBalAmt("<", fun.getCurrDate(), CompId, FinYearId).ToString();
+                    dr[3] = fun.getCashClBalAmt("=", fun.getCurrDate(), CompId, FinYearId).ToString();
+                }
+                else
+                {
+                    dr[2] = fun.getBankOpBalAmt("<", fun.getCurrDate(), CompId, FinYearId, Convert.ToInt32(dssql.Tables[0].Rows[d]["Id"])).ToString();
+                    dr[3] = fun.getBankClBalAmt("=", fun.getCurrDate(), CompId, FinYearId, Convert.ToInt32(dssql.Tables[0].Rows[d]["Id"])).ToString();
+                }
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+
+            }
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
+
+        }
+
+        catch (Exception ex)
+        { }
+    }
+    public void fillData()
+    {
+        try
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+
+            DataTable dt = new DataTable();
+
+            string sId = Session["username"].ToString();
+            int FinYearId = Convert.ToInt32(Session["finyear"]);
+            int CompId = Convert.ToInt32(Session["compid"]);
+
+            con.Open();
+            string str = "";
+
+            string s = "";
+
+            if (txtFromDate_rec.Text != "" && txtToDate_rec.Text != "")
+            {
+                s = " And ChequeDate between '" + fun.FromDate(txtFromDate_rec.Text) + "' And '" + fun.FromDate(txtToDate_rec.Text) + "'";
+            }
+
+            if (chkshowAll_rec.Checked)
+            {
+                str = fun.select("*", "tblACC_BankVoucher_Received_Masters", "CompId='" + CompId + "'  And FinYearId<='" + FinYearId + "' " + s);
+            }
+
+            else
+            {
+                str = "select * from tblACC_BankVoucher_Received_Masters where tblACC_BankVoucher_Received_Masters.Id not in( Select  tblACC_BankRecanciliation.BVRId  from tblACC_BankRecanciliation)" + s;
+            }
+
+           
+            SqlCommand cmdCustWo = new SqlCommand(str, con);
+            SqlDataReader rdr1 = cmdCustWo.ExecuteReader();
+           
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));//0
+            dt.Columns.Add(new System.Data.DataColumn("BVRNo", typeof(string)));//1
+            dt.Columns.Add(new System.Data.DataColumn("Particulars", typeof(string)));//2
+            dt.Columns.Add(new System.Data.DataColumn("VchType", typeof(string)));//3
+            dt.Columns.Add(new System.Data.DataColumn("TransactionType", typeof(string)));//4
+            dt.Columns.Add(new System.Data.DataColumn("InstrumentNo", typeof(string)));//5
+            dt.Columns.Add(new System.Data.DataColumn("InstrumentDate", typeof(string)));//6
+            dt.Columns.Add(new System.Data.DataColumn("Debit", typeof(double)));//7
+            dt.Columns.Add(new System.Data.DataColumn("Credit", typeof(double)));//8                     
+            dt.Columns.Add(new System.Data.DataColumn("BankName", typeof(string)));//9
+
+            DataRow dr;
+            double total1 = 0;
+                    
+            while (rdr1.Read())
+            {
+                dr = dt.NewRow();
+                string Abc;
+                
+                if (Convert.ToInt32(rdr1["ReceiveType"] )== 4)
+                {
+                    Abc = rdr1["ReceivedFrom"].ToString();                
+                }
+                else
+                {
+                Abc = fun.ECSNames(Convert.ToInt32(rdr1["ReceiveType"].ToString()), rdr1["ReceivedFrom"].ToString(), CompId);                            
+                }
+                
+                dr[0] = Convert.ToInt32(rdr1["Id"]);
+                dr[1] = rdr1["BVRNo"].ToString();
+                dr[2] = Abc;
+                dr[3] = "Receipt";
+                string TranType = "";
+
+                if (Convert.ToInt32(rdr1["TransactionType"]) == 1)
+                {
+                    TranType = "RTGS";
+                }
+
+                else if (Convert.ToInt32(rdr1["TransactionType"]) == 2)
+                {
+                    TranType = "NEFT";
+                }
+                else if (Convert.ToInt32(rdr1["TransactionType"]) == 3)
+                {
+                    TranType = "DD";
+                }
+                else if (Convert.ToInt32(rdr1["TransactionType"]) == 4)
+                {
+                    TranType = "Cheque";
+                }
+
+                dr[4] = TranType;
+                dr[5] = rdr1["ChequeNo"].ToString();
+                dr[6] = fun.FromDateDMY(rdr1["ChequeDate"].ToString());
+
+                double dbamt = 0;
+                double cramt=0;
+                dbamt=Convert.ToDouble(rdr1["Amount"]);
+
+                dr[7] = dbamt;
+                dr[8] = cramt;
+                dr[9] = rdr1["BankName"].ToString();
+
+
+                total1 += dbamt;
+
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }
+
+            LabelREc.Text = total1.ToString();
+            GridView3.DataSource = dt;
+            GridView3.DataBind();
+
+            if (chkshowAll_rec.Checked)
+            {
+                foreach (GridViewRow grv in GridView3.Rows)
+                {
+                    int id = Convert.ToInt32(((Label)grv.FindControl("lblId_Rec")).Text);
+
+                    string str1 = " Select  *  from tblACC_BankRecanciliation where CompId='" + CompId + "'  And FinYearId<='" + FinYearId + "'  And BVRId='" + id + "'";
+                    SqlCommand cmdCustWo1 = new SqlCommand(str1, con);
+                    SqlDataReader rdr3 = cmdCustWo1.ExecuteReader();
+                    
+                    while (rdr3.Read())
+                    {
+                        ((CheckBox)grv.FindControl("chk_Rec")).Visible = false;
+                        ((TextBox)grv.FindControl("txtBankDate_Rec")).Visible = false;
+                        ((TextBox)grv.FindControl("txtAddCharg_Rec")).Visible = false;
+                        ((TextBox)grv.FindControl("txtRemarks_Rec")).Visible = false;
+                        ((Label)grv.FindControl("Labeldate_Rec")).Visible = true;
+                        ((Label)grv.FindControl("Labeldate_Rec")).Text = fun.FromDateDMY(rdr3["BankDate"].ToString());
+                        ((Label)grv.FindControl("LabelAddCharg_Rec")).Visible = true;
+                        ((Label)grv.FindControl("LabelAddCharg_Rec")).Text = rdr3["AddCharges"].ToString();
+                        ((Label)grv.FindControl("LabelRemarks_Rec")).Visible = true;
+                        ((Label)grv.FindControl("LabelRemarks_Rec")).Text = rdr3["Remarks"].ToString();
+                    }
+                }
+            }
+        }
+       catch (Exception et)
+        {
+
+        }
+       finally
+        {
+            con.Close();
+        }
+    }
+    protected void btnSearch_rec_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            this.fillData();
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    protected void chkCheckAll_rec_CheckedChanged(object sender, EventArgs e)
+    {
+        if (chkCheckAll_rec.Checked == true)
+        {
+            foreach (GridViewRow grv in GridView3.Rows)
+            {
+                ((CheckBox)grv.FindControl("chk_Rec")).Checked = true;
+            }
+        }
+        else
+        {
+            foreach (GridViewRow grv in GridView3.Rows)
+            {
+                ((CheckBox)grv.FindControl("chk_Rec")).Checked = false;
+            }
+
+        }
+    }
+    protected void btnSubmitRec_Click(object sender, EventArgs e)
+    {
+
+        try
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            int k = 0;
+            int z = 0;
+            foreach (GridViewRow grv in GridView3.Rows)
+            {
+                if (((CheckBox)grv.FindControl("chk_Rec")).Checked == true)
+                {
+                    k++;
+                    if (((TextBox)grv.FindControl("txtBankDate_Rec")).Text != "" && fun.DateValidation(((TextBox)grv.FindControl("txtBankDate_Rec")).Text) == true)
+                    {
+                        z++;
+                    }
+
+
+                }
+            }
+            if (z > 0 && k == z)
+            {
+                foreach (GridViewRow grv in GridView3.Rows)
+                {
+                    if (((CheckBox)grv.FindControl("chk_Rec")).Checked == true)
+                    {
+                        if (((TextBox)grv.FindControl("txtBankDate_Rec")).Text != "" && fun.DateValidation(((TextBox)grv.FindControl("txtBankDate_Rec")).Text) == true)
+                        {
+                            int bvrId = 0;
+                            bvrId = Convert.ToInt32(((Label)grv.FindControl("lblId_Rec")).Text);
+                            int bvpid = 0;
+                            string Bankdate = string.Empty;
+                            Bankdate = ((TextBox)grv.FindControl("txtBankDate_Rec")).Text;
+                            double AddCharges = 0;
+                            AddCharges = Convert.ToDouble(((TextBox)grv.FindControl("txtAddCharg_Rec")).Text);
+                            string remarks = string.Empty;
+                            remarks = ((TextBox)grv.FindControl("txtRemarks_Rec")).Text;
+
+                            string insert = fun.insert("tblACC_BankRecanciliation", "SysDate,SysTime,CompId,FinYearId,SessionId,BVPId,BVRId,BankDate,AddCharges,Remarks", "'" + CDate + "','" + CTime + "','" + CompId + "','" + FinYearId + "','" + SId + "','" + bvpid + "','" + bvrId + "','" + fun.FromDate(Bankdate) + "','" + AddCharges + "','" + remarks + "'");
+                            con.Open();
+                            SqlCommand cmd = new SqlCommand(insert, con);
+                            cmd.ExecuteNonQuery();
+                            con.Close();
+                        }
+                    }
+                }
+
+                Page.Response.Redirect(Page.Request.Url.ToString(), true);
+            }
+            else
+            {
+                string mystringmsg = string.Empty;
+                mystringmsg = "Invalid data input .";
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('" + mystringmsg + "');", true);
+            }
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+    protected void chkshowAll_rec_CheckedChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            this.fillData();
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+
+}

@@ -1,0 +1,239 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Default.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" Title="ERP" Theme="Default" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+    <script src="Javascript/loadingNotifier.js" type="text/javascript"></script>
+
+    <link href="Css/styles.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .style3
+        {
+            text-align: justify;
+        }
+        .style4
+        {
+            text-align: center;
+        }
+        .style6
+        {
+            text-align: center;
+            color: #000099;
+        }
+        .style7
+        {
+            height: 25px;
+        }
+        .style8
+        {
+            height: 25px;
+            width: 135px;
+        }
+        .style9
+        {
+            height: 9px;
+            width: 135px;
+        }
+        .style10
+        {
+            height: 9px;
+        }
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+ 
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+ 
+    <table align="left" cellpadding="2" cellspacing="2" width="60%">
+        <tr>
+            <td class="style9">
+                </td>
+            <td class="style10">
+                </td>
+        </tr>
+        <tr>
+            <td class="style8">
+                &nbsp;
+                <asp:Label ID="lblSalary" runat="server" Text="Monthly Salary Slip :"></asp:Label>
+                </td>
+            <td class="style7">
+                <asp:Label ID="Label3" runat="server" Text="Select Month "></asp:Label>
+                <asp:DropDownList ID="ddlMonth" runat="server" 
+                    CssClass="box3" onselectedindexchanged="ddlMonth_SelectedIndexChanged">
+                </asp:DropDownList>
+                &nbsp;<asp:Button ID="btnProceed" runat="server" Text="Proceed" 
+                    CssClass="redbox" onclick="btnProceed_Click" />
+                </td>
+        </tr>
+        <tr>
+            <td class="style3" colspan="2">
+                &nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <asp:Label ID="Label2" runat="server" Text="Label" Visible="False"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td class="style6" colspan="2">
+                <asp:TextBox ID="TextBox1" runat="server" TextMode="MultiLine" Visible="False"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <td class="style4" colspan="2">
+                &nbsp;</td>
+        </tr>
+        <tr>
+            <td class="style4" colspan="2">
+    
+    
+    <asp:Button ID="Button1" runat="server" onclick="Button1_Click" Text="Button" 
+                    Visible="false" />
+ 
+            </td>
+        </tr>
+    </table>
+    
+    
+    </asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+   
+    
+   
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Default.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Web.SessionState;
+using System.Data.SqlClient;
+using System.Text;
+using System.IO;
+using System.Net.Mail;
+public partial class _Default : System.Web.UI.Page
+{
+
+    clsFunctions fun = new clsFunctions();
+    string connStr = string.Empty;
+    SqlConnection conn;
+    int CompId = 0;
+    string SId = "";
+    int FinYearId = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        connStr = fun.Connection();
+        conn = new SqlConnection(connStr);
+        
+        // Check if session variables exist
+        if (Session["username"] == null || Session["compid"] == null || Session["finyear"] == null)
+        {
+            // Redirect to login page if session variables don't exist
+            Response.Redirect("~/Login.aspx");
+            return;
+        }
+        
+        // Only access session variables if they exist
+        SId = Session["username"].ToString();
+        CompId = Convert.ToInt32(Session["compid"]);
+        FinYearId = Convert.ToInt32(Session["finyear"]);
+        
+        if (!IsPostBack)
+        {
+            ddlMonth.Items.Clear();
+            fun.GetMonth(ddlMonth, CompId, FinYearId);
+            string CurrDate = DateTime.Now.Month.ToString(); 
+            ddlMonth.SelectedValue = CurrDate;
+        }
+        
+    } 
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        
+       // string cmdStr = fun.insert("tbl_PO_terms", "Terms", "'" + TextBox1.Text + "'");
+       // SqlCommand cmd = new SqlCommand(cmdStr, con);
+       // con.Open();
+       // //cmd.ExecuteNonQuery();        
+       // string StrSql = fun.select1("Terms", " tbl_PO_terms");
+       // SqlCommand Cmdgrid = new SqlCommand(StrSql, con);
+       // SqlDataReader rdr = Cmdgrid.ExecuteReader();
+       // StringBuilder sb = new StringBuilder();
+       // while (rdr.Read())
+       // {
+       //     if (rdr.HasRows)
+       //     {                               
+       //         sb.AppendLine(rdr[0].ToString());
+               
+       //     }
+       // }
+
+       // Label2.Text = sb.ToString().Replace(Environment.NewLine, "<br />");
+       //// Label2.Text = sb.ToString().Replace(Environment.NewLine, Environment.NewLine);
+        
+       // con.Close();
+
+    }
+    protected void ddlMonth_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void btnProceed_Click(object sender, EventArgs e)
+    {      
+
+        try
+        {
+            conn.Open();
+            string MonthId = string.Empty;
+            MonthId = ddlMonth.SelectedValue;
+            string getRandomKey = fun.GetRandomAlphaNumeric();
+            string StrLeave = fun.select("Count(*) As Cnt", "tblHR_Salary_Details,tblHR_Salary_Master", "tblHR_Salary_Details.MId=tblHR_Salary_Master.Id AND tblHR_Salary_Master.CompId='" + CompId + "' AND tblHR_Salary_Master.FinYearId='" + FinYearId + "' AND tblHR_Salary_Master.EmpId='" + SId + "' AND tblHR_Salary_Master.FMonth='" + MonthId + "'");
+            SqlCommand cmdLeave = new SqlCommand(StrLeave, conn);
+            SqlDataReader rdr = cmdLeave.ExecuteReader();
+            rdr.Read();
+            if (rdr.HasRows == true)
+            {
+                if (Convert.ToDouble(rdr[0]) > 0)
+                {
+                    Response.Redirect("~/Module/SysSupport/Salary_Print_Details.aspx?EmpId=" + SId + "&MonthId=" + MonthId + "&Key=" + getRandomKey + "&BackURL=0&ModId=12&SubModId=133");
+                }
+                else
+                {
+                    string mystring = string.Empty;
+                    mystring = "No Record Found!";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+                }
+            }
+
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+            conn.Close();
+        }
+    }
+}

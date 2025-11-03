@@ -1,0 +1,1459 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Machinery/Masters/Machinery_Edit_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Machinery_Edit_Details.aspx.cs" Inherits="Module_Machinery_Masters_Machinery_Edit_Details" Title="ERP" Theme ="Default" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+<script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>        
+    <style type="text/css">
+        .style2
+        {
+            font-size: medium;
+        }
+        .style3
+        {
+            height: 22px;
+        }
+        .style4
+        {
+            font-size: medium;
+            height: 22px;
+        }
+        </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+<script type="text/javascript">
+        function OnChanged(sender, args)
+        {
+            ServerUtilities.SetTabIndex(sender.get_activeTabIndex());
+        }
+    </script>
+    
+    
+<table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)">
+        &nbsp;<b>Machinary - Edit</b></td>
+        </tr>
+        <tr>
+            <td valign="top">
+<cc1:TabContainer ID="TabContainer1" runat="server"  ActiveTabIndex="2"  
+                    Width="100%"  AutoPostBack="false">
+
+
+<cc1:TabPanel runat="server" HeaderText="Item Master"  ID="TabPanel1">
+    
+
+<HeaderTemplate>Machine
+    </HeaderTemplate><ContentTemplate>
+    
+    <asp:UpdatePanel ID="Up" UpdateMode="Conditional" runat="server">    
+    <ContentTemplate>
+    <fieldset >
+    
+    <table class="style6"><tr><td width="30px">&nbsp;</td><td class="style9">
+        Machine Code</td><td class="style2" width="350">: <asp:Label ID="lblItemCode" runat="server" 
+        style="font-weight: 700; font-size: small;"></asp:Label></td><td class="style12" width="10">&#160;</td><td class="style3">&nbsp;UOM : <asp:Label ID="lblunit" runat="server" style="font-weight: 700"></asp:Label></td><td width="280"></td></tr><tr><td>&nbsp;</td><td class="style9">Name</td><td colspan="4">: <asp:Label ID="lblManfDesc" runat="server"></asp:Label></td></tr><tr><td>&nbsp;</td><td class="style9">Model</td><td class="style2">: <asp:TextBox ID="txtModel" runat="server" CssClass="box3" Width="200px"></asp:TextBox><asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" 
+                        ControlToValidate="txtModel" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></td><td class="style12">&#160;</td><td class="style3">Make</td><td>: <asp:TextBox ID="txtMake" runat="server" CssClass="box3" Width="200px"></asp:TextBox><asp:RequiredFieldValidator ID="RequiredFieldValidator10" runat="server" 
+                        ControlToValidate="txtMake" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></td></tr><tr><td>&nbsp;</td><td class="style9">Purchase Date</td><td class="style2">: <asp:TextBox ID="txtPurchaseDate" runat="server" CssClass="box3"></asp:TextBox><cc1:CalendarExtender ID="txtPurchaseDate_CalendarExtender1" runat="server" 
+                    Enabled="True" Format="dd-MM-yyyy" TargetControlID="txtPurchaseDate"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
+                    ControlToValidate="txtPurchaseDate" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" 
+                    ControlToValidate="txtPurchaseDate" ErrorMessage="*" 
+                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                    ValidationGroup="A"></asp:RegularExpressionValidator></td><td class="style12">&#160;</td><td class="style3">Capacity </td><td>: <asp:TextBox ID="txtCapacity" runat="server" CssClass="box3" Width="200px"></asp:TextBox><asp:RequiredFieldValidator ID="RequiredFieldValidator11" runat="server" 
+                        ControlToValidate="txtCapacity" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></td></tr><tr><td>&nbsp;</td><td class="style9">Cost</td><td class="style2">: <asp:TextBox ID="txtCost" runat="server" CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="RequiredFieldValidator7" runat="server" 
+                        ControlToValidate="txtCost" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegularExpressionValidator6" runat="server" 
+                        ControlToValidate="txtCost" ErrorMessage="*" 
+                        ValidationExpression="^[0-9]\d*(\.\d+)?$" ValidationGroup="A"></asp:RegularExpressionValidator></td><td class="style12">&#160;</td><td class="style3">Supplier Name</td><td>: <asp:TextBox ID="txtSupplierName" 
+            runat="server" CssClass="box3" Width="250px"></asp:TextBox><cc1:AutoCompleteExtender ID="txtSupplierName_AutoCompleteExtender" 
+                        runat="server" DelimiterCharacters="" Enabled="True" MinimumPrefixLength="1" 
+                        ServiceMethod="sql" ServicePath="" TargetControlID="txtSupplierName" 
+                        UseContextKey="True" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt"></cc1:AutoCompleteExtender><asp:RequiredFieldValidator ID="RequiredFieldValidator12" runat="server" 
+                        ControlToValidate="txtSupplierName" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></td></tr><tr><td>&nbsp; </td><td class="style9">Life Date </td><td class="style2">: <asp:TextBox ID="txtLifeDate" runat="server" CssClass="box3"></asp:TextBox><cc1:CalendarExtender ID="txtLifeDate_CalendarExtender" runat="server" 
+                    Enabled="True" Format="dd-MM-yyyy" TargetControlID="txtLifeDate"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
+                    ControlToValidate="txtLifeDate" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegLifeDate" runat="server" 
+                    ControlToValidate="txtLifeDate" ErrorMessage="*" 
+                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                    ValidationGroup="A"></asp:RegularExpressionValidator></td><td class="style12">&#160;</td><td class="style3">Warranty Expires on</td><td>: <asp:TextBox ID="txtWarrantyExpireson" runat="server" CssClass="box3"></asp:TextBox><cc1:CalendarExtender ID="txtWarrantyExpireson_CalendarExtender1" runat="server" 
+                    Enabled="True" Format="dd-MM-yyyy" TargetControlID="txtWarrantyExpireson"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" 
+                    ControlToValidate="txtWarrantyExpireson" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server" 
+                    ControlToValidate="txtWarrantyExpireson" ErrorMessage="*" 
+                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                    ValidationGroup="A"></asp:RegularExpressionValidator></td></tr><tr><td>&#160;</td><td class="style9">Insurance </td><td valign="middle"><asp:RadioButtonList ID="RadiobtnInsurance" runat="server" 
+                        RepeatDirection="Horizontal" AutoPostBack="True" 
+                onselectedindexchanged="RadiobtnInsurance_SelectedIndexChanged"><asp:ListItem Selected="True" Value="0">NO</asp:ListItem><asp:ListItem Value="1">YES</asp:ListItem></asp:RadioButtonList></td><td class="style12" valign="middle">&#160;</td><td class="style3"><asp:Label ID="lblInsuranceExpireson" runat="server" 
+                Text="Insurance Expires on"></asp:Label></td><td><asp:Label ID="lblcolon" runat="server" Text=": "></asp:Label><asp:TextBox 
+            ID="txtInsuranceExpiresOn" runat="server" CssClass="box3">
+            
+            
+            </asp:TextBox>
+            <cc1:CalendarExtender 
+            ID="CalendarExtender1" runat="server" Enabled="True" Format="dd-MM-yyyy" 
+            TargetControlID="txtInsuranceExpiresOn"></cc1:CalendarExtender>
+            
+            
+            <asp:RequiredFieldValidator ID="ReqInsuranceExpire" runat="server" 
+                ControlToValidate="txtInsuranceExpiresOn" ErrorMessage="*" ValidationGroup="A" 
+                Visible="False">
+                </asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server" 
+            ControlToValidate="txtInsuranceExpiresOn" ErrorMessage="*" 
+            ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+            ValidationGroup="A"></asp:RegularExpressionValidator></td></tr><tr><td>&nbsp; </td><td class="style9">Put to use </td><td class="style2">: <asp:TextBox ID="txtPutToUse" runat="server" CssClass="box3"></asp:TextBox><cc1:CalendarExtender ID="CalendarExtender2" runat="server" 
+                    Enabled="True" Format="dd-MM-yyyy" TargetControlID="txtPutToUse"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server" 
+                    ControlToValidate="txtPutToUse" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegularExpressionValidator5" runat="server" 
+                    ControlToValidate="txtPutToUse" ErrorMessage="*" 
+                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                    ValidationGroup="A"></asp:RegularExpressionValidator></td><td class="style12">&#160;</td><td class="style3">Received Date</td><td>: <asp:TextBox 
+            ID="txtReceivedDate" runat="server" CssClass="box3"></asp:TextBox><cc1:CalendarExtender 
+            ID="txtReceivedDate_CalendarExtender1" runat="server" Enabled="True" 
+            Format="dd-MM-yyyy" TargetControlID="txtReceivedDate"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" 
+            ControlToValidate="txtReceivedDate" ErrorMessage="*" ValidationGroup="A"> </asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" 
+            ControlToValidate="txtReceivedDate" ErrorMessage="*" 
+            ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+            ValidationGroup="A"> </asp:RegularExpressionValidator></td></tr><tr><td>&nbsp;</td><td class="style9">Incharge</td><td class="style2">: <asp:TextBox ID="txtIncharge" runat="server" CssClass="box3" 
+                Width="250px"></asp:TextBox><cc1:AutoCompleteExtender ID="txtIncharge_AutoCompleteExtender" runat="server" 
+                        DelimiterCharacters="" Enabled="True" MinimumPrefixLength="1" 
+                        ServiceMethod="GetCompletionList" ServicePath="" TargetControlID="txtIncharge" 
+                        UseContextKey="True" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt"></cc1:AutoCompleteExtender><asp:RequiredFieldValidator ID="RequiredFieldValidator9" runat="server" 
+                        ControlToValidate="txtIncharge" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></td><td class="style12">&#160;</td><td class="style3">Location </td><td>: <asp:TextBox ID="txtLocation" runat="server" CssClass="box3" Width="200px"></asp:TextBox><asp:RequiredFieldValidator ID="RequiredFieldValidator13" runat="server" 
+                        ControlToValidate="txtLocation" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></td></tr><tr><td>&nbsp;</td><td class="style9" valign="bottom">Upload Image</td><td class="style2" valign="bottom">: <asp:FileUpload ID="FileUpload1" runat="server" /><asp:Label ID="lbldownload" runat="server"></asp:Label><asp:ImageButton ID="ImageButton1" runat="server"  ImageUrl="~/images/cross.gif" 
+            onclick="ImageButton1_Click" CausesValidation="true"  /></td><td class="style12">&#160;&nbsp; </td><td class="style3">Preventive Maintenance in days </td><td>: <asp:TextBox ID="txtPreMaintInDays" runat="server" CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="RequiredFieldValidator14" runat="server" 
+                        ControlToValidate="txtPreMaintInDays" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegularExpressionValidator7" runat="server" 
+                        ControlToValidate="txtPreMaintInDays" ErrorMessage="*" 
+                        ValidationExpression="^[0-9]\d*(\.\d+)?$" ValidationGroup="A"></asp:RegularExpressionValidator></td></tr><tr><td class="style3"></td><td class="style3"></td><td class="style4"></td><td class="style3"></td><td class="style3"></td><td class="style3"></td></tr><tr><td>&#160;</td><td class="style9">&#160;</td><td class="style2">&#160;</td><td class="style12">&#160;</td><td class="style3">&#160;&nbsp;</td><td>&#160;&nbsp;</td></tr></table>
+     </fieldset>
+     </ContentTemplate>
+     </asp:UpdatePanel>  
+    </ContentTemplate>
+    
+</cc1:TabPanel>
+
+<cc1:TabPanel ID="TabPanel2" HeaderText=""  runat="server">
+    <HeaderTemplate> 
+        Functions
+    </HeaderTemplate>
+    
+<ContentTemplate><asp:UpdatePanel ID="pnlData" runat="server" UpdateMode="Conditional"><ContentTemplate><fieldset ><table align="left" cellpadding="0" cellspacing="0" width="100%"><tr><td colspan="3"></td></tr><tr><td 
+            align="left" valign="top" width="49%" rowspan="5"><asp:GridView ID="GridView1" runat="server"  CssClass="yui-datatable-theme"                
+                      Width="100%" AutoGenerateColumns="False" 
+                    DataKeyNames="Id" ><Columns><asp:TemplateField 
+                        HeaderText="SN"><ItemTemplate><%#Container.DataItemIndex+1  %></ItemTemplate><HeaderStyle Font-Size="10pt" /><ItemStyle HorizontalAlign="Right" VerticalAlign="Top" Width="5%" /></asp:TemplateField><asp:TemplateField><ItemTemplate><asp:CheckBox ID="chk" AutoPostBack="false" runat="server" Checked="false" /></ItemTemplate><HeaderStyle Font-Size="10pt" /><ItemStyle HorizontalAlign="Center" VerticalAlign="Top" Width="5%" /></asp:TemplateField><asp:TemplateField HeaderText="Process" SortExpression="Process"><ItemTemplate><asp:Label ID="lblprocess" runat="server" Text='<%# Bind("Pro") %>'> </asp:Label></ItemTemplate></asp:TemplateField><asp:TemplateField HeaderText="Id"  SortExpression="Id" 
+                            Visible="False"><ItemTemplate><asp:Label ID="lblProId" runat="server" Text='<%# Bind("Id") %>'> </asp:Label></ItemTemplate></asp:TemplateField></Columns><EmptyDataTemplate><table width="100%" class="fontcss"><tr><td align="center"><asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon"> </asp:Label></td></tr></table></EmptyDataTemplate><FooterStyle Font-Bold="False" /><HeaderStyle Font-Size="9pt" /></asp:GridView></td><td 
+                align="left" width="20" rowspan="5">&#160; </td><td align="left" valign="top" 
+            width="49%" height="15">&nbsp;<b><span class="style2">Process Temp</span></b>&nbsp;</td></tr><tr><td align="left" valign="top" width="49%"><asp:GridView ID="GridView4" runat="server" AllowPaging="True" 
+                AutoGenerateColumns="False" CssClass="yui-datatable-theme" DataKeyNames="Id" 
+                OnPageIndexChanging="GridView4_PageIndexChanging" 
+                OnRowCommand="GridView4_RowCommand" Width="100%"><Columns><asp:TemplateField HeaderText="SN"><ItemTemplate></ItemTemplate><HeaderStyle Font-Size="10pt" /><ItemStyle HorizontalAlign="Right" VerticalAlign="Top" Width="5%" /></asp:TemplateField><asp:TemplateField><ItemTemplate><asp:LinkButton ID="linkBtn" runat="server" CommandName="del" 
+                                OnClientClick=" return confirmationDelete()" Text="Delete"> </asp:LinkButton></ItemTemplate><HeaderStyle Font-Size="10pt" /><ItemStyle HorizontalAlign="Center" VerticalAlign="Top" Width="6%" /></asp:TemplateField><asp:TemplateField HeaderText="Process"><ItemTemplate><asp:Label ID="lblCode" runat="server" Text='<%#Eval("Process") %>'> </asp:Label></ItemTemplate></asp:TemplateField><asp:TemplateField HeaderText="Id" SortExpression="Id" Visible="False"><ItemTemplate><asp:Label ID="lblId" runat="server" Text='<%#Eval("Id") %>'> </asp:Label></ItemTemplate></asp:TemplateField></Columns><EmptyDataTemplate><table class="fontcss" width="100%"><tr><td align="center"><asp:Label ID="Label2" runat="server" Font-Size="Larger" ForeColor="maroon" 
+                                    Text="No data to display !"> </asp:Label></td></tr></table></EmptyDataTemplate></asp:GridView></td></tr><tr><td align="left" height="5" valign="middle" width="49%">&#160;</td></tr><tr><td 
+                align="left" valign="top" width="49%" class="style2" height="15"><b>Process Master</b></td></tr><tr><td align="left" valign="top" width="49%"><asp:GridView 
+                ID="GridView6" runat="server" AllowPaging="True" AutoGenerateColumns="False" 
+                CssClass="yui-datatable-theme" DataKeyNames="Id" 
+                OnPageIndexChanging="GridView6_PageIndexChanging" 
+                Width="100%" OnRowCommand="GridView6_RowCommand"><Columns><asp:TemplateField HeaderText="SN"><ItemTemplate><%#Container.DataItemIndex+1  %></ItemTemplate><HeaderStyle Font-Size="10pt" /><ItemStyle HorizontalAlign="Right" VerticalAlign="Top" Width="5%" /></asp:TemplateField><asp:TemplateField><ItemTemplate><asp:LinkButton ID="linkBtn" runat="server" CommandName="del" 
+                OnClientClick=" return confirmationDelete()" Text="Delete"> </asp:LinkButton></ItemTemplate><HeaderStyle Font-Size="10pt" /><ItemStyle HorizontalAlign="Center" VerticalAlign="Top" Width="6%" /></asp:TemplateField><asp:TemplateField HeaderText="Process"><ItemTemplate><asp:Label ID="lblCode" runat="server" Text='<%#Eval("Process") %>'> </asp:Label></ItemTemplate></asp:TemplateField><asp:TemplateField HeaderText="Id" SortExpression="Id" Visible="False"><ItemTemplate><asp:Label ID="lblId" runat="server" Text='<%#Eval("Id") %>'> </asp:Label></ItemTemplate></asp:TemplateField></Columns><EmptyDataTemplate><table class="fontcss" width="100%"><tr><td align="center"><asp:Label ID="Label5" runat="server" Font-Size="Larger" ForeColor="maroon" 
+                                Text="No data to display !"> </asp:Label></td></tr></table></EmptyDataTemplate></asp:GridView></td></tr><tr align="center"><td align="center" class="style11" height="25"   valign="bottom"><asp:Button ID="btnProcessAdd"  OnClientClick="return confirmationAdd();" CssClass="redbox"  runat="server" Text="Add" 
+                 onclick="btnProcessAdd_Click" /></td><td align="justify" class="style11" 
+                height="25" valign="middle">&#160; </td><td align="center" class="style11" 
+                height="25" valign="middle">&nbsp;&nbsp;<asp:Label ID="lblprocessmsg" runat="server" ForeColor="Red" 
+                                            Text="*  Atleast one process is required for Machinery." Visible="False"></asp:Label></td></tr></table></fieldset></ContentTemplate></asp:UpdatePanel>
+                
+                
+    </ContentTemplate>
+                
+</cc1:TabPanel>
+
+<cc1:TabPanel ID="TabPanel3" runat="server" HeaderText="TabPanel3">
+        
+        
+    <HeaderTemplate> 
+        Spare
+    </HeaderTemplate><ContentTemplate>    
+        
+    
+        <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional"><ContentTemplate><fieldset ><table align="left" cellpadding="0" 
+            cellspacing="0" width="100%" style="height: 162px"><tr><td class="style5" 
+                    height="30" colspan="3"><asp:DropDownList ID="DrpCategory" runat="server" AutoPostBack="True" 
+                CssClass="box3" Height="21px" 
+                OnSelectedIndexChanged="DrpCategory_SelectedIndexChanged"></asp:DropDownList>&nbsp;<asp:DropDownList 
+                ID="DrpSubCategory" runat="server" AutoPostBack="True" 
+                CssClass="box3" 
+                OnSelectedIndexChanged="DrpSubCategory_SelectedIndexChanged"></asp:DropDownList>&#160;<asp:DropDownList 
+                ID="DrpSearchCode" runat="server" AutoPostBack="True" 
+                CssClass="box3" 
+                ><asp:ListItem Value="Select">Select</asp:ListItem><asp:ListItem Value="tblDG_Item_Master.ItemCode">Item Code</asp:ListItem><asp:ListItem Value="tblDG_Item_Master.ManfDesc">Description</asp:ListItem></asp:DropDownList><asp:TextBox 
+                ID="txtSearchItemCode" runat="server" CssClass="box3" Width="200px"></asp:TextBox>&nbsp;&nbsp;<asp:Button ID="btnSearch" runat="server" CssClass="redbox" 
+                OnClick="btnSearch_Click" Text="Search" />&nbsp; </td></tr><tr><td class="fontcss" valign="top" width="49%" rowspan="5">&#160;&#160; 
+                
+                
+                
+                <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" 
+                        CssClass="yui-datatable-theme" 
+                        OnPageIndexChanging="GridView2_PageIndexChanging" Width="100%"><Columns><asp:TemplateField 
+                                HeaderText="SN"><ItemTemplate><%#Container.DataItemIndex+1  %></ItemTemplate><HeaderStyle Font-Size="10pt" /><ItemStyle HorizontalAlign="Right" VerticalAlign="Top" Width="5%" /></asp:TemplateField>
+                                
+                                
+                                <asp:TemplateField>
+                                <ItemTemplate>
+                                <asp:CheckBox ID="chkSpare" 
+                                    runat="server" AutoPostBack="false" Checked="false" />
+                                    </ItemTemplate><HeaderStyle Font-Size="10pt" />
+                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Top" Width="5%" />
+                                    </asp:TemplateField>
+                                 
+                                 
+                                 <asp:TemplateField HeaderText="Item Code"><ItemTemplate><asp:Label 
+                                    ID="lblItemCode" runat="server" Text='<%# Bind("ItemCode") %>'> </asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Center" /></asp:TemplateField><asp:TemplateField HeaderText="Id" Visible="False"><ItemTemplate><asp:Label 
+                                    ID="lblId" runat="server" Text='<%# Bind("Id") %>'> </asp:Label></ItemTemplate><ItemStyle VerticalAlign="Top" /></asp:TemplateField><asp:BoundField DataField="SubCategory" 
+                                HeaderText="SubCategory" Visible="False"><ItemStyle VerticalAlign="Top" /></asp:BoundField><asp:BoundField 
+                                DataField="ManfDesc" HeaderText="Description"><ItemStyle 
+                                VerticalAlign="Top" Width="45%" /></asp:BoundField><asp:BoundField 
+                                DataField="UOMBasic" HeaderText="UOM"><ItemStyle HorizontalAlign="Center" 
+                                VerticalAlign="Top" /></asp:BoundField>
+                                
+                                   <asp:TemplateField HeaderText=" Qty"><ItemTemplate><asp:TextBox 
+                                    ID="txtQty" runat="server" CssClass="box3" Width="70%"> </asp:TextBox><asp:RequiredFieldValidator 
+                                    ID="ReqQty" runat="server" ControlToValidate="txtQty" ErrorMessage="*" 
+                                    ValidationGroup="spare" Visible="false"></asp:RequiredFieldValidator><asp:RegularExpressionValidator 
+                                    ID="RegNumeric" runat="server" ControlToValidate="txtQty" ErrorMessage="*" 
+                                    ValidationExpression="^[0-9]\d*(\.\d+)?$" ValidationGroup="spare"></asp:RegularExpressionValidator>
+                                    </ItemTemplate>
+                                    <ItemStyle HorizontalAlign="Left" Width="15%" />
+                                    </asp:TemplateField>
+                      
+                      
+                      
+                      
+                      </Columns><EmptyDataTemplate><table class="fontcss" width="100%"><tr><td align="center"><asp:Label ID="Label1" runat="server" Font-Size="Larger" ForeColor="maroon" 
+                                            Text="No data to display !"> </asp:Label></td></tr></table></EmptyDataTemplate><FooterStyle Font-Bold="False" /><HeaderStyle Font-Size="9pt" />
+                                            </asp:GridView>
+                                            
+                                            
+                                            
+                                            
+                                            </td><td class="fontcss" rowspan="5" valign="top" width="20"></td> 
+                <td align="left" class="fontcsswhite" class="fontcsswhite" height="15" 
+                    scope="col" style="background: url(../../../images/hdbg.JPG)" valign="top" 
+                    valign="top" width="49%">&#160;<b>Spare Temporary</b></td></tr><tr><td class="fontcss" valign="middle" 
+                width="49%"><asp:GridView ID="GridView3" runat="server" AllowPaging="True" 
+                    AutoGenerateColumns="False" CssClass="yui-datatable-theme" DataKeyNames="Id" 
+                    OnPageIndexChanging="GridView3_PageIndexChanging" 
+                    OnRowCommand="GridView3_RowCommand" Width="100%"><Columns><asp:TemplateField 
+                            HeaderText="SN"><ItemTemplate><%#Container.DataItemIndex+1  %></ItemTemplate><HeaderStyle Font-Size="10pt" /><ItemStyle HorizontalAlign="Right" VerticalAlign="Top" Width="3%" /></asp:TemplateField><asp:TemplateField><ItemTemplate><asp:LinkButton ID="linkBtn" 
+                                runat="server" CommandName="del" OnClientClick=" return confirmationDelete()" 
+                                Text="Delete"> </asp:LinkButton></ItemTemplate><HeaderStyle Font-Size="10pt" /><ItemStyle HorizontalAlign="Center" VerticalAlign="Top" Width="4%" /></asp:TemplateField>
+                        <asp:TemplateField HeaderText="Item Code"><ItemTemplate><asp:Label 
+                                ID="lblCode" runat="server" Text='<%#Eval("ItemCode") %>'> </asp:Label></ItemTemplate><ItemStyle Width="10%" /></asp:TemplateField>
+                        <asp:TemplateField HeaderText="Description"><ItemTemplate><asp:Label 
+                                ID="lblManfDesc" runat="server" Text='<%#Eval("ManfDesc") %>'> </asp:Label></ItemTemplate><ItemStyle Width="25%" /></asp:TemplateField><asp:TemplateField HeaderText="Unit"><ItemTemplate><asp:Label 
+                                ID="lblUOM" runat="server" Text='<%#Eval("UOMBasic") %>'> </asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="5%" /></asp:TemplateField>
+                                
+                                
+                                <asp:TemplateField HeaderText="Quantity">
+                                <ItemTemplate>
+                                <asp:Label ID="lblQty" runat="server" Text='<%#Eval("Qty") %>'> </asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Right" Width="10%" /></asp:TemplateField>
+                                
+                                
+                                
+                                
+                                <asp:TemplateField HeaderText="Id" SortExpression="Id" 
+                            Visible="False"><ItemTemplate><asp:Label ID="lblId" runat="server" 
+                                Text='<%#Eval("Id") %>'> </asp:Label></ItemTemplate></asp:TemplateField></Columns><EmptyDataTemplate><table class="fontcss" width="100%"><tr><td align="center"><asp:Label ID="Label3" runat="server" Font-Size="Larger" ForeColor="maroon" 
+                                        Text="No data to display !"> </asp:Label></td></tr></table></EmptyDataTemplate></asp:GridView></td></tr><tr><td 
+                class="fontcss" valign="top" width="49%" height="15">&#160;</td></tr><tr><td class="fontcsswhite" 
+                valign="middle" valign="middle" width="49%" align="left" class="fontcsswhite" 
+                    height="15" scope="col" style="background: url(../../../images/hdbg.JPG)">&nbsp;<b>Spare Master</b></td></tr><tr><td class="fontcss" valign="top" width="49%"><asp:GridView ID="GridView5" runat="server" AllowPaging="True" 
+                        AutoGenerateColumns="False" CssClass="yui-datatable-theme" DataKeyNames="Id" 
+                        OnPageIndexChanging="GridView5_PageIndexChanging" 
+                        OnRowCommand="GridView5_RowCommand" Width="100%"><Columns><asp:TemplateField HeaderText="SN"><ItemTemplate><%#Container.DataItemIndex+1  %></ItemTemplate><HeaderStyle Font-Size="10pt" /><ItemStyle HorizontalAlign="Right" VerticalAlign="Top" Width="3%" /></asp:TemplateField><asp:TemplateField><ItemTemplate><asp:LinkButton ID="linkBtn" runat="server" CommandName="del" 
+                                        OnClientClick=" return confirmationDelete()" Text="Delete"> </asp:LinkButton></ItemTemplate><HeaderStyle Font-Size="10pt" /><ItemStyle HorizontalAlign="Center" VerticalAlign="Top" Width="4%" /></asp:TemplateField>
+                    <asp:TemplateField HeaderText="Item Code"><ItemTemplate><asp:Label ID="lblCode" runat="server" Text='<%#Eval("ItemCode") %>'> </asp:Label></ItemTemplate><ItemStyle Width="10%" /></asp:TemplateField>
+                    <asp:TemplateField HeaderText="Description"><ItemTemplate><asp:Label ID="lblManfDesc" runat="server" Text='<%#Eval("ManfDesc") %>'> </asp:Label></ItemTemplate><ItemStyle Width="25%" /></asp:TemplateField><asp:TemplateField HeaderText="Unit"><ItemTemplate><asp:Label ID="lblUOM" runat="server" Text='<%#Eval("UOMBasic") %>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="5%" /></asp:TemplateField>
+                    
+                    
+                    <asp:TemplateField HeaderText="Quantity">
+                    <ItemTemplate><asp:Label ID="lblQty" runat="server" Text='<%#Eval("Qty") %>'></asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Right" Width="10%" /></asp:TemplateField>
+                    
+                    
+                    <asp:TemplateField HeaderText="Id" SortExpression="Id" Visible="False"><ItemTemplate><asp:Label ID="lblId" runat="server" Text='<%#Eval("Id") %>'> </asp:Label></ItemTemplate></asp:TemplateField></Columns><EmptyDataTemplate><table class="fontcss" width="100%"><tr><td align="center"><asp:Label ID="Label4" runat="server" Font-Size="Larger" ForeColor="maroon" 
+                                            Text="No data to display !"> </asp:Label></td></tr></table></EmptyDataTemplate></asp:GridView></td></tr><tr><td align="center" class="style11" height="25" valign="middle"><asp:Button ID="btnSpareAdd" runat="server" CssClass="redbox" 
+                    onclick="btnSpareAdd_Click" OnClientClick="return confirmationAdd();" 
+                    Text="Add" ValidationGroup="spare" /></td><td align="center" class="style11" height="25" valign="middle">&nbsp;&nbsp; </td><td align="center" class="style11" height="25" valign="middle">&nbsp; <asp:Label ID="lblsparemsg" runat="server" ForeColor="Red" 
+                    Text="*  Atleast one spare is required for Machinery." Visible="False"></asp:Label></td></tr></table></fieldset></ContentTemplate></asp:UpdatePanel>
+            
+            
+    </ContentTemplate></cc1:TabPanel>
+    
+
+
+</cc1:TabContainer>
+</td>
+</tr>
+        <tr>
+            <td valign="middle" height="25" width="92%" align="right">
+                <asp:Button ID="btnProceed" runat="server"  
+                    OnClientClick=" return confirmationAdd()" CssClass="redbox" Text="Update" 
+                    onclick="btnProceed_Click" ValidationGroup="A" />
+&nbsp;<asp:Button ID="btnCancel" runat="server" Text="Cancel" CssClass="redbox" 
+                    onclick="btnCancel_Click" />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+</tr>
+</table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Machinery/Masters/Machinery_Edit_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.IO;
+
+public partial class Module_Machinery_Masters_Machinery_Edit_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    string sId = "";
+    int CompId = 0;   
+    int FinYearId = 0;    
+    int itemId = 0;
+    int FYId = 0;
+    int MasterId = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            string id = Request.QueryString["Id"];
+            itemId = Convert.ToInt32(id);
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            sId = Session["username"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            con.Open();
+
+            string cmdId = fun.select("tblDG_Item_Master.Id,tblDG_Item_Master.ManfDesc,Unit_Master.Symbol As UOMBasic, tblDG_Item_Master.ItemCode ", " tblDG_Category_Master,tblDG_Item_Master,Unit_Master", " tblDG_Item_Master.CId=tblDG_Category_Master.CId AND Unit_Master.Id=tblDG_Item_Master.UOMBasic  AND tblDG_Item_Master.Id='" + itemId + "' AND tblDG_Item_Master.CompId='" + CompId + "'  ");
+
+            SqlCommand cmdItemId = new SqlCommand(cmdId, con);
+            SqlDataAdapter DAItemId = new SqlDataAdapter(cmdItemId);
+            DataSet DSItemId = new DataSet();
+            DAItemId.Fill(DSItemId);
+            if (DSItemId.Tables[0].Rows.Count > 0)
+            {
+                lblItemCode.Text = DSItemId.Tables[0].Rows[0]["ItemCode"].ToString();
+                lblunit.Text = DSItemId.Tables[0].Rows[0]["UOMBasic"].ToString();
+                lblManfDesc.Text = DSItemId.Tables[0].Rows[0]["ManfDesc"].ToString();
+            }
+
+            this.EnableDisableInsurance();
+            this.ValidateTextBox();
+           
+         
+            string sqlMaster = fun.select("Id,FinYearId", "tblMS_Master", "CompId='" + CompId + "' AND ItemId='" + itemId + "'");
+            SqlCommand cmdMaster = new SqlCommand(sqlMaster, con);
+            SqlDataAdapter daMaster = new SqlDataAdapter(cmdMaster);
+            DataSet DSMaster = new DataSet();
+            daMaster.Fill(DSMaster);
+            if (DSMaster.Tables[0].Rows.Count > 0)
+            {
+                MasterId = Convert.ToInt32(DSMaster.Tables[0].Rows[0]["Id"]);
+                FYId = Convert.ToInt32(DSMaster.Tables[0].Rows[0]["FinYearId"]);
+            }
+            if (!IsPostBack)
+            {
+                fun.drpDesignCategory(DrpCategory, DrpSubCategory);
+                this.fillProcess();
+                string sd = DrpCategory.SelectedValue;
+                string b = DrpSubCategory.SelectedValue;
+                string c = DrpSearchCode.SelectedValue;
+                string d = txtSearchItemCode.Text;
+                this.Fillgridview(sd, b, c, d);
+                this.ValidateTextBox();
+                this.LoadDataSpare();
+                this.LoadDataSpareMaster();
+                this.LoadProcess();
+                this.LoadProcessMaster();
+
+                string StrMachine = fun.select("*", "tblMS_Master", " ItemId='" + itemId + "' AND CompId='" + CompId + "' And FinYearId<='" + FinYearId + "'  ");
+                SqlCommand cmdMachine = new SqlCommand(StrMachine, con);
+                SqlDataAdapter DAMachine = new SqlDataAdapter(cmdMachine);
+                DataSet DSMachine = new DataSet();
+                DAMachine.Fill(DSMachine);
+                if (DSMachine.Tables[0].Rows.Count > 0)
+                {
+                    txtModel.Text = DSMachine.Tables[0].Rows[0]["Model"].ToString();
+                    txtPurchaseDate.Text = fun.FromDateDMY(DSMachine.Tables[0].Rows[0]["PurchaseDate"].ToString());
+                    txtLifeDate.Text = fun.FromDateDMY(DSMachine.Tables[0].Rows[0]["LifeDate"].ToString());
+                    txtPutToUse.Text = fun.FromDateDMY(DSMachine.Tables[0].Rows[0]["Puttouse"].ToString());
+                    txtWarrantyExpireson.Text = fun.FromDateDMY(DSMachine.Tables[0].Rows[0]["WarrantyExpiryDate"].ToString());
+                    txtReceivedDate.Text = fun.FromDateDMY(DSMachine.Tables[0].Rows[0]["ReceivedDate"].ToString());
+                    txtInsuranceExpiresOn.Text= "" ;
+                    txtCost.Text = DSMachine.Tables[0].Rows[0]["Cost"].ToString();
+
+                    string StrIncharge = fun.select("EmployeeName+' ['+EmpId+']' ", "tblHR_OfficeStaff", "CompId='" + CompId + "' And EmpId='" + DSMachine.Tables[0].Rows[0]["Incharge"].ToString() + "'");                    
+                    SqlCommand CmdIncharge = new SqlCommand(StrIncharge, con);
+                    DataSet DsIncharge = new DataSet();
+                    SqlDataAdapter daIncharge = new SqlDataAdapter(CmdIncharge);
+                    daIncharge.Fill(DsIncharge, "tblHR_OfficeStaff");
+                    if (DsIncharge.Tables[0].Rows.Count > 0)
+                    {
+                        txtIncharge.Text = DsIncharge.Tables[0].Rows[0][0].ToString();
+                    }
+                    
+                    txtMake.Text = DSMachine.Tables[0].Rows[0]["Make"].ToString();
+                    txtCapacity.Text = DSMachine.Tables[0].Rows[0]["Capacity"].ToString();
+
+                    string StrSupp = fun.select("SupplierName +' ['+SupplierId+']'", "tblMM_Supplier_master", "CompId='" + CompId + "' And SupplierId='" + DSMachine.Tables[0].Rows[0]["SupplierName"].ToString() + "'");
+                    SqlCommand CmdSupp=new SqlCommand (StrSupp,con);
+                    DataSet DsSupp=new DataSet ();
+                    SqlDataAdapter daSupp = new SqlDataAdapter(CmdSupp);
+                    daSupp.Fill(DsSupp, "tblMM_Supplier_master");
+                   if(DsSupp.Tables[0].Rows.Count>0)
+                   {
+                       txtSupplierName.Text = DsSupp.Tables[0].Rows[0][0].ToString();
+                   }
+                    txtLocation.Text = DSMachine.Tables[0].Rows[0]["Location"].ToString();
+                    txtPreMaintInDays.Text = DSMachine.Tables[0].Rows[0]["PMDays"].ToString();
+
+                    RadiobtnInsurance.SelectedValue = DSMachine.Tables[0].Rows[0]["Insurance"].ToString();
+
+                    if (RadiobtnInsurance.SelectedValue=="1")
+                    {
+                        this.EnableDisableInsurance();
+                        txtInsuranceExpiresOn.Text = fun.FromDateDMY(DSMachine.Tables[0].Rows[0]["InsuranceExpiryDate"].ToString());                      
+                    }
+
+
+                    if (DSMachine.Tables[0].Rows[0]["FileName"] == DBNull.Value || DSMachine.Tables[0].Rows[0]["FileName"].ToString() == "")
+                    {
+                        FileUpload1.Visible = true;
+                        lbldownload.Visible = false;
+                        ImageButton1.Visible = false;
+                        
+                    }
+                    else
+                    {
+                        FileUpload1.Visible = false;
+                        lbldownload.Visible = true;
+                        ImageButton1.Visible = true;
+                 
+                        lbldownload.Text = "&nbsp;<a href='../../../Controls/DownloadFile.aspx?Id=" + DSMachine.Tables[0].Rows[0]["Id"].ToString() + "&tbl=tblMS_Master&qfd=FileData&qfn=FileName&qct=ContentType'>" + DSMachine.Tables[0].Rows[0]["FileName"].ToString() + "</a>";
+
+                    }
+                }
+            }
+              
+            if (Request.QueryString["m"] != null)
+                {
+                    TabContainer1.ActiveTabIndex = 1;
+                }
+
+                TabContainer1.OnClientActiveTabChanged = "OnChanged";
+                TabContainer1.ActiveTabIndex = Convert.ToInt32(Session["TabIndex"] ?? "0");
+        }
+        catch (Exception ex)
+        {
+        }
+       finally
+        {
+            con.Close();
+        }
+    } 
+   
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] sql(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+
+        int CompId1 = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        con.Open();
+        string cmdStr = fun.select("SupplierId,SupplierName", "tblMM_Supplier_master","CompId='"+CompId1+"'");
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds, "tblMM_Supplier_master");
+        con.Close();
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                //if (main.Length == 10)
+                //    break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }     
+   
+    public void LoadDataSpare()
+    {
+        try
+        {
+            string str = fun.Connection();
+            SqlConnection con = new SqlConnection(str);
+            con.Open();
+
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));           
+            dt.Columns.Add(new System.Data.DataColumn("ManfDesc", typeof(string)));           
+            dt.Columns.Add(new System.Data.DataColumn("UOMBasic", typeof(string)));            
+            dt.Columns.Add(new System.Data.DataColumn("Qty", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));           
+            DataRow dr;
+            sId = Session["username"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+            string sql = fun.select("*", "tblMS_Spares_Temp", "CompId='" + CompId + "' AND SessionId='" + sId + "' Order By Id desc");
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet DS = new DataSet();
+            da.Fill(DS);
+
+            for (int p = 0; p < DS.Tables[0].Rows.Count; p++)
+            {
+                dr = dt.NewRow();
+
+                if (DS.Tables[0].Rows[p]["ItemId"] != DBNull.Value)
+                {
+                    string sql1 = fun.select("tblDG_Item_Master.ItemCode,tblDG_Item_Master.ManfDesc,Unit_Master.Symbol As UOMBasic", "tblDG_Item_Master,Unit_Master,vw_Unit_Master", " tblDG_Item_Master.Id='" + Convert.ToInt32(DS.Tables[0].Rows[p]["ItemId"]) + "' AND Unit_Master.Id=tblDG_Item_Master.UOMBasic AND tblDG_Item_Master.CompId='" + CompId + "'");
+
+                    SqlCommand cmd1 = new SqlCommand(sql1, con);
+                    SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+                    DataSet DS1 = new DataSet();
+                    da1.Fill(DS1);
+
+                    dr[0] = DS1.Tables[0].Rows[0]["ItemCode"].ToString();
+                    dr[1] = DS1.Tables[0].Rows[0]["ManfDesc"].ToString();                    
+                    dr[2] = DS1.Tables[0].Rows[0]["UOMBasic"].ToString();                 
+                } 
+                
+                dr[3] = DS.Tables[0].Rows[p]["Qty"].ToString(); 
+                dr[4] = DS.Tables[0].Rows[p]["Id"].ToString();                
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }
+           
+            GridView3.DataSource = dt;
+            GridView3.DataBind();
+        }
+        catch (Exception ep)
+        {
+        }
+    }
+
+    public void LoadDataSpareMaster()
+    {
+        try
+        {
+            string str = fun.Connection();
+            SqlConnection con = new SqlConnection(str);
+            con.Open();
+
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ManfDesc", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("UOMBasic", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Qty", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+            DataRow dr;
+            sId = Session["username"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+
+            string sql = fun.select("tblMS_Spares.Id,tblMS_Spares.MId,tblMS_Spares.ItemId,tblMS_Spares.Qty", "tblMS_Spares,tblMS_Master", " tblMS_Spares.MId=tblMS_Master.Id And tblMS_Master.ItemId='"+itemId+"' order By tblMS_Spares.Id Desc");
+
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet DS = new DataSet();
+            da.Fill(DS);
+
+            for (int p = 0; p < DS.Tables[0].Rows.Count; p++)
+            {
+                dr = dt.NewRow();
+
+                if (DS.Tables[0].Rows[p]["ItemId"] != DBNull.Value)
+                {
+                    string sql1 = fun.select("tblDG_Item_Master.ItemCode,tblDG_Item_Master.ManfDesc,Unit_Master.Symbol As UOMBasic", "tblDG_Item_Master,Unit_Master,vw_Unit_Master", " tblDG_Item_Master.Id='" + Convert.ToInt32(DS.Tables[0].Rows[p]["ItemId"]) + "' AND Unit_Master.Id=tblDG_Item_Master.UOMBasic AND tblDG_Item_Master.CompId='" + CompId + "'");
+
+                    SqlCommand cmd1 = new SqlCommand(sql1, con);
+                    SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+                    DataSet DS1 = new DataSet();
+                    da1.Fill(DS1);
+
+                    dr[0] = DS1.Tables[0].Rows[0]["ItemCode"].ToString();
+                    dr[1] = DS1.Tables[0].Rows[0]["ManfDesc"].ToString();
+                    dr[2] = DS1.Tables[0].Rows[0]["UOMBasic"].ToString();
+                }
+
+                dr[3] = DS.Tables[0].Rows[p]["Qty"].ToString();
+                dr[4] = DS.Tables[0].Rows[p]["Id"].ToString();
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }
+
+            GridView5.DataSource = dt;
+            GridView5.DataBind();
+        }
+        catch (Exception ep)
+        {
+        }
+    }
+
+    public void LoadProcess()
+    {
+        try
+        {
+            string str = fun.Connection();
+            SqlConnection con = new SqlConnection(str);
+            con.Open();
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new System.Data.DataColumn("Process", typeof(string)));                      
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+           
+            DataRow dr;
+            sId = Session["username"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+            string sql = fun.select("*", "tblMS_Process_Temp", "CompId='" + CompId + "' AND SessionId='" + sId + "' Order By Id desc");
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet DS = new DataSet();
+            da.Fill(DS);
+           
+            for (int p = 0; p < DS.Tables[0].Rows.Count; p++)
+            {
+                dr = dt.NewRow();
+
+                if (DS.Tables[0].Rows[p]["PId"] != DBNull.Value)
+                {
+                    
+                    string sql1 = fun.select("'['+Symbol+'] '+ProcessName As Pro,Id", "tblPln_Process_Master", "Symbol!='0' And Id='" + DS.Tables[0].Rows[p]["PId"].ToString() + "'");
+
+                    SqlCommand cmd1 = new SqlCommand(sql1, con);
+                    SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+                    DataSet DS1 = new DataSet();
+                    da1.Fill(DS1);
+                    if (DS1.Tables[0].Rows.Count > 0)
+                    {
+                        dr[0] = DS1.Tables[0].Rows[0]["Pro"].ToString();
+                    }                    
+
+                } 
+                dr[1] = DS.Tables[0].Rows[p]["Id"].ToString();
+
+                dt.Rows.Add(dr);
+                dt.AcceptChanges(); 
+            }           
+            GridView4.DataSource = dt;
+            GridView4.DataBind();
+        }
+        catch (Exception ep)
+        {
+        }
+    }
+
+    public void LoadProcessMaster()
+    {
+       try
+        {
+            string str = fun.Connection();
+            SqlConnection con = new SqlConnection(str);
+            con.Open();
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new System.Data.DataColumn("Process", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+
+            DataRow dr;
+            sId = Session["username"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+            string sql = fun.select("tblMS_Process.PId,tblMS_Process.Id", "tblMS_Process,tblMS_Master", "tblMS_Master.CompId='" + CompId + "' AND tblMS_Master.SessionId='" + sId + "' And tblMS_Process.MId=tblMS_Master.Id And tblMS_Master.ItemId='" + itemId + "' Order By tblMS_Process.Id desc");
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet DS = new DataSet();
+            da.Fill(DS);
+
+            for (int p = 0; p < DS.Tables[0].Rows.Count; p++)
+            {
+                dr = dt.NewRow();
+
+                if (DS.Tables[0].Rows[p]["PId"] != DBNull.Value)
+                {
+
+                    string sql1 = fun.select("'['+Symbol+'] '+ProcessName As Pro,Id", "tblPln_Process_Master", "Symbol!='0' And Id='" + DS.Tables[0].Rows[p]["PId"].ToString() + "'");
+
+                    SqlCommand cmd1 = new SqlCommand(sql1, con);
+                    SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+                    DataSet DS1 = new DataSet();
+                    da1.Fill(DS1);
+                    if (DS1.Tables[0].Rows.Count > 0)
+                    {
+                        dr[0] = DS1.Tables[0].Rows[0]["Pro"].ToString();
+                    }
+
+                }
+                dr[1] = DS.Tables[0].Rows[p]["Id"].ToString();
+
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }
+            GridView6.DataSource = dt;
+            GridView6.DataBind();
+        }
+       catch (Exception ep)
+        {
+        }
+    }
+
+    protected void GridView3_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView3.PageIndex = e.NewPageIndex;
+        this.LoadDataSpare();
+    }
+    protected void GridView3_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+        if (e.CommandName == "del")
+        {
+            GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+            int id = Convert.ToInt32(((Label)row.FindControl("lblId")).Text);
+            sId = Session["username"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+            con.Open();
+            string sql = fun.delete("tblMS_Spares_Temp", "CompId='" + CompId + "' AND SessionId='" + sId + "' AND Id='" + id + "'");
+            SqlCommand cmd = new SqlCommand(sql, con);
+            cmd.ExecuteNonQuery();
+            con.Close();            
+            this.LoadDataSpare();            
+        }
+        }
+        catch (Exception ep)
+        {
+        }
+
+    }    
+
+    protected void GridView4_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView4.PageIndex = e.NewPageIndex;
+        this.LoadProcess();
+    }
+    protected void GridView4_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+        if (e.CommandName == "del")
+        {
+            GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+            int id = Convert.ToInt32(((Label)row.FindControl("lblId")).Text);
+            sId = Session["username"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+            con.Open();
+            string sql = fun.delete("tblMS_Process_Temp", "CompId='" + CompId + "' AND SessionId='" + sId + "' AND Id='" + id + "'");
+            SqlCommand cmd = new SqlCommand(sql, con);
+            cmd.ExecuteNonQuery();
+            con.Close();            
+            this.LoadProcess();          
+        }
+        }
+        catch (Exception ep)
+        {
+        }
+
+    }
+   
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/Machinery/Masters/Machinery_Edit.aspx?ModId=15&SubModId=67");
+    }
+
+    public void fillProcess()
+    {
+        try
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            string sql = fun.select("'['+Symbol+'] '+ProcessName As Pro,Id", "tblPln_Process_Master", "Symbol!='0'");
+            DataSet DS4 = new DataSet();
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter DA2 = new SqlDataAdapter(cmd);
+            DA2.Fill(DS4);
+            GridView1.DataSource = DS4;
+            GridView1.DataBind();
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    public void uncheckBox()
+    {
+        foreach (GridViewRow grv in GridView1.Rows)
+        {
+            ((CheckBox)grv.FindControl("chk")).Checked=false ; 
+        }
+    }
+
+    public void uncheckBoxSpare()
+    {
+        foreach (GridViewRow grv in GridView2.Rows)
+        {
+            ((CheckBox)grv.FindControl("chkSpare")).Checked = false;
+            ((TextBox)grv.FindControl("txtQty")).Text="";
+        }
+    }
+
+    public void Fillgridview(string sd, string A, string B, string s)
+    {
+        try
+        {
+            string sql = "";
+
+            string x = "";
+
+            if (sd != "Select Category")
+            {
+                string y = "";
+                if (A != "Select SubCategory")
+                {
+                    y = "  And tblDG_Item_Master.SCId='" + A + "'";
+                }
+                x = " AND  tblDG_Item_Master.CId='" + sd + "'";
+
+                string p = "";
+
+                txtSearchItemCode.Visible = true;
+
+                if (B != "Select")
+                {
+                    if (B == "tblDG_Item_Master.ItemCode")
+                    {
+                        txtSearchItemCode.Visible = true;
+                        p = " And tblDG_Item_Master.ItemCode Like '" + s + "%'";
+                    }
+
+                    if (B == "tblDG_Item_Master.ManfDesc")
+                    {
+                        txtSearchItemCode.Visible = true;
+                        p = " And tblDG_Item_Master.ManfDesc Like '%" + s + "%'";
+                    }
+                    
+                }
+                sql = fun.select("tblDG_Item_Master.Id,SUBSTRING(tblDG_Item_Master.ManfDesc,0,80)+'...' AS ManfDesc ,tblDG_Item_Master.StockQty, tblDG_Item_Master.ItemCode,tblDG_Item_Master.Location,tblDG_Item_Master.UOMBasic", " tblDG_Category_Master,tblDG_Item_Master", " tblDG_Item_Master.CId=tblDG_Category_Master.CId " + x + "" + y + "" + p + " AND tblDG_Item_Master.CompId='" + CompId + "'And tblDG_Item_Master.Absolute!='1' And tblDG_Item_Master.Id!='" + itemId + "' Order By tblDG_Item_Master.Id Desc");
+
+            }
+            else
+            {
+                sql = fun.select(" tblDG_Item_Master.Id,SUBSTRING(tblDG_Item_Master.ManfDesc,0,80)+'...' AS ManfDesc ,tblDG_Item_Master.StockQty, tblDG_Item_Master.ItemCode,tblDG_Item_Master.Location,tblDG_Item_Master.UOMBasic", "tblDG_Category_Master,tblDG_Item_Master", "tblDG_Item_Master.CId=tblDG_Category_Master.CId AND tblDG_Item_Master.CompId='" + CompId + "'And tblDG_Item_Master.Absolute!='1'And tblDG_Item_Master.Id!='" + itemId + "' Order By tblDG_Item_Master.Id Desc");
+
+
+            }
+
+            this.fillGrid(sql, GridView2);
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    public void fillGrid(string sql, GridView GridView2)
+    {
+        string connStr = fun.Connection();
+        DataSet DS3 = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        try
+        {
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter DA2 = new SqlDataAdapter(cmd);
+            DA2.Fill(DS3);
+
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add("Id", typeof(string));
+            dt.Columns.Add("ItemCode", typeof(string));
+            dt.Columns.Add("ManfDesc", typeof(string));           
+            dt.Columns.Add("UOMBasic", typeof(string));            
+            dt.Columns.Add("Location", typeof(string));
+            dt.Columns.Add("Qty", typeof(string));
+
+            DataRow dr;
+
+            for (int k = 0; k < DS3.Tables[0].Rows.Count; k++)
+            {
+
+                dr = dt.NewRow();
+                dr[0] = DS3.Tables[0].Rows[k]["Id"].ToString();
+                dr[1] = DS3.Tables[0].Rows[k]["ItemCode"].ToString();
+                dr[2] = DS3.Tables[0].Rows[k]["ManfDesc"].ToString();
+               
+                string sql10 = fun.select("Symbol ", "Unit_Master", "Id='" + DS3.Tables[0].Rows[k]["UOMBasic"].ToString() + "'");
+
+                SqlCommand cmd10 = new SqlCommand(sql10, con);
+                SqlDataAdapter DA10 = new SqlDataAdapter(cmd10);
+                DataSet DS10 = new DataSet();
+                DA10.Fill(DS10);
+                if (DS10.Tables[0].Rows.Count > 0)
+                {
+                    dr[3] = DS10.Tables[0].Rows[0]["Symbol"].ToString();
+                }
+               
+                int loc = 0;
+               
+
+                if (DS3.Tables[0].Rows[k]["Location"] != DBNull.Value && DS3.Tables[0].Rows[k]["Location"].ToString() != "")
+                {
+                    loc = Convert.ToInt32(DS3.Tables[0].Rows[k]["Location"]);
+                    string sql2 = fun.select("LocationLabel+'-'+LocationNo As Loc ", " tblDG_Location_Master ", " Id='" + loc + "'");
+
+                    SqlCommand cmd2 = new SqlCommand(sql2, con);
+                    SqlDataAdapter DA3 = new SqlDataAdapter(cmd2);
+                    DataSet DS4 = new DataSet();
+                    DA3.Fill(DS4);
+
+                    if (DS4.Tables[0].Rows.Count > 0)
+                    {
+                        if (DS4.Tables[0].Rows[0]["Loc"] != DBNull.Value && DS4.Tables[0].Rows[0]["Loc"].ToString() != "")
+                        {
+                            dr[4] = DS4.Tables[0].Rows[0]["Loc"].ToString();
+                        }
+                        else
+                        {
+                            dr[4] = "NA";
+                        }
+                    }
+                    else
+                    {
+                        dr[4] = "NA";
+                    }
+
+                    dr[5] = DS3.Tables[0].Rows[k]["StockQty"].ToString(); ;
+                }
+
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }
+
+            GridView2.DataSource = dt;
+            GridView2.DataBind();
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+    }   
+
+    protected void DrpCategory_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (DrpCategory.SelectedValue != "Select Category")
+            {
+                SqlCommand Cmd1 = new SqlCommand(fun.select(" CId,SCId,Symbol+' - '+SCName As SubCatName ", "tblDG_SubCategory_Master ", " CId=" + DrpCategory.SelectedValue + ""), con);
+                SqlDataAdapter DA1 = new SqlDataAdapter(Cmd1);
+                DataSet DS2 = new DataSet();
+                DA1.Fill(DS2, "tblDG_SubCategory_Master");
+                DrpSubCategory.DataSource = DS2.Tables["tblDG_SubCategory_Master"];
+                DrpSubCategory.DataTextField = "SubCatName";
+                DrpSubCategory.DataValueField = "SCId";
+                DrpSubCategory.DataBind();
+                DrpSubCategory.Items.Insert(0, "Select SubCategory");
+                string sd = DrpCategory.SelectedValue;
+                string b = DrpSubCategory.SelectedValue;
+                string c = DrpSearchCode.SelectedValue;
+                string d = txtSearchItemCode.Text;
+                this.Fillgridview(sd, b, c, d);
+                DrpSubCategory.SelectedIndex = 0;
+                DrpSearchCode.SelectedIndex = 0;
+                txtSearchItemCode.Text = "";
+            }
+        }
+
+        catch (Exception ch)
+        {
+        }
+        finally
+        {
+            con.Close();
+            DrpSearchCode.SelectedValue = "Select";
+        }
+
+
+    }
+    protected void DrpSubCategory_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            string sd = DrpCategory.SelectedValue;
+            string b = DrpSubCategory.SelectedValue;
+            string c = DrpSearchCode.SelectedValue;
+            string d = txtSearchItemCode.Text;
+            this.Fillgridview(sd, b, c, d);
+        }
+        catch (Exception ch)
+        {
+        }
+        finally
+        {
+            DrpSearchCode.SelectedValue = "Select";
+        }
+    }
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            string sd = DrpCategory.SelectedValue;
+            string b = DrpSubCategory.SelectedValue;
+            string c = DrpSearchCode.SelectedValue;
+            string d = txtSearchItemCode.Text;
+            this.Fillgridview(sd, b, c, d);
+
+        }
+        catch (Exception ch)
+        {
+        }
+
+    }
+    protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            GridView2.PageIndex = e.NewPageIndex;
+            string sd = DrpCategory.SelectedValue;
+            string b = DrpSubCategory.SelectedValue;
+            string c = DrpSearchCode.SelectedValue;
+            string d = txtSearchItemCode.Text;
+            this.Fillgridview(sd, b, c, d);
+
+        }
+        catch (Exception ch)
+        {
+        }
+    }
+
+    protected void btnSpareAdd_Click(object sender, EventArgs e)
+    {
+        int k = 0;
+        this.ValidateTextBox(); 
+        foreach (GridViewRow grv in GridView2.Rows)
+        {
+            if (((CheckBox)grv.FindControl("chkSpare")).Checked == true && ((TextBox)grv.FindControl("txtQty")).Text != "" && fun.NumberValidation(((TextBox)grv.FindControl("txtQty")).Text))
+            {
+                int ItemId = Convert.ToInt32(((Label)grv.FindControl("lblId")).Text);
+                double SpareQty = Convert.ToDouble(((TextBox)grv.FindControl("txtQty")).Text);
+
+                string StrSpare = fun.insert("tblMS_Spares_Temp", "CompId,SessionId,ItemId,Qty", "'" + CompId + "','" + sId + "','" + ItemId + "','" + SpareQty + "'");
+                SqlCommand cmd2 = new SqlCommand(StrSpare, con);
+                con.Open();
+                cmd2.ExecuteNonQuery();
+                con.Close();
+                k++;
+            }           
+
+        }
+
+        if (k > 0)
+        {
+            this.uncheckBoxSpare();
+            this.LoadDataSpare();
+            lblsparemsg.Visible = false;
+        }      
+        
+
+    }
+
+    protected void btnProcessAdd_Click(object sender, EventArgs e)
+    {
+        int k = 0;
+        foreach (GridViewRow grv in GridView1.Rows)
+        {
+            if (((CheckBox)grv.FindControl("chk")).Checked == true)
+            {
+                int PId = Convert.ToInt32(((Label)grv.FindControl("lblProId")).Text);
+                string Process = fun.insert("tblMS_Process_Temp", "CompId,SessionId,PId", "'" + CompId + "','" + sId + "','" + PId + "'");
+                SqlCommand cmd2 = new SqlCommand(Process, con);
+                con.Open();
+                cmd2.ExecuteNonQuery();
+                con.Close(); 
+                k++;
+            }           
+        } 
+       if(k>0)
+       {
+        this.uncheckBox();
+        this.LoadProcess();
+        lblprocessmsg.Visible = false;
+       }
+        
+    }
+   
+
+    public void ValidateTextBox()
+    {
+        foreach (GridViewRow grv in GridView2.Rows)
+        {
+            if (((CheckBox)grv.FindControl("chkSpare")).Checked == true && ((TextBox)grv.FindControl("txtQty")).Text == "")
+            {
+                ((RequiredFieldValidator)grv.FindControl("ReqQty")).Visible = true;
+            }
+            
+        }
+    }
+
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] GetCompletionList(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+
+        int CompId1 = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        con.Open();
+        string cmdStr = fun.select("EmpId,EmployeeName", "tblHR_OfficeStaff", "CompId='" + CompId1 + "'");
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds, "tblHR_OfficeStaff");
+        con.Close();
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                //if (main.Length == 10)
+                //    break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }
+
+    protected void btnProceed_Click(object sender, EventArgs e)
+    {
+       try
+        {
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            con.Open();
+            string CDate = fun.getCurrDate();
+            string CTime = fun.getCurrTime();
+            int k = 0;
+            string incharge = fun.getCode(txtIncharge.Text);
+            string supplier = fun.getCode(txtSupplierName.Text);
+
+            //File File Data updating 
+            if (FileUpload1.Visible == true)
+            {
+                string strcv = "";
+                HttpPostedFile mycv = FileUpload1.PostedFile;
+                Byte[] mycvdata = null;
+
+                if (FileUpload1.PostedFile != null)
+                {
+                    Stream fscv = FileUpload1.PostedFile.InputStream;
+                    BinaryReader brcv = new BinaryReader(fscv);
+                    mycvdata = brcv.ReadBytes((Int32)fscv.Length);
+                    strcv = Path.GetFileName(mycv.FileName);
+
+                    string StrMSUpdate = fun.update("tblMS_Master", "FileName='" + strcv + "',FileSize='" + mycvdata.Length + "',ContentType='" + mycv.ContentType + "',FileData=@Data", "CompId='" + CompId + "' AND FinYearId='" + FYId + "' AND ItemId='" + itemId + "' AND Id='" + MasterId + "' ");
+
+                    SqlCommand cmdMSUpdate = new SqlCommand(StrMSUpdate, con);
+                    cmdMSUpdate.Parameters.AddWithValue("@Data", mycvdata);
+                    cmdMSUpdate.ExecuteNonQuery();
+                }
+
+            }           
+
+
+            // tblMS_Spare_Temp
+            string sqlSpare = fun.select("*", "tblMS_Spares_Temp", "CompId='" + CompId + "' AND SessionId='" + sId + "'");
+            SqlCommand cmdSpareTemp = new SqlCommand(sqlSpare, con);
+            SqlDataAdapter daSpare = new SqlDataAdapter(cmdSpareTemp);
+            DataSet DSSpare = new DataSet();
+            daSpare.Fill(DSSpare);
+
+            // tblMS_Process_Temp
+            string sql = fun.select("*", "tblMS_Process_Temp", "CompId='" + CompId + "' AND SessionId='" + sId + "'");
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet DS = new DataSet();
+            da.Fill(DS);
+
+            // tblMS_Spare
+
+            string sqlSpareMaster = fun.select("tblMS_Spares.Id,tblMS_Spares.MId,tblMS_Spares.ItemId,tblMS_Spares.Qty", "tblMS_Spares,tblMS_Master", " tblMS_Spares.MId=tblMS_Master.Id And tblMS_Master.ItemId='" + itemId + "'");
+           
+            SqlCommand cmdSpareMaster = new SqlCommand(sqlSpareMaster, con);
+            SqlDataAdapter daSpareMaster = new SqlDataAdapter(cmdSpareMaster);
+            DataSet DSSpareMaster = new DataSet();
+            daSpareMaster.Fill(DSSpareMaster);
+
+            // tblMS_Process
+
+            string sqlProcessMaster = fun.select("tblMS_Process.PId,tblMS_Process.Id", "tblMS_Process,tblMS_Master", "tblMS_Master.CompId='" + CompId + "' AND tblMS_Master.SessionId='" + sId + "' And tblMS_Process.MId=tblMS_Master.Id And tblMS_Master.ItemId='" + itemId + "' Order By tblMS_Process.Id desc");
+             SqlCommand cmdProcessMaster = new SqlCommand(sqlProcessMaster, con);
+            SqlDataAdapter daProcessMaster = new SqlDataAdapter(cmdProcessMaster);
+            DataSet DSProcessMaster = new DataSet();
+            daProcessMaster.Fill(DSProcessMaster);
+            
+            if ((DS.Tables[0].Rows.Count > 0 || DSProcessMaster.Tables[0].Rows.Count > 0) && (DSSpare.Tables[0].Rows.Count > 0 || DSSpareMaster.Tables[0].Rows.Count > 0))
+            {
+
+                if (RadiobtnInsurance.SelectedValue == "1")
+                {
+
+                    if (txtModel.Text != "" && txtPurchaseDate.Text != "" && fun.DateValidation(txtPurchaseDate.Text) == true && txtLifeDate.Text != "" && fun.DateValidation(txtLifeDate.Text) == true && txtPutToUse.Text != "" && fun.DateValidation(txtPutToUse.Text) == true && txtWarrantyExpireson.Text != "" && fun.DateValidation(txtWarrantyExpireson.Text) == true && txtReceivedDate.Text != "" && fun.DateValidation(txtReceivedDate.Text) == true && txtInsuranceExpiresOn.Text != "" && fun.DateValidation(txtInsuranceExpiresOn.Text) == true && txtCost.Text != "" && txtIncharge.Text != "" && txtMake.Text != "" && txtCapacity.Text != "" && txtSupplierName.Text != "" && txtLocation.Text != "" && txtPreMaintInDays.Text != "")
+                    {
+
+                        string StrUpdate = fun.update("tblMS_Master", "SysDate='" + CDate + "', SysTime='" + CTime + "', SessionId='" + sId + "', Make='" + txtMake.Text + "' , Model='" + txtModel.Text + "' , Capacity='" + txtCapacity.Text + "' , PurchaseDate='" + fun.FromDate(txtPurchaseDate.Text) + "', SupplierName='" + supplier + "' , Cost='" + Convert.ToDouble(txtCost.Text) + "', WarrantyExpiryDate='" + fun.FromDate(txtWarrantyExpireson.Text) + "', LifeDate='" + fun.FromDate(txtLifeDate.Text) + "', ReceivedDate='" + fun.FromDate(txtReceivedDate.Text) + "', Insurance='" + RadiobtnInsurance.SelectedValue + "', InsuranceExpiryDate='" + fun.FromDate(txtInsuranceExpiresOn.Text) + "' , Puttouse='" + fun.FromDate(txtPutToUse.Text) + "', Incharge='" + incharge + "', Location='" + txtLocation.Text + "', PMDays='" + txtPreMaintInDays.Text + "' ", " ItemId='"+itemId +"' AND Id='"+MasterId+"' AND CompId='"+CompId+"' AND  FinYearId='"+FYId+"' ");
+
+                        SqlCommand cmdUpdate = new SqlCommand(StrUpdate, con);                      
+                        cmdUpdate.ExecuteNonQuery();                        
+
+                        for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
+                        {
+                            string StrProcess = fun.insert("tblMS_Process", "MId,PId", "'" + MasterId + "','" + Convert.ToInt32(DS.Tables[0].Rows[i]["PId"]) + "'");
+                            SqlCommand cmdProcess = new SqlCommand(StrProcess, con);
+                            cmdProcess.ExecuteNonQuery();
+                        }                       
+
+
+                        for (int a = 0; a < DSSpare.Tables[0].Rows.Count; a++)
+                        {
+                            string StrSpare = fun.insert("tblMS_Spares", "MId,ItemId,Qty", "'" + MasterId + "','" + Convert.ToInt32(DSSpare.Tables[0].Rows[a]["ItemId"]) + "','" + Convert.ToDouble(DSSpare.Tables[0].Rows[a]["Qty"]) + "'");
+                            SqlCommand cmdSpare = new SqlCommand(StrSpare, con);
+                            cmdSpare.ExecuteNonQuery();
+                        }
+
+                        // to delete tblMS_Process_Temp
+                        string StrDelProcess_Temp = " delete from  tblMS_Process_Temp ";
+                        SqlCommand cmdProcess_Temp = new SqlCommand(StrDelProcess_Temp, con);
+                        cmdProcess_Temp.ExecuteNonQuery();
+                        // to delete tblMS_Spares_Temp
+                        string StrDelSpare_Temp = "delete from tblMS_Spares_Temp";
+                        SqlCommand cmdDelSpare_Temp = new SqlCommand(StrDelSpare_Temp, con);
+                        cmdDelSpare_Temp.ExecuteNonQuery();
+
+                        k++;
+                    }
+                }
+
+                else
+                {
+                    if (txtModel.Text != "" && txtPurchaseDate.Text != "" && fun.DateValidation(txtPurchaseDate.Text) == true && txtLifeDate.Text != "" && fun.DateValidation(txtLifeDate.Text) == true && txtPutToUse.Text != "" && fun.DateValidation(txtPutToUse.Text) == true && txtWarrantyExpireson.Text != "" && fun.DateValidation(txtWarrantyExpireson.Text) == true && txtReceivedDate.Text != "" && fun.DateValidation(txtReceivedDate.Text) == true &&  fun.DateValidation(txtInsuranceExpiresOn.Text) == true && txtCost.Text != "" && txtIncharge.Text != "" && txtMake.Text != "" && txtCapacity.Text != "" && txtSupplierName.Text != "" && txtLocation.Text != "" && txtPreMaintInDays.Text != "")
+                    {
+                        string InsuranceExpiresOn = "";
+                        string StrUpdate = fun.update("tblMS_Master", "SysDate='" + CDate + "', SysTime='" + CTime + "', SessionId='" + sId + "', Make='" + txtMake.Text + "' , Model='" + txtModel.Text + "' , Capacity='" + txtCapacity.Text + "' , PurchaseDate='" + fun.FromDate(txtPurchaseDate.Text) + "', SupplierName='" + supplier + "' , Cost='" + Convert.ToDouble(txtCost.Text) + "', WarrantyExpiryDate='" + fun.FromDate(txtWarrantyExpireson.Text) + "', LifeDate='" + fun.FromDate(txtLifeDate.Text) + "', ReceivedDate='" + fun.FromDate(txtReceivedDate.Text) + "', Insurance='" + RadiobtnInsurance.SelectedValue + "', InsuranceExpiryDate='" + InsuranceExpiresOn + "' , Puttouse='" + fun.FromDate(txtPutToUse.Text) + "', Incharge='" + incharge + "', Location='" + txtLocation.Text + "', PMDays='" + txtPreMaintInDays.Text + "' ", " ItemId='" + itemId + "' AND Id='" + MasterId + "' AND CompId='" + CompId + "' AND  FinYearId='" + FYId + "' ");
+
+                        SqlCommand cmdUpdate = new SqlCommand(StrUpdate, con);
+                       
+                        cmdUpdate.ExecuteNonQuery();                       
+
+                        for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
+                        {
+                            string StrProcess = fun.insert("tblMS_Process", "MId,PId", "'" + MasterId + "','" + Convert.ToInt32(DS.Tables[0].Rows[i]["PId"]) + "'");
+                            SqlCommand cmdProcess = new SqlCommand(StrProcess, con);
+                            cmdProcess.ExecuteNonQuery();
+                        }
+
+                        for (int a = 0; a < DSSpare.Tables[0].Rows.Count; a++)
+                        {
+                            string StrSpare = fun.insert("tblMS_Spares", "MId,ItemId,Qty", "'" + MasterId + "','" + Convert.ToInt32(DSSpare.Tables[0].Rows[a]["ItemId"]) + "','" + Convert.ToDouble(DSSpare.Tables[0].Rows[a]["Qty"]) + "'");
+                            SqlCommand cmdSpare = new SqlCommand(StrSpare, con);
+                            cmdSpare.ExecuteNonQuery();
+
+                        }
+
+                        // to delete tblMS_Process_Temp
+                        string StrDelProcess_Temp = " delete from  tblMS_Process_Temp ";
+                        SqlCommand cmdProcess_Temp = new SqlCommand(StrDelProcess_Temp, con);
+                        cmdProcess_Temp.ExecuteNonQuery();
+
+                        // to delete tblMS_Spares_Temp
+                        string StrDelSpare_Temp = "delete from tblMS_Spares_Temp";
+                        SqlCommand cmdDelSpare_Temp = new SqlCommand(StrDelSpare_Temp, con);
+                        cmdDelSpare_Temp.ExecuteNonQuery();
+                        k++;
+                    }
+                }
+
+            }
+
+            else
+            {
+                string mystring = string.Empty;
+                mystring = "Functionality and spare details are not found.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+            }
+
+            if (k > 0)
+            {
+                Response.Redirect("~/Module/Machinery/Masters/Machinery_Edit.aspx?ModId=15&SubModId=67");
+            }
+        }
+        catch(Exception ex)
+        {
+        }
+    }
+    protected void RadiobtnInsurance_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        this.EnableDisableInsurance();
+    }
+    public void EnableDisableInsurance()
+    {
+        if (RadiobtnInsurance.SelectedValue == "1")
+        {
+            ReqInsuranceExpire.Visible = true;
+            lblInsuranceExpireson.Visible = true;
+            lblcolon.Visible = true;
+            txtInsuranceExpiresOn.Visible = true;
+
+
+        }
+        else
+        {
+            ReqInsuranceExpire.Visible = false;
+            lblInsuranceExpireson.Visible = false;
+            lblcolon.Visible = false;
+            txtInsuranceExpiresOn.Visible = false;
+        }
+    }
+    
+    protected void GridView5_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView5.PageIndex = e.NewPageIndex;
+        this.LoadDataSpareMaster();
+    }
+    protected void GridView5_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            if (e.CommandName == "del")
+            {
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                int id = Convert.ToInt32(((Label)row.FindControl("lblId")).Text);
+                sId = Session["username"].ToString();
+                CompId = Convert.ToInt32(Session["compid"]);
+                con.Open();
+
+                   string sqldel = fun.select("tblMS_Spares.Id,tblMS_Spares.MId,tblMS_Spares.ItemId,tblMS_Spares.Qty", "tblMS_Spares,tblMS_Master", " tblMS_Spares.MId=tblMS_Master.Id And tblMS_Master.ItemId='" + itemId + "' order By tblMS_Spares.Id Desc");
+                 SqlCommand cmddel = new SqlCommand(sqldel, con);
+                 SqlDataAdapter dadel = new SqlDataAdapter(cmddel);
+                 DataSet DSdel = new DataSet();
+                 dadel.Fill(DSdel);                
+                 if (DSdel.Tables[0].Rows.Count > 1)
+                 {
+                     string sql = fun.delete("tblMS_Spares", "Id='" + id + "'");
+                     SqlCommand cmd = new SqlCommand(sql, con);
+                     cmd.ExecuteNonQuery();
+                     con.Close();
+                     this.LoadDataSpareMaster();
+                 }
+                 else
+                 {
+                     lblsparemsg.Visible = true;
+                 }
+            }
+        }
+        catch (Exception ep)
+        {
+        }
+    }
+    protected void GridView6_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView6.PageIndex = e.NewPageIndex;
+        this.LoadProcessMaster();
+        
+    }    
+    protected void GridView6_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+         try
+         {
+             if (e.CommandName == "del")
+             {
+
+                 GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                 int id = Convert.ToInt32(((Label)row.FindControl("lblId")).Text);
+                 sId = Session["username"].ToString();
+                 CompId = Convert.ToInt32(Session["compid"]);
+                 con.Open();
+                 string sqldel = fun.select("tblMS_Process.PId,tblMS_Process.Id", "tblMS_Process,tblMS_Master", "tblMS_Master.CompId='" + CompId + "' AND tblMS_Master.SessionId='" + sId + "' And tblMS_Process.MId=tblMS_Master.Id And tblMS_Master.ItemId='" + itemId + "' Order By tblMS_Process.Id desc");
+               
+                 SqlCommand cmddel = new SqlCommand(sqldel, con);
+                 SqlDataAdapter dadel = new SqlDataAdapter(cmddel);
+                 DataSet DSdel = new DataSet();
+                 dadel.Fill(DSdel);                
+                 if (DSdel.Tables[0].Rows.Count>1)
+                 {
+                 string sql = fun.delete("tblMS_Process", "Id='" + id + "'");
+                 SqlCommand cmd = new SqlCommand(sql, con);
+                 cmd.ExecuteNonQuery();
+                 con.Close();
+                 this.LoadProcessMaster();
+                 }
+                 else 
+                 {
+                     lblprocessmsg.Visible = true;
+                 }
+             }
+         }
+         catch (Exception ep)
+         {
+         }
+    }
+     
+    
+    
+    protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
+    {
+        try
+        {
+            string connStr2 = fun.Connection();
+            SqlConnection con2 = new SqlConnection(connStr2);
+            con2.Open();
+            string sql = fun.update("tblMS_Master", "FileName=NULL,FileSize=NULL,ContentType=NULL,FileData=NULL", "CompId='" + CompId + "' AND FinYearId='" + FYId + "' AND ItemId='" + itemId + "'");
+            SqlCommand cmd = new SqlCommand(sql, con2);
+            cmd.ExecuteNonQuery();
+            con2.Close();           
+            Page.Response.Redirect(Page.Request.Url.ToString(), true);
+        }
+        catch (Exception es)
+        {
+
+        }
+    }
+}

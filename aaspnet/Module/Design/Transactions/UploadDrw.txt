@@ -1,0 +1,209 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Transactions/UploadDrw.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="UploadDrw.aspx.cs" Inherits="Module_Design_Transactions_UploadDrw" Title="ERP" Theme="Default" %>
+<%@ Register TagPrefix="telerik" Namespace="Telerik.Web.UI" Assembly="Telerik.Web.UI" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style2
+        {
+            width: 100%;
+        }
+        .style3
+        {
+            height: 44px;
+        }
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table class="style2">
+        <tr>
+            <td class="style3">
+                </td>
+            <td class="style3">
+                </td>
+            <td class="style3">
+                </td>
+            <td class="style3">
+                </td>
+        </tr>
+        <tr>
+            <td>
+                &nbsp;</td>
+            <td colspan="2" rowspan="2">
+               
+                <table align="center" cellpadding="0" cellspacing="0" 
+                    style="width: 54%; height: 60px" class="box3">
+            <tr>
+                <td style="background:url(../../../images/hdbg.JPG)" class="fontcsswhite" height="21" ><strong>&nbsp;TPL Design - Upload Drw
+                          </strong>
+                   </td>
+            </tr>
+            <tr>
+                <td>
+                    &nbsp;
+                    <asp:FileUpload ID="FileUpload1" runat="server" CssClass="box3" size="39" />
+                &nbsp;
+                    <asp:Button ID="bynUpload" runat="server" CssClass="redbox"   OnClientClick=" return confirmationUpload()"  
+                        onclick="bynUpload_Click" Text="Upload" />
+&nbsp;<asp:Button ID="btnCancel" runat="server" CssClass="redbox" 
+                        onclick="btnCancel_Click" Text="Cancel" />
+                </td>
+            </tr>
+            
+        </table> 
+                
+                </td>
+            <td>
+                &nbsp;</td>
+        </tr>
+        <tr>
+            <td>
+                &nbsp;</td>
+            <td>
+                &nbsp;</td>
+        </tr>
+        <tr>
+            <td>
+                &nbsp;</td>
+            <td>
+                &nbsp;</td>
+            <td>
+                &nbsp;</td>
+            <td>
+                &nbsp;</td>
+        </tr>
+    </table>
+    
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+ 
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Transactions/UploadDrw.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.IO;
+using System.Data.SqlClient;
+using System.Security.Cryptography;
+public partial class Module_Design_Transactions_UploadDrw : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    SqlConnection con;
+    string wono = "";
+    string id = "";
+    string sId = "";
+    int CompId = 0;
+    int FinYearId = 0;
+    string CDate ="";
+    string CTime = "";
+    string img = "";
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            //wono =(Request.QueryString["WONo"].ToString());
+            //id =(Request.QueryString["Id"].ToString());
+            //sId = Session["username"].ToString();
+            //CompId = Convert.ToInt32(Session["compid"]);
+            //FinYearId = Convert.ToInt32(Session["finyear"]);
+            //CDate = fun.getCurrDate();
+            //CTime = fun.getCurrTime();
+
+            wono = Request.QueryString["WONo"].ToString();
+            img = Request.QueryString["img"].ToString();
+            id = Request.QueryString["Id"].ToString();
+            sId = Session["username"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            CDate = fun.getCurrDate();
+            CTime = fun.getCurrTime();
+        }
+        catch (Exception ess)
+        {
+
+        }
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("TPL_Design_WO_TreeView_Edit.aspx?WONo=" + wono + "&PgUrl=TPL_Design_WO_TreeView.aspx&ModId=3&SubModId=23&id=" + id + "");
+    }
+
+    protected void bynUpload_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            // Upload Drw/Image/File
+            string strfilename = "";
+            HttpPostedFile myfile = FileUpload1.PostedFile;
+            Byte[] mydata = null;
+
+            if (FileUpload1.PostedFile != null)
+            {
+                Stream fs = FileUpload1.PostedFile.InputStream;
+                BinaryReader br = new BinaryReader(fs);
+                mydata = br.ReadBytes((Int32)fs.Length);
+                strfilename = Path.GetFileName(myfile.FileName);
+            }
+
+            if (img == "0")
+            {
+                string cmdstrItemMaster = fun.update("tblDG_Item_Master", "SysDate='" + CDate.ToString() + "',SysTime='" + CTime.ToString() + "',SessionId='" + sId.ToString() + "',FileName='" + strfilename + "',FileSize='" + mydata.Length + "',ContentType='" + myfile.ContentType + "',FileData=@Data", "CompId='" + CompId + "' AND Id='" + id + "'");
+                string connStr = fun.Connection();
+                con = new SqlConnection(connStr);
+                con.Open();
+                SqlCommand cmd = new SqlCommand(cmdstrItemMaster, con);
+                cmd.Parameters.AddWithValue("@Data", mydata);
+                fun.InsertUpdateData(cmd);
+            }
+            else
+            {
+
+                string cmdstrItemMaster = fun.update("tblDG_Item_Master", "SysDate='" + CDate.ToString() + "',SysTime='" + CTime.ToString() + "',SessionId='" + sId.ToString() + "',AttName='" + strfilename + "',AttSize='" + mydata.Length + "',AttContentType='" + myfile.ContentType + "',AttData=@Data", "CompId='" + CompId + "' AND Id='" + id + "'");
+                string connStr = fun.Connection();
+                con = new SqlConnection(connStr);
+                con.Open();
+                SqlCommand cmd = new SqlCommand(cmdstrItemMaster, con);
+                cmd.Parameters.AddWithValue("@Data", mydata);
+                fun.InsertUpdateData(cmd);
+            }
+        }
+
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+    }
+}

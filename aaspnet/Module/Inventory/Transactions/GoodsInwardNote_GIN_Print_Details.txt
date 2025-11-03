@@ -1,0 +1,454 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Transactions/GoodsInwardNote_GIN_Print_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#"   AutoEventWireup="true" MasterPageFile="~/MasterPage.master"  CodeFile="GoodsInwardNote_GIN_Print_Details.aspx.cs" Inherits="Module_Inventory_Transactions_GoodsInwardNote_GIN_Print_Details" Theme ="Default" %>
+
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+      <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    
+    <style type="text/css">
+        .style2
+        {
+            height: 34px;
+        }
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server" >
+<table width ="100%" cellpadding="0" cellspacing="0" >
+        <tr>
+       <td   align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;Goods Inward Note [GIN] - Print</b></td>
+           </tr>
+        <tr>
+        <td>
+     <asp:Panel ID="Panel1"  runat="server" Height="445px"  ScrollBars="Auto" Width="100%" HorizontalAlign="Center" >
+        <CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" 
+                    AutoDataBind="true" EnableDatabaseLogonPrompt="False" HasCrystalLogo="False"
+                    EnableParameterPrompt="False" ReportSourceID="CrystalReportSource1" 
+                    DisplayGroupTree="False"  BestFitPage="True" 
+            ReuseParameterValuesOnRefresh="True" />
+        <CR:CrystalReportSource ID="CrystalReportSource1" runat="server">
+            <Report FileName="~\Module\Inventory\Transactions\Reports\GIN_Print.rpt">
+            </Report>
+        </CR:CrystalReportSource>
+    </asp:Panel>
+    </td>
+      </tr>
+    </table>
+    <asp:Panel ID="Panel2" HorizontalAlign="Center" runat="server">
+        <asp:Button ID="btncancel" runat="server" CssClass="redbox" Text="Cancel" 
+            onclick="btncancel_Click" />
+    </asp:Panel>
+    </asp:Content>
+
+    
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Transactions/GoodsInwardNote_GIN_Print_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using CrystalDecisions.CrystalReports.Engine;
+using System.Data.SqlClient;
+
+public partial class Module_Inventory_Transactions_GoodsInwardNote_GIN_Print_Details : System.Web.UI.Page
+{
+    string ChNo = "";
+    string GINNo = "";
+    string ChDt = "";
+    string fyid = "";
+    int CompId = 0;
+    string Sid = "";
+    string supId = "";
+    string GINId = "";
+    string SessionFyId = ""; 
+    clsFunctions fun = new clsFunctions();
+    string Key = string.Empty;
+    ReportDocument cryRpt = new ReportDocument();
+    protected void Page_Init(object sender, EventArgs e)
+    {
+
+        Key = Request.QueryString["Key"].ToString();
+        if (!IsPostBack)
+        {
+            string connStr = fun.Connection();
+            DataSet ds = new DataSet();
+            SqlConnection con = new SqlConnection(connStr);
+            con.Open();
+           try
+            {
+                GINId = Request.QueryString["Id"].ToString();
+                ChNo = Request.QueryString["ChNo"].ToString();
+                fyid = Request.QueryString["fyid"].ToString();
+                SessionFyId = Session["finyear"].ToString();
+                CompId = Convert.ToInt32(Session["compid"]);
+                Sid = Session["username"].ToString();
+                GINNo = Request.QueryString["GINo"].ToString();
+                ChDt = fun.FromDateDMY(Request.QueryString["ChDt"].ToString());
+                string Strid = fun.select("FinYearId", "tblFinancial_master", " FinYear='" + fyid + "'");
+                SqlCommand cmdid = new SqlCommand(Strid, con);
+                SqlDataAdapter daid = new SqlDataAdapter(cmdid);
+                DataSet DSid = new DataSet();
+                daid.Fill(DSid, "tblFinancial_master");
+
+
+                string StrSql = fun.select("tblInv_Inward_Master.FinYearId,tblInv_Inward_Master.CompId,tblInv_Inward_Master.GateEntryNo,tblInv_Inward_Master.GDate,tblInv_Inward_Master.GTime,tblInv_Inward_Master.ModeofTransport,tblInv_Inward_Master.VehicleNo,tblInv_Inward_Master.PONo,tblInv_Inward_Details.Id,tblInv_Inward_Master.FinYearId,tblInv_Inward_Master.CompId,tblInv_Inward_Details.Qty,tblInv_Inward_Details.ReceivedQty as sum_ReceivedQty,tblInv_Inward_Details.POId,tblInv_Inward_Details.ACategoyId,tblInv_Inward_Details.ASubCategoyId", " tblInv_Inward_Details,tblInv_Inward_Master", "tblInv_Inward_Master.GINNo=tblInv_Inward_Details.GINNo AND tblInv_Inward_Master.GINNo='" + GINNo + "' AND tblInv_Inward_Master.CompId='" + CompId + "' AND tblInv_Inward_Master.FinYearId<='" + SessionFyId + "' AND tblInv_Inward_Details.GINId='" + GINId + "'  AND tblInv_Inward_Master.Id=tblInv_Inward_Details.GINId");
+
+                SqlCommand cmdsupId = new SqlCommand(StrSql, con);
+                SqlDataAdapter dasupId = new SqlDataAdapter(cmdsupId);
+                DataSet DSSql = new DataSet();
+                DataTable dt = new DataTable();
+                dasupId.Fill(DSSql);
+                dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Description", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("UOM", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+                dt.Columns.Add(new System.Data.DataColumn("poqty", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("RecedQty", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("ChallanQty", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));
+                dt.Columns.Add(new System.Data.DataColumn("GateEntryNo", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("GDate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("GTime", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("ModeofTransport", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("VehicleNo", typeof(string)));
+               // dt.Columns.Add(new System.Data.DataColumn("AssetNo", typeof(string)));
+                DataSet Gin = new DataSet();
+                DataRow dr;
+                string ItemCode = "";
+                string UOM = "";
+                string Description = "";
+                double poqty = 0;
+                double RecedQty = 0;
+                int ahid = 0;
+                 string WONO = string.Empty;
+                 string Dept=string.Empty;
+                for (int i = 0; i < DSSql.Tables[0].Rows.Count; i++)
+                {
+                    dr = dt.NewRow();
+                    // For PRNO 
+
+                    string StrSql2 = fun.select("tblMM_PO_Details.Id,tblMM_PO_Details.PONo,tblMM_PO_Details.PRNo,tblMM_PO_Details.Qty,tblMM_PO_Details.PRId,tblMM_PO_Details.SPRNo,tblMM_PO_Details.SPRId,tblMM_PO_Details.Qty,tblMM_PO_Master.PRSPRFlag,tblMM_PO_Master.FinYearId,tblMM_PO_Master.SupplierId", "tblMM_PO_Details,tblMM_PO_Master", "tblMM_PO_Master.PONo='" + DSSql.Tables[0].Rows[i]["PONo"].ToString() + "' AND tblMM_PO_Master.PONo=tblMM_PO_Details.PONo AND tblMM_PO_Master.FinYearId<='" + DSSql.Tables[0].Rows[i]["FinYearId"].ToString() + "' AND tblMM_PO_Master.CompId='" + DSSql.Tables[0].Rows[i]["CompId"].ToString() + "' AND tblMM_PO_Details.Id='" + DSSql.Tables[0].Rows[i]["POId"].ToString() + "'  AND tblMM_PO_Details.MId=tblMM_PO_Master.Id");
+
+                    SqlCommand cmdsupId2 = new SqlCommand(StrSql2, con);
+                    SqlDataAdapter dasupId2 = new SqlDataAdapter(cmdsupId2);
+                    DataSet DSSql2 = new DataSet();
+                    dasupId2.Fill(DSSql2);
+                    if (DSSql2.Tables[0].Rows.Count > 0)
+                    {
+                        supId = DSSql2.Tables[0].Rows[0]["SupplierId"].ToString();
+                        if (DSSql2.Tables[0].Rows[0]["PRSPRFlag"].ToString() == "0")
+                        {
+                            string StrFlag = fun.select("tblMM_PR_Details.ItemId,tblMM_PR_Master.WONo,tblMM_PR_Details.AHId", "tblMM_PR_Details,tblMM_PR_Master", "tblMM_PR_Master.PRNo='" + DSSql2.Tables[0].Rows[0]["PRNo"].ToString() + "' AND tblMM_PR_Master.Id=tblMM_PR_Details.MId  AND tblMM_PR_Master.PRNo=tblMM_PR_Details.PRNo AND tblMM_PR_Details.Id='" + DSSql2.Tables[0].Rows[0]["PRId"].ToString() + "' And tblMM_PR_Master.CompId='" + CompId + "'");
+                            SqlCommand cmdFlag = new SqlCommand(StrFlag, con);
+                            SqlDataAdapter daFlag = new SqlDataAdapter(cmdFlag);
+                            DataSet DSFlag = new DataSet();
+                            daFlag.Fill(DSFlag);
+                            if (DSFlag.Tables[0].Rows.Count > 0)
+                            {
+
+                                WONO = DSFlag.Tables[0].Rows[0]["WONo"].ToString();
+                                string StrIcode = fun.select("ItemCode,ManfDesc,UOMBasic", "tblDG_Item_Master", " CompId='" + CompId + "' AND Id='" + DSFlag.Tables[0].Rows[0]["ItemId"].ToString() + "'");
+                                SqlCommand cmdIcode = new SqlCommand(StrIcode, con);
+                                SqlDataAdapter daIcode = new SqlDataAdapter(cmdIcode);
+                                DataSet DSIcode = new DataSet();
+                                daIcode.Fill(DSIcode);
+                                // For ItemCode
+                                if (DSIcode.Tables[0].Rows.Count > 0)
+                                {
+                                    ItemCode = fun.GetItemCode_PartNo(CompId, Convert.ToInt32(DSFlag.Tables[0].Rows[0]["ItemId"].ToString()));
+
+                                    // For Manf. Desc
+                                    Description = DSIcode.Tables[0].Rows[0]["ManfDesc"].ToString();
+                                    // for UOM Purchase  from Unit Master table
+                                    string sqlPurch = fun.select("Symbol", "Unit_Master", "Id='" + DSIcode.Tables[0].Rows[0]["UOMBasic"].ToString() + "'");
+                                    SqlCommand cmdPurch = new SqlCommand(sqlPurch, con);
+                                    SqlDataAdapter daPurch = new SqlDataAdapter(cmdPurch);
+                                    DataSet DSPurch = new DataSet();
+                                    daPurch.Fill(DSPurch);
+                                    if (DSPurch.Tables[0].Rows.Count > 0)
+                                    {
+                                        UOM = DSPurch.Tables[0].Rows[0][0].ToString();
+                                    }
+                                    ahid = Convert.ToInt32(DSFlag.Tables[0].Rows[0]["AHId"]);
+                                }
+                            }
+                        }
+                        else if (DSSql2.Tables[0].Rows[0]["PRSPRFlag"].ToString() == "1")
+                        {
+                            string StrFlag1 = fun.select("tblMM_SPR_Details.ItemId,tblMM_SPR_Details.WONo,tblMM_SPR_Details.DeptId,tblMM_SPR_Details.AHId", "tblMM_SPR_Details,tblMM_SPR_Master", "tblMM_SPR_Master.SPRNo='" + DSSql2.Tables[0].Rows[0]["SPRNo"].ToString() + "' AND tblMM_SPR_Master.Id=tblMM_SPR_Details.MId  AND tblMM_SPR_Master.SPRNo=tblMM_SPR_Details.SPRNo AND tblMM_SPR_Details.Id='" + DSSql2.Tables[0].Rows[0]["SPRId"].ToString() + "' And tblMM_SPR_Master.CompId='" + CompId + "'");
+
+                            SqlCommand cmdFlag1 = new SqlCommand(StrFlag1, con);
+                            SqlDataAdapter daFlag1 = new SqlDataAdapter(cmdFlag1);
+                            DataSet DSFlag1 = new DataSet();
+                            daFlag1.Fill(DSFlag1);
+                            if (DSFlag1.Tables[0].Rows.Count > 0)
+                            {
+                                string StrIcode1 = fun.select("ItemCode,ManfDesc,UOMBasic", "tblDG_Item_Master", "CompId='" + CompId + "' AND Id='" + DSFlag1.Tables[0].Rows[0]["ItemId"].ToString() + "'");
+                                SqlCommand cmdIcode1 = new SqlCommand(StrIcode1, con);
+                                SqlDataAdapter daIcode1 = new SqlDataAdapter(cmdIcode1);
+                                DataSet DSIcode1 = new DataSet();
+                                daIcode1.Fill(DSIcode1);
+                                ItemCode = fun.GetItemCode_PartNo(CompId, Convert.ToInt32(DSFlag1.Tables[0].Rows[0]["ItemId"].ToString()));
+
+                                Description = DSIcode1.Tables[0].Rows[0]["ManfDesc"].ToString();
+                                // for UOM Purchase  from Unit Master table
+                                string sqlPurch1 = fun.select("Symbol", "Unit_Master", "Id='" + DSIcode1.Tables[0].Rows[0]["UOMBasic"].ToString() + "'");
+                                SqlCommand cmdPurch1 = new SqlCommand(sqlPurch1, con);
+                                SqlDataAdapter daPurch1 = new SqlDataAdapter(cmdPurch1);
+                                DataSet DSPurch1 = new DataSet();
+                                daPurch1.Fill(DSPurch1);
+                                UOM = DSPurch1.Tables[0].Rows[0][0].ToString();
+                                ahid = Convert.ToInt32(DSFlag1.Tables[0].Rows[0]["AHId"]);
+
+                                if (DSFlag1.Tables[0].Rows[0]["WONo"] != DBNull.Value && DSFlag1.Tables[0].Rows[0]["WONo"].ToString()!=string.Empty)
+                                {
+                                    WONO = DSFlag1.Tables[0].Rows[0]["WONo"].ToString();
+                                }
+                                else
+                                {
+                                    string StrDept = fun.select("Symbol", "BusinessGroup", "Id='" + DSFlag1.Tables[0].Rows[0]["DeptId"].ToString() + "'");
+                                    SqlCommand cmdDept = new SqlCommand(StrDept, con);
+                                    SqlDataAdapter daDept = new SqlDataAdapter(cmdDept);
+                                    DataSet DSDept = new DataSet();
+                                    daDept.Fill(DSDept);
+                                    if (DSDept.Tables[0].Rows.Count > 0)
+                                    {
+                                       Dept= DSDept.Tables[0].Rows[0]["Symbol"].ToString();
+
+                                    }
+                                }                               
+
+                            }
+                        }
+
+                        // For ItemCode
+                        dr[0] = ItemCode;
+                        // For ManfDesc 
+                        dr[1] = Description;
+                        dr[2] = UOM;
+                        if (DSSql2.Tables[0].Rows[0]["Qty"] == DBNull.Value)
+                        {
+                            poqty = 0;
+                        }
+                        else
+                        {
+                            poqty = Convert.ToDouble(decimal.Parse((DSSql2.Tables[0].Rows[0]["Qty"]).ToString()).ToString("N3"));
+                        }
+
+                        dr[3] = DSSql.Tables[0].Rows[i]["Id"].ToString();
+                        dr[4] = poqty;
+                        if (DSSql.Tables[0].Rows[i]["sum_ReceivedQty"].ToString() == "")
+                        {
+                            RecedQty = 0;
+                        }
+                        else
+                        {
+                            RecedQty = Convert.ToDouble(decimal.Parse((DSSql.Tables[0].Rows[i]["sum_ReceivedQty"]).ToString()).ToString("N3"));
+                        }
+
+                        dr[5] = RecedQty;
+                        dr[6] = Convert.ToDouble(decimal.Parse((DSSql.Tables[0].Rows[i]["Qty"]).ToString()).ToString("N3"));
+                        dr[7] = Convert.ToInt32(DSSql.Tables[0].Rows[i]["CompId"]);
+                        dr[8] = DSSql.Tables[0].Rows[i]["GateEntryNo"].ToString();
+                        dr[9] =fun.FromDate( DSSql.Tables[0].Rows[i]["GDate"].ToString());
+                        dr[10] = DSSql.Tables[0].Rows[i]["GTime"].ToString();
+                        dr[11] = DSSql.Tables[0].Rows[i]["ModeofTransport"].ToString();
+                        dr[12] = DSSql.Tables[0].Rows[i]["VehicleNo"].ToString();
+                                              
+
+
+                        string cmdStr = fun.select("FinYearFrom,FinYearTo", "tblFinancial_master", "CompId='" + DSSql.Tables[0].Rows[i]["CompId"] + "' And FinYearId='" + DSSql.Tables[0].Rows[i]["FinYearId"].ToString() + "'");
+                        SqlCommand cmd = new SqlCommand(cmdStr, con);
+                        SqlDataAdapter DA = new SqlDataAdapter(cmd);
+                        DataSet DS = new DataSet();
+                        DA.Fill(DS, "Financial");
+                        string fY = "";
+                        if (DS.Tables[0].Rows.Count > 0)
+                        {
+                            string FinYearFrD = DS.Tables[0].Rows[0]["FinYearFrom"].ToString();
+                            string FDY = fun.FromDateYear(FinYearFrD);
+                            string s = FDY.Substring(2);
+                            string FinYearToD = DS.Tables[0].Rows[0]["FinYearTo"].ToString();
+                            string TDY = fun.ToDateYear(FinYearToD);
+                            string g = TDY.Substring(2);
+                            fY = string.Concat(s, g);
+                        }
+
+                        string Cat = string.Empty;
+                        if (DSSql.Tables[0].Rows[i]["ACategoyId"].ToString() != "0" && DSSql.Tables[0].Rows[i]["ACategoyId"] != DBNull.Value)
+                        {
+
+                            string strCat = "select Abbrivation from tblACC_Asset_Category where Id='" + DSSql.Tables[0].Rows[i]["ACategoyId"].ToString() + "'";
+                            SqlCommand cmdCat = new SqlCommand(strCat, con);
+                            SqlDataReader rdrCat = cmdCat.ExecuteReader();
+                            while (rdrCat.Read())
+                            {
+                                if (rdrCat.HasRows)
+                                {
+                                    Cat = rdrCat["Abbrivation"].ToString();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Cat = " ";
+                            fY = " ";
+                        }
+                        string SubCat = string.Empty;
+                        if (DSSql.Tables[0].Rows[i]["ASubCategoyId"].ToString() != "0" && DSSql.Tables[0].Rows[i]["ASubCategoyId"] != DBNull.Value)
+                        {
+                            string strSCat = "select Abbrivation from tblACC_Asset_SubCategory where Id='" + DSSql.Tables[0].Rows[i]["ASubCategoyId"].ToString() + "'";
+                            SqlCommand cmdSCat = new SqlCommand(strSCat, con);
+                            SqlDataReader rdrSCat = cmdSCat.ExecuteReader();
+                            while (rdrSCat.Read())
+                            {
+                                if (rdrSCat.HasRows)
+                                {
+                                    SubCat = rdrSCat["Abbrivation"].ToString();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            SubCat = " ";
+                            fY = " ";
+                        }
+
+                        //string AssetNo = string.Empty;
+                        //if (DSSql.Tables[0].Rows[i]["AssetNo"].ToString() != "0" && DSSql.Tables[0].Rows[i]["AssetNo"] != DBNull.Value)
+                        //{
+                        //    AssetNo = DSSql.Tables[0].Rows[i]["AssetNo"].ToString();
+                        //    dr[13] = fY + "/" + Cat + "/" + SubCat + "/" + AssetNo;
+                        //}
+                        //else
+                        //{
+                        //    AssetNo = " ";
+                        //    dr[13] = "NA";
+                        //}                
+
+                        dt.Rows.Add(dr);
+                        dt.AcceptChanges();
+
+                    }
+
+                }
+
+                Gin.Tables.Add(dt);
+                Gin.AcceptChanges();
+                DataSet xsdds = new GIN();
+                xsdds.Tables[0].Merge(Gin.Tables[0]);
+                xsdds.AcceptChanges();
+                cryRpt = new ReportDocument();
+                cryRpt.Load(Server.MapPath("~/Module/Inventory/Transactions/Reports/GIN_Print.rpt"));
+                cryRpt.SetDataSource(xsdds);
+                //For supplier Name 
+                string SupName = fun.select("*", "tblMM_Supplier_master", "SupplierId='" + supId + "' AND CompId='" + CompId + "'");
+                SqlCommand cmdSupName = new SqlCommand(SupName, con);
+                SqlDataAdapter daSupName = new SqlDataAdapter(cmdSupName);
+                DataSet DSSupName = new DataSet();
+                daSupName.Fill(DSSupName);
+                if (DSSupName.Tables[0].Rows.Count > 0)
+                {
+                    string SupplierName = DSSupName.Tables[0].Rows[0]["SupplierName"].ToString() + "[" + DSSupName.Tables[0].Rows[0]["SupplierId"].ToString()+"]";
+                    cryRpt.SetParameterValue("SupplierName", SupplierName);
+                                  
+
+                //   Supplier_Address 
+                    string strBuyer_add = DSSupName.Tables[0].Rows[0]["RegdAddress"].ToString();
+                    string strBuyer_country = fun.select("CountryName", "tblcountry", "CId='" + DSSupName.Tables[0].Rows[0]["RegdCountry"] + "'");
+                    string strBuyer_state = fun.select("StateName", "tblState", "SId='" + DSSupName.Tables[0].Rows[0]["RegdState"] + "'");
+                    string strBuyer_city = fun.select("CityName", "tblCity", "CityId='" + DSSupName.Tables[0].Rows[0]["RegdCity"] + "'");
+                SqlCommand Cmd1 = new SqlCommand(strBuyer_country, con);
+                SqlCommand Cmd2 = new SqlCommand(strBuyer_state, con);
+                SqlCommand Cmd3 = new SqlCommand(strBuyer_city, con);
+                SqlDataAdapter DA1 = new SqlDataAdapter(Cmd1);
+                SqlDataAdapter DA2 = new SqlDataAdapter(Cmd2);
+                SqlDataAdapter DA3 = new SqlDataAdapter(Cmd3);
+                DataSet ds1 = new DataSet();
+                DataSet ds2 = new DataSet();
+                DataSet ds3 = new DataSet();
+                DA1.Fill(ds1, "tblCountry");
+                DA2.Fill(ds2, "tblState");
+                DA3.Fill(ds3, "tblcity");
+
+                string SupplierAdd = strBuyer_add + ", " + ds3.Tables[0].Rows[0]["CityName"].ToString() + ", " + ds2.Tables[0].Rows[0]["StateName"].ToString() + ", " + ds1.Tables[0].Rows[0]["CountryName"].ToString() + ".";
+                cryRpt.SetParameterValue("SupplierAdd", SupplierAdd);
+                
+                }
+
+                // For ChallanDate
+                string ChallanDate = fun.FromDateDMY(ChDt);
+                cryRpt.SetParameterValue("ChallanDate", ChallanDate);
+
+                cryRpt.SetParameterValue("GINNO", GINNo);
+                cryRpt.SetParameterValue("ChallanNo", ChNo);
+                cryRpt.SetParameterValue("WONO", WONO);
+                cryRpt.SetParameterValue("Dept", Dept);
+
+                // // For Address
+                string Address = fun.CompAdd(CompId);
+                cryRpt.SetParameterValue("Address", Address);
+                CrystalReportViewer1.ReportSource = cryRpt;
+                Session[Key] = cryRpt;
+
+            }
+            catch (Exception ex)
+            {
+            }
+            finally
+            {
+                con.Close();
+            }            
+        }
+
+        else
+        {
+            ReportDocument doc = (ReportDocument)Session[Key];
+            CrystalReportViewer1.ReportSource = doc;
+        }
+    }
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        cryRpt = new ReportDocument();    
+    }
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        cryRpt.Close();
+        cryRpt.Dispose();
+        GC.Collect();
+    }
+
+    protected void btncancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/Inventory/Transactions/GoodsInwardNote_GIN_Print.aspx?ModId=9&SubModId=37",false);
+    }
+}

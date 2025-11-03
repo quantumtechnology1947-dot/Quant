@@ -1,0 +1,690 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Transactions/GoodsInwardNote_GIN_Delete_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" AutoEventWireup="true" Debug="true" MasterPageFile="~/MasterPage.master" CodeFile="GoodsInwardNote_GIN_Delete_Details.aspx.cs" Inherits="Module_Inventory_GoodsInwardNote_GIN_Delete_Details" Theme="Default" %>
+
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<%@ Register assembly="TimePicker" namespace="MKB.TimePicker" tagprefix="MKB" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+      <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .style2
+        {
+            height: 34px;
+        }
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+<table class="fontcss" width="100%" cellpadding="0" cellspacing="0">
+                       <tr>
+       <td   align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;Goods Inward Note [GIN] - Delete</b></td>
+           </tr>
+            <tr>
+                <td>
+                    <table cellpadding="0" cellspacing="0" width="100%">
+                    
+     
+                        <tr>
+                            <td height="25px" colspan="6">
+&nbsp;&nbsp;&nbsp;
+                    <asp:Label ID="Label1" runat="server" Text="GIN No"></asp:Label>
+                            &nbsp;:
+                    <asp:Label ID="Lblgnno" runat="server" style="font-weight: 700"></asp:Label>
+                            &nbsp;&nbsp;&nbsp;
+                    <asp:Label ID="Label4" runat="server" Text="Challan Date"></asp:Label>
+                            &nbsp;:<asp:Label ID="LblChallanDate" runat="server" style="font-weight: 700"></asp:Label>
+                                &nbsp;&nbsp;&nbsp;
+                    &nbsp;<asp:Label ID="Label3" runat="server" Text="Challan No "></asp:Label>
+                    <asp:Label ID="lblChallanNo" runat="server" style="font-weight: 700"></asp:Label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                <asp:Label ID="LblWODept" runat="server"></asp:Label>
+&nbsp;:
+                                <asp:Label ID="LblWONo" runat="server" Font-Bold="True"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="style3" height="25px">
+&nbsp;&nbsp;
+                    Gate Entry No:                     
+&nbsp;&nbsp;&nbsp;&nbsp;<asp:Label ID="TxtGateentryNo" runat="server"></asp:Label>
+                                </td>
+                            <td class="style2" height="25px">
+                    Date :<asp:Label ID="TxtGDate" runat="server"></asp:Label>
+                            
+&nbsp;&nbsp;&nbsp;&nbsp;Time&nbsp; :<asp:Label ID="lbltime" runat="server" Text="Label"></asp:Label>
+                            </td>
+                            <td class="style2" height="25px">
+                                &nbsp;</td>
+                            <td class="style2" height="25px" align="right" width="12%">
+                                Mode of Transport :</td>
+                            <td class="style2" height="25px" align="left" width="20%">
+                                <asp:Label ID="TxtModeoftransport" runat="server"></asp:Label>
+                            </td>
+                            <td class="style2" height="25px" width="20%">
+                                &nbsp;&nbsp;Vehicle No :
+                                <asp:Label ID="TxtVehicleNo" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+               
+               
+                <td class="fontcss"> 
+                <asp:Panel ID="Panel1" ScrollBars="Auto" Height="410px" runat="server">
+                     <asp:GridView ID="GridView1"  runat="server" 
+                    AutoGenerateColumns="False"  Width="100%" DataKeyNames="Id" 
+                    CssClass="yui-datatable-theme" onrowcommand="GridView1_RowCommand" 
+                    AllowPaging="True" 
+                         onpageindexchanging="GridView1_PageIndexChanging" >
+                
+                         <PagerSettings PageButtonCount="40" />
+                
+                <Columns>
+                        <asp:TemplateField HeaderText="SN" SortExpression="Id">
+                       <ItemTemplate>
+                    <%# Container.DataItemIndex+1 %>
+                </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" />
+                        </asp:TemplateField>
+                                               
+                       <asp:TemplateField HeaderText="">
+                        <ItemTemplate>
+                            <asp:LinkButton ID="LinkDel" CommandName="del" OnClientClick="return confirmationDelete();" Text="Delete" runat="server"></asp:LinkButton>
+                            <asp:Label ID="lblgrr" runat="server" Text="GRR" Visible="false"></asp:Label>&nbsp;<asp:Label ID="lblgsn" runat="server" Text="GSN" Visible="false"></asp:Label>
+                        </ItemTemplate>
+                       
+                            <ItemStyle HorizontalAlign="Center" />
+        </asp:TemplateField>
+                                               
+                        <asp:TemplateField HeaderText="Id" SortExpression="Id" Visible="false">
+                        <ItemTemplate>
+                        <asp:Label ID="lblId" runat="server" Text='<%#Eval("Id") %>'>    </asp:Label>                                  </ItemTemplate>
+                        
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Item Code" SortExpression="ItemCode">
+                        <ItemTemplate>
+                        <asp:Label ID="lblItemCode" runat="server" Text='<%#Eval("ItemCode") %>'>    </asp:Label>                                  </ItemTemplate>
+                        
+                            <ItemStyle HorizontalAlign="center" />
+                        
+                        </asp:TemplateField>                      
+                       
+                                               
+<asp:TemplateField HeaderText="Description" SortExpression="ManfDesc">
+                        <ItemTemplate>
+                        <asp:Label ID="lblPurChaseDesc" runat="server" Text='<%#Eval("Description") %>'>    </asp:Label>
+                        </ItemTemplate>
+                                            
+                             <ItemStyle HorizontalAlign="Left" Width="30%" />
+                             
+                                            
+                        </asp:TemplateField>
+                        
+                        
+                       
+                        
+                        <asp:TemplateField HeaderText="UOM" SortExpression="UOMBasic">
+                            
+                        <ItemTemplate>
+                        <asp:Label ID="lblUOMPurchase" runat="server" Text='<%#Eval("UOM") %>' >    </asp:Label>               
+                        </ItemTemplate>
+                                            
+                            <ItemStyle HorizontalAlign="Center" />
+                                           
+                        </asp:TemplateField>                      
+                       
+                        
+                        
+
+              <%--          <asp:TemplateField HeaderText="Asset No" SortExpression="AssetNo" >
+                        <ItemTemplate>
+                        <asp:Label ID="lblAssetNo" runat="server" Text='<%#Eval("AssetNo") %>'>    </asp:Label> 
+                        </ItemTemplate>
+                        <ItemStyle HorizontalAlign="Center" Width="18%" />
+                        </asp:TemplateField> --%>      
+                        
+                        
+                        
+                        
+                                        
+                                   <asp:TemplateField HeaderText="PO Qty" SortExpression ="Qty">
+                                     <ItemTemplate>
+                                     <asp:Label ID="lblPOQty" runat="server" Text='<%#Eval("poqty") %>' > </asp:Label>
+                                     </ItemTemplate><ItemStyle HorizontalAlign="Right" />
+                                     </asp:TemplateField>                                    
+                                     
+             <asp:TemplateField HeaderText="Challan Qty" SortExpression ="ChallanQty">
+                                     <ItemTemplate>
+                                     <asp:Label ID="lblChallanQty" runat="server" Text='<%#Eval("ChallanQty") %>'  > </asp:Label>
+                                  
+                                     
+                                     </ItemTemplate><ItemStyle HorizontalAlign="Right" />
+                                     </asp:TemplateField>  
+                                     
+                                       <asp:TemplateField HeaderText="Recd Qty" SortExpression ="ReceivedQty">
+                                     <ItemTemplate>
+                                     <asp:Label ID="lblReceivedQty" runat="server" Text='<%#Eval("RecedQty") %>' > </asp:Label>
+                             </ItemTemplate>
+                                           <ItemStyle HorizontalAlign="Right" />
+                                     </asp:TemplateField>  
+                                     
+                         <asp:TemplateField HeaderText="POId"  Visible="false">
+                        <ItemTemplate>
+                        <asp:Label ID="lblPOId" runat="server" Text='<%#Eval("POId") %>'> </asp:Label>  
+                        </ItemTemplate>
+                        </asp:TemplateField>
+                        
+                </Columns>
+                
+                <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                </asp:GridView> </asp:Panel>
+                </td> 
+                
+               
+            </tr>
+            
+            <tr>
+            <td align="center">
+                <asp:Button ID="btnCancel" CssClass="redbox" runat="server" Text="Cancel" 
+                    onclick="btnCancel_Click" />
+            
+            </td>
+            
+            </tr>
+            </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Transactions/GoodsInwardNote_GIN_Delete_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_Inventory_GoodsInwardNote_GIN_Delete_Details : System.Web.UI.Page
+{
+    string ChNo = "";
+    string GINNo = "";
+    string ChDt = "";
+    string fyid = "";
+    int CompId = 0;
+    string Sid = "";
+    string j = "";
+    int FyId = 0;
+    string supId = "";
+    string GINId = "";
+    string SessionFyId = "";
+    string connStr = "";
+    SqlConnection con ;
+    clsFunctions fun = new clsFunctions();
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        con = new SqlConnection(connStr);
+        con.Open();
+        try
+        {
+            SessionFyId = Session["finyear"].ToString();
+            GINId = Request.QueryString["Id"].ToString();           
+            supId = Request.QueryString["SupId"].ToString();
+            lblChallanNo.Text = Request.QueryString["ChNo"].ToString();
+            ChNo = Request.QueryString["ChNo"].ToString();            
+            fyid = Request.QueryString["fyid"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+            Sid = Session["username"].ToString();
+            Lblgnno.Text = Request.QueryString["GNo"].ToString();
+            GINNo = Request.QueryString["GNo"].ToString();
+            LblChallanDate.Text = Request.QueryString["ChDt"].ToString();
+            ChDt = LblChallanDate.Text;
+
+            string Strid = fun.select("FinYearId", "tblFinancial_master", " FinYear='" + fyid + "' AND CompId ='" + CompId + "'");
+            SqlCommand cmdid = new SqlCommand(Strid, con);
+            SqlDataAdapter daid = new SqlDataAdapter(cmdid);
+            DataSet DSid = new DataSet();
+            daid.Fill(DSid, "tblFinancial_master");
+            
+            if (DSid.Tables[0].Rows.Count > 0)
+            {
+                FyId = Convert.ToInt32(DSid.Tables[0].Rows[0]["FinYearId"]);
+            }
+
+            if (!Page.IsPostBack)
+            {
+                this.loadData();
+                string StrSql = fun.select("*", "tblInv_Inward_Master", " Id='" + GINId + "' And   FinYearId<='" + FyId + "' AND CompId='" + CompId + "' ");
+                SqlCommand cmdsupId = new SqlCommand(StrSql, con);
+                SqlDataAdapter dasupId = new SqlDataAdapter(cmdsupId);
+                DataSet DSSql = new DataSet();
+                DataTable dt = new DataTable();
+                dasupId.Fill(DSSql);
+                TxtGateentryNo.Text = DSSql.Tables[0].Rows[0]["GateEntryNo"].ToString();
+                TxtGDate.Text = fun.FromDateDMY(DSSql.Tables[0].Rows[0]["GDate"].ToString());
+                string TimeSel = DSSql.Tables[0].Rows[0]["GTime"].ToString();
+                lbltime.Text = TimeSel;
+                TxtModeoftransport.Text = DSSql.Tables[0].Rows[0]["ModeofTransport"].ToString();
+                TxtVehicleNo.Text = DSSql.Tables[0].Rows[0]["VehicleNo"].ToString();
+            }     
+              
+        }
+        catch (Exception ex) { }
+        finally { con.Close(); }
+    }
+
+    public void disableEdit()
+    {
+       try
+        {
+            
+            foreach (GridViewRow grv in GridView1.Rows)
+            {
+                string id = ((Label)grv.FindControl("lblId")).Text;
+                int PoId = Convert.ToInt32(((Label)grv.FindControl("lblPOId")).Text);
+
+                string SqlGRRcheck = fun.select("tblinv_MaterialReceived_Details.Id", "tblinv_MaterialReceived_Master,tblinv_MaterialReceived_Details", "tblinv_MaterialReceived_Master.CompId='" + CompId + "' AND tblinv_MaterialReceived_Master.GINId='" + GINId + "' AND tblinv_MaterialReceived_Master.GRRNo=tblinv_MaterialReceived_Details.GRRNo AND tblinv_MaterialReceived_Master.Id=tblinv_MaterialReceived_Details.MId AND tblinv_MaterialReceived_Details.POId='" + PoId + "'");
+
+                SqlCommand cmdGRRcheck = new SqlCommand(SqlGRRcheck, con);
+                SqlDataAdapter daGRRcheck = new SqlDataAdapter(cmdGRRcheck);
+                DataSet DSGRRcheck = new DataSet();
+                DataTable dtGRRcheck = new DataTable();
+                daGRRcheck.Fill(DSGRRcheck);
+                string SqlGSNcheck = fun.select("tblinv_MaterialServiceNote_Details.Id", "tblinv_MaterialServiceNote_Master,tblinv_MaterialServiceNote_Details", "tblinv_MaterialServiceNote_Master.CompId='" + CompId + "' AND tblinv_MaterialServiceNote_Master.GSNNo=tblinv_MaterialServiceNote_Details.GSNNo AND tblinv_MaterialServiceNote_Master.Id=tblinv_MaterialServiceNote_Details.MId AND tblinv_MaterialServiceNote_Master.GINId='" + GINId + "' AND tblinv_MaterialServiceNote_Details.POId='" + PoId + "'");
+
+                SqlCommand cmdGSNcheck = new SqlCommand(SqlGSNcheck, con);
+                SqlDataAdapter daGSNcheck = new SqlDataAdapter(cmdGSNcheck);
+                DataSet DSGSNcheck = new DataSet();
+                DataTable dtGSNcheck = new DataTable();
+                daGSNcheck.Fill(DSGSNcheck);
+
+                if (DSGRRcheck.Tables[0].Rows.Count == 0)
+                {
+                    ((Label)grv.FindControl("lblgrr")).Visible = false;
+                }
+                else
+                {
+                    ((Label)grv.FindControl("lblgrr")).Visible = true;
+                }
+
+                if (DSGSNcheck.Tables[0].Rows.Count == 0)
+                {
+                    ((Label)grv.FindControl("lblgsn")).Visible = false;
+                }
+                else
+                {
+                    ((Label)grv.FindControl("lblgsn")).Visible = true;
+                }
+
+                if (DSGRRcheck.Tables[0].Rows.Count > 0 || DSGSNcheck.Tables[0].Rows.Count > 0)
+                {
+                    ((LinkButton)grv.FindControl("LinkDel")).Visible = false;
+                }
+            }
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+    }
+        
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+      
+
+        try
+        {
+            con.Open();
+            if (e.CommandName == "del")
+            {
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                int Id = Convert.ToInt32(((Label)row.FindControl("lblId")).Text);
+                string delStr = fun.delete("tblInv_Inward_Details", "Id='" + Id + "'");
+                SqlCommand cmdDel = new SqlCommand(delStr, con);
+                cmdDel.ExecuteNonQuery();
+                string StrSql = fun.select("tblInv_Inward_Details.Id", "tblInv_Inward_Details,tblInv_Inward_Master", " tblInv_Inward_Details.GINNo='" + GINNo + "' And tblInv_Inward_Master.GINNo= tblInv_Inward_Details.GINNo And tblInv_Inward_Master.Id= tblInv_Inward_Details.GINId and tblInv_Inward_Master.FinYearId='" + FyId + "' AND tblInv_Inward_Master.CompId='" + CompId + "'");
+
+                SqlCommand cmd = new SqlCommand(StrSql, con);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataSet DS = new DataSet();
+                da.Fill(DS, "tblInv_Inward_Details");
+
+                if (DS.Tables[0].Rows.Count == 0)
+                {
+                    string delMastr = fun.delete("tblInv_Inward_Master", "CompId='" + CompId + "' and FinYearId='" + FyId + "' and GINNo='" + GINNo + "' ");
+                    SqlCommand cmdMstr = new SqlCommand(delMastr, con);
+                    cmdMstr.ExecuteNonQuery();
+                    Response.Redirect("GoodsInwardNote_GIN_Delete.aspx?ModId=9&SubModId=37");
+                }
+                else
+                {
+                    Page.Response.Redirect(Page.Request.Url.ToString(), true);
+                }
+            }
+        }
+        catch (Exception ex) { }
+        finally {con.Close();}
+        
+    }
+
+    public void loadData()
+    {  
+
+      try
+        {
+
+            string StrSql = fun.select("tblInv_Inward_Master.FinYearId,tblInv_Inward_Master.CompId,tblInv_Inward_Master.PONo,tblInv_Inward_Details.Id,tblInv_Inward_Details.ACategoyId,tblInv_Inward_Details.ASubCategoyId,tblInv_Inward_Master.FinYearId,tblInv_Inward_Master.CompId,tblInv_Inward_Details.Qty,tblInv_Inward_Details.ReceivedQty as sum_ReceivedQty,tblInv_Inward_Details.POId", " tblInv_Inward_Details,tblInv_Inward_Master", "tblInv_Inward_Master.GINNo=tblInv_Inward_Details.GINNo AND tblInv_Inward_Master.GINNo='" + GINNo + "' AND tblInv_Inward_Master.CompId='" + CompId + "' AND tblInv_Inward_Master.FinYearId<='" + SessionFyId + "' AND tblInv_Inward_Master.Id=tblInv_Inward_Details.GINId AND tblInv_Inward_Details.GINId='" + GINId + "'");
+
+            SqlCommand cmdsupId = new SqlCommand(StrSql, con);
+            SqlDataAdapter dasupId = new SqlDataAdapter(cmdsupId);
+            DataSet DSSql = new DataSet();
+            DataTable dt = new DataTable();
+            dasupId.Fill(DSSql);
+
+            dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));//0
+            dt.Columns.Add(new System.Data.DataColumn("Description", typeof(string)));//1
+            dt.Columns.Add(new System.Data.DataColumn("UOM", typeof(string)));//2
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(string)));//3
+            dt.Columns.Add(new System.Data.DataColumn("poqty", typeof(string)));//4
+            dt.Columns.Add(new System.Data.DataColumn("RecedQty", typeof(string)));//5
+            dt.Columns.Add(new System.Data.DataColumn("ChallanQty", typeof(string)));//6
+            dt.Columns.Add(new System.Data.DataColumn("POId", typeof(int)));//7
+            //dt.Columns.Add(new System.Data.DataColumn("AssetNo", typeof(string)));//8
+            string ItemCode = "";
+            string Description = "";
+            string UOM = "";          
+            double poqty = 0;
+            double RecedQty = 0;
+            int ahid = 0;
+            DataRow dr;
+            string WONO = string.Empty;
+            string Dept = string.Empty;
+            for (int i = 0; i < DSSql.Tables[0].Rows.Count; i++)
+            {
+                dr = dt.NewRow();
+                // For PRNO               
+
+                string StrSql2 = fun.select("tblMM_PO_Details.Id,tblMM_PO_Details.PONo,tblMM_PO_Details.PRNo,tblMM_PO_Details.Qty,tblMM_PO_Details.PRId,tblMM_PO_Details.SPRNo,tblMM_PO_Details.SPRId,tblMM_PO_Details.Qty,tblMM_PO_Master.PRSPRFlag,tblMM_PO_Master.FinYearId", "tblMM_PO_Details,tblMM_PO_Master", "tblMM_PO_Master.PONo='" + DSSql.Tables[0].Rows[i]["PONo"].ToString() + "' AND tblMM_PO_Master.FinYearId <='" + DSSql.Tables[0].Rows[i]["FinYearId"].ToString() + "' AND tblMM_PO_Master.CompId='" + DSSql.Tables[0].Rows[i]["CompId"].ToString() + "' AND tblMM_PO_Details.Id='" + DSSql.Tables[0].Rows[i]["POId"].ToString() + "' AND tblMM_PO_Details.MId=tblMM_PO_Master.Id");
+
+                SqlCommand cmdsupId2 = new SqlCommand(StrSql2, con);
+                SqlDataAdapter dasupId2 = new SqlDataAdapter(cmdsupId2);
+                DataSet DSSql2 = new DataSet();
+                dasupId2.Fill(DSSql2);
+
+                if (DSSql2.Tables[0].Rows.Count > 0)
+                {
+                    if (DSSql2.Tables[0].Rows[0]["PRSPRFlag"].ToString() == "0")
+                    {
+                       
+                        string StrFlag = fun.select("tblMM_PR_Details.ItemId,tblMM_PR_Master.WONo,tblMM_PR_Details.AHId", "tblMM_PR_Details,tblMM_PR_Master", "tblMM_PR_Master.PRNo='" + DSSql2.Tables[0].Rows[0]["PRNo"].ToString() + "'  AND tblMM_PR_Master.PRNo=tblMM_PR_Details.PRNo AND tblMM_PR_Details.Id='" + DSSql2.Tables[0].Rows[0]["PRId"].ToString() + "' And tblMM_PR_Master.CompId='" + CompId + "' and tblMM_PR_Master.FinYearId<='" + FyId + "' AND tblMM_PR_Master.Id=tblMM_PR_Details.MId");
+
+                        SqlCommand cmdFlag = new SqlCommand(StrFlag, con);
+                        SqlDataAdapter daFlag = new SqlDataAdapter(cmdFlag);
+                        DataSet DSFlag = new DataSet();
+                        daFlag.Fill(DSFlag);
+
+                        if (DSFlag.Tables[0].Rows.Count > 0)
+                        {
+                            string StrIcode = fun.select("ItemCode,ManfDesc,UOMBasic", "tblDG_Item_Master", "Id='" + DSFlag.Tables[0].Rows[0]["ItemId"].ToString() + "'And CompId='" + CompId + "'");
+                            SqlCommand cmdIcode = new SqlCommand(StrIcode, con);
+                            SqlDataAdapter daIcode = new SqlDataAdapter(cmdIcode);
+                            DataSet DSIcode = new DataSet();
+                            daIcode.Fill(DSIcode);                           
+                            // For ItemCode
+                            if (DSIcode.Tables[0].Rows.Count > 0)
+                            {
+
+                                WONO = DSFlag.Tables[0].Rows[0]["WONo"].ToString();
+                                ItemCode = fun.GetItemCode_PartNo(CompId, Convert.ToInt32(DSFlag.Tables[0].Rows[0]["ItemId"].ToString()));
+
+                                // For ManfDesc
+                                Description = DSIcode.Tables[0].Rows[0]["ManfDesc"].ToString();
+
+                                // for UOM  from Unit Master table
+                                string sqlPurch = fun.select("Symbol", "Unit_Master", "Id='" + DSIcode.Tables[0].Rows[0]["UOMBasic"].ToString() + "'");
+                                SqlCommand cmdPurch = new SqlCommand(sqlPurch, con);
+                                SqlDataAdapter daPurch = new SqlDataAdapter(cmdPurch);
+                                DataSet DSPurch = new DataSet();
+                                daPurch.Fill(DSPurch);
+                                if (DSPurch.Tables[0].Rows.Count > 0)
+                                {
+                                    UOM = DSPurch.Tables[0].Rows[0][0].ToString();
+                                }
+                                ahid = Convert.ToInt32(DSFlag.Tables[0].Rows[0]["AHId"]);
+
+                            }
+                        }
+                    }
+                    else if (DSSql2.Tables[0].Rows[0]["PRSPRFlag"].ToString() == "1")
+                    {
+                        string StrFlag1 = fun.select("tblMM_SPR_Details.ItemId,tblMM_SPR_Details.WONo,tblMM_SPR_Details.DeptId,tblMM_SPR_Details.AHId", "tblMM_SPR_Details,tblMM_SPR_Master", "tblMM_SPR_Master.SPRNo='" + DSSql2.Tables[0].Rows[0]["SPRNo"].ToString() + "' AND tblMM_SPR_Master.Id=tblMM_SPR_Details.MId  AND tblMM_SPR_Master.SPRNo=tblMM_SPR_Details.SPRNo AND tblMM_SPR_Details.Id='" + DSSql2.Tables[0].Rows[0]["SPRId"].ToString() + "' And tblMM_SPR_Master.CompId='" + CompId + "' and tblMM_SPR_Master.FinYearId<='" + FyId + "'");
+
+                        SqlCommand cmdFlag1 = new SqlCommand(StrFlag1, con);
+                        SqlDataAdapter daFlag1 = new SqlDataAdapter(cmdFlag1);
+                        DataSet DSFlag1 = new DataSet();
+                        daFlag1.Fill(DSFlag1);
+                        if (DSFlag1.Tables[0].Rows.Count > 0)
+                        {
+                            string StrIcode1 = fun.select("ItemCode,ManfDesc,UOMBasic", "tblDG_Item_Master", "Id='" + DSFlag1.Tables[0].Rows[0]["ItemId"].ToString() + "'And CompId='" + CompId + "'");
+                            SqlCommand cmdIcode1 = new SqlCommand(StrIcode1, con);
+                            SqlDataAdapter daIcode1 = new SqlDataAdapter(cmdIcode1);
+                            DataSet DSIcode1 = new DataSet();
+                            daIcode1.Fill(DSIcode1);
+                            if (DSIcode1.Tables[0].Rows.Count > 0)
+                            {
+                                ItemCode = fun.GetItemCode_PartNo(CompId, Convert.ToInt32(DSFlag1.Tables[0].Rows[0]["ItemId"].ToString()));
+                                Description = DSIcode1.Tables[0].Rows[0]["ManfDesc"].ToString();
+                                // for UOM  from Unit Master table
+                                string sqlPurch1 = fun.select("Symbol", "Unit_Master", "Id='" + DSIcode1.Tables[0].Rows[0]["UOMBasic"].ToString() + "'");
+                                SqlCommand cmdPurch1 = new SqlCommand(sqlPurch1, con);
+                                SqlDataAdapter daPurch1 = new SqlDataAdapter(cmdPurch1);
+                                DataSet DSPurch1 = new DataSet();
+                                daPurch1.Fill(DSPurch1);
+                                if (DSPurch1.Tables[0].Rows.Count > 0)
+                                {
+                                    UOM = DSPurch1.Tables[0].Rows[0][0].ToString();
+                                }
+                                ahid = Convert.ToInt32(DSFlag1.Tables[0].Rows[0]["AHId"]);
+
+                                if (DSFlag1.Tables[0].Rows[0]["WONo"] != DBNull.Value && DSFlag1.Tables[0].Rows[0]["WONo"].ToString() != string.Empty)
+                                {
+                                    WONO = DSFlag1.Tables[0].Rows[0]["WONo"].ToString();
+                                }
+                                else
+                                {
+                                    string StrDept = fun.select("Symbol", "BusinessGroup", "Id='" + DSFlag1.Tables[0].Rows[0]["DeptId"].ToString() + "'");
+                                    SqlCommand cmdDept = new SqlCommand(StrDept, con);
+                                    SqlDataAdapter daDept = new SqlDataAdapter(cmdDept);
+                                    DataSet DSDept = new DataSet();
+                                    daDept.Fill(DSDept);
+                                    if (DSDept.Tables[0].Rows.Count > 0)
+                                    {
+                                        Dept = DSDept.Tables[0].Rows[0]["Symbol"].ToString();
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
+                    if (WONO != "")
+                    {
+                        LblWODept.Text = "WONO";
+                        LblWONo.Text = WONO;
+                    }
+                    else
+                    {
+                        LblWODept.Text = "Bussiness Group";
+                        LblWONo.Text = Dept;
+
+                    }
+
+                    // For ItemCode
+                    dr[0] = ItemCode;
+                    //For UOMPurch 
+                    dr[1] = Description;
+                    dr[2] = UOM;
+
+                    if (DSSql2.Tables[0].Rows[0]["Qty"] == DBNull.Value)
+                    {
+                        poqty = 0;
+                    }
+                    else
+                    {
+                        poqty = Convert.ToDouble(decimal.Parse(DSSql2.Tables[0].Rows[0]["Qty"].ToString()).ToString("N3"));
+                    }
+
+                    dr[3] = DSSql.Tables[0].Rows[i]["Id"].ToString();
+                    dr[4] = poqty;
+                    if (DSSql.Tables[0].Rows[i]["sum_ReceivedQty"].ToString() == "")
+                    {
+                        RecedQty = 0;
+                    }
+                    else
+                    {
+                        RecedQty = Convert.ToDouble(decimal.Parse(DSSql.Tables[0].Rows[i]["sum_ReceivedQty"].ToString()).ToString("N3"));
+                    }
+
+                    dr[5] = RecedQty;
+                    dr[6] = Convert.ToDouble(decimal.Parse(DSSql.Tables[0].Rows[i]["Qty"].ToString()).ToString("N3"));
+                    dr[7] = Convert.ToInt32(DSSql.Tables[0].Rows[i]["POId"]);
+
+                
+
+                    string cmdStr = fun.select("FinYearFrom,FinYearTo", "tblFinancial_master", "CompId='" + DSSql.Tables[0].Rows[i]["CompId"] + "' And FinYearId='" + DSSql.Tables[0].Rows[i]["FinYearId"].ToString() + "'");
+                    SqlCommand cmd = new SqlCommand(cmdStr, con);
+                    SqlDataAdapter DA = new SqlDataAdapter(cmd);
+                    DataSet DS = new DataSet();
+                    DA.Fill(DS, "Financial");
+                    string fY = "";
+                    if (DS.Tables[0].Rows.Count > 0)
+                    {
+                        string FinYearFrD = DS.Tables[0].Rows[0]["FinYearFrom"].ToString();
+                        string FDY = fun.FromDateYear(FinYearFrD);
+                        string s = FDY.Substring(2);
+                        string FinYearToD = DS.Tables[0].Rows[0]["FinYearTo"].ToString();
+                        string TDY = fun.ToDateYear(FinYearToD);
+                        string g = TDY.Substring(2);
+                        fY = string.Concat(s, g);
+                    }
+
+                    string Cat = string.Empty;
+                    if (DSSql.Tables[0].Rows[i]["ACategoyId"].ToString() != "0" && DSSql.Tables[0].Rows[i]["ACategoyId"]!=DBNull.Value)
+                    {
+
+                        string strCat = "select Abbrivation from tblACC_Asset_Category where Id='" + DSSql.Tables[0].Rows[i]["ACategoyId"].ToString() + "'";
+                        SqlCommand cmdCat = new SqlCommand(strCat, con);
+                        SqlDataReader rdrCat = cmdCat.ExecuteReader();
+                        while (rdrCat.Read())
+                        {
+                            if (rdrCat.HasRows)
+                            {
+                                Cat = rdrCat["Abbrivation"].ToString();
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Cat = " ";
+                        fY = " ";
+                    }
+                    string SubCat = string.Empty;
+                    if (DSSql.Tables[0].Rows[i]["ASubCategoyId"].ToString() != "0" && DSSql.Tables[0].Rows[i]["ASubCategoyId"]!= DBNull.Value)
+                    {
+                        string strSCat = "select Abbrivation from tblACC_Asset_SubCategory where Id='" + DSSql.Tables[0].Rows[i]["ASubCategoyId"].ToString() + "'";
+                        SqlCommand cmdSCat = new SqlCommand(strSCat, con);
+                        SqlDataReader rdrSCat = cmdSCat.ExecuteReader();
+                        while (rdrSCat.Read())
+                        {
+                            if (rdrSCat.HasRows)
+                            {
+                                SubCat = rdrSCat["Abbrivation"].ToString();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        SubCat = " ";
+                        fY = " ";
+                    }
+
+                    //string AssetNo = string.Empty;
+                    //if (DSSql.Tables[0].Rows[i]["AssetNo"].ToString() != "0" && DSSql.Tables[0].Rows[i]["AssetNo"] != DBNull.Value)
+                    //{
+                    //    AssetNo = DSSql.Tables[0].Rows[i]["AssetNo"].ToString();
+                    //    dr[8] = fY + "/" + Cat + "/" + SubCat + "/" + AssetNo;
+                    //}
+                    //else
+                    //{
+                    //    AssetNo = " ";
+                    //    dr[8] = "NA";
+                    //}                   
+                    
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+            }
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
+            this.disableEdit();
+           
+        }
+        catch (Exception ex) { }
+
+    }
+
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            GridView1.PageIndex = e.NewPageIndex;
+            this.loadData();
+        }
+        catch (Exception ex) { }
+    }
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/Inventory/Transactions/GoodsInwardNote_GIN_Delete.aspx?ModId=9&SubModId=37",false);
+    }
+}

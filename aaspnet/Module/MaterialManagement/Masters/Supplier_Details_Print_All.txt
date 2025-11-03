@@ -1,0 +1,187 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Masters/Supplier_Details_Print_All.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Supplier_Details_Print_All.aspx.cs" Inherits="Module_MaterialManagement_Masters_Supplier_Details_Print_All" Title="ERP" Theme ="Default" %>
+
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+ <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+    <p><br /></p><p></p>
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table width="100%" >         
+    <tr>
+    <td align="center">
+        <asp:Panel ID="Panel1" runat="server" ScrollBars="Auto" Height="454" Width="100%">
+        
+<CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" HasCrystalLogo="False"
+        AutoDataBind="True" Width="400px" ReportSourceID="CrystalReportSource1" 
+                DisplayGroupTree="False" EnableDatabaseLogonPrompt="False" 
+                EnableParameterPrompt="False" />
+        <CR:CrystalReportSource ID="CrystalReportSource1" runat="server" >
+            <Report FileName="Module\MaterialManagement\Reports\SupplierPrintReportAll.rpt">
+            </Report>
+        
+        </CR:CrystalReportSource>   
+       </asp:Panel>
+    </td></tr>
+        <tr>
+    <td align="center" Height="25" valign="middle">
+        <asp:Button ID="Button1" runat="server" onclick="Button1_Click" Text="Cancel" CssClass="redbox" />
+    </td></tr>
+   </table>   
+  
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Masters/Supplier_Details_Print_All.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+
+public partial class Module_MaterialManagement_Masters_Supplier_Details_Print_All : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    private ReportDocument report = new ReportDocument();
+    int cId = 0;
+    string Key = string.Empty;
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        string connStr1 = fun.Connection();
+        SqlConnection myConnection = new SqlConnection(connStr1);
+        myConnection.Open();
+        cId = Convert.ToInt32(Session["compid"]);
+        Key = Request.QueryString["Key"].ToString();
+
+        try
+        {
+            if (!IsPostBack)
+            {
+
+
+                DataTable dt = new DataTable();
+                string selectQuery = fun.select("*", "tblMM_Supplier_master", " CompId='" + cId + "'");
+                SqlCommand myCommand = new SqlCommand(selectQuery, myConnection);
+                SqlDataAdapter ad = new SqlDataAdapter(myCommand);
+                DataSet ds = new DataSet();
+                ad.Fill(ds, "tblMM_Supplier_master");
+
+                dt.Columns.Add(new System.Data.DataColumn("SupId", typeof(int)));//0
+                dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));//1
+                dt.Columns.Add(new System.Data.DataColumn("SupplierName", typeof(string)));//2
+                dt.Columns.Add(new System.Data.DataColumn("Code", typeof(string)));//3
+                dt.Columns.Add(new System.Data.DataColumn("RegdAdd", typeof(string)));//4
+                dt.Columns.Add(new System.Data.DataColumn("ContactPerson", typeof(string)));//5
+                dt.Columns.Add(new System.Data.DataColumn("MobileNo", typeof(string)));//6
+                dt.Columns.Add(new System.Data.DataColumn("Email", typeof(string)));//7
+                DataRow dr;
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    dr = dt.NewRow();
+                    dr[0] = Convert.ToInt32(ds.Tables[0].Rows[i]["SupId"]);
+                    dr[1] = Convert.ToInt32(ds.Tables[0].Rows[i]["CompId"]);
+                    dr[2] = ds.Tables[0].Rows[i]["SupplierName"].ToString();
+                    dr[3] = ds.Tables[0].Rows[i]["SupplierId"].ToString();
+
+                    //   RegdAddress 
+                    string strSup_country = fun.select("CountryName", "tblcountry", "CId='" + ds.Tables[0].Rows[i]["RegdCountry"] + "'");
+                    string strSup_state = fun.select("StateName", "tblState", "SId='" + ds.Tables[0].Rows[i]["RegdState"] + "'");
+                    string strSup_city = fun.select("CityName", "tblCity", "CityId='" + ds.Tables[0].Rows[i]["RegdCity"] + "'");
+                    SqlCommand Cmd1 = new SqlCommand(strSup_country, myConnection);
+                    SqlCommand Cmd2 = new SqlCommand(strSup_state, myConnection);
+                    SqlCommand Cmd3 = new SqlCommand(strSup_city, myConnection);
+                    SqlDataAdapter DA1 = new SqlDataAdapter(Cmd1);
+                    SqlDataAdapter DA2 = new SqlDataAdapter(Cmd2);
+                    SqlDataAdapter DA3 = new SqlDataAdapter(Cmd3);
+                    DataSet ds1 = new DataSet();
+                    DataSet ds2 = new DataSet();
+                    DataSet ds3 = new DataSet();
+                    DA1.Fill(ds1, "tblCountry");
+                    DA2.Fill(ds2, "tblState");
+                    DA3.Fill(ds3, "tblcity");
+
+                    string RegdAddress = ds.Tables[0].Rows[i]["RegdAddress"].ToString() + ", " + ds3.Tables[0].Rows[0]["CityName"].ToString() + ", " + ds2.Tables[0].Rows[0]["StateName"].ToString() + ",\n" + ds1.Tables[0].Rows[0]["CountryName"].ToString() + " - " + ds.Tables[0].Rows[i]["RegdPinNo"].ToString() + ".";
+                    dr[4] = RegdAddress;
+                    dr[5] = ds.Tables[0].Rows[i]["ContactPerson"].ToString();
+                    dr[6] = ds.Tables[0].Rows[i]["ContactNo"].ToString();
+                    dr[7] = ds.Tables[0].Rows[i]["Email"].ToString();
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+
+                DataSet xsdds = new AllSupplierPrint();
+                xsdds.Tables[0].Merge(dt);
+                xsdds.AcceptChanges();
+                report = new ReportDocument();
+                report.Load(Server.MapPath("~/Module/MaterialManagement/Reports/SupplierPrintReportAll.rpt"));
+                report.SetDataSource(xsdds);
+
+                // For Address
+                string Address = fun.CompAdd(cId);
+                report.SetParameterValue("Address", Address);
+                CrystalReportViewer1.ReportSource = report;
+                Session[Key] = report;
+
+            }
+            else
+            {
+                ReportDocument doc = (ReportDocument)Session[Key];
+                CrystalReportViewer1.ReportSource = doc;
+            }
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            myConnection.Close();
+        }
+    }
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        report.Close();
+        report.Dispose();
+        GC.Collect();
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        report = new ReportDocument();
+    }
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("SupplierMaster_Print.aspx?ModId=6&SubModId=22");
+    }
+
+}

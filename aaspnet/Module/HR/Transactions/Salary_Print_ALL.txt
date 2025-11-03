@@ -1,0 +1,619 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Transactions/Salary_Print_ALL.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Salary_Print_ALL.aspx.cs" Inherits="Module_HR_Transactions_Salary_Print_ALL" Title="ERP" Theme="Default" %>
+
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+ </asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="left" cellpadding="0" cellspacing="0"  Width="100%">
+    <tr>
+        <td align="center">
+            <asp:Panel ID="Panel1" runat="server" ScrollBars="Vertical"  Height="468" Width="100%">           
+    <CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" HasCrystalLogo="False"
+        AutoDataBind="True" Height="50px" ReportSourceID="CrystalReportSource2" 
+        Width="350px" DisplayGroupTree="False" EnableDatabaseLogonPrompt="False" 
+        EnableParameterPrompt="False" />
+    <CR:CrystalReportSource ID="CrystalReportSource2" runat="server">
+        <Report FileName="~\Module\HR\Transactions\Reports\Salary_ALL.rpt"></Report>
+    </CR:CrystalReportSource>
+ </asp:Panel>
+        </td>       
+    </tr>
+    <tr>
+     <td  align="center" valign="middle" height="25">
+            <asp:Button ID="Cancel" runat="server" Text="Cancel" CssClass="redbox" onclick="Cancel_Click" /></td>
+    </tr>
+</table>
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Transactions/Salary_Print_ALL.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
+using System.Globalization;
+
+public partial class Module_HR_Transactions_Salary_Print_ALL : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    
+    private ReportDocument report = new ReportDocument();
+
+    int CompId = 0;
+    int FinYearId = 0;
+    string EmpId = "";
+    int MonthId = 0;
+    int BGGroupId = 0;
+    string Key = string.Empty;
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+
+            string constr = fun.Connection();
+            SqlConnection con = new SqlConnection(constr);
+            DataSet Salary = new DataSet();
+            DataTable dt = new DataTable();
+            try
+            {
+                BGGroupId = Convert.ToInt32(Request.QueryString["BGGroupId"]);
+                MonthId = Convert.ToInt32(Request.QueryString["MonthId"]);
+                CompId = Convert.ToInt32(Session["compid"]);
+                FinYearId = Convert.ToInt32(Session["finyear"]);
+                Key = Request.QueryString["Key"].ToString();
+                int g1 = fun.SalYrs(FinYearId, MonthId, CompId);
+
+                dt.Columns.Add(new System.Data.DataColumn("EmpId", typeof(string)));//0
+                dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));//1
+                dt.Columns.Add(new System.Data.DataColumn("EmployeeName", typeof(string)));//2
+                dt.Columns.Add(new System.Data.DataColumn("Month", typeof(string)));//3
+                dt.Columns.Add(new System.Data.DataColumn("Year", typeof(string)));//4
+                dt.Columns.Add(new System.Data.DataColumn("Dept", typeof(string)));//5
+                dt.Columns.Add(new System.Data.DataColumn("Designation", typeof(string)));//6
+                dt.Columns.Add(new System.Data.DataColumn("Status", typeof(string)));//7
+                dt.Columns.Add(new System.Data.DataColumn("Grade", typeof(string)));//8 
+
+                dt.Columns.Add(new System.Data.DataColumn("Basic", typeof(double)));//9
+                dt.Columns.Add(new System.Data.DataColumn("DA", typeof(double)));//10
+                dt.Columns.Add(new System.Data.DataColumn("HRA", typeof(double)));//11               
+                dt.Columns.Add(new System.Data.DataColumn("Conveyance", typeof(double)));//12
+                dt.Columns.Add(new System.Data.DataColumn("Education", typeof(double)));//13
+                dt.Columns.Add(new System.Data.DataColumn("Medical", typeof(double)));//14
+                dt.Columns.Add(new System.Data.DataColumn("SundayP", typeof(double)));//15              
+                dt.Columns.Add(new System.Data.DataColumn("GrossTotal", typeof(double)));//16
+
+                dt.Columns.Add(new System.Data.DataColumn("AttendanceBonus", typeof(double)));//17
+                dt.Columns.Add(new System.Data.DataColumn("SpecialAllowance", typeof(double)));//18
+                dt.Columns.Add(new System.Data.DataColumn("ExGratia", typeof(double)));//19
+                dt.Columns.Add(new System.Data.DataColumn("TravellingAllowance", typeof(double)));//20
+                dt.Columns.Add(new System.Data.DataColumn("Miscellaneous", typeof(double)));//21
+                dt.Columns.Add(new System.Data.DataColumn("Total", typeof(double)));//22
+                dt.Columns.Add(new System.Data.DataColumn("NetPay", typeof(double)));//23
+
+                dt.Columns.Add(new System.Data.DataColumn("WorkingDays", typeof(double)));//24
+                dt.Columns.Add(new System.Data.DataColumn("PreasentDays", typeof(double)));//25
+                dt.Columns.Add(new System.Data.DataColumn("AbsentDays", typeof(double)));//26
+                dt.Columns.Add(new System.Data.DataColumn("Sunday", typeof(double)));//27
+                dt.Columns.Add(new System.Data.DataColumn("Holiday", typeof(double)));//28
+                dt.Columns.Add(new System.Data.DataColumn("LateIn", typeof(double)));//29
+                dt.Columns.Add(new System.Data.DataColumn("Coff", typeof(double)));//30
+                dt.Columns.Add(new System.Data.DataColumn("HalfDays", typeof(double)));//31
+                dt.Columns.Add(new System.Data.DataColumn("PL", typeof(double)));//32
+                dt.Columns.Add(new System.Data.DataColumn("LWP", typeof(double)));//33
+
+                dt.Columns.Add(new System.Data.DataColumn("PFofEmployee", typeof(double)));//34
+                dt.Columns.Add(new System.Data.DataColumn("PTax‎", typeof(double)));//35
+                dt.Columns.Add(new System.Data.DataColumn("PersonalLoanInstall‎", typeof(double)));//36
+                dt.Columns.Add(new System.Data.DataColumn("MobileBill", typeof(double)));//37
+                dt.Columns.Add(new System.Data.DataColumn("Miscellaneous2", typeof(double)));//38
+                dt.Columns.Add(new System.Data.DataColumn("Total2", typeof(double)));//39
+                dt.Columns.Add(new System.Data.DataColumn("EmpACNo", typeof(string)));//40
+                dt.Columns.Add(new System.Data.DataColumn("Date", typeof(string)));//41  
+
+                dt.Columns.Add(new System.Data.DataColumn("BasicCal", typeof(double)));//42
+                dt.Columns.Add(new System.Data.DataColumn("DACal", typeof(double)));//43
+                dt.Columns.Add(new System.Data.DataColumn("HRACal", typeof(double)));//44               
+                dt.Columns.Add(new System.Data.DataColumn("ConveyanceCal", typeof(double)));//45
+                dt.Columns.Add(new System.Data.DataColumn("EducationCal", typeof(double)));//46
+                dt.Columns.Add(new System.Data.DataColumn("MedicalCal", typeof(double)));//47        
+                dt.Columns.Add(new System.Data.DataColumn("GrossTotalCal", typeof(double)));//48
+                dt.Columns.Add(new System.Data.DataColumn("AttBonusType", typeof(double)));//49        
+                dt.Columns.Add(new System.Data.DataColumn("AttBonusAmt", typeof(double)));//50
+                dt.Columns.Add(new System.Data.DataColumn("PFNo", typeof(string)));//51        
+                dt.Columns.Add(new System.Data.DataColumn("PANNo", typeof(string)));//52
+
+
+                DataRow dr;
+                con.Open();
+
+                string StrEmpSal = string.Empty;
+                if (BGGroupId == 1)
+                {
+                    StrEmpSal = fun.select("tblHR_Salary_Master.EmpId,tblHR_OfficeStaff.UserID,tblHR_OfficeStaff.CompId,tblHR_OfficeStaff.OfferId As StaffOfferId,tblHR_OfficeStaff.EmpId As StaffEmpId, tblHR_OfficeStaff.FinYearId ,tblHR_OfficeStaff.CompId,tblHR_OfficeStaff.Title,tblHR_OfficeStaff.EmployeeName,tblHR_OfficeStaff.SwapCardNo,tblHR_OfficeStaff.Department,tblHR_OfficeStaff.BGGroup,tblHR_OfficeStaff.DirectorsName,tblHR_OfficeStaff.DeptHead,tblHR_OfficeStaff.Designation,tblHR_OfficeStaff.Grade,tblHR_OfficeStaff.MobileNo,tblHR_OfficeStaff.BankAccountNo,tblHR_OfficeStaff.PFNo,tblHR_OfficeStaff.PANNo", "tblHR_Offer_Master,tblHR_OfficeStaff,tblHR_Salary_Master", "tblHR_Offer_Master.OfferId = tblHR_OfficeStaff.OfferId AND tblHR_OfficeStaff.EmpId = tblHR_Salary_Master.EmpId AND tblHR_Salary_Master.FMonth ='" + MonthId + "'AND tblHR_Salary_Master.CompId ='" + CompId + "' AND tblHR_Salary_Master.FinYearId ='" + FinYearId + "' ");
+                }
+                else
+                {
+                    StrEmpSal = fun.select("tblHR_Salary_Master.EmpId,tblHR_OfficeStaff.UserID,tblHR_OfficeStaff.CompId,tblHR_OfficeStaff.OfferId As StaffOfferId,tblHR_OfficeStaff.EmpId As StaffEmpId, tblHR_OfficeStaff.FinYearId ,tblHR_OfficeStaff.CompId,tblHR_OfficeStaff.Title,tblHR_OfficeStaff.EmployeeName,tblHR_OfficeStaff.SwapCardNo,tblHR_OfficeStaff.Department,tblHR_OfficeStaff.BGGroup,tblHR_OfficeStaff.DirectorsName,tblHR_OfficeStaff.DeptHead,tblHR_OfficeStaff.Designation,tblHR_OfficeStaff.Grade,tblHR_OfficeStaff.MobileNo,tblHR_OfficeStaff.BankAccountNo,tblHR_OfficeStaff.PFNo,tblHR_OfficeStaff.PANNo", "tblHR_Offer_Master,tblHR_OfficeStaff,tblHR_Salary_Master", "tblHR_Offer_Master.OfferId = tblHR_OfficeStaff.OfferId AND tblHR_OfficeStaff.EmpId = tblHR_Salary_Master.EmpId AND tblHR_Salary_Master.FMonth ='" + MonthId + "'AND tblHR_Salary_Master.CompId ='" + CompId + "' AND tblHR_Salary_Master.FinYearId ='" + FinYearId + "' AND tblHR_OfficeStaff.BGGroup ='" + BGGroupId + "'");
+
+                }
+
+                //AND tblHR_Offer_Master.TypeOf='" + EType + "'              
+                SqlCommand cmdEmpSal = new SqlCommand(StrEmpSal, con);
+                SqlDataAdapter daEmpSal = new SqlDataAdapter(cmdEmpSal);
+                DataSet DSEmpSal = new DataSet();
+                daEmpSal.Fill(DSEmpSal);
+
+                for (int i = 0; i < DSEmpSal.Tables[0].Rows.Count; i++)
+                {
+
+                    EmpId = DSEmpSal.Tables[0].Rows[i]["EmpId"].ToString();
+
+                    string strselect = fun.select("UserID,CompId,OfferId,EmpId,Title,EmployeeName,SwapCardNo,Department,BGGroup,DirectorsName,DeptHead,Designation,Grade,MobileNo,BankAccountNo,PFNo,PANNo", "tblHR_OfficeStaff", "CompId='" + CompId + "' And EmpId='" + EmpId + "'");
+                    SqlCommand cmdselect = new SqlCommand(strselect, con);
+                    SqlDataAdapter da = new SqlDataAdapter(cmdselect);
+                    DataSet DS = new DataSet();
+                    da.Fill(DS);
+
+                    string department = "";
+                    string Designation = "";
+                    string Status = "";
+                    string Grade = "";
+                    double DayOfMonth = 0;
+
+                    if (DS.Tables[0].Rows.Count > 0)
+                    {
+                        DayOfMonth = DateTime.DaysInMonth(FinYearId, MonthId);
+                        dr = dt.NewRow();
+                        dr[0] = EmpId;
+                        dr[1] = Convert.ToInt32(DS.Tables[0].Rows[0]["CompId"]);
+                        dr[2] = DS.Tables[0].Rows[0]["Title"].ToString() + "." + DS.Tables[0].Rows[0]["EmployeeName"].ToString();
+
+                        string StrMonth = fun.select("FinYear", "tblFinancial_master", "CompId='" + CompId + "' And FinYearId='" + FinYearId + "'");
+                        SqlCommand cmdMonth = new SqlCommand(StrMonth, con);
+                        SqlDataAdapter DAMonth = new SqlDataAdapter(cmdMonth);
+                        DataSet DSMonth = new DataSet();
+                        DAMonth.Fill(DSMonth, "Financial");
+
+                        string Year = "";
+                        string a = DSMonth.Tables[0].Rows[0]["FinYear"].ToString();
+                        string[] b = a.Split('-');
+                        string fy = b[0];
+                        string ty = b[1];
+                        if (MonthId == 1 || MonthId == 2 || MonthId == 3 && MonthId != 0)
+                        {
+                            Year = ty;
+                        }
+                        else
+                        {
+                            Year = fy;
+                        }
+
+                        dr[3] = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(MonthId);
+                        dr[4] = Year;
+                        string StrDept = fun.select("Description+' [ '+Symbol+' ]' AS Dept", "tblHR_Departments", "Id='" + DS.Tables[0].Rows[0]["Department"].ToString() + "'");
+                        SqlCommand cmdStrDept = new SqlCommand(StrDept, con);
+                        SqlDataAdapter daStrDept = new SqlDataAdapter(cmdStrDept);
+                        DataSet dsStrDept = new DataSet();
+                        daStrDept.Fill(dsStrDept, "tblHR_Departments");
+                        if (dsStrDept.Tables[0].Rows.Count > 0)
+                        {
+                            department = dsStrDept.Tables[0].Rows[0]["Dept"].ToString();
+                        }
+
+                        string StrDesig = fun.select("Type+' [ '+Symbol+' ]' AS Designation", "tblHR_Designation", "Id='" + DS.Tables[0].Rows[0]["Designation"].ToString() + "'");
+                        SqlCommand cmdStrDesig = new SqlCommand(StrDesig, con);
+                        SqlDataAdapter daStrDesig = new SqlDataAdapter(cmdStrDesig);
+                        DataSet dsStrDesig = new DataSet();
+                        daStrDesig.Fill(dsStrDesig, "tblHR_Designation");
+                        if (dsStrDesig.Tables[0].Rows.Count > 0)
+                        {
+                            Designation = dsStrDesig.Tables[0].Rows[0]["Designation"].ToString();
+                        }
+
+                        string StrGrade = fun.select("Symbol AS Grade", "tblHR_Grade", "Id='" + DS.Tables[0].Rows[0]["Grade"].ToString() + "'");
+                        SqlCommand cmdStrGrade = new SqlCommand(StrGrade, con);
+                        SqlDataAdapter daStrGrade = new SqlDataAdapter(cmdStrGrade);
+                        DataSet dsStrGrade = new DataSet();
+                        daStrGrade.Fill(dsStrGrade, "tblHR_Grade");
+                        if (dsStrGrade.Tables[0].Rows.Count > 0)
+                        {
+                            Grade = dsStrGrade.Tables[0].Rows[0]["Grade"].ToString();
+                        }
+                        dr[5] = department;
+                        dr[6] = Designation;
+                        dr[8] = Grade;
+                        dr[51] = DS.Tables[0].Rows[0]["PFNo"];
+                        dr[52] = DS.Tables[0].Rows[0]["PANNo"];
+
+                        // tblHR_Offer_Master
+
+                        double Basic = 0;
+                        double DA = 0;
+                        double HRA = 0;
+                        double Conveyance = 0;
+                        double Education = 0;
+                        double Medical = 0;
+                        double GrossSalary = 0;
+                        double PFEmp = 0;
+                        double PFCmp = 0;
+
+                        string StrSalMck = fun.select("Increment", "tblHR_Salary_Master", "EmpId='" + EmpId + "' AND FMonth='" + MonthId + "' AND FinYearId='" + FinYearId + "'");
+                        SqlCommand cmdSalMck = new SqlCommand(StrSalMck, con);
+                        SqlDataAdapter daSalMck = new SqlDataAdapter(cmdSalMck);
+                        DataSet dsSalMck = new DataSet();
+                        daSalMck.Fill(dsSalMck, "tblHR_Salary_Master");
+
+                        string StrOfferMck = fun.select("Increment", "tblHR_Offer_Master", "OfferId='" + DS.Tables[0].Rows[0]["OfferId"].ToString() + "'");
+                        SqlCommand cmdOfferMck = new SqlCommand(StrOfferMck, con);
+                        SqlDataAdapter daOfferMck = new SqlDataAdapter(cmdOfferMck);
+                        DataSet dsOfferMck = new DataSet();
+                        daOfferMck.Fill(dsOfferMck);
+
+                        string StrOfferM = string.Empty;
+
+                        if (Convert.ToInt32(dsSalMck.Tables[0].Rows[0]["Increment"]) == Convert.ToInt32(dsOfferMck.Tables[0].Rows[0]["Increment"]))
+                        {
+                            StrOfferM = fun.select("OfferId,StaffType,TypeOf,salary,DutyHrs,OTHrs,OverTime,Designation,ExGratia,VehicleAllowance,LTA,Loyalty,PaidLeaves,Bonus,AttBonusPer1,AttBonusPer2,PFEmployee,PFCompany,Increment", "tblHR_Offer_Master", "OfferId='" + DS.Tables[0].Rows[0]["OfferId"].ToString() + "'");
+                        }
+                        else
+                        {
+                            StrOfferM = fun.select("OfferId,StaffType,TypeOf,salary,DutyHrs,OTHrs,OverTime,Designation,ExGratia,VehicleAllowance,LTA,Loyalty,PaidLeaves,Bonus,AttBonusPer1,AttBonusPer2,PFEmployee,PFCompany,Increment,Id", "tblHR_Increment_Master", "OfferId='" + DS.Tables[0].Rows[0]["OfferId"].ToString() + "' AND Increment='" + dsSalMck.Tables[0].Rows[0]["Increment"].ToString() + "'");
+                        }
+
+                        SqlCommand cmdOfferM = new SqlCommand(StrOfferM, con);
+                        SqlDataAdapter daOfferM = new SqlDataAdapter(cmdOfferM);
+                        DataSet dsOfferM = new DataSet();
+                        daOfferM.Fill(dsOfferM);
+
+                      
+                        if (dsOfferM.Tables[0].Rows.Count > 0)
+                        {
+                            GrossSalary = Convert.ToInt32(dsOfferM.Tables[0].Rows[0]["Salary"]);
+
+                            Basic = fun.Offer_Cal(GrossSalary, 1, 1, Convert.ToInt32(dsOfferM.Tables[0].Rows[0]["StaffType"]));
+                            DA = fun.Offer_Cal(GrossSalary, 2, 1, Convert.ToInt32(dsOfferM.Tables[0].Rows[0]["TypeOf"]));
+                            HRA = fun.Offer_Cal(GrossSalary, 3, 1, Convert.ToInt32(dsOfferM.Tables[0].Rows[0]["TypeOf"]));
+                            Conveyance = fun.Offer_Cal(GrossSalary, 4, 1, Convert.ToInt32(dsOfferM.Tables[0].Rows[0]["TypeOf"]));
+                            Education = fun.Offer_Cal(GrossSalary, 5, 1, Convert.ToInt32(dsOfferM.Tables[0].Rows[0]["TypeOf"]));
+                            Medical = fun.Offer_Cal(GrossSalary, 6, 1, Convert.ToInt32(dsOfferM.Tables[0].Rows[0]["TypeOf"]));
+
+                            dr[9] = Basic;
+                            dr[10] = DA;
+                            dr[11] = HRA;
+                            dr[12] = Conveyance;
+                            dr[13] = Education;
+                            dr[14] = Medical;
+                            dr[16] = GrossSalary.ToString();
+
+                            string StrEmpType = fun.select("Description", "tblHR_EmpType", "Id='" + dsOfferM.Tables[0].Rows[0]["StaffType"].ToString() + "'");
+                            SqlCommand cmdEmpType = new SqlCommand(StrEmpType, con);
+                            SqlDataAdapter daEmpType = new SqlDataAdapter(cmdEmpType);
+                            DataSet dsEmpType = new DataSet();
+                            daEmpType.Fill(dsEmpType, "tblHR_EmpType");
+
+                            if (dsEmpType.Tables[0].Rows.Count > 0)
+                            {
+                                if (Convert.ToInt32(dsOfferM.Tables[0].Rows[0]["TypeOf"]) == 1)
+                                {
+                                    Status = "SAPL - " + dsEmpType.Tables[0].Rows[0]["Description"].ToString();
+                                }
+                                else if (Convert.ToInt32(dsOfferM.Tables[0].Rows[0]["TypeOf"]) == 2)
+                                {
+                                    Status = "NEHA - " + dsEmpType.Tables[0].Rows[0]["Description"].ToString();
+                                }
+                            }
+
+
+                            dr[7] = Status;
+
+                            //tblHR_Salary
+                            double TotalDays = 0;
+                            double AttBonusDays = 0;
+                            double LWP = 0;
+                            double Present = 0;
+                            double Absent = 0;
+                            double PL = 0;
+                            double Coff = 0;
+                            double HalfDay = 0;
+                            double SundayP = 0;
+                            double SundayInMonth = 0;
+                            double Holiday = 0;
+                            double CalBasic = 0;
+                            double CalDA = 0;
+                            double CalHRA = 0;
+                            double CalConveyance = 0;
+                            double CalEducation = 0;
+                            double CalMedical = 0;
+                            double CalGrossTotal = 0;
+                            double CalPFEmp = 0;
+                            double CalPFCmp = 0;
+                            int AttBonusType = 0;
+                            double AttBonusAmt = 0;
+                            double AttBonus_1_Per = 0;
+                            double AttBonus_2_Per = 0;
+                            double ExGratia = 0;
+                            double CalExGratia = 0;
+                            double OTAmt = 0;
+                            double CalPTax = 0;
+                            double MiscAdd = 0;
+                            double MiscDeduct = 0;
+                            double WorkingDays = 0;
+                            double AccessoriesTH = 0;
+                            double AccessoriesCTC = 0;
+                            double AccessoriesBoth = 0;
+                            double VehicleAllow = 0;
+                            double Addition = 0;
+                            double Deduction = 0;
+                            double NetPay = 0;
+                            double TotalDeduct = 0;
+                            double Installment = 0;
+                            double MobBill = 0;
+
+                            string StrLeave = fun.select("tblHR_Salary_Details.Present,tblHR_Salary_Details.Absent,tblHR_Salary_Details.LateIn,tblHR_Salary_Details.HalfDay,tblHR_Salary_Details.Sunday,tblHR_Salary_Details.Coff,tblHR_Salary_Details.PL,tblHR_Salary_Details.OverTimeHrs,tblHR_Salary_Details.OverTimeRate,tblHR_Salary_Details.Installment,tblHR_Salary_Details.MobileExeAmt,tblHR_Salary_Details.Addition,tblHR_Salary_Details.Remarks1,tblHR_Salary_Details.Deduction,tblHR_Salary_Details.Remarks2", "tblHR_Salary_Details,tblHR_Salary_Master", "tblHR_Salary_Details.MId=tblHR_Salary_Master.Id AND tblHR_Salary_Master.CompId='" + CompId + "' AND tblHR_Salary_Master.FinYearId='" + FinYearId + "' AND tblHR_Salary_Master.EmpId='" + EmpId + "' AND tblHR_Salary_Master.FMonth='" + MonthId + "'");
+                            SqlCommand cmdLeave = new SqlCommand(StrLeave, con);
+                            SqlDataAdapter DALeave = new SqlDataAdapter(cmdLeave);
+                            DataSet DSLeave = new DataSet();
+                            DALeave.Fill(DSLeave);
+
+                            if (DSLeave.Tables[0].Rows.Count > 0)
+                            {
+                                ////////// Calculations
+
+                                //TotalDays = Present+PL+Coff+HalfDay AttBonusDays=Present+HalfDay 
+
+                                WorkingDays = fun.WorkingDays(FinYearId, MonthId);
+                                Present = Convert.ToDouble(DSLeave.Tables[0].Rows[0]["Present"]);
+                                Absent = Convert.ToDouble(DSLeave.Tables[0].Rows[0]["Absent"]);
+                                PL = Convert.ToDouble(DSLeave.Tables[0].Rows[0]["PL"]);
+                                Coff = Convert.ToDouble(DSLeave.Tables[0].Rows[0]["Coff"]);
+                                HalfDay = Convert.ToDouble(DSLeave.Tables[0].Rows[0]["HalfDay"]);
+                                SundayP = Convert.ToDouble(DSLeave.Tables[0].Rows[0]["Sunday"]);
+                                SundayInMonth = fun.CountSundays(g1, MonthId);
+                                Holiday = fun.GetHoliday(MonthId, CompId, FinYearId);
+                                AttBonus_1_Per = Convert.ToInt32(dsOfferM.Tables[0].Rows[0]["AttBonusPer1"]);
+                                AttBonus_2_Per = Convert.ToInt32(dsOfferM.Tables[0].Rows[0]["AttBonusPer2"]);
+                                ExGratia = Convert.ToDouble(dsOfferM.Tables[0].Rows[0]["ExGratia"]);
+                                VehicleAllow = Convert.ToDouble(dsOfferM.Tables[0].Rows[0]["VehicleAllowance"]);
+                                Addition = Convert.ToDouble(DSLeave.Tables[0].Rows[0]["Addition"]);
+                                Deduction = Convert.ToDouble(DSLeave.Tables[0].Rows[0]["Deduction"]);
+
+                                //TotalDays = Present + PL + Coff + HalfDay + SundayInMonth + Holiday;
+                                TotalDays = DayOfMonth - (Absent - (PL + Coff));
+                                AttBonusDays = Present + SundayP + HalfDay;
+                                LWP = DayOfMonth - TotalDays;
+
+                                CalBasic = Math.Round((Basic * TotalDays) / DayOfMonth);
+                                CalDA = Math.Round((DA * TotalDays) / DayOfMonth);
+                                CalHRA = Math.Round((HRA * TotalDays) / DayOfMonth);
+                                CalConveyance = Math.Round((Conveyance * TotalDays) / DayOfMonth);
+                                CalEducation = Math.Round((Education * TotalDays) / DayOfMonth);
+                                CalMedical = Math.Round((Medical * TotalDays) / DayOfMonth);
+                                CalGrossTotal = Math.Round(CalBasic + CalDA + CalHRA + CalConveyance + CalEducation + CalMedical);
+                                PFEmp = fun.Pf_Cal(CalGrossTotal, 1, Convert.ToInt32(dsOfferM.Tables[0].Rows[0]["PFEmployee"]));
+                                //PFCmp = fun.Pf_Cal(GrossSalary, 2, Convert.ToInt32(dsOfferM.Tables[0].Rows[0]["PFCompany"]));
+                                CalPFEmp = PFEmp;
+                                //CalPFCmp = Math.Round((CalGrossTotal * TotalDays) / DayOfMonth);
+                                CalExGratia = Math.Round((ExGratia * TotalDays) / DayOfMonth);
+                                Installment = Convert.ToDouble(DSLeave.Tables[0].Rows[0]["Installment"]);
+                                MobBill = Convert.ToDouble(DSLeave.Tables[0].Rows[0]["MobileExeAmt"]);
+
+                                // Accessories Addition
+
+
+                                string SqlAccessories = string.Empty;
+
+                                if (Convert.ToInt32(dsSalMck.Tables[0].Rows[0]["Increment"]) == Convert.ToInt32(dsOfferMck.Tables[0].Rows[0]["Increment"]))
+                                {
+                                    SqlAccessories = fun.select("Qty,Amount,IncludesIn", "tblHR_Offer_Accessories", "MId='" + dsOfferM.Tables[0].Rows[0]["OfferId"].ToString() + "'");
+                                }
+                                else
+                                {
+                                    SqlAccessories = fun.select("Qty,Amount,IncludesIn", "tblHR_Increment_Accessories", "MId='" + dsOfferM.Tables[0].Rows[0]["Id"].ToString() + "'");
+                                }
+
+                                SqlCommand cmdAccessories = new SqlCommand(SqlAccessories, con);
+                                SqlDataAdapter daAccessories = new SqlDataAdapter(cmdAccessories);
+                                DataSet dsAccessories = new DataSet();
+                                daAccessories.Fill(dsAccessories);
+                          
+                                for (int j = 0; j < dsAccessories.Tables[0].Rows.Count; j++)
+                                {
+                                    switch (dsAccessories.Tables[0].Rows[j]["IncludesIn"].ToString())
+                                    {
+                                        case "1":
+                                            AccessoriesCTC += Convert.ToDouble(dsAccessories.Tables[0].Rows[j]["Qty"]) * Convert.ToDouble(dsAccessories.Tables[0].Rows[j]["Amount"]);
+                                            break;
+                                        case "2":
+                                            AccessoriesTH += Convert.ToDouble(dsAccessories.Tables[0].Rows[j]["Qty"]) * Convert.ToDouble(dsAccessories.Tables[0].Rows[j]["Amount"]);
+                                            break;
+                                        case "3":
+                                            AccessoriesBoth += Convert.ToDouble(dsAccessories.Tables[0].Rows[j]["Qty"]) * Convert.ToDouble(dsAccessories.Tables[0].Rows[j]["Amount"]);
+                                            break;
+                                    }
+                                }
+
+
+
+                                // over Time
+                                if (dsOfferM.Tables[0].Rows[0]["OverTime"].ToString() == "2")
+                                {
+                                    double OTRate = 0;
+
+                                    string SqlOTHrs = fun.select("Hours", "tblHR_OTHour", "Id='" + dsOfferM.Tables[0].Rows[0]["OTHrs"].ToString() + "'");
+                                    SqlCommand cmdOTHrs = new SqlCommand(SqlOTHrs, con);
+                                    SqlDataAdapter daOTHrs = new SqlDataAdapter(cmdOTHrs);
+                                    DataSet dsOTHrs = new DataSet();
+                                    daOTHrs.Fill(dsOTHrs, "tblHR_OTHour");
+
+                                    string SqlDutyHrs = fun.select("Hours", "tblHR_DutyHour", "Id='" + dsOfferM.Tables[0].Rows[0]["DutyHrs"].ToString() + "'");
+                                    SqlCommand cmdDutyHrs = new SqlCommand(SqlDutyHrs, con);
+                                    SqlDataAdapter daDutyHrs = new SqlDataAdapter(cmdDutyHrs);
+                                    DataSet dsDutyHrs = new DataSet();
+                                    daDutyHrs.Fill(dsDutyHrs, "tblHR_DutyHour");
+
+                                    OTRate = fun.OTRate(GrossSalary, Convert.ToDouble(dsOTHrs.Tables[0].Rows[0]["Hours"]), Convert.ToDouble(dsDutyHrs.Tables[0].Rows[0]["Hours"]), DayOfMonth);
+
+                                    OTAmt = Math.Round(fun.OTAmt(OTRate, Convert.ToDouble(DSLeave.Tables[0].Rows[0]["OverTimeHrs"])));
+                                    //Response.Write(CalGrossTotal + "," + OTRate + "," + OTAmt + "," + WorkingDays);
+
+                                }
+
+                                // Att Bonus
+                                if (AttBonusDays >= (DayOfMonth - (Holiday + SundayInMonth + 2)) && AttBonusDays < ((DayOfMonth + 2) - (Holiday + SundayInMonth)))
+                                {
+                                    AttBonusType = 1;
+                                    AttBonusAmt = Math.Round((GrossSalary * AttBonus_1_Per) / 100);
+                                }
+                                else if (AttBonusDays >= ((DayOfMonth + 2) - (Holiday + SundayInMonth)))
+                                {
+                                    AttBonusType = 2;
+                                    AttBonusAmt = Math.Round((GrossSalary * AttBonus_2_Per) / 100);
+                                }
+
+                                // Misc Addition
+                                MiscAdd = Math.Round(VehicleAllow + AccessoriesTH + AccessoriesBoth + OTAmt + Addition);
+
+                                // P Tax
+                                CalPTax = fun.PTax_Cal((CalGrossTotal + AttBonusAmt + AccessoriesTH + AccessoriesBoth + CalExGratia + VehicleAllow + Addition + OTAmt), MonthId.ToString("D2"));
+
+                                // Misc Deduction
+                                MiscDeduct = Deduction;
+                                TotalDeduct = Math.Round(CalPFEmp + CalPTax + Installment + MobBill + MiscDeduct);
+
+                                //Net Pay
+                                NetPay = CalGrossTotal + AttBonusAmt + CalExGratia + MiscAdd;
+
+                                dr[15] = Convert.ToDouble(DSLeave.Tables[0].Rows[0]["Sunday"]);
+                                dr[19] = CalExGratia;
+                                dr[21] = MiscAdd;
+                                dr[24] = WorkingDays.ToString();
+                                dr[25] = Convert.ToDouble(DSLeave.Tables[0].Rows[0]["Present"]);
+                                dr[26] = Convert.ToDouble(DSLeave.Tables[0].Rows[0]["Absent"]);
+                                dr[27] = SundayInMonth;
+                                dr[28] = Holiday.ToString();
+                                dr[29] = Convert.ToDouble(DSLeave.Tables[0].Rows[0]["LateIn"]);
+                                dr[30] = Convert.ToDouble(DSLeave.Tables[0].Rows[0]["Coff"]);
+                                dr[31] = Convert.ToDouble(DSLeave.Tables[0].Rows[0]["HalfDay"]);
+                                dr[32] = Convert.ToDouble(DSLeave.Tables[0].Rows[0]["PL"]);
+                                dr[33] = LWP;
+                                dr[34] = CalPFEmp;
+                                dr[35] = CalPTax;
+                                dr[36] = Installment;
+                                dr[37] = MobBill;
+                                dr[38] = MiscDeduct;
+                                dr[42] = CalBasic;
+                                dr[43] = CalDA;
+                                dr[44] = CalHRA;
+                                dr[45] = CalConveyance;
+                                dr[46] = CalEducation;
+                                dr[47] = CalMedical;
+                                dr[48] = CalGrossTotal;
+                                dr[49] = AttBonusType;
+                                dr[50] = AttBonusAmt;
+                                dr[22] = Math.Round(NetPay);
+                                dr[39] = Math.Round(TotalDeduct);
+                                dr[23] = Math.Round(NetPay - TotalDeduct);
+
+                                ///////////////////////////
+                            }
+                        }
+
+                        dr[40] = DS.Tables[0].Rows[0]["BankAccountNo"].ToString();
+                        dr[41] = fun.FromDateDMY(fun.getCurrDate());
+                        dt.Rows.Add(dr);
+                        dt.AcceptChanges();
+                    }
+
+                }
+
+                Salary.Tables.Add(dt);
+                Salary.AcceptChanges();
+                DataSet xsdds = new OfferLetter();
+                xsdds.Tables[0].Merge(Salary.Tables[0]);
+                xsdds.AcceptChanges();
+                string reportPath = Server.MapPath("~/Module/HR/Transactions/Reports/Salary_ALL.rpt");
+                report.Load(reportPath);
+                report.SetDataSource(xsdds);
+                CrystalReportViewer1.ReportSource = report;
+                Session[Key] = report;
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            finally
+            {
+                Salary.Clear();
+                Salary.Dispose();
+                dt.Clear();
+                dt.Dispose();
+                con.Close();
+                con.Dispose();
+
+            }
+
+
+
+
+        }
+        else
+        {
+            Key = Request.QueryString["Key"].ToString();
+            ReportDocument doc = (ReportDocument)Session[Key];
+            CrystalReportViewer1.ReportSource = doc;
+        }
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        report = new ReportDocument();
+        MonthId = Convert.ToInt32(Request.QueryString["MonthId"]);
+    }
+    protected void Cancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Salary_Print.aspx?MonthId=" + MonthId + "&ModId=12&SubModId=133");
+    }
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        report.Close();
+        report.Dispose();
+        GC.Collect();
+    }
+
+}

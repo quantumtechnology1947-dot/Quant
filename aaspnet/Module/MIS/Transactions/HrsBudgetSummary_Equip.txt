@@ -1,0 +1,498 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MIS/Transactions/HrsBudgetSummary_Equip.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="HrsBudgetSummary_Equip.aspx.cs" Inherits="Module_MIS_Transactions_HrsBudgetSummary_Equip" Title="ERP"  Theme ="Default"  %>
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+           <td align="left" valign="middle"  scope="col"  
+                            style="background:url(../../../images/hdbg.JPG)" class="fontcsswhite" 
+                            height="21">
+                            &nbsp;<b>Hrs Budget Summary</b></td>
+           <td align="right" valign="middle"  scope="col"  
+                            style="background:url(../../../images/hdbg.JPG)" class="fontcsswhite" 
+                            height="21">
+                            <asp:Button ID="Button1" runat="server" CssClass="redbox" 
+                                onclick="Button1_Click" Text="Cancel" />
+&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                    <CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" HasCrystalLogo="False"
+            AutoDataBind="True" Height="50px" 
+            Width="350px" DisplayGroupTree="False" 
+                        EnableDatabaseLogonPrompt="False" EnableParameterPrompt="False"  />
+        <CR:CrystalReportSource ID="CrystalReportSource1" runat="server">
+        <Report FileName="~\Module\Accounts\Transactions\Reports\HrsBudgetSummary_Equip.rpt">            
+            </Report>
+       </CR:CrystalReportSource>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MIS/Transactions/HrsBudgetSummary_Equip.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using CrystalDecisions.CrystalReports.Engine;
+using System.Data.SqlClient;
+
+public partial class Module_MIS_Transactions_HrsBudgetSummary_Equip : System.Web.UI.Page
+{
+    int CompId = 0;
+    int FinYearId = 0;
+    string SId = string.Empty;
+    string WONo = string.Empty;
+    string Key = string.Empty;
+    string PKey = string.Empty;
+
+    clsFunctions fun = new clsFunctions();
+    private ReportDocument report = new ReportDocument();
+    Cal_Used_Hours CUS = new Cal_Used_Hours();
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        try
+        {
+
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            SId = Session["username"].ToString();
+            WONo = Request.QueryString["wono"];
+            Key = Request.QueryString["Key"].ToString();
+            PKey = Request.QueryString["PKey"].ToString();
+
+            if (!IsPostBack)
+            {
+                string connStr = fun.Connection();
+                SqlConnection con = new SqlConnection(connStr);
+                con.Open();
+
+                DataTable dt = new DataTable();
+
+                dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(Int32)));//0
+                dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));//1
+                dt.Columns.Add(new System.Data.DataColumn("ProjectTitle", typeof(string)));//2
+                dt.Columns.Add(new System.Data.DataColumn("EquipNo", typeof(string)));//3
+                dt.Columns.Add(new System.Data.DataColumn("Description", typeof(string)));//4
+                dt.Columns.Add(new System.Data.DataColumn("MDBHrs", typeof(double)));//5
+                dt.Columns.Add(new System.Data.DataColumn("MDUHrs", typeof(double)));//6
+                dt.Columns.Add(new System.Data.DataColumn("MABHrs", typeof(double)));//7
+                dt.Columns.Add(new System.Data.DataColumn("MAUHrs", typeof(double)));//8
+                dt.Columns.Add(new System.Data.DataColumn("MCBHrs", typeof(double)));//9
+                dt.Columns.Add(new System.Data.DataColumn("MCUHrs", typeof(double)));//10
+                dt.Columns.Add(new System.Data.DataColumn("MTBHrs", typeof(double)));//11
+                dt.Columns.Add(new System.Data.DataColumn("MTUHrs", typeof(double)));//12
+                dt.Columns.Add(new System.Data.DataColumn("MDIBHrs", typeof(double)));//13
+                dt.Columns.Add(new System.Data.DataColumn("MDIUHrs", typeof(double)));//14
+                dt.Columns.Add(new System.Data.DataColumn("MIBHrs", typeof(double)));//15
+                dt.Columns.Add(new System.Data.DataColumn("MIUHrs", typeof(double)));//16
+                dt.Columns.Add(new System.Data.DataColumn("MTRBHrs", typeof(double)));//17
+                dt.Columns.Add(new System.Data.DataColumn("MTRUHrs", typeof(double)));//18
+                dt.Columns.Add(new System.Data.DataColumn("EDBHrs", typeof(double)));//19
+                dt.Columns.Add(new System.Data.DataColumn("EDUHrs", typeof(double)));//20
+                dt.Columns.Add(new System.Data.DataColumn("EABHrs", typeof(double)));//21
+                dt.Columns.Add(new System.Data.DataColumn("EAUHrs", typeof(double)));//22
+                dt.Columns.Add(new System.Data.DataColumn("ECBHrs", typeof(double)));//23
+                dt.Columns.Add(new System.Data.DataColumn("ECUHrs", typeof(double)));//24
+                dt.Columns.Add(new System.Data.DataColumn("ETBHrs", typeof(double)));//25
+                dt.Columns.Add(new System.Data.DataColumn("ETUHrs", typeof(double)));//26
+                dt.Columns.Add(new System.Data.DataColumn("EDIBHrs", typeof(double)));//27
+                dt.Columns.Add(new System.Data.DataColumn("EDIUHrs", typeof(double)));//28
+                dt.Columns.Add(new System.Data.DataColumn("EIBHrs", typeof(double)));//29
+                dt.Columns.Add(new System.Data.DataColumn("EIUHrs", typeof(double)));//30
+                dt.Columns.Add(new System.Data.DataColumn("ETRBHrs", typeof(double)));//31
+                dt.Columns.Add(new System.Data.DataColumn("ETRUHrs", typeof(double)));//32
+
+                string selectQuery = fun.select("TaskProjectTitle", "SD_Cust_WorkOrder_Master", "CompId='" + CompId + "' AND WONo='" + WONo + "'");
+                SqlCommand myCommand = new SqlCommand(selectQuery, con);
+                SqlDataReader ds = myCommand.ExecuteReader();
+                ds.Read();
+
+                string selectQuery2 = "SELECT tblDG_BOM_Master.ItemId,tblDG_Item_Master.ItemCode, tblDG_Item_Master.ManfDesc FROM  tblDG_BOM_Master INNER JOIN tblDG_Item_Master ON tblDG_BOM_Master.ItemId = tblDG_Item_Master.Id AND tblDG_BOM_Master.WONo='" + WONo + "' AND tblDG_BOM_Master.PId='0'";
+                SqlCommand myCommand2 = new SqlCommand(selectQuery2, con);
+                SqlDataReader ds2 = myCommand2.ExecuteReader();
+
+                DataRow dr;
+
+                while (ds2.Read())
+                {
+                    dr = dt.NewRow();
+
+                    dr[0] = CompId;
+                    dr[1] = WONo;
+                    dr[2] = ds["TaskProjectTitle"].ToString();
+                    dr[3] = ds2["ItemCode"].ToString();
+                    dr[4] = ds2["ManfDesc"].ToString();
+
+                    //Mechanical
+
+                    // MDBHrs Actual Budget
+                    if (Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 1)) > 0)
+                    {
+                        dr[5] = Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 1));
+                    }
+                    else
+                    {
+                        dr[5] = 0;
+                    }
+
+                    // MDBHrs Utilized Budget Hrs
+                    if (Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 1)) > 0)
+                    {
+                        dr[6] = Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 1));
+                    }
+                    else
+                    {
+                        dr[6] = 0;
+                    }
+
+
+                    // MABHrs Actual Budget
+                    if (Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 2)) > 0)
+                    {
+                        dr[7] = Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 2));
+                    }
+                    else
+                    {
+                        dr[7] = 0;
+                    }
+
+                    // MABHrs Utilized Budget Hrs
+                    if (Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 2)) > 0)
+                    {
+                        dr[8] = Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 2));
+                    }
+                    else
+                    {
+                        dr[8] = 0;
+                    }
+
+                    // MCBHrs Actual Budget
+                    if (Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 3)) > 0)
+                    {
+                        dr[9] = Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 3));
+                    }
+                    else
+                    {
+                        dr[9] = 0;
+                    }
+
+                    // MCBHrs Utilized Budget Hrs
+                    if (Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 3)) > 0)
+                    {
+                        dr[10] = Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 3));
+                    }
+                    else
+                    {
+                        dr[10] = 0;
+                    }
+
+                    // MTBHrs Actual Budget
+                    if (Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 4)) > 0)
+                    {
+                        dr[11] = Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 4));
+                    }
+                    else
+                    {
+                        dr[11] = 0;
+                    }
+
+                    // MCBHrs Utilized Budget Hrs
+                    if (Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 4)) > 0)
+                    {
+                        dr[12] = Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 4));
+                    }
+                    else
+                    {
+                        dr[12] = 0;
+                    }
+
+                    // MDIBHrs Actual Budget
+                    if (Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 5)) > 0)
+                    {
+                        dr[13] = Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 5));
+                    }
+                    else
+                    {
+                        dr[13] = 0;
+                    }
+
+                    // MDIBHrs Utilized Budget Hrs
+                    if (Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 5)) > 0)
+                    {
+                        dr[14] = Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 5));
+                    }
+                    else
+                    {
+                        dr[14] = 0;
+                    }
+
+                    // MIBHrs Actual Budget
+                    if (Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 6)) > 0)
+                    {
+                        dr[15] = Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 6));
+                    }
+                    else
+                    {
+                        dr[15] = 0;
+                    }
+
+                    // MIBHrs Utilized Budget Hrs
+                    if (Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 6)) > 0)
+                    {
+                        dr[16] = Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 6));
+                    }
+                    else
+                    {
+                        dr[16] = 0;
+                    }
+
+                    // MTRBHrs Actual Budget
+                    if (Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 7)) > 0)
+                    {
+                        dr[17] = Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 7));
+                    }
+                    else
+                    {
+                        dr[17] = 0;
+                    }
+
+                    // MTRBHrs Utilized Budget Hrs
+                    if (Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 7)) > 0)
+                    {
+                        dr[18] = Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 2, 7));
+                    }
+                    else
+                    {
+                        dr[18] = 0;
+                    }
+
+
+                    ////Electrical
+
+                    //EDBHrs Actual Budget
+                    if (Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3,8)) > 0)
+                    {
+                        dr[19] = Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 8));
+                    }
+                    else
+                    {
+                        dr[19] = 0;
+                    }
+
+                    //EDBHrs Utilized Budget Hrs
+                    if (Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 8)) > 0)
+                    {
+                        dr[20] = Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 8));
+                    }
+                    else
+                    {
+                        dr[20] = 0;
+                    }
+
+                    //EABHrs
+                    if (Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 9)) > 0)
+                    {
+                        dr[21] = Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 9));
+                    }
+                    else
+                    {
+                        dr[21] = 0;
+                    }
+
+                    //EABHrs Utilized Budget Hrs
+                    if (Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 9)) > 0)
+                    {
+                        dr[22] = Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3,9));
+                    }
+                    else
+                    {
+                        dr[22] = 0;
+                    }
+
+
+                    //ECBHrs
+                    if (Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 10)) > 0)
+                    {
+                        dr[23] = Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 10));
+                    }
+                    else
+                    {
+                        dr[23] = 0;
+                    }
+
+                    //ECBHrs Utilized Budget Hrs
+                    if (Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3,10)) > 0)
+                    {
+                        dr[24] = Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 10));
+                    }
+                    else
+                    {
+                        dr[24] = 0;
+                    }
+
+                    //ETBHrs
+                    if (Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 11)) > 0)
+                    {
+                        dr[25] = Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 11));
+                    }
+                    else
+                    {
+                        dr[25] = 0;
+                    }
+
+                    //ETBHrs Utilized Budget Hrs
+                    if (Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 11)) > 0)
+                    {
+                        dr[26] = Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 11));
+                    }
+                    else
+                    {
+                        dr[26] = 0;
+                    }
+
+                    //EDIBHrs
+                    if (Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 12)) > 0)
+                    {
+                        dr[27] = Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3,12));
+                    }
+                    else
+                    {
+                        dr[27] = 0;
+                    }
+
+                    //EDIBHrs Utilized Budget Hrs
+                    if (Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 12)) > 0)
+                    {
+                        dr[28] = Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 12));
+                    }
+                    else
+                    {
+                        dr[28] = 0;
+                    }
+
+
+                    //EIBHrs
+                    if (Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 13)) > 0)
+                    {
+                        dr[29] = Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 13));
+                    }
+                    else
+                    {
+                        dr[29] = 0;
+                    }
+
+                    //EIBHrs Utilized Budget Hrs
+                    if (Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 13)) > 0)
+                    {
+                        dr[30] = Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 13));
+                    }
+                    else
+                    {
+                        dr[30] = 0;
+                    }
+
+                    //ETRBHrs
+                    if (Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 14)) > 0)
+                    {
+                        dr[31] = Convert.ToDouble(CUS.AllocatedHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 14));
+                    }
+                    else
+                    {
+                        dr[31] = 0;
+                    }
+
+                    //ETRBHrs Utilized Budget Hrs
+                    if (Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 14)) > 0)
+                    {
+                        dr[32] = Convert.ToDouble(CUS.UtilizeHrs_WONo(CompId, WONo, Convert.ToInt32(ds2["ItemId"]), 3, 14));
+                    }
+                    else
+                    {
+                        dr[32] = 0;
+                    }
+
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+
+                DataSet Xsd = new HrsBudgetSummary_Equip();
+                Xsd.Tables[0].Merge(dt);
+                Xsd.AcceptChanges();
+
+                string reportPath = Server.MapPath("~/Module/MIS/Transactions/Reports/HrsBudgetSummary_Equip.rpt");
+                report.Load(reportPath);
+                report.SetDataSource(Xsd);
+
+                string Address = fun.CompAdd(CompId);
+                report.SetParameterValue("Address", Address);
+
+                CrystalReportViewer1.ReportSource = report;
+                Session[Key] = report;
+                con.Close();
+            }
+            else
+            {
+                Key = Request.QueryString["Key"].ToString();
+                ReportDocument doc = (ReportDocument)Session[Key];
+                CrystalReportViewer1.ReportSource = doc;
+            }
+
+        }
+        catch (Exception et)
+        {
+
+        }    
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        report = new ReportDocument();
+    }
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        report.Close();
+        report.Dispose();
+        GC.Collect();
+    }
+
+    
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("HrsBudgetSummary.aspx?ModId=14&SubModId=&Key=" + PKey + "");
+    }
+}

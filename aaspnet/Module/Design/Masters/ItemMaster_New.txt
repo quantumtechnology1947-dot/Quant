@@ -1,0 +1,885 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Masters/ItemMaster_New.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ItemMaster_New.aspx.cs" Inherits="Module_Design_Masters_ItemMasterNew" Title="ERP" Theme="Default"  %>
+
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function OnChanged(sender, args)
+        {
+            ServerUtilities.SetTabIndex(sender.get_activeTabIndex());
+        }
+        function limitcounter(n)
+        {
+           document.getElementById('TxtCounter').value=parseInt(n)-parseInt(document.getElementById('TxtPartNo').value.length);
+        }
+        
+    </script>     
+    
+    </asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server"> 
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+       
+    <table cellpadding="2" cellpadding="0" cellspacing="0" width="120%">
+        <tr>
+            <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;Item Master - New</b></td>
+        </tr>
+        <tr>
+            <td>
+                <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" 
+                    AutoPostBack="true"
+                    Width="100%" onactivetabchanged="TabContainer1_ActiveTabChanged">
+                    <cc1:TabPanel runat="server" HeaderText="Add Items" ID="Add">
+                        
+                        
+                    
+<HeaderTemplate>Add Items
+                        </HeaderTemplate><ContentTemplate>
+                        
+                    <asp:Panel ID="Panel1" ScrollBars="Auto" runat="server">
+                        <table align="left" 
+                            cellpadding="0" cellspacing="0" width="100%"><tr><td height="27" 
+                                valign="middle" width="17%"><asp:Label ID="Label2" runat="server" 
+                                Text="Category"></asp:Label></td><td valign="middle" width="25%">
+                                    <asp:DropDownList ID="DrpCategory" runat="server" AutoPostBack="True" 
+                                            CssClass="box3" 
+                                        OnSelectedIndexChanged="DrpCategory_SelectedIndexChanged" Width="150px"></asp:DropDownList><asp:RequiredFieldValidator ID="ReqCat" runat="server" 
+                                            ControlToValidate="DrpCategory" ErrorMessage="*" InitialValue="Select" 
+                                            ValidationGroup="A"></asp:RequiredFieldValidator></td><td>&#160;</td>
+                                <td>&nbsp;</td></tr><tr><td valign="middle" 
+                            height="27" width="17%"><asp:Label ID="Label4" runat="server" 
+                            Text="Part No"></asp:Label></td><td valign="middle" colspan="3"><asp:TextBox ID="TxtPartNo" 
+                                runat="server" CssClass="box3" MaxLength="3" Width="60px"></asp:TextBox><asp:RequiredFieldValidator 
+                                ID="RequiredFieldValidator2" runat="server" ControlToValidate="TxtPartNo" 
+                                ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator><asp:CompareValidator 
+                                ID="CompareValidator3" runat="server" ControlToValidate="TxtPartNo" 
+                                ErrorMessage="*" Operator="DataTypeCheck" Type="Integer" ValidationGroup="A"></asp:CompareValidator>-
+                                <asp:TextBox ID="TextBox1" runat="server" CssClass="box3" MaxLength="3" 
+                                    Width="60px"></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" 
+                                    ControlToValidate="TextBox1" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+                                <asp:CompareValidator ID="CompareValidator2" runat="server" 
+                                    ControlToValidate="TextBox1" ErrorMessage="*" Operator="DataTypeCheck" 
+                                    Type="Integer" ValidationGroup="A"></asp:CompareValidator>
+                                -
+                                <asp:TextBox ID="TextBox2" runat="server" CssClass="box3" MaxLength="3" 
+                                    Width="60px"></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
+                                    ControlToValidate="TextBox2" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+                                <asp:CompareValidator ID="CompareValidator1" runat="server" 
+                                    ControlToValidate="TextBox2" ErrorMessage="*" Operator="DataTypeCheck" 
+                                    Type="Integer" ValidationGroup="A"></asp:CompareValidator>
+                                &nbsp; Ex.:xxxx-xxx-xxx&nbsp;</td></tr><tr><td valign="top"><asp:Label 
+                                ID="Label7" runat="server">Description</asp:Label></td><td colspan="3">
+                                    <asp:TextBox 
+                                    ID="TxtManfDesc" runat="server" CssClass="box3" Rows="6" TextMode="MultiLine" 
+                                    Width="500px"></asp:TextBox><asp:RequiredFieldValidator 
+                                    ID="RequiredFieldValidator4" runat="server" ControlToValidate="TxtManfDesc" 
+                                    ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator></td></tr><tr><td valign="middle"><asp:Label 
+                                ID="Label9" runat="server" Text="UOM"></asp:Label></td><td valign="middle" 
+                                    height="25px"><asp:DropDownList ID="DrpUOMBasic" runat="server" 
+                                    CssClass="box3">
+                                </asp:DropDownList><asp:RequiredFieldValidator ID="ReqUOM" runat="server" 
+                                    ControlToValidate="DrpUOMBasic" ErrorMessage="*" InitialValue="Select" 
+                                    ValidationGroup="A"></asp:RequiredFieldValidator></td><td 
+                                valign="middle"><asp:Label ID="Label19" runat="server" Text="UOM Conv."></asp:Label></td><td 
+                                valign="middle" height="25px"><asp:RadioButtonList ID="RadioButtonList1" 
+                                    runat="server" RepeatDirection="Horizontal"><asp:ListItem Value="1">Yes</asp:ListItem><asp:ListItem 
+                                        Selected="True" Value="0">No</asp:ListItem>
+                                </asp:RadioButtonList></td></tr><tr><td valign="middle" height="25px"><asp:Label 
+                                ID="Label13" runat="server" Text="Stock Qty"></asp:Label></td>
+                                <td 
+                                valign="middle">
+                                    <asp:TextBox ID="TxtStockQty" runat="server" 
+                                    CssClass="box3" onblue="if(isNaN(this.value)==true) { this.value=''; }" 
+                                    onfocus="if(isNaN(this.value)==true) { this.value=''; }" 
+                                    onkeyup="if(isNaN(this.value)==true) { this.value=''; }" Enabled="False">0</asp:TextBox><asp:RegularExpressionValidator 
+                                    ID="RegStkQty" runat="server" ControlToValidate="TxtStockQty" ErrorMessage="*" 
+                                    ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="A"></asp:RegularExpressionValidator></td><td 
+                                valign="middle" height="25px"><asp:Label ID="Label20" runat="server">Class</asp:Label></td><td 
+                                valign="middle"><asp:DropDownList ID="drpclass" runat="server" CssClass="box3" 
+                                    DataSourceID="SqlDataSource2" DataTextField="Class" DataValueField="Id">
+                                </asp:DropDownList></td></tr><tr><td valign="middle"><asp:Label 
+                                ID="Label11" runat="server" Text="Min Order Qty"></asp:Label></td>
+                                <td 
+                                valign="middle" height="25px"><asp:TextBox ID="TxtMinorderQty" 
+                                    runat="server" CssClass="box3" 
+                                    onblue="if(isNaN(this.value)==true) { this.value=''; }" 
+                                    onfocus="if(isNaN(this.value)==true) { this.value=''; }" 
+                                    onkeyup="if(isNaN(this.value)==true) { this.value=''; }">1</asp:TextBox><asp:RegularExpressionValidator 
+                                    ID="RegStkQty2" runat="server" ControlToValidate="TxtMinorderQty" 
+                                    ErrorMessage="*" ValidationExpression="^\d{1,15}(\.\d{0,3})?$" 
+                                    ValidationGroup="A"></asp:RegularExpressionValidator></td><td 
+                                valign="middle"><asp:Label ID="Label22" runat="server">Inspection Days</asp:Label></td><td valign="top"><asp:TextBox 
+                                    ID="txtInspdays" runat="server" CssClass="box3">0</asp:TextBox><asp:RegularExpressionValidator 
+                                    ID="RegularExpressionValidator2" runat="server" ControlToValidate="txtInspdays" 
+                                    ErrorMessage="*" ValidationExpression="^\d{1,15}(\.\d{0,3})?$" 
+                                    ValidationGroup="A"></asp:RegularExpressionValidator></td></tr><tr><td 
+                                valign="middle"><asp:Label ID="Label12" runat="server" Text="Min Stock Qty"></asp:Label></td>
+                                <td 
+                                valign="middle" height="25px"><asp:TextBox ID="TxtMinStockQty" 
+                                    runat="server" CssClass="box3" 
+                                    onblue="if(isNaN(this.value)==true) { this.value=''; }" 
+                                    onfocus="if(isNaN(this.value)==true) { this.value=''; }" 
+                                    onkeyup="if(isNaN(this.value)==true) { this.value=''; }">1</asp:TextBox><asp:RegularExpressionValidator 
+                                    ID="RegStkQty1" runat="server" ControlToValidate="TxtMinStockQty" 
+                                    ErrorMessage="*" ValidationExpression="^\d{1,15}(\.\d{0,3})?$" 
+                                    ValidationGroup="A"></asp:RegularExpressionValidator></td><td 
+                                valign="middle"><asp:Label ID="Label14" runat="server" Text="Store Location"></asp:Label></td><td 
+                                valign="middle" height="25px"><asp:DropDownList ID="DrpLocation" runat="server" 
+                                    CssClass="box3">
+                                </asp:DropDownList><asp:RequiredFieldValidator ID="ReqLoc" runat="server" 
+                                    ControlToValidate="DrpLocation" ErrorMessage="*" InitialValue="Select" 
+                                    ValidationGroup="A"></asp:RequiredFieldValidator></td></tr><tr><td 
+                                valign="middle"><asp:Label ID="Label18" runat="server" 
+                                Text="Opening Bal Qty"></asp:Label></td><td valign="middle">
+                                    <asp:TextBox 
+                                    ID="TxtOpeningBalQty" runat="server" CssClass="box3" 
+                                    onblue="if(isNaN(this.value)==true) { this.value=''; }" 
+                                    onfocus="if(isNaN(this.value)==true) { this.value=''; }" 
+                                    onkeyup="if(isNaN(this.value)==true) { this.value=''; }" Enabled="False">0</asp:TextBox><asp:RegularExpressionValidator 
+                                    ID="RegStkQty0" runat="server" ControlToValidate="TxtOpeningBalQty" 
+                                    ErrorMessage="*" ValidationExpression="^\d{1,15}(\.\d{0,3})?$" 
+                                    ValidationGroup="A"></asp:RegularExpressionValidator></td><td valign="middle"><asp:Label 
+                                    ID="Label17" runat="server" Text="Opening Bal Date"></asp:Label></td><td valign="middle">
+                                    <asp:TextBox 
+                                    ID="TxtOpeningBalDate" runat="server" CssClass="box3" Enabled="False" ></asp:TextBox>
+                                    
+                                    <cc1:CalendarExtender 
+                                    ID="TxtOpeningBalDate_CalendarExtender" runat="server" Enabled="True" CssClass="cal_Theme2" PopupPosition="TopRight"
+                                    Format="dd-MM-yyyy" TargetControlID="TxtOpeningBalDate"></cc1:CalendarExtender>
+                                    
+                                    </td></tr><tr><td 
+                                valign="middle"><asp:Label ID="Label21" runat="server">Lead Days</asp:Label></td>
+                                <td 
+                                valign="middle"><asp:TextBox ID="txtleaddays" runat="server" 
+                                    CssClass="box3">0</asp:TextBox><asp:RegularExpressionValidator 
+                                    ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtleaddays" 
+                                    ErrorMessage="*" ValidationExpression="^\d{1,15}(\.\d{0,3})?$" 
+                                    ValidationGroup="A"></asp:RegularExpressionValidator></td><td valign="middle"><asp:Label 
+                                    ID="Label23" runat="server" Text="Import/Local"></asp:Label></td><td valign="middle"><asp:RadioButtonList 
+                                    ID="RadioButtonList2" runat="server" RepeatDirection="Horizontal"><asp:ListItem 
+                                    Value="1">Yes</asp:ListItem><asp:ListItem Selected="True" Value="0">No</asp:ListItem>
+                                </asp:RadioButtonList></td></tr><tr><td valign="middle"><asp:Label 
+                                ID="Label24" runat="server" Text="Excise Applicable"></asp:Label></td>
+                                <td 
+                                valign="middle"><asp:RadioButtonList ID="RadioButtonList3" 
+                                    runat="server" RepeatDirection="Horizontal"><asp:ListItem Value="1"> Yes</asp:ListItem><asp:ListItem 
+                                        Selected="True" Value="0">No</asp:ListItem>
+                                </asp:RadioButtonList></td><td valign="middle"><asp:Label ID="Label16" 
+                                    runat="server" Text="Absolute"></asp:Label></td><td valign="middle"><asp:CheckBox 
+                                    ID="CheckAbsolute" runat="server" /></td></tr><tr><td valign="middle">Drw/<asp:Label 
+                                ID="Label15" runat="server" Text="Image"></asp:Label></td>
+                                <td 
+                                valign="middle"><asp:FileUpload ID="FileUpload1" runat="server" /></td><td valign="top">Buyer</td><td valign="top"><asp:DropDownList 
+                                ID="DrpBuyer" runat="server" DataSourceID="SqlDataSource3" 
+                                DataTextField="EmpName" DataValueField="Id">
+                            </asp:DropDownList><asp:SqlDataSource ID="SqlDataSource3" runat="server" 
+                                ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                                ProviderName="System.Data.SqlClient" 
+                                SelectCommand="SELECT [tblMM_Buyer_Master].[Id], [tblMM_Buyer_Master].[Category]+Convert(varchar,[tblMM_Buyer_Master].[Nos])+'-'+[tblHR_OfficeStaff].[EmployeeName]+'['+[tblMM_Buyer_Master].[EmpId]+']' As EmpName FROM [tblMM_Buyer_Master],[tblHR_OfficeStaff] where [tblHR_OfficeStaff].[EmpId]=[tblMM_Buyer_Master].[EmpId] And [tblMM_Buyer_Master].Id!='0' ">
+                            </asp:SqlDataSource></td></tr><tr><td valign="middle">Spec. Sheet</td>
+                                <td 
+                                valign="middle"><asp:FileUpload ID="FileUpload2" 
+                                runat="server" /></td><td valign="top">A/C Head </td><td valign="top"><table 
+                                align="left" cellpadding="0" cellspacing="0" class="style2"><tr><td>
+                                    <asp:RadioButton 
+                                    ID="RbtnLabour" runat="server" AutoPostBack="True" 
+                                    GroupName="GroupACHead" OnCheckedChanged="RbtnLabour_CheckedChanged" 
+                                    Text="Labour" /><asp:RadioButton ID="RbtnWithMaterial" runat="server" 
+                                    AutoPostBack="True" GroupName="GroupACHead" 
+                                    OnCheckedChanged="RbtnWithMaterial_CheckedChanged" Text="With Material" 
+                                        Checked="True" />                                        
+                                        <asp:RadioButton ID="RbtnExpenses" runat="server" 
+                                    AutoPostBack="True" GroupName="GroupACHead" 
+                                    OnCheckedChanged="RbtnExpenses_CheckedChanged" Text="Expenses" 
+                                        Checked="False" />                                        
+                                        <asp:RadioButton ID="RbtnServiceProvider" runat="server" 
+                                    AutoPostBack="True" GroupName="GroupACHead" 
+                                    OnCheckedChanged="RbtnServiceProvider_CheckedChanged" Text="Service Provider" 
+                                        Checked="False" />                                        
+                                        </td><td>
+                                        <asp:DropDownList ID="DrpACHead" runat="server" CssClass="box3" 
+                                            OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged">
+                                        </asp:DropDownList>
+                                    </td></tr></table></td></tr><tr><td valign="middle">&#160;&#160; </td>
+                                <td 
+                            valign="middle"><asp:SqlDataSource ID="SqlDataSource2" 
+                            runat="server" ConnectionString="<%$ connectionStrings:LocalSqlServer %>" 
+                            ProviderName="System.Data.SqlClient" 
+                            SelectCommand="SELECT * FROM [tblDG_Item_Class] where [Id]!=0"></asp:SqlDataSource></td><td 
+                            valign="top">&#160; </td><td valign="bottom" height="25px"><asp:Button 
+                                ID="BtnSubmit" runat="server" CssClass="redbox" OnClick="BtnSubmit_Click" 
+                                OnClientClick="return confirmationAdd()" Text="Submit" ValidationGroup="A" />
+                        </td></tr></table></asp:Panel></ContentTemplate></cc1:TabPanel>
+                    <cc1:TabPanel ID="View" runat="server" HeaderText="View Items">
+                        
+                        
+
+                    
+<HeaderTemplate>View Items
+                        
+                        
+                    </HeaderTemplate><ContentTemplate>
+                            
+                        <table width="100%"><tr><td class="fontcsswhite" height="25" valign="middle" >&#160; <asp:DropDownList ID="DrpType" runat="server" AutoPostBack="True" 
+                    Height="21px" Width="70px" CssClass="box3" 
+                    onselectedindexchanged="DrpType_SelectedIndexChanged"><asp:ListItem>Select</asp:ListItem><asp:ListItem Value="Category">Category</asp:ListItem><asp:ListItem Value="WOItems">WO Items</asp:ListItem></asp:DropDownList><asp:DropDownList ID="DrpCategory1" runat="server" Width="200px" 
+                    AutoPostBack="True" 
+                    onselectedindexchanged="DrpCategory1_SelectedIndexChanged" Height="21px" 
+                    CssClass="box3"></asp:DropDownList>
+                    
+                    <asp:DropDownList ID="DrpSearchCode" runat="server" Width="200px" 
+                    CssClass="box3" AutoPostBack="True" 
+                    onselectedindexchanged="DrpSearchCode_SelectedIndexChanged"><asp:ListItem Value="Select">Select</asp:ListItem><asp:ListItem Value="tblDG_Item_Master.ItemCode">Item Code</asp:ListItem><asp:ListItem Value="tblDG_Item_Master.ManfDesc">Description</asp:ListItem><asp:ListItem Value="tblDG_Item_Master.Location">Location</asp:ListItem></asp:DropDownList>
+             
+             <asp:DropDownList ID="DropDownList3" runat="server" 
+                                style="margin-bottom: 0px" Width="155px"
+                    AutoPostBack="True" CssClass="box3"></asp:DropDownList><asp:TextBox ID="txtSearchItemCode" runat="server" Width="207px" 
+                    CssClass="box3"></asp:TextBox>&nbsp;<asp:Button ID="BtnSearch" runat="server" 
+                                CssClass="redbox" onclick="BtnSearch_Click" Text="Search" />
+                            </td></tr><tr>
+            
+            
+            <td>
+            
+                <asp:Panel ID="Panel2" ScrollBars="Auto" runat="server">
+              
+            
+            <asp:GridView ID="GridView2" 
+                        runat="server" 
+                    CssClass="yui-datatable-theme" AutoGenerateColumns="False" 
+                    OnPageIndexChanging="GridView2_PageIndexChanging" AllowPaging="True" 
+                        onselectedindexchanged="GridView2_SelectedIndexChanged" Width="100%" 
+                        PageSize="20">
+                              <PagerSettings PageButtonCount="40" />
+                              <Columns><asp:TemplateField HeaderText="SN"><ItemTemplate><%# Container.DataItemIndex+1 %></ItemTemplate><ItemStyle 
+                            HorizontalAlign="Right"></ItemStyle></asp:TemplateField><asp:BoundField DataField="Id" HeaderText="Id" 
+                            Visible="False" /><asp:BoundField DataField="Category" HeaderText="Category"><ItemStyle Width="7%" HorizontalAlign="Center" /></asp:BoundField><asp:BoundField DataField="PartNo" HeaderText="PartNo"><ItemStyle Width="8%" HorizontalAlign="Center" /></asp:BoundField><asp:BoundField DataField="ItemCode" HeaderText="Item Code"><ItemStyle Width="10%" HorizontalAlign="Center" /></asp:BoundField><asp:BoundField DataField="ManfDesc" HeaderText="Description"><ItemStyle Width="15%" /></asp:BoundField><asp:BoundField DataField="UOMBasic" HeaderText="UOM "><ItemStyle Width="5%" HorizontalAlign="Center" /></asp:BoundField><asp:BoundField DataField="MinOrderQty" HeaderText="Min Order Qty" ><ItemStyle Width="6%" HorizontalAlign="Right" /></asp:BoundField><asp:BoundField DataField="MinStockQty" HeaderText="Min Stock Qty"><ItemStyle Width="6%" HorizontalAlign="Right" /></asp:BoundField><asp:BoundField DataField="StockQty" HeaderText="Stock Qty" ><ItemStyle Width="6%" HorizontalAlign="Right" /></asp:BoundField><asp:BoundField DataField="Location" HeaderText="Location"><ItemStyle Width="5%" HorizontalAlign="Center" /></asp:BoundField><asp:BoundField DataField="Absolute" HeaderText="Absolute" ><ItemStyle Width="5%" HorizontalAlign="Center" /></asp:BoundField><asp:BoundField DataField="Excise" HeaderText="Excise"><ItemStyle Width="5%" HorizontalAlign="Center" /></asp:BoundField><asp:BoundField DataField="ImportLocal" HeaderText="Import/ Local" ><ItemStyle Width="4%" HorizontalAlign="Center" /></asp:BoundField><asp:BoundField DataField="OpeningBalDate" HeaderText="Open Bal Date" ><ItemStyle Width="6%" HorizontalAlign="Center" /></asp:BoundField><asp:BoundField DataField="OpeningBalQty" HeaderText="Opening Bal Qty"><ItemStyle Width="6%" HorizontalAlign="Right" /></asp:BoundField><asp:BoundField DataField="UOMConFact" HeaderText="UOM Conv. Fact." 
+                                Visible="False"><ItemStyle Width="8%" /></asp:BoundField>
+                        
+                        <asp:BoundField DataField="AHId" HeaderText="A/C Head."><ItemStyle Width="8%" /></asp:BoundField>
+                                </Columns><EmptyDataTemplate><table width="100%" class="fontcss"><tr><td align="center"><asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon"> </asp:Label></td></tr></table></EmptyDataTemplate></asp:GridView>  </asp:Panel></td></tr></table></ContentTemplate></cc1:TabPanel>
+                </cc1:TabContainer>
+            </td>
+        </tr>
+        </table>
+    
+    
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Masters/ItemMaster_New.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.IO;
+
+public partial class Module_Design_Masters_ItemMasterNew : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    DataSet DS = new DataSet();
+    DataSet DS2 = new DataSet();
+    DataSet DS3 = new DataSet();
+    int CompId = 0;
+    int FinYearId = 0;
+
+
+    protected void Page_Load(object sender, EventArgs e)
+    {      
+
+     try
+        {  CompId = Convert.ToInt32(Session["compid"]);            
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+
+            TxtOpeningBalDate.Attributes.Add("readonly", "readonly");
+            if (!IsPostBack)
+            {
+                fun.AcHead(DrpACHead,RbtnLabour,RbtnWithMaterial,RbtnExpenses,RbtnServiceProvider);
+                string connStr = fun.Connection();
+                SqlConnection con = new SqlConnection(connStr);
+                DrpCategory1.Items.Clear();
+                DrpCategory1.Items.Insert(0, "Select");
+                DropDownList3.Visible = false;
+                DrpCategory1.Visible = false;
+                DrpSearchCode.Visible = false;
+                txtSearchItemCode.Visible = false;                
+                string StrCat = fun.select("CId,'['+Symbol+'] - '+CName as Category", "tblDG_Category_Master", "CompId='" + CompId + "'");
+                SqlCommand Cmd = new SqlCommand(StrCat, con);
+                SqlDataAdapter DA = new SqlDataAdapter(Cmd);
+                DA.Fill(DS, "tblDG_Category_Master");
+                DrpCategory.DataSource = DS.Tables["tblDG_Category_Master"];
+                DrpCategory.DataTextField = "Category";
+                DrpCategory.DataValueField = "CId";
+                DrpCategory.DataBind();
+                DrpCategory.Items.Insert(0, "Select");               
+                fun.drpunit(DrpUOMBasic);
+                fun.drpLocat(DrpLocation);
+                TxtOpeningBalDate.Text = fun.getOpeningDate(CompId, FinYearId);               
+                TabContainer1.OnClientActiveTabChanged = "OnChanged";
+                TabContainer1.ActiveTabIndex = Convert.ToInt32(Session["TabIndex"] ?? "0");
+               
+            }            
+            
+        }
+     catch (Exception ex)
+        {
+
+        }
+
+       
+        
+    }
+    protected void RbtnLabour_CheckedChanged(object sender, EventArgs e)
+    {
+        fun.AcHead(DrpACHead, RbtnLabour, RbtnWithMaterial, RbtnExpenses, RbtnServiceProvider);
+
+    }
+    protected void RbtnWithMaterial_CheckedChanged(object sender, EventArgs e)
+    {
+        fun.AcHead(DrpACHead, RbtnLabour, RbtnWithMaterial, RbtnExpenses, RbtnServiceProvider);
+    }
+    protected void RbtnExpenses_CheckedChanged(object sender, EventArgs e)
+    {
+        fun.AcHead(DrpACHead, RbtnLabour, RbtnWithMaterial, RbtnExpenses, RbtnServiceProvider);
+    }
+    protected void RbtnServiceProvider_CheckedChanged(object sender, EventArgs e)
+    {
+        fun.AcHead(DrpACHead, RbtnLabour, RbtnWithMaterial, RbtnExpenses, RbtnServiceProvider);
+    }
+
+    
+
+
+    public void Fillgrid(string sd, string B, string s, string drptype)
+    {
+
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        DataTable dt = new DataTable();
+
+    try
+        {
+            
+            string x = "";           
+            string p = "";
+            string q = "";
+            string y = "";
+            if (DrpType.SelectedValue != "Select")
+            {
+                if (DrpType.SelectedValue == "Category")
+                {
+                    if (sd != "Select")
+                    {
+
+                        x = " AND tblDG_Item_Master.CId='" + sd + "'";                      
+
+                        if (B != "Select")
+                        {
+                            if (B == "tblDG_Item_Master.ItemCode")
+                            {
+                                txtSearchItemCode.Visible = true;
+                                p = " And tblDG_Item_Master.ItemCode Like '" + s + "%'";
+                            }
+
+                            if (B == "tblDG_Item_Master.ManfDesc")
+                            {
+                                txtSearchItemCode.Visible = true;
+                                p = " And tblDG_Item_Master.ManfDesc Like '%" + s + "%'";
+                            }
+
+
+                            if (B == "tblDG_Item_Master.Location")
+                            {
+                                txtSearchItemCode.Visible = false;
+                                DropDownList3.Visible = true;
+
+                                if (DropDownList3.SelectedValue != "Select")
+                                {
+                                    p = " And tblDG_Item_Master.Location='" + DropDownList3.SelectedValue + "'";
+                                }
+                            }
+
+
+                        }
+                        q = "And tblDG_Item_Master.CompId='" + CompId + "' And tblDG_Item_Master.FinYearId<='" + FinYearId + "'";
+
+                    }
+                    else if (sd == "Select" && B == "Select" && s != string.Empty)
+                    {
+                        y = " And tblDG_Item_Master.ManfDesc Like '%" + s + "%'";
+
+                    }
+                    
+
+                }
+
+                else if (DrpType.SelectedValue != "Select" && DrpType.SelectedValue == "WOItems")
+                {
+                   
+                    if (B != "Select")
+                    {
+                        if (B == "tblDG_Item_Master.ItemCode")
+                        {
+                            txtSearchItemCode.Visible = true;
+                            p = " And tblDG_Item_Master.ItemCode Like '%" + s + "%'";
+                        }
+
+                        if (B == "tblDG_Item_Master.ManfDesc")
+                        {
+                            txtSearchItemCode.Visible = true;
+                            p = " And tblDG_Item_Master.ManfDesc Like '%" + s + "%'";
+                        }
+                    }
+                    else if (B == "Select" && s != string.Empty)
+                    {
+                        y = " And tblDG_Item_Master.ManfDesc Like '%" + s + "%'";
+
+                    }
+
+                    q = "And tblDG_Item_Master.CompId='" + CompId + "' And tblDG_Item_Master.FinYearId<='" + FinYearId + "'";
+                                        
+                }
+               
+                SqlCommand cmd = new SqlCommand();
+                SqlDataAdapter da = new SqlDataAdapter("GetAllItem", con);
+                da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                da.SelectCommand.Parameters.Add(new SqlParameter("@startIndex", SqlDbType.VarChar));
+                da.SelectCommand.Parameters["@startIndex"].Value = sd;
+                da.SelectCommand.Parameters.Add(new SqlParameter("@pageSize", SqlDbType.VarChar));
+                da.SelectCommand.Parameters["@pageSize"].Value = x;
+                da.SelectCommand.Parameters.Add(new SqlParameter("@startIndex1", SqlDbType.VarChar));
+                da.SelectCommand.Parameters["@startIndex1"].Value = p;
+                da.SelectCommand.Parameters.Add(new SqlParameter("@pageSize1", SqlDbType.VarChar));
+                da.SelectCommand.Parameters["@pageSize1"].Value = q;
+                da.SelectCommand.Parameters.Add(new SqlParameter("@drpType", SqlDbType.VarChar));
+                da.SelectCommand.Parameters["@drpType"].Value = drptype;
+                da.SelectCommand.Parameters.Add(new SqlParameter("@drpCode", SqlDbType.VarChar));
+                da.SelectCommand.Parameters["@drpCode"].Value = B;
+                da.SelectCommand.Parameters.Add(new SqlParameter("@y", SqlDbType.VarChar));
+                da.SelectCommand.Parameters["@y"].Value = y;
+                DataSet DSitem = new DataSet();
+                da.Fill(DSitem);
+                GridView2.DataSource = DSitem;
+                GridView2.DataBind();
+            }
+            
+        }
+      catch(Exception ex)
+        {
+
+        }
+
+    }
+
+    public void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        
+        GridView2.PageIndex = e.NewPageIndex;  
+        string sd = DrpCategory1.SelectedValue;
+        string c = DrpSearchCode.SelectedValue;
+        string d = txtSearchItemCode.Text;
+        string e1 = DrpType.SelectedValue;              
+        this.Fillgrid(sd,c, d,e1);
+       
+        
+    }
+    
+
+   
+    protected void BtnSubmit_Click(object sender, EventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+       try
+        {
+          if (DrpCategory.SelectedValue != "Select" && DrpUOMBasic.SelectedValue != "Select"  && DrpLocation.SelectedValue != "Select" && fun.NumberValidationQty(TxtStockQty.Text) == true && fun.NumberValidationQty(TxtOpeningBalQty.Text) == true && fun.NumberValidationQty(TxtMinorderQty.Text) == true && fun.NumberValidationQty(TxtMinStockQty.Text) == true && TxtManfDesc.Text!="")
+            {
+                con.Open();
+                string CDate = fun.getCurrDate();
+                string CTime = fun.getCurrTime();
+                string openingbalDate = fun.ToDate(TxtOpeningBalDate.Text);
+                string sId = Session["username"].ToString();
+                int CompId = Convert.ToInt32(Session["compid"]);
+                int FinYearId = Convert.ToInt32(Session["finyear"]);
+                int len = FileUpload1.PostedFile.ContentLength;
+                string Fname = "";
+                string ContentType = "";
+                byte[] pic;
+                if (len > 0)
+                {
+                    System.Drawing.Image imageToBeResized = System.Drawing.Image.FromStream(FileUpload1.PostedFile.InputStream);
+                    ContentType = FileUpload1.PostedFile.ContentType;
+                    int imageHeight = imageToBeResized.Height;
+                    int imageWidth = imageToBeResized.Width;
+                    int maxWidth = 135;
+                    imageHeight = 62;
+                    imageWidth = maxWidth;
+                    Bitmap bitmap = new Bitmap(imageToBeResized, imageWidth, imageHeight);
+                    System.IO.MemoryStream stream = new MemoryStream();
+                    bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    stream.Position = 0;
+                    pic = new byte[len];
+                    stream.Read(pic, 0, len);
+                    Fname = System.IO.Path.GetFileNameWithoutExtension(FileUpload1.PostedFile.FileName);
+                }
+                else
+                {
+                    pic = new byte[0];
+                }               
+
+                string ItemCode = "";
+                string AttName="";
+                double AttSize=0;
+                string AttContentType = ""; 
+                 HttpPostedFile mycv = FileUpload2.PostedFile;
+                 Byte[] AttData = null;
+
+                 if (FileUpload2.PostedFile != null)
+                 {
+                     Stream fscv = FileUpload2.PostedFile.InputStream;
+                     BinaryReader brcv = new BinaryReader(fscv);
+                     AttData = brcv.ReadBytes((Int32)fscv.Length);
+                     AttName = Path.GetFileName(mycv.FileName);
+                     AttSize = AttData.Length;
+                     AttContentType = mycv.ContentType;                     
+
+                 }
+
+                int abs;
+                if (CheckAbsolute.Checked == true)
+                {
+                    abs = 1;
+                }
+                else
+                {
+                    abs = 0;
+                }
+
+                int imp;
+                if (RadioButtonList2.SelectedValue == "1")
+                {
+                    imp = 1;
+                }
+                else
+                {
+                    imp = 0;
+                }
+
+                int Exc;
+                if (RadioButtonList3.SelectedValue =="1")
+                {
+                    Exc = 1;
+                }
+                else
+                {
+                    Exc = 0;
+                }
+
+                int UOMConfact;
+                if (RadioButtonList1.SelectedValue == "1")
+                {
+                    UOMConfact = 1;
+                }
+                else
+                {
+                    UOMConfact = 0;
+                }              
+               
+                int abc = fun.ItemCodeLimit(CompId);
+
+                string SqlStrCid = fun.select("Symbol", "tblDG_Category_Master", "CId='" + DrpCategory.SelectedValue + "'And CompId='" + CompId + "'");
+                SqlCommand Cmd11 = new SqlCommand(SqlStrCid, con);
+                SqlDataAdapter DA11 = new SqlDataAdapter(Cmd11);
+                DataSet DSstr1 = new DataSet();
+                DA11.Fill(DSstr1, "tblDG_Category_Master");
+              string cat ="";
+              if(DSstr1.Tables[0].Rows.Count>0)
+              {
+
+                  cat = DSstr1.Tables[0].Rows[0][0].ToString();
+              }
+                string part = TxtPartNo.Text + "-" + TextBox1.Text + "-" + TextBox2.Text;
+
+                ItemCode = string.Concat(cat, part);                 
+
+                // to check duplicate entry
+                //,AttName,AttSize,AttContentType,AttData
+                if (ItemCode != "" && ItemCode.Length==abc)
+                {
+                    string SqlStr = fun.select("ItemCode", "tblDG_Item_Master", "ItemCode='" + ItemCode + "'And CompId='" + CompId + "'");
+                    SqlCommand Cmd1 = new SqlCommand(SqlStr, con);
+                    SqlDataAdapter DA1 = new SqlDataAdapter(Cmd1);
+                    DataSet DSstr = new DataSet();
+                    DA1.Fill(DSstr, "tblDG_Item_Master");
+
+                    if (DSstr.Tables[0].Rows.Count == 0)
+                    {
+                        if (TxtPartNo.Text.Length == TxtPartNo.MaxLength)
+                        {
+                            string cmdstr = fun.insert("tblDG_Item_Master", "SysDate,SysTime,SessionId,CompId,FinYearId,CId,PartNo,ManfDesc,UOMBasic,MinOrderQty,MinStockQty,StockQty,Location,FileData,Absolute,OpeningBalDate,OpeningBalQty,ItemCode,Class,LeadDays,InspectionDays,FileName,FileSize,ContentType,Excise,ImportLocal,UOMConFact,AttName,AttSize,AttContentType,AttData,Buyer,AHId", "'" + CDate + "','" + CTime + "','" + sId + "','" + CompId + "','" + FinYearId + "','" + DrpCategory.SelectedValue + "','" + part + "','" + TxtManfDesc.Text + "','" + DrpUOMBasic.SelectedValue + "','" + Convert.ToDouble(decimal.Parse((TxtMinorderQty.Text).ToString()).ToString("N3")) + "','" + Convert.ToDouble(decimal.Parse((TxtMinStockQty.Text).ToString()).ToString("N3")) + "','" + Convert.ToDouble(decimal.Parse((TxtStockQty.Text).ToString()).ToString("N3")) + "','" + DrpLocation.SelectedValue + "',@pic,'" + abs + "','" + openingbalDate + "','" + Convert.ToDouble(decimal.Parse((TxtOpeningBalQty.Text).ToString()).ToString("N3"))+ "','" + ItemCode + "','" + drpclass.SelectedValue + "','" + txtleaddays.Text + "','" + txtInspdays.Text + "','" + Fname + "','" + len + "','" + ContentType + "','" + Exc + "','" + imp + "','" + UOMConfact + "','" + AttName + "','" + AttSize + "','" + AttContentType + "',@AttData,'"+DrpBuyer.SelectedValue+"','"+DrpACHead.SelectedValue+"'");
+                            SqlCommand cmd = new SqlCommand(cmdstr, con);                           
+                            cmd.Parameters.AddWithValue("@pic", pic);
+                            cmd.Parameters.AddWithValue("@AttData", AttData);
+                            cmd.ExecuteNonQuery();
+                            string myStringVariable = string.Empty;
+                            string myStringVariable2 = "Record Inserted Succesfully.";
+                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable2 + "');", true);
+
+                            DrpCategory.SelectedValue = "Select";
+                            TxtPartNo.Text = "";
+                            TextBox1.Text = "";
+                            TextBox2.Text = "";
+                            TxtManfDesc.Text = "";
+                            DrpUOMBasic.SelectedValue = "Select";
+                            DrpLocation.SelectedValue = "Select";
+                            drpclass.SelectedValue = "1";
+                           
+                        }
+                        
+                    }
+
+                    else
+                    {
+                        string myStringVariable = string.Empty;
+                        string myStringVariable2 = "Item is already exists.";
+                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable2 + "');", true);
+
+                    }
+
+                }
+
+                else
+                {
+                    string myStringVariable = string.Empty;
+                    myStringVariable= "Invalid Part number."; 
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable + "');", true);
+
+                }
+            }
+
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+      finally
+        {
+
+            con.Close();
+        }
+
+    }
+
+    protected void GridView2_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+      try
+        {
+        if (DrpCategory1.SelectedValue != "Select")
+        {
+
+            string sd = DrpCategory1.SelectedValue;
+            string c = DrpSearchCode.SelectedValue;
+            string d = txtSearchItemCode.Text;
+            string e1 = DrpType.SelectedValue;
+            this.Fillgrid(sd, c, d,e1);
+        }
+        else
+        {
+            string sd = "";
+            string c = "";
+            string d = "";
+            string e1 = "";
+            this.Fillgrid(sd, c, d, e1);
+        }
+
+        }
+      catch (Exception ex)
+        {
+
+        }
+    }   
+
+    protected void DrpCategory_SelectedIndexChanged(object sender, EventArgs e)
+    {
+       
+    }
+    protected void DrpCategory1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (DrpCategory1.SelectedValue != "Select")
+            {
+               
+                string sd = DrpCategory1.SelectedValue;
+                string c = DrpSearchCode.SelectedValue;
+                string d = txtSearchItemCode.Text;
+                string e1 = DrpType.SelectedValue;
+                this.Fillgrid(sd, c, d, e1);
+                DrpSearchCode.Visible = true;
+                txtSearchItemCode.Text = "";
+            }
+        }
+        catch (Exception ex) { }
+
+    }
+
+    protected void DrpSearchCode_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (DrpSearchCode.SelectedItem.Text == "Location")
+        {
+            DropDownList3.Visible = true;
+            txtSearchItemCode.Visible = false;
+            txtSearchItemCode.Text = "";
+        }
+        else
+        {
+            DropDownList3.Visible = false;
+            txtSearchItemCode.Visible = true;
+            txtSearchItemCode.Text = "";
+        }
+    }
+
+
+    protected void DrpType_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+        switch (DrpType.SelectedValue)
+        {
+            case "Category":
+                {
+                    DrpSearchCode.Visible = true;
+                    DropDownList3.Visible = true;
+                    txtSearchItemCode.Visible = true;
+                    txtSearchItemCode.Text = "";
+                    DrpCategory1.Visible = true;
+
+                    string connStr = fun.Connection();
+                    SqlConnection con = new SqlConnection(connStr);
+
+                    DataSet DS = new DataSet();
+                    string StrCat = fun.select("CId,Symbol+'-'+CName as Category", "tblDG_Category_Master", "CompId='" + CompId + "'");
+                    SqlCommand Cmd = new SqlCommand(StrCat, con);
+                    SqlDataAdapter DA = new SqlDataAdapter(Cmd);
+                    DA.Fill(DS, "tblDG_Category_Master");
+                    DrpCategory1.DataSource = DS.Tables["tblDG_Category_Master"];
+                    DrpCategory1.DataTextField = "Category";
+                    DrpCategory1.DataValueField = "CId";
+                    DrpCategory1.DataBind();
+                    DrpCategory1.Items.Insert(0, "Select");
+                    DrpCategory1.ClearSelection();                   
+                    
+                    fun.drpLocat(DropDownList3);
+
+                    if (DrpSearchCode.SelectedItem.Text == "Location")
+                    {
+                        DropDownList3.Visible = true;
+                        txtSearchItemCode.Visible = false;
+                        txtSearchItemCode.Text = "";
+                    }
+                    else
+                    {
+                        DropDownList3.Visible = false;
+                        txtSearchItemCode.Visible = true;
+                        txtSearchItemCode.Text = "";
+                    }
+
+                }
+                break;
+
+            case "WOItems":
+                {
+                    txtSearchItemCode.Visible = true;
+                    txtSearchItemCode.Text = "";
+
+
+                    DrpSearchCode.Visible = true;
+                    DrpCategory1.Visible = false;
+                    DrpCategory1.Items.Clear();
+                    DrpCategory1.Items.Insert(0, "Select");
+
+                    DropDownList3.Visible = false;
+                    DropDownList3.Items.Clear();
+                    DropDownList3.Items.Insert(0, "Select");
+                }
+                break;
+
+            case "Select":
+                {                    
+                    string myStringVariable = string.Empty;
+                    myStringVariable = "Please Select Category or WO Items.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable + "');", true);
+
+                    
+                }
+                break;
+        }
+        }
+       catch (Exception ex) { }
+    }
+    protected void TabContainer1_ActiveTabChanged(object sender, EventArgs e)
+    {
+        Session.Remove("TabIndex");
+    }
+
+
+    protected void BtnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (DrpType.SelectedValue != "Select")
+            {
+                string sd = DrpCategory1.SelectedValue;
+                string c = DrpSearchCode.SelectedValue;
+                string d = txtSearchItemCode.Text;
+                string e1 = DrpType.SelectedValue;
+                this.Fillgrid(sd, c, d, e1);
+            }
+            else
+            {
+                string myStringVariable = string.Empty;
+                myStringVariable = "Select Category or WO Items.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable + "');", true);
+            }
+        }
+        catch (Exception ex) { }
+    }
+}

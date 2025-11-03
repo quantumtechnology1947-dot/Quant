@@ -1,0 +1,1070 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/CreditorsDebitors.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="CreditorsDebitors.aspx.cs" Inherits="Module_Accounts_Transactions_CreditorsDebitors" Title="ERP"  Theme="Default"%>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style4
+        {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            font-size: 11px;
+            font-style: normal; 
+            line-height: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            color: #FFFFFF;
+            text-decoration: none;
+            height: 21px;
+        }
+        </style>
+</asp:Content> 
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+ 
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="center" style="width: 100%" cellpadding="0" cellspacing="0"  >
+        <tr>
+            <td align="left" valign="middle" 
+                style="background:url(../../../images/hdbg.JPG)" 
+                class="style4" colspan="2"><b>
+                &nbsp;Creditors / Debitors</b></td>
+        </tr>
+
+        
+            <tr>
+            <td>
+            <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0"  
+                    AutoPostBack="True" Width="100%" 
+                    onactivetabchanged="TabContainer1_ActiveTabChanged" >
+            <cc1:TabPanel runat="server" HeaderText="Creditors" ID="Creditors"> 
+                <HeaderTemplate>
+                Creditors</HeaderTemplate>
+            <ContentTemplate><table width="100%" align="center" ><tr><td align="left" ><b>Supplier Name</b> :<asp:TextBox ID="TextBox1" runat="server" CssClass="box3" 
+                    Width="300px"></asp:TextBox><cc1:AutoCompleteExtender 
+                    ID="Txt_AutoCompleteExtender" runat="server" 
+                    CompletionInterval="100" CompletionListCssClass="almt" 
+                    CompletionListHighlightedItemCssClass="bgtext" CompletionListItemCssClass="bg" 
+                    CompletionSetCount="2" ContextKey="key1" DelimiterCharacters="" Enabled="True" 
+                    FirstRowSelected="True" MinimumPrefixLength="1" ServiceMethod="sql3" 
+                    ServicePath="" ShowOnlyCurrentWordInCompletionListItem="True" 
+                    TargetControlID="TextBox1" UseContextKey="True"></cc1:AutoCompleteExtender><asp:Button ID="btn_Search" runat="server" CssClass="redbox" 
+                    onclick="btn_Search_Click" Text="Search" />&#160;</td></tr><tr><td align="center"><asp:GridView ID="GridView1" runat="server" AllowPaging="True" 
+                            AutoGenerateColumns="False" CssClass="yui-datatable-theme" DataKeyNames="Id" 
+                            OnPageIndexChanging="GridView1_PageIndexChanging" 
+                            OnRowCommand="GridView1_RowCommand" PageSize="18" ShowFooter="True" Width="98%"><Columns><asp:TemplateField ShowHeader="False"><ItemTemplate><asp:LinkButton ID="LinkBtnDel" runat="server" CausesValidation="False" 
+                                            CommandName="Del" OnClientClick=" return confirmationDelete()" Text="Delete"></asp:LinkButton></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="4%" /></asp:TemplateField><asp:TemplateField HeaderText="SN" SortExpression="Id"><ItemTemplate><%#Container.DataItemIndex+1  %></ItemTemplate><FooterTemplate><asp:Button ID="btnInsert" runat="server" CommandName="Add" CssClass="redbox" 
+                                            OnClientClick=" return confirmationAdd()" Text="Insert" ValidationGroup="abc" /></FooterTemplate><ItemStyle HorizontalAlign="Center" Width="2%" /></asp:TemplateField><asp:TemplateField HeaderText="Creditors"><ItemTemplate><asp:Label ID="lblTerms2" runat="server" Text='<%#Eval("SupplierName") %>' Visible="false"> </asp:Label><asp:LinkButton
+                                                ID="lblTerms" CommandName="LnkBtn" runat="server" Text='<%#Eval("SupplierName") %>'><%#Eval("SupplierName") %></asp:LinkButton></ItemTemplate><FooterTemplate><asp:TextBox ID="txtTerms2" runat="server" CssClass="box3" Width="90%"> </asp:TextBox><cc1:AutoCompleteExtender ID="txtTerms2_AutoCompleteExtender" runat="server" 
+                                            CompletionInterval="100" CompletionListCssClass="almt" 
+                                            CompletionListHighlightedItemCssClass="bgtext" CompletionListItemCssClass="bg" 
+                                            CompletionSetCount="1" DelimiterCharacters="" Enabled="True" 
+                                            FirstRowSelected="True" MinimumPrefixLength="1" ContextKey="key1" ServiceMethod="sql3" 
+                                            ServicePath="" ShowOnlyCurrentWordInCompletionListItem="True" 
+                                            TargetControlID="txtTerms2" UseContextKey="True"></cc1:AutoCompleteExtender><asp:RequiredFieldValidator ID="ReqTerms" runat="server" 
+                                            ControlToValidate="txtTerms2" ErrorMessage="*" ValidationGroup="abc"> </asp:RequiredFieldValidator></FooterTemplate><FooterStyle HorizontalAlign="Left" />
+                            <ItemStyle HorizontalAlign="Left" Width="30%" /></asp:TemplateField><asp:TemplateField HeaderText="Opening Amt" SortExpression="OpeningAmt"><ItemTemplate><asp:Label ID="lblOpeningAmt" runat="server" Text='<%#Eval("OpeningAmt") %>'> </asp:Label></ItemTemplate><FooterTemplate><asp:TextBox ID="txtOpeningAmt2" runat="server" CssClass="box3" Width="70%"> </asp:TextBox><asp:RequiredFieldValidator ID="ReqOpeningAmt2" runat="server" 
+                                            ControlToValidate="txtOpeningAmt2" ErrorMessage="*" ValidationGroup="abc"> </asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegulartxtOpeningAmt2" runat="server" 
+                                            ControlToValidate="txtOpeningAmt2" ErrorMessage="*" 
+                                            ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="abc"> </asp:RegularExpressionValidator></FooterTemplate><FooterStyle HorizontalAlign="Left" /><ItemStyle HorizontalAlign="Right" Width="15%" /></asp:TemplateField><asp:TemplateField HeaderText="Booked Bill"><ItemTemplate><asp:Label ID="lblBookBill" runat="server" Text='<%#Eval("BookBillAmt") %>'> </asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Right" Width="15%" /></asp:TemplateField>
+                                            <asp:TemplateField HeaderText="TDS Amount">
+                                            <ItemTemplate><asp:Label ID="lblTDSAmt" runat="server" Text='<%#Eval("TDSAmt") %>'> </asp:Label></ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Right" Width="10%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Payment"><ItemTemplate><asp:Label ID="lblPayment" runat="server" Text='<%#Eval("PaymentAmt") %>'> </asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Right" Width="15%" /></asp:TemplateField><asp:TemplateField HeaderText="Closing Amt"><ItemTemplate><asp:Label ID="lblClosingAmt" runat="server" Text='<%#Eval("ClosingAmt") %>'> </asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Right" Width="15%" /></asp:TemplateField><asp:TemplateField HeaderText="Id" Visible="False"><ItemTemplate><asp:Label ID="lblId" runat="server" Text='<%#Eval("Id") %>'> </asp:Label></ItemTemplate></asp:TemplateField><asp:TemplateField HeaderText="SupplierId" Visible="False"><ItemTemplate><asp:Label ID="lblSupId" runat="server" Text='<%#Eval("SupplierId") %>'> </asp:Label></ItemTemplate></asp:TemplateField></Columns><EmptyDataTemplate><table><tr><td></td><td align="center"><asp:Label ID="Label1" runat="server" Font-Bold="true" 
+                                Font-Names="Times New Roman" Font-Size="Medium" Text="Creditors"></asp:Label></td><td align="center"><asp:Label ID="Label2" runat="server" Font-Bold="true" 
+                                                Font-Names="Times New Roman" Font-Size="Medium" Text="Opening Amt"></asp:Label></td></tr><tr><td><asp:Button ID="btnInsert0" runat="server" CommandName="Add1" CssClass="redbox" 
+                                OnClientClick="return confirmationAdd()" Text="Insert" ValidationGroup="pqr" /></td><td><asp:TextBox ID="txtTerms3" runat="server" CssClass="box3" Width="400px" /><cc1:AutoCompleteExtender ID="txtTerms3_AutoCompleteExtender" runat="server" 
+                                    CompletionInterval="100" CompletionListCssClass="almt" 
+                                    CompletionListHighlightedItemCssClass="bgtext" CompletionListItemCssClass="bg" 
+                                    CompletionSetCount="1" ContextKey="key1" DelimiterCharacters="" Enabled="True" 
+                                    FirstRowSelected="True" MinimumPrefixLength="1" ServiceMethod="sql3" 
+                                    ServicePath="" ShowOnlyCurrentWordInCompletionListItem="True" 
+                                    TargetControlID="txtTerms3" UseContextKey="True"></cc1:AutoCompleteExtender><asp:RequiredFieldValidator ID="ReqTerm0" runat="server" 
+                                    ControlToValidate="txtTerms3" ErrorMessage="*" ValidationGroup="pqr"> </asp:RequiredFieldValidator></td><td><asp:TextBox ID="txtValue3" runat="server" CssClass="box3" Width="100px" /><asp:RequiredFieldValidator ID="Reqvalue0" runat="server" 
+                                                ControlToValidate="txtValue3" ErrorMessage="*" ValidationGroup="pqr"> </asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegularExpValAmount0" runat="server" 
+                                                ControlToValidate="txtValue3" ErrorMessage="*" 
+                                                ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="pqr"> </asp:RegularExpressionValidator></td></tr></table></EmptyDataTemplate><FooterStyle Wrap="True" /><PagerSettings PageButtonCount="40" /></asp:GridView></td></tr><tr><td align="center"><asp:Label ID="lblMessage" runat="server" ForeColor="#FF3300" 
+                            style="font-weight: 700"></asp:Label></td></tr></table>   
+                        
+                </ContentTemplate>            
+            </cc1:TabPanel>
+                
+            <cc1:TabPanel  runat="server" HeaderText="Debitors" ID="Debitors">                           
+            <ContentTemplate><table width="100%" align="center" ><tr><td><b>Debitors Name : </b><asp:TextBox 
+                    ID="TextBox2" runat="server" CssClass="box3" Width="300px"></asp:TextBox><cc1:AutoCompleteExtender 
+                    ID="TextBox2_AutoCompleteExtender" runat="server" CompletionInterval="100" 
+                    CompletionListCssClass="almt" CompletionListHighlightedItemCssClass="bgtext" 
+                    CompletionListItemCssClass="bg" CompletionSetCount="2" ContextKey="key2" 
+                    DelimiterCharacters="" Enabled="True" FirstRowSelected="True" 
+                    MinimumPrefixLength="1" ServiceMethod="sql3" ServicePath="" 
+                    ShowOnlyCurrentWordInCompletionListItem="True" TargetControlID="TextBox2" 
+                    UseContextKey="True"></cc1:AutoCompleteExtender><asp:Button ID="btn_deb_search" runat="server" CssClass="redbox" 
+                    onclick="btn_deb_search_Click" Text="Search" /></td></tr><tr><td align="center" ><asp:GridView ID="GridView2" runat="server" AllowPaging="True" 
+                    AutoGenerateColumns="False" CssClass="yui-datatable-theme" DataKeyNames="Id" 
+                    OnPageIndexChanging="GridView2_PageIndexChanging" 
+                    OnRowCommand="GridView2_RowCommand" PageSize="18" ShowFooter="True" 
+                        Width="98%"><Columns><asp:TemplateField ShowHeader="False"><ItemTemplate><asp:LinkButton ID="LinkBtnDelD" runat="server" CausesValidation="False" 
+                                    CommandName="DelD" OnClientClick=" return confirmationDelete()" Text="Delete"></asp:LinkButton></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="4%" /></asp:TemplateField><asp:TemplateField HeaderText="SN" SortExpression="Id"><ItemTemplate><%#Container.DataItemIndex+1  %></ItemTemplate><FooterTemplate><asp:Button ID="btnInsertD" runat="server" CommandName="AddD" CssClass="redbox" 
+                                    OnClientClick=" return confirmationAdd()" Text="Insert" 
+                                    ValidationGroup="abcD" /></FooterTemplate><ItemStyle HorizontalAlign="Center" Width="2%" /></asp:TemplateField><asp:TemplateField HeaderText="Debitors"><ItemTemplate><asp:Label ID="lblCustomerId" runat="server" Text='<%#Eval("CustomerName") %>'> </asp:Label></ItemTemplate><FooterTemplate><asp:TextBox ID="txtCustomerId2" runat="server" CssClass="box3" Width="90%"> </asp:TextBox><cc1:AutoCompleteExtender ID="TxtCustomerId2_AutoCompleteExtender" 
+                                    runat="server" CompletionInterval="100" CompletionListCssClass="almt" 
+                                    CompletionListHighlightedItemCssClass="bgtext" CompletionListItemCssClass="bg" 
+                                    CompletionSetCount="1" DelimiterCharacters="" Enabled="True" 
+                                    FirstRowSelected="True" MinimumPrefixLength="1" ContextKey="key2" ServiceMethod="sql3" 
+                                    ServicePath="" ShowOnlyCurrentWordInCompletionListItem="True" 
+                                    TargetControlID="txtCustomerId2" UseContextKey="True"></cc1:AutoCompleteExtender><asp:RequiredFieldValidator ID="ReqTermsD" runat="server" 
+                                    ControlToValidate="txtCustomerId2" ErrorMessage="*" ValidationGroup="abcD"> </asp:RequiredFieldValidator></FooterTemplate><FooterStyle HorizontalAlign="Left" /><ItemStyle HorizontalAlign="Left" Width="35%" /></asp:TemplateField><asp:TemplateField HeaderText="Opening Amt" SortExpression="OpeningAmt"><ItemTemplate><asp:Label ID="lblOpeningAmtD" runat="server" Text='<%#Eval("OpeningAmt") %>'> </asp:Label></ItemTemplate><FooterTemplate><asp:TextBox ID="txtOpeningAmtD2" runat="server" CssClass="box3" Width="70%"> </asp:TextBox><asp:RequiredFieldValidator ID="ReqOpeningAmtD2" runat="server" 
+                                    ControlToValidate="txtOpeningAmtD2" ErrorMessage="*" ValidationGroup="abcD"> </asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegulartxtOpeningAmtD2" runat="server" 
+                                    ControlToValidate="txtOpeningAmtD2" ErrorMessage="*" 
+                                    ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="abcD"> </asp:RegularExpressionValidator></FooterTemplate><FooterStyle HorizontalAlign="Left" /><ItemStyle HorizontalAlign="Right" Width="15%" /></asp:TemplateField><asp:TemplateField HeaderText="Sales Invoice"><ItemTemplate><asp:Label ID="lblSalesInv" runat="server" Text='<%#Eval("SalesInvAmt") %>'> </asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Right" Width="15%" /></asp:TemplateField><asp:TemplateField HeaderText="Service Invoice"><ItemTemplate><asp:Label ID="lblServiceInv" runat="server" Text='<%#Eval("ServiceInvAmt") %>'> </asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Right" Width="15%" /></asp:TemplateField><asp:TemplateField HeaderText="Performa Invoice"><ItemTemplate><asp:Label ID="lblperformaInv" runat="server" Text='<%#Eval("PerformaInvAmt") %>'> </asp:Label></ItemTemplate><ItemStyle HorizontalAlign="Right" Width="15%" /></asp:TemplateField><asp:TemplateField HeaderText="Id" Visible="False"><ItemTemplate><asp:Label ID="lblIdD" runat="server" Text='<%#Eval("Id") %>'> </asp:Label></ItemTemplate></asp:TemplateField></Columns><EmptyDataTemplate><table><tr><td></td><td align="center"><asp:Label ID="Label3" runat="server" Font-Bold="true" 
+                        Font-Names="Times New Roman" Font-Size="Medium" Text="Debitors"></asp:Label></td><td align="center"><asp:Label ID="Label4" runat="server" Font-Bold="true" 
+                                        Font-Names="Times New Roman" Font-Size="Medium" Text="Opening Amt"></asp:Label></td></tr><tr><td><asp:Button ID="btnInsertD0" runat="server" CommandName="AddD1" 
+                            CssClass="redbox" OnClientClick="return confirmationAdd()" Text="Insert" 
+                            ValidationGroup="pqrD" /></td><td><asp:TextBox ID="txtTermsD3" runat="server" CssClass="box3" Width="400px" /><cc1:AutoCompleteExtender ID="TxtTermsD3_AutoCompleteExtender" runat="server" 
+                                CompletionInterval="100" CompletionListCssClass="almt" 
+                                CompletionListHighlightedItemCssClass="bgtext" CompletionListItemCssClass="bg" 
+                                CompletionSetCount="1" DelimiterCharacters="" Enabled="True" 
+                                FirstRowSelected="True" MinimumPrefixLength="1" ContextKey="key2" ServiceMethod="sql3" 
+                                ServicePath="" ShowOnlyCurrentWordInCompletionListItem="True" 
+                                TargetControlID="txtTermsD3" UseContextKey="True"></cc1:AutoCompleteExtender><asp:RequiredFieldValidator ID="ReqTermD0" runat="server" 
+                                ControlToValidate="txtTermsD3" ErrorMessage="*" ValidationGroup="pqr"> </asp:RequiredFieldValidator></td><td><asp:TextBox ID="txtValueD3" runat="server" CssClass="box3" Width="100px" /><asp:RequiredFieldValidator ID="ReqvalueD0" runat="server" 
+                                        ControlToValidate="txtValueD3" ErrorMessage="*" ValidationGroup="pqrD"> </asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegularExpValAmountD0" runat="server" 
+                                        ControlToValidate="txtValueD3" ErrorMessage="*" 
+                                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="pqr"> </asp:RegularExpressionValidator></td></tr></table></EmptyDataTemplate><FooterStyle Wrap="True" /><PagerSettings PageButtonCount="40" /></asp:GridView></td></tr><tr><td align="center"><asp:Label ID="lblMessage2" runat="server" ForeColor="#FF3300" 
+                            style="font-weight: 700" Text="Label"></asp:Label></td></tr><tr><td><asp:SqlDataSource ID="SqlDataSource2" runat="server" 
+                    ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                    DeleteCommand="DELETE FROM [tblACC_Debitors_Master] WHERE [Id] = @Id" 
+                    InsertCommand="INSERT INTO [tblACC_Debitors_Master] ([SysDate],[SysTime],[SessionId],[CompId],[FinYearId],[CustomerId],[OpeningAmt]) VALUES (@SysDate,@SysTime,@SessionId,@CompId,@FinYearId, @CustomerId, @OpeningAmt)" 
+                    SelectCommand="SELECT tblACC_Debitors_Master.Id,SD_Cust_master.CustomerName+' ['+SD_Cust_master.CustomerId+']' AS CustomerId,tblACC_Debitors_Master.OpeningAmt FROM tblACC_Debitors_Master INNER JOIN SD_Cust_master ON tblACC_Debitors_Master.CustomerId = SD_Cust_master.CustomerId order by [Id] desc"  ><DeleteParameters><asp:Parameter Name="Id" Type="Int32" /></DeleteParameters><InsertParameters><asp:Parameter Name="SysDate" Type="String" /><asp:Parameter Name="SysTime" Type="String" /><asp:Parameter Name="SessionId" Type="String" /><asp:Parameter Name="CompId" Type="Int32" /><asp:Parameter Name="FinYearId" Type="Int32" /><asp:Parameter Name="CustomerId" Type="String" /><asp:Parameter Name="OpeningAmt" Type="Double" /></InsertParameters></asp:SqlDataSource></td></tr></table>
+                  
+                        
+                </ContentTemplate>
+            </cc1:TabPanel>
+            </cc1:TabContainer> 
+            </td>
+            </tr>    
+        
+       
+         
+      
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/CreditorsDebitors.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_Accounts_Transactions_CreditorsDebitors : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    int CompId = 0;
+    int FinYearId = 0;
+    string SId = "";
+    string CDate ="";
+    string CTime = "";
+    
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            CompId = Convert.ToInt32(Session["compid"]);
+            SId = Session["username"].ToString();
+            CDate = fun.getCurrDate();
+            CTime = fun.getCurrTime();
+            lblMessage.Text = "";
+            lblMessage2.Text = "";
+
+            if (!Page.IsPostBack)
+            {
+                this.FillGrid_Creditors();
+            }
+        }
+        catch(Exception ex)
+        {
+        
+        }
+    }
+
+    //--------------------------------For Creditors---------------------------------------
+   
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+       try
+        {           
+            if (e.CommandName == "Add")
+            { 
+                string CreditorsId = string.Empty;
+                if (((TextBox)GridView1.FooterRow.FindControl("txtTerms2")).Text != "")
+                {
+                    string CreditorsId1 = fun.getCode(((TextBox)GridView1.FooterRow.FindControl("txtTerms2")).Text);
+                    int EmpId = fun.chkSupplierCode(CreditorsId1);
+                    if (EmpId == 1 && ((TextBox)GridView1.FooterRow.FindControl("txtTerms2")).Text != string.Empty)
+                    {
+                        CreditorsId = CreditorsId1;
+                    }
+                    else
+                    {
+                        ((TextBox)GridView1.FooterRow.FindControl("txtTerms2")).Text = string.Empty;
+                    }
+                }
+
+                string chkDuplicate = fun.select("SupplierId","tblACC_Creditors_Master","SupplierId='"+CreditorsId+"'");
+                SqlCommand chkcmd = new SqlCommand(chkDuplicate, con);
+                SqlDataAdapter chkDA = new SqlDataAdapter(chkcmd);
+                DataSet ChkDS = new DataSet();
+                chkDA.Fill(ChkDS);
+
+                if (ChkDS.Tables[0].Rows.Count == 0)
+                {                  
+                    double CreditorsOPAmt = 0;
+                    if (((TextBox)GridView1.FooterRow.FindControl("txtOpeningAmt2")).Text != "")
+                    {
+                        CreditorsOPAmt = Math.Round(Convert.ToDouble(((TextBox)GridView1.FooterRow.FindControl("txtOpeningAmt2")).Text), 2);
+                    }
+
+                    if (((TextBox)GridView1.FooterRow.FindControl("txtTerms2")).Text != "" && CreditorsId != "")
+                    {
+                        if (((TextBox)GridView1.FooterRow.FindControl("txtOpeningAmt2")).Text != "" && CreditorsOPAmt != 0)
+                        {
+                            string StrInv = fun.insert("tblACC_Creditors_Master", "SysDate,SysTime,SessionId,CompId,FinYearId,SupplierId,OpeningAmt", "'" + CDate + "','" + CTime + "','" + SId + "','" + CompId + "','" + FinYearId + "','" + CreditorsId + "','" + CreditorsOPAmt + "'");                           
+                            SqlCommand cmdInv = new SqlCommand(StrInv, con);
+                            con.Open();
+                            cmdInv.ExecuteNonQuery();
+                            con.Close();
+                            lblMessage.Text = "Record Inserted";
+                            this.FillGrid_Creditors();
+                        }
+                    }
+                    else
+                    {
+                        string myStringVariable = string.Empty;
+                        string myStringVariable2 = "Supplier is not valid";
+                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable2 + "');", true);
+                    }
+                }
+                else
+                {
+                    string myStringVariable = string.Empty;
+                    string myStringVariable2 = "Supplier is already exist";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable2 + "');", true);
+                }
+                
+
+            }
+            if (e.CommandName == "Add1")
+            {
+
+                string CreditorsId = string.Empty;
+                if (((TextBox)GridView1.Controls[0].Controls[0].FindControl("txtTerms3")).Text != "")
+                {
+                    string CreditorsId1 = fun.getCode(((TextBox)GridView1.Controls[0].Controls[0].FindControl("txtTerms3")).Text);
+                    int EmpId = fun.chkSupplierCode(CreditorsId1);
+                    if (EmpId == 1 && ((TextBox)GridView1.Controls[0].Controls[0].FindControl("txtTerms3")).Text != string.Empty)
+                    {
+                        CreditorsId = CreditorsId1;
+                    }
+                    else
+                    {
+                        ((TextBox)GridView1.Controls[0].Controls[0].FindControl("txtTerms3")).Text = string.Empty;
+                    }
+                }
+                double CreditorsOPAmt = 0;
+                if (((TextBox)GridView1.Controls[0].Controls[0].FindControl("txtValue3")).Text != "")
+                {
+                    CreditorsOPAmt = Math.Round(Convert.ToDouble(((TextBox)GridView1.Controls[0].Controls[0].FindControl("txtValue3")).Text), 2);
+                }
+                if (((TextBox)GridView1.Controls[0].Controls[0].FindControl("txtTerms3")).Text != "" && CreditorsId != "")
+                {
+                    if (((TextBox)GridView1.Controls[0].Controls[0].FindControl("txtValue3")).Text != "" && CreditorsOPAmt != 0)
+                    {
+                        string StrInv1 = fun.insert("tblACC_Creditors_Master", "SysDate,SysTime,SessionId,CompId,FinYearId,SupplierId,OpeningAmt", "'" + CDate + "','" + CTime + "','" + SId + "','" + CompId + "','" + FinYearId + "','" + CreditorsId + "','" + CreditorsOPAmt + "'");
+                        SqlCommand cmdInv1 = new SqlCommand(StrInv1, con);
+                        con.Open();
+                        cmdInv1.ExecuteNonQuery();
+                        con.Close();
+                        lblMessage.Text = "Record Inserted";
+                        this.FillGrid_Creditors();                        
+                    }
+                }
+                else
+                {
+                    string myStringVariable = string.Empty;
+                    string myStringVariable2 = "Supplier is not valid";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable2 + "');", true);
+                }
+            }
+
+            if (e.CommandName == "Del")
+            {
+
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                string Id = ((Label)row.FindControl("lblId")).Text;
+                SqlCommand cmd3 = new SqlCommand("DELETE FROM [tblACC_Creditors_Master] WHERE [Id] = '" + Id + "'", con);
+                con.Open();
+                cmd3.ExecuteNonQuery();
+                con.Close();
+                lblMessage.Text = "Record Deleted";
+                this.FillGrid_Creditors();
+            }
+           
+            if (e.CommandName == "LnkBtn")
+            {
+                string getRandomKey = fun.GetRandomAlphaNumeric();
+
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                string SupId = string.Empty;
+                SupId = ((Label)row.FindControl("lblSupId")).Text;               
+
+                Response.Redirect("CreditorsDebitors_InDetailList.aspx?SupId=" + SupId + "&ModId=11&SubModId=135&Key=" + getRandomKey + "");
+            }           
+        }
+
+        catch (Exception ex) { }
+    }
+     
+    //--------------------------------For Debitors---------------------------------------    
+
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {           
+            if (e.CommandName == "AddD")
+            {
+
+                string CreditorsId = string.Empty;
+                if (((TextBox)GridView2.FooterRow.FindControl("txtCustomerId2")).Text != "")
+                {
+                    string CreditorsId1 = fun.getCode(((TextBox)GridView2.FooterRow.FindControl("txtCustomerId2")).Text);
+
+                    int EmpId = fun.chkCustomerCode(CreditorsId1);
+                    if (EmpId == 1 && ((TextBox)GridView2.FooterRow.FindControl("txtCustomerId2")).Text != string.Empty)
+                    {
+                        CreditorsId = CreditorsId1;
+                    }
+                    
+                    else
+                    {
+                        ((TextBox)GridView2.FooterRow.FindControl("txtCustomerId2")).Text = string.Empty;
+                    }
+                }
+                double CreditorsOPAmt = 0;
+                if (((TextBox)GridView2.FooterRow.FindControl("txtOpeningAmtD2")).Text != "")
+                {
+                    CreditorsOPAmt = Math.Round(Convert.ToDouble(((TextBox)GridView2.FooterRow.FindControl("txtOpeningAmtD2")).Text), 2);
+                }
+                else
+                {
+                    CreditorsOPAmt = 0;
+                }
+
+                string chkDuplicate = fun.select("CustomerId", "tblACC_Debitors_Master", "CustomerId='" + CreditorsId + "'");
+                SqlCommand chkcmd = new SqlCommand(chkDuplicate, con);
+                SqlDataAdapter chkDA = new SqlDataAdapter(chkcmd);
+                DataSet ChkDS = new DataSet();
+                chkDA.Fill(ChkDS);
+                if (ChkDS.Tables[0].Rows.Count == 0)
+                {
+
+                    if (((TextBox)GridView2.FooterRow.FindControl("txtCustomerId2")).Text != "" && CreditorsId != "")
+                    {
+                        if (((TextBox)GridView2.FooterRow.FindControl("txtOpeningAmtD2")).Text != "" && CreditorsOPAmt != 0)
+                        {
+
+                            string StrInvD = fun.insert("tblACC_Debitors_Master", "SysDate,SysTime,SessionId,CompId,FinYearId,CustomerId,OpeningAmt", "'" + CDate + "','" + CTime + "','" + SId + "','" + CompId + "','" + FinYearId + "','" + CreditorsId + "','" + CreditorsOPAmt + "'");
+                            SqlCommand cmdInvD = new SqlCommand(StrInvD, con);
+                            con.Open();
+                            cmdInvD.ExecuteNonQuery();
+                            con.Close();
+                            lblMessage2.Text = "Record Inserted";
+                            this.FillGrid_Debitors();
+
+                        }
+                    }
+                    else
+                    {
+                        string myStringVariable = string.Empty;
+                        string myStringVariable2 = "Customer is not valid";
+                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable2 + "');", true);
+                    }
+                }
+                else
+                {
+                    string myStringVariable = string.Empty;
+                    string myStringVariable2 = "Customer is already exist";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable2 + "');", true);
+                }
+
+            }
+
+            if (e.CommandName == "AddD1")
+            {
+
+                string CreditorsId = string.Empty;
+                if (((TextBox)GridView2.Controls[0].Controls[0].FindControl("txtTermsD3")).Text != "")
+                {
+                    string CreditorsId1 = fun.getCode(((TextBox)GridView2.Controls[0].Controls[0].FindControl("txtTermsD3")).Text);
+
+                    int EmpId = fun.chkCustomerCode(CreditorsId1);
+                    if (EmpId == 1 && ((TextBox)GridView2.Controls[0].Controls[0].FindControl("txtTermsD3")).Text != string.Empty)
+                    {
+                        CreditorsId = CreditorsId1;
+                    }
+                    else
+                    {
+                        ((TextBox)GridView2.Controls[0].Controls[0].FindControl("txtTermsD3")).Text = string.Empty;
+                    }
+                }          
+
+
+                double CreditorsOPAmt = 0;
+                if (((TextBox)GridView2.Controls[0].Controls[0].FindControl("txtValueD3")).Text != "")
+                {
+                    CreditorsOPAmt = Math.Round(Convert.ToDouble(((TextBox)GridView2.Controls[0].Controls[0].FindControl("txtValueD3")).Text), 2);
+                }
+                if (((TextBox)GridView2.Controls[0].Controls[0].FindControl("txtTermsD3")).Text != ""&& CreditorsId != "")
+                {
+
+                    if (((TextBox)GridView2.Controls[0].Controls[0].FindControl("txtValueD3")).Text != "" && CreditorsOPAmt != 0)
+                    {
+
+                        string StrInvD1 = fun.insert("tblACC_Debitors_Master", "SysDate,SysTime,SessionId,CompId,FinYearId,CustomerId,OpeningAmt", "'" + CDate + "','" + CTime + "','" + SId + "','" + CompId + "','" + FinYearId + "','" + CreditorsId + "','" + CreditorsOPAmt + "'");
+                        SqlCommand cmdInvD1 = new SqlCommand(StrInvD1, con);
+                        con.Open();
+                        cmdInvD1.ExecuteNonQuery();
+                        con.Close();
+                        lblMessage2.Text = "Record Inserted";
+                        this.FillGrid_Debitors();    
+                    }
+                }
+                else
+                {
+                    string myStringVariable = string.Empty;
+                    string myStringVariable2 = "Customer is not valid";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable2 + "');", true);
+                }
+            }
+
+            if (e.CommandName == "DelD")
+            {
+
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                string Id = ((Label)row.FindControl("lblIdD")).Text;
+                SqlCommand cmd4 = new SqlCommand("DELETE FROM [tblACC_Debitors_Master] WHERE [Id] = '" + Id + "'", con);
+                con.Open();
+                cmd4.ExecuteNonQuery();
+                con.Close();
+                lblMessage2.Text = "Record Deleted";
+                this.FillGrid_Debitors();
+            }
+        }
+
+         catch (Exception ex)
+        {
+        }
+    }    
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/Accounts/Transactions/Dashboard.aspx?ModId=11&SubModId=135");
+        
+    }
+
+    public void FillGrid_Creditors()
+    {
+        try
+        {
+            TotalTdsDeduct TTD = new TotalTdsDeduct();
+            string CustCode = string.Empty;
+            if (TextBox1.Text != string.Empty)
+            {
+                CustCode = " And tblMM_Supplier_master.SupplierId='" + fun.getCode(TextBox1.Text) + "'";              
+            }
+            
+            DataTable dt = new DataTable();
+
+            string strCredit = "SELECT tblACC_Creditors_Master.Id,tblMM_Supplier_master.SupplierId,tblMM_Supplier_master.SupplierName+' ['+tblMM_Supplier_master.SupplierId+']' AS SupplierName,tblMM_Supplier_master.SupplierId,tblACC_Creditors_Master.OpeningAmt FROM tblACC_Creditors_Master INNER JOIN tblMM_Supplier_master ON tblACC_Creditors_Master.SupplierId = tblMM_Supplier_master.SupplierId" + CustCode + " And tblACC_Creditors_Master.CompId='" + CompId + "'  order by tblMM_Supplier_master.SupplierId Asc"; 
+           
+            SqlCommand cmdCredit = new SqlCommand(strCredit, con);
+            SqlDataReader rdr;
+            con.Open();
+
+            rdr = cmdCredit.ExecuteReader();
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("SupplierName", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("OpeningAmt", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("BookBillAmt", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("PaymentAmt", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("ClosingAmt", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("SupplierId", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("TDSAmt", typeof(double)));
+            DataRow dr;
+          
+            while (rdr.Read())
+            {
+                dr = dt.NewRow();
+                dr[0] = rdr["Id"].ToString();
+                dr[1] = rdr["SupplierName"].ToString();
+               
+                double OpeningAmt = 0;
+                if (rdr["OpeningAmt"] != DBNull.Value)
+                {
+                    OpeningAmt = Math.Round(Convert.ToDouble(rdr["OpeningAmt"]), 2);
+                }
+
+                dr[2] = OpeningAmt;
+               
+                double BookBillAmt = 0;
+                BookBillAmt = this.FillGrid_CreditorsBookedBill(rdr["SupplierId"].ToString());
+                dr[3] = Math.Round(BookBillAmt, 2);
+                
+                double PaymentAmt = 0;
+                PaymentAmt = this.FillGrid_CreditorsPayment(rdr["SupplierId"].ToString());
+                dr[4] = Math.Round(PaymentAmt, 2);
+
+                double x = 0;
+                x = TTD.Check_TDSAmt(CompId, FinYearId, rdr["SupplierId"].ToString());
+
+                double ClosingAmt = 0;
+                ClosingAmt = Math.Round(((OpeningAmt+ BookBillAmt) - (x+PaymentAmt)), 2);
+                dr[5] = ClosingAmt;
+                dr[6] = rdr["SupplierId"].ToString();                
+                dr[7] = x;
+
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }
+
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
+
+            foreach(GridViewRow grv in GridView1.Rows)
+            {
+                string x = string.Empty;
+                x = ((Label)grv.FindControl("lblSupId")).Text;
+
+                double BookBillAmt1 = 0;
+                BookBillAmt1 = Convert.ToDouble((((Label)grv.FindControl("lblBookBill")).Text));
+
+                double PaymentAmt1 = 0;
+                PaymentAmt1 = Convert.ToDouble((((Label)grv.FindControl("lblPayment")).Text));
+
+                if (BookBillAmt1 != 0 || PaymentAmt1 != 0)
+                {
+                    ((Label)grv.FindControl("lblTerms2")).Visible = false;
+                    ((LinkButton)grv.FindControl("lblTerms")).Visible = true;
+                }
+                else
+                {
+                    ((Label)grv.FindControl("lblTerms2")).Visible = true;
+                    ((LinkButton)grv.FindControl("lblTerms")).Visible = false;
+                }
+            }
+        }
+        catch (Exception ex)
+        { 
+        
+        }
+        finally
+        {
+            con.Close();
+        }
+    }   
+    
+    public void FillGrid_Debitors()
+    {
+        try
+        {
+            string CustCode = string.Empty;
+            if (TextBox2.Text != string.Empty)
+            {
+                CustCode = " And tblACC_Debitors_Master.CustomerId='" + fun.getCode(TextBox2.Text) + "'";
+            }
+
+            DataTable dt = new DataTable();
+            string strDebit = "SELECT tblACC_Debitors_Master.Id,SD_Cust_master.CustomerId,SD_Cust_master.CustomerName+' ['+SD_Cust_master.CustomerId+']' AS CustomerName,tblACC_Debitors_Master.OpeningAmt FROM tblACC_Debitors_Master INNER JOIN SD_Cust_master ON tblACC_Debitors_Master.CustomerId = SD_Cust_master.CustomerId" + CustCode + " And tblACC_Debitors_Master.CompId='"+CompId+"' order by SD_Cust_master.CustomerId Asc";
+            SqlCommand cmdDebit = new SqlCommand(strDebit, con);
+            con.Open();
+            SqlDataReader rdr = cmdDebit.ExecuteReader();            
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("CustomerName", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("OpeningAmt", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("SalesInvAmt", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("ServiceInvAmt", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("PerformaInvAmt", typeof(double)));           
+            DataRow dr;            
+            while (rdr.Read())
+            {
+                dr = dt.NewRow();
+                dr[0] = rdr["Id"].ToString();
+                dr[1] = rdr["CustomerName"].ToString();
+                double OpeningAmt = 0;
+                if (rdr["OpeningAmt"] != DBNull.Value)
+                {
+                    OpeningAmt = Convert.ToDouble(rdr["OpeningAmt"]);
+                }
+                dr[2] = OpeningAmt;                
+                double InvAmt = 0;
+                InvAmt = this.Cal_SalesInvoice(rdr["CustomerId"].ToString());
+                dr[3] = InvAmt;
+                dr[4] = this.Cal_ServiceInvoice(rdr["CustomerId"].ToString());
+                dr[5] = this.Cal_PerformaInvoice(rdr["CustomerId"].ToString()); ;
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }
+
+            GridView2.DataSource = dt;
+            GridView2.DataBind();
+        }
+
+        catch (Exception ex)
+        { }
+        finally
+        {
+            con.Close();
+        }
+
+
+    }
+
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            GridView1.PageIndex = e.NewPageIndex;
+            this.FillGrid_Creditors();
+        }
+       catch (Exception ex) { }
+    }
+
+    protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            GridView2.PageIndex = e.NewPageIndex;
+            this.FillGrid_Debitors();
+        }
+        catch (Exception ex) { }
+    }
+
+    //public double FillGrid_CreditorsBookedBill(string GetSupCode)
+    //{
+
+    //    double CalCulatedAmt = 0;
+    //    try
+    //    {
+    //        string StrSql = fun.select("tblMM_PO_Details.Rate,tblMM_PO_Details.Discount,tblACC_BillBooking_Master.DebitAmt , tblACC_BillBooking_Master.DiscountType,tblACC_BillBooking_Details.GQNId,tblACC_BillBooking_Details.GSNId, tblACC_BillBooking_Details.PFAmt,tblACC_BillBooking_Details.ExStBasic ,tblACC_BillBooking_Details.ExStEducess ,tblACC_BillBooking_Details.ExStShecess ,tblACC_BillBooking_Details.VAT ,tblACC_BillBooking_Details.CST ,tblACC_BillBooking_Details.Freight ", "tblACC_BillBooking_Master,tblACC_BillBooking_Details,tblMM_PO_Details,tblMM_PO_Master", "tblACC_BillBooking_Master.CompId='" + CompId + "' And tblACC_BillBooking_Master.SupplierId='" + GetSupCode + "' And tblACC_BillBooking_Master.Id=tblACC_BillBooking_Details.MId AND tblACC_BillBooking_Master.FinYearId<='" + FinYearId + "' And tblMM_PO_Details.Id=tblACC_BillBooking_Details.PODId AND tblMM_PO_Master.Id=tblMM_PO_Details.MId ");
+    //        SqlCommand cmdSql = new SqlCommand(StrSql, con);
+    //        SqlDataReader rdr = cmdSql.ExecuteReader();
+    //        while (rdr.Read())
+    //        {
+    //            double Discount = 0;
+    //            double PfAmt = 0;
+    //            double freight = 0;
+    //            double ExStBasic = 0;
+    //            double ExStEducess = 0;
+    //            double ExStShecess = 0;
+    //            double VAT = 0;
+    //            double CST = 0;
+    //            double Amt = 0;
+    //            double Rate = 0;
+    //            double AccQty = 0;
+    //            Rate = Convert.ToDouble(decimal.Parse((rdr["Rate"]).ToString()).ToString("N2"));
+    //            Discount = Convert.ToDouble(decimal.Parse((rdr["Discount"]).ToString()).ToString("N2"));
+    //            if (rdr["GQNId"].ToString() != "0")
+    //            {
+    //                string Strgqn = fun.select("Sum(tblQc_MaterialQuality_Details.AcceptedQty) As AcceptedQty", "tblQc_MaterialQuality_Details", "tblQc_MaterialQuality_Details.Id='" + rdr["GQNId"].ToString() + "'");
+    //                SqlCommand cmdgqn = new SqlCommand(Strgqn, con);
+    //                SqlDataReader rdrQty = cmdgqn.ExecuteReader();
+    //                while (rdrQty.Read())
+    //                {
+    //                    AccQty = Convert.ToDouble(rdrQty["AcceptedQty"]);
+    //                    Amt = ((Rate - (Rate * Discount) / 100) * AccQty);
+    //                }
+
+    //            }
+    //            else if (rdr["GSNId"].ToString() != "0")
+    //            {
+    //                string Strgsn = fun.select("Sum(tblinv_MaterialServiceNote_Details.ReceivedQty) As ReceivedQty ", "tblinv_MaterialServiceNote_Details", "tblinv_MaterialServiceNote_Details.Id='" + rdr["GSNId"].ToString() + "' ");
+    //                SqlCommand cmdgsn = new SqlCommand(Strgsn, con);
+    //                SqlDataReader rdrQty = cmdgsn.ExecuteReader();
+    //                while (rdrQty.Read())
+    //                {
+    //                    AccQty = Convert.ToDouble(rdrQty["ReceivedQty"]);
+    //                    Amt = ((Rate - (Rate * Discount) / 100) * AccQty);
+    //                }
+    //            }
+    //            PfAmt = Convert.ToDouble(rdr["PFAmt"]);
+    //            ExStBasic = Convert.ToDouble(rdr["ExStBasic"]);
+    //            ExStEducess = Convert.ToDouble(rdr["ExStEducess"]);
+    //            ExStShecess = Convert.ToDouble(rdr["ExStShecess"]);
+    //            VAT = Convert.ToDouble(rdr["VAT"]);
+    //            CST = Convert.ToDouble(rdr["CST"]);
+    //            freight = Convert.ToDouble(rdr["Freight"]);
+    //            double DebitAmt = Convert.ToDouble(rdr["DebitAmt"]);
+    //            double CalBasicAmt = 0;
+    //            switch (Convert.ToInt32(rdr["DiscountType"]))
+    //            {
+    //                case 0:
+    //                    CalBasicAmt = Amt - DebitAmt;
+    //                    break;
+    //                case 1:
+    //                    CalBasicAmt = Amt - (Amt * DebitAmt / 100);
+    //                    break;
+    //                case 2:
+    //                    CalBasicAmt = Amt;
+    //                    break;
+    //            }
+
+    //            CalCulatedAmt += CalBasicAmt + PfAmt + VAT + CST + freight + ExStShecess + ExStEducess + ExStBasic;
+
+    //        }
+
+    //    }
+    //    catch (Exception ex) { }
+    //    return Math.Round(CalCulatedAmt, 2);
+    //}
+
+    public double FillGrid_CreditorsBookedBill(string GetSupCode)
+    {
+
+        double CalCulatedAmt = 0;
+        try
+        {
+            string StrSql = "select (Case When GQNId !=0 then (Select Sum(tblQc_MaterialQuality_Details.AcceptedQty) from tblQc_MaterialQuality_Details where tblQc_MaterialQuality_Details.Id=tblACC_BillBooking_Details.GQNId)*(tblMM_PO_Details.Rate - (tblMM_PO_Details.Rate * tblMM_PO_Details.Discount) / 100) Else (Select Sum(tblinv_MaterialServiceNote_Details.ReceivedQty) As AcceptedQty from tblinv_MaterialServiceNote_Details where tblinv_MaterialServiceNote_Details.Id=tblACC_BillBooking_Details.GSNId)*(tblMM_PO_Details.Rate - (tblMM_PO_Details.Rate * tblMM_PO_Details.Discount) / 100)End) +PFAmt+ExStBasic+ExStEducess+ExStShecess+tblACC_BillBooking_Details.VAT+CST+tblACC_BillBooking_Details.Freight+tblACC_BillBooking_Details.BCDValue+tblACC_BillBooking_Details.EdCessOnCDValue+tblACC_BillBooking_Details.SHEDCessValue As TotalBookedBill,tblACC_BillBooking_Master.Discount,tblACC_BillBooking_Master.DiscountType,tblACC_BillBooking_Master.DebitAmt,tblACC_BillBooking_Master.OtherCharges from tblACC_BillBooking_Master,tblACC_BillBooking_Details,tblMM_PO_Details,tblMM_PO_Master where tblACC_BillBooking_Master.CompId='" + CompId + "' And tblACC_BillBooking_Master.SupplierId='" + GetSupCode + "' And tblACC_BillBooking_Master.Id=tblACC_BillBooking_Details.MId AND tblACC_BillBooking_Master.FinYearId<='" + FinYearId + "' And tblMM_PO_Details.Id=tblACC_BillBooking_Details.PODId AND tblMM_PO_Master.Id=tblMM_PO_Details.MId";
+            SqlCommand cmdSql = new SqlCommand(StrSql, con);
+            SqlDataReader rdr = cmdSql.ExecuteReader();
+
+            double AddAmt = 0;
+            double DiscountType = 0;
+            double DiscountAmt = 0;
+            double DebitAmt = 0;
+
+            while (rdr.Read())
+            {
+                CalCulatedAmt += Convert.ToDouble(rdr["TotalBookedBill"]);
+                AddAmt = Convert.ToDouble(rdr["OtherCharges"]);
+                DiscountType = Convert.ToDouble(rdr["DiscountType"]);
+                DiscountAmt = Convert.ToDouble(rdr["Discount"]);
+                DebitAmt = Convert.ToDouble(rdr["DebitAmt"]);
+            }
+
+            CalCulatedAmt = CalCulatedAmt + AddAmt;
+
+            if (DiscountType == 0)
+            {
+                CalCulatedAmt = CalCulatedAmt - DiscountAmt;
+            }
+            else if (DiscountType == 1)
+            {
+                CalCulatedAmt = CalCulatedAmt - (CalCulatedAmt*DiscountAmt/100);
+            }
+
+            CalCulatedAmt = CalCulatedAmt - DebitAmt;            
+        }
+
+        catch (Exception ex) { }
+        return Math.Round(CalCulatedAmt, 2);
+    }
+
+    public double FillGrid_CreditorsPayment(string GetSupCode)
+    {         
+        double TotalPayAmy = 0;
+        try
+        {             
+            string str = fun.select("Id,PayAmt "," tblACC_BankVoucher_Payment_Master "," CompId='" + CompId + "' AND FinYearId<='" + FinYearId + "' AND PayTo='" + GetSupCode + "'");
+            SqlCommand cmdCustWo = new SqlCommand(str, con);
+            SqlDataReader rdr = cmdCustWo.ExecuteReader();
+            
+            while (rdr.Read())
+            {
+                double DtlsAmt = 0;
+               
+                string sqlAmt2 = "Select Sum(Amount)As Amt from tblACC_BankVoucher_Payment_Details inner join tblACC_BankVoucher_Payment_Master on tblACC_BankVoucher_Payment_Details.MId=tblACC_BankVoucher_Payment_Master.Id And CompId='" + CompId + "' AND tblACC_BankVoucher_Payment_Details.MId='" + rdr["Id"].ToString() + "'";
+                SqlCommand cmd6 = new SqlCommand(sqlAmt2, con);
+                SqlDataReader rdr2 = cmd6.ExecuteReader();
+                
+                while (rdr2.Read())
+                {
+                    if (rdr2["Amt"] != DBNull.Value)
+                    {
+                        DtlsAmt = Convert.ToDouble(decimal.Parse((rdr2["Amt"]).ToString()).ToString("N3"));
+                    }
+                }
+
+                double PayAmy_M = 0;
+                PayAmy_M = Convert.ToDouble(rdr["PayAmt"]);
+                TotalPayAmy += Math.Round((DtlsAmt + PayAmy_M), 2);
+            }
+        }
+        catch (Exception ex)
+        {
+        
+        }        
+        return TotalPayAmy;        
+    }
+
+    public double Cal_SalesInvoice(string CustCode)
+    {
+        DataSet dsrs = new DataSet();
+        double TotalAmt = 0;        
+        try
+        {      
+                string Sql2 = "Select sum ((ReqQty*AmtInPer/100)*Rate) as Amt,Pf,PFType,FreightType,Freight,CENVAT,VAT,CST,AddType,AddAmt,DeductionType,Deduction from tblACC_SalesInvoice_Details inner join tblACC_SalesInvoice_Master on tblACC_SalesInvoice_Master.Id=tblACC_SalesInvoice_Details.MId  And  CustomerCode='"+CustCode+"' And CompId='"+CompId+"' group by Pf,PFType,FreightType,Freight,CENVAT,VAT,CST,AddType,AddAmt,DeductionType,Deduction ";
+                SqlCommand Cmdgrid2 = new SqlCommand(Sql2, con);
+                SqlDataReader rdr = Cmdgrid2.ExecuteReader();
+                while (rdr.Read())
+                {
+                    double BasicAmt = 0;
+                    double Pf = 0;
+                    double Fright = 0;
+                    double AddAmt = 0;
+                    double DeductAmt = 0;
+                    double TotBal = 0;
+                    TotBal = Convert.ToDouble(rdr["Amt"]);
+                    if (Convert.ToInt32(rdr["AddType"]) == 0)
+                    {
+                        AddAmt = Convert.ToDouble(rdr["AddAmt"]);
+                    }
+                    else
+                    {
+                        AddAmt = (TotBal) * Convert.ToDouble(rdr["AddAmt"]) / 100;
+                    }
+
+                    if (Convert.ToInt32(rdr["DeductionType"]) == 0)
+                    {
+                        DeductAmt = Convert.ToDouble(rdr["Deduction"]);
+                    }
+                    else
+                    {
+                        DeductAmt = ((TotBal) * Convert.ToDouble(rdr["Deduction"]) / 100);
+                    }
+                    BasicAmt = Math.Round(((TotBal + AddAmt) - DeductAmt), 3);
+                    if (Convert.ToInt32(rdr["PFType"]) == 0)
+                    {
+                        Pf = Convert.ToDouble(rdr["PF"]);
+                    }
+                    else
+                    {
+                        Pf = (BasicAmt) * Convert.ToDouble(rdr["PF"]) / 100;
+                    }
+
+                    if (Convert.ToInt32(rdr["FreightType"]) == 0)
+                    {
+                        Fright = Convert.ToDouble(rdr["Freight"]);
+                    }
+                    else
+                    {
+                        Fright = ((BasicAmt) * Convert.ToDouble(rdr["Freight"]) / 100);
+                    }
+
+                    // CENVAT  
+                    string sqlCENVAT = fun.select("Value", "tblExciseser_Master", "Id='" + rdr["CENVAT"] + "'");
+                    SqlCommand cmdCENVAT = new SqlCommand(sqlCENVAT, con);
+                    SqlDataAdapter DACENVAT = new SqlDataAdapter(cmdCENVAT);
+                    DataSet DSCENVAT = new DataSet();
+                    DACENVAT.Fill(DSCENVAT);
+                    double Excise = 0;
+                    double Amt = 0;
+                    Amt = BasicAmt + Pf;
+
+                    if (DSCENVAT.Tables[0].Rows.Count > 0)
+                    {
+                        Excise = (Amt * Convert.ToDouble(DSCENVAT.Tables[0].Rows[0]["Value"]) / 100);
+                    }
+                    double Amt2 = 0;
+                    double Amt3 = 0;
+                    Amt2 = Amt + Excise;
+                    // Sales Tax
+                    if (rdr["VAT"].ToString() != "0")
+                    {
+
+                        string StrVC = fun.select("Value", "tblVAT_Master", "Id='" + rdr["VAT"].ToString() + "'");
+                        SqlCommand CmdVC = new SqlCommand(StrVC, con);
+                        SqlDataAdapter DaVC = new SqlDataAdapter(CmdVC);
+                        DataSet DSVC = new DataSet();
+                        DaVC.Fill(DSVC, "tblVAT_Master");
+                        Amt3 = Amt2 + (Amt2 + Fright) * Convert.ToDouble(DSVC.Tables[0].Rows[0]["Value"]) / 100;
+                    }
+                    else if (rdr["CST"].ToString() != "0")
+                    {
+                        string StrVC = fun.select("Value", "tblVAT_Master", "Id='" + rdr["CST"].ToString() + "'");
+                        SqlCommand CmdVC = new SqlCommand(StrVC, con);
+                        SqlDataAdapter DaVC = new SqlDataAdapter(CmdVC);
+                        DataSet DSVC = new DataSet();
+                        DaVC.Fill(DSVC, "tblVAT_Master");
+                        Amt3 = Amt2 + (Amt2 * Convert.ToDouble(DSVC.Tables[0].Rows[0]["Value"]) / 100) + Fright;
+
+                    }
+                    else if (rdr["CST"].ToString() == "0" && rdr["VAT"].ToString() == "0")
+                    {
+                        Amt3 = Amt2 + Fright;
+                    }
+
+                    TotalAmt += Amt3;
+                }              
+
+        }
+        catch (Exception ex)
+        {
+        }        
+        return Math.Round(TotalAmt, 2);
+
+    }
+
+    public double Cal_ServiceInvoice(string CustCode)
+    {
+       
+        double TotalAmt = 0;
+        try
+        {
+            string Sql12 = "Select((sum ((ReqQty*AmtInPer/100)*Rate))+(Case When AddType =0 then AddAmt  Else (sum ((ReqQty*AmtInPer/100)*Rate)*AddAmt/100) END)-(Case When DeductionType =0 then Deduction  Else (sum ((ReqQty*AmtInPer/100)*Rate)*Deduction/100) END))+(( (sum ((ReqQty*AmtInPer/100)*Rate))+(Case When AddType =0 then AddAmt  Else (sum ((ReqQty*AmtInPer/100)*Rate)*AddAmt/100) END)-(Case When DeductionType =0 then Deduction  Else (sum ((ReqQty*AmtInPer/100)*Rate)*Deduction/100) END))* value/100) As TotBasic from tblACC_ServiceTaxInvoice_Details inner join tblACC_ServiceTaxInvoice_Master on tblACC_ServiceTaxInvoice_Master.Id=tblACC_ServiceTaxInvoice_Details.MId  inner join tblExciseser_Master on tblExciseser_Master.Id=tblACC_ServiceTaxInvoice_Master.ServiceTax And CustomerCode='" + CustCode + "' And CompId='" + CompId + "' group by AddType,AddAmt,DeductionType,Deduction,Value ";
+            SqlCommand Cmdgrid2 = new SqlCommand(Sql12, con);
+            SqlDataReader rdr = Cmdgrid2.ExecuteReader();
+            while (rdr.Read())
+            {
+                TotalAmt += Convert.ToDouble(rdr["TotBasic"]);
+            }
+        }
+        catch (Exception ex)
+        {
+        }              
+      return Math.Round(TotalAmt, 2);
+
+    }
+    
+    public double Cal_PerformaInvoice(string CustCode)
+    {       
+        double TotalAmt = 0;
+        try
+        {
+            string Sql12 = "Select (case when  Unit_Master.EffectOnInvoice=1 then  sum ((ReqQty*AmtInPer/100)*Rate)+(Case When AddType =0 then AddAmt  Else (sum ((ReqQty*AmtInPer/100)*Rate)*AddAmt/100) END)-(Case When DeductionType =0 then Deduction  Else (sum ((ReqQty*AmtInPer/100)*Rate)*Deduction/100) END) else  sum (ReqQty*Rate)+(Case When AddType =0 then AddAmt  Else (sum ((ReqQty)*Rate)*AddAmt/100) END)-(Case When DeductionType =0 then Deduction  Else (sum ((ReqQty)*Rate)*Deduction/100) END) End) As TotBal from tblACC_ProformaInvoice_Details inner join tblACC_ProformaInvoice_Master on tblACC_ProformaInvoice_Master.Id=tblACC_ProformaInvoice_Details.MId inner join Unit_Master on Unit_Master.Id=tblACC_ProformaInvoice_Details.Unit And CustomerCode='"+CustCode+"' And CompId='"+CompId+"' group by AddType,AddAmt,DeductionType,Deduction,EffectOnInvoice ";
+            SqlCommand Cmdgrid2 = new SqlCommand(Sql12, con);
+            SqlDataReader rdr = Cmdgrid2.ExecuteReader();
+            while (rdr.Read())
+            {
+                TotalAmt += Convert.ToDouble(rdr["TotBal"]);
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+        return Math.Round(TotalAmt, 2);
+
+    }
+
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] sql3(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        con.Open();
+        int CompId = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+
+        int CodeType = 0;
+        if (contextKey == "key2")
+        {
+            CodeType = 1;
+        }
+        else
+        {
+            CodeType = 2;
+        }
+
+        switch (CodeType)
+        {
+            
+
+            case 1:
+                {
+                    string cmdStr = fun.select("CustomerId,CustomerName", "SD_Cust_master", "CompId='" + CompId + "' Order By CustomerName ASC");
+                    SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+                    da.Fill(ds, "SD_Cust_master");
+                }
+                break;
+
+            case 2:
+                {
+                    string cmdStr = fun.select("SupplierId,SupplierName", "tblMM_Supplier_master", "CompId='" + CompId + "' Order By SupplierName ASC");
+                    SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+                    da.Fill(ds, "tblMM_Supplier_master");
+                }
+                break;
+
+        }
+       
+        con.Close();
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                  
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }
+
+    protected void btn_Search_Click(object sender, EventArgs e)
+    {
+        this.FillGrid_Creditors();
+    }
+   
+    protected void btn_deb_search_Click(object sender, EventArgs e)
+    {
+        this.FillGrid_Debitors();
+    }
+   
+    protected void TabContainer1_ActiveTabChanged(object sender, EventArgs e)
+    {
+        if (TabContainer1.ActiveTabIndex == 1)
+        {            
+            this.FillGrid_Debitors();            
+        }
+        else
+        {
+            this.FillGrid_Creditors();
+        }
+    }
+    
+
+}

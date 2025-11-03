@@ -1,0 +1,205 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Masters/SwapCardNo.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="SwapCardNo.aspx.cs" Inherits="Module_HR_Masters_SwapCard_No" Title="ERP" Theme ="Default"  %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style1
+        {
+            width: 100%;
+        }
+    </style>
+     <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+<table cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td align="left">
+                <table cellpadding="0" cellspacing="0" style="width: 400px" >
+                    <tr>
+                        <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;SwapCard No</b></td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <asp:GridView ID="GridView1" runat="server" AllowPaging="True" 
+                                AutoGenerateColumns="False" DataKeyNames="Id" 
+                                DataSourceID="SqlDataSource1" Width="100%" 
+                                onrowcommand="GridView1_RowCommand" onrowdeleted="GridView1_RowDeleted" 
+                                onrowupdated="GridView1_RowUpdated" ShowFooter="True" PageSize="20" 
+                                CssClass="yui-datatable-theme" onrowdatabound="GridView1_RowDataBound">
+                                <PagerSettings PageButtonCount="40" />
+                                <Columns>
+                                    <asp:TemplateField HeaderText="SN">
+                                    <ItemTemplate>
+                                    <%# Container.DataItemIndex+1 %>
+                                    </ItemTemplate>
+                                        <ItemStyle HorizontalAlign="Right" Width="4%" />
+                                        <FooterTemplate>
+                                        <asp:Button ID="btnInsert" ValidationGroup="abc" runat="server" CommandName="Add" OnClientClick=" return confirmationAdd()"  CssClass="redbox"  Text="Insert" />
+                                    </FooterTemplate>
+                                    </asp:TemplateField>
+                                    <asp:CommandField  ButtonType="Link" ValidationGroup="A" ShowEditButton="True">
+                                    <ItemStyle HorizontalAlign="Center" Width="4%" />
+                                    </asp:CommandField>
+                                      <asp:CommandField ButtonType="Link" ShowDeleteButton="True" >
+                                    <ItemStyle HorizontalAlign="Center" Width="4%" />
+                                    </asp:CommandField>
+                                    <asp:TemplateField HeaderText="SwapCard No">
+                                        <ItemStyle Width="30%" HorizontalAlign="Left" />
+                                        <ItemTemplate>
+                                        <asp:Label ID="lblSwapCardNo" runat="server" Text='<%#Eval("SwapCardNo") %>'>    </asp:Label>
+                                        </ItemTemplate>
+                                        <EditItemTemplate>
+                                        <asp:TextBox ID="lblSwapCardNo0" runat="server" Width="200" CssClass="box3" Text='<%#Bind("SwapCardNo") %>'>
+                                        </asp:TextBox>
+                                          <asp:RequiredFieldValidator ID="ReqSwapCard0" ValidationGroup="A" runat="server" ErrorMessage="*" ControlToValidate="lblSwapCardNo0"></asp:RequiredFieldValidator>
+                                        </EditItemTemplate>
+                                        <FooterTemplate>
+                                        <asp:TextBox ID="txtSwapCardNo" runat="server"  Width="200" CssClass="box3">
+                                        </asp:TextBox>
+                                            <asp:RequiredFieldValidator ID="ReqSwapCard" ValidationGroup="abc" runat="server" ErrorMessage="*" ControlToValidate="txtSwapCardNo"></asp:RequiredFieldValidator>
+                                        
+                                        </FooterTemplate>
+                                        <FooterStyle HorizontalAlign="left" />
+                                    </asp:TemplateField>
+                                 
+                                </Columns>
+                                
+                                <EmptyDataTemplate>
+                                <asp:Button ID="btnInsert" runat="server" ValidationGroup="pqr" OnClientClick=" return confirmationAdd()"  CommandName="Add1"  CssClass="redbox"  Text="Insert" />
+                                <asp:TextBox ID="txtSwapCardNo" runat="server"></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="ReqSwapCard0" ValidationGroup="pqr" runat="server" ErrorMessage="*" ControlToValidate="txtSwapCardNo"></asp:RequiredFieldValidator>
+                                </EmptyDataTemplate>
+                            </asp:GridView>
+                            <asp:Label ID="Label2" runat="server" Font-Bold="True" ForeColor="Red"></asp:Label>
+                            <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+                                ConnectionString="<%$ connectionStrings:LocalSqlServer %>" 
+                                DeleteCommand="DELETE FROM [tblHR_SwapCard] WHERE [Id] = @Id" 
+                                InsertCommand="INSERT INTO [tblHR_SwapCard] ([SwapCardNo]) VALUES (@SwapCardNo)" 
+                                ProviderName="System.Data.SqlClient" 
+                                SelectCommand="SELECT [Id], [SwapCardNo] FROM [tblHR_SwapCard] ORDER BY [Id] DESC" 
+                                
+                                UpdateCommand="UPDATE [tblHR_SwapCard] SET [SwapCardNo] = @SwapCardNo WHERE [Id] = @Id">
+                                <DeleteParameters>
+                                    <asp:Parameter Name="Id" Type="Int32" />
+                                </DeleteParameters>
+                                <UpdateParameters>
+                                    <asp:Parameter Name="SwapCardNo" Type="String" />
+                                    <asp:Parameter Name="Id" Type="Int32" />
+                                </UpdateParameters>
+                                <InsertParameters>
+                                    <asp:Parameter Name="SwapCardNo" Type="String" />
+                                </InsertParameters>
+                            </asp:SqlDataSource>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Masters/SwapCardNo.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+
+public partial class Module_HR_Masters_SwapCard_No : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        Label2.Text = "";
+    }
+
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            if (e.CommandName == "Add")
+            {
+                string strSwapCardNo = ((TextBox)GridView1.FooterRow.FindControl("txtSwapCardNo")).Text;
+                if (strSwapCardNo != "")
+                {
+                    SqlDataSource1.InsertParameters["SwapCardNo"].DefaultValue = strSwapCardNo;
+
+                    SqlDataSource1.Insert();
+                    Label2.Text = "Record inserted.";
+                }
+            }
+
+            if (e.CommandName == "Add1")
+            {
+                string strSwapCardNo = ((TextBox)GridView1.Controls[0].Controls[0].FindControl("txtSwapCardNo")).Text;
+                if (strSwapCardNo != "")
+                {
+                    SqlDataSource1.InsertParameters["SwapCardNo"].DefaultValue = strSwapCardNo;
+
+                    SqlDataSource1.Insert();
+                    Label2.Text = "Record inserted.";
+                }
+            }
+
+        }
+
+        catch (Exception ex)
+        {
+        }
+        
+    }
+    protected void GridView1_RowDeleted(object sender, GridViewDeletedEventArgs e)
+    {
+        Label2.Text = "Record deleted.";
+    }
+    protected void GridView1_RowUpdated(object sender, GridViewUpdatedEventArgs e)
+    {
+        Label2.Text = "Record updated.";
+    }
+
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton edit = (LinkButton)e.Row.Cells[1].Controls[0];
+                edit.Attributes.Add("onclick", "return confirmationUpdate();");
+
+            }
+
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton del = (LinkButton)e.Row.Cells[2].Controls[0];
+                del.Attributes.Add("onclick", "return confirmationDelete();");
+            }
+        }
+        catch (Exception ex) { }
+    }
+}

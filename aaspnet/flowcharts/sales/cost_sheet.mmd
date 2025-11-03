@@ -1,0 +1,257 @@
+graph TB
+    %% Cost Sheet Module Architecture Diagram
+    
+    subgraph "Presentation Layer"
+        A[CostSheet.aspx<br/>Cost Calculation Interface]
+        A1[Master Page<br/>MasterPage.master]
+        A2[CSS Stylesheets<br/>StyleSheet.css]
+        A3[JavaScript Files<br/>Calculation scripts]
+    end
+    
+    subgraph "Code-Behind Layer"
+        B[CostSheet.aspx.cs<br/>Cost Calculation Logic]
+        B1[Page_Load Event<br/>Initialize cost sheet]
+        B2[Calculation Events<br/>Cost computation triggers]
+        B3[Save Events<br/>Cost sheet persistence]
+        B4[Print Events<br/>Report generation]
+        B5[Validation Events<br/>Data verification]
+    end
+    
+    subgraph "Cost Components"
+        C[Cost Structure]
+        C1[Material Cost<br/>Raw material expenses]
+        C2[Labor Cost<br/>Direct labor charges]
+        C3[Overhead Cost<br/>Indirect expenses]
+        C4[Machine Cost<br/>Equipment usage]
+        C5[Subcontracting Cost<br/>External services]
+        C6[Transportation Cost<br/>Logistics expenses]
+        C7[Packaging Cost<br/>Packaging materials]
+    end
+    
+    subgraph "Material Costing"
+        D[Material Cost Breakdown]
+        D1[Raw Material<br/>Primary materials]
+        D2[Consumables<br/>Supporting materials]
+        D3[Bought Out Items<br/>Purchased components]
+        D4[Material Wastage<br/>Scrap allowance]
+        D5[Material Handling<br/>Storage and movement]
+        D6[Quality Control<br/>Testing materials]
+    end
+    
+    subgraph "Labor Costing"
+        E[Labor Cost Analysis]
+        E1[Direct Labor<br/>Production workers]
+        E2[Indirect Labor<br/>Support staff]
+        E3[Skilled Labor<br/>Specialized workers]
+        E4[Overtime Charges<br/>Extended hours]
+        E5[Labor Benefits<br/>Social costs]
+        E6[Training Costs<br/>Skill development]
+    end
+    
+    subgraph "Overhead Calculations"
+        F[Overhead Cost Distribution]
+        F1[Factory Overhead<br/>Manufacturing overhead]
+        F2[Administrative Overhead<br/>Office expenses]
+        F3[Selling Overhead<br/>Sales expenses]
+        F4[Utilities<br/>Power, water, etc.]
+        F5[Depreciation<br/>Equipment depreciation]
+        F6[Maintenance<br/>Equipment upkeep]
+    end
+    
+    subgraph "Cost Calculation Engine"
+        G[Calculation Logic]
+        G1[Unit Cost Calculation<br/>Per unit cost computation]
+        G2[Total Cost Calculation<br/>Overall project cost]
+        G3[Margin Calculation<br/>Profit margin analysis]
+        G4[Break-even Analysis<br/>Profitability threshold]
+        G5[Cost Variance Analysis<br/>Actual vs estimated]
+        G6[Sensitivity Analysis<br/>Cost impact scenarios]
+    end
+    
+    subgraph "Database Integration"
+        H[Data Sources]
+        H1[Material Master<br/>Material rates and specs]
+        H2[Labor Master<br/>Labor rates and categories]
+        H3[Machine Master<br/>Equipment rates and capacity]
+        H4[Overhead Master<br/>Overhead rates and allocation]
+        H5[Vendor Master<br/>Subcontractor rates]
+        H6[Historical Data<br/>Past cost information]
+    end
+    
+    subgraph "Cost Sheet Types"
+        I[Cost Sheet Categories]
+        I1[Preliminary Cost Sheet<br/>Initial estimates]
+        I2[Detailed Cost Sheet<br/>Comprehensive analysis]
+        I3[Revised Cost Sheet<br/>Updated calculations]
+        I4[Final Cost Sheet<br/>Approved costs]
+        I5[Actual Cost Sheet<br/>Real costs incurred]
+    end
+    
+    subgraph "Integration Points"
+        J[System Integration]
+        J1[Quotation System<br/>Cost input for quotes]
+        J2[Work Order System<br/>Production cost planning]
+        J3[Purchase System<br/>Material cost updates]
+        J4[Inventory System<br/>Stock valuation]
+        J5[Financial System<br/>Cost accounting]
+        J6[Project Management<br/>Project costing]
+    end
+    
+    subgraph "Reporting & Analysis"
+        K[Cost Reports]
+        K1[Cost Summary Report<br/>Overall cost breakdown]
+        K2[Comparative Analysis<br/>Cost comparison reports]
+        K3[Variance Reports<br/>Actual vs planned costs]
+        K4[Profitability Analysis<br/>Margin reports]
+        K5[Cost Trend Analysis<br/>Historical cost trends]
+        K6[Cost Optimization<br/>Cost reduction opportunities]
+    end
+    
+    subgraph "Approval Workflow"
+        L[Cost Sheet Approval]
+        L1[Cost Engineer Review<br/>Technical validation]
+        L2[Finance Review<br/>Financial verification]
+        L3[Management Approval<br/>Executive sign-off]
+        L4[Customer Approval<br/>Client acceptance]
+        L5[Version Control<br/>Change management]
+    end
+    
+    %% Relationships
+    A --> A1
+    A --> A2
+    A --> A3
+    A --> B
+    
+    B --> B1
+    B --> B2
+    B --> B3
+    B --> B4
+    B --> B5
+    
+    C --> C1
+    C --> C2
+    C --> C3
+    C --> C4
+    C --> C5
+    C --> C6
+    C --> C7
+    
+    C1 --> D
+    D --> D1
+    D --> D2
+    D --> D3
+    D --> D4
+    D --> D5
+    D --> D6
+    
+    C2 --> E
+    E --> E1
+    E --> E2
+    E --> E3
+    E --> E4
+    E --> E5
+    E --> E6
+    
+    C3 --> F
+    F --> F1
+    F --> F2
+    F --> F3
+    F --> F4
+    F --> F5
+    F --> F6
+    
+    B2 --> G
+    G --> G1
+    G --> G2
+    G --> G3
+    G --> G4
+    G --> G5
+    G --> G6
+    
+    G --> H
+    H --> H1
+    H --> H2
+    H --> H3
+    H --> H4
+    H --> H5
+    H --> H6
+    
+    B1 --> I
+    I --> I1
+    I --> I2
+    I --> I3
+    I --> I4
+    I --> I5
+    
+    G --> J
+    J --> J1
+    J --> J2
+    J --> J3
+    J --> J4
+    J --> J5
+    J --> J6
+    
+    B4 --> K
+    K --> K1
+    K --> K2
+    K --> K3
+    K --> K4
+    K --> K5
+    K --> K6
+    
+    B5 --> L
+    L --> L1
+    L --> L2
+    L --> L3
+    L --> L4
+    L --> L5
+    
+    %% Data Flow
+    H1 --> D1
+    H2 --> E1
+    H3 --> C4
+    H4 --> F1
+    H5 --> C5
+    H6 --> G5
+    
+    %% Integration Flow
+    J1 --> I1
+    J2 --> I4
+    J3 --> D1
+    J4 --> D3
+    J5 --> K4
+    J6 --> G2
+    
+    %% Approval Flow
+    L1 --> L2
+    L2 --> L3
+    L3 --> L4
+    L4 --> I4
+    L5 --> I
+    
+    %% Styling
+    classDef presentationClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef codeClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef costClass fill:#e8eaf6,stroke:#3f51b5,stroke-width:2px
+    classDef materialClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef laborClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef overheadClass fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef calculationClass fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    classDef databaseClass fill:#e0f2f1,stroke:#004d40,stroke-width:2px
+    classDef typeClass fill:#f9fbe7,stroke:#827717,stroke-width:2px
+    classDef integrationClass fill:#fff8e1,stroke:#ff6f00,stroke-width:2px
+    classDef reportingClass fill:#fafafa,stroke:#424242,stroke-width:2px
+    classDef approvalClass fill:#e3f2fd,stroke:#0d47a1,stroke-width:2px
+    
+    class A,A1,A2,A3 presentationClass
+    class B,B1,B2,B3,B4,B5 codeClass
+    class C,C1,C2,C3,C4,C5,C6,C7 costClass
+    class D,D1,D2,D3,D4,D5,D6 materialClass
+    class E,E1,E2,E3,E4,E5,E6 laborClass
+    class F,F1,F2,F3,F4,F5,F6 overheadClass
+    class G,G1,G2,G3,G4,G5,G6 calculationClass
+    class H,H1,H2,H3,H4,H5,H6 databaseClass
+    class I,I1,I2,I3,I4,I5 typeClass
+    class J,J1,J2,J3,J4,J5,J6 integrationClass
+    class K,K1,K2,K3,K4,K5,K6 reportingClass
+    class L,L1,L2,L3,L4,L5 approvalClass

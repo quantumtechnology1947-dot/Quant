@@ -1,0 +1,375 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Transactions/PR_New.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="PR_New.aspx.cs" Inherits="Module_MaterialManagement_Transactions_PR_New" Title="ERP" Theme ="Default" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+    
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+     <table cellpadding="0" cellspacing="0" width="100%" align="center">
+        <tr>
+            <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)">
+        &nbsp;<b>PR - New</b></td>
+        </tr>
+         <tr>
+            <td height="25">&nbsp;<asp:Label ID="Label2" runat="server" Text="WO No"></asp:Label>
+                :&nbsp;<asp:TextBox ID="TxtWONo" runat="server" CssClass="box3"></asp:TextBox>
+&nbsp; 
+                    
+                   <asp:DropDownList runat="server" AutoPostBack="True" DataTextField="CName" DataValueField="CId" CssClass="box3" ID="DDLTaskWOType" OnSelectedIndexChanged="DDLTaskWOType_SelectedIndexChanged"></asp:DropDownList>
+                <asp:Button ID="Button1" runat="server" CssClass="redbox" onclick="Button1_Click" 
+                    Text="Search" />
+            
+            </td>
+            </tr>
+        <tr>
+            <td>
+                <asp:GridView ID="GridView2" runat="server" AllowPaging="True" 
+                    AutoGenerateColumns="False" Width="800px" 
+                    CssClass="yui-datatable-theme" onrowcommand="GridView2_RowCommand" 
+                    onpageindexchanging="GridView2_PageIndexChanging" PageSize="20">
+                    <PagerSettings PageButtonCount="40" />
+                    <Columns>
+                        <asp:TemplateField HeaderText="SN">
+                                                    <ItemTemplate>
+                                                        <%# Container.DataItemIndex + 1%>
+                                                    </ItemTemplate>
+                                                    <ItemStyle HorizontalAlign="Right" Width="5%" />
+                                                </asp:TemplateField>
+                        <asp:TemplateField>
+                        <ItemTemplate>
+                            <asp:LinkButton ID="LinkButton1"  CommandName="Select" runat="server">Select</asp:LinkButton>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="7%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="WO No">
+                        <ItemTemplate>
+                        <asp:Label ID="lblwono" runat="server" Text='<%# Eval("WONo") %>'></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="10%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Project Title">
+                            <ItemStyle HorizontalAlign="Left" Width="60%" />
+                            <ItemTemplate>
+                        <asp:Label ID="lblpt" runat="server" Text='<%# Eval("ProjectTitle") %>'></asp:Label>
+                        </ItemTemplate>
+                        </asp:TemplateField>
+                     <%--   <asp:TemplateField HeaderText="Total Finish" Visible="False">
+                        <ItemTemplate>
+                        
+                        <asp:LinkButton ID="lblfin" runat="server" Text='<%# Eval("TotFinish") %>' CommandName="fin"></asp:LinkButton>
+                        <asp:Label ID="lbltotfin" runat="server" Text='<%# Eval("TotFinish") %>'></asp:Label>
+                        
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Total Component" Visible="False">
+                        <ItemTemplate>
+                        <asp:LinkButton ID="lblco" runat="server" Text='<%# Eval("TotComp") %>' CommandName="comp"></asp:LinkButton>
+                         <asp:Label ID="lblcomp" runat="server" Text='<%# Eval("TotComp") %>'></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Total Process" Visible="False">
+                        <ItemTemplate>
+                        <asp:LinkButton ID="lblpro" runat="server" Text='<%# Eval("TotProc") %>' CommandName="pro"></asp:LinkButton>
+                        <asp:Label ID="lblproc" runat="server" Text='<%# Eval("TotProc") %>'></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>--%>
+                        
+                        <asp:TemplateField HeaderText="WIS">
+                        <ItemTemplate>                        
+                        <asp:Label ID="lblrel" runat="server" Text='<%# Eval("Release") %>'></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="10%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="WIS Run">
+                        <ItemTemplate>                        
+                        <asp:Label ID="lblrun" runat="server" Text='<%# Eval("Run") %>'></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="10%" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                            
+                    </Columns>
+                <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                       <FooterStyle Wrap="True">
+                       </FooterStyle>
+                </asp:GridView>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Transactions/PR_New.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_MaterialManagement_Transactions_PR_New : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    string sId = "";
+    int CompId = 0;
+    int FyId = 0;
+    string w = "";
+    int h = 0;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            con.Open();
+            sId = Session["username"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+            FyId = Convert.ToInt32(Session["finyear"]);
+
+            // Only clean temp data on first load, not on postbacks
+            if (!IsPostBack)
+            {
+                string deltemp = fun.delete("tblMM_PLN_PR_Temp", "CompId='" + CompId + "' AND SessionId='" + sId + "'");
+                SqlCommand cmd4 = new SqlCommand(deltemp, con);
+                cmd4.ExecuteNonQuery();
+                
+                string StrCat = fun.select("CId,Symbol+' - '+CName as Category", "tblSD_WO_Category", "CompId='" + CompId + "'");
+                SqlCommand Cmd = new SqlCommand(StrCat, con);
+                SqlDataAdapter DA = new SqlDataAdapter(Cmd);
+                DataSet DS = new DataSet();
+                DA.Fill(DS, "tblSD_WO_Category");
+                DDLTaskWOType.DataSource = DS.Tables["tblSD_WO_Category"];
+                DDLTaskWOType.DataTextField = "Category";
+                DDLTaskWOType.DataValueField = "CId";
+                DDLTaskWOType.DataBind();
+                DDLTaskWOType.Items.Insert(0, "WO Category");
+                
+                this.getItemTot(w,h);
+            }
+        }
+        catch(Exception ex)
+        {
+            // Log error if needed
+        }
+        finally
+        {
+            if (con != null && con.State == ConnectionState.Open)
+            {
+                con.Close();
+            }
+        }
+    }
+
+    public void getItemTot(string wo, int c)
+    {
+        SqlConnection con = null;
+        try
+        {
+            string str = fun.Connection();
+            con = new SqlConnection(str);
+            con.Open();
+
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ProjectTitle", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Release", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Run", typeof(string)));
+
+            // More efficient query with parameters
+            SqlCommand cmdwo = new SqlCommand();
+            cmdwo.Connection = con;
+            
+            // Limit to 100 records
+            string sqlwo = "SELECT TOP 100 WONo, TaskProjectTitle, ReleaseWIS, DryActualRun FROM SD_Cust_WorkOrder_Master WHERE CompId = @CompId AND CloseOpen = '0'";
+            cmdwo.Parameters.AddWithValue("@CompId", CompId);
+            
+            if (!string.IsNullOrEmpty(TxtWONo.Text))
+            {
+                sqlwo += " AND WONo = @WONo";
+                cmdwo.Parameters.AddWithValue("@WONo", TxtWONo.Text);
+            }
+            
+            if (DDLTaskWOType.SelectedValue != "WO Category")
+            {
+                sqlwo += " AND CId = @CId";
+                cmdwo.Parameters.AddWithValue("@CId", Convert.ToInt32(DDLTaskWOType.SelectedValue));
+            }
+            
+            sqlwo += " ORDER BY WONo";
+            cmdwo.CommandText = sqlwo;
+            cmdwo.CommandTimeout = 30; // Set a timeout of 30 seconds
+            
+            SqlDataAdapter dawo = new SqlDataAdapter(cmdwo);
+            DataSet DSwo = new DataSet();
+            dawo.Fill(DSwo);
+           
+            for (int k = 0; k < DSwo.Tables[0].Rows.Count; k++)
+            {
+                DataRow dr = dt.NewRow();
+
+                dr[0] = DSwo.Tables[0].Rows[k]["WONo"].ToString();
+                dr[1] = DSwo.Tables[0].Rows[k]["TaskProjectTitle"].ToString();
+
+                if (DSwo.Tables[0].Rows[k]["ReleaseWIS"].ToString() == "1")
+                {
+                    dr[2] = "Released";
+                }
+                else
+                {
+                    if (DSwo.Tables[0].Rows[k]["DryActualRun"].ToString() == "1")
+                    {
+                        dr[2] = "Stop";
+                    }
+                    else
+                    {
+                        dr[2] = "Not Release";
+                    }
+                }
+
+                if (DSwo.Tables[0].Rows[k]["DryActualRun"].ToString() == "1")
+                {
+                    dr[3] = "Yes";
+                }
+                else
+                {
+                    dr[3] = "No";
+                }
+
+                dt.Rows.Add(dr);
+                // Removed AcceptChanges() to improve performance
+            }
+
+            GridView2.DataSource = dt;
+            GridView2.DataBind();
+
+            foreach (GridViewRow grv in GridView2.Rows)
+            {
+                if (((Label)grv.FindControl("lblrun")).Text == "No")
+                {
+                    ((LinkButton)grv.FindControl("LinkButton1")).Visible = false;
+                }
+                else
+                {
+                    if (((Label)grv.FindControl("lblrel")).Text == "Released")
+                    {
+                        ((LinkButton)grv.FindControl("LinkButton1")).Visible = true;
+                    }
+                    else
+                    {
+                        ((LinkButton)grv.FindControl("LinkButton1")).Visible = false;
+                    }
+                }
+            }
+        }
+        catch (Exception ess)
+        {
+            // Log error if needed
+        }
+        finally
+        {
+            if (con != null && con.State == ConnectionState.Open)
+            {
+                con.Close();
+            }
+        }
+    }
+
+
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "Select")
+        {
+            GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+            string WONo = "";
+            WONo = ((Label)row.FindControl("lblwono")).Text;        
+        
+            Response.Redirect("~/Module/MaterialManagement/Transactions/PR_New_Details.aspx?WONo=" + WONo + "&ModId=6&SubModId=34");            
+        }
+    }
+
+
+    protected void DDLTaskWOType_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (DDLTaskWOType.SelectedValue != "WO Category")
+        {
+            int k = Convert.ToInt32(DDLTaskWOType.SelectedValue);
+            this.getItemTot(w,k);
+        }
+        else
+        {
+            this.getItemTot(w,h);
+        }
+    }
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        this.getItemTot(TxtWONo.Text,h);
+        foreach (GridViewRow grv in GridView2.Rows)
+        {
+            if (((Label)grv.FindControl("lblrun")).Text == "No")
+            {
+                ((LinkButton)grv.FindControl("LinkButton1")).Visible = false;
+            }
+            else
+            {
+                if (((Label)grv.FindControl("lblrel")).Text == "Released")
+                {
+                    ((LinkButton)grv.FindControl("LinkButton1")).Visible = true;
+                }
+                else
+                {
+                    ((LinkButton)grv.FindControl("LinkButton1")).Visible = false;
+                }
+            }
+        }
+    }
+   
+    protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView2.PageIndex = e.NewPageIndex;
+        this.getItemTot(w,h);
+    }
+}

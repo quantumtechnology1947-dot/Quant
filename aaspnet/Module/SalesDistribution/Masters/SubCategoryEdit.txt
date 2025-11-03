@@ -1,0 +1,320 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Masters/SubCategoryEdit.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="SubCategoryEdit.aspx.cs" Inherits="Module_SalesDistribution_Masters_SubCategoryEdit" Title="ERP" Theme="Default"  %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" runat="Server">
+    <table cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td>
+                <table cellpadding="0" cellspacing="0" align="center" style="width: 100%">
+                  
+                    <tr>
+                        <td align="left" valign="middle" style="background: url(../../../images/hdbg.JPG)"
+                            height="21" class="fontcsswhite">
+                            <b>&nbsp;WO SubCategory - Edit</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top">
+                            <asp:GridView ID="GridView1" runat="server" AllowPaging="True" AutoGenerateColumns="False"
+                                DataKeyNames="SCId"  CssClass="yui-datatable-theme"                               
+                                Width="65%" onrowcommand="GridView1_RowCommand" 
+                                onpageindexchanging="GridView1_PageIndexChanging" PageSize="20" 
+                                onrowcancelingedit="GridView1_RowCancelingEdit" 
+                                onrowediting="GridView1_RowEditing" onrowupdating="GridView1_RowUpdating" 
+                                onrowupdated="GridView1_RowUpdated" >
+                                <Columns>
+                                    <asp:TemplateField HeaderText="SN" SortExpression="SN">
+                                        <ItemTemplate>
+                                            <%# Container.DataItemIndex+1 %>
+                                        </ItemTemplate>
+                                        <ItemStyle HorizontalAlign="Right" />
+                                    </asp:TemplateField>
+                                    
+                                    <asp:CommandField ShowEditButton="True" ValidationGroup="abc"  ButtonType="Link" >
+                                        <ItemStyle HorizontalAlign="Center" Width="8%" />
+                                    </asp:CommandField>
+                                                                   
+                                    
+                                    <asp:TemplateField HeaderText="SCId" Visible="false" >
+                                        <ItemTemplate>
+                                           <asp:Label ID="lblSCId" runat="server" Text='<%#Eval("SCId") %>'></asp:Label>
+                                        </ItemTemplate>
+                                        
+                                        <EditItemTemplate>
+                                        
+                                        <asp:Label ID="lblSCId0" runat="server" Text='<%#Eval("SCId") %>'></asp:Label>
+                                        </EditItemTemplate>
+                                        <ItemStyle HorizontalAlign="Center" />
+                                    </asp:TemplateField>                                 
+                                    
+                                    
+                                    
+                                   
+                                    <asp:TemplateField HeaderText="Category" SortExpression="Category">
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblCId" runat="server" Text='<%#Eval("CatName") %>'></asp:Label>
+                    
+                                                                                       
+                                        </ItemTemplate> 
+                                        
+                                        <EditItemTemplate>
+                                         <asp:Label ID="lblCId2" Visible="false" runat="server" Text='<%#Eval("CId") %>'></asp:Label>
+                                        <asp:DropDownList ID="DrpCategory" runat="server" CssClass="box3"  Visible="true" DataSourceID="SqlDataSource1" DataTextField="Expr1" DataValueField="CId"  >
+                                            </asp:DropDownList> 
+                                        
+                                        </EditItemTemplate>                                      
+                                        <ItemStyle Width="35%" />
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Sub Category" SortExpression="SCName">                                                                  <ItemTemplate>
+                                            <asp:Label ID="Label1" runat="server" Text='<%# Bind("SCName") %>'></asp:Label>
+                                           
+                                        </ItemTemplate>
+                                        <ItemStyle Width="35%" />
+                                        
+                                        <EditItemTemplate>
+                                         <asp:TextBox ID="TextBox1" Visible="true" CssClass="box3"   runat="server" Width="95%" Text='<%# Bind("SCName") %>'></asp:TextBox>
+                                             <asp:RequiredFieldValidator ID="ReqCat" runat="server"  ValidationGroup="c" ControlToValidate="TextBox1"
+                           ErrorMessage="*"></asp:RequiredFieldValidator>
+                                        
+                                        </EditItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Symbol" SortExpression="Symbol">
+                                       
+                                        <ItemTemplate>
+                                            <asp:Label ID="Label2" runat="server" Text='<%# Bind("Symbol") %>'></asp:Label> 
+                                            <%--<asp:TextBox ID="TextBox2" Visible="false"   runat="server" Width="93%" Text='<%# Bind("Symbol") %>' MaxLength="2"></asp:TextBox>
+                                             <asp:RequiredFieldValidator ID="ReqSym" runat="server"  ValidationGroup="c" ControlToValidate="TextBox2"
+                           ErrorMessage="*"></asp:RequiredFieldValidator>--%>
+                                        </ItemTemplate>
+                                          <ItemStyle Width="25%" />
+                                    </asp:TemplateField>
+                                </Columns>
+                                <FooterStyle Wrap="True"></FooterStyle>
+                                <HeaderStyle HorizontalAlign="Center" />
+                                <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                            </asp:GridView>
+                            <asp:Label ID="lblMessage" runat="server" Font-Bold="True" ForeColor="Red"></asp:Label>
+                            
+                       <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"
+                                ProviderName="System.Data.SqlClient" SelectCommand="select CId,Symbol + ' - ' + CName AS Expr1 from tblSD_WO_Category WHERE [CompId] = @CompId AND [FinYearId] &lt;= @FinYearId And [HasSubCat]!='0'">
+                       <SelectParameters>
+                        <asp:SessionParameter Name="CompId" SessionField="compid" Type="Int32" />
+                        <asp:SessionParameter Name="FinYearId" SessionField="finyear" Type="Int32" />
+                    </SelectParameters>
+                            </asp:SqlDataSource>
+                        </td>
+                    </tr>
+                    </table>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" runat="Server">
+</asp:Content>
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Masters/SubCategoryEdit.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_SalesDistribution_Masters_SubCategoryEdit : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    SqlConnection con;
+    int CompId = 0;
+    int FinYearId = 0;
+    string SId = "";
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            SId = Session["username"].ToString();
+
+            if (!IsPostBack)
+            {
+                lblMessage.Text = "";
+                this.loaddata();
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+
+    }
+    public void loaddata()
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        DataTable dt = new DataTable();
+        try
+        {
+
+            con.Open();
+
+            string StrSql = fun.select("tblSD_WO_SubCategory.SCId,tblSD_WO_SubCategory.CId,tblSD_WO_SubCategory.SCName,tblSD_WO_SubCategory.Symbol,tblSD_WO_Category.Symbol AS CSymbol,tblSD_WO_Category.CName ", "tblSD_WO_SubCategory,tblSD_WO_Category", "tblSD_WO_SubCategory.CId= tblSD_WO_Category.CId And tblSD_WO_SubCategory.CompId='" + CompId + "' AND tblSD_WO_SubCategory.FinYearId<='" + FinYearId + "' Order By SCId Desc");
+
+            SqlCommand cmdsupId = new SqlCommand(StrSql, con);
+            SqlDataAdapter dasupId = new SqlDataAdapter(cmdsupId);
+            DataSet DSSql = new DataSet();
+            dasupId.Fill(DSSql);
+
+            dt.Columns.Add(new System.Data.DataColumn("CatName", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("SCName", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Symbol", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("SCId", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("CId", typeof(string)));
+            DataRow dr;
+
+            for (int i = 0; i < DSSql.Tables[0].Rows.Count; i++)
+            {
+                dr = dt.NewRow();
+
+                dr[0] = DSSql.Tables[0].Rows[i]["CSymbol"].ToString() + "-" + DSSql.Tables[0].Rows[i]["CName"].ToString();
+                dr[1] = DSSql.Tables[0].Rows[i]["SCName"].ToString();
+                dr[2] = DSSql.Tables[0].Rows[i]["Symbol"].ToString();
+                dr[3] = Convert.ToInt32(DSSql.Tables[0].Rows[i]["SCId"]);
+                dr[4] = Convert.ToInt32(DSSql.Tables[0].Rows[i]["CId"]);
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+
+            }
+
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
+
+        }
+        catch (Exception ex) { }
+        finally
+        { con.Close(); }
+
+
+    }
+
+
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+
+    }
+
+    protected void GridView1_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    {
+        try
+        {
+            GridView1.EditIndex = -1;
+            this.loaddata();
+        }
+        catch (Exception ex) { }
+    }
+    protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+
+        try
+        {
+            GridView1.EditIndex = e.NewEditIndex;
+            this.loaddata();
+            int index = GridView1.EditIndex;
+            GridViewRow grv = GridView1.Rows[index];
+            string labelLoc = ((Label)grv.FindControl("lblCId2")).Text;
+            ((DropDownList)grv.FindControl("DrpCategory")).SelectedValue = labelLoc;
+        }
+        catch (Exception ex) { }
+    }
+    protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+        try
+        {
+            int index = GridView1.EditIndex;
+            GridViewRow row = GridView1.Rows[index];
+            int Id = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Value);
+            int SCId = Convert.ToInt32(((Label)row.FindControl("lblSCId0")).Text);
+            int CId = Convert.ToInt32(((DropDownList)row.FindControl("DrpCategory")).SelectedValue);
+            string SCName = (((TextBox)row.FindControl("TextBox1")).Text);
+            //string Symbol = (((TextBox)row.FindControl("TextBox2")).Text);
+            string CDate = fun.getCurrDate();
+            string CTime = fun.getCurrTime();
+
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            con.Open();
+            string sql98 = "SELECT SD_Cust_WorkOrder_Master.SCId FROM  SD_Cust_WorkOrder_Master where  SD_Cust_WorkOrder_Master.CompId='" + CompId + "' AND SD_Cust_WorkOrder_Master.FinYearId<='" + FinYearId + "' And SD_Cust_WorkOrder_Master.CId='" + CId + "' And SD_Cust_WorkOrder_Master.SCId='" + SCId + "' ";
+            SqlCommand cmd98 = new SqlCommand(sql98, con);
+            SqlDataAdapter da98 = new SqlDataAdapter(cmd98);
+            DataSet ds98 = new DataSet();
+            da98.Fill(ds98);
+            if (ds98.Tables[0].Rows.Count == 0)
+            {
+                SqlCommand cmdgrid = new SqlCommand(fun.update("tblSD_WO_SubCategory", "SysDate='" + CDate + "',SysTime='" + CTime + "',SessionId='" + SId + "' ,CId='" + CId + "',SCName='" + SCName + "'", " SCId='" + SCId + "'  And  CompId='" + CompId + "'"), con);
+                cmdgrid.ExecuteNonQuery();
+                con.Close();
+                GridView1.EditIndex = -1;
+                this.loaddata();
+            }
+
+            else
+            {
+                string mystring = string.Empty;
+                mystring = "You canot edit this record,it is being used.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+            }
+        }
+        catch (Exception ex) { }
+
+    }
+
+    public void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            GridView1.PageIndex = e.NewPageIndex;
+            GridView1.EditIndex = -1;
+            this.loaddata();
+        }
+        catch (Exception ex) { }
+    }
+
+    protected void GridView1_RowUpdated(object sender, GridViewUpdatedEventArgs e)
+    {
+        lblMessage.Text = "Record updated sucessfully.";
+    }
+}

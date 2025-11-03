@@ -1,0 +1,889 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Transactions/WorkOrder_New_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="WorkOrder_New_Details.aspx.cs" Inherits="Module_SalesDistribution_Transactions_WorkOrder_New_Details" Title="ERP" Theme ="Default" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+        <script type="text/javascript">
+        function OnChanged(sender, args)
+        {
+            ServerUtilities.SetTabIndex(sender.get_activeTabIndex());
+        }
+</script>
+    
+    </asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+    <p><br /></p><p></p>
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="center" cellpadding="0" cellspacing="0" width="100%" >
+    <tr height="21">
+        <td style="background:url(../../../images/hdbg.JPG)" class="fontcsswhite" >&nbsp;<b>Work 
+            Order - New</b>
+        </td>
+    </tr>
+        <tr>
+            <td align="left">
+                <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" 
+                    Width="99%" onactivetabchanged="TabContainer1_ActiveTabChanged">
+                    <cc1:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
+                        <HeaderTemplate>Task Execution
+                    </HeaderTemplate>
+                        
+<ContentTemplate><table width="100%" border="0" cellspacing="0" cellpadding="0" class="fontcss"><tr>
+    <td colspan="2" align="left" valign="middle" height="25">&nbsp;Customer Name: <asp:Label ID="lblCustomerName" runat="server"></asp:Label><asp:Label ID="hfCustId" runat="server" Visible="False"></asp:Label><asp:Label ID="hfPoNo" runat="server" Visible="False"></asp:Label></td>
+    <td align="left" colspan="2" height="25" valign="middle">
+        PO No. :<asp:Label ID="lblPONo" runat="server" style="font-weight: 700"></asp:Label>
+    </td>
+    </tr><tr><td align="left" valign="middle" 
+            height="25">&nbsp;Enquiry No: <asp:Label ID="hfEnqId" runat="server"></asp:Label></td><td align="left" height="25" style="width: -75%" valign="middle" width="30%">Category :<asp:DropDownList ID="DDLTaskWOType" runat="server" 
+                AutoPostBack="True" CssClass="box3" 
+                DataTextField="CName" DataValueField="CId" 
+                onselectedindexchanged="DDLTaskWOType_SelectedIndexChanged"></asp:DropDownList><asp:RequiredFieldValidator ID="ReqWoType" runat="server" 
+                ControlToValidate="DDLTaskWOType" ErrorMessage="*" InitialValue="Select" 
+                ValidationGroup="Submit"></asp:RequiredFieldValidator></td><td align="left" height="25" style="width: -22%" valign="middle" width="30%">
+            <asp:DropDownList ID="DDLSubcategory" runat="server" 
+                AutoPostBack="True" CssClass="box3" DataTextField="SCName" 
+                DataValueField="SCId" Visible="False"></asp:DropDownList><asp:RequiredFieldValidator ID="ReqWoType0" runat="server" 
+                ControlToValidate="DDLSubcategory" ErrorMessage="*" InitialValue="Select" 
+                ValidationGroup="Submit"></asp:RequiredFieldValidator></td><td align="left" height="25" style="width: -5%" valign="middle" width="30%">Date of WO :<asp:TextBox ID="txtWorkOrderDate" runat="server" CssClass="box3" 
+                Width="90px"></asp:TextBox>
+                
+              <cc1:CalendarExtender ID="txtWorkOrderDate_CalendarExtender" runat="server" CssClass="cal_Theme2" PopupPosition="BottomRight"
+                Enabled="True" Format="dd-MM-yyyy" TargetControlID="txtWorkOrderDate"></cc1:CalendarExtender>
+                
+                
+                <asp:RequiredFieldValidator ID="ReqWoDate" runat="server" 
+                ControlToValidate="txtWorkOrderDate" ErrorMessage="*" ValidationGroup="Submit"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegWorkOrderDate" runat="server" 
+                ControlToValidate="txtWorkOrderDate" ErrorMessage="*" 
+                ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                ValidationGroup="Submit"></asp:RegularExpressionValidator></td></tr><tr><td colspan="4" align="left" valign="middle" height="25">&#160;Project Title: <asp:TextBox 
+                                    ID="txtProjectTitle" runat="server" CssClass="box3" Width="400px"></asp:TextBox><asp:RequiredFieldValidator ID="ReqProjectTitle" runat="server" 
+                                    ControlToValidate="txtProjectTitle" ErrorMessage="*" ValidationGroup="Submit"></asp:RequiredFieldValidator></td></tr><tr><td align="left" valign="middle" height="25" colspan="3">&#160;Project Leader: <asp:TextBox 
+            ID="txtProjectLeader" runat="server" CssClass="box3" Width="300px"></asp:TextBox><asp:RequiredFieldValidator ID="ReqProLead" runat="server" 
+                                    ControlToValidate="txtProjectLeader" ErrorMessage="*" ValidationGroup="Submit"></asp:RequiredFieldValidator></td><td align="left" height="25" valign="middle">Business Group:<asp:DropDownList ID="DDLBusinessGroup" runat="server" 
+                CssClass="box3"></asp:DropDownList><asp:RequiredFieldValidator ID="ReqBG" runat="server" 
+                ControlToValidate="DDLBusinessGroup" ErrorMessage="*" InitialValue="Select" 
+                ValidationGroup="Submit"></asp:RequiredFieldValidator></td></tr><tr><td colspan="4" align="center" valign="middle"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td align="left" valign="middle" height="25">&nbsp;Target DAP Date </td><td align="left" valign="middle" width="80%" height="25">From <asp:TextBox ID="txtTaskTargetDAP_FDate" runat="server" CssClass="box3" 
+                                Width="90px"></asp:TextBox>
+                                
+                                <cc1:CalendarExtender ID="txtTaskTargetDAP_FDate_CalendarExtender" CssClass="cal_Theme2" PopupPosition="BottomRight"
+                                        runat="server" Enabled="True" Format="dd-MM-yyyy" 
+                                        TargetControlID="txtTaskTargetDAP_FDate"></cc1:CalendarExtender>
+                                        
+                                        <asp:RequiredFieldValidator ID="ReqDapFdt" runat="server" 
+                                        ControlToValidate="txtTaskTargetDAP_FDate" ErrorMessage="*" 
+                                        ValidationGroup="Submit"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegTaskTargetDAP_FDate" runat="server" 
+                                        ControlToValidate="txtTaskTargetDAP_FDate" ErrorMessage="*" 
+                                        ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                        ValidationGroup="Submit"></asp:RegularExpressionValidator>To <asp:TextBox ID="txtTaskTargetDAP_TDate" runat="server" CssClass="box3" 
+                                Width="90px"></asp:TextBox><cc1:CalendarExtender ID="txtTaskTargetDAP_TDate_CalendarExtender" runat="server" CssClass="cal_Theme2" PopupPosition="BottomRight"
+                        Enabled="True" TargetControlID="txtTaskTargetDAP_TDate" Format="dd-MM-yyyy"></cc1:CalendarExtender>
+                        
+                        <asp:RequiredFieldValidator ID="ReqDApToDt" runat="server" 
+                                        ControlToValidate="txtTaskCustInspection_TDate" ErrorMessage="*" 
+                                        ValidationGroup="Submit"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegTaskTargetDAP_TDate" runat="server" 
+                                        ControlToValidate="txtTaskTargetDAP_TDate" ErrorMessage="*" 
+                                        ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                        ValidationGroup="Submit"></asp:RegularExpressionValidator></td></tr><tr><td align="left" height="22" valign="middle" class="style4">&#160;Design Finalization Date </td><td align="left" valign="middle" height="25">From <asp:TextBox ID="txtTaskDesignFinalization_FDate" runat="server" 
+                                    CssClass="box3" Width="90px"></asp:TextBox><cc1:CalendarExtender ID="txtTaskDesignFinalization_FDate_CalendarExtender" runat="server" CssClass="cal_Theme2" PopupPosition="BottomRight"
+                        Enabled="True" TargetControlID="txtTaskDesignFinalization_FDate" Format="dd-MM-yyyy"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="ReqFinFDt" runat="server" 
+                                        ControlToValidate="txtTaskDesignFinalization_FDate" ErrorMessage="*" 
+                                        ValidationGroup="Submit"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegTaskDesignFinalization_FDate" 
+                                        runat="server" ControlToValidate="txtTaskDesignFinalization_FDate" 
+                                        ErrorMessage="*" 
+                                        ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                        ValidationGroup="Submit"></asp:RegularExpressionValidator>To <asp:TextBox ID="txtTaskDesignFinalization_TDate" runat="server" 
+                                    CssClass="box3" Width="90px"></asp:TextBox><cc1:CalendarExtender ID="txtTaskDesignFinalization_TDate_CalendarExtender" runat="server" CssClass="cal_Theme2" PopupPosition="BottomRight"
+                        Enabled="True" TargetControlID="txtTaskDesignFinalization_TDate" Format="dd-MM-yyyy"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="ReqFinToDt" runat="server" 
+                                        ControlToValidate="txtTaskDesignFinalization_TDate" ErrorMessage="*" 
+                                        ValidationGroup="Submit"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegTaskDesignFinalization_TDate" 
+                                        runat="server" ControlToValidate="txtTaskDesignFinalization_TDate" 
+                                        ErrorMessage="*" 
+                                        ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                        ValidationGroup="Submit"></asp:RegularExpressionValidator></td></tr><tr><td align="left" height="22" valign="middle" class="style4">&nbsp;Target Manufg. Date </td><td align="left" valign="middle" height="25">From <asp:TextBox ID="txtTaskTargetManufg_FDate" runat="server" CssClass="box3" 
+                                    Width="90px"></asp:TextBox><cc1:CalendarExtender ID="txtTaskTargetManufg_FDate_CalendarExtender" runat="server" CssClass="cal_Theme2" PopupPosition="BottomRight"
+                        Enabled="True" TargetControlID="txtTaskTargetManufg_FDate" Format="dd-MM-yyyy"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="ReqMfgFrDt" runat="server" 
+                                        ControlToValidate="txtTaskTargetManufg_FDate" ErrorMessage="*" 
+                                        ValidationGroup="Submit"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegTaskTargetManufg_FDate" runat="server" 
+                                        ControlToValidate="txtTaskTargetManufg_FDate" ErrorMessage="*" 
+                                        ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                        ValidationGroup="Submit"></asp:RegularExpressionValidator>To <asp:TextBox ID="txtTaskTargetManufg_TDate" runat="server" CssClass="box3" 
+                                    Width="90px"></asp:TextBox><cc1:CalendarExtender ID="txtTaskTargetManufg_TDate_CalendarExtender" runat="server" CssClass="cal_Theme2" PopupPosition="BottomRight"
+                        Enabled="True" TargetControlID="txtTaskTargetManufg_TDate" Format="dd-MM-yyyy"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="ReqMfgToDt" runat="server" 
+                                        ControlToValidate="txtTaskTargetManufg_TDate" ErrorMessage="*" 
+                                        ValidationGroup="Submit"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegTaskTargetManufg_TDate" runat="server" 
+                                        ControlToValidate="txtTaskTargetManufg_TDate" ErrorMessage="*" 
+                                        ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                        ValidationGroup="Submit"></asp:RegularExpressionValidator></td></tr><tr><td align="left" height="22" valign="middle" class="style4">&nbsp;Target Try-out Date </td><td align="left" valign="middle" height="25">From <asp:TextBox ID="txtTaskTargetTryOut_FDate" runat="server" CssClass="box3" 
+                                    Width="90px"></asp:TextBox><cc1:CalendarExtender ID="txtTaskTargetTryOut_FDate_CalendarExtender" runat="server" CssClass="cal_Theme2" PopupPosition="BottomRight"
+                        Enabled="True" TargetControlID="txtTaskTargetTryOut_FDate" Format="dd-MM-yyyy"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="ReqTryOutFrDt" runat="server" 
+                                        ControlToValidate="txtTaskTargetTryOut_FDate" ErrorMessage="*" 
+                                        ValidationGroup="Submit"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegTaskTargetTryOut_FDate" runat="server" 
+                                        ControlToValidate="txtTaskTargetTryOut_FDate" ErrorMessage="*" 
+                                        ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                        ValidationGroup="Submit"></asp:RegularExpressionValidator>To <asp:TextBox ID="txtTaskTargetTryOut_TDate" runat="server" CssClass="box3" 
+                                    Width="90px"></asp:TextBox><cc1:CalendarExtender ID="txtTaskTargetTryOut_TDate_CalendarExtender" runat="server" CssClass="cal_Theme2" PopupPosition="BottomRight"
+                        Enabled="True" TargetControlID="txtTaskTargetTryOut_TDate" Format="dd-MM-yyyy"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="ReqTryOutTODt" runat="server" 
+                                        ControlToValidate="txtTaskTargetTryOut_TDate" ErrorMessage="*" 
+                                        ValidationGroup="Submit"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegTaskTargetTryOut_TDate" runat="server" 
+                                        ControlToValidate="txtTaskTargetTryOut_TDate" ErrorMessage="*" 
+                                        ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                        ValidationGroup="Submit"></asp:RegularExpressionValidator></td></tr><tr><td align="left" height="22" valign="middle" class="style4">&nbsp;Target Despatch Date </td><td align="left" valign="middle" height="25">From <asp:TextBox ID="txtTaskTargetDespach_FDate" runat="server" CssClass="box3" 
+                                    Width="90px"></asp:TextBox><cc1:CalendarExtender ID="txtTaskTargetDespach_FDate_CalendarExtender" runat="server" CssClass="cal_Theme2" PopupPosition="BottomRight"
+                        Enabled="True" TargetControlID="txtTaskTargetDespach_FDate" Format="dd-MM-yyyy"></cc1:CalendarExtender>
+                        
+                        
+                        <asp:RequiredFieldValidator ID="ReqDesptFrDt" runat="server" 
+                                        ControlToValidate="txtTaskTargetDespach_FDate" ErrorMessage="*" 
+                                        ValidationGroup="Submit"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegTaskTargetDespach_FDate" runat="server" 
+                                        ControlToValidate="txtTaskTargetDespach_FDate" ErrorMessage="*" 
+                                        ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                        ValidationGroup="Submit"></asp:RegularExpressionValidator>To <asp:TextBox ID="txtTaskTargetDespach_TDate" runat="server" CssClass="box3" 
+                                    Width="90px"></asp:TextBox><cc1:CalendarExtender ID="txtTaskTargetDespach_TDate_CalendarExtender" runat="server" CssClass="cal_Theme2" PopupPosition="BottomRight"
+                        Enabled="True" TargetControlID="txtTaskTargetDespach_TDate" Format="dd-MM-yyyy"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="ReqDisptToDt" runat="server" 
+                                        ControlToValidate="txtTaskTargetDespach_TDate" ErrorMessage="*" 
+                                        ValidationGroup="Submit"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegTaskTargetDespach_TDate" runat="server" 
+                                        ControlToValidate="txtTaskTargetDespach_TDate" ErrorMessage="*" 
+                                        ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                        ValidationGroup="Submit"></asp:RegularExpressionValidator></td></tr><tr><td align="left" height="22" valign="middle" class="style4">&nbsp;Target Assembly Date </td><td align="left" valign="middle" height="25">From <asp:TextBox ID="txtTaskTargetAssembly_FDate" runat="server" CssClass="box3" 
+                                    Width="90px"></asp:TextBox><cc1:CalendarExtender ID="txtTaskTargetAssembly_FDate_CalendarExtender" runat="server" CssClass="cal_Theme2" PopupPosition="BottomRight"
+                        Enabled="True" TargetControlID="txtTaskTargetAssembly_FDate" Format="dd-MM-yyyy"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="ReqAssFrDt" runat="server" 
+                                        ControlToValidate="txtTaskTargetAssembly_FDate" ErrorMessage="*" 
+                                        ValidationGroup="Submit"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegTaskTargetAssembly_FDate" runat="server" 
+                                        ControlToValidate="txtTaskTargetAssembly_FDate" ErrorMessage="*" 
+                                        ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                        ValidationGroup="Submit"></asp:RegularExpressionValidator>To <asp:TextBox ID="txtTaskTargetAssembly_TDate" runat="server" CssClass="box3" 
+                                    Width="90px"></asp:TextBox><cc1:CalendarExtender ID="txtTaskTargetAssembly_TDate_CalendarExtender" runat="server" CssClass="cal_Theme2" PopupPosition="BottomRight"
+                        Enabled="True" TargetControlID="txtTaskTargetAssembly_TDate" Format="dd-MM-yyyy"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="ReqAssToDt" runat="server" 
+                                        ControlToValidate="txtTaskTargetAssembly_TDate" ErrorMessage="*" 
+                                        ValidationGroup="Submit"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegTaskTargetAssembly_TDate" runat="server" 
+                                        ControlToValidate="txtTaskTargetAssembly_TDate" ErrorMessage="*" 
+                                        ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                        ValidationGroup="Submit"></asp:RegularExpressionValidator></td></tr><tr><td align="left" class="style4" height="22" valign="middle">Target Installation Date</td><td align="left" height="25" valign="middle">From <asp:TextBox ID="txtTaskTargetInstalation_FDate" runat="server" CssClass="box3" 
+                    Width="90px"></asp:TextBox><cc1:CalendarExtender ID="txtTaskTargetInstalation_FDate_CalendarExtender" 
+                    runat="server" Enabled="True" Format="dd-MM-yyyy" CssClass="cal_Theme2" PopupPosition="TopRight"
+                    TargetControlID="txtTaskTargetInstalation_FDate"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="ReqInstallFrDt" runat="server" 
+                    ControlToValidate="txtTaskTargetInstalation_FDate" ErrorMessage="*" 
+                    ValidationGroup="Submit"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegTaskTargetInstalation_FDate" 
+                    runat="server" ControlToValidate="txtTaskTargetInstalation_FDate" 
+                    ErrorMessage="*" 
+                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                    ValidationGroup="Submit"></asp:RegularExpressionValidator>To <asp:TextBox ID="txtTaskTargetInstalation_TDate" runat="server" 
+                    CssClass="box3" Width="90px"></asp:TextBox><cc1:CalendarExtender ID="txtTaskTargetInstalation_TDate_CalendarExtender" 
+                    runat="server" Enabled="True" Format="dd-MM-yyyy" CssClass="cal_Theme2" PopupPosition="TopRight"
+                    TargetControlID="txtTaskTargetInstalation_TDate"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="ReqInstalFrDt" runat="server" 
+                    ControlToValidate="txtTaskCustInspection_TDate" ErrorMessage="*" 
+                    ValidationGroup="Submit"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegTaskTargetInstalation_TDate" 
+                    runat="server" ControlToValidate="txtTaskTargetInstalation_TDate" 
+                    ErrorMessage="*" 
+                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                    ValidationGroup="Submit"></asp:RegularExpressionValidator></td></tr><tr><td align="left" class="style4" height="22" valign="middle">Cust. Inspection Date</td><td align="left" height="25" valign="middle">From <asp:TextBox ID="txtTaskCustInspection_FDate" runat="server" CssClass="box3" 
+                    Width="90px"></asp:TextBox><cc1:CalendarExtender ID="txtTaskCustInspection_FDate_CalendarExtender" 
+                    runat="server" Enabled="True" Format="dd-MM-yyyy" CssClass="cal_Theme2" PopupPosition="TopRight"
+                    TargetControlID="txtTaskCustInspection_FDate"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="ReqInsptFrDt" runat="server" 
+                    ControlToValidate="txtTaskCustInspection_FDate" ErrorMessage="*" 
+                    ValidationGroup="Submit"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegTaskCustInspection_FDate" runat="server" 
+                    ControlToValidate="txtTaskCustInspection_FDate" ErrorMessage="*" 
+                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                    ValidationGroup="Submit"></asp:RegularExpressionValidator>To <asp:TextBox ID="txtTaskCustInspection_TDate" runat="server" CssClass="box3" 
+                    Width="90px"></asp:TextBox><cc1:CalendarExtender ID="txtTaskCustInspection_TDate_CalendarExtender" 
+                    runat="server" Enabled="True" Format="dd-MM-yyyy" CssClass="cal_Theme2" PopupPosition="TopRight"
+                    TargetControlID="txtTaskCustInspection_TDate"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="ReqInspFrDt" runat="server" 
+                    ControlToValidate="txtTaskCustInspection_TDate" ErrorMessage="*" 
+                    ValidationGroup="Submit"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegTaskCustInspection_TDate" runat="server" 
+                    ControlToValidate="txtTaskCustInspection_TDate" ErrorMessage="*" 
+                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                    ValidationGroup="Submit"></asp:RegularExpressionValidator></td></tr><tr><td align="left" class="style4" height="22" valign="middle"><asp:Label ID="lblMaterialProcurement" runat="server" 
+                    style="font-weight: 700; font-size: 12px" Text="Material Procurement"></asp:Label></td><td align="left" height="25" valign="middle">&#160;</td></tr><tr><td align="left" class="style4" height="22" valign="middle">Manufacturing Material</td><td align="left" height="25" valign="middle">Date <asp:TextBox ID="txtManufMaterialDate" runat="server" CssClass="box3" 
+                    Width="90px"></asp:TextBox><cc1:CalendarExtender ID="txtManufMaterialDate_CalendarExtender" runat="server" CssClass="cal_Theme2" PopupPosition="TopRight"
+                    Enabled="True" Format="dd-MM-yyyy" TargetControlID="txtManufMaterialDate"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="ReqManufMaterialDate" runat="server" 
+                    ControlToValidate="txtManufMaterialDate" ErrorMessage="*" 
+                    ValidationGroup="Submit"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegManufMaterialDate" runat="server" 
+                    ControlToValidate="txtManufMaterialDate" ErrorMessage="*" 
+                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                    ValidationGroup="Submit"></asp:RegularExpressionValidator>Buyer <asp:DropDownList ID="DDLBuyer" runat="server"></asp:DropDownList><asp:RequiredFieldValidator ID="ReqBuyer" runat="server" 
+                    ControlToValidate="DDLBuyer" ErrorMessage="*" InitialValue="Select" 
+                    ValidationGroup="Submit"></asp:RequiredFieldValidator></td></tr><tr><td align="left" class="style4" height="22" valign="middle">Boughtout Material</td><td align="left" height="25" valign="middle">Date <asp:TextBox ID="txtBoughtoutMaterialDate" runat="server" CssClass="box3" 
+                    Width="90px"></asp:TextBox><cc1:CalendarExtender ID="txtBoughtoutMaterialDate_CalendarExtender" 
+                    runat="server" Enabled="True" Format="dd-MM-yyyy" CssClass="cal_Theme2" PopupPosition="TopRight"
+                    TargetControlID="txtBoughtoutMaterialDate"></cc1:CalendarExtender><asp:RequiredFieldValidator ID="ReqBoughtoutMaterialDate" runat="server" 
+                    ControlToValidate="txtBoughtoutMaterialDate" ErrorMessage="*" 
+                    ValidationGroup="Submit"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegBoughtoutMaterialDate" runat="server" 
+                    ControlToValidate="txtBoughtoutMaterialDate" ErrorMessage="*" 
+                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                    ValidationGroup="Submit"></asp:RegularExpressionValidator></td></tr></table>&nbsp;</td></tr><tr><td align="right" colspan="4" valign="middle"><asp:Button 
+                                    ID="btnTaskNext" runat="server" CssClass="redbox" Text="Next  " 
+                                    onclick="btnTaskNext_Click" />&nbsp;</td></tr></table>
+                        </ContentTemplate>
+                    
+</cc1:TabPanel>
+                    <cc1:TabPanel ID="TabPanel2" runat="server" HeaderText="TabPanel2">
+                        <HeaderTemplate>Shipping
+                    </HeaderTemplate>
+                        
+<ContentTemplate><table width="100%" border="0" cellspacing="0" cellpadding="0" class="fontcss"><tr><td valign="top" align="left" rowspan="3" width="6%">Address</td><td width="44%" rowspan="3" align="left" valign="top"><asp:TextBox ID="txtShippingAdd" runat="server" CssClass="box3" Height="60px" 
+            TextMode="MultiLine" Width="80%"></asp:TextBox><asp:RequiredFieldValidator ID="ReqShipAdd" runat="server" 
+        ControlToValidate="txtShippingAdd" ErrorMessage="*" ValidationGroup="Submit"></asp:RequiredFieldValidator></td><td width="11%" align="left" valign="middle">Country</td><td width="39%" align="left" valign="middle">:<asp:DropDownList ID="DDLShippingCountry" 
+            runat="server" CssClass="box3" AutoPostBack="True" 
+                                    onselectedindexchanged="DDLShippingCountry_SelectedIndexChanged"></asp:DropDownList><asp:RequiredFieldValidator ID="ReqShipCountry" runat="server" 
+        ControlToValidate="DDLShippingCountry" ErrorMessage="*" InitialValue="Select" 
+        ValidationGroup="Submit"></asp:RequiredFieldValidator></td></tr><tr><td align="left" valign="middle">State</td><td align="left" valign="middle">:<asp:DropDownList 
+                                    ID="DDLShippingState" runat="server" CssClass="box3" AutoPostBack="True" 
+                                    onselectedindexchanged="DDLShippingState_SelectedIndexChanged"></asp:DropDownList><asp:RequiredFieldValidator ID="ReqShipState" runat="server" 
+            ControlToValidate="DDLShippingState" ErrorMessage="*" InitialValue="Select" 
+            ValidationGroup="Submit"></asp:RequiredFieldValidator></td></tr><tr><td align="left" valign="middle">City</td><td align="left" valign="middle">:<asp:DropDownList ID="DDLShippingCity" 
+                                        runat="server" CssClass="box3" 
+                                    
+            onselectedindexchanged="DDLShippingCity_SelectedIndexChanged"></asp:DropDownList><asp:RequiredFieldValidator ID="ReqShipCity" runat="server" 
+            ControlToValidate="DDLShippingCity" ErrorMessage="*" InitialValue="Select" 
+            ValidationGroup="Submit"></asp:RequiredFieldValidator></td></tr><tr><td valign="top" colspan="4"><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td width="14%" align="left" valign="middle" height="24">Contact Person 1 </td><td width="36%" align="left" valign="middle">:<asp:TextBox ID="txtShippingContactPerson1" 
+                runat="server" CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqShipContPer" runat="server" 
+            ControlToValidate="txtShippingContactPerson1" ErrorMessage="*" 
+            ValidationGroup="Submit"></asp:RequiredFieldValidator></td><td width="11%" align="left" valign="middle">Contact No </td><td width="39%" align="left" valign="middle">:<asp:TextBox ID="txtShippingContactNo1" 
+                runat="server" CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqShipContNo1" runat="server" 
+            ControlToValidate="txtShippingContactNo1" ErrorMessage="*" 
+            ValidationGroup="Submit"></asp:RequiredFieldValidator></td></tr><tr><td align="left" valign="middle" height="24">Email</td><td align="left" valign="middle">:<asp:TextBox 
+                                        ID="txtShippingEmail1" runat="server" 
+                CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqShipMail1" runat="server" 
+                ControlToValidate="txtShippingEmail1" ErrorMessage="*" ValidationGroup="Submit"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegEmail1" runat="server" 
+                ControlToValidate="txtShippingEmail1" ErrorMessage="*" 
+                ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" 
+                ValidationGroup="Submit"></asp:RegularExpressionValidator></td><td align="left" valign="middle">&#160;</td><td align="left" valign="middle">&nbsp;</td></tr><tr><td align="left" valign="middle" height="24">Contact Person 2 </td><td align="left" valign="middle">:<asp:TextBox 
+                                    ID="txtShippingContactPerson2" runat="server" 
+                CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqShipContper2" runat="server" 
+            ControlToValidate="txtShippingContactPerson2" ErrorMessage="*" 
+            ValidationGroup="Submit"></asp:RequiredFieldValidator></td><td align="left" valign="middle">Contact No </td><td align="left" valign="middle">:<asp:TextBox 
+                                    ID="txtShippingContactNo2" runat="server" 
+                CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqShipContNo2" runat="server" 
+            ControlToValidate="txtShippingContactNo2" ErrorMessage="*" 
+            ValidationGroup="Submit"></asp:RequiredFieldValidator></td></tr><tr><td align="left" valign="middle" height="24">Email</td><td align="left" valign="middle">:<asp:TextBox 
+                                        ID="txtShippingEmail2" runat="server" 
+                CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqshipMail2" runat="server" 
+                ControlToValidate="txtShippingEmail2" ErrorMessage="*" ValidationGroup="Submit"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegEmail2" runat="server" 
+                ControlToValidate="txtShippingEmail2" ErrorMessage="*" 
+                ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" 
+                ValidationGroup="Submit"></asp:RegularExpressionValidator></td><td align="left" valign="middle">&#160;</td><td align="left" valign="middle">&nbsp;</td></tr><tr><td align="left" valign="middle" height="24">Fax No </td><td align="left" valign="middle">:<asp:TextBox 
+                                    ID="txtShippingFaxNo" runat="server" 
+                CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqShipFax" runat="server" 
+            ControlToValidate="txtShippingFaxNo" ErrorMessage="*" ValidationGroup="Submit"></asp:RequiredFieldValidator></td><td align="left" valign="middle">ECC No </td><td align="left" valign="middle">:<asp:TextBox 
+                                    ID="txtShippingEccNo" runat="server" 
+                CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqShipECC" runat="server" 
+            ControlToValidate="txtShippingEccNo" ErrorMessage="*" ValidationGroup="Submit"></asp:RequiredFieldValidator></td></tr><tr><td align="left" valign="middle" height="24">TIN/CST No.</td><td align="left" valign="middle">:<asp:TextBox 
+                                        ID="txtShippingTinCstNo" runat="server" 
+                CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqShipTinCst" runat="server" 
+                ControlToValidate="txtShippingTinCstNo" ErrorMessage="*" 
+                ValidationGroup="Submit"></asp:RequiredFieldValidator></td><td align="left" valign="middle">TIN/VAT No.</td><td align="left" valign="middle">:<asp:TextBox 
+                                        ID="txtShippingTinVatNo" runat="server" 
+                CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqShipTinVat" runat="server" 
+                ControlToValidate="txtShippingTinVatNo" ErrorMessage="*" 
+                ValidationGroup="Submit"></asp:RequiredFieldValidator></td></tr><tr><td valign="middle">&#160;</td><td valign="middle">&nbsp;</td><td valign="middle">&nbsp;</td><td align="right" valign="middle"><asp:Button 
+                                        ID="btnShippingNext" runat="server" CssClass="redbox" Text="Next  " 
+                                        onclick="btnShippingNext_Click" />&nbsp;</td></tr></table></td></tr></table>
+                        </ContentTemplate>
+                    
+</cc1:TabPanel>
+                    <cc1:TabPanel ID="TabPanel3" runat="server" HeaderText="TabPanel3">
+                    <HeaderTemplate>Products
+                    </HeaderTemplate>
+                    
+<ContentTemplate><table width="100%" border="0" cellspacing="0" cellpadding="0" class="fontcss"><tr><td align="center" valign="top" width="30%"><table align="left" cellpadding="0" cellspacing="0" width="98%"><tr><td align="left" class="style4">Item Code </td><td align="left" class="style4" width="80%"><asp:TextBox ID="txtItemCode" runat="server" CssClass="box3" Width="180px"></asp:TextBox><asp:RequiredFieldValidator ID="ReqItemCode" runat="server" 
+                            ControlToValidate="txtItemCode" ErrorMessage="*" ValidationGroup="B"></asp:RequiredFieldValidator></td></tr><tr><td align="left" colspan="2" valign="top">Desc.of Item </td></tr><tr><td align="left" valign="top"></td><td align="left"><asp:TextBox ID="txtDescOfItem" runat="server" CssClass="box3" 
+                            TextMode="MultiLine" Width="300px"></asp:TextBox><asp:RequiredFieldValidator ID="ReqItemDesc" runat="server" 
+                            ControlToValidate="txtDescOfItem" ErrorMessage="*" ValidationGroup="B"></asp:RequiredFieldValidator></td></tr><tr><td align="left">Qty</td><td align="left" height="24"><asp:TextBox ID="txtQty" runat="server" CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqItemQty" runat="server" 
+                            ControlToValidate="txtQty" ErrorMessage="*" ValidationGroup="B"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegQty" runat="server" 
+                            ControlToValidate="txtQty" ErrorMessage="*" 
+                            ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="B"></asp:RegularExpressionValidator></td></tr><tr><td>&#160;</td><td align="left" height="27" width="50%"><asp:Button ID="btnProductSubmit" runat="server" CssClass="redbox" 
+                            OnClick="btnProductSubmit_Click" OnClientClick="return confirmationAdd()" 
+                            Text="Submit" ValidationGroup="B" /><asp:Button ID="btnProductNext" runat="server" CssClass="redbox" 
+                            OnClick="btnProductNext_Click" Text="Next  " /></td></tr></table></td><td align="center" valign="top" width="60%"><asp:GridView ID="GridView1" runat="server" AllowPaging="True" 
+                AutoGenerateColumns="False" CssClass="yui-datatable-theme" DataKeyNames="Id" 
+                OnPageIndexChanging="GridView1_PageIndexChanging" 
+                OnRowCancelingEdit="GridView1_RowCancelingEdit" 
+                OnRowDataBound="GridView1_RowDataBound" OnRowDeleting="GridView1_RowDeleting" 
+                OnRowEditing="GridView1_RowEditing" OnRowUpdating="GridView1_RowUpdating" 
+                PageSize="17" Width="98%"><Columns><asp:TemplateField HeaderText="SN"><ItemTemplate></ItemTemplate><ItemStyle HorizontalAlign="Right" Width="4%" /></asp:TemplateField><asp:CommandField ShowEditButton="True" ValidationGroup="edit"><ItemStyle HorizontalAlign="Center" Width="4%" /></asp:CommandField><asp:CommandField ShowDeleteButton="True"><ItemStyle HorizontalAlign="Center" Width="7%" /></asp:CommandField><asp:TemplateField HeaderText="Id" Visible="False"><ItemTemplate><asp:Label ID="lblId" runat="server" Text='<%#Eval("Id") %>' /></ItemTemplate><ItemStyle Width="8%" /></asp:TemplateField><asp:TemplateField HeaderText="Item Code"><ItemTemplate><asp:Label ID="lblCode" runat="server" Text='<%#Eval("ItemCode") %>' /></ItemTemplate><EditItemTemplate><asp:TextBox ID="txtItemCode" runat="server" Text='<%#Eval("ItemCode") %>'> </asp:TextBox><asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
+                                ControlToValidate="txtItemCode" ErrorMessage="*" ValidationGroup="edit"> </asp:RequiredFieldValidator></EditItemTemplate><ItemStyle Width="12%" /></asp:TemplateField><asp:TemplateField HeaderText="Description"><ItemTemplate><asp:Label ID="lblDesc" runat="server" Text='<%#Eval("Description") %>' /></ItemTemplate><EditItemTemplate><asp:TextBox ID="txtDesc" runat="server" Text='<%#Eval("Description") %>'> </asp:TextBox><asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
+                                ControlToValidate="txtDesc" ErrorMessage="*" ValidationGroup="edit"> </asp:RequiredFieldValidator></EditItemTemplate><ItemStyle Width="40%" /></asp:TemplateField><asp:TemplateField HeaderText="Quantity"><ItemTemplate><asp:Label ID="lblQty" runat="server" Text='<%#Eval("Qty") %>' /></ItemTemplate><EditItemTemplate><asp:TextBox ID="txtQty" runat="server" Text='<%#Eval("Qty") %>'> </asp:TextBox><asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" 
+                                ControlToValidate="txtQty" ErrorMessage="*" ValidationGroup="edit"> </asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="RegQty1" runat="server" 
+                                ControlToValidate="txtQty" ErrorMessage="*" 
+                                ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="edit"></asp:RegularExpressionValidator></EditItemTemplate><ItemStyle HorizontalAlign="Right" Width="10%" /></asp:TemplateField></Columns><EmptyDataTemplate><table class="fontcss" width="100%"><tr><td align="center"><asp:Label ID="Label1" runat="server" Font-Size="Larger" ForeColor="maroon" 
+                                    Text="No data to display !"> </asp:Label></td></tr></table></EmptyDataTemplate></asp:GridView></td></tr><tr><td align="center" valign="middle">&nbsp;</td><td align="left" valign="middle"><asp:Label ID="lblMessage" runat="server" ForeColor="#CC0000"></asp:Label></td></tr></table>
+                        
+                    </ContentTemplate>
+                    
+</cc1:TabPanel>
+                    <cc1:TabPanel ID="TabPanel4" runat="server" HeaderText="TabPanel4">
+                    <HeaderTemplate>Instructions
+                    </HeaderTemplate>
+                          
+<ContentTemplate><table width="100%" border="0" cellspacing="0" cellpadding="0" class="fontcss"><tr><td width="29%" align="left" valign="middle" height="24">Primer Painting to be done.</td><td width="71%" align="left" valign="middle"><asp:CheckBox ID="CKInstractionPrimerPainting" runat="server" /></td></tr><tr><td align="left" valign="middle" height="24">Painting to be done.</td><td align="left" valign="middle"><asp:CheckBox ID="CKInstractionPainting" runat="server" /></td></tr><tr><td align="left" valign="middle" height="24">Self Certification Report to be submitted.</td><td align="left" valign="middle"><asp:CheckBox ID="CKInstractionSelfCertRept" runat="server" /></td></tr><tr><td align="left" valign="top" height="24">others</td><td align="left" valign="middle"><asp:TextBox 
+                                  ID="txtInstractionOther" runat="server" CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqDesptFrDt0" runat="server" 
+                                  ControlToValidate="txtInstractionOther" ErrorMessage="*" 
+                                  ValidationGroup="Submit"></asp:RequiredFieldValidator></td></tr><tr><td align="left" valign="middle" height="24">Export Case Mark</td><td align="left" valign="middle"><asp:TextBox ID="txtInstractionExportCaseMark" runat="server" CssClass="box3"></asp:TextBox><asp:RequiredFieldValidator ID="ReqDesptFrDt1" runat="server" 
+            ControlToValidate="txtInstractionExportCaseMark" ErrorMessage="*" 
+            ValidationGroup="Submit"></asp:RequiredFieldValidator></td></tr><tr><td colspan="2" align="left" valign="middle" height="24">Attach Annexure</td></tr><tr><td colspan="2" align="left" valign="top" height="110"></td></tr><tr><td colspan="2" align="left" valign="middle">*Packing Instructions&#160;: Export Seaworthy / Wooden / Corrugated 7 day before desp.</td></tr><tr><td align="right" colspan="2" valign="middle">&#160;</td></tr></table>
+                        </ContentTemplate>
+                    
+</cc1:TabPanel>
+                </cc1:TabContainer>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" height="25" valign="middle">
+                <asp:Button runat="server" OnClientClick="return confirmationAdd()" Text="Submit" ValidationGroup="Submit" CssClass="redbox" ID="btnSubmit" OnClick="btnSubmit_Click">
+                </asp:Button>
+&nbsp;<asp:Button runat="server" Text="Cancel" CssClass="redbox" ID="btnCancel" OnClick="btnCancel_Click">
+                </asp:Button>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Transactions/WorkOrder_New_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_SalesDistribution_Transactions_WorkOrder_New_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    DataSet DS = new DataSet();
+    string CustCode = "";
+    string pono = "";
+    int enqId = 0;
+    int CompId = 0;
+    string sId = "";
+    string PoId = "";
+    int FinYearId = 0;
+    SqlConnection con;
+    string connStr = "";
+    public void Page_Load(object sender, EventArgs e)
+    {
+       try
+        {
+            hfCustId.Text = Request.QueryString["CustomerId"].ToString();
+            CustCode = hfCustId.Text;
+            hfPoNo.Text = Request.QueryString["PONo"].ToString();
+            lblPONo.Text = Request.QueryString["PONo"].ToString();
+            PoId = Request.QueryString["PoId"].ToString();
+            pono = hfPoNo.Text;
+            hfEnqId.Text = Request.QueryString["EnqId"].ToString();
+            enqId = Convert.ToInt32(hfEnqId.Text);
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            sId = Session["username"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            lblMessage.Text = "";
+
+            // For Date 
+
+            txtWorkOrderDate.Attributes.Add("readonly", "readonly");
+            txtTaskTargetDAP_FDate.Attributes.Add("readonly", "readonly");
+            txtTaskTargetDAP_TDate.Attributes.Add("readonly", "readonly");
+            txtTaskDesignFinalization_FDate.Attributes.Add("readonly", "readonly");
+            txtTaskDesignFinalization_TDate.Attributes.Add("readonly", "readonly");
+            txtTaskTargetManufg_FDate.Attributes.Add("readonly", "readonly");
+            txtTaskTargetManufg_TDate.Attributes.Add("readonly", "readonly");
+            txtTaskTargetTryOut_FDate.Attributes.Add("readonly", "readonly");
+            txtTaskTargetTryOut_TDate.Attributes.Add("readonly", "readonly");
+            txtTaskTargetDespach_FDate.Attributes.Add("readonly", "readonly");
+            txtTaskTargetDespach_TDate.Attributes.Add("readonly", "readonly");
+            txtTaskTargetAssembly_FDate.Attributes.Add("readonly", "readonly");
+            txtTaskTargetAssembly_TDate.Attributes.Add("readonly", "readonly");
+            txtTaskTargetInstalation_FDate.Attributes.Add("readonly", "readonly");
+            txtTaskTargetInstalation_TDate.Attributes.Add("readonly", "readonly");
+            txtTaskCustInspection_FDate.Attributes.Add("readonly", "readonly");
+            txtTaskCustInspection_TDate.Attributes.Add("readonly", "readonly");
+            txtManufMaterialDate.Attributes.Add("readonly", "readonly");
+            txtBoughtoutMaterialDate.Attributes.Add("readonly", "readonly");
+
+            if (!IsPostBack)
+            {
+                    fun.dropdownBuyer(DDLBuyer);
+               
+                    fun.dropdownBG(DDLBusinessGroup);
+                    fun.dropdownCountry(DDLShippingCountry, DDLShippingState);
+
+                    con.Open();
+                    string StrCat = fun.select("CId,Symbol+' - '+CName as Category", "tblSD_WO_Category", "CompId='" + CompId + "'");
+                    SqlCommand Cmd = new SqlCommand(StrCat, con);
+                    SqlDataAdapter DA = new SqlDataAdapter(Cmd);
+                    DA.Fill(DS, "tblSD_WO_Category");
+                    DDLTaskWOType.DataSource = DS.Tables["tblSD_WO_Category"];
+                    DDLTaskWOType.DataTextField = "Category";
+                    DDLTaskWOType.DataValueField = "CId";
+                    DDLTaskWOType.DataBind();
+                    DDLTaskWOType.Items.Insert(0, "Select");
+                    DDLSubcategory.Items.Insert(0, "Select");
+
+                    DataSet ds = new DataSet();
+                    string cn = fun.select("CustomerName", "SD_Cust_master", "CustomerId='" + CustCode + "' And CompId='" + CompId + "' ");
+                    SqlCommand cmd4 = new SqlCommand(cn, con);
+                    SqlDataAdapter da = new SqlDataAdapter(cmd4);
+                    da.Fill(ds, "SD_Cust_master");
+                    if (ds.Tables[0].Rows.Count>0)
+                    {
+                    lblCustomerName.Text = ds.Tables[0].Rows[0]["CustomerName"].ToString();
+                    }
+
+                    con.Close();               
+                
+            }
+
+          
+
+            TabContainer1.OnClientActiveTabChanged = "OnChanged";
+            TabContainer1.ActiveTabIndex = Convert.ToInt32(Session["TabIndex"] ?? "0");
+        }
+
+       catch (Exception ex){}  
+    }
+
+
+
+   public  void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        //TabContainer1.ActiveTabIndex = 2;
+    }
+
+   
+    protected void DDLShippingCountry_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        fun.dropdownState(DDLShippingState, DDLShippingCity, DDLShippingCountry);
+        TabContainer1.ActiveTabIndex = 1;
+    }
+    protected void DDLShippingState_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        fun.dropdownCity(DDLShippingCity, DDLShippingState);
+        TabContainer1.ActiveTabIndex = 1;
+    }
+    protected void DDLShippingCity_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        TabContainer1.ActiveTabIndex = 1;
+    }
+    protected void btnProductSubmit_Click(object sender, EventArgs e)
+    {
+
+        try
+        {
+            if (txtDescOfItem.Text != "" && txtItemCode.Text != "" && txtQty.Text != "" && fun.NumberValidationQty(txtQty.Text) == true)
+            {
+                string cmdstr = fun.insert("SD_Cust_WorkOrder_Products_Temp", "SessionId,CompId,FinYearId,ItemCode,Description,Qty", "'" + sId.ToString() + "','" + CompId + "','" + FinYearId + "','" + txtItemCode.Text + "','" + txtDescOfItem.Text + "','" + Convert.ToDouble(decimal.Parse((txtQty.Text).ToString()).ToString("N3")) + "'");
+                SqlCommand cmd = new SqlCommand(cmdstr, con);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+            FillGrid();
+
+            txtDescOfItem.Text = "";
+            txtItemCode.Text = "" ;
+            txtQty.Text = "";
+
+        }
+
+        catch (Exception ex) { }
+        finally
+        {
+            TabContainer1.ActiveTab = TabContainer1.Tabs[2];
+        }
+       
+    }
+    protected void btnTaskNext_Click(object sender, EventArgs e)
+    {
+        TabContainer1.ActiveTab = TabContainer1.Tabs[1];
+    }
+    protected void btnShippingNext_Click(object sender, EventArgs e)
+    {
+        TabContainer1.ActiveTab=TabContainer1.Tabs[2];
+    }
+    protected void btnProductNext_Click(object sender, EventArgs e)
+    {
+        TabContainer1.ActiveTab=TabContainer1.Tabs[3];
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Page.Response.Redirect("WorkOrder_New.aspx?ModId=2&SubModId=13");
+    }
+
+    protected void btnSubmit_Click(object sender, EventArgs e)
+    {
+        con.Open();
+        string CDate = fun.getCurrDate();
+        string CTime = fun.getCurrTime();
+        int k1 = 0;
+        int k2 = 0;
+      try
+        {
+            string StrCat = fun.select("HasSubCat", "tblSD_WO_Category", "CId='" + DDLTaskWOType.SelectedValue + "'");
+            SqlCommand Cmd = new SqlCommand(StrCat, con);
+            SqlDataAdapter DA = new SqlDataAdapter(Cmd);
+            DataSet DS1 = new DataSet();
+            DA.Fill(DS1, "tblSD_WO_Category");
+            string scid = "0";
+            if (Convert.ToInt32(DS1.Tables[0].Rows[0]["HasSubCat"]) == 1)
+            {
+                if (DDLSubcategory.SelectedValue != "Select")
+                {
+                    scid = DDLSubcategory.SelectedValue;
+                }
+                else
+                {
+                    scid = "Select";                   
+                }
+            }
+
+
+
+            string WorkOrderNo = "";
+            string subcat = "0";
+            string WOId = "";
+            if (scid != "Select")
+            {
+                string cat = fun.getWOChar(DDLTaskWOType.SelectedItem.Text);
+
+                if (DDLSubcategory.SelectedValue != "Select")
+                {
+                    subcat = fun.getWOChar(DDLSubcategory.SelectedItem.Text);
+                }
+
+                string cmdStr = fun.select("WONo", "SD_Cust_WorkOrder_Master", "CId='" + DDLTaskWOType.SelectedValue + "' AND SCId='" + scid + "' order by Id desc");
+                SqlCommand cmd11 = new SqlCommand(cmdStr, con);
+                SqlDataAdapter da = new SqlDataAdapter(cmd11);
+                da.Fill(DS, "SD_Cust_WorkOrder_Master");
+
+                if (DS.Tables[0].Rows.Count > 0)
+                {
+                    int won = Convert.ToInt32(fun.getWO(DS.Tables[0].Rows[0]["WONo"].ToString())) + 1;
+                    //WorkOrderNo = cat + subcat + won.ToString("D4");
+                    WorkOrderNo = cat + won.ToString("D4");
+                }
+                else
+                {
+                    //WorkOrderNo = cat + subcat + "0001";
+                    WorkOrderNo = cat +"0001";
+                }
+            }
+            string strselect = fun.select("*", "SD_Cust_WorkOrder_Products_Temp", "SessionId='" + sId + "' and CompId='" + CompId + "' and FinYearId ='" + FinYearId + "' ");
+            SqlCommand cmd1 = new SqlCommand(strselect, con);
+            SqlDataAdapter da1 = new SqlDataAdapter(cmd1); DataSet ds = new DataSet();
+            da1.Fill(ds, "SD_Cust_WorkOrder_Products_Temp");
+
+            if (ds.Tables[0].Rows.Count > 0 && scid != "Select")
+            {
+
+                if (DDLBuyer.SelectedValue != "Select" && DDLTaskWOType.SelectedValue != "Select" && scid != "Select" && WorkOrderNo != "" && txtWorkOrderDate.Text != "" && txtTaskTargetDAP_FDate.Text != "" && txtTaskTargetDAP_TDate.Text != "" && txtTaskDesignFinalization_FDate.Text != "" && txtTaskDesignFinalization_TDate.Text != "" && txtTaskTargetManufg_FDate.Text != "" && txtTaskTargetManufg_TDate.Text != "" && txtTaskTargetTryOut_FDate.Text != "" && txtTaskTargetTryOut_TDate.Text != "" && txtTaskTargetDespach_FDate.Text != "" && txtTaskTargetDespach_TDate.Text != "" && txtTaskTargetAssembly_FDate.Text != "" && txtTaskTargetAssembly_TDate.Text != "" && txtTaskTargetInstalation_FDate.Text != "" && txtTaskTargetInstalation_TDate.Text != "" && txtTaskCustInspection_FDate.Text != "" && txtTaskCustInspection_TDate.Text != "" && CustCode.ToString() != "" && enqId != 0 && pono.ToString() != "" && DDLTaskWOType.SelectedValue != "Select" && txtProjectTitle.Text != "" && txtProjectLeader.Text != "" && DDLBusinessGroup.SelectedValue != "Select" && txtShippingAdd.Text != "" && DDLShippingCountry.SelectedValue != "Select" && DDLShippingState.SelectedValue != "Select" && DDLShippingCity.SelectedValue != "Select" && txtShippingContactPerson1.Text != "" && txtShippingContactNo1.Text != "" && txtShippingEmail1.Text != "" && txtShippingContactPerson2.Text != "" && txtShippingContactNo2.Text != "" && txtShippingEmail2.Text != "" && txtShippingFaxNo.Text != "" && txtShippingEccNo.Text != "" && txtShippingTinCstNo.Text != "" && txtShippingTinVatNo.Text != "" && txtInstractionOther.Text != "" && txtInstractionExportCaseMark.Text != "" && fun.EmailValidation(txtShippingEmail1.Text) == true && fun.EmailValidation(txtShippingEmail2.Text) == true && fun.DateValidation(txtWorkOrderDate.Text) == true && fun.DateValidation(txtTaskTargetDAP_FDate.Text) == true && fun.DateValidation(txtTaskTargetDAP_TDate.Text) == true && fun.DateValidation(txtTaskDesignFinalization_FDate.Text) == true && fun.DateValidation(txtTaskDesignFinalization_TDate.Text) == true && fun.DateValidation(txtTaskTargetManufg_FDate.Text) == true && fun.DateValidation(txtTaskTargetManufg_TDate.Text) == true && fun.DateValidation(txtTaskTargetTryOut_FDate.Text) == true && fun.DateValidation(txtTaskTargetTryOut_TDate.Text) == true && fun.DateValidation(txtTaskTargetDespach_FDate.Text) == true && fun.DateValidation(txtTaskTargetDespach_TDate.Text) == true && fun.DateValidation(txtTaskTargetAssembly_FDate.Text) == true && fun.DateValidation(txtTaskTargetAssembly_TDate.Text) == true && fun.DateValidation(txtTaskTargetInstalation_FDate.Text) == true && fun.DateValidation(txtTaskTargetInstalation_TDate.Text) == true && fun.DateValidation(txtTaskCustInspection_FDate.Text) == true && fun.DateValidation(txtTaskCustInspection_TDate.Text) == true && fun.DateValidation(txtManufMaterialDate.Text) == true && fun.DateValidation(txtBoughtoutMaterialDate.Text) == true)
+            {
+
+                string InstractionAttachAnnexure = "";// browse button to be add
+                string WorkOrderDate = fun.FromDate(txtWorkOrderDate.Text);
+
+                string TaskTargetDAP_FDate = fun.FromDate(txtTaskTargetDAP_FDate.Text);
+                string TaskTargetDAP_TDate = fun.ToDate(txtTaskTargetDAP_TDate.Text);
+
+                string TaskDesignFinalization_FDate = fun.FromDate(txtTaskDesignFinalization_FDate.Text);
+                string TaskDesignFinalization_TDate = fun.ToDate(txtTaskDesignFinalization_TDate.Text);
+
+                string TaskTargetManufg_FDate = fun.FromDate(txtTaskTargetManufg_FDate.Text);
+                string TaskTargetManufg_TDate = fun.ToDate(txtTaskTargetManufg_TDate.Text);
+
+                string TaskTargetTryOut_FDate = fun.FromDate(txtTaskTargetTryOut_FDate.Text);
+                string TaskTargetTryOut_TDate = fun.ToDate(txtTaskTargetTryOut_TDate.Text);
+
+                string TaskTargetDespach_FDate = fun.FromDate(txtTaskTargetDespach_FDate.Text);
+                string TaskTargetDespach_TDate = fun.ToDate(txtTaskTargetDespach_TDate.Text);
+
+                string TaskTargetAssembly_FDate = fun.FromDate(txtTaskTargetAssembly_FDate.Text);
+                string TaskTargetAssembly_TDate = fun.ToDate(txtTaskTargetAssembly_TDate.Text);
+
+                string TaskTargetInstalation_FDate = fun.FromDate(txtTaskTargetInstalation_FDate.Text);
+                string TaskTargetInstalation_TDate = fun.ToDate(txtTaskTargetInstalation_TDate.Text);
+
+                string TaskCustInspection_FDate = fun.FromDate(txtTaskCustInspection_FDate.Text);
+                string TaskCustInspection_TDate = fun.ToDate(txtTaskCustInspection_TDate.Text);
+
+                string ManufMaterialDate = fun.FromDate(txtManufMaterialDate.Text);
+                string BoughtoutMaterialDate = fun.FromDate(txtBoughtoutMaterialDate.Text);
+
+                int a;
+                if (CKInstractionPrimerPainting.Checked == true)
+                { a = 1; }
+                else { a = 0; }
+
+                int b;
+                if (CKInstractionPainting.Checked == true)
+                { b = 1; }
+                else { b = 0; }
+
+                int c;
+                if (CKInstractionSelfCertRept.Checked == true)
+                { c = 1; }
+                else { c = 0; }
+
+                string cmdstr = fun.insert("SD_Cust_WorkOrder_Master",
+                    "SysDate,SysTime,SessionId,CompId,FinYearId,CustomerId,EnqId,PONo,WONo,TaskWorkOrderDate,TaskProjectTitle,TaskProjectLeader,CId,SCId,TaskBusinessGroup,TaskTargetDAP_FDate,TaskTargetDAP_TDate,TaskDesignFinalization_FDate,TaskDesignFinalization_TDate,TaskTargetManufg_FDate,TaskTargetManufg_TDate,TaskTargetTryOut_FDate,TaskTargetTryOut_TDate,TaskTargetDespach_FDate,TaskTargetDespach_TDate,TaskTargetAssembly_FDate,TaskTargetAssembly_TDate,TaskTargetInstalation_FDate,TaskTargetInstalation_TDate,TaskCustInspection_FDate,TaskCustInspection_TDate,ShippingAdd,ShippingCountry,ShippingState,ShippingCity,ShippingContactPerson1,ShippingContactNo1,ShippingEmail1,ShippingContactPerson2,ShippingContactNo2,ShippingEmail2,ShippingFaxNo,ShippingEccNo,ShippingTinCstNo,ShippingTinVatNo,InstractionPrimerPainting,InstractionPainting,InstractionSelfCertRept,InstractionOther,InstractionExportCaseMark,InstractionAttachAnnexure,POId,ManufMaterialDate,BoughtoutMaterialDate,Buyer", "'" + CDate.ToString() + "','" + CTime + "','" + sId + "','" + CompId + "','" + FinYearId + "','" + CustCode + "','" + enqId + "','" + pono + "','" + WorkOrderNo + "','" + WorkOrderDate + "','" + txtProjectTitle.Text + "','" + txtProjectLeader.Text + "','" + DDLTaskWOType.SelectedValue + "','" + scid + "','" + DDLBusinessGroup.SelectedValue + "','" + TaskTargetDAP_FDate + "','" + TaskTargetDAP_TDate + "','" + TaskDesignFinalization_FDate + "','" + TaskDesignFinalization_TDate + "','" + TaskTargetManufg_FDate + "','" + TaskTargetManufg_TDate + "','" + TaskTargetTryOut_FDate + "','" + TaskTargetTryOut_TDate + "','" + TaskTargetDespach_FDate + "','" + TaskTargetDespach_TDate + "','" + TaskTargetAssembly_FDate + "','" + TaskTargetAssembly_TDate + "','" + TaskTargetInstalation_FDate + "','" + TaskTargetInstalation_TDate + "','" + TaskCustInspection_FDate + "','" + TaskCustInspection_TDate + "','" +
+                    txtShippingAdd.Text + "','" + DDLShippingCountry.SelectedValue + "','" + DDLShippingState.SelectedValue + "','" + DDLShippingCity.SelectedValue + "','" + txtShippingContactPerson1.Text + "','" + txtShippingContactNo1.Text + "','" + txtShippingEmail1.Text + "','" + txtShippingContactPerson2.Text + "','" + txtShippingContactNo2.Text + "','" + txtShippingEmail2.Text + "','" + txtShippingFaxNo.Text + "','" + txtShippingEccNo.Text + "','" + txtShippingTinCstNo.Text + "','" + txtShippingTinVatNo.Text + "','" + a.ToString() + "','" + b.ToString() + "','" + c.ToString() + "','" + txtInstractionOther.Text + "','" + txtInstractionExportCaseMark.Text + "','" + InstractionAttachAnnexure.ToString() + "','" + PoId + "','"+ManufMaterialDate.ToString()+"','"+BoughtoutMaterialDate.ToString()+"','"+DDLBuyer.SelectedValue+"'");
+
+                SqlCommand cmd = new SqlCommand(cmdstr, con);
+                cmd.ExecuteNonQuery();
+
+                string sqlId = fun.select("Id", "SD_Cust_WorkOrder_Master", "CompId='" + CompId + "'Order by Id desc");
+                SqlCommand cmdId = new SqlCommand(sqlId, con);
+                SqlDataAdapter daId = new SqlDataAdapter(cmdId);
+                DataSet DSId = new DataSet();
+                daId.Fill(DSId, "tblinv_MaterialReceived_Master");
+                WOId = DSId.Tables[0].Rows[0]["Id"].ToString();
+                k1++;
+            }
+
+            
+                for (int k = 0; k < ds.Tables[0].Rows.Count; k++)
+                {
+                    string strInsert = fun.insert("SD_Cust_WorkOrder_Products_Details", "MId,SessionId,CompId,FinYearId,ItemCode,Description,Qty", "'" + WOId + "','" + ds.Tables[0].Rows[k]["SessionId"].ToString() + "','" + Convert.ToInt32(ds.Tables[0].Rows[k]["CompId"]) + "','" + Convert.ToInt32(ds.Tables[0].Rows[k]["FinYearId"]) + "','" + ds.Tables[0].Rows[k]["ItemCode"].ToString() + "','" + ds.Tables[0].Rows[k]["Description"].ToString() + "','" + Convert.ToDouble(decimal.Parse(ds.Tables[0].Rows[k]["Qty"].ToString()).ToString("N3")) + "'");
+
+                    SqlCommand cmd2 = new SqlCommand(strInsert, con);
+                    cmd2.ExecuteNonQuery();
+                }
+
+                if(k1>0)
+                {
+                //Code for deleting Details in SD_Cust_WorkOrder_Products_Temp table.
+                string strDelete = fun.delete("SD_Cust_WorkOrder_Products_Temp", "SessionId='" + sId + "' and CompId='" + CompId + "' and FinYearId ='" + FinYearId + "'");
+                SqlCommand cmddelete = new SqlCommand(strDelete, con);
+                cmddelete.ExecuteNonQuery();
+                k2++;
+                }
+            }
+            else
+            {
+                string myStringVariable = string.Empty;
+                string myStringVariable2 = "Invalid Data.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable2 + "');", true);
+
+            }
+
+
+            if (k1 > 0 && (k1 > 0 || k2 > 0))
+            {
+                Response.Redirect("WorkOrder_New.aspx?ModId=2&SubModId=13&msg=Work order is generated.");
+            }
+        }
+       catch (Exception exs)
+        {
+        }
+       finally
+        {
+            con.Close();
+        }
+    }
+
+    protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+        GridView1.EditIndex = e.NewEditIndex;
+        FillGrid();
+
+    }
+
+    private void FillGrid()
+    {       
+    
+        try
+        {
+            
+            con.Open();
+            DataSet ds = new DataSet();
+            
+            SqlCommand cmd = new SqlCommand(fun.select("Id,ItemCode,Description,Qty", "SD_Cust_WorkOrder_Products_Temp", "CompId ='" +CompId + "'AND FinYearId ='" + FinYearId + "' AND SessionId ='" +sId + "' Order by Id desc"), con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(ds, " SD_Cust_WorkOrder_Products_Temp");
+            GridView1.DataSource = ds;            
+            GridView1.DataBind();         
+
+        }
+       catch (Exception ex)
+        {
+        }
+        finally
+        {
+            con.Close();
+        }
+    }
+
+    protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+       
+     try
+        {
+            int index = GridView1.EditIndex;
+            GridViewRow row = GridView1.Rows[index];
+            int id = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Value);
+            string DescItem = ((TextBox)row.FindControl("txtItemCode")).Text.ToString().Trim();
+            string DESC1 = ((TextBox)row.FindControl("txtDesc")).Text.ToString().Trim();
+            double rate = Convert.ToDouble(((TextBox)row.FindControl("txtQty")).Text.ToString().Trim());
+            if (DescItem != "" && DESC1 != "" && rate != 0 && fun.NumberValidationQty(rate.ToString()) == true)
+            {
+                string sql = fun.update("SD_Cust_WorkOrder_Products_Temp", "ItemCode='" + DescItem + "',Description='" + DESC1 + "',Qty='" + decimal.Parse(rate.ToString()).ToString("N3") + "' ", "Id=" + id + " And CompId='" + CompId + "'");
+                SqlCommand cmd = new SqlCommand(sql, con);
+                con.Open();
+                int temp = cmd.ExecuteNonQuery();
+                con.Close();
+                if (temp == 1)
+                {
+
+                    lblMessage.Text = "Record updated successfully";
+                }
+                GridView1.EditIndex = -1;
+                FillGrid();
+            }
+        }
+  catch(Exception ex) { }
+       
+       
+    }
+
+
+    protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+        
+        try
+        {
+            int Eid = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Value);
+            SqlCommand cmd = new SqlCommand("DELETE FROM SD_Cust_WorkOrder_Products_Temp  WHERE Id=" + Eid + " And CompId='"+CompId+"'", con);
+            con.Open();
+            int temp = cmd.ExecuteNonQuery();
+            if (temp == 1)
+            {
+                lblMessage.Text = "Record deleted successfully";
+            }
+            con.Close();
+            FillGrid();
+
+        }
+        catch (Exception ex)
+        {
+        }
+
+    }
+
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView1.PageIndex = e.NewPageIndex;
+        GridView1.EditIndex = -1;
+        this.FillGrid();
+
+    }
+
+    protected void GridView1_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    {
+        GridView1.EditIndex = -1;
+        FillGrid();
+    }
+
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+      try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton del = (LinkButton)e.Row.Cells[1].Controls[0];
+                del.Attributes.Add("onclick", "return confirmationUpdate();");
+
+            }
+
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton del1 = (LinkButton)e.Row.Cells[2].Controls[0];
+                del1.Attributes.Add("onclick", "return confirmationDelete();");
+            }
+        }
+       catch (Exception ex) { }
+
+    }
+    protected void TabContainer1_ActiveTabChanged(object sender, EventArgs e)
+    {
+        Session.Remove("TabIndex");
+    }
+    protected void DDLTaskWOType_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        try
+        {
+
+            if (DDLTaskWOType.SelectedValue != "Select")
+            {
+                string StrCat1 = fun.select("HasSubCat", "tblSD_WO_Category", "CId='" + DDLTaskWOType.SelectedValue + "'");
+                SqlCommand Cmdcat = new SqlCommand(StrCat1, con);
+                SqlDataAdapter DAcat = new SqlDataAdapter(Cmdcat);
+                DataSet DScat = new DataSet();
+                DAcat.Fill(DScat, "tblSD_WO_Category");               
+                if (Convert.ToInt32(DScat.Tables[0].Rows[0]["HasSubCat"]) == 0)
+                {
+                    ReqWoType0.Visible = false;
+                }
+                else
+                {
+                    ReqWoType0.Visible = true;
+                }
+
+                string StrSub = fun.select("CId,SCId,Symbol+' - '+SCName as SubCategory", " tblSD_WO_SubCategory", "CId=" + DDLTaskWOType.SelectedValue + "And CompId='" + CompId + "'");
+                SqlCommand Cmd1 = new SqlCommand(StrSub, con);
+
+                SqlDataAdapter DA1 = new SqlDataAdapter(Cmd1);
+                DataSet DS2 = new DataSet();
+                DA1.Fill(DS2, "tblSD_WO_SubCategory");
+
+                DDLSubcategory.DataSource = DS2.Tables["tblSD_WO_SubCategory"];
+                DDLSubcategory.DataTextField = "SubCategory";
+                DDLSubcategory.DataValueField = "SCId";
+                DDLSubcategory.DataBind();
+                DDLSubcategory.Items.Insert(0, "Select");
+            }
+            else
+            {
+                    DDLSubcategory.Items.Clear();
+                    DDLSubcategory.Items.Insert(0, "Select");           
+                
+            }
+        }
+       catch (Exception ch)
+        {
+        }
+       finally
+        {
+            con.Close();
+        }
+
+    }
+}

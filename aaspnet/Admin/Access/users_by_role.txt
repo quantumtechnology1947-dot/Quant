@@ -1,0 +1,223 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Admin/Access/users_by_role.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="users_by_role.aspx.cs" Inherits="Admin_Access_users_by_role" Title="ERP"  Theme="Default" %>
+
+<script runat="server">
+	
+    private void Page_Init()
+	{
+        try
+        {
+            UserRoles.DataSource = Roles.GetAllRoles();
+            UserRoles.DataBind();
+        }catch(Exception ex){}
+	}
+
+    private void Page_PreRender()
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = "";
+        System.Data.SqlClient.SqlConnection con;
+        connStr = fun.Connection();
+        con = new System.Data.SqlClient.SqlConnection(connStr);
+        
+        /*
+         * Dan Clem, 3/7/2007 and 4/27/2007.
+         * The logic here is necessitated by the limitations of the built-in object model.
+         * The Membership class does not provide a method to get users by role.
+         * The Roles class DOES provide a GetUsersInRole method, but it returns an array of UserName strings
+         * rather than a proper collection of MembershipUser objects.
+         * 
+         * This is my workaround.
+         * 
+         * Note to self: the two-collection approach is necessitated because you can't remove items from a collection
+         * while iterating through it: "Collection was modified; enumeration operation may not execute."
+         */
+        try
+        {
+            MembershipUserCollection allUsers = Membership.GetAllUsers();
+            MembershipUserCollection filteredUsers = new MembershipUserCollection();
+
+            if (UserRoles.SelectedIndex > 0)
+            {
+                string[] usersInRole = Roles.GetUsersInRole(UserRoles.SelectedValue);
+                foreach (MembershipUser user in allUsers)
+                {
+                    foreach (string userInRole in usersInRole)
+                    {
+                        if (userInRole == user.UserName && user.IsLockedOut == false)
+                        {
+                            filteredUsers.Add(user);
+                            break; // Breaks out of the inner foreach loop to avoid unneeded checking.
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach (MembershipUser user in allUsers)
+                {
+                    if (user.IsLockedOut == false)
+                    {
+                        filteredUsers.Add(user);
+                    }
+                }
+
+                //filteredUsers = allUsers; //Original code 
+            }
+
+            Users.DataSource = filteredUsers;
+            Users.DataBind();
+        }
+        catch (Exception ex) { }
+
+
+        foreach (GridViewRow grv in Users.Rows)
+        {
+            string Id = ((LinkButton)grv.FindControl("UserName")).Text;
+
+            System.Data.SqlClient.SqlCommand cmditm = new System.Data.SqlClient.SqlCommand("Select Title+'. '+EmployeeName from tblHR_OfficeStaff Where EmpId='" + Id + "'", con);
+            System.Data.SqlClient.SqlDataAdapter daitm = new System.Data.SqlClient.SqlDataAdapter(cmditm);
+            System.Data.DataSet dsitm = new System.Data.DataSet();
+            daitm.Fill(dsitm);
+
+            if (dsitm.Tables[0].Rows.Count > 0)
+            {
+                ((Label)grv.FindControl("EmpName")).Text = dsitm.Tables[0].Rows[0][0].ToString();
+            }
+        }
+    }
+    
+</script>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <script src="../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+<!-- #include file="_nav.aspx -->
+<!-- #include file="_nav3.aspx -->
+<table class="webparts" width="100%">
+<tr>
+	<th>Users by Role</th>
+</tr>
+<tr>
+<td class="details" valign="top">
+Role filter:
+
+<asp:DropDownList ID="UserRoles" runat="server" AppendDataBoundItems="true" AutoPostBack="true">
+<asp:ListItem>Show All</asp:ListItem>
+</asp:DropDownList>
+<br /><br />
+<asp:GridView runat="server" ID="Users" AutoGenerateColumns="False"
+	CssClass="list" AlternatingRowStyle-CssClass="odd" GridLines="None"
+	AllowSorting="True" Width="100%">
+<Columns>
+
+	<asp:TemplateField HeaderText="Employee Name">
+	    <ItemTemplate>
+            <asp:Label ID="EmpName" runat="server"></asp:Label>
+        </ItemTemplate>
+        <ItemStyle Width="17%"/>
+    </asp:TemplateField>
+    
+	<asp:TemplateField>
+		<HeaderTemplate>User Name</HeaderTemplate>
+		<ItemTemplate>
+		<a href="edit_user.aspx?username=<%# Eval("UserName") %>"><%# Eval("UserName") %></a>
+            <asp:LinkButton ID="UserName" Visible="false"  runat="server" Text='<%# Eval("UserName") %>'>UserName</asp:LinkButton>
+		</ItemTemplate>
+	</asp:TemplateField>
+	<asp:TemplateField HeaderText="Email">
+        <ItemTemplate>
+            <asp:Label ID="Label1" runat="server" Text='<%# Bind("email") %>'></asp:Label>
+        </ItemTemplate>
+        
+    </asp:TemplateField>
+    <asp:TemplateField HeaderText="Comments">
+        <ItemTemplate>
+            <asp:Label ID="Label2" runat="server" Text='<%# Bind("comment") %>'></asp:Label>
+        </ItemTemplate>
+        
+    </asp:TemplateField>
+    <asp:TemplateField HeaderText="Creation Date">
+        <ItemTemplate>
+            <asp:Label ID="Label3" runat="server" Text='<%# Bind("creationdate") %>'></asp:Label>
+        </ItemTemplate>        
+    </asp:TemplateField>
+    
+    <asp:TemplateField HeaderText="Last Login Date">
+        <ItemTemplate>
+            <asp:Label ID="Label4" runat="server" Text='<%# Bind("lastlogindate") %>'></asp:Label>
+        </ItemTemplate>        
+    </asp:TemplateField>
+    
+    <asp:TemplateField HeaderText="Last Activity Date">
+        <ItemTemplate>
+            <asp:Label ID="Label5" runat="server" Text='<%# Bind("lastactivitydate") %>'></asp:Label>
+        </ItemTemplate>        
+    </asp:TemplateField>
+    
+    <asp:TemplateField HeaderText="Is Active">
+        <ItemTemplate>
+            <asp:Label ID="Label6" runat="server" Text='<%# Bind("isapproved") %>'></asp:Label>
+        </ItemTemplate>        
+    </asp:TemplateField>
+    
+    <asp:TemplateField HeaderText="Is Online">
+        <ItemTemplate>
+            <asp:Label ID="Label7" runat="server" Text='<%# Bind("isonline") %>'></asp:Label>
+        </ItemTemplate>
+        
+    </asp:TemplateField>
+    <asp:TemplateField HeaderText="Is Locked Out">
+        <ItemTemplate>
+            <asp:Label ID="Label8" runat="server" Text='<%# Bind("islockedout") %>'></asp:Label>
+        </ItemTemplate>
+        
+    </asp:TemplateField>
+</Columns>
+
+<AlternatingRowStyle CssClass="odd"></AlternatingRowStyle>
+</asp:GridView>
+
+</td></tr></table>
+
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Admin/Access/users_by_role.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+
+public partial class Admin_Access_users_by_role : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        
+    }
+}

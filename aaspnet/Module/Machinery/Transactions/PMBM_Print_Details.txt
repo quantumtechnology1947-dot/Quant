@@ -1,0 +1,279 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Machinery/Transactions/PMBM_Print_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="PMBM_Print_Details.aspx.cs" Inherits="Module_Machinery_Transactions_PMBM_Print_Details" Title="ERP" Theme ="Default" %>
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+ <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+
+ 
+ 
+ <table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)">
+        &nbsp;<b>Preventive /Breckdown Maintenance- Print</b>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" class="style3">
+                <asp:Panel ID="Panel1" runat="server" ScrollBars="Auto" Width="100%" Height="452">
+                
+                <CR:CrystalReportViewer ID="CrystalReportViewer1" 
+                    runat="server" AutoDataBind="true" ReportSourceID="CrystalReportSource1" 
+                    DisplayGroupTree="False" EnableDatabaseLogonPrompt="False" HasCrystalLogo="False"
+                    EnableParameterPrompt="False" />
+                <CR:CrystalReportSource ID="CrystalReportSource1" runat="server">
+                  <Report FileName="~/Module/Machinery/Transactions/Reports/PMBM.rpt">
+                    </Report>
+                                  
+                    
+                </CR:CrystalReportSource>
+                    </asp:Panel>
+                    </td>
+        </tr>
+        <tr>
+            <td align="center" class="style3">
+                <asp:Button ID="Cancel" runat="server" Text="Cancel" CssClass="redbox" 
+                    valign="top" onclick="Cancel_Click" />
+                    
+                    </td>
+        </tr>
+    </table>
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Machinery/Transactions/PMBM_Print_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using MKB.TimePicker;
+using CrystalDecisions.CrystalReports.Engine;
+
+public partial class Module_Machinery_Transactions_PMBM_Print_Details : System.Web.UI.Page
+{
+
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    private ReportDocument report = new ReportDocument();
+    string sId = "";
+    int CompId = 0;
+    int FinYearId = 0;
+    int itemId = 0;
+    int PMBMId = 0;
+    int MachineId = 0;
+    string Key = string.Empty;
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            DataSet DSMach = new DataSet();
+            DataTable dt = new DataTable();
+            try
+            {
+                string PMBMid = Request.QueryString["PMBMId"];
+                PMBMId = Convert.ToInt32(PMBMid);
+                sId = Session["username"].ToString();
+                CompId = Convert.ToInt32(Session["compid"]);
+                FinYearId = Convert.ToInt32(Session["finyear"]);
+
+                Key = Request.QueryString["Key"].ToString();
+
+                //tblMS_PMBM_Master machine id 
+                string sqlPB = fun.select("MachineId", "tblMS_PMBM_Master", "Id='" + PMBMId + "' AND CompId='" + CompId + "' ");
+                SqlCommand cmdsqlPB = new SqlCommand(sqlPB, con);
+                SqlDataAdapter dasqlPB = new SqlDataAdapter(cmdsqlPB);
+                DataSet DSsqlPB = new DataSet();
+                dasqlPB.Fill(DSsqlPB);
+                if (DSsqlPB.Tables[0].Rows.Count > 0)
+                {
+                    MachineId = Convert.ToInt32(DSsqlPB.Tables[0].Rows[0]["MachineId"]);
+                }
+
+                // tblMS_PMBM_Master
+                string StrMach = fun.select("*", "tblMS_PMBM_Master", " MachineId='" + MachineId + "'  AND Id ='" + PMBMId + "' AND CompId='" + CompId + "' And FinYearId<='" + FinYearId + "'");
+
+                SqlCommand cmdMach = new SqlCommand(StrMach, con);
+                SqlDataAdapter DAMach = new SqlDataAdapter(cmdMach);
+
+                DAMach.Fill(DSMach);
+
+                dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+                dt.Columns.Add(new System.Data.DataColumn("SysDate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));
+                dt.Columns.Add(new System.Data.DataColumn("MachineId", typeof(int)));
+                dt.Columns.Add(new System.Data.DataColumn("PMBM", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("FromDate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("ToDate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("FromTime", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("ToTime", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("NameOfAgency", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("NameOfEngineer", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("NextPMDueOn", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Remarks", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Model", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Make", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Capacity", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Location", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("MachineCode", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("UOMBasic", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Name", typeof(string)));
+
+                DataRow dr;
+
+                dr = dt.NewRow();
+                if (DSMach.Tables[0].Rows.Count > 0)
+                {
+                    dr[0] = Convert.ToInt32(DSMach.Tables[0].Rows[0]["Id"].ToString());
+                    dr[1] = fun.FromDateDMY(DSMach.Tables[0].Rows[0]["SysDate"].ToString());
+                    dr[2] = Convert.ToInt32(DSMach.Tables[0].Rows[0]["CompId"]);
+                    dr[3] = Convert.ToInt32(DSMach.Tables[0].Rows[0]["MachineId"].ToString());
+                    string PMBM = "";
+                    if (DSMach.Tables[0].Rows[0]["PMBM"].ToString() == "0")
+                    {
+                        dr[4] = "Preventive";
+                    }
+                    else
+                    {
+                        dr[4] = "Breckdown";
+                    }
+                    dr[5] = fun.FromDateDMY(DSMach.Tables[0].Rows[0]["FromDate"].ToString());
+                    dr[6] = fun.FromDateDMY(DSMach.Tables[0].Rows[0]["ToDate"].ToString());
+                    dr[7] = DSMach.Tables[0].Rows[0]["FromTime"].ToString();
+                    dr[8] = DSMach.Tables[0].Rows[0]["ToTime"].ToString();
+                    dr[9] = DSMach.Tables[0].Rows[0]["NameOfAgency"].ToString();
+                    dr[10] = DSMach.Tables[0].Rows[0]["NameOfEngineer"].ToString();
+                    dr[11] = fun.FromDateDMY(DSMach.Tables[0].Rows[0]["NextPMDueOn"].ToString());
+                    dr[12] = DSMach.Tables[0].Rows[0]["Remarks"].ToString();
+
+                    string sqlitemId = fun.select("ItemId", "tblMS_Master", "Id='" + MachineId + "'AND CompId='" + CompId + "' ");
+
+                    SqlCommand cmditemId = new SqlCommand(sqlitemId, con);
+                    SqlDataAdapter daitemId = new SqlDataAdapter(cmditemId);
+                    DataSet DSitemId = new DataSet();
+                    daitemId.Fill(DSitemId);
+                    if (DSitemId.Tables[0].Rows.Count > 0)
+                    {
+                        itemId = Convert.ToInt32(DSitemId.Tables[0].Rows[0]["ItemId"]);
+                    }
+
+                    string StrMachine = fun.select("*", "tblMS_Master", " ItemId='" + itemId + "'AND Id='" + MachineId + "' AND CompId='" + CompId + "' And FinYearId<='" + FinYearId + "'");
+                    SqlCommand cmdMachine = new SqlCommand(StrMachine, con);
+                    SqlDataAdapter DAMachine = new SqlDataAdapter(cmdMachine);
+                    DataSet DSMachine = new DataSet();
+                    DAMachine.Fill(DSMachine);
+                    if (DSMachine.Tables[0].Rows.Count > 0)
+                    {
+                        dr[13] = DSMachine.Tables[0].Rows[0]["Model"].ToString();
+                        dr[14] = DSMachine.Tables[0].Rows[0]["Make"].ToString();
+                        dr[15] = DSMachine.Tables[0].Rows[0]["Capacity"].ToString();
+                        dr[16] = DSMachine.Tables[0].Rows[0]["Location"].ToString();
+                    }
+
+
+                    string cmdId = fun.select("tblDG_Item_Master.Id,tblDG_Item_Master.ManfDesc,Unit_Master.Symbol As UOMBasic, tblDG_Item_Master.ItemCode ", " tblDG_Category_Master,tblDG_Item_Master,Unit_Master", " tblDG_Item_Master.CId=tblDG_Category_Master.CId AND Unit_Master.Id=tblDG_Item_Master.UOMBasic AND tblDG_Item_Master.Id='" + itemId + "' AND tblDG_Item_Master.CompId='" + CompId + "'  ");
+                    SqlCommand cmdItemId = new SqlCommand(cmdId, con);
+                    SqlDataAdapter DAItemId = new SqlDataAdapter(cmdItemId);
+                    DataSet DSItemId = new DataSet();
+                    DAItemId.Fill(DSItemId);
+
+                    if (DSItemId.Tables[0].Rows.Count > 0)
+                    {
+                        dr[17] = DSItemId.Tables[0].Rows[0]["ItemCode"].ToString();
+                        dr[18] = DSItemId.Tables[0].Rows[0]["UOMBasic"].ToString();
+                        dr[19] = DSItemId.Tables[0].Rows[0]["ManfDesc"].ToString();
+                    }
+                }
+
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+
+                DataSet xsd = new PMBM();
+                xsd.Tables[0].Merge(dt);
+                string reportPath = Server.MapPath("~/Module/Machinery/Transactions/Reports/PMBM.rpt");
+                report.Load(reportPath);
+                report.SetDataSource(xsd);
+
+                string Address = fun.CompAdd(CompId);
+                report.SetParameterValue("Address", Address);
+                //string Format = fun.GetDocFormat(31);
+                //report.SetParameterValue("Format", Format);
+                CrystalReportViewer1.ReportSource = report;
+                Session[Key] = report;
+
+            }
+            catch (Exception ex) { }
+            finally
+            {
+                DSMach.Clear();
+                DSMach.Dispose();
+                dt.Clear();
+                dt.Dispose();
+                con.Close();
+                con.Dispose();
+
+            }
+        }
+        else
+        {
+            Key = Request.QueryString["Key"].ToString();
+            ReportDocument doc = (ReportDocument)Session[Key];
+            CrystalReportViewer1.ReportSource = doc;
+        }
+    }
+
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        report = new ReportDocument();
+    }
+
+    protected void Cancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/Machinery/Transactions/PMBM_Print.aspx?ModId=15&SubModId=68");
+    }
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        report.Close();
+        report.Dispose();
+        GC.Collect();
+    }
+
+}

@@ -1,0 +1,821 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Reports/ProjectSummary_Shortage.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ProjectSummary_Shortage.aspx.cs" Inherits="Module_MaterialManagement_Reports_ProjectSummary_Shortage" Title="ERP"   Theme="Default" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+
+
+<link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/loadingNotifier.js" defer="defer" type="text/javascript"></script> 
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    
+    
+<style type="text/css">
+    
+    
+.container 
+{
+    overflow:auto;
+    margin-left:0px;   
+    height:422px; 
+    width:100%;  
+    margin-top:15px;   
+  
+ }
+
+.grdview_headers
+{
+    color:#330000; 
+    position:absolute ;
+    display:block;
+    width:98.5%;
+    margin-top:-18px;   
+  
+}
+
+
+</style>
+<script type="text/javascript">
+    $(document).ready(function ()
+     {
+        $('.container tr>td:nth-child(2)').css("background-color", "#EAEAEA").css("position", "absolute");
+    });
+</script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+    <table >
+<tr>
+<td width="100%">
+<b>  WONo : <asp:Label ID="lblWo" runat="server" Text=""></asp:Label></b>
+
+</td>
+</tr>
+</table>
+
+
+ <div class="container" >   
+
+     <asp:UpdatePanel ID="UpdatePanel1" EnableViewState="true" UpdateMode="Always" runat="server">
+   <ContentTemplate >
+ 
+                     <asp:DataList ID="GridView3" CssClass="yui-datatable-theme" GridLines="Both" 
+                runat="server"  ShowHeader="true"  Width="100%"  
+                    >
+                      <HeaderStyle  CssClass="grdview_headers" />
+                    <HeaderTemplate >
+                  <table cellpadding="0" cellspacing="0"   width="100%">
+        <tr>
+<th  style="text-align:center" width="2%" >SN</th>
+<th  style="text-align:center" width="4%" >WONO</th>
+<th  style="text-align:center" width="6%" >ITEM CODE</th>
+<th  style="text-align:center" width="8%" >DESCRIPTION</th>
+<th style="text-align:center" width="3%" >UOM</th>
+<th style="text-align:center" width="5%" >BOM QTY</th>
+<th style="text-align:center" width="6%" >BOM DT.</th>
+<th style="text-align:center" width="5%">SHORT.QTY</th>
+<th style="text-align:center" width="5%" >WIS QTY </th>
+<th style="text-align:center" width="5%" >PR NO</th>
+<th style="text-align:center" width="5%">PR QTY</th>
+<th style="text-align:center"  width="4%">PO NO</th>
+<th style="text-align:center" width="5%" >PO QTY</th>
+<th style="text-align:center"  width="6%">PO DT.</th>
+<th style="text-align:center"  width="6%">SCH.DT.</th>
+<th style="text-align:center" width="5%">PO RATE</th>
+<th style="text-align:center" width="4%">AMOUNT</th>
+<th style="text-align:center" width="6%">SUPPLIER</th>
+<th style="text-align:center"  width="5%" >GIN NO</th> 
+<th style="text-align:center" width="5%" >GIN QTY</th>         
+        </tr>
+      </table>
+     </HeaderTemplate >
+                            <ItemTemplate>
+ 
+                     <table cellpadding="0"  cellspacing="0"  width="100%">
+                     <tr>
+        
+        <td    align="right" width="2%">
+             <asp:Label ID="lblsn" runat="server" Text='<%#Eval("Sn") %>'> </asp:Label>
+                </td>
+                <td  class="leftedge" width="4%">
+               &nbsp;<asp:Label ID="lblWono" runat="server" Text='<%#Eval("WONo") %>'> </asp:Label></td>
+            <td class="leftedge" align="center" width="6%">
+             <asp:Label ID="lblItemCode" runat="server" Text='<%#Eval("ItemCode") %>'> </asp:Label>
+                </td>
+            <td  class="leftedge" width="8%">
+               <asp:Label ID="lblDesc" runat="server" Text='<%#Eval("Description") %>'> </asp:Label></td>
+             <td class="leftedge" align="center" width="3%" >
+                 <asp:Label ID="lblUOM" runat="server" Text='<%#Eval("UOM") %>'> </asp:Label></td>
+              <td class="leftedge" align="right" width="5%">
+                 <asp:Label ID="lblBomQty" runat="server" Text='<%#Eval("BOMQty") %>'> </asp:Label></td>
+                  
+                 <td class="leftedge" align="center" width="6%">
+                 <asp:Label ID="lblbomdt" runat="server" Text='<%#Eval("BOMDate") %>'> </asp:Label></td>
+                  <td class="leftedge" align="right" width="5%">
+                 <asp:Label ID="lblshortqty" runat="server" Text='<%#Eval("ShortQty") %>'> </asp:Label></td>
+                 <td class="leftedge" align="right" width="5%">
+                 <asp:Label ID="Label1" runat="server" Text='<%#Eval("WISQty") %>'> </asp:Label></td>
+         <td class="leftedge" width="56%">                    
+                <asp:DataList ID="DataList2" runat="server" Width="100%">
+                <ItemTemplate>
+                <table cellpadding="0"   cellspacing="0" width="100%"> 
+                <tr> 
+                 <td  align="center"  width="9%">
+                 <asp:Label ID="lblPRNo" runat="server" Text='<%#Eval("PRNo") %>'> </asp:Label>
+                 </td>
+                  <td  align="right" class="leftedge"  width="9%">
+               <asp:Label ID="lblPRQty" runat="server" Text='<%#Eval("PRQty") %>'> </asp:Label>
+               </td>
+               
+               <td class="leftedge" width="82%">
+               <asp:DataList ID="DataList3" runat="server" width="100%" 
+             onitemcommand="DataList3_ItemCommand" > 
+                
+                <ItemTemplate>
+            <table cellpadding="0" cellspacing="0"  width="100%"> 
+            <tr>
+            <td visible ="false">
+            <asp:Label ID="lblPOId" runat="server" Visible="false" Text='<%#Eval("POId") %>'> </asp:Label>
+            </td> 
+            <td  align="center"  width="9%">
+            <asp:LinkButton ID="lblPONo" CommandName="NavTo" Text='<%#Eval("PONo") %>' runat="server"></asp:LinkButton>
+            </td>  
+              
+            <td  align="right" class="leftedge"  width="11%">
+            <asp:Label ID="lblPOQty" runat="server" Text='<%#Eval("POQty") %>'> </asp:Label>
+            </td> 
+           
+            <td  align="center" class="leftedge" width="13%" >
+            <asp:Label ID="lblPODate" runat="server" ForeColor ="Green" Font-Bold="true" Text='<%#Eval("PODate") %>'> </asp:Label>
+            </td> 
+            <td  align="center" class="leftedge" width="13%" >
+            <asp:Label ID="lblPODelDate" runat="server" Font-Bold="true" ForeColor ="Red" Text='<%#Eval("PODelDate") %>'> </asp:Label>
+            </td> 
+            <td class="leftedge" align="right" width="11%">
+            <asp:Label ID="lblPoRate" runat="server" Text='<%#Eval("PORate") %>'> </asp:Label>
+            </td>
+            <td class="leftedge" align="right" width="8%" >
+            <asp:Label ID="lblAmnt" runat="server" Text='<%#Eval("POAmount") %>'> </asp:Label></td>
+            <td class="leftedge" width="13%"  >&nbsp;
+            <asp:Label ID="lblSupplier" runat="server" Text='<%#Eval("Supplier") %>'> </asp:Label>
+            </td>
+            
+            <td class="leftedge"  width="22%">
+            <asp:DataList ID="DataList4" runat="server" width="100%">
+            <ItemTemplate>
+            <table cellpadding="0" cellspacing="0"  width="100%"> 
+            <tr>
+            <td   align="center" width="50%">
+            <asp:Label ID="lblGInNo" runat="server" Text='<%#Eval("GINNo") %>'> </asp:Label></td> 
+            <td  align="right" class="leftedge" width="50%">
+            <asp:Label ID="lblGINQty" runat="server" Text='<%#Eval("GINQty") %>'> </asp:Label></td>            
+            </tr>
+            </table> 
+            </ItemTemplate>    
+            </asp:DataList>  
+            </td>
+            </tr>
+            </table>
+                
+               
+                
+                </ItemTemplate>    
+                </asp:DataList>  
+                
+               </td>
+            
+        </tr>       
+                 </table>                 
+                </ItemTemplate>    
+                </asp:DataList> 
+                  
+            </td>
+            
+        </tr>      
+                    </table>
+    
+   
+
+                      </ItemTemplate> 
+                      <ItemStyle Wrap="true" />
+                 </asp:DataList>
+             
+     </ContentTemplate>  </asp:UpdatePanel>
+    
+    </div> 
+   
+   
+   
+    <table width="100%">     
+     <tr>
+     <td align="center">         
+             <asp:Button ID="btnExport" runat="server" CssClass="redbox" 
+         onclick="btnExport_Click" Text="Export To Excel" />&nbsp;<asp:Button ID="btnCancel" CssClass="redbox" runat="server" Text="Cancel" 
+             onclick="btnCancel_Click" />
+             </td>
+             
+             
+     </tr></table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Reports/ProjectSummary_Shortage.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.IO;
+
+public partial class Module_MaterialManagement_Reports_ProjectSummary_Shortage : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    int CompId = 0;
+    int FinYearId = 0;
+    string sId = "";
+    string WONo = "";
+    string SwitchTo = string.Empty;
+    string shree = string.Empty;
+    string Trans = string.Empty;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            sId = Session["username"].ToString();
+            shree = Session["WorkOrderId"].ToString();
+            lblWo.Text = shree;            
+            if (!String.IsNullOrEmpty(Request.QueryString["SwitchTo"]))
+            {
+                SwitchTo = Request.QueryString["SwitchTo"].ToString();
+            }
+
+            if (!String.IsNullOrEmpty(Request.QueryString["Trans"]))
+            {
+                Trans = Request.QueryString["Trans"].ToString();
+            }
+            
+            if (!Page.IsPostBack)
+            {
+                
+                this.FillGrid_Creditors();
+            }
+
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+
+    public void FillGrid_Creditors()
+    {
+        try
+        {
+            string[] split = shree.Split(new Char[] { ',' });
+
+            DataTable dt2 = new DataTable();
+            DataRow dr1;
+            dt2.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));
+            dt2.Columns.Add(new System.Data.DataColumn("Description", typeof(string)));
+            dt2.Columns.Add(new System.Data.DataColumn("UOM", typeof(string)));
+            dt2.Columns.Add(new System.Data.DataColumn("BOMQty", typeof(double)));
+            dt2.Columns.Add(new System.Data.DataColumn("Id", typeof(Int32)));
+            dt2.Columns.Add(new System.Data.DataColumn("Sn", typeof(Int32)));
+            dt2.Columns.Add(new System.Data.DataColumn("ShortQty", typeof(double)));
+            dt2.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));
+            dt2.Columns.Add(new System.Data.DataColumn("BOMDate", typeof(string)));
+            dt2.Columns.Add(new System.Data.DataColumn("WISQty", typeof(double)));
+            dt2.Columns.Add(new System.Data.DataColumn("PRNo", typeof(string)));
+            dt2.Columns.Add(new System.Data.DataColumn("PRQty", typeof(string)));            ///
+            dt2.Columns.Add(new System.Data.DataColumn("PONo", typeof(string)));//1
+            dt2.Columns.Add(new System.Data.DataColumn("PODate", typeof(string)));//6           
+            dt2.Columns.Add(new System.Data.DataColumn("Supplier", typeof(string)));//3
+            dt2.Columns.Add(new System.Data.DataColumn("POQty", typeof(string)));//4
+            dt2.Columns.Add(new System.Data.DataColumn("PORate", typeof(string)));//2
+            dt2.Columns.Add(new System.Data.DataColumn("POAmount", typeof(string)));//5           
+            dt2.Columns.Add(new System.Data.DataColumn("ScheduledDate", typeof(string)));//7
+            dt2.Columns.Add(new System.Data.DataColumn("GINNo", typeof(string)));
+            dt2.Columns.Add(new System.Data.DataColumn("GINQty", typeof(string)));
+            int sn = 1;
+            for (int s = 0; s < split.Length - 1; s++)
+            {
+
+                string str = string.Empty;
+                switch (SwitchTo)
+                {
+                    case "1": str = "select distinct(tblDG_Item_Master.ItemCode),tblDG_Item_Master.PartNo,tblDG_Item_Master.CId,tblDG_Item_Master.StockQty ,tblDG_Item_Master.Id,tblDG_Item_Master.ManfDesc,Unit_Master.Symbol As UOMBasic,tblDG_BOM_Master.WONo from tblDG_Item_Master inner join tblDG_BOM_Master on tblDG_Item_Master.Id=tblDG_BOM_Master.ItemId inner join Unit_Master on  tblDG_Item_Master.UOMBasic=Unit_Master.Id  And tblDG_Item_Master.CId is not null And WONo='" + split[s].ToString() + "' and  tblDG_Item_Master.CompId='" + CompId + "'And tblDG_Item_Master.FinYearId<='" + FinYearId + "'  AND tblDG_BOM_Master.CId not in (Select PId from tblDG_BOM_Master where WONo='" + split[s].ToString() + "' and  tblDG_Item_Master.CompId='" + CompId + "'  And tblDG_Item_Master.FinYearId<='" + FinYearId + "')  Order By tblDG_Item_Master.ItemCode ASC";
+
+                        break;
+
+                    case "2": str = "select distinct(tblDG_Item_Master.ItemCode),tblDG_Item_Master.PartNo,tblDG_Item_Master.CId,tblDG_Item_Master.StockQty ,tblDG_Item_Master.Id,tblDG_Item_Master.ManfDesc,Unit_Master.Symbol As UOMBasic,tblDG_BOM_Master.WONo from tblDG_Item_Master inner join tblDG_BOM_Master on tblDG_Item_Master.Id=tblDG_BOM_Master.ItemId inner join Unit_Master on  tblDG_Item_Master.UOMBasic=Unit_Master.Id  And tblDG_Item_Master.CId is null And WONo='" + split[s].ToString() + "' and  tblDG_Item_Master.CompId='" + CompId + "'And tblDG_Item_Master.FinYearId<='" + FinYearId + "' AND tblDG_BOM_Master.CId not in (Select PId from tblDG_BOM_Master where WONo='" + split[s].ToString() + "' and  tblDG_Item_Master.CompId='" + CompId + "' And tblDG_Item_Master.FinYearId<='" + FinYearId + "') Order By tblDG_Item_Master.ItemCode ASC";
+
+                        break;
+                }
+
+                SqlCommand cmdCustWo = new SqlCommand(str, con);
+                SqlDataAdapter daCustWo = new SqlDataAdapter(cmdCustWo);
+                DataSet DSCustWo = new DataSet();
+                daCustWo.Fill(DSCustWo);
+                double ShortageQty = 0;
+                double totGqnQty = 0;
+                double totGinQty = 0;
+                double PRQty = 0;
+                double liQty = 0;
+                foreach (DataRow grv in DSCustWo.Tables[0].Rows)
+                {
+
+                    dr1 = dt2.NewRow();
+
+                    dr1[0] = grv.Field<string>("ItemCode");
+
+                    dr1[1] = grv.Field<string>("ManfDesc");
+
+                    dr1[2] = grv.Field<string>("UOMBasic");
+
+                    liQty = fun.AllComponentBOMQty(CompId, grv.Field<string>("WONo"), grv.Field<Int32>("Id").ToString(), FinYearId);
+                    dr1[3] = liQty;
+                    dr1[4] = grv.Field<Int32>("Id");
+                    dr1[5] = sn.ToString();
+                    double TotWisQty = 0;
+                    TotWisQty = fun.CalWISQty(CompId.ToString(), grv.Field<string>("WONo"), grv.Field<Int32>("Id").ToString());
+
+                    PRQty = fun.CalPRQty(CompId, grv.Field<string>("WONo"), grv.Field<Int32>("Id"));
+
+                    totGinQty = fun.GINQTY(CompId, grv.Field<string>("WONo"), grv.Field<Int32>("Id").ToString());
+
+                    totGqnQty = fun.GQNQTY(CompId, grv.Field<string>("WONo"), grv.Field<Int32>("Id").ToString());
+
+                    ShortageQty = Math.Round((liQty - TotWisQty - totGinQty + totGqnQty), 3);
+                    string BomDate = string.Empty;
+                    string sqlBomDate = "select distinct(tblDG_BOM_Master.ItemId),tblDG_BOM_Master.SysDate from tblDG_BOM_Master where tblDG_BOM_Master.WONo='" + grv.Field<string>("WONo") + "' and tblDG_BOM_Master.CompId='" + CompId + "'And tblDG_BOM_Master.FinYearId<='" + FinYearId + "' AND tblDG_BOM_Master.CId not in (Select PId from tblDG_BOM_Master where WONo='" + grv.Field<string>("WONo") + "' and tblDG_BOM_Master.CompId='" + CompId + "' And tblDG_BOM_Master.FinYearId<='" + FinYearId + "') And tblDG_BOM_Master.ItemId='" + grv.Field<Int32>("Id") + "'Order By tblDG_BOM_Master.ItemId ASC ";
+                    SqlCommand cmdBomDate = new SqlCommand(sqlBomDate, con);
+                    SqlDataAdapter daBomDate = new SqlDataAdapter(cmdBomDate);
+                    DataSet dsBomDate = new DataSet();
+                    daBomDate.Fill(dsBomDate);
+                    foreach (DataRow grv2 in dsBomDate.Tables[0].Rows)
+                    {
+                        BomDate = BomDate + " " + fun.FromDateDMY(grv2.Field<string>("SysDate"));
+                    }
+                    dr1[8] = BomDate;
+                    dr1[6] = ShortageQty;
+                    dr1[9] = TotWisQty;
+                    dr1[7] = grv.Field<string>("WONo");
+                    switch (Trans)
+                    {
+                        case "1":
+                            if (ShortageQty > 0)
+                            {
+                                sn++;
+                                dt2.Rows.Add(dr1);
+                                dt2.AcceptChanges();
+                            }
+                            break;
+                        case "2":
+                            if (ShortageQty == 0)
+                            {
+                                sn++;
+                                dt2.Rows.Add(dr1);
+                                dt2.AcceptChanges();
+                            }
+                            break;
+                        case "3":
+                            sn++;
+                            dt2.Rows.Add(dr1);
+                            dt2.AcceptChanges();
+                            break;
+                    }
+
+                }
+
+                GridView3.DataSource = dt2;
+                GridView3.DataBind();
+            }
+            //to fill DataList2
+            for (int i = 0; i < dt2.Rows.Count; i++)
+            {
+
+                DataTable dt3 = new DataTable();
+                DataRow dr3;
+                dt3.Columns.Add(new System.Data.DataColumn("PRNo", typeof(string)));
+                dt3.Columns.Add(new System.Data.DataColumn("PRQty", typeof(double)));
+                string sqlPR = "SELECT tblMM_PR_Details.Id As PRId, tblMM_PR_Master.PRNo,tblMM_PR_Details.Qty As PRQty   FROM tblMM_PR_Master INNER JOIN tblMM_PR_Details ON tblMM_PR_Master.Id = tblMM_PR_Details.MId And tblMM_PR_Master.WONo='" + dt2.Rows[i]["WONo"].ToString() + "' And tblMM_PR_Details.ItemId='" + dt2.Rows[i]["Id"].ToString() + "' ";
+                SqlCommand cmdPR = new SqlCommand(sqlPR, con);
+                SqlDataAdapter daPR = new SqlDataAdapter(cmdPR);
+                DataSet dsPR = new DataSet();
+                daPR.Fill(dsPR);
+                DataListItem item2 = GridView3.Items[i] as DataListItem;
+                DataList li2 = item2.FindControl("DataList2") as DataList;
+                if (dsPR.Tables[0].Rows.Count > 0)
+                {
+                    li2.DataSource = dsPR;
+                    li2.DataBind();
+                    if (dsPR.Tables[0].Rows.Count > 1)
+                    {
+                        string PRNo = string.Empty;
+                        string PRQty = string.Empty;
+                        for (int j = 0; j < dsPR.Tables[0].Rows.Count; j++)
+                        {
+                            PRNo = PRNo + "," + dsPR.Tables[0].Rows[j]["PRNo"];
+                            dt2.Rows[i]["PRNo"] = PRNo;
+                            PRQty = PRQty + "," + dsPR.Tables[0].Rows[j]["PRQty"].ToString();
+                            dt2.Rows[i]["PRQty"] = PRQty;
+                            dt2.AcceptChanges();
+                        }
+                    }
+                    else
+                    {
+                        string PRNo = string.Empty;
+                        {
+                            dt2.Rows[i]["PRNo"] = dsPR.Tables[0].Rows[0]["PRNo"];
+                            dt2.Rows[i]["PRQty"] = dsPR.Tables[0].Rows[0]["PRQty"];
+                            dt2.AcceptChanges();
+                        }
+                    }
+
+                }
+
+                else
+                {
+                    dr3 = dt3.NewRow();
+                    dr3[0] = " ";
+                    dr3[1] = 0;
+                    dt3.Rows.Add(dr3);
+                    dt3.AcceptChanges();
+                    li2.DataSource = dt3;
+                    li2.DataBind();
+                    dt2.Rows[i]["PRNo"] = dt3.Rows[0]["PRNo"];
+                    dt2.Rows[i]["PRQty"] = dt3.Rows[0]["PRQty"];
+
+                }
+                // to fill datalist3 
+                if (dsPR.Tables[0].Rows.Count > 0)
+                {
+                    string PONo = string.Empty;
+                    string PORate = string.Empty;
+                    string Supplier = string.Empty;
+                    string POQty = string.Empty;
+                    string POAmount = string.Empty;
+                    string PODate = string.Empty;
+                    string PODelDate = string.Empty;
+
+                    for (int i5 = 0; i5 < dsPR.Tables[0].Rows.Count; i5++)
+                    {
+
+                        DataTable dt4 = new DataTable();
+                        DataRow dr4;
+                        dt4.Columns.Add(new System.Data.DataColumn("POId", typeof(string)));//0
+                        dt4.Columns.Add(new System.Data.DataColumn("PONo", typeof(string)));//1
+                        dt4.Columns.Add(new System.Data.DataColumn("PORate", typeof(double)));//2
+                        dt4.Columns.Add(new System.Data.DataColumn("Supplier", typeof(string)));//3
+                        dt4.Columns.Add(new System.Data.DataColumn("POQty", typeof(double)));//4
+                        dt4.Columns.Add(new System.Data.DataColumn("POAmount", typeof(double)));//5
+                        dt4.Columns.Add(new System.Data.DataColumn("PODate", typeof(string)));//6
+                        dt4.Columns.Add(new System.Data.DataColumn("PODelDate", typeof(string)));//7
+
+                        int count = 1;
+                        string sqlPo = "SELECT tblMM_PO_Details.Id,tblMM_PO_Details.DelDate,tblMM_PO_Master.SysDate,tblMM_PO_Master.PONo,tblMM_PO_Details.Discount,tblMM_PO_Details.Rate,  tblMM_PO_Master.SupplierId, tblMM_PO_Details.Qty FROM tblMM_PO_Master INNER JOIN tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId And tblMM_PO_Details.PRId='" + dsPR.Tables[0].Rows[i5]["PRId"].ToString() + "' ";
+                        SqlCommand cmdPo = new SqlCommand(sqlPo, con);
+                        SqlDataAdapter daPo = new SqlDataAdapter(cmdPo);
+                        DataSet dsPo = new DataSet();
+                        daPo.Fill(dsPo);
+                        for (int i6 = 0; i6 < dsPo.Tables[0].Rows.Count; i6++)
+                        {
+                            double Rate = 0;
+                            double Discount = 0;
+                            double PoQty = 0;
+                            dr4 = dt4.NewRow();
+                            dr4[0] = dsPo.Tables[0].Rows[i6]["Id"].ToString();
+                            dr4[1] = dsPo.Tables[0].Rows[i6]["PONo"].ToString();
+                            Rate = Convert.ToDouble(decimal.Parse((dsPo.Tables[0].Rows[i6]["Rate"].ToString())).ToString("N2"));
+                            Discount = Convert.ToDouble(decimal.Parse((dsPo.Tables[0].Rows[i6]["Discount"].ToString())).ToString("N2"));
+                            dr4[2] = Rate;
+                            string cmdStr = fun.select("SupplierName+' '+'[' +SupplierId+']' As SupplierName ", "tblMM_Supplier_master", "CompId='" + CompId + "' And SupplierId='" + dsPo.Tables[0].Rows[i6]["SupplierId"].ToString() + "'");
+                            SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+                            DataSet dsSup = new DataSet();
+                            da.Fill(dsSup, "tblMM_Supplier_master");
+                            if (dsSup.Tables[0].Rows.Count > 0)
+                            {
+                                dr4[3] = dsSup.Tables[0].Rows[0]["SupplierName"].ToString();
+                            }
+                            PoQty = Convert.ToDouble(decimal.Parse((dsPo.Tables[0].Rows[i6]["Qty"].ToString())).ToString("N3"));
+                            dr4[4] = PoQty;
+                            dr4[5] = PoQty * (Rate - (Rate * Discount / 100));
+                            dr4[6] = fun.FromDateDMY(dsPo.Tables[0].Rows[i6]["SysDate"].ToString());
+                            dr4[7] = fun.FromDateDMY(dsPo.Tables[0].Rows[i6]["DelDate"].ToString());
+                            dt4.Rows.Add(dr4);
+                            dt4.AcceptChanges();
+                            if (dsPR.Tables[0].Rows.Count > 1)
+                            {
+
+                                {
+                                    PONo = PONo + "," + dsPo.Tables[0].Rows[i6]["PONo"];
+                                    dt2.Rows[i]["PONo"] = PONo;
+
+                                    PORate = PORate + "," + dsPo.Tables[0].Rows[i6]["Rate"].ToString();
+                                    dt2.Rows[i]["PORate"] = PORate;
+
+                                    Supplier = Supplier + "," + dr4[3].ToString();
+                                    dt2.Rows[i]["Supplier"] = Supplier;
+
+                                    POQty = POQty + "," + dsPo.Tables[0].Rows[i6]["Qty"].ToString();
+                                    dt2.Rows[i]["POQty"] = POQty;
+
+                                    POAmount = POAmount + "," + (PoQty * (Rate - (Rate * Discount / 100))).ToString();
+                                    dt2.Rows[i]["POAmount"] = POAmount;
+
+                                    PODate = PODate + "," + fun.FromDateDMY(dsPo.Tables[0].Rows[i6]["SysDate"].ToString());
+                                    dt2.Rows[i]["PODate"] = PODate;
+
+                                    PODelDate = PODelDate + "," + fun.FromDateDMY(dsPo.Tables[0].Rows[i6]["DelDate"].ToString());
+                                    dt2.Rows[i]["ScheduledDate"] = PODelDate;
+                                    dt2.AcceptChanges();
+
+                                }
+
+                            }
+                            else
+                            {
+
+                                dt2.Rows[i]["PONo"] = dsPo.Tables[0].Rows[i6]["PONo"].ToString();
+                                dt2.Rows[i]["PORate"] = dsPo.Tables[0].Rows[i6]["Rate"].ToString();
+                                dt2.Rows[i]["Supplier"] = dr4[3].ToString();
+                                dt2.Rows[i]["POQty"] = dsPo.Tables[0].Rows[i6]["Qty"].ToString();
+                                dt2.Rows[i]["POAmount"] = PoQty * (Rate - (Rate * Discount / 100));
+                                dt2.Rows[i]["PODate"] = fun.FromDateDMY(dsPo.Tables[0].Rows[i6]["SysDate"].ToString());
+                                dt2.Rows[i]["ScheduledDate"] = fun.FromDateDMY(dsPo.Tables[0].Rows[i6]["DelDate"].ToString());
+                                dt2.AcceptChanges();
+
+                            }
+
+                        }
+
+                        DataListItem item3 = li2.Items[i5] as DataListItem;
+                        DataList li3 = item3.FindControl("DataList3") as DataList;
+                        if (dsPo.Tables[0].Rows.Count > 0)
+                        {
+
+                            li3.DataSource = dt4;
+                            li3.DataBind();
+                            ///                           
+                        }
+
+                        // to fill datalist4
+                        string GINNo = string.Empty;
+                        string GINQty = string.Empty;
+                        if (dt4.Rows.Count > 0)
+                        {
+                            for (int k = 0; k < dt4.Rows.Count; k++)
+                            {
+
+                                string sqlGIN = "SELECT tblInv_Inward_Details.ReceivedQty As GINQty , tblInv_Inward_Master.GINNo FROM tblInv_Inward_Master INNER JOIN tblInv_Inward_Details ON tblInv_Inward_Master.Id = tblInv_Inward_Details.GINId And tblInv_Inward_Details.POId='" + dt4.Rows[k]["POId"] + "' And tblInv_Inward_Master.PONo='" + dt4.Rows[k]["PONo"].ToString() + "' and tblInv_Inward_Master.CompId='" + CompId + "'";
+                                SqlCommand cmdGIN = new SqlCommand(sqlGIN, con);
+                                SqlDataAdapter daGIN = new SqlDataAdapter(cmdGIN);
+                                DataSet dsGIN = new DataSet();
+                                daGIN.Fill(dsGIN);
+                                DataListItem item4 = li3.Items[k] as DataListItem;
+                                DataList li4 = item4.FindControl("DataList4") as DataList;
+                                if (dsGIN.Tables[0].Rows.Count > 0)
+                                {
+                                    li4.DataSource = dsGIN.Tables[0];
+                                    li4.DataBind();
+                                    if (dsGIN.Tables[0].Rows.Count > 1)
+                                    {
+
+                                        for (int j = 0; j < dsGIN.Tables[0].Rows.Count; j++)
+                                        {
+                                            GINNo = GINNo + "," + dsGIN.Tables[0].Rows[j]["GINNo"];
+                                            GINQty = GINQty + "," + dsGIN.Tables[0].Rows[j]["GINQty"].ToString();
+                                            dt2.Rows[i]["GINNo"] = GINNo;
+                                            dt2.Rows[i]["GINQty"] = GINQty;
+                                            dt2.AcceptChanges();
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        dt2.Rows[i]["GINNo"] = dsGIN.Tables[0].Rows[0]["GINNo"];
+                                        dt2.Rows[i]["GINQty"] = dsGIN.Tables[0].Rows[0]["GINQty"];
+                                        dt2.AcceptChanges();
+                                    }
+                                }
+
+
+                            }
+                        }
+
+                    }
+                }
+                else
+                {
+
+                    DataListItem item3 = li2.Items[0] as DataListItem;
+                    DataList li3 = item3.FindControl("DataList3") as DataList;
+                    DataTable blnkdt = new DataTable();
+                    DataRow blnkdr;
+                    blnkdt.Columns.Add(new System.Data.DataColumn("POId", typeof(string)));//0
+                    blnkdt.Columns.Add(new System.Data.DataColumn("PONo", typeof(string)));//1
+                    blnkdt.Columns.Add(new System.Data.DataColumn("PORate", typeof(double)));//2
+                    blnkdt.Columns.Add(new System.Data.DataColumn("Supplier", typeof(string)));//3
+                    blnkdt.Columns.Add(new System.Data.DataColumn("POQty", typeof(double)));//4
+                    blnkdt.Columns.Add(new System.Data.DataColumn("POAmount", typeof(double)));//5
+                    blnkdt.Columns.Add(new System.Data.DataColumn("PODate", typeof(string)));//6
+                    blnkdt.Columns.Add(new System.Data.DataColumn("PODelDate", typeof(string)));//7 
+
+                    blnkdr = blnkdt.NewRow();
+                    blnkdr[0] = 0;
+                    blnkdr[1] = " ";
+                    blnkdr[2] = 0;
+                    blnkdr[3] = " ";
+                    blnkdr[4] = 0;
+                    blnkdr[5] = 0;
+                    blnkdr[6] = "-";
+                    blnkdr[7] = "-";
+                    blnkdt.Rows.Add(blnkdr);
+                    blnkdt.AcceptChanges();
+                    li3.DataSource = blnkdt;
+                    li3.DataBind();
+
+                    dt2.Rows[i]["PONo"] = blnkdt.Rows[0]["PONo"];
+                    dt2.Rows[i]["PORate"] = blnkdt.Rows[0]["PORate"].ToString();
+                    dt2.Rows[i]["Supplier"] = blnkdt.Rows[0]["Supplier"].ToString();
+                    dt2.Rows[i]["POQty"] = blnkdt.Rows[0]["POQty"].ToString();
+                    dt2.Rows[i]["POAmount"] = blnkdt.Rows[0]["POAmount"].ToString();
+                    dt2.Rows[i]["PODate"] = blnkdt.Rows[0]["PODate"].ToString();
+                    dt2.Rows[i]["ScheduledDate"] = blnkdt.Rows[0]["PODelDate"].ToString();
+                    dt2.AcceptChanges();
+
+                }
+
+            }
+
+            DataSet sdt = new ForeCasting();
+            sdt.Tables[0].Merge(dt2);
+            sdt.Tables[0].Columns.Remove(sdt.Tables[0].Columns["Id"]);
+            sdt.Tables[0].Columns.Remove(sdt.Tables[0].Columns["Sn"]);
+            sdt.AcceptChanges();
+            if (sdt != null)
+            {
+                ViewState["dtList"] = sdt.Tables[0];
+            }
+
+        }
+
+        catch (Exception ex)
+        { }
+    }
+
+
+    protected void btnExport_Click(object sender, EventArgs e)
+    {
+
+        try
+        {
+            DataTable dt1 = (DataTable)ViewState["dtList"];
+            if (dt1 == null)
+            {
+                throw new Exception("No Records to Export");
+
+            }
+            string Path = "D:\\ImportExcelFromDatabase\\myexcelfile_" + DateTime.Now.Day.ToString() + "_" + DateTime.Now.Month.ToString() + ".xls";
+            FileInfo FI = new FileInfo(Path);
+            StringWriter stringWriter = new StringWriter();
+            HtmlTextWriter htmlWrite = new HtmlTextWriter(stringWriter);
+            System.Web.UI.WebControls.DataGrid DataGrd = new System.Web.UI.WebControls.DataGrid();
+            DataGrd.DataSource = dt1;
+            DataGrd.DataBind();
+            DataGrd.RenderControl(htmlWrite);
+            string directory = Path.Substring(0, Path.LastIndexOf("\\"));// GetDirectory(Path);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+            System.IO.StreamWriter vw = new System.IO.StreamWriter(Path, true);
+            stringWriter.ToString().Normalize();
+            vw.Write(stringWriter.ToString());
+            vw.Flush();
+            vw.Close();
+            WriteAttachment(FI.Name, "application/vnd.ms-excel", stringWriter.ToString());
+        }
+        catch (Exception ex)
+        {
+            string mystring = string.Empty;
+            mystring = "No Records to Export.";
+            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+        }
+
+
+    }
+    public static void WriteAttachment(string FileName, string FileType, string content)
+    {
+        try
+        {
+            HttpResponse Response = System.Web.HttpContext.Current.Response;
+            Response.ClearHeaders();
+            Response.AppendHeader("Content-Disposition", "attachment; filename=" + FileName);
+            Response.ContentType = FileType;
+            Response.Write(content);
+            Response.End();
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/MaterialManagement/Reports/MaterialForecasting.aspx?ModId=6");
+    }
+
+    string parentPage = "~/Module/MaterialManagement/Reports/ProjectSummary_Shortage.aspx";
+    protected void DataList3_ItemCommand(object source, DataListCommandEventArgs e)
+    {
+       try
+        {
+            if (e.CommandName == "NavTo")
+            {
+               
+                DataListItem row = (DataListItem)(((LinkButton)e.CommandSource).NamingContainer);
+                string pocode = ((LinkButton)row.FindControl("lblPONo")).Text;
+                string supcode = fun.getCode(((Label)row.FindControl("lblSupplier")).Text);
+                string PODId = ((Label)row.FindControl("lblPOId")).Text;
+                // For POId
+                string StrPOId = fun.select("MId", "tblMM_PO_Details", "Id='" + PODId + "'");
+                SqlCommand cmdPOId = new SqlCommand(StrPOId, con);
+                SqlDataAdapter DAPOId = new SqlDataAdapter(cmdPOId);
+                DataSet DSPOId = new DataSet();
+                DAPOId.Fill(DSPOId);
+                if (DSPOId.Tables[0].Rows.Count > 0)
+                {
+
+                    string StrFlag = fun.select("PRSPRFlag,AmendmentNo", "tblMM_PO_Master", "Id='" + DSPOId.Tables[0].Rows[0]["MId"].ToString() + "' AND FinYearId<='" + FinYearId + "' AND SupplierId='" + supcode + "' And PONo='" + pocode + "' AND CompId='" + CompId + "'");
+                    SqlCommand cmdFlag = new SqlCommand(StrFlag, con);
+                    SqlDataAdapter daFlag = new SqlDataAdapter(cmdFlag);
+                    DataSet DSFlag = new DataSet();
+                    daFlag.Fill(DSFlag);
+                    if (DSFlag.Tables[0].Rows.Count > 0)
+                    {
+                        string AmdNo = "";
+                        AmdNo = DSFlag.Tables[0].Rows[0]["AmendmentNo"].ToString();
+
+                        if (DSFlag.Tables[0].Rows[0][0].ToString() == "0")
+                        {
+
+                            string getRandomKey = fun.GetRandomAlphaNumeric();
+                            Response.Redirect("~/Module/MaterialManagement/Transactions/PO_PR_View_Print_Details.aspx?mid=" + DSPOId.Tables[0].Rows[0]["MId"].ToString() + "&pono=" + pocode + "&Code=" + supcode + "&AmdNo=" + AmdNo + "&Swto=" + SwitchTo + "&Key=" + getRandomKey + "&Trans=" + Trans + "&ModId=6&SubModId=35&parentpage=" + parentPage);
+
+                        }
+                        else
+                        {
+                            string getRandomKey = fun.GetRandomAlphaNumeric();
+                            Response.Redirect("~/Module/MaterialManagement/Transactions/PO_SPR_View_Print_Details.aspx?mid=" + DSPOId.Tables[0].Rows[0]["MId"].ToString() + "&pono=" + pocode + "&Code=" + supcode + "&AmdNo=" + AmdNo + "&Swto=" + SwitchTo + "&Key=" + getRandomKey + "&Trans=" + Trans + "&ModId=6&SubModId=35&parentpage=" + parentPage);
+
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception ess)
+        {
+
+        }
+
+    }
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {  
+        GC.Collect();
+    }
+
+}

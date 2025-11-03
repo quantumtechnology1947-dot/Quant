@@ -1,0 +1,250 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Masters/ServiceCoverage.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ServiceCoverage.aspx.cs" Inherits="Module_SysAdmin_FinancialYear_BusinessCoverage" Title="ERP" Theme ="Default" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+<link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+<script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+ <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+<table cellpadding="0" cellspacing="0" width="40%" align="center" >
+        <tr>
+            <td>
+    <table cellpadding="0" cellspacing="0" width="100%" align="center">
+       
+        <tr>
+            <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>
+                &nbsp;Service Coverage</b></td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <asp:GridView ID="GridView1" 
+                runat="server" 
+                AllowPaging="True"
+                ShowFooter="True" 
+                AutoGenerateColumns="False" 
+                DataKeyNames="Id" 
+                FooterStyle-Wrap="True"
+                OnRowDeleted="GridView1_RowDeleted" 
+                DataSourceID="SqlDataSource1"
+                OnRowUpdated="GridView1_RowUpdated" 
+                OnRowCommand="GridView1_RowCommand"
+                CssClass="yui-datatable-theme" Width="100%" 
+                    onrowdatabound="GridView1_RowDataBound" PageSize="17">
+                    
+<FooterStyle Wrap="True"></FooterStyle>
+                    <Columns>
+        <asp:CommandField  ValidationGroup="edit" ButtonType ="Link" ShowEditButton="True">
+            <ItemStyle Width="8%" />
+                        </asp:CommandField>
+      <asp:CommandField  ValidationGroup="edit" ButtonType ="Link" ShowDeleteButton="True">
+                        <ItemStyle Width="4%" />
+                        </asp:CommandField>
+                        <asp:TemplateField HeaderText="SN">
+                        <ItemTemplate>
+                        <%# Container.DataItemIndex+1 %> 
+                        </ItemTemplate>
+                        <FooterTemplate>
+                                <asp:Button ID="btnInsert" runat="server" ValidationGroup="abc" 
+                                 OnClientClick=" return confirmationAdd()" CommandName="Add" CssClass="redbox" 
+                                    Text="Insert" />
+                            </FooterTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="5%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Id" SortExpression="Id" Visible="False">
+                            <ItemTemplate>
+                                <asp:Label ID="lblID" runat="server" Text='<%#Eval("Id") %>'></asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Type" SortExpression="Type">
+                        <ItemTemplate>
+                        <asp:Label ID="lblServiceCoverage" runat="server" Text='<%#Eval("Type") %>'>    </asp:Label>
+                        </ItemTemplate>
+                        <EditItemTemplate>
+                        <asp:TextBox ID="lblServiceCoverage0" CssClass="box3" Width="95%" runat="server" Text='<%#Bind("Type") %>'>
+                        </asp:TextBox>
+                        <asp:RequiredFieldValidator ID="ReqServ" runat="server" ErrorMessage="*" ValidationGroup="edit" ControlToValidate="lblServiceCoverage0"></asp:RequiredFieldValidator>                        
+                        </EditItemTemplate>
+                        <FooterTemplate>
+                        <asp:TextBox ID="txtServiceCoverage" CssClass="box3" Width="95%" runat="server">
+                        </asp:TextBox>
+                         <asp:RequiredFieldValidator ID="ReqServ0" runat="server" ErrorMessage="*" ValidationGroup="abc" ControlToValidate="txtServiceCoverage"></asp:RequiredFieldValidator>   
+                        </FooterTemplate>
+                            <ItemStyle Width="55%" />
+                        </asp:TemplateField>
+                    </Columns>
+                    
+                    
+                    
+                    
+                     <EmptyDataTemplate>
+                <table  width="100%" border="1" style=" border-color:Gray">
+                    <tr>
+                    <td></td>
+                    <td align="center">
+                        <asp:Label ID="Label1" Font-Bold="true" Font-Size="Medium" Font-Names="Times New Roman" runat="server" Text="Type"></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                 <td>
+                <asp:Button ID="btnInsert" runat="server"  OnClientClick=" return confirmationAdd()" 
+                CommandName="Add1" ValidationGroup="pqr" CssClass="redbox" Text="Insert" /></td>
+                <td>
+                <asp:TextBox ID="txtServiceCoverage" CssClass="box3" runat="server" Width="95%"></asp:TextBox>
+                 <asp:RequiredFieldValidator ID="ReqServ1" runat="server" ErrorMessage="*" ValidationGroup="pqr" ControlToValidate="txtServiceCoverage"></asp:RequiredFieldValidator>  
+                </td>
+         
+           </tr>
+           </table>
+        </EmptyDataTemplate>
+            <%-- <EmptyDataTemplate>
+             <table width="100%">
+             <tr>
+             <td>
+                <asp:Button ID="btnInsert" runat="server"  OnClientClick=" return confirmationAdd()" 
+                CommandName="Add1" ValidationGroup="pqr" CssClass="redbox" Text="Insert" /></td>
+                <td>
+                <asp:TextBox ID="txtServiceCoverage" CssClass="box3" runat="server" Width="80%"></asp:TextBox>
+                 <asp:RequiredFieldValidator ID="ReqServ1" runat="server" ErrorMessage="*" ValidationGroup="pqr" ControlToValidate="txtServiceCoverage"></asp:RequiredFieldValidator>  
+               </td></tr></table>
+            </EmptyDataTemplate>--%>
+                    
+              </asp:GridView>
+                
+                <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+                    ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                    ProviderName="System.Data.SqlClient" 
+                    SelectCommand="SELECT * FROM [tblMM_Supplier_ServiceCoverage] ORDER BY [Id] DESC" 
+                    DeleteCommand="DELETE FROM [tblMM_Supplier_ServiceCoverage] WHERE [Id] = @Id" 
+                    InsertCommand="INSERT INTO [tblMM_Supplier_ServiceCoverage] ([Type]) VALUES (@Type)" 
+                    
+                    UpdateCommand="UPDATE [tblMM_Supplier_ServiceCoverage] SET [Type] = @Type WHERE [Id] = @Id">
+                    
+                    <DeleteParameters>
+                        <asp:Parameter Name="Id" Type="Int32" />
+                    </DeleteParameters>
+                    <UpdateParameters>
+                        <asp:Parameter Name="Type" Type="String" />
+                        <asp:Parameter Name="Id" Type="Int32" />
+                    </UpdateParameters>
+                    <InsertParameters>
+                        <asp:Parameter Name="Type" Type="String"/>
+                    </InsertParameters>
+                </asp:SqlDataSource>
+                
+             
+                
+               </td>
+        </tr>
+        <tr>
+            <td align="center" valign="top">
+                <asp:Label ID="lblMessage" runat="server" ForeColor="Red"></asp:Label></td>
+        </tr>
+        <tr>
+            <td align="center" valign="top">
+                &nbsp;</td>
+        </tr>
+    </table>
+            </td>
+        </tr>
+    </table>
+    
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Masters/ServiceCoverage.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+
+public partial class Module_SysAdmin_FinancialYear_BusinessCoverage : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        lblMessage.Text = "";
+    }
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            if (e.CommandName == "Add")
+            {
+                string strServiceCoverage = ((TextBox)GridView1.FooterRow.FindControl("txtServiceCoverage")).Text;
+                if (strServiceCoverage != "")
+                {
+                    SqlDataSource1.InsertParameters["Type"].DefaultValue = strServiceCoverage;
+                    SqlDataSource1.Insert();
+                    lblMessage.Text = "Record Inserted";
+                }
+
+            }
+            if (e.CommandName == "Add1")
+            {
+                string strServiceCoverage = ((TextBox)GridView1.Controls[0].Controls[0].FindControl("txtServiceCoverage")).Text;
+                if (strServiceCoverage != "")
+                {
+                    SqlDataSource1.InsertParameters["Type"].DefaultValue = strServiceCoverage;
+                    SqlDataSource1.Insert();
+                    lblMessage.Text = "Record Inserted";
+                }
+            }
+        }
+        catch(Exception ex){}
+        
+    }
+    protected void GridView1_RowDeleted(object sender, GridViewDeletedEventArgs e)
+    {
+        lblMessage.Text = "Record Deleted";
+    }
+    protected void GridView1_RowUpdated(object sender, GridViewUpdatedEventArgs e)
+    {
+        lblMessage.Text = "Record Updated";
+    }
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton edit = (LinkButton)e.Row.Cells[0].Controls[0];
+                edit.Attributes.Add("onclick", "return confirmationUpdate();");
+
+            }
+
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton del = (LinkButton)e.Row.Cells[1].Controls[0];
+                del.Attributes.Add("onclick", "return confirmationDelete();");
+            }
+        }
+        catch (Exception ex) { }
+    }
+}

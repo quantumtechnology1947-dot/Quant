@@ -1,0 +1,485 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Admin/Access/AccessModule_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="AccessModule_Details.aspx.cs" Inherits="Admin_Access_AccessModule_Details" Title="ERP" Theme="Default" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+    <script src="../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        
+.box3 {
+border: 1px solid #C5C5C5;
+
+}
+        
+        .style3
+        {
+            font-weight: bold;
+            font-size:16px;
+        }
+        .style4
+        {
+            height: 20px;
+        }
+    </style>
+    <link href="../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <script src="../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table width="100%" >
+<tr>
+<td align="center">
+
+    <table width="65%" >
+        <tr>
+            <td align="left" >
+                <span class="style3">Company Name :</span>
+                <asp:Label ID="lblCompName" runat="server" style="font-weight: 700"></asp:Label>
+            </td>
+            <td align="left" >
+                <span class="style3">Financial Year :</span>
+                <asp:Label ID="lblFinYear" runat="server" style="font-weight: 700"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td align="left">
+                <span class="style3">Employee Name :</span>
+                <asp:Label ID="lblEmpName" runat="server" style="font-weight: 700"></asp:Label>
+            </td>
+            <td align="left">
+                <span class="style3">Module Name :
+                </span>
+                <asp:Label ID="lblModuleName" runat="server" style="font-weight: 700"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td  colspan="2">
+                <asp:Panel ID="Panel1" runat="server" Height="400px" ScrollBars="Auto">
+                    <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" Width="100%"
+                    CssClass="yui-datatable-theme" PageSize="20">
+                        <PagerSettings PageButtonCount="40" />
+                        <Columns>
+                            <asp:TemplateField HeaderText="SN">
+                                <ItemTemplate>
+                                    <%#Container.DataItemIndex+1  %>
+                                </ItemTemplate>
+                                <HeaderStyle 
+                            Font-Size="10pt" />
+                                <ItemStyle HorizontalAlign="Right" VerticalAlign="Top" Width="3%" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="SubModId" Visible="false">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblId" runat="Server" Text='<%#Eval("SubModId")%>'/>
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Center"  />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="MTR"  >
+                                <ItemTemplate>
+                                    <asp:Label ID="lblMTR" runat="Server" Text='<%#Eval("MTR")%>'/>
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Center"  />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="SubModule Name">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblSubModName" runat="Server" Text='<%#Eval("SubModName")%>'/>
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Left"  />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="New" >
+                                <ItemTemplate>
+                                    <asp:CheckBox ID="Cknew" Visible="false" runat="server" />
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Center"  />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Edit" >
+                                <ItemTemplate>
+                                    <asp:CheckBox ID="CkEdit" Visible="false" runat="server"  />
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Center"  />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Delete" >
+                                <ItemTemplate>
+                                    <asp:CheckBox ID="CkDelete"  Visible="false" runat="server" />
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Center"  />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Print" >
+                                <ItemTemplate>
+                                    <asp:CheckBox ID="CkPrint" Visible="false" runat="server" />
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Center"  />
+                            </asp:TemplateField>
+                        </Columns>
+                        <EmptyDataTemplate>
+                            <table width="100%" class="fontcss">
+                                <tr>
+                                    <td align="center">
+                                        <asp:Label ID="Label1" runat="server"  Text="No data to display !" 
+                            Font-Size="Larger" ForeColor="maroon"> </asp:Label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </EmptyDataTemplate>
+                    </asp:GridView>
+                </asp:Panel>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" colspan="2" class="style4">
+                <asp:Button ID="BtnSave" runat="server" CssClass="redbox" Text=" Save " 
+                    onclick="BtnSave_Click" onclientclick="return confirmation();" />
+                &nbsp; <asp:Button ID="BtnCancel" runat="server" CssClass="redbox" 
+                    Text="Cancel" onclick="BtnCancel_Click" />
+            &nbsp;</td>
+        </tr>
+        <tr>
+            <td align="center" colspan="2" class="style4">
+                <asp:Label ID="lblmsg" runat="server" ForeColor="Red"></asp:Label>
+            </td>
+        </tr>
+    </table>
+    </td>
+
+</tr>
+</table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Admin/Access/AccessModule_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Admin_Access_AccessModule_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    SqlConnection con;
+
+    string sId = "";
+    int FinYearId = 0;
+    int CompId = 0;
+    string EmpId = "";
+    string ModId = "";
+    string connStr = "";
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            con.Open();
+
+            sId = Session["username"].ToString();
+            EmpId = Request.QueryString["EmpId"].ToString();
+            ModId = Request.QueryString["modid"].ToString();
+            CompId = Convert.ToInt32(Request.QueryString["CompId"]);
+            FinYearId = Convert.ToInt32(Request.QueryString["FYId"]);
+            lblmsg.Text = "";
+
+            if (!String.IsNullOrEmpty(Request.QueryString["msg"]))
+            {
+                lblmsg.Text = Request.QueryString["msg"].ToString();
+            }
+
+            if (!IsPostBack)
+            {
+                this.BindData();
+
+                foreach (GridViewRow grv in GridView2.Rows)
+                {
+                    string SubmoddId = ((Label)grv.FindControl("lblId")).Text;
+
+                    string sql2 = fun.select("*", "tblAccess_Master", "CompId='" + CompId + "'AND FinYearId='" + FinYearId + "' AND EmpId='" + EmpId + "' AND ModId='" + ModId + "' AND SubModId='" + SubmoddId + "'");
+
+                    SqlCommand cmd1 = new SqlCommand(sql2, con);
+                    SqlDataReader DS = cmd1.ExecuteReader();
+
+                    //SqlDataAdapter DA = new SqlDataAdapter(cmd1);
+                    //DataSet DS = new DataSet();
+                    //DA.Fill(DS);
+
+                    //if (DS.Tables[0].Rows.Count > 0)
+                    {
+                        while (DS.Read())
+                        {
+                            int ac = Convert.ToInt32(DS["Access"]);
+                            switch (ac)
+                            {
+                                case 1:
+                                    ((CheckBox)grv.FindControl("Cknew")).Checked = true;
+                                    break;
+                                case 2:
+                                    ((CheckBox)grv.FindControl("CkEdit")).Checked = true;
+                                    break;
+                                case 3:
+                                    ((CheckBox)grv.FindControl("CkDelete")).Checked = true;
+
+                                    break;
+                                case 4:
+                                    ((CheckBox)grv.FindControl("CkPrint")).Checked = true;
+
+                                    break;
+                            }
+                        }
+
+                    }
+
+                    string sqlSubMod = fun.select("*", "tblSubModLink_Master", "SubModId='" + SubmoddId + "'");
+                    SqlCommand cmdSubMod = new SqlCommand(sqlSubMod, con);
+                    SqlDataReader DSSubMod = cmdSubMod.ExecuteReader();
+
+                    //SqlDataAdapter DASubMod = new SqlDataAdapter(cmdSubMod);
+                    //DataSet DSSubMod = new DataSet();
+                    //DASubMod.Fill(DSSubMod);    
+
+                    //if (DSSubMod.Tables[0].Rows.Count > 0)
+                    {
+                        while (DSSubMod.Read())
+                        {
+                            int ac = Convert.ToInt32(DSSubMod["Access"]);
+                            switch (ac)
+                            {
+                                case 1:
+                                    ((CheckBox)grv.FindControl("Cknew")).Visible = true;
+                                    break;
+                                case 2:
+                                    ((CheckBox)grv.FindControl("CkEdit")).Visible = true;
+                                    break;
+                                case 3:
+                                    ((CheckBox)grv.FindControl("CkDelete")).Visible = true;
+
+                                    break;
+                                case 4:
+                                    ((CheckBox)grv.FindControl("CkPrint")).Visible = true;
+
+                                    break;
+                            }
+                        }
+                    }
+
+                }
+
+            }
+
+            lblCompName.Text = fun.getCompany(CompId);
+
+            string sqlFin = fun.select("FinYear", "tblFinancial_master", "FinYearId='" + FinYearId + "'");
+            SqlCommand cmdFinYr = new SqlCommand(sqlFin, con);
+            SqlDataReader DSFin = cmdFinYr.ExecuteReader();
+
+            //SqlDataAdapter daFin = new SqlDataAdapter(cmdFinYr);
+            //DataSet DSFin = new DataSet();
+            //daFin.Fill(DSFin);
+
+            while (DSFin.Read())
+            {
+                lblFinYear.Text = DSFin["FinYear"].ToString();
+            }
+
+            string sqlEmp = fun.select("EmployeeName", "tblHR_OfficeStaff", "EmpId='" + EmpId + "'");
+            SqlCommand cmdEmp = new SqlCommand(sqlEmp, con);
+            SqlDataReader DSEmp = cmdEmp.ExecuteReader();
+
+            //SqlDataAdapter daEmp = new SqlDataAdapter(cmdEmp);
+            //DataSet DSEmp = new DataSet();
+            //daEmp.Fill(DSEmp);
+
+            while (DSEmp.Read())
+            {
+                lblEmpName.Text = DSEmp["EmployeeName"].ToString();
+            }
+
+            string sqlModid = fun.select("ModName", "tblModule_Master", "ModId='" + ModId + "'");
+            SqlCommand cmdModid = new SqlCommand(sqlModid, con);
+            SqlDataReader DSModid = cmdModid.ExecuteReader();
+
+            //SqlDataAdapter daModid = new SqlDataAdapter(cmdModid);
+            //DataSet DSModid = new DataSet();
+            //daModid.Fill(DSModid);
+
+            while (DSModid.Read())
+            {
+                lblModuleName.Text = DSModid["ModName"].ToString();
+            }
+            con.Close();
+        }
+        catch (Exception ex) { }
+    }
+
+    public void BindData()
+    {
+        try
+        {
+            string Strsql = fun.select("SubModId,SubModName,MTR", "tblSubModule_Master", "ModId='" + ModId + "'Order By MTR Asc");
+
+            SqlCommand cmdsql = new SqlCommand(Strsql, con);
+            SqlDataReader DSsql = cmdsql.ExecuteReader();
+            //SqlDataAdapter dasql = new SqlDataAdapter(cmdsql);
+            //DataSet DSsql = new DataSet();
+            //dasql.Fill(DSsql);
+
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add(new System.Data.DataColumn("SubModId", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("SubModName", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("MTR", typeof(string)));
+
+            DataRow dr;
+
+
+            while (DSsql.Read())
+            {
+                dr = dt.NewRow();
+                dr[0] = DSsql["SubModId"].ToString();
+                dr[1] = DSsql["SubModName"].ToString();
+                int mtr = Convert.ToInt32(DSsql["MTR"]);
+
+                if (mtr == 1)
+                {
+                    dr[2] = "Master";
+                }
+
+                else if (mtr == 2)
+                {
+                    dr[2] = "Transaction";
+                }
+
+                else if (mtr == 3)
+                {
+                    dr[2] = "Report";
+                }
+
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }
+
+            GridView2.DataSource = dt;
+            GridView2.DataBind();
+        }
+         catch (Exception ex) { }
+         finally
+        {
+
+        }
+    }
+
+    protected void BtnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("AccessModule.aspx?A=1&CompId=" + CompId + "&FYId=" + FinYearId + "");
+    }
+
+    protected void BtnSave_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            con.Open();
+            foreach (GridViewRow grv in GridView2.Rows)
+            {
+                string CDate = fun.getCurrDate();
+                string CTime = fun.getCurrTime();
+                string SubmoddId = ((Label)grv.FindControl("lblId")).Text;
+
+                for (int j = 1; j <= 4; j++)
+                {
+
+
+                    int x = 0;
+
+                    switch (j)
+                    {
+                        case 1:
+                            if (((CheckBox)grv.FindControl("Cknew")).Checked == true)
+                            {
+                                x = 1;
+                            }
+                            break;
+                        case 2:
+                            if (((CheckBox)grv.FindControl("CkEdit")).Checked == true)
+                            {
+                                x = 2;
+                            }
+                            break;
+                        case 3:
+                            if (((CheckBox)grv.FindControl("CkDelete")).Checked == true)
+                            {
+                                x = 3;
+                            }
+                            break;
+                        case 4:
+                            if (((CheckBox)grv.FindControl("CkPrint")).Checked == true)
+                            {
+                                x = 4;
+                            }
+                            break;
+                    }
+                    string sql3 = "";
+                    string sql4 = "";
+
+                    string sql2 = fun.select("*", "tblAccess_Master", "CompId='" + CompId + "'AND FinYearId='" + FinYearId + "' AND EmpId='" + EmpId + "' AND ModId='" + ModId + "' AND SubModId='" + SubmoddId + "' AND AccessType='" + j + "'");
+                    SqlCommand cmd1 = new SqlCommand(sql2, con);
+
+                    SqlDataAdapter DA = new SqlDataAdapter(cmd1);
+                    DataSet DS = new DataSet();
+                    DA.Fill(DS);
+
+                    if (DS.Tables[0].Rows.Count == 0)
+                    {
+                        if (x > 0)
+                        {
+                            sql3 = fun.insert("tblAccess_Master", "SysDate,SysTime,SessionId,CompId,FinYearId,EmpId,ModId,SubModId,AccessType,Access", "'" + CDate + "','" + CTime + "','" + sId + "','" + CompId + "','" + FinYearId + "','" + EmpId + "','" + ModId + "','" + SubmoddId + "','" + j + "','" + x + "'");
+                            SqlCommand cmd = new SqlCommand(sql3, con);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                    }
+                    else
+                    {
+                        sql4 = fun.update("tblAccess_Master", "SysDate='" + CDate + "',SysTime='" + CTime + "',SessionId='" + sId + "',Access='" + x + "'", " CompId='" + CompId + "'  And  FinYearId='" + FinYearId + "' And  EmpId='" + EmpId + "' And  ModId='" + ModId + "' And   SubModId='" + SubmoddId + "'And AccessType='" + j + "'");
+
+                        SqlCommand cmd4 = new SqlCommand(sql4, con);
+                        cmd4.ExecuteNonQuery();
+                    }
+                }
+            }
+            string mystring = string.Empty;
+            mystring = "User access is assigned.";
+            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+            //Page.Response.Redirect(Page.Request.Url.ToString(),true);
+            //Response.Redirect("AccessModule_Details.aspx?EmpId=" + EmpId + "&modid=" + ModId + "&CompId=" + CompId + "&FYId=" + FinYearId + "&msg=User access is assigned.");
+        }
+        catch (Exception ex) { }
+        finally
+        {
+            con.Close();
+        }
+    }
+    
+
+}   
+

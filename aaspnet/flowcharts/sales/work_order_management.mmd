@@ -1,0 +1,235 @@
+graph TB
+    %% Work Order Management Module Architecture Diagram
+    
+    subgraph "Work Order Lifecycle"
+        A[Work Order Process Flow]
+        A1[WorkOrder_New<br/>Order creation]
+        A2[WorkOrder_Edit<br/>Modification]
+        A3[WorkOrder_Release<br/>Production release]
+        A4[WorkOrder_Dispatch<br/>Delivery processing]
+        A5[WorkOrder_Close<br/>Order completion]
+        A6[WorkOrder_Delete<br/>Order cancellation]
+    end
+    
+    subgraph "Order Creation"
+        B[WorkOrder_New.aspx]
+        B1[Customer Selection<br/>From quotation or direct]
+        B2[Order Header<br/>WO number, dates, terms]
+        B3[Product Details<br/>Items and specifications]
+        B4[Delivery Information<br/>Schedule and location]
+        B5[Special Instructions<br/>Custom requirements]
+    end
+    
+    subgraph "Order Management"
+        C[WorkOrder_Edit.aspx]
+        C1[Order Modification<br/>Update existing orders]
+        C2[Status Updates<br/>Progress tracking]
+        C3[Specification Changes<br/>Engineering modifications]
+        C4[Schedule Adjustments<br/>Delivery date changes]
+        C5[Cost Revisions<br/>Price modifications]
+    end
+    
+    subgraph "Production Release"
+        D[WorkOrder_Release.aspx]
+        D1[Production Planning<br/>Resource allocation]
+        D2[Material Requirements<br/>BOM and inventory]
+        D3[Capacity Planning<br/>Production scheduling]
+        D4[Quality Standards<br/>Specification compliance]
+        D5[Release Authorization<br/>Production go-ahead]
+    end
+    
+    subgraph "Dispatch Management"
+        E[WorkOrder_Dispatch.aspx]
+        E1[Completion Verification<br/>Quality check]
+        E2[Packaging Instructions<br/>Delivery preparation]
+        E3[Transportation Planning<br/>Logistics coordination]
+        E4[Documentation<br/>Delivery papers]
+        E5[Dispatch Authorization<br/>Shipment approval]
+    end
+    
+    subgraph "Specialized Dispatch"
+        F[Dispatch_Gunrail.aspx]
+        F1[Gunrail Specific Process<br/>Specialized product handling]
+        F2[Special Packaging<br/>Custom packaging requirements]
+        F3[Transportation Mode<br/>Specific delivery method]
+        F4[Safety Protocols<br/>Handling procedures]
+        F5[Tracking System<br/>Delivery monitoring]
+    end
+    
+    subgraph "Database Structure"
+        G[Core Tables]
+        G1[SD_Cust_WorkOrder_Master<br/>Work order headers]
+        G2[SD_Cust_WorkOrder_Details<br/>Order line items]
+        G3[SD_Cust_WorkOrder_Release<br/>Release information]
+        G4[SD_Cust_WorkOrder_Dispatch<br/>Dispatch details]
+        G5[tblSD_WO_Category<br/>Work order categories]
+        G6[tblSD_WO_SubCategory<br/>Sub-categories]
+    end
+    
+    subgraph "Status Management"
+        H[Order Status Tracking]
+        H1[Created Status<br/>Initial order entry]
+        H2[Released Status<br/>Production authorized]
+        H3[In Production<br/>Manufacturing in progress]
+        H4[Ready for Dispatch<br/>Completed products]
+        H5[Dispatched Status<br/>Shipped to customer]
+        H6[Delivered Status<br/>Customer received]
+        H7[Closed Status<br/>Order completed]
+    end
+    
+    subgraph "Category Management"
+        I[Work Order Classification]
+        I1[WO_Category_Dashboard<br/>Category overview]
+        I2[WO_SubCategory_Dashboard<br/>Sub-category management]
+        I3[WOTypes.aspx<br/>Order type definitions]
+        I4[Category Hierarchy<br/>Classification structure]
+        I5[Type-Specific Workflows<br/>Customized processes]
+    end
+    
+    subgraph "Release & Dispatch Authority"
+        J[Authorization Management]
+        J1[WO_Release_DA.aspx<br/>Release authority setup]
+        J2[Authority Hierarchy<br/>Approval levels]
+        J3[Role-Based Permissions<br/>Access control]
+        J4[Delegation Rules<br/>Authority transfer]
+        J5[Audit Trail<br/>Authorization tracking]
+    end
+    
+    subgraph "Dashboard Integration"
+        K[Management Dashboards]
+        K1[WORelease_Dashboard<br/>Release status overview]
+        K2[WorkOrder_Dispatch_Dashboard<br/>Dispatch tracking]
+        K3[Dispatch_Gunrail_Dashboard<br/>Specialized dispatch]
+        K4[Performance Metrics<br/>KPI monitoring]
+        K5[Resource Utilization<br/>Capacity tracking]
+    end
+    
+    subgraph "Integration Points"
+        L[System Integration]
+        L1[Customer Quotation<br/>Order source]
+        L2[Customer PO<br/>Purchase order link]
+        L3[Production Planning<br/>Manufacturing system]
+        L4[Inventory Management<br/>Material tracking]
+        L5[Financial System<br/>Billing and costing]
+        L6[Quality Management<br/>QC integration]
+    end
+    
+    %% Workflow Relationships
+    A1 --> A2
+    A2 --> A3
+    A3 --> A4
+    A4 --> A5
+    A1 --> A6
+    A2 --> A6
+    
+    %% Stage Relationships
+    A1 --> B
+    A2 --> C
+    A3 --> D
+    A4 --> E
+    A4 --> F
+    
+    B --> B1
+    B --> B2
+    B --> B3
+    B --> B4
+    B --> B5
+    
+    C --> C1
+    C --> C2
+    C --> C3
+    C --> C4
+    C --> C5
+    
+    D --> D1
+    D --> D2
+    D --> D3
+    D --> D4
+    D --> D5
+    
+    E --> E1
+    E --> E2
+    E --> E3
+    E --> E4
+    E --> E5
+    
+    F --> F1
+    F --> F2
+    F --> F3
+    F --> F4
+    F --> F5
+    
+    %% Database Relationships
+    B --> G1
+    B3 --> G2
+    D --> G3
+    E --> G4
+    F --> G4
+    I --> G5
+    I --> G6
+    
+    %% Status Flow
+    B --> H1
+    D --> H2
+    D5 --> H3
+    E1 --> H4
+    E5 --> H5
+    F5 --> H6
+    A5 --> H7
+    
+    %% Category Management
+    I1 --> I4
+    I2 --> I4
+    I3 --> I5
+    I4 --> G5
+    I4 --> G6
+    
+    %% Authorization Flow
+    J1 --> J2
+    J2 --> J3
+    J3 --> J4
+    J4 --> J5
+    J --> D5
+    J --> E5
+    
+    %% Dashboard Integration
+    K1 --> D
+    K2 --> E
+    K3 --> F
+    K4 --> H
+    K5 --> D1
+    
+    %% System Integration
+    L1 --> B1
+    L2 --> B1
+    L3 --> D1
+    L4 --> D2
+    L5 --> G1
+    L6 --> E1
+    
+    %% Styling
+    classDef workflowClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef creationClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef managementClass fill:#e8eaf6,stroke:#3f51b5,stroke-width:2px
+    classDef releaseClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef dispatchClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef specialClass fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef dbClass fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    classDef statusClass fill:#e0f2f1,stroke:#004d40,stroke-width:2px
+    classDef categoryClass fill:#f9fbe7,stroke:#827717,stroke-width:2px
+    classDef authClass fill:#fff8e1,stroke:#ff6f00,stroke-width:2px
+    classDef dashboardClass fill:#fafafa,stroke:#424242,stroke-width:2px
+    classDef integrationClass fill:#e3f2fd,stroke:#0d47a1,stroke-width:2px
+    
+    class A,A1,A2,A3,A4,A5,A6 workflowClass
+    class B,B1,B2,B3,B4,B5 creationClass
+    class C,C1,C2,C3,C4,C5 managementClass
+    class D,D1,D2,D3,D4,D5 releaseClass
+    class E,E1,E2,E3,E4,E5 dispatchClass
+    class F,F1,F2,F3,F4,F5 specialClass
+    class G,G1,G2,G3,G4,G5,G6 dbClass
+    class H,H1,H2,H3,H4,H5,H6,H7 statusClass
+    class I,I1,I2,I3,I4,I5 categoryClass
+    class J,J1,J2,J3,J4,J5 authClass
+    class K,K1,K2,K3,K4,K5 dashboardClass
+    class L,L1,L2,L3,L4,L5,L6 integrationClass

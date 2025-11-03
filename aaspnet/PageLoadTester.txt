@@ -1,0 +1,662 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/PageLoadTester.aspx.txt ===
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="PageLoadTester.aspx.cs" Inherits="PageLoadTester" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Page Load Performance Test</title>
+    <link href="Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .grid { width: 98%; margin: 10px auto; border-collapse: collapse; }
+        .grid th { background-color: #336699; color: white; font-weight: bold; padding: 8px; }
+        .grid td { padding: 6px; border: 1px solid #ddd; }
+        .grid tr:nth-child(even) { background-color: #f2f2f2; }
+        .results { margin: 10px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9; }
+        .time { font-weight: bold; color: #cc0000; }
+        .section { margin: 20px 0; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div align="center">
+        <h2>Page Load Performance Test</h2>
+        
+        <div class="section">
+            <h3>Test Specific Page Loading Time</h3>
+            <p>Enter a URL path (e.g., Module/MaterialManagement/Transactions/PR_New.aspx) to analyze the loading time:</p>
+            
+            <table>
+                <tr>
+                    <td>URL Path:</td>
+                    <td><asp:TextBox ID="txtUrl" runat="server" Width="450px" Text="Module/MaterialManagement/Transactions/PR_New.aspx?ModId=6&SubModId=34"></asp:TextBox></td>
+                </tr>
+                <tr>
+                    <td>Query Parameters:</td>
+                    <td><asp:TextBox ID="txtParams" runat="server" Width="450px"></asp:TextBox></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <asp:Button ID="btnTest" runat="server" Text="Run Performance Test" 
+                            onclick="btnTest_Click" CssClass="redbox" />
+                    </td>
+                </tr>
+            </table>
+            
+            <div class="results" runat="server" id="divResults" visible="false">
+                <h3>Performance Results</h3>
+                <p>
+                    Page: <b><asp:Label ID="lblPage" runat="server"></asp:Label></b><br />
+                    Total Load Time: <span class="time"><asp:Label ID="lblTotalTime" runat="server"></asp:Label></span>
+                </p>
+                
+                <asp:GridView ID="GridSteps" runat="server" CssClass="grid" 
+                    AutoGenerateColumns="False" EmptyDataText="No performance data available.">
+                    <Columns>
+                        <asp:BoundField DataField="Step" HeaderText="Operation" />
+                        <asp:BoundField DataField="Time" HeaderText="Time (ms)" />
+                        <asp:BoundField DataField="Percentage" HeaderText="% of Total" />
+                        <asp:BoundField DataField="Notes" HeaderText="Notes" />
+                    </Columns>
+                </asp:GridView>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3>Database Performance</h3>
+            <p>Run specific tests on the database to identify bottlenecks:</p>
+            
+            <asp:Button ID="btnTestDB" runat="server" Text="Test Database Connection Speed" 
+                onclick="btnTestDB_Click" CssClass="redbox" />
+            <asp:Button ID="btnTestQueries" runat="server" Text="Test Key Queries" 
+                onclick="btnTestQueries_Click" CssClass="redbox" />
+            
+            <div class="results" runat="server" id="divDBResults" visible="false">
+                <h3>Database Performance Results</h3>
+                <asp:GridView ID="GridDBResults" runat="server" CssClass="grid" 
+                    AutoGenerateColumns="False" EmptyDataText="No database test results available.">
+                    <Columns>
+                        <asp:BoundField DataField="Test" HeaderText="Test" />
+                        <asp:BoundField DataField="Time" HeaderText="Time (ms)" />
+                        <asp:BoundField DataField="Result" HeaderText="Result" />
+                    </Columns>
+                </asp:GridView>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3>Quick Fixes</h3>
+            <p>Apply these solutions to improve performance immediately:</p>
+            
+            <asp:Button ID="btnClearPool" runat="server" Text="Clear Connection Pool" 
+                onclick="btnClearPool_Click" CssClass="redbox" />
+            <asp:Button ID="btnOptimizeDB" runat="server" Text="Apply Database Optimizations" 
+                onclick="btnOptimizeDB_Click" CssClass="redbox" />
+            <asp:Button ID="btnRestartApp" runat="server" Text="Restart Application Pool" 
+                onclick="btnRestartApp_Click" CssClass="redbox" Visible="false" />
+            
+            <br /><br />
+            <asp:Label ID="lblStatus" runat="server" Text=""></asp:Label>
+        </div>
+    </div>
+    </form>
+</body>
+</html> 
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/PageLoadTester.aspx.cs ===
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Threading;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Text;
+
+public partial class PageLoadTester : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        
+    }
+    
+    protected void btnTest_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            divResults.Visible = true;
+            
+            // Get URL to test
+            string url = txtUrl.Text.Trim();
+            string parameters = txtParams.Text.Trim();
+            
+            if (!string.IsNullOrEmpty(parameters) && !url.Contains("?"))
+            {
+                url += "?" + parameters;
+            }
+            else if (!string.IsNullOrEmpty(parameters) && url.Contains("?"))
+            {
+                url += "&" + parameters;
+            }
+            
+            lblPage.Text = url;
+            
+            // Prepare results table
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Step", typeof(string));
+            dt.Columns.Add("Time", typeof(long));
+            dt.Columns.Add("Percentage", typeof(string));
+            dt.Columns.Add("Notes", typeof(string));
+            
+            // Run the test
+            Dictionary<string, long> results = TestPageLoad(url);
+            
+            // Calculate total time
+            long totalTime = results.Values.Sum();
+            lblTotalTime.Text = totalTime.ToString() + " ms";
+            
+            // Add results to the table
+            foreach (KeyValuePair<string, long> result in results)
+            {
+                double percentage = ((double)result.Value / totalTime) * 100;
+                string notes = GetPerformanceNotes(result.Key, result.Value);
+                
+                DataRow row = dt.NewRow();
+                row["Step"] = result.Key;
+                row["Time"] = result.Value;
+                row["Percentage"] = string.Format("{0:0.00}%", percentage);
+                row["Notes"] = notes;
+                dt.Rows.Add(row);
+            }
+            
+            // Sort by time descending
+            DataView dv = dt.DefaultView;
+            dv.Sort = "Time DESC";
+            GridSteps.DataSource = dv;
+            GridSteps.DataBind();
+        }
+        catch (Exception ex)
+        {
+            lblStatus.Text = "Error running performance test: " + ex.Message;
+            lblStatus.ForeColor = System.Drawing.Color.Red;
+        }
+    }
+    
+    protected void btnTestDB_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            divDBResults.Visible = true;
+            
+            // Prepare results table
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Test", typeof(string));
+            dt.Columns.Add("Time", typeof(long));
+            dt.Columns.Add("Result", typeof(string));
+            
+            // Test connection opening time
+            long connectionTime = TestDatabaseConnection();
+            DataRow row1 = dt.NewRow();
+            row1["Test"] = "Open Database Connection";
+            row1["Time"] = connectionTime;
+            row1["Result"] = GetResultStatus(connectionTime, 50, 200);
+            dt.Rows.Add(row1);
+            
+            // Test a simple query
+            long simpleQueryTime = TestSimpleQuery();
+            DataRow row2 = dt.NewRow();
+            row2["Test"] = "Execute Simple Query";
+            row2["Time"] = simpleQueryTime;
+            row2["Result"] = GetResultStatus(simpleQueryTime, 100, 500);
+            dt.Rows.Add(row2);
+            
+            // Test connection pool
+            long poolTime = TestConnectionPool();
+            DataRow row3 = dt.NewRow();
+            row3["Test"] = "Connection Pool (10 connections)";
+            row3["Time"] = poolTime;
+            row3["Result"] = GetResultStatus(poolTime, 500, 2000);
+            dt.Rows.Add(row3);
+            
+            GridDBResults.DataSource = dt;
+            GridDBResults.DataBind();
+        }
+        catch (Exception ex)
+        {
+            lblStatus.Text = "Error testing database: " + ex.Message;
+            lblStatus.ForeColor = System.Drawing.Color.Red;
+        }
+    }
+    
+    protected void btnTestQueries_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            divDBResults.Visible = true;
+            
+            // Prepare results table
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Test", typeof(string));
+            dt.Columns.Add("Time", typeof(long));
+            dt.Columns.Add("Result", typeof(string));
+            
+            // Test PR page's main query
+            long prQuery = TestPRQuery();
+            DataRow row1 = dt.NewRow();
+            row1["Test"] = "PR Page Main Query";
+            row1["Time"] = prQuery;
+            row1["Result"] = GetResultStatus(prQuery, 200, 1000);
+            dt.Rows.Add(row1);
+            
+            // Test WorkOrder query
+            long woQuery = TestWorkOrderQuery();
+            DataRow row2 = dt.NewRow();
+            row2["Test"] = "WorkOrder Query";
+            row2["Time"] = woQuery;
+            row2["Result"] = GetResultStatus(woQuery, 200, 1000);
+            dt.Rows.Add(row2);
+            
+            GridDBResults.DataSource = dt;
+            GridDBResults.DataBind();
+        }
+        catch (Exception ex)
+        {
+            lblStatus.Text = "Error testing queries: " + ex.Message;
+            lblStatus.ForeColor = System.Drawing.Color.Red;
+        }
+    }
+    
+    protected void btnClearPool_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            // Clear connection pool
+            SqlConnection.ClearAllPools();
+            
+            // Test a new connection
+            string connStr = fun.Connection();
+            using (SqlConnection con = new SqlConnection(connStr))
+            {
+                con.Open();
+                con.Close();
+            }
+            
+            lblStatus.Text = "Connection pool has been successfully cleared. " + 
+                            "All connections have been reset. " + 
+                            DateTime.Now.ToString();
+            lblStatus.ForeColor = System.Drawing.Color.Green;
+        }
+        catch (Exception ex)
+        {
+            lblStatus.Text = "Error clearing connection pool: " + ex.Message;
+            lblStatus.ForeColor = System.Drawing.Color.Red;
+        }
+    }
+    
+    protected void btnOptimizeDB_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            string connStr = fun.Connection();
+            using (SqlConnection con = new SqlConnection(connStr))
+            {
+                con.Open();
+                
+                // Add optimization queries here
+                string[] optimizationQueries = new string[] 
+                {
+                    // Update statistics for key tables
+                    "UPDATE STATISTICS SD_Cust_WorkOrder_Master WITH FULLSCAN",
+                    "UPDATE STATISTICS tblSD_WO_Category WITH FULLSCAN",
+                    
+                    // Optimize key indexes
+                    "IF EXISTS (SELECT * FROM sys.indexes WHERE name='IX_SD_WO_CloseOpen' AND object_id = OBJECT_ID('SD_Cust_WorkOrder_Master'))" +
+                    "    DROP INDEX IX_SD_WO_CloseOpen ON SD_Cust_WorkOrder_Master",
+                    
+                    "IF NOT EXISTS (SELECT * FROM sys.indexes WHERE name='IX_SD_WO_CloseOpen' AND object_id = OBJECT_ID('SD_Cust_WorkOrder_Master'))" +
+                    "    CREATE INDEX IX_SD_WO_CloseOpen ON SD_Cust_WorkOrder_Master (CompId, CloseOpen, WONo)",
+                    
+                    "IF NOT EXISTS (SELECT * FROM sys.indexes WHERE name='IX_tblSD_WO_Category_CompId' AND object_id = OBJECT_ID('tblSD_WO_Category'))" +
+                    "    CREATE INDEX IX_tblSD_WO_Category_CompId ON tblSD_WO_Category (CompId)"
+                };
+                
+                int successCount = 0;
+                StringBuilder results = new StringBuilder();
+                
+                foreach (string query in optimizationQueries)
+                {
+                    try
+                    {
+                        using (SqlCommand cmd = new SqlCommand(query, con))
+                        {
+                            cmd.CommandTimeout = 120; // 2 minutes timeout
+                            cmd.ExecuteNonQuery();
+                            successCount++;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        results.AppendLine("<br/>Error executing: " + query);
+                        results.AppendLine("<br/>Error: " + ex.Message);
+                    }
+                }
+                
+                lblStatus.Text = string.Format("Database optimization completed. {0} of {1} optimizations applied successfully.", 
+                    successCount, optimizationQueries.Length);
+                
+                if (results.Length > 0)
+                {
+                    lblStatus.Text += "<br/>" + results.ToString();
+                }
+                
+                lblStatus.ForeColor = System.Drawing.Color.Green;
+            }
+        }
+        catch (Exception ex)
+        {
+            lblStatus.Text = "Error optimizing database: " + ex.Message;
+            lblStatus.ForeColor = System.Drawing.Color.Red;
+        }
+    }
+    
+    protected void btnRestartApp_Click(object sender, EventArgs e)
+    {
+        // This would need server admin permissions to execute
+        lblStatus.Text = "Application Pool restart requires server admin permissions and cannot be executed from the web application.";
+        lblStatus.ForeColor = System.Drawing.Color.Red;
+    }
+    
+    #region Helper Methods
+    
+    private Dictionary<string, long> TestPageLoad(string url)
+    {
+        Dictionary<string, long> results = new Dictionary<string, long>();
+        Stopwatch totalSw = new Stopwatch();
+        Stopwatch stepSw = new Stopwatch();
+        
+        // Construct the full URL
+        string fullUrl = "http://localhost/NewERP/" + url.TrimStart('/');
+        
+        totalSw.Start();
+        
+        try
+        {
+            // Initialize request
+            stepSw.Start();
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(fullUrl);
+            request.Method = "GET";
+            request.Timeout = 300000; // 5 minutes
+            request.CookieContainer = new CookieContainer();
+            
+            // Add authentication cookie if needed
+            if (Request.Cookies[FormsAuthentication.FormsCookieName] != null)
+            {
+                Cookie authCookie = new Cookie(
+                    FormsAuthentication.FormsCookieName,
+                    Request.Cookies[FormsAuthentication.FormsCookieName].Value,
+                    "/", "localhost");
+                request.CookieContainer.Add(authCookie);
+            }
+            
+            // Add ASP.NET session cookie if needed
+            if (Request.Cookies["ASP.NET_SessionId"] != null)
+            {
+                Cookie sessionCookie = new Cookie(
+                    "ASP.NET_SessionId",
+                    Request.Cookies["ASP.NET_SessionId"].Value,
+                    "/", "localhost");
+                request.CookieContainer.Add(sessionCookie);
+            }
+            
+            long initTime = stepSw.ElapsedMilliseconds;
+            results.Add("Initialize Request", initTime);
+            stepSw.Reset();
+            
+            // Send request and get response
+            stepSw.Start();
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            {
+                long responseTime = stepSw.ElapsedMilliseconds;
+                results.Add("Server Response Time", responseTime);
+                stepSw.Reset();
+                
+                // Read response
+                stepSw.Start();
+                using (Stream responseStream = response.GetResponseStream())
+                using (StreamReader reader = new StreamReader(responseStream))
+                {
+                    string responseText = reader.ReadToEnd();
+                    long readTime = stepSw.ElapsedMilliseconds;
+                    results.Add("Read Response", readTime);
+                    
+                    // Additional info about the response
+                    results.Add("Response Size (bytes)", responseText.Length);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            results.Add("Error", -1);
+            results.Add("Error Message", 0);
+            lblStatus.Text = "Error testing page: " + ex.Message;
+            lblStatus.ForeColor = System.Drawing.Color.Red;
+        }
+        finally
+        {
+            totalSw.Stop();
+            
+            // Add the total time
+            long overhead = totalSw.ElapsedMilliseconds - results.Values.Sum();
+            if (overhead > 0)
+            {
+                results.Add("Overhead/Processing", overhead);
+            }
+        }
+        
+        return results;
+    }
+    
+    private long TestDatabaseConnection()
+    {
+        Stopwatch sw = new Stopwatch();
+        string connStr = fun.Connection();
+        
+        sw.Start();
+        using (SqlConnection con = new SqlConnection(connStr))
+        {
+            con.Open();
+            Thread.Sleep(10); // Small delay to simulate a real operation
+            con.Close();
+        }
+        sw.Stop();
+        
+        return sw.ElapsedMilliseconds;
+    }
+    
+    private long TestSimpleQuery()
+    {
+        Stopwatch sw = new Stopwatch();
+        string connStr = fun.Connection();
+        
+        sw.Start();
+        using (SqlConnection con = new SqlConnection(connStr))
+        {
+            con.Open();
+            
+            using (SqlCommand cmd = new SqlCommand("SELECT TOP 10 * FROM tblCompany_master", con))
+            {
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        // Just iterate through the results
+                    }
+                }
+            }
+            
+            con.Close();
+        }
+        sw.Stop();
+        
+        return sw.ElapsedMilliseconds;
+    }
+    
+    private long TestConnectionPool()
+    {
+        Stopwatch sw = new Stopwatch();
+        string connStr = fun.Connection();
+        const int connectionCount = 10;
+        
+        sw.Start();
+        
+        for (int i = 0; i < connectionCount; i++)
+        {
+            using (SqlConnection con = new SqlConnection(connStr))
+            {
+                con.Open();
+                
+                using (SqlCommand cmd = new SqlCommand("SELECT 1", con))
+                {
+                    cmd.ExecuteScalar();
+                }
+                
+                con.Close();
+            }
+        }
+        
+        sw.Stop();
+        
+        return sw.ElapsedMilliseconds;
+    }
+    
+    private long TestPRQuery()
+    {
+        Stopwatch sw = new Stopwatch();
+        string connStr = fun.Connection();
+        
+        sw.Start();
+        using (SqlConnection con = new SqlConnection(connStr))
+        {
+            con.Open();
+            
+            int compId = 1; // Default value, adjust as needed
+            if (Session["compid"] != null)
+            {
+                compId = Convert.ToInt32(Session["compid"]);
+            }
+            
+            // This is the query from PR_New.aspx.cs, but using parameters
+            string query = @"
+                SELECT TOP 100 WONo, TaskProjectTitle, ReleaseWIS, DryActualRun 
+                FROM SD_Cust_WorkOrder_Master 
+                WHERE CompId = @CompId AND CloseOpen = '0'
+                ORDER BY WONo";
+                
+            using (SqlCommand cmd = new SqlCommand(query, con))
+            {
+                cmd.Parameters.AddWithValue("@CompId", compId);
+                
+                using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                {
+                    DataSet ds = new DataSet();
+                    da.Fill(ds);
+                }
+            }
+            
+            con.Close();
+        }
+        sw.Stop();
+        
+        return sw.ElapsedMilliseconds;
+    }
+    
+    private long TestWorkOrderQuery()
+    {
+        Stopwatch sw = new Stopwatch();
+        string connStr = fun.Connection();
+        
+        sw.Start();
+        using (SqlConnection con = new SqlConnection(connStr))
+        {
+            con.Open();
+            
+            int compId = 1; // Default value, adjust as needed
+            if (Session["compid"] != null)
+            {
+                compId = Convert.ToInt32(Session["compid"]);
+            }
+            
+            // Test a typical WorkOrder query
+            string query = @"
+                SELECT COUNT(*) 
+                FROM SD_Cust_WorkOrder_Master 
+                WHERE CompId = @CompId";
+                
+            using (SqlCommand cmd = new SqlCommand(query, con))
+            {
+                cmd.Parameters.AddWithValue("@CompId", compId);
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+            }
+            
+            con.Close();
+        }
+        sw.Stop();
+        
+        return sw.ElapsedMilliseconds;
+    }
+    
+    private string GetPerformanceNotes(string step, long timeMs)
+    {
+        switch (step)
+        {
+            case "Server Response Time":
+                if (timeMs > 5000) return "CRITICAL: Extremely slow server response time";
+                if (timeMs > 2000) return "WARNING: Slow server response time";
+                if (timeMs > 1000) return "Moderate server response time";
+                return "Good response time";
+                
+            case "Read Response":
+                if (timeMs > 1000) return "Large response size or slow client processing";
+                return "Normal response processing time";
+                
+            case "Response Size (bytes)":
+                if (timeMs > 500000) return "Very large page size, consider optimizing";
+                if (timeMs > 200000) return "Large page size";
+                return "Normal page size";
+                
+            case "Overhead/Processing":
+                if (timeMs > 1000) return "High processing overhead";
+                return "Normal processing overhead";
+                
+            default:
+                return "";
+        }
+    }
+    
+    private string GetResultStatus(long time, long goodThreshold, long warningThreshold)
+    {
+        if (time <= goodThreshold)
+            return "Good";
+        else if (time <= warningThreshold)
+            return "Warning";
+        else
+            return "Critical";
+    }
+    
+    #endregion
+} 

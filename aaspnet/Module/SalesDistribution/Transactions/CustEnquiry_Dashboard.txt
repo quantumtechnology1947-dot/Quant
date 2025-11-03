@@ -1,0 +1,71 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Transactions/CustEnquiry_Dashboard.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="CustEnquiry_Dashboard.aspx.cs" Inherits="Module_SalesDistribution_Transactions_CustEnquiry_Dashboard" Title="ERP" Theme="Default" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+<iframe width="99%" height="380" frameborder="0" src="CustEnquiry_Convert.aspx"></iframe>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/SalesDistribution/Transactions/CustEnquiry_Dashboard.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_SalesDistribution_Transactions_CustEnquiry_Dashboard : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+
+        try
+        {
+            con.Open();
+            int CompId = Convert.ToInt32(Session["compid"]);
+            string SId = Session["username"].ToString();
+            int FinYear = Convert.ToInt32(Session["finyear"]);
+
+            string DSBN = fun.delete("tblFile_Attachment", "CompId ='" + CompId + "' AND FinYearId ='" + FinYear + "' AND SessionId = '" + SId + "'");
+            SqlCommand commandde = new SqlCommand(DSBN, con);
+            commandde.ExecuteNonQuery();
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();  
+        }
+    }
+}

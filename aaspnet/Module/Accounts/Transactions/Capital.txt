@@ -1,0 +1,676 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/Capital.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Capital.aspx.cs" Inherits="Module_Accounts_Transactions_Capital" Title="ERP"  Theme ="Default"%>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+<table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)">
+        &nbsp;<b>Capital</b></td>
+        </tr>
+        <tr>
+        <td>
+
+        <table align="left" cellpadding="0" 
+            cellspacing="0" width="100%" style="height: 162px">
+            <tr>
+                <td 
+                    height="10" colspan="2" valign="middle" ><b>&nbsp;&nbsp;&nbsp; </b>
+                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                    </td>
+                <td 
+                    height="10" colspan="2" valign="middle" >&nbsp;&nbsp;&nbsp;&nbsp;
+                </td></tr>
+             
+             <tr>
+                <td class="fontcss" valign="top" width="49%"  align ="center">
+                    <asp:Panel ID="Panel1" Height="449px" ScrollBars="Auto" runat="server"> 
+                    
+                                       
+                <asp:GridView ID="GridView2" runat="server" 
+                    AutoGenerateColumns="False" CssClass="yui-datatable-theme" 
+                    OnPageIndexChanging="GridView2_PageIndexChanging" 
+                Width="98%" AllowPaging="True" PageSize="24" onrowcommand="GridView2_RowCommand" 
+                            ShowFooter="True">
+                
+                    <PagerSettings PageButtonCount="40" />
+                
+                <Columns>
+                                    
+                    <asp:TemplateField HeaderText="SN">
+                    <ItemTemplate><%#Container.DataItemIndex+1  %>
+                    </ItemTemplate>
+                       <ItemStyle HorizontalAlign="Center" VerticalAlign="Top" Width="10%" />                  
+                    </asp:TemplateField>               
+   
+                
+                <asp:TemplateField ShowHeader="False"  >
+               
+
+
+                     <ItemTemplate>
+                     <asp:LinkButton ID="LinkBtnDel"  runat="server" CausesValidation="False" OnClientClick="return confirmationDelete();"
+                     CommandName="Del" Text="Delete">
+                    </asp:LinkButton>
+                    </ItemTemplate>  
+
+                    
+                    <ItemStyle HorizontalAlign="Right" VerticalAlign="Top" Width="7%" />
+
+                    
+                      <FooterTemplate >
+                    <asp:Button ID="btnInsert" runat="server" CommandName="Add" ValidationGroup ="Insert"
+                    OnClientClick=" return confirmationAdd() " CssClass="redbox" Text="Insert" />
+                    </FooterTemplate>
+                        
+                         <FooterStyle HorizontalAlign="Center" />
+                     </asp:TemplateField>          
+                         
+                    <asp:TemplateField HeaderText="Id" Visible="False"><ItemTemplate>
+                    
+                    <asp:Label ID="lblId" runat="server" Text='<%# Bind("Id") %>'></asp:Label></ItemTemplate>
+                        <ItemStyle VerticalAlign="Top" Width="5%" />
+                     </asp:TemplateField>
+                     
+                     <asp:TemplateField HeaderText="Particulars" >
+                    <ItemTemplate>
+                    
+                     <asp:LinkButton ID="LinkBtnPerticulars"  runat="server" CausesValidation="False"
+                      CommandName="HpPerticulars" Text='<%# Bind("Perticulars") %>'>
+                    </asp:LinkButton>
+                    
+                    </ItemTemplate>
+                    
+                  <FooterTemplate >
+                   
+                <asp:TextBox CssClass="box3" Width="95%" ID="TextPerticulars2" runat="server" >
+                </asp:TextBox>
+                <asp:RequiredFieldValidator ID="ReqTextPerticulars2" runat="server" 
+                ControlToValidate="TextPerticulars2" 
+                ValidationGroup="Insert" ErrorMessage="*"></asp:RequiredFieldValidator> 
+                
+                </FooterTemplate>
+                        
+                         <FooterStyle HorizontalAlign="Left" />
+                        
+                    <ItemStyle HorizontalAlign="Left" Width="80%" />
+                    </asp:TemplateField>
+                    
+                        </Columns>
+                        
+                        
+            <EmptyDataTemplate>
+             
+             <table  width="100%" border="1" style="border-color:Gray">
+                    <tr>
+                        <td align="center" style="width:70px" >
+                     <asp:Label ID="LabelSN" Font-Bold="true" Font-Size="Medium"
+                      Font-Names="Times New Roman" 
+                        runat="server" Text="SN"></asp:Label>
+                        </td>
+                        
+                    <td align="center" >
+                        <asp:Label ID="LabelPerticulars" Font-Bold="true" Font-Size="Medium"
+                         Font-Names="Times New Roman" 
+                        runat="server" Text="Particulars"></asp:Label>
+                        </td>
+        
+                    </tr>
+                    <tr>
+                    <td align="center">
+                <asp:Button ID="btnInsert" runat="server" CommandName="Add1"
+                 OnClientClick=" return confirmationAdd() " ValidationGroup="empt"
+                 CssClass="redbox" Text="Insert" />
+                </td>
+                
+                 <td align="Left">                         
+
+                <asp:TextBox CssClass="box3" Width="95%" ID="TextPerticulars1" runat="server" >
+                </asp:TextBox>
+                <asp:RequiredFieldValidator ID="ReqTextPerticulars1" runat="server" 
+                ControlToValidate="TextPerticulars1" 
+                ValidationGroup="empt" ErrorMessage="*"></asp:RequiredFieldValidator>                      
+                                 
+                </td>
+    
+          
+                </tr>
+                </table>
+                
+            </EmptyDataTemplate> 
+                        
+                        <FooterStyle Font-Bold="False" HorizontalAlign="Center" />
+                        <HeaderStyle Font-Size="9pt" />
+                        </asp:GridView>
+                       <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+                        ConnectionString="<%$ connectionStrings:LocalSqlServer %>" 
+                        ProviderName="System.Data.SqlClient" 
+                        SelectCommand="Select Id, Particulars from tblACC_Capital_Master">
+                        </asp:SqlDataSource>
+                        
+                 </asp:Panel></td>
+                <td class="fontcss" valign="top" width="20" colspan="2">
+                    &nbsp; </td>
+                <td class="fontcss" valign="top" width="49%">
+                       
+                    <asp:Panel ID="Panel2" Height="434px" ScrollBars="Auto" runat="server">                  
+                        <asp:Panel ID="Panel3" runat="server" BorderStyle="Solid" CssClass="box3" 
+                            Height="20px" HorizontalAlign="Center" Visible="False">
+                            <asp:Label ID="Label2" runat="server" Font-Bold="True" ForeColor="Red" 
+                                Text="No data found   !"></asp:Label>
+                        </asp:Panel>
+                              
+                              <asp:GridView ID="GridView3" runat="server" 
+                    AutoGenerateColumns="False" CssClass="yui-datatable-theme" 
+                    OnPageIndexChanging="GridView3_PageIndexChanging" 
+                Width="98%" AllowPaging="True" PageSize="22" onrowcommand="GridView3_RowCommand" 
+                            ShowFooter="True">
+                
+                    <PagerSettings PageButtonCount="40" />
+                
+                <Columns>
+                                    
+                    <asp:TemplateField HeaderText="SN">
+                    <ItemTemplate><%#Container.DataItemIndex+1  %>
+                    </ItemTemplate>
+                       <ItemStyle HorizontalAlign="Center" VerticalAlign="Top" Width="10%" />                  
+                    </asp:TemplateField> 
+                    
+                    <asp:TemplateField ShowHeader="False"  >
+              
+                     <ItemTemplate>
+                     <asp:LinkButton ID="LinkBtnDelp"  runat="server" CausesValidation="False" OnClientClick="return confirmationDelete();"
+                      CommandName="Delp" Text="Delete">
+                    </asp:LinkButton>
+                    </ItemTemplate>  
+
+                    
+                    <ItemStyle HorizontalAlign="Right" VerticalAlign="Top" Width="7%" />
+
+                    
+                      <FooterTemplate >
+                    <asp:Button ID="btnInsertp" runat="server" CommandName="Addp" ValidationGroup ="Insertp"
+                    OnClientClick=" return confirmationAdd() " CssClass="redbox" Text="Insert" />
+                    </FooterTemplate>
+                        
+                         <FooterStyle HorizontalAlign="Center" />
+                     </asp:TemplateField>          
+                         
+                    <asp:TemplateField HeaderText="Id" Visible="False"><ItemTemplate><asp:Label
+                     ID="lblIdp" runat="server" Text='<%# Bind("Id") %>'></asp:Label></ItemTemplate>
+                        <ItemStyle VerticalAlign="Top" Width="5%" />
+                     </asp:TemplateField>
+                     
+                    <asp:TemplateField HeaderText="Particulars" >
+                    <ItemTemplate>
+                       <asp:Label ID="lblPerticulars" runat="server" Text='<%# Bind("Perticulars") %>'></asp:Label> 
+                    </ItemTemplate>
+
+                    <FooterTemplate >
+
+                    <asp:TextBox CssClass="box3" Width="95%" ID="TextPerticularsp2" runat="server" >
+                    </asp:TextBox>
+                    <asp:RequiredFieldValidator ID="ReqTextPerticularsp2" runat="server" 
+                    ControlToValidate="TextPerticularsp2" 
+                    ValidationGroup="Insertp" ErrorMessage="*"></asp:RequiredFieldValidator> 
+
+                    </FooterTemplate>
+
+                     <FooterStyle HorizontalAlign="Left" />
+
+                    <ItemStyle HorizontalAlign="Left" Width="60%" />
+                    </asp:TemplateField>
+                    
+                    <asp:TemplateField HeaderText="Credit" >
+                    <ItemTemplate>
+                       <asp:Label ID="lblCreditAmt" runat="server" Text='<%# Bind("CreditAmt") %>'></asp:Label> 
+                    </ItemTemplate>
+
+                    <FooterTemplate >
+
+                    <asp:TextBox CssClass="box3" Width="80%" ID="TextCreditAmtp2" runat="server" >
+                    </asp:TextBox>
+                    <asp:RequiredFieldValidator ID="ReqTextCreditAmtp2" runat="server" 
+                    ControlToValidate="TextCreditAmtp2" 
+                    ValidationGroup="Insertp" ErrorMessage="*"></asp:RequiredFieldValidator> 
+                    
+                     <asp:RegularExpressionValidator ID="RegTextCreditAmtp2" runat="server" 
+                        ControlToValidate="TextCreditAmtp2" ErrorMessage="*" 
+                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="Insertp">
+                     </asp:RegularExpressionValidator>
+                    </FooterTemplate>
+
+                     <FooterStyle HorizontalAlign="Left" />
+
+                    <ItemStyle HorizontalAlign="Left" Width="30%" />
+                    </asp:TemplateField>           
+                    
+                    
+                           <asp:TemplateField HeaderText="MId" Visible="False">
+                           <ItemTemplate>
+                           <asp:Label   ID="lblMIdp" runat="server" Text='<%# Bind("MId") %>'></asp:Label>
+                           </ItemTemplate>
+                        <ItemStyle VerticalAlign="Top" Width="5%" />
+                     </asp:TemplateField>
+                    
+                        </Columns>
+                        
+                        
+            <EmptyDataTemplate>
+             
+             <table  width="100%" border="1" style="border-color:Gray">
+                    <tr>
+                        <td align="center" style="width:70px" >
+                     <asp:Label ID="LabelSNp" Font-Bold="true" Font-Size="Medium"
+                      Font-Names="Times New Roman" 
+                        runat="server" Text="SN"></asp:Label>
+                        </td>
+                        
+                    <td align="center" >
+                        <asp:Label ID="LabelPerticularsp" Font-Bold="true" Font-Size="Medium"
+                         Font-Names="Times New Roman" 
+                        runat="server" Text="Particulars"></asp:Label>
+                        </td>
+                       <td align="center" >
+                        <asp:Label ID="LabelCredit" Font-Bold="true" Font-Size="Medium"
+                         Font-Names="Times New Roman" 
+                        runat="server" Text="Credit"></asp:Label>
+                        </td>
+        
+        
+                    </tr>
+                    <tr>
+                    <td align="center">
+                <asp:Button ID="btnInsertp" runat="server" CommandName="Addp1"
+                 OnClientClick=" return confirmationAdd() " ValidationGroup="emptp"
+                 CssClass="redbox" Text="Insert" />
+                </td>
+                
+                 <td align="Left">                         
+
+                <asp:TextBox CssClass="box3" Width="95%" ID="TextPerticularsp1" runat="server" >
+                </asp:TextBox>
+                <asp:RequiredFieldValidator ID="ReqTextPerticularsp1" runat="server" 
+                ControlToValidate="TextPerticularsp1" 
+                ValidationGroup="emptp" ErrorMessage="*"></asp:RequiredFieldValidator>                      
+                                 
+                </td>
+                     <td align="Left"  style="width:120px">                         
+
+                <asp:TextBox CssClass="box3" Width="80%" ID="TextCreditAmtp1" runat="server" Text="0" >
+                </asp:TextBox>
+                <asp:RequiredFieldValidator ID="ReqTextCreditAmtp1" runat="server" 
+                ControlToValidate="TextCreditAmtp1" 
+                ValidationGroup="emptp" ErrorMessage="*"></asp:RequiredFieldValidator>                      
+                   <asp:RegularExpressionValidator ID="RegTextCreditAmtp1" runat="server" 
+                        ControlToValidate="TextCreditAmtp1" ErrorMessage="*" 
+                        ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="emptp">
+                     </asp:RegularExpressionValidator>               
+                </td>
+          
+                </tr>
+                </table>
+                
+            </EmptyDataTemplate> 
+                        
+                        <FooterStyle Font-Bold="False" HorizontalAlign="Center" />
+                        <HeaderStyle Font-Size="9pt" />
+                        </asp:GridView>
+                       <asp:SqlDataSource ID="SqlDataSource2" runat="server" 
+                        ConnectionString="<%$ connectionStrings:LocalSqlServer %>" 
+                        ProviderName="System.Data.SqlClient" 
+                        SelectCommand="Select Id, Particulars from tblACC_Capital_Details">
+                        </asp:SqlDataSource>
+                        
+                        
+                    </asp:Panel>
+                </td>
+            </tr></table>
+                  
+        </td>
+        </tr>
+        </table>
+
+
+ 
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/Capital.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.IO;
+
+public partial class Module_Accounts_Transactions_Capital : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    int CompId = 0;
+    int FyId = 0;
+    string SId = "";
+    string CDate = "";
+    string CTime = "";
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+        CompId = Convert.ToInt32(Session["compid"]);
+        FyId = Convert.ToInt32(Session["finyear"]);
+        SId = Session["username"].ToString();
+
+        CDate = fun.getCurrDate();
+        CTime = fun.getCurrTime();
+
+        connStr = fun.Connection();
+        con = new SqlConnection(connStr);
+        if (!IsPostBack)
+        {
+            this.FillData();
+            Panel3.Visible = true;  
+        }
+        }
+       catch (Exception ex) { }
+
+    }
+
+    protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+       try
+        {
+            GridView2.PageIndex = e.NewPageIndex;
+            this.FillData();           
+        }
+        catch (Exception ex) { }
+
+    }
+
+    public void FillData()
+    {
+        try
+        {
+            con.Open();
+
+            string sql = fun.select("*", "tblACC_Capital_Master", "FinYearId<='" + FyId + "' AND CompId='" + CompId + "' Order by Id DESC");
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet DS = new DataSet();
+            da.Fill(DS);
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Perticulars", typeof(string)));
+            DataRow dr;
+            for (int p = 0; p < DS.Tables[0].Rows.Count; p++)
+            {
+                dr = dt.NewRow();
+
+                dr[0] = DS.Tables[0].Rows[p]["Id"].ToString();
+                dr[1] = DS.Tables[0].Rows[p]["Particulars"].ToString();
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }
+
+            GridView2.DataSource = dt;
+            GridView2.DataBind();           
+
+            foreach (GridViewRow grv in GridView2.Rows)
+            {
+                string id = ((Label)grv.FindControl("lblId")).Text;
+
+                string strAss1 = fun.select("MId", "tblACC_Capital_Details", "MId='" +id +"'");
+                SqlCommand cmdAss1 = new SqlCommand(strAss1, con);
+                SqlDataReader rdrAss1 = cmdAss1.ExecuteReader();
+                while (rdrAss1.Read())
+                {
+                    if (rdrAss1.HasRows)
+                    {
+                        ((LinkButton)grv.FindControl("LinkBtnDel")).Visible = false;
+                    }
+                  
+                }
+            }
+
+          con.Close();
+        }
+        catch (Exception ex) { }
+    }
+
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+
+            if (e.CommandName == "Add")
+            {
+                string Perticulars = (((TextBox)GridView2.FooterRow.FindControl("TextPerticulars2")).Text);
+
+                if (Perticulars != "" )
+                {
+                    string StrIns1 = fun.insert("tblACC_Capital_Master", "SysDate, SysTime , CompId, FinYearId , SessionId, Particulars", "'" + CDate + "','" + CTime + "','" + CompId + "','" + FyId + "','" + SId + "','" + Perticulars + "'");
+
+                    SqlCommand cmdIns1 = new SqlCommand(StrIns1, con);
+                    con.Open();
+                    cmdIns1.ExecuteNonQuery();
+                    con.Close();
+                    this.FillData();
+                }
+                
+            }
+
+            if (e.CommandName == "Add1")
+            {
+                string Perticulars = (((TextBox)GridView2.Controls[0].Controls[0].FindControl("TextPerticulars1")).Text );
+
+                if (Perticulars != "")
+                {
+                    string StrIns2 = fun.insert("tblACC_Capital_Master", "SysDate, SysTime , CompId, FinYearId , SessionId, Particulars", "'" + CDate + "','" + CTime + "','" + CompId + "','" + FyId + "','" + SId + "','" + Perticulars + "'");
+
+                    SqlCommand cmdIns2 = new SqlCommand(StrIns2, con);
+                    con.Open();
+                    cmdIns2.ExecuteNonQuery();
+                    con.Close();
+                    this.FillData();
+                }               
+            }
+
+            if (e.CommandName == "Del")
+            {
+
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                int id1 = Convert.ToInt32(((Label)row.FindControl("lblId")).Text);
+                con.Open();
+                string sqlDel = fun.delete("tblACC_Capital_Master", "Id='" + id1 + "'");
+                SqlCommand cmdDel = new SqlCommand(sqlDel, con);
+                cmdDel.ExecuteNonQuery();
+                con.Close();
+                this.FillData();
+                Panel3.Visible = true;
+                GridView3.Visible = false;
+                
+            }
+
+            if (e.CommandName == "HpPerticulars")
+            {
+
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                int id1 = Convert.ToInt32(((Label)row.FindControl("lblId")).Text);
+                ViewState["MId"] = id1;
+                this.FillDataCredit();               
+               this. NODataToDisplay(GridView2);       
+            }
+
+        }
+        catch (Exception ex) { }
+    }
+
+    public void FillDataCredit()
+    {
+       try
+        {
+            con.Open();
+           
+            string sql = fun.select("*", "tblACC_Capital_Details", " MId='" +Convert.ToInt32( ViewState["MId"].ToString()) + "'");
+
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet DS = new DataSet();
+            da.Fill(DS);
+
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Perticulars", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("CreditAmt", typeof(double )));
+            dt.Columns.Add(new System.Data.DataColumn("MId", typeof(string)));
+
+            DataRow dr;
+
+            for (int q = 0; q < DS.Tables[0].Rows.Count; q++)
+            {
+                dr = dt.NewRow();
+                dr[0] = DS.Tables[0].Rows[q]["Id"].ToString();
+                dr[1] = DS.Tables[0].Rows[q]["Particulars"].ToString();
+                dr[2] = DS.Tables[0].Rows[q]["CreditAmt"].ToString();
+                dr[3] = ViewState["MId"].ToString();
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();             
+            }
+            GridView3.DataSource = dt;
+            GridView3.DataBind();
+           
+            con.Close();
+        }
+       catch (Exception ex) { }
+    }
+
+    protected void GridView3_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            GridView3.PageIndex = e.NewPageIndex;
+            this.FillDataCredit();
+        }
+        catch (Exception ex) { }
+
+    }
+
+    protected void GridView3_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+
+        try
+        {
+            if (e.CommandName == "Addp")
+            {
+                string Perticulars = (((TextBox)GridView3.FooterRow.FindControl("TextPerticularsp2")).Text);
+
+                double CreditAmt = 0;
+
+                if (fun.NumberValidationQty(((TextBox)GridView3.FooterRow.FindControl("TextCreditAmtp2")).Text) == true && (((TextBox)GridView3.FooterRow.FindControl("TextCreditAmtp2")).Text) != "")
+                {
+                    CreditAmt = Convert.ToDouble(((TextBox)GridView3.FooterRow.FindControl("TextCreditAmtp2")).Text);
+                }
+
+                if (Perticulars != "" && CreditAmt != 0)
+                {
+                    string StrIns1 = fun.insert("tblACC_Capital_Details", "MId, Particulars,CreditAmt", "'" + Convert.ToInt32(ViewState["MId"].ToString()) + "','" + Perticulars + "','" + CreditAmt + "'");
+
+                    SqlCommand cmdIns1 = new SqlCommand(StrIns1, con);
+                    con.Open();
+                    cmdIns1.ExecuteNonQuery();
+                    con.Close();
+                    this.FillDataCredit();
+
+                }
+            }
+
+            if (e.CommandName == "Addp1")
+            {
+                string Perticulars = (((TextBox)GridView3.Controls[0].Controls[0].FindControl("TextPerticularsp1")).Text);
+                double CreditAmt = 0;
+
+                if (fun.NumberValidationQty(((TextBox)GridView3.Controls[0].Controls[0].FindControl("TextCreditAmtp1")).Text) == true && (((TextBox)GridView3.Controls[0].Controls[0].FindControl("TextCreditAmtp1")).Text) != "")
+                {
+                    CreditAmt = Convert.ToDouble(((TextBox)GridView3.Controls[0].Controls[0].FindControl("TextCreditAmtp1")).Text);
+                }
+
+
+                if (Perticulars != "" && CreditAmt != 0)
+                {
+                    string StrIns2 = fun.insert("tblACC_Capital_Details", "MId, Particulars,CreditAmt", "'" + Convert.ToInt32(ViewState["MId"].ToString()) + "','" + Perticulars + "','" + CreditAmt + "'");
+
+                    SqlCommand cmdIns2 = new SqlCommand(StrIns2, con);
+                    con.Open();
+                    cmdIns2.ExecuteNonQuery();
+                    con.Close();
+                    this.FillDataCredit();
+                    this.FillData();
+                }
+
+            }
+
+            if (e.CommandName == "Delp")
+            {
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                int id1 = Convert.ToInt32(((Label)row.FindControl("lblIdp")).Text);
+                con.Open();
+                string sqlDel = fun.delete("tblACC_Capital_Details", "Id='" + id1 + "'");
+                SqlCommand cmdDel = new SqlCommand(sqlDel, con);
+                cmdDel.ExecuteNonQuery();
+                con.Close();
+                this.FillDataCredit();
+                this.FillData();
+                this.NODataToDisplay(GridView3);  
+            }
+        }
+        catch (Exception ex){}
+
+    }
+
+
+    public void NODataToDisplay(GridView grv)
+    {
+        if (grv.Rows.Count == 0)
+        {
+            Panel3.Visible = true;
+            GridView3.Visible = false;
+        }
+        else
+        {
+            Panel3.Visible = false;
+            GridView3.Visible = true;
+        }
+    }
+}

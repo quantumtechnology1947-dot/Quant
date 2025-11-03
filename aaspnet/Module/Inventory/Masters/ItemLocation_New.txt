@@ -1,0 +1,294 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Masters/ItemLocation_New.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ItemLocation_New.aspx.cs" Inherits="Module_Design_Masters_Location" Title="ERP" Theme="Default"  %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td align="center" valign="top">
+                <br />
+                <table cellpadding="0" cellspacing="0" width="70%">
+                    <tr>
+                        <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite">&nbsp;<b>Item Location - New</b></td>
+                    </tr>
+                    <tr>
+                        <td>
+                <asp:GridView ID="GridView1" runat="server" DataSourceID="SqlDataSource1" 
+                    onrowcommand="GridView2_RowCommand" AllowPaging="True" ShowFooter="True" Width="100%" 
+                                CssClass="yui-datatable-theme" AutoGenerateColumns="False" 
+                                DataKeyNames="Id" PageSize="20">
+                    
+                    <PagerSettings PageButtonCount="40" />
+                    
+                    <Columns>
+                    
+                    <asp:TemplateField HeaderText="SN">
+                        <ItemTemplate>
+                        <%# Container.DataItemIndex+1 %>
+                        </ItemTemplate>
+                            <FooterTemplate>
+                        <asp:Button ID="btnInsert" runat="server" Text="Insert"  OnClientClick=" return confirmationAdd()" ValidationGroup="abc" CommandName="Add" CssClass="redbox" />
+                        </FooterTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="5%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Id" InsertVisible="False" SortExpression="Id" 
+                            Visible="False">
+                            <ItemTemplate>
+                                <asp:Label ID="Label1" runat="server" Text='<%# Bind("Id") %>'></asp:Label>
+                            </ItemTemplate>
+                            
+                        </asp:TemplateField>                       
+                        <asp:TemplateField HeaderText="Location Label" SortExpression="LocationLabel">
+                            <ItemTemplate>
+                                <asp:Label ID="lblLc" runat="server" Text='<%# Bind("LocationLabel") %>'></asp:Label>
+                            </ItemTemplate>
+                            <FooterTemplate>
+                                <asp:DropDownList ID="DropDownList1" CssClass="box3" runat="server">
+                                <asp:ListItem Text="Select" Value="Select"></asp:ListItem>
+                                <asp:ListItem Text="A" Value="A"></asp:ListItem>
+                                <asp:ListItem Text="B" Value="B"></asp:ListItem>
+                                <asp:ListItem Text="C" Value="C"></asp:ListItem>
+                                <asp:ListItem Text="D" Value="D"></asp:ListItem>
+                                <asp:ListItem Text="E" Value="E"></asp:ListItem>
+                                <asp:ListItem Text="F" Value="F"></asp:ListItem>
+                                <asp:ListItem Text="G" Value="G"></asp:ListItem>
+                                <asp:ListItem Text="H" Value="H"></asp:ListItem>
+                                <asp:ListItem Text="I" Value="I"></asp:ListItem>
+                                <asp:ListItem Text="J" Value="J"></asp:ListItem>
+                                <asp:ListItem Text="K" Value="K"></asp:ListItem>
+                                <asp:ListItem Text="L" Value="L"></asp:ListItem>
+                                <asp:ListItem Text="M" Value="M"></asp:ListItem>
+                                <asp:ListItem Text="N" Value="N"></asp:ListItem>
+                                <asp:ListItem Text="O" Value="O"></asp:ListItem>
+                                <asp:ListItem Text="P" Value="P"></asp:ListItem>
+                                <asp:ListItem Text="Q" Value="Q"></asp:ListItem>
+                                <asp:ListItem Text="R" Value="R"></asp:ListItem>
+                                <asp:ListItem Text="S" Value="S"></asp:ListItem>
+                                <asp:ListItem Text="T" Value="T"></asp:ListItem>
+                                <asp:ListItem Text="U" Value="U"></asp:ListItem>
+                                <asp:ListItem Text="V" Value="V"></asp:ListItem>
+                                <asp:ListItem Text="W" Value="W"></asp:ListItem>
+                                <asp:ListItem Text="X" Value="X"></asp:ListItem>
+                                <asp:ListItem Text="Y" Value="Y"></asp:ListItem>
+                                <asp:ListItem Text="Z" Value="Z"></asp:ListItem>
+                                </asp:DropDownList>
+                                <asp:RequiredFieldValidator ID="Reqdrp" ValidationGroup="abc" InitialValue="Select" ControlToValidate="DropDownList1" runat="server" ErrorMessage="*"></asp:RequiredFieldValidator>
+                                
+                            </FooterTemplate>                            
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Number" SortExpression="LocationNo">
+                            <ItemTemplate>
+                                <asp:Label ID="lblLcNo" runat="server" Text='<%# Bind("LocationNo") %>'></asp:Label>
+                            </ItemTemplate>
+                            <FooterTemplate>
+                            <asp:TextBox ID="TextBox1" Width="120px" CssClass="box3" runat="server"></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ValidationGroup="abc" ControlToValidate="TextBox1" ErrorMessage="*"></asp:RequiredFieldValidator>                           
+                            
+                        </FooterTemplate>
+                                <HeaderStyle HorizontalAlign="Center" />
+                                <ItemStyle Width="20%" />                            
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Description" SortExpression="Description">
+                            <ItemTemplate>
+                                <asp:Label ID="lblDesc" runat="server" Text='<%# Bind("Description") %>'></asp:Label>
+                            </ItemTemplate> 
+                            <FooterTemplate>
+                                <asp:TextBox ID="TextBox2" Width="260" CssClass="box3"  runat="server"></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ValidationGroup="abc" ControlToValidate="TextBox2" ErrorMessage="*"></asp:RequiredFieldValidator>
+                        </FooterTemplate>
+                                <HeaderStyle Width="40%" />
+                                <ItemStyle HorizontalAlign="Left" />                           
+                        </asp:TemplateField>
+                    </Columns>
+                    
+                    <EmptyDataTemplate>
+                    
+                    <table  width="100%" border="1" style="border-color:Gray">
+                    <tr>
+                    <td></td>
+                    <td align="center">
+                        <asp:Label ID="Label1" Font-Bold="true" Font-Size="Medium" Font-Names="Times New Roman" runat="server" Text="Location Label"></asp:Label></td>                        
+                        <td align="center">
+                         <asp:Label ID="Label2" runat="server" Font-Size="Medium" Font-Names="Times New Roman"  Font-Bold="true" Text="Number"></asp:Label></td>
+                         <td align="center">
+                          <asp:Label ID="Label3" runat="server" Font-Size="Medium"  Font-Names="Times New Roman" Font-Bold="true" Text="Description"></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                     <asp:Button ID="btnInsert" runat="server" Text="Insert" ValidationGroup="pqr" OnClientClick=" return confirmationAdd()" CommandName="Add1"  CssClass="redbox" />
+                     </td>
+                     <td>
+                    <asp:DropDownList ID="DropDownList1" CssClass="box3" runat="server">
+                                <asp:ListItem Text="A" Value="A"></asp:ListItem>
+                                <asp:ListItem Text="B" Value="B"></asp:ListItem>
+                                <asp:ListItem Text="C" Value="C"></asp:ListItem>
+                                <asp:ListItem Text="D" Value="D"></asp:ListItem>
+                                <asp:ListItem Text="E" Value="E"></asp:ListItem>
+                                <asp:ListItem Text="F" Value="F"></asp:ListItem>
+                                <asp:ListItem Text="G" Value="G"></asp:ListItem>
+                                <asp:ListItem Text="H" Value="H"></asp:ListItem>
+                                <asp:ListItem Text="I" Value="I"></asp:ListItem>
+                                <asp:ListItem Text="J" Value="J"></asp:ListItem>
+                                <asp:ListItem Text="K" Value="K"></asp:ListItem>
+                                <asp:ListItem Text="L" Value="L"></asp:ListItem>
+                                <asp:ListItem Text="M" Value="M"></asp:ListItem>
+                                <asp:ListItem Text="N" Value="N"></asp:ListItem>
+                                <asp:ListItem Text="O" Value="O"></asp:ListItem>
+                                <asp:ListItem Text="P" Value="P"></asp:ListItem>
+                                <asp:ListItem Text="Q" Value="Q"></asp:ListItem>
+                                <asp:ListItem Text="R" Value="R"></asp:ListItem>
+                                <asp:ListItem Text="S" Value="S"></asp:ListItem>
+                                <asp:ListItem Text="T" Value="T"></asp:ListItem>
+                                <asp:ListItem Text="U" Value="U"></asp:ListItem>
+                                <asp:ListItem Text="V" Value="V"></asp:ListItem>
+                                <asp:ListItem Text="W" Value="W"></asp:ListItem>
+                                <asp:ListItem Text="X" Value="X"></asp:ListItem>
+                                <asp:ListItem Text="Y" Value="Y"></asp:ListItem>
+                                <asp:ListItem Text="Z" Value="Z"></asp:ListItem>
+                                </asp:DropDownList>
+                                </td>
+                                <td>
+                                <asp:TextBox ID="TextBox1" Width="140px" CssClass="box3" runat="server"></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ValidationGroup="pqr" ControlToValidate="TextBox1" ErrorMessage="*"></asp:RequiredFieldValidator>
+                       </td>
+                       
+                       <td>
+                                <asp:TextBox ID="TextBox2" Width="480px" CssClass="box3"  runat="server"></asp:TextBox>  
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ValidationGroup="pqr" ControlToValidate="TextBox2" ErrorMessage="*"></asp:RequiredFieldValidator> </td> 
+                              
+                              </tr>
+                              </table>              
+                                </EmptyDataTemplate>
+                </asp:GridView>
+                
+                        </td>
+                    </tr>
+                </table>
+                <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+                    ConnectionString="<%$ connectionStrings:LocalSqlServer %>" 
+                    ProviderName="System.Data.SqlClient" 
+                    
+                    SelectCommand="SELECT * FROM [tblDG_Location_Master] WHERE ([CompId] = @CompId) ORDER BY [Id] DESC" 
+                    InsertCommand="INSERT INTO tblDG_Location_Master(SysDate, SysTime, CompId, FinYearId, SessionId, LocationLabel, LocationNo, Description) VALUES (@SysDate, @SysTime, @CompId, @FinYearId, @SessionId, @LocationLabel, @LocationNo, @Description)" 
+                    >
+                    <SelectParameters>
+                        <asp:SessionParameter Name="CompId" SessionField="compid" Type="Int32" />
+                    </SelectParameters>
+                    <InsertParameters>
+                        <asp:Parameter Name="SysDate" Type="String" />
+                        <asp:Parameter Name="SysTime" Type="String" />                        
+                        <asp:SessionParameter Name="CompId" SessionField="compid" Type="Int32" />
+                        <asp:SessionParameter Name="FinYearId" SessionField="finyear" Type="Int32" />
+                        <asp:SessionParameter Name="SessionId" SessionField="username"  Type="String" />
+                        <asp:Parameter Name="LocationLabel" Type="String"/>
+                        <asp:Parameter Name="LocationNo" Type="String"/>
+                        <asp:Parameter Name="Description" Type="String" />
+                    </InsertParameters>
+                    
+                    
+                </asp:SqlDataSource>
+                <br />
+                <asp:Label ID="lblMessage" runat="server" ForeColor="Red"></asp:Label>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Masters/ItemLocation_New.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+
+public partial class Module_Design_Masters_Location : System.Web.UI.Page
+{
+    
+    clsFunctions fun = new clsFunctions();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {              
+        lblMessage.Text = "";
+        }
+
+        catch (Exception ex) { }
+    }
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+
+            string CDate = fun.getCurrDate();
+            string CTime = fun.getCurrTime();  
+            if (e.CommandName == "Add")
+            {
+                
+                string strLabel = ((DropDownList)GridView1.FooterRow.FindControl("DropDownList1")).SelectedValue;
+                string strNo = ((TextBox)GridView1.FooterRow.FindControl("TextBox1")).Text;
+                string strDesc = ((TextBox)GridView1.FooterRow.FindControl("TextBox2")).Text;
+                if (strNo != "" && strDesc != ""&& strLabel!="Select")
+                {
+                    SqlDataSource1.InsertParameters["LocationLabel"].DefaultValue = strLabel;
+                    SqlDataSource1.InsertParameters["LocationNo"].DefaultValue = strNo;
+                    SqlDataSource1.InsertParameters["Description"].DefaultValue = strDesc;
+                    SqlDataSource1.InsertParameters["SysDate"].DefaultValue = CDate;
+                    SqlDataSource1.InsertParameters["SysTime"].DefaultValue = CTime;
+                    SqlDataSource1.Insert();
+                    lblMessage.Text = "Record Inserted";
+                }
+                
+            }
+
+            if (e.CommandName == "Add1")
+            {
+                string strLabel = ((DropDownList)GridView1.Controls[0].Controls[0].FindControl("DropDownList1")).SelectedValue;
+                string strNo = ((TextBox)GridView1.Controls[0].Controls[0].FindControl("TextBox1")).Text;
+                string strDesc = ((TextBox)GridView1.Controls[0].Controls[0].FindControl("TextBox2")).Text;
+                if (strNo != "" && strDesc != "" && strLabel != "Select")
+                {
+                    SqlDataSource1.InsertParameters["LocationLabel"].DefaultValue = strLabel;
+                    SqlDataSource1.InsertParameters["LocationNo"].DefaultValue = strNo;
+                    SqlDataSource1.InsertParameters["Description"].DefaultValue = strDesc;
+                    SqlDataSource1.InsertParameters["SysDate"].DefaultValue = CDate;
+                    SqlDataSource1.InsertParameters["SysTime"].DefaultValue = CTime; 
+                    SqlDataSource1.Insert();
+                    lblMessage.Text = "Record Inserted";
+                }
+                
+            }
+        }
+
+        catch(Exception ex){}
+    }
+}

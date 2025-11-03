@@ -1,0 +1,224 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Transactions/PR_Print_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="PR_Print_Details.aspx.cs" Inherits="Module_MaterialManagement_Transactions_PR_Print_Details" Title="ERP" Theme ="Default" %>
+
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)">
+        &nbsp;<b>PR - Print</b>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" class="style3">
+                <asp:Panel ID="Panel1" runat="server" ScrollBars="Auto" Width="100%" Height="452">
+                
+                <CR:CrystalReportViewer ID="CrystalReportViewer1" HasCrystalLogo="False"
+                    runat="server" AutoDataBind="true" ReportSourceID="CrystalReportSource1" 
+                    DisplayGroupTree="False" EnableDatabaseLogonPrompt="False" 
+                    EnableParameterPrompt="False" />
+                <CR:CrystalReportSource ID="CrystalReportSource1" runat="server">
+                    <Report FileName="~/Module/MaterialManagement/Transactions/Reports/PR.rpt">
+                    </Report>
+                </CR:CrystalReportSource>
+                    </asp:Panel>
+                    </td>
+        </tr>
+        <tr>
+            <td align="center" class="style3">
+                <asp:Button ID="Cancel" runat="server" Text="Cancel" CssClass="redbox" 
+                    valign="top" onclick="Cancel_Click" />
+                    
+                    </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Transactions/PR_Print_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using CrystalDecisions.CrystalReports.Engine;
+using System.Data.SqlClient;
+
+public partial class Module_MaterialManagement_Transactions_PR_Print_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    private ReportDocument report = new ReportDocument();
+    int cId = 0;
+    string MId = "";
+    string Key = string.Empty;
+    string regdate = string.Empty;
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        string connStr1 = fun.Connection();
+        SqlConnection myConnection = new SqlConnection(connStr1);
+
+        try
+        {
+            if (!IsPostBack)
+            {
+                cId = Convert.ToInt32(Session["compid"]);
+                myConnection.Open();
+                string str = Request.QueryString["PRNo"].ToString();
+                MId = Request.QueryString["Id"].ToString();
+
+                string selectQuery = fun.select("tblMM_PR_Details.SupplierId,tblDG_Item_Master.Id,tblDG_Item_Master.ItemCode,tblHR_OfficeStaff.Title,tblHR_OfficeStaff.EmployeeName,tblDG_Item_Master.ManfDesc,Unit_Master.Symbol As Uom,tblMM_PR_Details.DelDate,tblMM_PR_Details.Qty,tblMM_PR_Details.Rate,tblMM_Supplier_master.SupplierName,tblMM_PR_Master.WONo,tblMM_PR_Master.SysDate,tblMM_PR_Master.PRNo,AccHead.Symbol As AcHead,tblMM_PR_Details.Remarks,tblMM_PR_Details.Discount", "tblMM_PR_Master,tblHR_OfficeStaff,tblMM_PR_Details,AccHead,tblCompany_master,tblDG_Item_Master,tblMM_Supplier_master,Unit_Master", "tblMM_PR_Master.PRNo='" + str + "'And tblMM_PR_Master.CompId='" + cId + "' And tblDG_Item_Master.Id=tblMM_PR_Details.ItemId And tblDG_Item_Master.UOMBasic=Unit_Master.Id And tblMM_PR_Master.PRNo=tblMM_PR_Details.PRNo And tblMM_PR_Details.SupplierId=tblMM_Supplier_master.SupplierId And tblMM_PR_Details.AHId=AccHead.Id And tblMM_PR_Master.CompId=tblCompany_master.CompId And tblMM_PR_Master.SessionId=tblHR_OfficeStaff.EmpId AND tblMM_PR_Master.Id=tblMM_PR_Details.MId AND tblMM_PR_Details.MId='" + MId + "'");
+
+                SqlCommand myCommand = new SqlCommand(selectQuery, myConnection);
+                SqlDataReader ds = myCommand.ExecuteReader();
+
+                //SqlDataAdapter ad1 = new SqlDataAdapter(myCommand);
+                //DataSet ds = new DataSet();
+                //ad1.Fill(ds);
+
+                DataTable dt = new DataTable();
+                dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("PurchDesc", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("UomPurch", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("DelDate", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("SPRQTY", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("Rate", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("SupplierName", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("AcHead", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Remarks", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));
+                dt.Columns.Add(new System.Data.DataColumn("Intender", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("TaskProjectTitle", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Discount", typeof(double)));
+                DataRow dr;
+
+                while (ds.Read())
+                {
+                    dr = dt.NewRow();
+
+                    string title = " ";
+                    dr[0] = fun.GetItemCode_PartNo(cId, Convert.ToInt32(ds["Id"].ToString()));
+                    dr[1] = ds["ManfDesc"].ToString();
+                    dr[2] = ds["Uom"].ToString();
+                    dr[3] = fun.FromDateDMY(ds["DelDate"].ToString());
+                    dr[4] = Convert.ToDouble(decimal.Parse(ds["Qty"].ToString()).ToString("N3"));
+                    dr[5] = Convert.ToDouble(ds["Rate"]);
+                    if (ds["WONo"].ToString() != "")
+                    {
+                        dr[6] = ds["WONo"].ToString();
+
+
+                        string SQL = fun.select("TaskProjectTitle", "SD_Cust_WorkOrder_Master", "CompId='" + cId + "'  And WONo='" + ds["WONo"].ToString() + "'");
+
+                        SqlCommand Cmd = new SqlCommand(SQL, myConnection);
+                        SqlDataAdapter DA1 = new SqlDataAdapter(Cmd);
+                        DataSet DS = new DataSet();
+                        DA1.Fill(DS);
+                        title = DS.Tables[0].Rows[0]["TaskProjectTitle"].ToString();
+
+                        dr[12] = title;
+
+                    }
+                    else
+                    {
+                        dr[6] = "NA";
+                    }
+                    dr[7] = ds["SupplierName"].ToString() + " [ " + ds["SupplierId"].ToString() + " ]";
+
+                    dr[8] = ds["AcHead"].ToString();
+                    dr[9] = ds["Remarks"].ToString();
+                    dr[10] = cId;
+                    dr[11] = ds["Title"].ToString() + "." + ds["EmployeeName"].ToString();
+                    dr[13] = Convert.ToDouble(ds["Discount"]);
+                    
+                    regdate = ds["SysDate"].ToString();
+                    
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+
+                DataSet xsd = new PRPrint();
+                xsd.Tables[0].Merge(dt);
+                string reportPath = Server.MapPath("~/Module/MaterialManagement/Transactions/Reports/PR.rpt");
+                report.Load(reportPath);
+                report.SetDataSource(xsd);
+                //Registration Date 
+                
+                string RegDate = fun.FromDate(regdate);
+                report.SetParameterValue("RegDate", RegDate);
+                //Deli Date        
+                report.SetParameterValue("PRNo", str);
+                string Company = fun.getCompany(cId);
+                report.SetParameterValue("Company", Company);
+                string Address = fun.CompAdd(cId);
+                report.SetParameterValue("Address", Address);
+                CrystalReportViewer1.ReportSource = report;
+                Session[Key] = report;
+            }
+
+            else
+            {
+                ReportDocument doc = (ReportDocument)Session[Key];
+                CrystalReportViewer1.ReportSource = doc;
+            }
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            myConnection.Close();
+        }
+    }
+       
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        report = new ReportDocument();
+    }
+    
+    protected void Cancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("PR_Print.aspx?ModId=6&SubModId=34");
+    }
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        report.Close();
+        report.Dispose();
+        GC.Collect();
+    }
+
+}

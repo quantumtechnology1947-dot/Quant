@@ -1,0 +1,1172 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/ProjectManagement/Reports/ProjectSummary_WONo.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ProjectSummary_WONo.aspx.cs" Inherits="Module_ProjectManagement_Reports_ProjectSummary_WONo" Title="ERP" Theme="Default"  %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+<table width="100%" align="center" cellpadding="0" cellspacing="0" Class="fontcss">
+       
+                
+                    <tr height="21">
+                        <td style="background:url(../../../images/hdbg.JPG)" class="fontcsswhite" ><strong>&nbsp;Project Summary </strong>
+                        </td>
+                    </tr>
+                    <tr>
+                    <td>
+                    
+                            <asp:Panel ID="Panel1" runat="server" Height="440px" ScrollBars="Auto">
+                <asp:GridView ID="GridView1" runat="server"  
+                                    AutoGenerateColumns="False" 
+                    CssClass="yui-datatable-theme" DataKeyNames="WONo"  Width="100%" AllowPaging="True" 
+                                    PageSize="15" onpageindexchanging="GridView1_PageIndexChanging"  
+                                   >
+                    <PagerSettings PageButtonCount="40" />
+                    <Columns>
+                        <asp:TemplateField HeaderText="SN" >
+                            <ItemTemplate>
+                    <%# Container.DataItemIndex+1 %>
+                            </ItemTemplate>      
+                             <ItemStyle HorizontalAlign="Right" Width="2%" />
+                        </asp:TemplateField>
+                        
+                        
+                        
+                        <asp:TemplateField HeaderText="WO No"  >
+                            <ItemTemplate>
+                                <asp:Label ID="lblWONo" runat="server" Text='<%#Eval("WONo") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="4%" />
+                        </asp:TemplateField>
+
+                    
+                    
+                        <asp:TemplateField HeaderText="Project Name" >
+                            <ItemTemplate>
+                                <asp:Label ID="lblProjectTitle" runat="server" Text='<%#Eval("TaskProjectTitle") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Left" Width="7%" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="Customer Name" >
+                            <ItemTemplate>
+                                <asp:Label ID="lblCustomerName" runat="server" Text='<%#Eval("CustomerName") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Left" Width="9%" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="Code" >
+                            <ItemTemplate>
+                                <asp:Label ID="lblCode" runat="server" Text='<%#Eval("CustomerId") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="3%" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="UOM">
+                            <ItemTemplate>
+                                <asp:Label ID="lblUOM" runat="server" Text='<%#Eval("Symbol") %>'> </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="3%" />
+                        </asp:TemplateField>
+                        
+                            <asp:TemplateField HeaderText="B" Visible=false>
+                            <ItemTemplate>
+                                <asp:Label ID="lblBOMQty" runat="server" Text='<%#Eval("BOMQty") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="4%" />
+                        </asp:TemplateField>
+                        
+                          <asp:TemplateField HeaderText="BOM(M)" >
+                            <ItemTemplate>
+                                <asp:Label ID="lblBOM_Mfg_Qty" runat="server" Text='<%#Eval("BOM_MFG_Qty") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="2.5%" />
+                        </asp:TemplateField>
+                        
+                        
+                         <asp:TemplateField HeaderText="B" Visible=false >
+                            <ItemTemplate>
+                                <asp:Label ID="lblWIS" runat="server" Text='<%#Eval("WISQty") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="4%" />
+                        </asp:TemplateField> 
+                        
+                        
+                        <asp:TemplateField HeaderText="M" Visible=false >
+                            <ItemTemplate>
+                                <asp:Label ID="lblWIS_M" runat="server" Text='<%#Eval("WISMQty") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="3%" />
+                        </asp:TemplateField>
+                        
+                        
+                        
+                        <asp:TemplateField HeaderText="B"  Visible=false>
+                            <ItemTemplate>
+                                <asp:Label ID="lblBShort" runat="server" Text='<%#Eval("ShortBQty") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="2%" />
+                        </asp:TemplateField>
+                        
+                         <asp:TemplateField HeaderText="M" Visible=false>
+                            <ItemTemplate>
+                                <asp:Label ID="lblMShort" runat="server" Text='<%#Eval("ShortMQty") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="2%" />
+                        </asp:TemplateField> 
+                        
+                        
+                        
+                         <asp:TemplateField HeaderText="B" Visible=false >
+                            <ItemTemplate>
+                                <asp:Label ID="lblPOBQty" runat="server" Text='<%#Eval("POBQty") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="3%" />
+                        </asp:TemplateField>
+                        
+                        
+                         <asp:TemplateField HeaderText="O" Visible ="false">
+                            <ItemTemplate>
+                                <asp:Label ID="lblPOMQtyF" runat="server" Text='<%#Eval("POMQtyF") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="2.5%" />
+                        </asp:TemplateField>  
+                        
+                         <asp:TemplateField HeaderText="A" Visible ="false" >
+                            <ItemTemplate>
+                                <asp:Label ID="lblPOMQtyA" runat="server" Text='<%#Eval("POMQtyA") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="2.5%" />
+                        </asp:TemplateField>
+                        
+                         <asp:TemplateField HeaderText="F+O" Visible=false >
+                            <ItemTemplate>
+                                <asp:Label ID="lblPOMQtyO" runat="server" Text='<%#Eval("POMQtyO") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="2.5%" />
+                        </asp:TemplateField> 
+                                                
+                         <asp:TemplateField HeaderText="Tot M" Visible=false >
+                            <ItemTemplate>
+                                <asp:Label ID="lblPOMQty" runat="server" Text='<%#Eval("POMQty") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="3%" />
+                        </asp:TemplateField>  
+                        
+                         <asp:TemplateField HeaderText="B" Visible=false>
+                            <ItemTemplate>
+                                <asp:Label ID="lblGRRB" runat="server" Text='<%#Eval("GRRBQty") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="4%" />
+                        </asp:TemplateField>
+                        
+                         <asp:TemplateField HeaderText="F" Visible=false >
+                            <ItemTemplate>
+                                <asp:Label ID="lblGRRMQtyF" runat="server" Text='<%#Eval("GRRMQtyF") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="2%" />
+                        </asp:TemplateField>   
+                        
+                        <asp:TemplateField HeaderText="A" Visible="false" >
+                            <ItemTemplate>
+                                <asp:Label ID="lblGRRMQtyA" runat="server" Text='<%#Eval("GRRMQtyA") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="2%" />
+                        </asp:TemplateField>
+                        
+                         <asp:TemplateField HeaderText="O" Visible=false >
+                            <ItemTemplate>
+                                <asp:Label ID="lblGRRMQtyO" runat="server" Text='<%#Eval("GRRMQtyO") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="2%" />
+                        </asp:TemplateField> 
+                        
+                           <asp:TemplateField HeaderText="RECVD(M)" >
+                            <ItemTemplate>
+                                <asp:Label ID="lblGRR" runat="server" Text='<%#Eval("GRRQty") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="3%" />
+                        </asp:TemplateField>
+                           
+                           <asp:TemplateField HeaderText="B" Visible=false>
+                            <ItemTemplate>
+                                <asp:Label ID="lblGQN" runat="server" Text='<%#Eval("GQNQty") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="4%" />
+                        </asp:TemplateField>
+                        
+                          <asp:TemplateField HeaderText="F" Visible=false>
+                            <ItemTemplate>
+                                <asp:Label ID="lblGQNMQtyF" runat="server" Text='<%#Eval("GQNMQtyF") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="2%" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="A" Visible="false" >
+                            <ItemTemplate>
+                                <asp:Label ID="lblGQNMQtyA" runat="server" Text='<%#Eval("GQNMQtyA") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="2%" />
+                        </asp:TemplateField>
+                        
+                         <asp:TemplateField HeaderText="O"  Visible=false>
+                            <ItemTemplate>
+                                <asp:Label ID="lblGQNMQtyO" runat="server" Text='<%#Eval("GQNMQtyO") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="2%" />
+                        </asp:TemplateField>
+                        
+                                             
+                        
+                         <asp:TemplateField HeaderText="Tot M" Visible=false >
+                            <ItemTemplate>
+                                <asp:Label ID="lblMGQN" runat="server" Text='<%#Eval("GQNMQty") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="3%" />
+                        </asp:TemplateField>
+                        
+                            <asp:TemplateField HeaderText="B" Visible=false >
+                            <ItemTemplate>
+                                <asp:Label ID="lblBREJ" runat="server" Text='<%#Eval("RejBQty") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="2%" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="F" Visible=false >
+                            <ItemTemplate>
+                                <asp:Label ID="lblFREJ" runat="server" Text='<%#Eval("RejQtyF") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="2%" />
+                        </asp:TemplateField>   
+                        
+                        <asp:TemplateField HeaderText="A"  Visible="false">
+                            <ItemTemplate>
+                                <asp:Label ID="lblAREJ" runat="server" Text='<%#Eval("RejQtyA") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="2%" />
+                        </asp:TemplateField>   
+                        
+                        <asp:TemplateField HeaderText="O" Visible=false>
+                            <ItemTemplate>
+                                <asp:Label ID="lblOREJ" runat="server" Text='<%#Eval("RejQtyO") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="2%" />
+                        </asp:TemplateField>   
+                        
+                        
+                         <asp:TemplateField HeaderText="Tot M" Visible=false>
+                            <ItemTemplate>
+                                <asp:Label ID="lblMREJ" runat="server" Text='<%#Eval("RejMQty") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="2%" />
+                        </asp:TemplateField>                      
+                        
+                        
+                     
+                        
+                        <asp:TemplateField HeaderText="B" Visible=false >
+                            <ItemTemplate>
+                                <asp:Label ID="lblBQA" runat="server" Text='<%#Eval("QABQty") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="3%" />
+                        </asp:TemplateField>
+                        
+                         <asp:TemplateField HeaderText="Balance"  >
+                            <ItemTemplate>
+                                <asp:Label ID="lblMQA" runat="server" Text='<%#Eval("QAMQty") %>'>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="2%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Balance"  visible="false">
+                            <ItemTemplate>
+                                <asp:Label ID="Idbal" runat="server" Text=''>
+                                </asp:Label>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="2%" />
+                        </asp:TemplateField>
+                        
+                        
+                    </Columns>
+                    <EmptyDataTemplate>
+                        <table class="fontcss" width="100%">
+                            <tr>
+                                <td align="center">
+                                    <asp:Label ID="Label1" runat="server" Font-Bold="true" Font-Names="Calibri" 
+                                        ForeColor="red" Text="No  data found to display"></asp:Label>
+                                </td>
+                            </tr>
+                        </table>
+                    </EmptyDataTemplate>
+                    <FooterStyle Wrap="True" />
+                </asp:GridView>
+                
+                
+               </asp:Panel>
+                    
+                  
+                    
+                    </td>
+                    </tr>
+                    <tr>
+        <td align="center" height="25px" valign="middle">
+        
+                
+                <asp:Button ID="btnExport" runat="server" CssClass="redbox" Text="Export" 
+                    onclick="btnExpor_Click" />
+                    
+                    &nbsp;<asp:Button ID="btnCancel" runat="server" CssClass="redbox" Text="Cancel" 
+                    onclick="btnCance_Click" />
+                    
+        </td>
+        </tr>
+                    
+                    
+                    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/ProjectManagement/Reports/ProjectSummary_WONo.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.IO;
+using System.Drawing;
+
+public partial class Module_ProjectManagement_Reports_ProjectSummary_WONo : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    DataSet DS = new DataSet();
+    string sId = "";
+    int CompId = 0;   
+    string connStr = "";
+    int FinYearId = 0;
+    int h = 0;
+    SqlConnection con;
+    string WONo = "";
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+       try
+        {
+            WONo = Session["Wono"].ToString();
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            sId = Session["username"].ToString();
+            if (!IsPostBack)
+            {
+                this.loaddata(h);
+            }
+        }
+        catch(Exception ex)
+        {
+
+        }
+    }
+
+    public double AllComponentBOMQty(int CompId, string wono, int finId, int ItemId)
+    {
+        double tqty = 0;      
+        string sql = fun.select("tblDG_BOM_Master.PId,tblDG_BOM_Master.CId", "tblDG_BOM_Master", " tblDG_BOM_Master.ItemId='" + ItemId + "'  And  tblDG_BOM_Master.WONo='" + wono + "' And tblDG_BOM_Master.CompId='" + CompId + "'And tblDG_BOM_Master.FinYearId<='" + finId + "'");
+        SqlCommand cmd2 = new SqlCommand(sql, con);
+        SqlDataReader DA4 = cmd2.ExecuteReader(CommandBehavior.Default);
+        while (DA4.Read())
+        {
+            tqty += fun.BOMRecurQty(wono, Convert.ToInt32(DA4["PId"]), Convert.ToInt32(DA4["CId"]), 1, CompId, finId);
+        }       
+        return Math.Round(tqty, 5);
+    }
+
+    public void loaddata(int c)
+    {
+        try
+        { 
+
+            string[] split = WONo.Split(new Char[] { ',' });
+            con.Open();
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));   //0
+            dt.Columns.Add(new System.Data.DataColumn("TaskProjectTitle", typeof(string)));//1
+            dt.Columns.Add(new System.Data.DataColumn("CustomerName", typeof(string)));//2
+            dt.Columns.Add(new System.Data.DataColumn("CustomerId", typeof(string)));//3
+            dt.Columns.Add(new System.Data.DataColumn("Symbol", typeof(string)));//4
+
+            dt.Columns.Add(new System.Data.DataColumn("BOMQty", typeof(double)));//5
+            dt.Columns.Add(new System.Data.DataColumn("BOM_MFG_Qty", typeof(double)));//6
+
+            dt.Columns.Add(new System.Data.DataColumn("WISQty", typeof(double)));//7
+            dt.Columns.Add(new System.Data.DataColumn("WISMQty", typeof(double)));//8
+
+            dt.Columns.Add(new System.Data.DataColumn("POBQty", typeof(double)));//9
+            dt.Columns.Add(new System.Data.DataColumn("POMQtyF", typeof(double)));//10
+            dt.Columns.Add(new System.Data.DataColumn("POMQtyA", typeof(double)));//11
+            dt.Columns.Add(new System.Data.DataColumn("POMQtyO", typeof(double)));//12           
+            dt.Columns.Add(new System.Data.DataColumn("POMQty", typeof(double)));//13
+
+            //dt.Columns.Add(new System.Data.DataColumn("GINQty", typeof(double)));
+
+            dt.Columns.Add(new System.Data.DataColumn("GRRBQty", typeof(double)));//14
+            dt.Columns.Add(new System.Data.DataColumn("GRRMQtyF", typeof(double)));//15
+            dt.Columns.Add(new System.Data.DataColumn("GRRMQtyA", typeof(double)));//16
+            dt.Columns.Add(new System.Data.DataColumn("GRRMQtyO", typeof(double)));//17           
+            dt.Columns.Add(new System.Data.DataColumn("GRRQty", typeof(double)));//18
+
+            dt.Columns.Add(new System.Data.DataColumn("GQNQty", typeof(double)));//19
+            dt.Columns.Add(new System.Data.DataColumn("GQNMQtyF", typeof(double)));//20
+            dt.Columns.Add(new System.Data.DataColumn("GQNMQtyA", typeof(double)));//21
+            dt.Columns.Add(new System.Data.DataColumn("GQNMQtyO", typeof(double)));//22           
+            dt.Columns.Add(new System.Data.DataColumn("GQNMQty", typeof(double)));//23           
+
+            dt.Columns.Add(new System.Data.DataColumn("RejBQty", typeof(double)));//24
+            dt.Columns.Add(new System.Data.DataColumn("RejQtyF", typeof(double)));//25
+            dt.Columns.Add(new System.Data.DataColumn("RejQtyA", typeof(double)));//26
+            dt.Columns.Add(new System.Data.DataColumn("RejQtyO", typeof(double)));//27              
+            dt.Columns.Add(new System.Data.DataColumn("RejMQty", typeof(double)));//28
+
+            dt.Columns.Add(new System.Data.DataColumn("ShortBQty", typeof(double)));//29
+            dt.Columns.Add(new System.Data.DataColumn("ShortMQty", typeof(double)));//30           
+
+            dt.Columns.Add(new System.Data.DataColumn("QABQty", typeof(double)));//31
+            dt.Columns.Add(new System.Data.DataColumn("QAMQty", typeof(double)));//32            
+
+            DataRow dr;
+            for (int s = 0; s < split.Length - 1; s++)
+            {
+               
+                string strCustWo = "SELECT SD_Cust_WorkOrder_Master.WONo, tblDG_Item_Master.UOMBasic, Unit_Master.Symbol, SD_Cust_WorkOrder_Master.CustomerId, SD_Cust_WorkOrder_Master.TaskProjectTitle,SD_Cust_master.CustomerName FROM tblDG_BOM_Master INNER JOIN tblDG_Item_Master ON tblDG_BOM_Master.ItemId = tblDG_Item_Master.Id INNER JOIN SD_Cust_WorkOrder_Master ON tblDG_BOM_Master.WONo = SD_Cust_WorkOrder_Master.WONo INNER JOIN      SD_Cust_master ON SD_Cust_WorkOrder_Master.CustomerId = SD_Cust_master.CustomerId INNER JOIN Unit_Master ON tblDG_Item_Master.UOMBasic = Unit_Master.Id WHERE SD_Cust_WorkOrder_Master.FinYearId<='" + FinYearId + "' And SD_Cust_WorkOrder_Master.CompId='" + CompId + "' AND CloseOpen='0'And SD_Cust_WorkOrder_Master.WONo='" + split[s].ToString() + "' GROUP BY tblDG_Item_Master.UOMBasic, SD_Cust_WorkOrder_Master.WONo,SD_Cust_WorkOrder_Master.CustomerId, SD_Cust_WorkOrder_Master.TaskProjectTitle,SD_Cust_master.CustomerName,Unit_Master.Symbol order by SD_Cust_WorkOrder_Master.WONo Asc"; 
+                SqlCommand cmdCustWo = new SqlCommand(strCustWo, con);
+                SqlDataReader rdr = cmdCustWo.ExecuteReader();                
+                while (rdr.Read())
+                {
+
+                    dr = dt.NewRow();
+                    dr[0] = rdr["WONo"].ToString();
+                    dr[1] = rdr["TaskProjectTitle"].ToString();
+                    dr[2] = rdr["CustomerName"].ToString();
+                    dr[3]=rdr["CustomerId"].ToString();
+                    dr[4]=rdr["Symbol"].ToString();
+                    //double BomBoughtoutQty = 0;
+                    //string StrBom1 = "SELECT Distinct(ItemId)from tblDG_BOM_Master,tblDG_Item_Master where tblDG_Item_Master.Id=tblDG_BOM_Master.ItemId And  WONo='" + rdr["WONo"].ToString() + "'And  tblDG_Item_Master.CId is Not Null And tblDG_Item_Master.UOMBasic='" + rdr["UOMBasic"] + "' ";
+                    //SqlCommand cmdBom1 = new SqlCommand(StrBom1, con);
+                    //SqlDataReader rdrBom1 = cmdBom1.ExecuteReader();
+                    //while (rdrBom1.Read())
+                    //{
+                    //    if (rdrBom1.HasRows == true)
+                    //    {
+                    //        BomBoughtoutQty += Convert.ToDouble(this.AllComponentBOMQty(CompId, rdr["WONo"].ToString(), FinYearId, Convert.ToInt32(rdrBom1["ItemId"])));
+                    //    }
+                    //}
+                    //dr[5] = BomBoughtoutQty;
+                    ///////////////// Manufacturing Item bomQty
+                    double BomMFGQty=0;
+                    string StrBom12="SELECT Distinct(ItemId)from tblDG_BOM_Master,tblDG_Item_Master where tblDG_Item_Master.Id=tblDG_BOM_Master.ItemId And  WONo='"+rdr [ "WONo" ]. ToString()+"'And  tblDG_Item_Master.CId is Null And tblDG_Item_Master.UOMBasic='"+rdr [ "UOMBasic" ]+"'     And tblDG_BOM_Master.CId not in (Select tblDG_BOM_Master.PId from tblDG_BOM_Master where tblDG_BOM_Master.WONo='"+rdr [ "WONo" ]. ToString()+"'and  tblDG_BOM_Master.CompId='"+CompId+"')  ";
+                    SqlCommand cmdBom12=new SqlCommand(StrBom12, con);
+                    SqlDataReader rdrBom12=cmdBom12. ExecuteReader();
+                    while ( rdrBom12. Read() )
+                        {
+                        if ( rdrBom12. HasRows==true )
+                            {
+                            BomMFGQty+=Convert. ToDouble(this. AllComponentBOMQty(CompId, rdr [ "WONo" ]. ToString(), FinYearId, Convert. ToInt32(rdrBom12 [ "ItemId" ])));
+                            }
+                        }
+
+                    dr[5]=BomMFGQty;
+
+                    //double sprQty=0;
+                    //double prQty=0;
+                    //double POQty=0;
+                    //string Strpr="SELECT sum(tblMM_PO_Details.Qty) As PRQty FROM  tblMM_PR_Master INNER JOIN tblMM_PR_Details ON tblMM_PR_Master.Id = tblMM_PR_Details.MId INNER JOIN tblMM_PO_Master INNER JOIN  tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_PR_Details.Id = tblMM_PO_Details.PRId INNER JOIN  tblDG_Item_Master ON tblDG_Item_Master.Id = tblMM_PR_Details.ItemId And  tblDG_Item_Master.CId is Not Null  And tblDG_Item_Master.UOMBasic='"+rdr [ "UOMBasic" ]+"' And tblMM_PR_Master.WONo='"+rdr [ "WONo" ]. ToString()+"'";
+                    //SqlCommand cmdpr=new SqlCommand(Strpr, con);
+                    //SqlDataReader rdrpr=cmdpr. ExecuteReader();
+                    //rdrpr. Read();
+                    //if ( rdrpr [ "PRQty" ]!=DBNull. Value )
+                    //    {
+                    //    prQty=Convert. ToDouble(rdrpr [ "PRQty" ]);
+                    //    }
+                    //string StrSpr = "SELECT sum(tblMM_PO_Details.Qty) As SPRQty FROM  tblMM_SPR_Master INNER JOIN tblMM_SPR_Details ON tblMM_SPR_Master.Id = tblMM_SPR_Details.MId INNER JOIN tblMM_PO_Master INNER JOIN  tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_SPR_Details.Id = tblMM_PO_Details.SPRId INNER JOIN  tblDG_Item_Master ON tblDG_Item_Master.Id = tblMM_SPR_Details.ItemId And  tblDG_Item_Master.CId is Not Null  And tblDG_Item_Master.UOMBasic='" + rdr["UOMBasic"] + "' And tblMM_SPR_Details.WONo='" + rdr["WONo"].ToString() + "'";
+                    //SqlCommand cmdSpr = new SqlCommand(StrSpr, con);
+                    //SqlDataReader rdrSpr = cmdSpr.ExecuteReader();
+                    //rdrSpr.Read();
+                    //if (rdrSpr["SPRQty"] != DBNull.Value)
+                    //{
+                    //    sprQty = Convert.ToDouble(rdrSpr["SPRQty"]);
+                    //}
+                    //POQty = prQty + sprQty;                   
+                    //dr[9] = POQty;
+
+                    ////////////// PO Manuf.(Process/Raw/Finish) Wise Qty 
+                    
+                    ///RawMaterial                   
+                    
+                   // double POQtyA = 0;
+                    
+                    //string StrprA = "SELECT sum(tblMM_PO_Details.Qty) As POQty FROM  tblMM_PR_Master INNER JOIN tblMM_PR_Details ON tblMM_PR_Master.Id = tblMM_PR_Details.MId INNER JOIN tblMM_PO_Master INNER JOIN  tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_PR_Details.Id = tblMM_PO_Details.PRId INNER JOIN  tblDG_Item_Master ON tblDG_Item_Master.Id = tblMM_PR_Details.ItemId  INNER JOIN tblMP_Material_RawMaterial ON tblMM_PR_Details.ItemId = tblMP_Material_RawMaterial.ItemId And tblDG_Item_Master.CId is  Null  And tblDG_Item_Master.UOMBasic='" + rdr["UOMBasic"] + "' And tblMM_PR_Master.WONo='" + rdr["WONo"].ToString() + "'";
+                    //string StrprA = " SELECT SUM(tblMM_PO_Details.Qty) AS POQty FROM         tblMP_Material_Detail INNER JOIN tblMP_Material_Master ON tblMP_Material_Detail.Mid = tblMP_Material_Master.Id INNER JOIN   tblMM_PR_Master INNER JOIN  tblMM_PR_Details ON tblMM_PR_Master.Id = tblMM_PR_Details.MId INNER JOIN   tblMM_PO_Master INNER JOIN  tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_PR_Details.Id = tblMM_PO_Details.PRId INNER JOIN   tblDG_Item_Master ON tblDG_Item_Master.Id = tblMM_PR_Details.ItemId INNER JOIN                      tblMP_Material_RawMaterial ON tblMM_PR_Details.ItemId = tblMP_Material_RawMaterial.ItemId AND tblDG_Item_Master.CId IS NULL AND               tblDG_Item_Master.UOMBasic = '" + rdr["UOMBasic"] + "' AND tblMM_PR_Master.WONo ='" + rdr["WONo"].ToString() + "'  ON tblMP_Material_Master.Id = tblMM_PR_Master.PLNId AND   tblMP_Material_Detail.Id = tblMP_Material_RawMaterial.DMid";
+                    //SqlCommand cmdprA = new SqlCommand(StrprA, con);
+                    //SqlDataReader rdrprA = cmdprA.ExecuteReader();
+                    //rdrprA.Read();
+                   
+                    //if (rdrprA["POQty"] != DBNull.Value)
+                    //{
+                    //    POQtyA = Convert.ToDouble(rdrprA["POQty"]);
+                    //}
+
+                   // dr[11] = POQtyA;
+                    
+
+                    ////////// Finish Material
+                    double POQtyF = 0;
+                    //string StrprF = "SELECT sum(tblMM_PO_Details.Qty) As POQty FROM  tblMM_PR_Master INNER JOIN tblMM_PR_Details ON tblMM_PR_Master.Id = tblMM_PR_Details.MId INNER JOIN tblMM_PO_Master INNER JOIN  tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_PR_Details.Id = tblMM_PO_Details.PRId INNER JOIN  tblDG_Item_Master ON tblDG_Item_Master.Id = tblMM_PR_Details.ItemId  INNER JOIN tblMP_Material_Finish ON tblMM_PR_Details.ItemId = tblMP_Material_Finish.ItemId And tblDG_Item_Master.CId is  Null  And tblDG_Item_Master.UOMBasic='" + rdr["UOMBasic"] + "' And tblMM_PR_Master.WONo='" + rdr["WONo"].ToString() + "'";
+
+
+                    string StrprF = "SELECT  Sum(tblMM_PO_Details.Qty) As POQty  FROM tblMM_PR_Details INNER JOIN tblMM_PR_Master ON tblMM_PR_Details.MId = tblMM_PR_Master.Id INNER JOIN     tblMP_Material_Detail INNER JOIN tblMP_Material_Master ON tblMP_Material_Detail.Mid = tblMP_Material_Master.Id INNER JOIN tblMP_Material_Finish ON tblMP_Material_Detail.Id = tblMP_Material_Finish.DMid ON tblMM_PR_Master.PLNId = tblMP_Material_Master.Id AND tblMM_PR_Details.ItemId = tblMP_Material_Finish.ItemId INNER JOIN tblMM_PO_Details ON tblMM_PR_Details.Id = tblMM_PO_Details.PRId INNER JOIN     tblMM_PO_Master ON tblMM_PO_Details.MId = tblMM_PO_Master.Id  INNER JOIN  tblDG_Item_Master ON tblDG_Item_Master.Id = tblMM_PR_Details.ItemId And tblDG_Item_Master.CId is  Null  And tblDG_Item_Master.UOMBasic='" + rdr["UOMBasic"] + "'   AND tblMP_Material_Master.WONo ='" + rdr["WONo"].ToString() + "' ";
+
+
+
+                    SqlCommand cmdprF = new SqlCommand(StrprF, con);
+                    SqlDataReader rdrprF = cmdprF.ExecuteReader();
+                    rdrprF.Read();
+
+                 
+                    if (rdrprF["POQty"] != DBNull.Value)
+                    {
+                        POQtyF = Convert.ToDouble(rdrprF["POQty"]);
+                    }
+                   // dr[10] = POQtyF ;
+
+                    ////////// Process Material
+                    double POQtyO = 0;
+                   
+
+                    string StrprO = "SELECT SUM(tblMM_PO_Details.Qty) AS POQty FROM  tblMP_Material_Master INNER JOIN       tblMP_Material_Detail ON tblMP_Material_Master.Id = tblMP_Material_Detail.Mid INNER JOIN  tblMM_PR_Master INNER JOIN  tblMM_PR_Details ON tblMM_PR_Master.Id = tblMM_PR_Details.MId INNER JOIN tblMM_PO_Master INNER JOIN  tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_PR_Details.Id = tblMM_PO_Details.PRId INNER JOIN tblDG_Item_Master ON tblDG_Item_Master.Id = tblMM_PR_Details.ItemId INNER JOIN tblMP_Material_Process ON tblMM_PR_Details.ItemId = tblMP_Material_Process.ItemId AND tblDG_Item_Master.CId IS NULL AND tblDG_Item_Master.UOMBasic = '" + rdr["UOMBasic"] + "' AND tblMM_PR_Master.WONo = '" + rdr["WONo"].ToString() + "' ON tblMP_Material_Detail.Id = tblMP_Material_Process.DMid AND    tblMP_Material_Master.Id = tblMM_PR_Master.PLNId";
+
+                   
+                    SqlCommand cmdprO = new SqlCommand(StrprO, con);
+                    SqlDataReader rdrprO = cmdprO.ExecuteReader();
+                    rdrprO.Read();
+                   
+                    if (rdrprO["POQty"] != DBNull.Value)
+                    {
+                        POQtyO = Convert.ToDouble(rdrprO["POQty"]);
+                    }
+
+                   // dr[12] = POQtyO + POQtyF;
+                   // Response.Write(POQtyF);
+
+                    //////////PR////////////////
+                    double sprQty1 = 0;
+                    double prQty1 = 0;
+                    double POQty1 = 0;
+                    string Strpr1 = "SELECT sum(tblMM_PO_Details.Qty) As PRQty FROM  tblMM_PR_Master INNER JOIN tblMM_PR_Details ON tblMM_PR_Master.Id = tblMM_PR_Details.MId INNER JOIN tblMM_PO_Master INNER JOIN  tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_PR_Details.Id = tblMM_PO_Details.PRId INNER JOIN  tblDG_Item_Master ON tblDG_Item_Master.Id = tblMM_PR_Details.ItemId And  tblDG_Item_Master.CId is  Null  And tblDG_Item_Master.UOMBasic='" + rdr["UOMBasic"] + "' And tblMM_PR_Master.WONo='" + rdr["WONo"].ToString() + "'";
+                    SqlCommand cmdpr1 = new SqlCommand(Strpr1, con);
+                    SqlDataReader rdrpr1 = cmdpr1.ExecuteReader();
+                    rdrpr1.Read();
+                    if (rdrpr1["PRQty"] != DBNull.Value)
+                    {
+                        prQty1 = Convert.ToDouble(rdrpr1["PRQty"]);
+                    }
+                    //string StrSpr1 = "SELECT sum(tblMM_PO_Details.Qty) As SPRQty FROM  tblMM_SPR_Master INNER JOIN tblMM_SPR_Details ON tblMM_SPR_Master.Id = tblMM_SPR_Details.MId INNER JOIN tblMM_PO_Master INNER JOIN  tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_SPR_Details.Id = tblMM_PO_Details.SPRId INNER JOIN  tblDG_Item_Master ON tblDG_Item_Master.Id = tblMM_SPR_Details.ItemId And  tblDG_Item_Master.CId is Null  And tblDG_Item_Master.UOMBasic='" + rdr["UOMBasic"] + "' And tblMM_SPR_Details.WONo='" + rdr["WONo"].ToString() + "'";
+                    //SqlCommand cmdSpr1 = new SqlCommand(StrSpr1, con);
+                    //SqlDataReader rdrSpr1 = cmdSpr1.ExecuteReader();
+                    //rdrSpr1.Read();
+                    //if (rdrSpr1["SPRQty"] != DBNull.Value)
+                    //{
+                    //    sprQty1 = Convert.ToDouble(rdrSpr1["SPRQty"]);
+                    //}
+                    POQty1 = prQty1 + sprQty1;                   
+                  //  dr[13] = POQty1;                    
+
+                    //double ginqty1 = 0;
+                    //double ginqty2= 0;
+                    //double GINQty = 0;
+
+
+                    //string Strgin1 = "SELECT SUM(tblInv_Inward_Details.Qty) AS GINQty FROM  tblInv_Inward_Details INNER JOIN         tblInv_Inward_Master ON tblInv_Inward_Details.GINId = tblInv_Inward_Master.Id INNER JOIN  tblMM_PR_Master INNER JOIN                  tblMM_PR_Details ON tblMM_PR_Master.Id = tblMM_PR_Details.MId INNER JOIN  tblMM_PO_Master INNER JOIN  tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_PR_Details.Id = tblMM_PO_Details.PRId ON  tblInv_Inward_Details.POId = tblMM_PO_Details.Id AND tblMM_PR_Master.WONo ='"+ rdr["WONo"].ToString()+"' AND tblInv_Inward_Master.PONo = tblMM_PO_Master.PONo";
+
+                    //SqlCommand cmdgin1 = new SqlCommand(Strgin1, con);
+                    //SqlDataReader rdrgin1 = cmdgin1.ExecuteReader();
+                    //rdrgin1.Read();
+                    //if (rdrgin1["GINQty"] != DBNull.Value)
+                    //{
+
+                    //    ginqty1 = Convert.ToDouble(rdrgin1["GINQty"]);
+                    //}
+
+                    //string Strgin2 = "SELECT SUM(tblInv_Inward_Details.Qty) AS GINQty FROM  tblInv_Inward_Details INNER JOIN         tblInv_Inward_Master ON tblInv_Inward_Details.GINId = tblInv_Inward_Master.Id INNER JOIN  tblMM_SPR_Master INNER JOIN                  tblMM_SPR_Details ON tblMM_SPR_Master.Id = tblMM_SPR_Details.MId INNER JOIN  tblMM_PO_Master INNER JOIN  tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_SPR_Details.Id = tblMM_PO_Details.SPRId ON  tblInv_Inward_Details.POId = tblMM_PO_Details.Id AND tblMM_SPR_Details.WONo ='" + rdr["WONo"].ToString() + "' AND tblInv_Inward_Master.PONo = tblMM_PO_Master.PONo";
+                    //SqlCommand cmdgin2 = new SqlCommand(Strgin2, con);
+                    //SqlDataReader rdrgin2 = cmdgin2.ExecuteReader();
+                    //rdrgin2.Read();
+
+                    //if (rdrgin2["GINQty"] != DBNull.Value)
+                    //{
+
+                    //    ginqty2 = Convert.ToDouble(rdrgin2["GINQty"]);
+                    //}
+
+
+                    // GINQty = ginqty1 + ginqty2;
+
+                    //dr[7] = GINQty;
+
+                    //////////////////////////////
+
+
+                    double grrqty11 = 0;
+                    double grrqty21 = 0;
+                    double GRRQty = 0;
+                    string Strgrr11 = "SELECT SUM(tblinv_MaterialReceived_Details.ReceivedQty) AS GRRQty FROM tblinv_MaterialReceived_Details INNER JOIN tblinv_MaterialReceived_Master ON tblinv_MaterialReceived_Details.MId = tblinv_MaterialReceived_Master.Id INNER JOIN tblInv_Inward_Details INNER JOIN tblInv_Inward_Master ON tblInv_Inward_Details.GINId = tblInv_Inward_Master.Id INNER JOIN tblMM_PR_Master INNER JOIN  tblMM_PR_Details ON tblMM_PR_Master.Id = tblMM_PR_Details.MId INNER JOIN tblMM_PO_Master INNER JOIN tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_PR_Details.Id = tblMM_PO_Details.PRId ON tblInv_Inward_Details.POId = tblMM_PO_Details.Id INNER JOIN  tblDG_Item_Master ON tblDG_Item_Master.Id = tblMM_PR_Details.ItemId And  tblDG_Item_Master.CId is not Null And tblDG_Item_Master.UOMBasic='" + rdr["UOMBasic"] + "' AND tblMM_PR_Master.WONo = '" + rdr["WONo"].ToString() + "' AND tblInv_Inward_Master.PONo = tblMM_PO_Master.PONo ON tblinv_MaterialReceived_Master.GINNo = tblInv_Inward_Master.GINNo AND tblinv_MaterialReceived_Details.POId = tblInv_Inward_Details.POId  ";
+                    SqlCommand cmdgrr11 = new SqlCommand(Strgrr11, con);
+                    SqlDataReader rdrgrr11 = cmdgrr11.ExecuteReader();
+                    rdrgrr11.Read();
+                    if (rdrgrr11["GRRQty"] != DBNull.Value)
+                    {
+
+                        grrqty11 = Convert.ToDouble(rdrgrr11["GRRQty"]);
+                    }
+
+                    //string Strgrr21 = "SELECT SUM(tblinv_MaterialReceived_Details.ReceivedQty) AS GRRQty FROM tblinv_MaterialReceived_Details INNER JOIN tblinv_MaterialReceived_Master ON tblinv_MaterialReceived_Details.MId = tblinv_MaterialReceived_Master.Id INNER JOIN               tblInv_Inward_Details INNER JOIN tblInv_Inward_Master ON tblInv_Inward_Details.GINId = tblInv_Inward_Master.Id INNER JOIN                       tblMM_SPR_Master INNER JOIN  tblMM_SPR_Details ON tblMM_SPR_Master.Id = tblMM_SPR_Details.MId INNER JOIN tblMM_PO_Master INNER JOIN              tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_SPR_Details.Id = tblMM_PO_Details.SPRId ON                      tblInv_Inward_Details.POId = tblMM_PO_Details.Id INNER JOIN  tblDG_Item_Master ON tblDG_Item_Master.Id = tblMM_SPR_Details.ItemId And  tblDG_Item_Master.CId is not Null And tblDG_Item_Master.UOMBasic='" + rdr["UOMBasic"] + "' AND tblMM_SPR_Details.WONo = '" + rdr["WONo"].ToString() + "' AND tblInv_Inward_Master.PONo = tblMM_PO_Master.PONo ON tblinv_MaterialReceived_Master.GINNo = tblInv_Inward_Master.GINNo AND tblinv_MaterialReceived_Details.POId = tblInv_Inward_Details.POId ";
+                    //SqlCommand cmdgrr21 = new SqlCommand(Strgrr21, con);
+                    //SqlDataReader rdrgrr21 = cmdgrr21.ExecuteReader();
+                    //rdrgrr21.Read();
+
+                    //if (rdrgrr21["GRRQty"] != DBNull.Value)
+                    //{
+
+                    //    grrqty21 = Convert.ToDouble(rdrgrr21["GRRQty"]);
+                    //}
+                    GRRQty = grrqty11 + grrqty21;
+
+                    //dr[14] = GRRQty;               
+
+
+                    ////////////// GRR Manuf.(Process/Raw/Finish) Wise Qty 
+                    ///RawMaterial                   
+                    double GRRQtyA = 0;
+                    string StrGRRA = "SELECT SUM(tblinv_MaterialReceived_Details.ReceivedQty) AS Qty FROM tblinv_MaterialReceived_Details INNER JOIN tblinv_MaterialReceived_Master ON tblinv_MaterialReceived_Details.MId = tblinv_MaterialReceived_Master.Id INNER JOIN tblInv_Inward_Details INNER JOIN tblInv_Inward_Master ON tblInv_Inward_Details.GINId = tblInv_Inward_Master.Id INNER JOIN tblMM_PR_Master INNER JOIN  tblMM_PR_Details ON tblMM_PR_Master.Id = tblMM_PR_Details.MId INNER JOIN tblMM_PO_Master INNER JOIN tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_PR_Details.Id = tblMM_PO_Details.PRId ON tblInv_Inward_Details.POId = tblMM_PO_Details.Id INNER JOIN  tblDG_Item_Master ON tblDG_Item_Master.Id = tblMM_PR_Details.ItemId INNER JOIN tblMP_Material_RawMaterial ON tblMM_PR_Details.ItemId = tblMP_Material_RawMaterial.ItemId And  tblDG_Item_Master.CId is Null And tblDG_Item_Master.UOMBasic='" + rdr["UOMBasic"] + "' AND tblMM_PR_Master.WONo = '" + rdr["WONo"].ToString() + "' AND tblInv_Inward_Master.PONo = tblMM_PO_Master.PONo ON tblinv_MaterialReceived_Master.GINNo = tblInv_Inward_Master.GINNo AND tblinv_MaterialReceived_Details.POId = tblInv_Inward_Details.POId ";
+                    SqlCommand cmdGRRA = new SqlCommand(StrGRRA, con);
+                    SqlDataReader rdrGRRA = cmdGRRA.ExecuteReader();
+                    rdrGRRA.Read();
+                   
+                    if (rdrGRRA["Qty"] != DBNull.Value)
+                    {
+                        GRRQtyA = Convert.ToDouble(rdrGRRA["Qty"]);
+                    }
+                    //dr[16] = GRRQtyA;
+
+                    ////////// Process Material
+                    double GRRQtyO = 0;
+                    string StrGRRO = "SELECT SUM(tblinv_MaterialReceived_Details.ReceivedQty) AS Qty FROM   tblMP_Material_Master INNER JOIN       tblMP_Material_Detail ON tblMP_Material_Master.Id = tblMP_Material_Detail.Mid INNER JOIN tblinv_MaterialReceived_Details INNER JOIN tblinv_MaterialReceived_Master ON tblinv_MaterialReceived_Details.MId = tblinv_MaterialReceived_Master.Id INNER JOIN tblInv_Inward_Details INNER JOIN tblInv_Inward_Master ON tblInv_Inward_Details.GINId = tblInv_Inward_Master.Id INNER JOIN tblMM_PR_Master INNER JOIN  tblMM_PR_Details ON tblMM_PR_Master.Id = tblMM_PR_Details.MId INNER JOIN tblMM_PO_Master INNER JOIN tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_PR_Details.Id = tblMM_PO_Details.PRId ON tblInv_Inward_Details.POId = tblMM_PO_Details.Id INNER JOIN  tblDG_Item_Master ON tblDG_Item_Master.Id = tblMM_PR_Details.ItemId INNER JOIN tblMP_Material_Process ON tblMM_PR_Details.ItemId = tblMP_Material_Process.ItemId And  tblDG_Item_Master.CId is Null And tblDG_Item_Master.UOMBasic='" + rdr["UOMBasic"] + "' AND tblMM_PR_Master.WONo = '" + rdr["WONo"].ToString() + "' AND tblInv_Inward_Master.PONo = tblMM_PO_Master.PONo ON tblinv_MaterialReceived_Master.GINNo = tblInv_Inward_Master.GINNo AND tblinv_MaterialReceived_Details.POId = tblInv_Inward_Details.POId  ON tblMP_Material_Detail.Id = tblMP_Material_Process.DMid AND                 tblMP_Material_Master.Id = tblMM_PR_Master.PLNId ";
+                    SqlCommand cmdGRRO = new SqlCommand(StrGRRO, con);
+                    SqlDataReader rdrGRRO = cmdGRRO.ExecuteReader();
+                    rdrGRRO.Read();
+                  
+                    if (rdrGRRO["Qty"] != DBNull.Value)
+                    {
+                        GRRQtyO = Convert.ToDouble(rdrGRRO["Qty"]);
+                    }
+                    //dr[17] = GRRQtyO;
+                    ////////// Finish Material
+                    double GRRQtyF = 0;
+                    string StrGRRF = "SELECT SUM(tblinv_MaterialReceived_Details.ReceivedQty) AS Qty FROM  tblMP_Material_Master INNER JOIN       tblMP_Material_Detail ON tblMP_Material_Master.Id = tblMP_Material_Detail.Mid INNER JOIN tblinv_MaterialReceived_Details INNER JOIN tblinv_MaterialReceived_Master ON tblinv_MaterialReceived_Details.MId = tblinv_MaterialReceived_Master.Id INNER JOIN tblInv_Inward_Details INNER JOIN tblInv_Inward_Master ON tblInv_Inward_Details.GINId = tblInv_Inward_Master.Id INNER JOIN tblMM_PR_Master INNER JOIN  tblMM_PR_Details ON tblMM_PR_Master.Id = tblMM_PR_Details.MId INNER JOIN tblMM_PO_Master INNER JOIN tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_PR_Details.Id = tblMM_PO_Details.PRId ON tblInv_Inward_Details.POId = tblMM_PO_Details.Id INNER JOIN  tblDG_Item_Master ON tblDG_Item_Master.Id = tblMM_PR_Details.ItemId INNER JOIN tblMP_Material_Finish ON tblMM_PR_Details.ItemId = tblMP_Material_Finish.ItemId And  tblDG_Item_Master.CId is Null And tblDG_Item_Master.UOMBasic='" + rdr["UOMBasic"] + "' AND tblMM_PR_Master.WONo = '" + rdr["WONo"].ToString() + "' AND tblInv_Inward_Master.PONo = tblMM_PO_Master.PONo ON tblinv_MaterialReceived_Master.GINNo = tblInv_Inward_Master.GINNo AND tblinv_MaterialReceived_Details.POId = tblInv_Inward_Details.POId   ON  tblMP_Material_Detail.Id = tblMP_Material_Finish.DMid AND                 tblMP_Material_Master.Id = tblMM_PR_Master.PLNId ";
+                    SqlCommand cmdGRRF = new SqlCommand(StrGRRF, con);
+                    SqlDataReader rdrGRRF = cmdGRRF.ExecuteReader();
+                    rdrGRRF.Read();
+                 
+                    if (rdrGRRF["Qty"] != DBNull.Value)
+                    {
+                        GRRQtyF = Convert.ToDouble(rdrGRRF["Qty"]);
+                    }
+
+                    //dr[15] = GRRQtyF;
+
+                    ///////////////////////////////
+                    double grrqty1 = 0;
+                    double grrqty2 = 0;
+                    double GRRQty1 = 0;
+                    string Strgrr1 = "SELECT SUM(tblinv_MaterialReceived_Details.ReceivedQty) AS GRRQty FROM tblinv_MaterialReceived_Details INNER JOIN tblinv_MaterialReceived_Master ON tblinv_MaterialReceived_Details.MId = tblinv_MaterialReceived_Master.Id INNER JOIN tblInv_Inward_Details INNER JOIN tblInv_Inward_Master ON tblInv_Inward_Details.GINId = tblInv_Inward_Master.Id INNER JOIN tblMM_PR_Master INNER JOIN  tblMM_PR_Details ON tblMM_PR_Master.Id = tblMM_PR_Details.MId INNER JOIN tblMM_PO_Master INNER JOIN tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_PR_Details.Id = tblMM_PO_Details.PRId ON tblInv_Inward_Details.POId = tblMM_PO_Details.Id INNER JOIN  tblDG_Item_Master ON tblDG_Item_Master.Id = tblMM_PR_Details.ItemId And  tblDG_Item_Master.CId is Null And tblDG_Item_Master.UOMBasic='" + rdr["UOMBasic"] + "' AND tblMM_PR_Master.WONo = '" + rdr["WONo"].ToString() + "' AND tblInv_Inward_Master.PONo = tblMM_PO_Master.PONo ON tblinv_MaterialReceived_Master.GINNo = tblInv_Inward_Master.GINNo AND tblinv_MaterialReceived_Details.POId = tblInv_Inward_Details.POId ";
+                    SqlCommand cmdgrr1 = new SqlCommand(Strgrr1, con);
+                    SqlDataReader rdrgrr1 = cmdgrr1.ExecuteReader();
+                    rdrgrr1.Read();
+                    if (rdrgrr1["GRRQty"] != DBNull.Value)
+                    {
+
+                        grrqty1 = Convert.ToDouble(rdrgrr1["GRRQty"]);
+                    }
+
+                    //string Strgrr2 = "SELECT SUM(tblinv_MaterialReceived_Details.ReceivedQty) AS GRRQty FROM tblinv_MaterialReceived_Details INNER JOIN tblinv_MaterialReceived_Master ON tblinv_MaterialReceived_Details.MId = tblinv_MaterialReceived_Master.Id INNER JOIN               tblInv_Inward_Details INNER JOIN tblInv_Inward_Master ON tblInv_Inward_Details.GINId = tblInv_Inward_Master.Id INNER JOIN                       tblMM_SPR_Master INNER JOIN  tblMM_SPR_Details ON tblMM_SPR_Master.Id = tblMM_SPR_Details.MId INNER JOIN tblMM_PO_Master INNER JOIN              tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_SPR_Details.Id = tblMM_PO_Details.SPRId ON                      tblInv_Inward_Details.POId = tblMM_PO_Details.Id INNER JOIN  tblDG_Item_Master ON tblDG_Item_Master.Id = tblMM_SPR_Details.ItemId And  tblDG_Item_Master.CId is Null And tblDG_Item_Master.UOMBasic='" + rdr["UOMBasic"] + "' AND tblMM_SPR_Details.WONo = '" + rdr["WONo"].ToString() + "' AND tblInv_Inward_Master.PONo = tblMM_PO_Master.PONo ON tblinv_MaterialReceived_Master.GINNo = tblInv_Inward_Master.GINNo AND tblinv_MaterialReceived_Details.POId = tblInv_Inward_Details.POId ";
+                    //SqlCommand cmdgrr2 = new SqlCommand(Strgrr2, con);
+                    //SqlDataReader rdrgrr2 = cmdgrr2.ExecuteReader();
+                    //rdrgrr2.Read();
+
+                    //if (rdrgrr2["GRRQty"] != DBNull.Value)
+                    //{
+
+                    //    grrqty2 = Convert.ToDouble(rdrgrr2["GRRQty"]);
+                    //}
+                    GRRQty1 = grrqty1 + grrqty2;
+
+                    dr[6] = GRRQty1;
+
+                    ///////////////
+                    double gqnqty1 = 0;
+                    double gqnqty2 = 0;
+                    double GQNQty1 = 0;
+                    double Rejqty1 = 0;
+                    double Rejqty2 = 0;
+                    double REJQty1 = 0;
+                    string Strgqn1 = "SELECT SUM(tblQc_MaterialQuality_Details.AcceptedQty) AS GQNQty,SUM(tblQc_MaterialQuality_Details.RejectedQty) As RejectedQty  FROM tblQc_MaterialQuality_Master INNER JOIN tblQc_MaterialQuality_Details ON tblQc_MaterialQuality_Master.Id = tblQc_MaterialQuality_Details.MId INNER JOIN tblinv_MaterialReceived_Details INNER JOIN    tblinv_MaterialReceived_Master ON tblinv_MaterialReceived_Details.MId= tblinv_MaterialReceived_Master.Id INNER JOIN   tblInv_Inward_Details INNER JOIN tblInv_Inward_Master ON tblInv_Inward_Details.GINId = tblInv_Inward_Master.Id INNER JOIN  tblMM_PR_Master INNER JOIN  tblMM_PR_Details ON tblMM_PR_Master.Id = tblMM_PR_Details.MId INNER JOIN  tblMM_PO_Master INNER JOIN tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_PR_Details.Id = tblMM_PO_Details.PRId ON tblInv_Inward_Details.POId = tblMM_PO_Details.Id  INNER JOIN  tblDG_Item_Master ON tblDG_Item_Master.Id = tblMM_PR_Details.ItemId And  tblDG_Item_Master.CId is not Null And tblDG_Item_Master.UOMBasic='" + rdr["UOMBasic"] + "' AND tblMM_PR_Master.WONo ='" + rdr["WONo"].ToString() + "'  AND tblInv_Inward_Master.PONo = tblMM_PO_Master.PONo ON  tblinv_MaterialReceived_Master.GINNo = tblInv_Inward_Master.GINNo AND tblinv_MaterialReceived_Details.POId = tblInv_Inward_Details.POId ON   tblQc_MaterialQuality_Master.GRRId = tblinv_MaterialReceived_Master.Id AND tblQc_MaterialQuality_Details.GRRId = tblinv_MaterialReceived_Details.Id ";
+                    SqlCommand cmdgqn1 = new SqlCommand(Strgqn1, con);
+                    SqlDataReader rdrgqn1 = cmdgqn1.ExecuteReader();
+                    rdrgqn1.Read();
+                    if (rdrgqn1["RejectedQty"] != DBNull.Value)
+                    {
+
+                        Rejqty1 = Convert.ToDouble(rdrgqn1["RejectedQty"]);
+                    }
+                    if (rdrgqn1["GQNQty"] != DBNull.Value)
+                    {
+
+                        gqnqty1 = Convert.ToDouble(rdrgqn1["GQNQty"]);
+                    }
+
+                    //string Strgqn2 = "SELECT SUM(tblQc_MaterialQuality_Details.AcceptedQty) AS GQNQty, SUM(tblQc_MaterialQuality_Details.RejectedQty) As RejectedQty FROM tblQc_MaterialQuality_Master INNER JOIN tblQc_MaterialQuality_Details ON tblQc_MaterialQuality_Master.Id = tblQc_MaterialQuality_Details.MId INNER JOIN             tblinv_MaterialReceived_Details INNER JOIN    tblinv_MaterialReceived_Master ON tblinv_MaterialReceived_Details.MId= tblinv_MaterialReceived_Master.Id INNER JOIN   tblInv_Inward_Details INNER JOIN tblInv_Inward_Master ON tblInv_Inward_Details.GINId = tblInv_Inward_Master.Id INNER JOIN  tblMM_SPR_Master INNER JOIN  tblMM_SPR_Details ON tblMM_SPR_Master.Id = tblMM_SPR_Details.MId INNER JOIN  tblMM_PO_Master INNER JOIN tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_SPR_Details.Id = tblMM_PO_Details.SPRId ON tblInv_Inward_Details.POId = tblMM_PO_Details.Id  INNER JOIN  tblDG_Item_Master ON tblDG_Item_Master.Id = tblMM_SPR_Details.ItemId And  tblDG_Item_Master.CId is not Null And tblDG_Item_Master.UOMBasic='" + rdr["UOMBasic"] + "' AND tblMM_SPR_Details.WONo ='" + rdr["WONo"].ToString() + "'  AND tblInv_Inward_Master.PONo = tblMM_PO_Master.PONo ON  tblinv_MaterialReceived_Master.GINNo = tblInv_Inward_Master.GINNo AND tblinv_MaterialReceived_Details.POId = tblInv_Inward_Details.POId ON   tblQc_MaterialQuality_Master.GRRId = tblinv_MaterialReceived_Master.Id AND tblQc_MaterialQuality_Details.GRRId = tblinv_MaterialReceived_Details.Id ";
+                    //SqlCommand cmdgqn2 = new SqlCommand(Strgqn2, con);
+                    //SqlDataReader rdrgqn2 = cmdgqn2.ExecuteReader();
+                    //rdrgqn2.Read();
+
+                    //if (rdrgqn2["GQNQty"] != DBNull.Value)
+                    //{
+
+                    //    gqnqty2 = Convert.ToDouble(rdrgqn2["GQNQty"]);
+                    //}
+                    //if (rdrgqn2["RejectedQty"] != DBNull.Value)
+                    //{
+
+                    //    Rejqty2 = Convert.ToDouble(rdrgqn2["RejectedQty"]);
+                    //}
+
+                    GQNQty1 = gqnqty1 + gqnqty2;
+                    REJQty1 = Rejqty1 + Rejqty2;                    
+                   // dr[19] = GQNQty1;                   
+                    ////////////////
+
+                    double gqnqty12 = 0;
+                    double gqnqty22 = 0;
+                    double GQNQty2 = 0;
+                    double Rejqty11 = 0;
+                    double Rejqty21 = 0;
+                    double REJQty2 = 0;
+                    string Strgqn12 = "SELECT SUM(tblQc_MaterialQuality_Details.AcceptedQty) AS GQNQty,SUM(tblQc_MaterialQuality_Details.RejectedQty) As RejectedQty FROM tblQc_MaterialQuality_Master INNER JOIN tblQc_MaterialQuality_Details ON tblQc_MaterialQuality_Master.Id = tblQc_MaterialQuality_Details.MId INNER JOIN tblinv_MaterialReceived_Details INNER JOIN    tblinv_MaterialReceived_Master ON tblinv_MaterialReceived_Details.MId= tblinv_MaterialReceived_Master.Id INNER JOIN   tblInv_Inward_Details INNER JOIN tblInv_Inward_Master ON tblInv_Inward_Details.GINId = tblInv_Inward_Master.Id INNER JOIN  tblMM_PR_Master INNER JOIN  tblMM_PR_Details ON tblMM_PR_Master.Id = tblMM_PR_Details.MId INNER JOIN  tblMM_PO_Master INNER JOIN tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_PR_Details.Id = tblMM_PO_Details.PRId ON tblInv_Inward_Details.POId = tblMM_PO_Details.Id  INNER JOIN  tblDG_Item_Master ON tblDG_Item_Master.Id = tblMM_PR_Details.ItemId And  tblDG_Item_Master.CId is Null And tblDG_Item_Master.UOMBasic='" + rdr["UOMBasic"] + "' AND tblMM_PR_Master.WONo ='" + rdr["WONo"].ToString() + "'  AND tblInv_Inward_Master.PONo = tblMM_PO_Master.PONo ON  tblinv_MaterialReceived_Master.GINNo = tblInv_Inward_Master.GINNo AND tblinv_MaterialReceived_Details.POId = tblInv_Inward_Details.POId ON   tblQc_MaterialQuality_Master.GRRId = tblinv_MaterialReceived_Master.Id AND tblQc_MaterialQuality_Details.GRRId = tblinv_MaterialReceived_Details.Id ";
+                    SqlCommand cmdgqn12 = new SqlCommand(Strgqn12, con);
+                    SqlDataReader rdrgqn12 = cmdgqn12.ExecuteReader();
+                    rdrgqn12.Read();
+                    if (rdrgqn12["GQNQty"] != DBNull.Value)
+                    {
+
+                        gqnqty12 = Convert.ToDouble(rdrgqn12["GQNQty"]);
+                    }
+
+                    if (rdrgqn12["RejectedQty"] != DBNull.Value)
+                    {
+
+                        Rejqty11 = Convert.ToDouble(rdrgqn12["RejectedQty"]);
+                    }
+
+                    //string Strgqn22 = "SELECT SUM(tblQc_MaterialQuality_Details.AcceptedQty) AS GQNQty , SUM(tblQc_MaterialQuality_Details.RejectedQty) As RejectedQty FROM tblQc_MaterialQuality_Master INNER JOIN tblQc_MaterialQuality_Details ON tblQc_MaterialQuality_Master.Id = tblQc_MaterialQuality_Details.MId INNER JOIN             tblinv_MaterialReceived_Details INNER JOIN    tblinv_MaterialReceived_Master ON tblinv_MaterialReceived_Details.MId= tblinv_MaterialReceived_Master.Id INNER JOIN   tblInv_Inward_Details INNER JOIN tblInv_Inward_Master ON tblInv_Inward_Details.GINId = tblInv_Inward_Master.Id INNER JOIN  tblMM_SPR_Master INNER JOIN  tblMM_SPR_Details ON tblMM_SPR_Master.Id = tblMM_SPR_Details.MId INNER JOIN  tblMM_PO_Master INNER JOIN tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_SPR_Details.Id = tblMM_PO_Details.SPRId ON tblInv_Inward_Details.POId = tblMM_PO_Details.Id  INNER JOIN  tblDG_Item_Master ON tblDG_Item_Master.Id = tblMM_SPR_Details.ItemId And  tblDG_Item_Master.CId is Null And tblDG_Item_Master.UOMBasic='" + rdr["UOMBasic"] + "' AND tblMM_SPR_Details.WONo ='" + rdr["WONo"].ToString() + "'  AND tblInv_Inward_Master.PONo = tblMM_PO_Master.PONo ON  tblinv_MaterialReceived_Master.GINNo = tblInv_Inward_Master.GINNo AND tblinv_MaterialReceived_Details.POId = tblInv_Inward_Details.POId ON   tblQc_MaterialQuality_Master.GRRId = tblinv_MaterialReceived_Master.Id AND tblQc_MaterialQuality_Details.GRRId = tblinv_MaterialReceived_Details.Id ";
+                    //SqlCommand cmdgqn22 = new SqlCommand(Strgqn22, con);
+                    //SqlDataReader rdrgqn22 = cmdgqn22.ExecuteReader();
+                    //rdrgqn22.Read();
+
+                    //if (rdrgqn22["GQNQty"] != DBNull.Value)
+                    //{
+
+                    //    gqnqty22 = Convert.ToDouble(rdrgqn22["GQNQty"]);
+                    //}
+
+                    //if (rdrgqn22["RejectedQty"] != DBNull.Value)
+                    //{
+
+                    //    Rejqty21 = Convert.ToDouble(rdrgqn22["RejectedQty"]);
+                    //}
+                    REJQty2 = Rejqty11 + Rejqty21;
+                    GQNQty2 = gqnqty12 + gqnqty22; 
+                    ////////////// GQN Manuf.(Process/Raw/Finish) Wise Qty 
+                    ///RawMaterial                   
+                    double GQNQtyA = 0;
+                    double  REJQtyA = 0;
+                    string StrGQNA = "SELECT SUM(tblQc_MaterialQuality_Details.AcceptedQty) AS Qty,   SUM(tblQc_MaterialQuality_Details.RejectedQty) As RejectedQty FROM  tblMP_Material_Master INNER JOIN  tblMP_Material_Detail ON tblMP_Material_Master.Id = tblMP_Material_Detail.Mid INNER JOIN  tblQc_MaterialQuality_Master INNER JOIN tblQc_MaterialQuality_Details ON tblQc_MaterialQuality_Master.Id = tblQc_MaterialQuality_Details.MId INNER JOIN tblinv_MaterialReceived_Details INNER JOIN tblinv_MaterialReceived_Master ON tblinv_MaterialReceived_Details.MId= tblinv_MaterialReceived_Master.Id INNER JOIN   tblInv_Inward_Details INNER JOIN tblInv_Inward_Master ON tblInv_Inward_Details.GINId = tblInv_Inward_Master.Id INNER JOIN  tblMM_PR_Master INNER JOIN  tblMM_PR_Details ON tblMM_PR_Master.Id = tblMM_PR_Details.MId INNER JOIN  tblMM_PO_Master INNER JOIN tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_PR_Details.Id = tblMM_PO_Details.PRId ON tblInv_Inward_Details.POId = tblMM_PO_Details.Id  INNER JOIN  tblDG_Item_Master ON tblDG_Item_Master.Id = tblMM_PR_Details.ItemId INNER JOIN tblMP_Material_RawMaterial ON tblMM_PR_Details.ItemId = tblMP_Material_RawMaterial.ItemId And  tblDG_Item_Master.CId is Null And tblDG_Item_Master.UOMBasic='" + rdr["UOMBasic"] + "' AND tblMM_PR_Master.WONo ='" + rdr["WONo"].ToString() + "'  AND tblInv_Inward_Master.PONo = tblMM_PO_Master.PONo ON  tblinv_MaterialReceived_Master.GINNo = tblInv_Inward_Master.GINNo AND tblinv_MaterialReceived_Details.POId = tblInv_Inward_Details.POId ON tblQc_MaterialQuality_Master.GRRId = tblinv_MaterialReceived_Master.Id AND tblQc_MaterialQuality_Details.GRRId = tblinv_MaterialReceived_Details.Id  ON tblMP_Material_Detail.Id = tblMP_Material_RawMaterial.DMid AND     tblMP_Material_Master.Id = tblMM_PR_Master.PLNId  ";
+                    SqlCommand cmdGQNA = new SqlCommand(StrGQNA, con);
+                    SqlDataReader rdrGQNA = cmdGQNA.ExecuteReader();
+                    rdrGQNA.Read();
+                    if (rdrGQNA["Qty"] != DBNull.Value)
+                    {
+                        GQNQtyA = Convert.ToDouble(rdrGQNA["Qty"]);
+                    }
+
+                    if (rdrGQNA["RejectedQty"] != DBNull.Value)
+                    {
+                        REJQtyA = Convert.ToDouble(rdrGQNA["RejectedQty"]);
+                    }
+
+
+                    //dr[21] = GQNQtyA;
+                    //dr[26] = REJQtyA;
+
+                    ////////// Process Material
+                    double GQNQtyO = 0;
+                    double REJQtyO = 0;
+                    string StrGQNO = "SELECT SUM(tblQc_MaterialQuality_Details.AcceptedQty) AS Qty,SUM(tblQc_MaterialQuality_Details.RejectedQty) As RejectedQty FROM   tblMP_Material_Master INNER JOIN  tblMP_Material_Detail ON tblMP_Material_Master.Id = tblMP_Material_Detail.Mid INNER JOIN  tblQc_MaterialQuality_Master INNER JOIN tblQc_MaterialQuality_Details ON tblQc_MaterialQuality_Master.Id = tblQc_MaterialQuality_Details.MId INNER JOIN tblinv_MaterialReceived_Details INNER JOIN tblinv_MaterialReceived_Master ON tblinv_MaterialReceived_Details.MId= tblinv_MaterialReceived_Master.Id INNER JOIN   tblInv_Inward_Details INNER JOIN tblInv_Inward_Master ON tblInv_Inward_Details.GINId = tblInv_Inward_Master.Id INNER JOIN  tblMM_PR_Master INNER JOIN  tblMM_PR_Details ON tblMM_PR_Master.Id = tblMM_PR_Details.MId INNER JOIN  tblMM_PO_Master INNER JOIN tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_PR_Details.Id = tblMM_PO_Details.PRId ON tblInv_Inward_Details.POId = tblMM_PO_Details.Id  INNER JOIN  tblDG_Item_Master ON tblDG_Item_Master.Id = tblMM_PR_Details.ItemId INNER JOIN tblMP_Material_Process ON tblMM_PR_Details.ItemId = tblMP_Material_Process.ItemId And  tblDG_Item_Master.CId is Null And tblDG_Item_Master.UOMBasic='" + rdr["UOMBasic"] + "' AND tblMM_PR_Master.WONo ='" + rdr["WONo"].ToString() + "'  AND tblInv_Inward_Master.PONo = tblMM_PO_Master.PONo ON  tblinv_MaterialReceived_Master.GINNo = tblInv_Inward_Master.GINNo AND tblinv_MaterialReceived_Details.POId = tblInv_Inward_Details.POId ON tblQc_MaterialQuality_Master.GRRId = tblinv_MaterialReceived_Master.Id AND tblQc_MaterialQuality_Details.GRRId = tblinv_MaterialReceived_Details.Id   ON tblMP_Material_Detail.Id = tblMP_Material_Process.DMid AND     tblMP_Material_Master.Id = tblMM_PR_Master.PLNId  ";
+                    SqlCommand cmdGQNO = new SqlCommand(StrGQNO, con);
+                    SqlDataReader rdrGQNO = cmdGQNO.ExecuteReader();
+                    rdrGQNO.Read();
+                    if (rdrGQNO["Qty"] != DBNull.Value)
+                    {
+                        GQNQtyO = Convert.ToDouble(rdrGQNO["Qty"]);
+                    }
+
+                    if (rdrGQNO["RejectedQty"] != DBNull.Value)
+                    {
+                        REJQtyO = Convert.ToDouble(rdrGQNO["RejectedQty"]);
+                    }
+                   // dr[27] = REJQtyO;
+
+                   // dr[22] = GQNQtyO;
+                    ////////// Finish Material
+                    double GQNQtyF = 0;
+                    double REJQtyF = 0;
+                    string StrGQNF = "SELECT SUM(tblQc_MaterialQuality_Details.AcceptedQty) AS Qty,SUM(tblQc_MaterialQuality_Details.RejectedQty) As RejectedQty FROM  tblMP_Material_Master INNER JOIN  tblMP_Material_Detail ON tblMP_Material_Master.Id = tblMP_Material_Detail.Mid INNER JOIN   tblQc_MaterialQuality_Master INNER JOIN tblQc_MaterialQuality_Details ON tblQc_MaterialQuality_Master.Id = tblQc_MaterialQuality_Details.MId INNER JOIN tblinv_MaterialReceived_Details INNER JOIN tblinv_MaterialReceived_Master ON tblinv_MaterialReceived_Details.MId= tblinv_MaterialReceived_Master.Id INNER JOIN   tblInv_Inward_Details INNER JOIN tblInv_Inward_Master ON tblInv_Inward_Details.GINId = tblInv_Inward_Master.Id INNER JOIN  tblMM_PR_Master INNER JOIN  tblMM_PR_Details ON tblMM_PR_Master.Id = tblMM_PR_Details.MId INNER JOIN  tblMM_PO_Master INNER JOIN tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId ON tblMM_PR_Details.Id = tblMM_PO_Details.PRId ON tblInv_Inward_Details.POId = tblMM_PO_Details.Id  INNER JOIN  tblDG_Item_Master ON tblDG_Item_Master.Id = tblMM_PR_Details.ItemId INNER JOIN tblMP_Material_Finish ON tblMM_PR_Details.ItemId = tblMP_Material_Finish.ItemId And  tblDG_Item_Master.CId is Null And tblDG_Item_Master.UOMBasic='" + rdr["UOMBasic"] + "' AND tblMM_PR_Master.WONo ='" + rdr["WONo"].ToString() + "'  AND tblInv_Inward_Master.PONo = tblMM_PO_Master.PONo ON  tblinv_MaterialReceived_Master.GINNo = tblInv_Inward_Master.GINNo AND tblinv_MaterialReceived_Details.POId = tblInv_Inward_Details.POId ON tblQc_MaterialQuality_Master.GRRId = tblinv_MaterialReceived_Master.Id AND tblQc_MaterialQuality_Details.GRRId = tblinv_MaterialReceived_Details.Id ON tblMP_Material_Detail.Id = tblMP_Material_Finish.DMid AND     tblMP_Material_Master.Id = tblMM_PR_Master.PLNId  ";
+                    SqlCommand cmdGQNF = new SqlCommand(StrGQNF, con);
+                    SqlDataReader rdrGQNF = cmdGQNF.ExecuteReader();
+                    rdrGQNF.Read();
+                    if (rdrGQNF["Qty"] != DBNull.Value)
+                    {
+                        GQNQtyF = Convert.ToDouble(rdrGQNF["Qty"]);
+                    }
+                    if (rdrGQNF["RejectedQty"] != DBNull.Value)
+                    {
+                        REJQtyF = Convert.ToDouble(rdrGQNF["RejectedQty"]);
+                    }
+
+                   // dr[25] = REJQtyF;
+
+
+                   // dr[20] = GQNQtyF;                   
+                   // dr[23] = GQNQty2;
+
+                    //////// Rejection Qty
+
+                   // dr[24] = REJQty1;
+                   // dr[28] = REJQty2;
+
+                    /////////// WIS //////////////
+                    double wisBQty = 0;
+                    string StrWIS = "SELECT Sum(tblInv_WIS_Details.IssuedQty) As WISQty FROM  tblInv_WIS_Master INNER JOIN                       tblInv_WIS_Details ON tblInv_WIS_Master.Id = tblInv_WIS_Details.MId INNER JOIN  tblDG_Item_Master ON tblDG_Item_Master.Id = tblInv_WIS_Details.ItemId And  tblDG_Item_Master.CId is Not Null   And tblDG_Item_Master.UOMBasic='" + rdr["UOMBasic"] + "'  And tblInv_WIS_Master.WONo='" + rdr["WONo"].ToString() + "'";
+                    SqlCommand cmdWIS = new SqlCommand(StrWIS, con);
+                    SqlDataReader rdrWIS = cmdWIS.ExecuteReader();
+                    rdrWIS.Read();
+                    if (rdrWIS["WISQty"] != DBNull.Value)
+                    {
+                        wisBQty = Convert.ToDouble(rdrWIS["WISQty"]);
+                    }
+                   // dr[7] = wisBQty;
+                    //////////////MFG
+
+                    double wisMQty = 0;
+                    string StrWIS_M = "SELECT Sum(tblInv_WIS_Details.IssuedQty) As WISQty FROM  tblInv_WIS_Master INNER JOIN                       tblInv_WIS_Details ON tblInv_WIS_Master.Id = tblInv_WIS_Details.MId INNER JOIN  tblDG_Item_Master ON tblDG_Item_Master.Id = tblInv_WIS_Details.ItemId And  tblDG_Item_Master.CId is Null   And tblDG_Item_Master.UOMBasic='" + rdr["UOMBasic"] + "'  And tblInv_WIS_Master.WONo='" + rdr["WONo"].ToString() + "'";
+                    SqlCommand cmdWIS_M = new SqlCommand(StrWIS_M, con);
+                    SqlDataReader rdrWIS_M = cmdWIS_M.ExecuteReader();
+                    rdrWIS_M.Read();
+                    if (rdrWIS_M["WISQty"] != DBNull.Value)
+                    {
+                        wisMQty = Convert.ToDouble(rdrWIS_M["WISQty"]);
+                    }
+                   // dr[8] = wisMQty;
+
+                    ///////// ShortQty
+                    //dr[29] = Math.Round((BomBoughtoutQty - wisBQty), 3);
+                    //dr[30] = Math.Round((BomMFGQty - wisMQty), 3);
+                    //string bal = GridView1.FindControl("lblBOM_Mfg_Qty").ToString();
+                    //TextBox txtname = GridView1.Rows[e.RowIndex].FindControl("TextBox2") as TextBox;
+                    ////////// QA
+                    //dr[31] =Math.Round(( GRRQty - (GQNQty1 + REJQty1)),3);
+                    if ( BomMFGQty<GRRQty1 )
+                        dr [7]=0;
+                    else
+                    dr[7] = Math.Round((BomMFGQty - GRRQty1), 3); 
+                    //dr[32] = bal;
+                    //dr[33]="ghg";
+
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                } 
+            }
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
+            ViewState["dtList"] = dt;
+            con.Close();
+        }
+
+        catch (Exception ex) { }
+
+    }
+
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView1.PageIndex = e.NewPageIndex;
+        this.loaddata(h);
+    }
+
+    protected void btnExpor_Click(object sender, EventArgs e)
+    {
+        try
+        {           
+
+            DataTable dt1 = (DataTable)ViewState["dtList"];
+            dt1.Columns[0].ColumnName = "WO No";           
+            dt1.Columns[1].ColumnName = "Project Title";
+            dt1.Columns[2].ColumnName = "Customer Name";
+            dt1.Columns[3].ColumnName = "Customer Code";
+            dt1.Columns[4].ColumnName = "UOM";
+
+            //dt1.Columns[5].ColumnName = "BOM [B]";
+            dt1.Columns[5].ColumnName = "BOM [M]";
+
+            //dt1.Columns[7].ColumnName = "WIS [B]";
+            //dt1.Columns[8].ColumnName = "WIS [M]";
+
+            //dt1.Columns[9].ColumnName = "PO [B]";
+            //dt1.Columns[10].ColumnName = "PO [F]";
+            //dt1.Columns[11].ColumnName = "PO [A]";
+            //dt1.Columns[12].ColumnName = "PO [O]";           
+            //dt1.Columns[13].ColumnName = "PO [M]";
+
+            //dt1.Columns[14].ColumnName = "GRR [B]";
+            //dt1.Columns[15].ColumnName = "GRR [F]";
+            //dt1.Columns[16].ColumnName = "GRR [A]";
+            //dt1.Columns[17].ColumnName = "GRR [O]";           
+            dt1.Columns[6].ColumnName = "RECVD [M]";
+
+
+            //dt1.Columns[19].ColumnName = "GQN [B]";
+            //dt1.Columns[20].ColumnName = "GQN [F]";
+            //dt1.Columns[21].ColumnName = "GQN [A]";
+            //dt1.Columns[22].ColumnName = "GQN [O]";            
+            //dt1.Columns[23].ColumnName = "GQN [M]";
+
+
+            //dt1.Columns[24].ColumnName = "Rej [B]";
+            //dt1.Columns[25].ColumnName = "Rej [F]";
+            //dt1.Columns[26].ColumnName = "Rej [A]";
+            //dt1.Columns[27].ColumnName = "Rej [O]";
+            //dt1.Columns[28].ColumnName = "Rej [M]";
+
+            //dt1.Columns[29].ColumnName = "Short [B]";
+            //dt1.Columns[30].ColumnName = "Short [M]"; 
+           
+            //dt1.Columns[31].ColumnName = "QA [B]";
+            dt1.Columns[7].ColumnName = "Balance";
+
+            if (dt1 == null)
+            {
+                throw new Exception("No Records to Export");
+
+            }
+
+            string Path = "D:\\ImportExcelFromDatabase\\myexcelfile_" + DateTime.Now.Day.ToString() + "_" + DateTime.Now.Month.ToString() + ".xls";
+            FileInfo FI = new FileInfo(Path);
+            StringWriter stringWriter = new StringWriter();
+            HtmlTextWriter htmlWrite = new HtmlTextWriter(stringWriter);
+            System.Web.UI.WebControls.DataGrid DataGrd = new System.Web.UI.WebControls.DataGrid();
+            DataGrd.DataSource = dt1;
+            DataGrd.DataBind();
+            DataGrd.RenderControl(htmlWrite);
+            string directory = Path.Substring(0, Path.LastIndexOf("\\"));// GetDirectory(Path);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+            System.IO.StreamWriter vw = new System.IO.StreamWriter(Path, true);
+            stringWriter.ToString().Normalize();
+            vw.Write(stringWriter.ToString());
+            vw.Flush();
+            vw.Close();
+            WriteAttachment(FI.Name, "application/vnd.ms-excel", stringWriter.ToString());
+        }
+        catch (Exception ex)
+        {
+            string mystring = string.Empty;
+            mystring = "No Records to Export.";
+            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+        }
+    }
+
+    public static void WriteAttachment(string FileName, string FileType, string content)
+    {
+        try
+        {
+            HttpResponse Response = System.Web.HttpContext.Current.Response;
+            Response.ClearHeaders();
+            Response.AppendHeader("Content-Disposition", "attachment; filename=" + FileName);
+            Response.ContentType = FileType;
+            Response.Write(content);
+            Response.End();
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    protected void btnCance_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("ProjectSummary.aspx?ModId=7");
+    }
+
+    //protected void GridView1_RowCreated(object sender, GridViewRowEventArgs e)
+    //{
+    //    try
+    //    {
+    //        if (e.Row.RowType == DataControlRowType.Header)
+    //        {
+    //            GridView HeaderGrid = (GridView)sender;
+    //            GridViewRow HeaderGridRow = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Insert);
+
+               
+    //            TableCell HeaderCell = new TableCell();
+    //            HeaderCell.Text = " ";                
+    //            HeaderCell.ColumnSpan = 6;
+    //            HeaderCell.Font.Bold = true;
+    //            HeaderCell.HorizontalAlign = HorizontalAlign.Center;
+    //            HeaderGridRow.Cells.Add(HeaderCell);
+    //            HeaderGridRow.BackColor = Color.LightGray;
+    //            HeaderCell.BackColor = Color.White;
+
+    //            HeaderCell = new TableCell();
+    //            HeaderCell.Text = "BOM Qty";               
+    //            HeaderCell.ColumnSpan = 2;
+    //            HeaderCell.Font.Bold = true;
+    //            HeaderCell.HorizontalAlign = HorizontalAlign.Center;
+    //            HeaderGridRow.Cells.Add(HeaderCell);
+
+    //            HeaderCell = new TableCell();
+    //            HeaderCell.Text = "WIS Qty";
+    //            HeaderCell.ColumnSpan = 2;
+    //            HeaderCell.Font.Bold = true;
+    //            HeaderCell.HorizontalAlign = HorizontalAlign.Center;
+    //            HeaderGridRow.Cells.Add(HeaderCell);
+
+
+    //            HeaderCell = new TableCell();
+    //            HeaderCell.Text = "Short Qty";
+    //            HeaderCell.ColumnSpan = 2;
+    //            HeaderCell.Font.Bold = true;
+    //            HeaderCell.HorizontalAlign = HorizontalAlign.Center;
+    //            HeaderGridRow.Cells.Add(HeaderCell);
+
+
+    //            HeaderCell = new TableCell();
+    //            HeaderCell.Text = "PO Qty";
+    //            HeaderCell.ColumnSpan = 4;
+    //            HeaderCell.Font.Bold = true;
+    //            HeaderCell.HorizontalAlign = HorizontalAlign.Center;
+    //            HeaderGridRow.Cells.Add(HeaderCell);
+
+    //            HeaderCell = new TableCell();
+    //            HeaderCell.Text = "GRR Qty";
+    //            HeaderCell.ColumnSpan = 4;
+    //            HeaderCell.Font.Bold = true;
+    //            HeaderCell.HorizontalAlign = HorizontalAlign.Center;
+    //            HeaderGridRow.Cells.Add(HeaderCell);
+
+    //            HeaderCell = new TableCell();
+    //            HeaderCell.Text = "GQN Qty";
+    //            HeaderCell.ColumnSpan = 4;
+    //            HeaderCell.Font.Bold = true;
+    //            HeaderCell.HorizontalAlign = HorizontalAlign.Center;
+    //            HeaderGridRow.Cells.Add(HeaderCell);
+
+    //            HeaderCell = new TableCell();
+    //            HeaderCell.Text = "Rej Qty";
+    //            HeaderCell.ColumnSpan = 4;
+    //            HeaderCell.Font.Bold = true;
+    //            HeaderCell.HorizontalAlign = HorizontalAlign.Center;
+    //            HeaderGridRow.Cells.Add(HeaderCell);
+
+           
+
+
+    //            HeaderCell = new TableCell();
+    //            HeaderCell.Text = "QA Qty";
+    //            HeaderCell.ColumnSpan = 2;
+    //            HeaderCell.Font.Bold = true;
+    //            HeaderCell.HorizontalAlign = HorizontalAlign.Center;
+    //            HeaderGridRow.Cells.Add(HeaderCell);
+    //            GridView1.Controls[0].Controls.AddAt(0, HeaderGridRow);
+    //        }
+    //    }
+
+    //    catch(Exception ex)
+    //    {
+    //    }
+    //}
+}

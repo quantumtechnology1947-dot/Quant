@@ -1,0 +1,466 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MIS/Transactions/Budget_Dist_Time.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Budget_Dist_Time.aspx.cs" Inherits="Module_Accounts_Transactions_Budget_Dist_Time" Title="ERP" Theme ="Default"  %>
+
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style2
+        {
+            width: 100%;
+            float: left;
+        }
+    
+.redbox 
+{
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+    color: #FFFFFF;
+	font-size: 11px; background-color:#FF0000;
+	border: 1px solid #FD80FA;
+	height: 19px;
+}
+
+        </style>
+<script type="text/javascript">
+        function OnChanged(sender, args)
+        {
+            ServerUtilities.SetTabIndex(sender.get_activeTabIndex());
+        }
+</script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="left" cellpadding="0" cellspacing="0" class="style2">
+        <tr>
+            <td align="left" valign="middle"  scope="col"  
+                            style="background:url(../../../images/hdbg.JPG)" class="fontcsswhite" 
+                            height="21">
+                            &nbsp;<b>Assign Budget</b></td>
+        </tr>
+        <tr>
+            <td>
+                <%--<asp:ScriptManager ID="ScriptManager2" runat="server">
+                </asp:ScriptManager>--%>
+            
+    <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="1" Height="434px"
+        AutoPostBack="True" onactivetabchanged="TabContainer1_ActiveTabChanged" Width="100%" >
+        <cc1:TabPanel runat="server" HeaderText="Bussiness Group" ID="TabPanel1" Visible="false" >
+            <HeaderTemplate>
+                Bussiness Group           
+            
+        </HeaderTemplate>
+        
+<ContentTemplate>
+<table align="left" cellpadding="0" cellspacing="0" class="style2"><tr><td width="40%" colspan="2"><asp:Panel ID="Panel2" runat="server" Height="420px" ScrollBars="Auto"><asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" 
+                            CssClass="yui-datatable-theme" DataSourceID="LocalSqlServer" 
+                            OnRowCommand="GridView2_RowCommand" PageSize="20" Width="95%"><PagerSettings PageButtonCount="40" /><Columns><asp:TemplateField HeaderText="SN"><ItemTemplate><%# Container.DataItemIndex + 1%></ItemTemplate><ItemStyle HorizontalAlign="Right" Width="3%" />
+</asp:TemplateField><asp:TemplateField><ItemTemplate><asp:LinkButton ID="LinkButton1" runat="server" CommandName="Sel" Text="Select"></asp:LinkButton>
+
+                                    
+        </ItemTemplate><ItemStyle HorizontalAlign="Center" Width="5%" />
+</asp:TemplateField><asp:TemplateField HeaderText="Id" SortExpression="Id" Visible="False"><ItemTemplate><asp:Label ID="lblId" runat="server" Text='<%#Eval("Id") %>'> </asp:Label>
+                                    
+        </ItemTemplate><ItemStyle Width="3%" />
+</asp:TemplateField><asp:TemplateField HeaderText="Description" SortExpression="Description"><ItemTemplate><asp:Label ID="lblDesc" runat="server" Text='<%#Eval("Name") %>'> </asp:Label>
+                                    
+        </ItemTemplate><ItemStyle HorizontalAlign="Left" Width="20%" />
+</asp:TemplateField><asp:TemplateField HeaderText="Symbol" SortExpression="Symbol"><ItemTemplate><asp:Label ID="lblSymbol" runat="server" Text='<%#Eval("Symbol") %>'> </asp:Label>
+                                    
+        </ItemTemplate><FooterTemplate>
+                                    
+        </FooterTemplate><ItemStyle HorizontalAlign="Center" Width="8%" />
+</asp:TemplateField>
+    </Columns>
+    </asp:GridView>
+
+                    </asp:Panel></td><td width="60%" ><asp:Button ID="btnCancel1" runat="server" CssClass="redbox"
+                        OnClick="btnCancel1_Click" Text="Cancel" Width="60px" /><asp:Label ID="lblBG" runat="server" Text="Bussiness Group : " Visible="False" 
+                        ForeColor="#0033CC" style="font-weight: 700"></asp:Label><asp:Label ID="lblBGGroup" runat="server" Visible="False" ForeColor="#0033CC" 
+                        style="font-weight: 700"></asp:Label><asp:Label ID="HField" runat="server" Visible="False"></asp:Label><asp:Panel ID="Panel1" runat="server" Height="400px" ScrollBars="Auto"><asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" 
+                            CssClass="yui-datatable-theme"  PageSize="20" 
+                            Width="100%"><PagerSettings PageButtonCount="40" /><Columns><asp:TemplateField HeaderText="SN"><ItemTemplate><%# Container.DataItemIndex + 1%></ItemTemplate><ItemStyle HorizontalAlign="Right" Width="3%" />
+</asp:TemplateField><asp:TemplateField><ItemTemplate><asp:HyperLink ID="HyperLink1" runat="server" Text="Select" />
+                                    
+                </ItemTemplate>
+
+<ItemStyle HorizontalAlign="Center" Width="5%" />
+</asp:TemplateField>
+<asp:TemplateField HeaderText="CK">
+    <ItemTemplate>
+                                        <asp:CheckBox ID="CheckBox1" runat="server" AutoPostBack="true" 
+                                            OnCheckedChanged="CheckBox1_CheckedChanged" />
+                                    
+                </ItemTemplate>
+
+<ItemStyle HorizontalAlign="Center" Width="2%" />
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Id" SortExpression="Id" Visible="False">
+    <ItemTemplate>
+                                        <asp:Label ID="lblId" runat="server" Text='<%#Eval("Id") %>'>  </asp:Label>
+                                    
+                </ItemTemplate><ItemStyle Width="3%" />
+</asp:TemplateField><asp:TemplateField HeaderText="Symbol" SortExpression="Symbol"><ItemTemplate><asp:Label ID="lblSymbol" runat="server" Text='<%#Eval("Symbol") %>'> </asp:Label>
+                                    
+                </ItemTemplate><FooterTemplate>
+                                    
+                </FooterTemplate><ItemStyle HorizontalAlign="Center" Width="8%" />
+</asp:TemplateField><asp:TemplateField HeaderText="Budget Code" ><ItemTemplate><asp:Label ID="LblBudgetCode" runat="server"  > </asp:Label>                                      
+                                       
+                </ItemTemplate><ItemStyle Width="10%" />
+</asp:TemplateField><asp:TemplateField HeaderText="Budget Hour"><ItemTemplate><asp:Label ID="lblHour" runat="server"> </asp:Label><asp:TextBox ID="TxtHour" runat="server" ValidationGroup="A" Width="80%"
+                                        Visible="false"> </asp:TextBox><asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" 
+                                            ControlToValidate="TxtHour" ErrorMessage="*" 
+                                            ValidationExpression="^[1-9]\d*(\.\d+)?$" ValidationGroup="A"></asp:RegularExpressionValidator>
+                                    
+                </ItemTemplate><FooterTemplate>
+                                    
+                </FooterTemplate><FooterStyle HorizontalAlign="Left" /><ItemStyle HorizontalAlign="Left" Width="10%" />
+</asp:TemplateField><asp:TemplateField HeaderText="Used Hour" ><ItemTemplate><asp:Label ID="LblUsedHour" runat="server"  > </asp:Label>                                      
+                                       
+                </ItemTemplate><ItemStyle Width="10%" />
+</asp:TemplateField><asp:TemplateField HeaderText="Bal Hour" ><ItemTemplate><asp:Label ID="LblBalHour" runat="server"  > </asp:Label>                                      
+                                       
+                </ItemTemplate><ItemStyle Width="10%" />
+</asp:TemplateField>
+            </Columns>
+            </asp:GridView>
+
+                    </asp:Panel></td></tr><tr><td style="width: 0%" width="40%"><asp:SqlDataSource ID="LocalSqlServer" runat="server" 
+                        ConnectionString="<%$ connectionStrings:LocalSqlServer %>" 
+                        SelectCommand="SELECT Id, Name,  Symbol FROM BusinessGroup Where Id not in ('1') "></asp:SqlDataSource></td><td style="width: 20%" width="40%"><asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+                        ConnectionString="<%$ connectionStrings:LocalSqlServer %>" 
+                        SelectCommand="SELECT Id,Description AS Name,Symbol FROM tblHR_Grade where Id!=1 "></asp:SqlDataSource></td><td width="60%" align="center"><asp:Button ID="BtnInsert" runat="server" CssClass="redbox" Visible="False"
+                        OnClick="BtnInsert_Click" Text="Insert" ValidationGroup="A" />&nbsp; <asp:Button ID="BtnExport" runat="server" CssClass="redbox" Visible="False"
+                        OnClick="BtnExport_Click" Text="Export" />&nbsp; <asp:Button ID="btnCancel" runat="server" CssClass="redbox" Visible="False"
+                        OnClick="btnCancel_Click" Text="Cancel" Width="60px" /></td></tr></table>
+        
+        </ContentTemplate>
+        
+</cc1:TabPanel>
+        <cc1:TabPanel ID="TabPanel2" runat="server" HeaderText="Work Order ">
+        <ContentTemplate> 
+             
+        
+ 
+             
+        <iframe src="Budget_Dist_WONo_Time.aspx"  width="100%" height="435Px" 
+                frameborder="0" style="margin-bottom:0px; margin-left:0px; margin-right:0px; margin-top:0px;"></iframe>
+            
+        
+            
+        
+        </ContentTemplate>
+        
+        
+</cc1:TabPanel>
+    </cc1:TabContainer>
+            </td>
+        </tr>
+        </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MIS/Transactions/Budget_Dist_Time.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_Accounts_Transactions_Budget_Dist_Time : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    CalBalBudgetAmt calbalbud = new CalBalBudgetAmt();
+    PO_Budget_Amt PBM = new PO_Budget_Amt();
+    Cal_Used_Hours CUH = new Cal_Used_Hours();
+    
+    int CompId = 0;
+    string SId = "";
+    int FinYearId = 0;
+    string BGid = "";
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+
+        CompId = Convert.ToInt32(Session["compid"]);
+        SId = Session["username"].ToString();
+        FinYearId = Convert.ToInt32(Session["finyear"]);
+        if (!string.IsNullOrEmpty(Request.QueryString["BGId"]))
+        {
+            BGid = Request.QueryString["BGId"].ToString();
+        }
+        if (!IsPostBack)
+        {
+            if (BGid != "")
+            {
+                string dept = "Select Name,Symbol from BusinessGroup where Id='" + BGid + "'";
+                SqlCommand cmddept = new SqlCommand(dept, con);
+                SqlDataAdapter dadept = new SqlDataAdapter(cmddept);
+                DataSet dsdept = new DataSet();
+                dadept.Fill(dsdept);
+                lblBGGroup.Text = dsdept.Tables[0].Rows[0]["Name"].ToString();
+                HField.Text = BGid;
+                ViewState["BGSymbol"] = dsdept.Tables[0].Rows[0]["Symbol"].ToString();
+                this.FillGrid();
+                btnCancel1.Visible = false;
+            }
+        }
+        TabContainer1.OnClientActiveTabChanged = "OnChanged";
+        TabContainer1.ActiveTabIndex = Convert.ToInt32(Session["TabIndex"] ?? "0");
+    }
+
+    public void FillGrid()
+    {
+
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+
+        con.Open();
+
+        DataTable dt = new DataTable();
+        dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+        dt.Columns.Add(new System.Data.DataColumn("Name", typeof(string)));
+        dt.Columns.Add(new System.Data.DataColumn("Symbol", typeof(string)));
+        DataRow dr;
+
+        string sqlGrade = fun.select("Id,Description AS Name,Symbol", "tblHR_Grade", "Id!=1");
+        SqlCommand cmdGrade = new SqlCommand(sqlGrade, con);
+        SqlDataAdapter DAGrade = new SqlDataAdapter(cmdGrade);
+        DataSet DSGrade = new DataSet();
+        DAGrade.Fill(DSGrade);
+        GridView1.DataSource = DSGrade.Tables[0];
+        GridView1.DataBind();
+
+        if (GridView1.Rows.Count > 0)
+        {
+            foreach (GridViewRow grv in GridView1.Rows)
+            {
+                int accid = Convert.ToInt32(((Label)grv.FindControl("lblId")).Text);
+                string Bcode = fun.select("Symbol", "tblHR_Grade", "Id='" + accid + "'");
+                SqlCommand cmd = new SqlCommand(Bcode, con);
+                SqlDataAdapter Da = new SqlDataAdapter(cmd);
+                DataSet Ds = new DataSet();
+                Da.Fill(Ds);
+                ((Label)grv.FindControl("LblBudgetCode")).Text = String.Concat(Ds.Tables[0].Rows[0]["Symbol"].ToString(), ViewState["BGSymbol"].ToString());
+
+            }
+        }
+        lblBG.Visible = true;
+        lblBGGroup.Visible = true;
+
+        this.CalculateBalAmt();
+        BtnInsert.Visible = true;
+        BtnExport.Visible = true;
+        btnCancel.Visible = true;
+    }
+
+    public void CalculateBalAmt()
+    {
+
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        try
+        {
+            con.Open();
+            int prevYear = 0;
+            prevYear = (FinYearId - 1);
+            DataTable DT = new DataTable();
+            DT.Columns.Add(new System.Data.DataColumn("Sr No", typeof(int)));
+            //DT.Columns.Add(new System.Data.DataColumn("Description", typeof(string)));
+            DT.Columns.Add(new System.Data.DataColumn("Symbol", typeof(string)));
+            DT.Columns.Add(new System.Data.DataColumn("Budget Code", typeof(string)));
+            DT.Columns.Add(new System.Data.DataColumn("Budget Hour", typeof(double)));
+            DT.Columns.Add(new System.Data.DataColumn("Used Hour", typeof(double)));
+            DT.Columns.Add(new System.Data.DataColumn("Bal Hour", typeof(double)));
+
+            int SrNo = 1;
+            DataRow dr;
+            foreach (GridViewRow grv in GridView1.Rows)
+            {
+                dr = DT.NewRow();
+                dr[0] = SrNo++;
+                // dr[1] = ((Label)grv.FindControl("lblDesc")).Text;
+
+                dr[1] = ((Label)grv.FindControl("lblSymbol")).Text;
+                dr[2] = ((Label)grv.FindControl("LblBudgetCode")).Text;
+
+                int BGId = Convert.ToInt32(((Label)grv.FindControl("lblId")).Text);             
+
+                double hours = 0;
+                double openingBalOfPrevYear = 0;
+                openingBalOfPrevYear = calbalbud.TotBalBudget_BG(BGId, CompId, prevYear, 0);
+
+                string selectBudget = "select Sum(Hour) As Hour from tblACC_Budget_Dept_Time where BudgetCodeId='" + BGId + "'  and  BGGroup='" + HField.Text + "' And FinYearId<=" + FinYearId + "  group by  BudgetCodeId ";
+
+                SqlCommand cmdBD = new SqlCommand(selectBudget, con);
+                SqlDataAdapter daBD = new SqlDataAdapter(cmdBD);
+                DataSet dsBD = new DataSet();
+                daBD.Fill(dsBD, "tblACC_Budget_Dept_Time");
+                if (dsBD.Tables[0].Rows.Count > 0)
+                {
+                    hours = Math.Round((Convert.ToDouble(dsBD.Tables[0].Rows[0]["Hour"]) + openingBalOfPrevYear), 2);
+                    ((HyperLink)grv.FindControl("HyperLink1")).Visible = true;
+                }
+                else
+                {
+                    hours = openingBalOfPrevYear;
+                    ((HyperLink)grv.FindControl("HyperLink1")).Visible = false;
+                }
+
+                double UH = 0;
+                UH =Math.Round(Convert.ToDouble(CUH.TotFillPart(BGId, "", Convert.ToInt32(HField.Text),CompId,FinYearId,0)),2);
+                double BH = 0;
+                BH = Math.Round((hours - UH),2);
+
+                ((Label)grv.FindControl("lblHour")).Text = hours.ToString();
+                ((Label)grv.FindControl("LblUsedHour")).Text = UH.ToString();
+                ((Label)grv.FindControl("LblBalHour")).Text = BH.ToString();
+               
+                dr[3] = Math.Round(hours, 2);
+                dr[4] = UH.ToString();
+                dr[5] = BH.ToString();
+
+                ((HyperLink)grv.FindControl("HyperLink1")).NavigateUrl = "~/Module/MIS/Transactions/Budget_Dist_Dept_Details_Time.aspx?BGId=" + HField.Text + "&Id=" + BGId + "&ModId=14";
+
+                DT.Rows.Add(dr);
+                DT.AcceptChanges();
+            }
+            ViewState["dtList"] = DT;
+        }
+
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+    }
+
+    protected void CheckBox1_CheckedChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            foreach (GridViewRow grv in GridView1.Rows)
+            {
+                if (((CheckBox)grv.FindControl("CheckBox1")).Checked == true)
+                {
+                    ((TextBox)grv.FindControl("TxtHour")).Visible = true;
+                    ((Label)grv.FindControl("lblHour")).Visible = false;
+                }
+                else
+                {
+                    ((Label)grv.FindControl("lblHour")).Visible = true;
+                    ((TextBox)grv.FindControl("TxtHour")).Visible = false;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/MIS/Transactions/Budget_Dist_Time.aspx?BGId=&ModId=14");
+    }
+    protected void btnCancel1_Click(object sender, EventArgs e)
+    {
+         Response.Redirect("Menu.aspx?ModId=14&SubModId=");
+    }
+    protected void TabContainer1_ActiveTabChanged(object sender, EventArgs e)
+    {
+        Session.Remove("TabIndex");
+    }
+    protected void BtnInsert_Click(object sender, EventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        try
+        {
+            string CDate = fun.getCurrDate();
+            string CTime = fun.getCurrTime();
+            int id = 0;
+            con.Open();
+            foreach (GridViewRow grv in GridView1.Rows)
+            {
+                if (((CheckBox)grv.FindControl("CheckBox1")).Checked == true)
+                {
+                    id = Convert.ToInt32(((Label)grv.FindControl("lblId")).Text);
+
+                    double Hour = Math.Round ( Convert.ToDouble(((TextBox)grv.FindControl("TxtHour")).Text),2);
+                    if (Hour > 0)
+                    {
+                        string insert = ("Insert into  tblACC_Budget_Dept_Time (SysDate,SysTime,CompId,FinYearId,SessionId,BGGroup,BudgetCodeId,Hour) VALUES  ('" + CDate + "','" + CTime + "','" + CompId + "','" + FinYearId + "','" + SId + "','" + HField.Text + "','" + id + "','" + Hour + "')");
+                        SqlCommand cmd = new SqlCommand(insert, con);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            this.FillGrid();
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+            con.Close();
+        }
+    }
+    protected void BtnExport_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            ExportToExcel ex = new ExportToExcel();
+            ex.ExportDataToExcel((DataTable)ViewState["dtList"], "Budget_BG");
+        }
+        catch (Exception ex1)
+        {
+            string mystring = string.Empty;
+            mystring = "No Records to Export.";
+            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mystring + "');", true);
+        } 
+
+    }
+
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "Sel")
+        {
+            GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+            lblBGGroup.Text = ((Label)row.FindControl("lblDesc")).Text;
+            HField.Text = ((Label)row.FindControl("lblId")).Text;
+            ViewState["BGSymbol"] = ((Label)row.FindControl("lblSymbol")).Text;
+            this.FillGrid();
+            btnCancel1.Visible = false;
+        }
+    }
+}

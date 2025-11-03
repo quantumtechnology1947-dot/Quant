@@ -1,0 +1,262 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/PendingForInvoice_Print_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="PendingForInvoice_Print_Details.aspx.cs" Inherits="Module_Accounts_Transactions_PendingForInvoice_Print_Details" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ Register Assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"
+    Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div style="width:auto;">  
+    <table width="100%">
+    <tr>
+    <td align="center">
+     <CR:CrystalReportViewer HasCrystalLogo="False" ID="CrystalReportViewer1"  EnableDatabaseLogonPrompt="false" DisplayGroupTree="False" ReportSourceID="CrystalReportSource1"  runat="server" AutoDataBind="true" EnableDrillDown="false" />
+ <CR:CrystalReportSource ID="CrystalReportSource1" runat="server">
+ <Report FileName="~/Module/Accounts/Reports/PendingForInvoice.rpt" > 
+ </Report>
+</CR:CrystalReportSource>
+    
+    </td>
+    </tr>
+    </table>
+
+          
+    </div>
+    </form>
+</body>
+</html>
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/PendingForInvoice_Print_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+
+public partial class Module_Accounts_Transactions_PendingForInvoice_Print_Details : System.Web.UI.Page
+{
+    string connStr = "";
+    SqlConnection con;
+    clsFunctions fun = new clsFunctions();
+    ReportDocument cryRpt;
+    int CompId = 0;
+    int FinYearId = 0;
+    string WONo = "";
+    string CustCode = "";
+    int val = 0;
+    string Key = string.Empty;
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        connStr = fun.Connection();
+        con = new SqlConnection(connStr);
+
+       try
+        {
+            Key = Request.QueryString["Key"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            WONo = Request.QueryString["W"].ToString();
+            val = Convert.ToInt32(Request.QueryString["Val"].ToString());
+         
+            if (!IsPostBack)
+            {
+                DataSet DSPendingQty = new DataSet();
+                DataTable dt = new DataTable();
+                DataSet DSPendingQty1 = new DataSet();               
+                if (!string.IsNullOrEmpty(Request.QueryString["C"]))
+                {
+                    CustCode = "AND SD_Cust_master.CustomerId='" + Request.QueryString["C"].ToString() + "'";
+                }
+                else
+                {
+                    CustCode = "";
+                }
+
+                DataTable dt1 = new DataTable();
+                dt1.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));//0
+                dt1.Columns.Add(new System.Data.DataColumn("PONo", typeof(string)));//1
+                dt1.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));//2
+                dt1.Columns.Add(new System.Data.DataColumn("Description", typeof(string)));//3
+                dt1.Columns.Add(new System.Data.DataColumn("UOM", typeof(string)));//4
+                dt1.Columns.Add(new System.Data.DataColumn("Qty", typeof(double)));//5
+                dt1.Columns.Add(new System.Data.DataColumn("InvoiceQty", typeof(double)));//6
+                dt1.Columns.Add(new System.Data.DataColumn("PendingInvoiceQty", typeof(double)));//7
+                dt1.Columns.Add(new System.Data.DataColumn("CustomerCode", typeof(string)));//8
+                dt1.Columns.Add(new System.Data.DataColumn("Rate", typeof(double)));//9
+                dt1.Columns.Add(new System.Data.DataColumn("Discount", typeof(double)));//10
+                dt.Columns.Add(new System.Data.DataColumn("CustomerCode", typeof(string)));//0                
+                dt.Columns.Add(new System.Data.DataColumn("CustomerName", typeof(string)));//1 
+                dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));//2  
+                string StrQty1 = "";
+
+                if (val==0)
+                { 
+                StrQty1 = "SELECT  Distinct(SD_Cust_master.CustomerId),SD_Cust_master.CustomerName FROM SD_Cust_master inner join SD_Cust_PO_Master on SD_Cust_master.CustomerId=SD_Cust_PO_Master.CustomerId  inner join SD_Cust_WorkOrder_Master on SD_Cust_PO_Master.POId=SD_Cust_WorkOrder_Master.POId And SD_Cust_master.CompId='" + CompId + "'";
+
+                }
+                else if (val==1)
+                {
+                    StrQty1 = "SELECT  Distinct(SD_Cust_master.CustomerId),SD_Cust_master.CustomerName FROM SD_Cust_master inner join SD_Cust_PO_Master on SD_Cust_master.CustomerId=SD_Cust_PO_Master.CustomerId And SD_Cust_master.CompId='" + CompId + "'" + CustCode + "";
+                }
+                else if (val == 2)
+                {
+                    StrQty1 = " SELECT  Distinct(SD_Cust_master.CustomerId),SD_Cust_master.CustomerName FROM SD_Cust_master inner join SD_Cust_PO_Master on SD_Cust_master.CustomerId=SD_Cust_PO_Master.CustomerId  inner join SD_Cust_WorkOrder_Master on SD_Cust_PO_Master.POId=SD_Cust_WorkOrder_Master.POId And SD_Cust_master.CompId='" + CompId + "' And SD_Cust_WorkOrder_Master.WONo='" + WONo + "'";
+                }               
+
+                SqlCommand cmdQty1 = new SqlCommand(StrQty1, con);
+                SqlDataAdapter DAQty1 = new SqlDataAdapter(cmdQty1);
+                DataSet DSQty1 = new DataSet();
+                DAQty1.Fill(DSQty1);
+                DataRow dr;
+                double TotAmnt = 0;               
+                for (int i1 = 0; i1 < DSQty1.Tables[0].Rows.Count; i1++)
+                {
+
+                    int Count = 0;
+                    dr = dt.NewRow();
+                    dr[0] = DSQty1.Tables[0].Rows[i1][0].ToString();
+                    dr[1] = DSQty1.Tables[0].Rows[i1][1].ToString() + " [ " + DSQty1.Tables[0].Rows[i1][0].ToString() + " ]";
+                    dr[2] = CompId;
+                    string StrQty = ""; 
+                    if (WONo == string.Empty && WONo == "")
+                    {
+                        StrQty = "SELECT SD_Cust_PO_Master.POId,SD_Cust_PO_Master.CustomerId,SD_Cust_PO_Master.PONo,SD_Cust_PO_Details.Id,SD_Cust_PO_Details.ItemDesc,SD_Cust_PO_Details.TotalQty,SD_Cust_PO_Details.Unit,SD_Cust_PO_Details.Rate,SD_Cust_PO_Details.Discount FROM SD_Cust_PO_Master,SD_Cust_PO_Details WHERE SD_Cust_PO_Master.POId=SD_Cust_PO_Details.POId And SD_Cust_PO_Master.CustomerId='" + DSQty1.Tables[0].Rows[i1][0].ToString() + "' ";
+
+                    }
+                    else
+                    {
+                        StrQty = "SELECT SD_Cust_PO_Master.POId,SD_Cust_PO_Master.CustomerId,SD_Cust_PO_Master.PONo,SD_Cust_PO_Details.Id,SD_Cust_PO_Details.ItemDesc,SD_Cust_PO_Details.TotalQty,SD_Cust_PO_Details.Unit,SD_Cust_PO_Details.Rate,SD_Cust_PO_Details.Discount FROM SD_Cust_PO_Master,SD_Cust_PO_Details,SD_Cust_WorkOrder_Master WHERE SD_Cust_PO_Master.POId=SD_Cust_PO_Details.POId  And SD_Cust_PO_Master.POId=SD_Cust_WorkOrder_Master.POId And SD_Cust_PO_Master.CustomerId=SD_Cust_WorkOrder_Master.CustomerId  And SD_Cust_PO_Master.CustomerId='" + DSQty1.Tables[0].Rows[i1][0].ToString() + "' And SD_Cust_WorkOrder_Master.WONo='" + WONo + "' ";
+                    }
+                    SqlCommand cmdQty = new SqlCommand(StrQty, con);
+                    SqlDataAdapter DAQty = new SqlDataAdapter(cmdQty);
+                    DataSet DSQty = new DataSet();
+                    DAQty.Fill(DSQty);
+                    DataRow dr1;                   
+                    for (int i = 0; i < DSQty.Tables[0].Rows.Count; i++)
+                    {
+
+                        dr1 = dt1.NewRow();
+                        string cmdStrWo = fun.select("WONo", "SD_Cust_WorkOrder_Master", "CustomerId='" + DSQty.Tables[0].Rows[i]["CustomerId"].ToString() + "' And CompId='" + CompId + "' And POId='" + DSQty.Tables[0].Rows[i]["POId"].ToString() + "'");
+                        DataSet DSw = new DataSet();
+                        SqlCommand cmdw = new SqlCommand(cmdStrWo, con);
+                        SqlDataAdapter DAw = new SqlDataAdapter(cmdw);
+                        DAw.Fill(DSw);
+                        if (DSw.Tables[0].Rows.Count > 0)
+                        {
+                            dr1[0] = DSw.Tables[0].Rows[0]["WONo"].ToString();
+                        }
+                        dr1[1] = DSQty.Tables[0].Rows[i]["PONo"].ToString();
+                        dr1[2] = DSQty.Tables[0].Rows[i]["Id"].ToString();
+                        dr1[3] = DSQty.Tables[0].Rows[i]["ItemDesc"].ToString();
+                        string sql2 = fun.select("Symbol", "Unit_Master", "Id='" + DSQty.Tables[0].Rows[i]["Unit"].ToString() + "' ");
+                        SqlCommand cmd2 = new SqlCommand(sql2, con);
+                        SqlDataAdapter da2 = new SqlDataAdapter(cmd2);
+                        DataSet DS2 = new DataSet();
+                        da2.Fill(DS2);
+                        if (DS2.Tables[0].Rows.Count > 0)
+                        {
+                            dr1[4] = DS2.Tables[0].Rows[0]["Symbol"].ToString();
+                        }
+                        double Qty = 0;
+                        double rmnqty = 0;
+                        double Rate = 0; 
+                        double Discount = 0;
+                        Qty = Convert.ToDouble(decimal.Parse((DSQty.Tables[0].Rows[i]["TotalQty"]).ToString()).ToString("N3"));
+                        dr1[5] = Qty;
+                        string sqlrmn = fun.select("Sum(tblACC_SalesInvoice_Details.ReqQty) as ReqQty", "tblACC_SalesInvoice_Master,tblACC_SalesInvoice_Details", "tblACC_SalesInvoice_Details.MId=tblACC_SalesInvoice_Master.Id  And  tblACC_SalesInvoice_Master.CompId='" + CompId + "' And tblACC_SalesInvoice_Details.ItemId='" + DSQty.Tables[0].Rows[i]["Id"].ToString() + "'  Group By tblACC_SalesInvoice_Details.ItemId");
+                        SqlCommand cmdmn = new SqlCommand(sqlrmn, con);
+                        SqlDataAdapter darmn = new SqlDataAdapter(cmdmn);
+                        DataSet dsrmn = new DataSet();
+                        darmn.Fill(dsrmn);
+                        double TotInvQty = 0;
+                        if (dsrmn.Tables[0].Rows.Count > 0)
+                        {
+                            TotInvQty = Convert.ToDouble(decimal.Parse((dsrmn.Tables[0].Rows[0]["ReqQty"]).ToString()).ToString("N3"));
+                        }
+                        rmnqty = Convert.ToDouble(decimal.Parse((DSQty.Tables[0].Rows[i]["TotalQty"]).ToString()).ToString("N3")) - TotInvQty;                
+                        dr1[6] = TotInvQty;
+                        dr1[7] = rmnqty;
+                        dr1[8] = DSQty.Tables[0].Rows[i]["CustomerId"].ToString();
+                        Rate = Convert.ToDouble(decimal.Parse((DSQty.Tables[0].Rows[i]["Rate"]).ToString()).ToString("N2"));
+                        Discount = Convert.ToDouble(decimal.Parse((DSQty.Tables[0].Rows[i]["Discount"]).ToString()).ToString("N2"));                        TotAmnt += (((rmnqty * Rate) - ((rmnqty * Rate) * (Discount) / 100)));
+                        dr1[9] = Rate;
+                        dr1[10] = Discount;
+                        if (rmnqty > 0)
+                        {
+                            dt1.Rows.Add(dr1);
+                            dt1.AcceptChanges();
+                            Count++;
+                        }
+                        
+                    }
+                    if (Count > 0)
+                    {
+                        dt.Rows.Add(dr);
+                        dt.AcceptChanges();
+                    }                   
+                }
+
+                DSPendingQty.Tables.Add(dt1);
+                DSPendingQty.Tables.Add(dt);
+                DataSet xsdds = new PendingInvQty();
+                xsdds.Tables[0].Merge(DSPendingQty.Tables[0]);
+                xsdds.Tables[1].Merge(DSPendingQty.Tables[1]);
+                xsdds.AcceptChanges();
+                cryRpt = new ReportDocument();
+                cryRpt.Load(Server.MapPath("~/Module/Accounts/Reports/PendingForInvoice.rpt"));
+                cryRpt.SetDataSource(xsdds);
+                string Address = fun.CompAdd(CompId);
+                cryRpt.SetParameterValue("Address", Address);
+                cryRpt.SetParameterValue("TotAmount",TotAmnt);
+                CrystalReportViewer1.ReportSource = cryRpt;
+                Session[Key] = cryRpt;
+
+            }
+            else
+            {
+                ReportDocument doc = (ReportDocument)Session[Key];
+                CrystalReportViewer1.ReportSource = doc;
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        cryRpt = new ReportDocument();
+    }
+
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        cryRpt.Close();
+        cryRpt.Dispose();
+        GC.Collect();
+    }
+
+}
+
+          

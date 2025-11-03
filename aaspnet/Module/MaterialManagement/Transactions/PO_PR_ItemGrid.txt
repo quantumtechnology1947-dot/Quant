@@ -1,0 +1,366 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Transactions/PO_PR_ItemGrid.aspx.txt ===
+
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="PO_PR_ItemGrid.aspx.cs" Inherits="Module_MaterialManagement_Transactions_PO_PR_ItemGrid" Theme="Default" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>ERP</title>
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+</head>
+<body style="margin-bottom:0; margin-left:0; margin-right:0; margin-top:0;">
+    <form id="form1" runat="server">
+    
+    
+ <table align="center" cellpadding="0" cellspacing="0" width="100%" class="fontcss">
+        <tr>
+            <td valign="top">
+               
+                <asp:GridView ID="GridView2" CssClass="yui-datatable-theme" runat="server" 
+                    Width="100%" AllowPaging="True"
+                    onpageindexchanging="GridView2_PageIndexChanging"  onrowcommand="GridView2_RowCommand" 
+                    onrowdatabound="GridView2_RowDataBound" AutoGenerateColumns="False" >
+                    <FooterStyle Wrap="True"></FooterStyle>
+                    <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                    <Columns>
+                        <asp:TemplateField HeaderText="SN" ItemStyle-HorizontalAlign="Right">
+                <ItemTemplate><%#Container.DataItemIndex+1%></ItemTemplate>             
+                <HeaderStyle Font-Size="10pt" />
+                <ItemStyle HorizontalAlign="Right" VerticalAlign="Top" />
+</asp:TemplateField>
+                           <asp:TemplateField HeaderText="Fin Year">
+                           <ItemTemplate>
+                        <asp:Label ID="lblfinyear" Text='<%# Eval("FinYearId") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                               <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                           <asp:TemplateField>
+                           <ItemTemplate>
+                           <asp:LinkButton ID ="lnkButton" Text="Select" runat ="server" CommandName="sel">
+                           </asp:LinkButton>
+                           </ItemTemplate>
+                               <ItemStyle HorizontalAlign="Center" />
+                           </asp:TemplateField>
+                       
+                        <asp:TemplateField HeaderText="WO No">
+                            <ItemStyle HorizontalAlign="Center" />
+                            <ItemTemplate>
+                            <asp:Label ID="lblwono" runat="server" Text='<%# Eval("WONo") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                       
+                        <asp:TemplateField HeaderText="PR No">
+                        <ItemTemplate>
+                        <asp:Label ID="lblprno" Text='<%# Eval("PRNo") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Date">
+                        <ItemTemplate>
+                        <asp:Label ID="lblDate" Text='<%# Eval("Date") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Item Code">
+                        <ItemTemplate>
+                        <asp:Label ID="lblItemCode" Text='<%# Eval("ItemCode") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Description">
+                        <ItemTemplate>
+                        <asp:Label ID="lblPurchDesc" Text='<%# Eval("PurchDesc") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle Width="20%" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="UOM">
+                        <ItemTemplate>
+                        <asp:Label ID="lblUOMPurch" Text='<%# Eval("UOMPurch") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="PR Qty">
+                        <ItemTemplate>
+                        <asp:Label ID="lblQty" Text='<%# Eval("Qty") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="5%" />
+                        </asp:TemplateField>
+                        
+                         <asp:TemplateField HeaderText="PO Qty">
+                        <ItemTemplate>
+                        <asp:Label ID="lblPOQty" Text='<%# Eval("POQty") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="5%" />
+                        </asp:TemplateField>
+                         <asp:TemplateField HeaderText="Remain Qty">
+                        <ItemTemplate>
+                        <asp:Label ID="lblRemQty" Text='<%# Eval("RemainQty") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" Width="8%" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="A/c Head">
+                        <ItemTemplate>
+                        <asp:Label ID="lblAcHead" Text='<%# Eval("AcHead") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Left" Width="5%"  />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Del. Date">
+                        <ItemTemplate>
+                        <asp:Label ID="lblDeliDate" Text='<%# Eval("DeliDate") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Gen. By">
+                        <ItemTemplate>
+                        <asp:Label ID="lblGenBy" Text='<%# Eval("GenBy") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Id" Visible="false">
+                        <ItemTemplate>
+                        <asp:Label ID="lblId" Text='<%# Eval("Id") %>' runat="server"></asp:Label>
+                        </ItemTemplate>
+                        </asp:TemplateField>
+                       
+                    </Columns>
+                </asp:GridView>
+            </td>
+        </tr>
+        </table>
+      
+    
+    </form>
+</body>
+</html>
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Transactions/PO_PR_ItemGrid.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_MaterialManagement_Transactions_PO_PR_ItemGrid : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string SupCode = "";
+    int Id = 0;
+    string FyId = "";
+    int CompId = 0;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+      try
+        {
+            CompId = Convert.ToInt32(Session["compid"]);
+            SupCode = Request.QueryString["Code"].ToString();
+            FyId = Session["finyear"].ToString();
+
+            if (!IsPostBack)
+            {
+                this.LoadData();
+            }
+        }
+       catch (Exception ex) { }
+       
+    }
+
+    public void LoadData()
+    {
+        string str = fun.Connection();
+        SqlConnection con = new SqlConnection(str);
+        DataTable dt = new DataTable();
+        con.Open();
+        
+        try
+        {
+            string StrSql = fun.select("tblMM_PR_Master.PRNo,tblMM_PR_Master.FinYearId,tblMM_PR_Master.SysDate,tblMM_PR_Master.SessionId,tblMM_PR_Master.WONo,tblMM_PR_Details.Id,tblMM_PR_Details.ItemId,tblMM_PR_Details.DelDate,tblMM_PR_Details.AHId,tblMM_PR_Details.Qty", "tblMM_PR_Master,tblMM_PR_Details", "tblMM_PR_Details.SupplierId='" + SupCode + "' AND tblMM_PR_Master.PRNo=tblMM_PR_Details.PRNo AND tblMM_PR_Master.Id=tblMM_PR_Details.MId AND tblMM_PR_Master.FinYearId<='" + FyId + "'  AND  tblMM_PR_Master.CompId='" + CompId + "'");                        
+            SqlCommand cmdsupId = new SqlCommand(StrSql, con);
+            SqlDataReader DSSql = cmdsupId.ExecuteReader();
+
+            dt.Columns.Add(new System.Data.DataColumn("PRNo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Date", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("PurchDesc", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("UOMPurch", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Qty", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("AcHead", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("DeliDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("GenBy", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("FinYearId", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("POQty", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("RemainQty", typeof(double)));
+
+            while(DSSql.Read())
+            {
+                DataRow dr;
+
+                string CheckSql = fun.select("Id", "tblMM_PR_PO_Temp", "PRNo='" + DSSql["PRNo"].ToString() + "' AND PRId='" + DSSql["Id"].ToString() + "'");
+                SqlCommand cmdCheck = new SqlCommand(CheckSql, con);
+                SqlDataReader DSCheck = cmdCheck.ExecuteReader();
+                DSCheck.Read();
+
+                double RemTempQty = 0;
+                double RemQty = 0;
+
+                double PRQty = 0;
+                PRQty = Convert.ToDouble(DSSql["Qty"].ToString());
+                double PoQty = 0;
+
+                string sql4 = string.Empty;
+                                    
+                sql4 = fun.select("Sum(tblMM_PO_Details.Qty)As TotPoQty", "tblMM_PO_Master,tblMM_PO_Details", " tblMM_PO_Details.PRId='" + DSSql["Id"].ToString() + "' AND tblMM_PO_Master.CompId='" + CompId + "'  AND tblMM_PO_Master.Id=tblMM_PO_Details.MId ");
+                SqlCommand cmd4 = new SqlCommand(sql4, con);
+                SqlDataReader DS4 = cmd4.ExecuteReader();
+                DS4.Read();
+                
+                if (DS4.HasRows == true && DS4[0] != DBNull.Value)
+                {
+                    PoQty = Convert.ToDouble(DS4[0].ToString());
+                }
+
+                RemQty = Math.Round((PRQty - PoQty), 5);
+
+                if (RemQty > 0 && DSCheck.HasRows == false)
+                {
+                    dr = dt.NewRow();
+                    // For PRNO 
+                    dr[0] = DSSql["PRNo"].ToString();
+                    dr[5] = Convert.ToDouble(decimal.Parse(DSSql["Qty"].ToString()).ToString("N3"));
+                    dr[9] = DSSql["Id"].ToString();
+                    Id = Convert.ToInt32(dr[9]);
+
+                    // For A/c Head
+                    string sql3 = fun.select("'['+AccHead.Symbol+']'+AccHead.Description AS Head", "AccHead", "Id ='" + Convert.ToInt32(DSSql["AHId"].ToString()) + "' ");
+                    SqlCommand cmd3 = new SqlCommand(sql3, con);
+                    SqlDataReader DS3 = cmd3.ExecuteReader();
+                    DS3.Read();
+
+                    if (DS3.HasRows == true)
+                    {
+                        dr[6] = DS3["Head"].ToString();
+                    }
+
+                    string SysDate = fun.FromDateDMY(DSSql["SysDate"].ToString());
+                    dr[1] = SysDate;
+
+                    // for Gen. By
+                    string sqlGenBy = fun.select("Title+'. '+EmployeeName", "tblHR_OfficeStaff", "EmpId='" + DSSql["SessionId"].ToString() + "' AND  CompId='" + CompId + "'");
+                    SqlCommand cmdGenBy = new SqlCommand(sqlGenBy, con);
+                    SqlDataReader DSGenBy = cmdGenBy.ExecuteReader();
+                    DSGenBy.Read();
+
+                    if (DSGenBy.HasRows == true)
+                    {
+                        dr[8] = DSGenBy[0].ToString();
+                    }
+
+                    // for Item ID  from pr Details table
+                    string sqlIid = fun.select("ItemCode,ManfDesc,UOMBasic", "tblDG_Item_Master", "Id='" + DSSql["ItemId"].ToString() + "' AND CompId='" + CompId + "'  ");
+                    SqlCommand cmdIid = new SqlCommand(sqlIid, con);
+                    SqlDataReader DSIid = cmdIid.ExecuteReader();
+                    DSIid.Read();
+
+                    if (DSIid.HasRows == true)
+                    {
+                        dr[2] = fun.GetItemCode_PartNo(CompId, Convert.ToInt32(DSSql["ItemId"].ToString()));
+                        dr[3] = DSIid[1].ToString();
+
+                        //For UOM Purchase  from Unit Master table
+                        string sqlPurch = fun.select("Symbol", "Unit_Master", "Id='" + DSIid["UOMBasic"].ToString() + "'");
+                        SqlCommand cmdPurch = new SqlCommand(sqlPurch, con);
+                        SqlDataReader DSPurch = cmdPurch.ExecuteReader();
+                        DSPurch.Read();
+
+                        if (DSPurch.HasRows == true)
+                        {
+                            dr[4] = DSPurch[0].ToString();
+                        }
+                    }
+
+                    dr[7] = fun.FromDateDMY(DSSql["DelDate"].ToString());
+                    dr[10] = DSSql["WONo"].ToString();
+
+                    string stryr = fun.select("FinYear", "tblFinancial_master", "FinYearId='" + DSSql["FinYearId"].ToString() + "' AND CompId='" + CompId + "' ");
+                    SqlCommand cmdyr = new SqlCommand(stryr, con);
+                    SqlDataReader DSyr = cmdyr.ExecuteReader();
+                    DSyr.Read();
+
+                    if (DSyr.HasRows == true)
+                    {
+                        dr[11] = DSyr["FinYear"].ToString();
+                    }
+
+                    dr[12] = Math.Round((Convert.ToDouble(decimal.Parse(DSSql["Qty"].ToString()).ToString("N3")) - RemQty), 5);
+                    dr[13] = Convert.ToDouble(RemQty - RemTempQty);
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+            }
+            
+            GridView2.DataSource = dt;
+            GridView2.DataBind();
+        }
+        catch (Exception ex)
+        { 
+        }
+        finally
+        {
+            con.Close();
+        }
+    }
+
+    protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView2.PageIndex = e.NewPageIndex;
+        this.LoadData();
+    }
+
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "sel")
+        {
+            GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+            string prno = ((Label)row.FindControl("lblprno")).Text;
+            string prid = ((Label)row.FindControl("lblId")).Text;
+            string wono = ((Label)row.FindControl("lblwono")).Text;
+            if (prno != "" && prid != "" && wono != "")
+            {
+                Response.Redirect("PO_PR_ItemSelect.aspx?wono=" + wono + "&prno=" + prno + "&prid=" + prid + "&Code=" + SupCode + "&ModId=6&SubModId=35");
+            }
+        }
+
+    }
+
+    protected void GridView2_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+
+    }
+    
+   
+}

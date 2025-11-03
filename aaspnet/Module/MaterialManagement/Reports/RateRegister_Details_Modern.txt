@@ -1,0 +1,468 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Reports/RateRegister_Details_Modern.aspx.txt ===
+
+<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="RateRegister_Details_Modern.aspx.cs" Inherits="Module_MaterialManagement_Reports_RateRegister_Details_Modern" Title="ERP" Theme="Default" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<%@ Register src="~/ModernReporting/ModernReportViewer.ascx" tagname="ModernReportViewer" tagprefix="mrv" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <!-- Search Controls -->
+    <table>
+        <tr> 
+            <td valign="middle" style="height:25px">
+                <asp:Label ID="Label1" Font-Bold="true" runat="server" Text="Supplier Name"></asp:Label> 
+                <asp:TextBox runat="server" CssClass="box3" Width="336px" ID="txtSearchSupplier"></asp:TextBox>
+                <cc1:AutoCompleteExtender runat="server" MinimumPrefixLength="1" CompletionInterval="100" 
+                    CompletionSetCount="1" ServiceMethod="sql" ServicePath="" UseContextKey="True" DelimiterCharacters="" 
+                    FirstRowSelected="True" ShowOnlyCurrentWordInCompletionListItem="True" Enabled="True" 
+                    TargetControlID="txtSearchSupplier" ID="txtSearchSupplier_AutoCompleteExtender" 
+                    CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                </cc1:AutoCompleteExtender>
+                &#160;
+                <asp:Button runat="server" Text="View" CssClass="redbox" ID="btnSearch" OnClick="btnSearch_Click">
+                </asp:Button>
+                <asp:Button runat="server" Text="Cancel" CssClass="redbox" ID="Btncancel" OnClick="Btncancel_Click">
+                </asp:Button>
+            </td>
+        </tr>
+    </table>
+    
+    <!-- Modern Report Viewer (Replaces Crystal Reports) -->
+    <asp:Panel ID="Panel2" runat="server" Height="500px" ScrollBars="Auto">
+        <mrv:ModernReportViewer ID="modernReportViewer1" runat="server" 
+            ReportTitle="Rate Register Report" Visible="false" />
+    </asp:Panel>
+    
+</asp:Content>
+
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Reports/RateRegister_Details_Modern.aspx.cs ===
+
+using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Threading;
+
+/// <summary>
+/// MODERNIZED Rate Register Details Report
+/// Replaces Crystal Reports with Modern Report Viewer
+/// </summary>
+public partial class Module_MaterialManagement_Reports_RateRegister_Details_Modern : System.Web.UI.Page
+{
+    #region Private Fields
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    string SupCode = "";
+    int CId = 0;
+    int ItemId = 0;
+    int FyId = 0;
+    string Key = string.Empty;
+    #endregion
+
+    #region Page Events
+    
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            try
+            {
+                connStr = fun.Connection();
+                con = new SqlConnection(connStr);
+                CId = Convert.ToInt32(Session["compid"]);
+                ItemId = Convert.ToInt32(Request.QueryString["ItemId"] ?? "0");
+                FyId = Convert.ToInt32(Session["finyear"]);
+                Key = Request.QueryString["Key"]?.ToString() ?? "";
+                
+                // Load data if Key is provided (coming from another page)
+                if (!string.IsNullOrEmpty(Key))
+                {
+                    loadData(SupCode, ItemId);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error and show user-friendly message
+                ShowErrorMessage("Error initializing page: " + ex.Message);
+            }
+        }
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            // Initialize modern report viewer
+            modernReportViewer1.ReportTitle = "Rate Register Report";
+        }
+    }
+
+    #endregion
+
+    #region Button Events
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (txtSearchSupplier.Text != "")
+            {
+                SupCode = fun.getCode(txtSearchSupplier.Text);
+                if (SupCode != "")
+                {
+                    modernReportViewer1.Visible = true;
+                    loadData(SupCode, ItemId);
+                }
+                else
+                {
+                    modernReportViewer1.Visible = false;
+                    ShowErrorMessage("Invalid supplier data input");
+                }
+            }
+            else
+            {
+                modernReportViewer1.Visible = true;
+                loadData(SupCode, ItemId);
+            }
+        }
+        catch (Exception ex)
+        {
+            ShowErrorMessage("Error during search: " + ex.Message);
+        }
+    }
+
+    protected void Btncancel_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            Response.Redirect("RateRegister.aspx");
+        }
+        catch (Exception ex)
+        {
+            ShowErrorMessage("Error during cancel: " + ex.Message);
+        }
+    }
+
+    #endregion
+
+    #region Private Methods
+
+    /// <summary>
+    /// Load data and generate modern report (Replaces Crystal Reports functionality)
+    /// </summary>
+    private void loadData(string supCode, int itemid)
+    {
+        try
+        {
+            DataTable dt = CreateReportDataTable();
+            string supplierFilter = "";
+            string itemFilter = "";
+            
+            if (!string.IsNullOrEmpty(supCode))
+            {
+                supplierFilter = "AND tblMM_Supplier_master.SupplierId ='" + supCode + "'";
+            }
+
+            if (itemid != 0)
+            {
+                itemFilter = "AND tblMM_Rate_Register.ItemId ='" + itemid + "'";
+            }
+
+            // Main query - same as original but with better formatting
+            string sqlQuery = @"
+                SELECT  
+                    tblMM_Rate_Register.Id,
+                    tblMM_Rate_Register.ItemId,
+                    tblMM_Rate_Register.POId,
+                    tblMM_Rate_Register.Rate,
+                    tblMM_Rate_Register.Discount,
+                    tblMM_Rate_Register.IndirectCost,
+                    tblMM_Rate_Register.DirectCost,
+                    tblMM_Rate_Register.CompId,
+                    tblDG_Item_Master.ManfDesc, 
+                    Unit_Master.Symbol, 
+                    tblFinancial_master.FinYear, 
+                    tblPacking_Master.Terms,
+                    tblExciseser_Master.Terms AS ExciseTerms, 
+                    tblVAT_Master.Terms AS VATTerms 
+                FROM  
+                    tblDG_Item_Master 
+                    INNER JOIN tblMM_Rate_Register ON tblDG_Item_Master.Id = tblMM_Rate_Register.ItemId 
+                    INNER JOIN Unit_Master ON tblDG_Item_Master.UOMBasic = Unit_Master.Id 
+                    INNER JOIN tblFinancial_master ON tblMM_Rate_Register.FinYearId = tblFinancial_master.FinYearId 
+                    INNER JOIN tblPacking_Master ON tblMM_Rate_Register.PF = tblPacking_Master.Id 
+                    INNER JOIN tblExciseser_Master ON tblMM_Rate_Register.ExST = tblExciseser_Master.Id 
+                    INNER JOIN tblVAT_Master ON tblMM_Rate_Register.VAT = tblVAT_Master.Id  
+                WHERE 
+                    tblMM_Rate_Register.CompId = @CompId 
+                    AND tblMM_Rate_Register.FinYearId <= @FyId 
+                    " + supplierFilter + " " + itemFilter + @"
+                ORDER BY 
+                    tblDG_Item_Master.ManfDesc, tblFinancial_master.FinYear";
+
+            using (SqlCommand cmd = new SqlCommand(sqlQuery, con))
+            {
+                cmd.Parameters.AddWithValue("@CompId", CId);
+                cmd.Parameters.AddWithValue("@FyId", FyId);
+                
+                using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                {
+                    DataSet ds = new DataSet();
+                    da.Fill(ds);
+
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        // Process data and populate report DataTable
+                        ProcessReportData(ds.Tables[0], dt);
+                        
+                        // Configure modern report viewer
+                        ConfigureReportViewer(dt);
+                    }
+                    else
+                    {
+                        modernReportViewer1.ClearReport();
+                        ShowErrorMessage("No data found for the specified criteria.");
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            ShowErrorMessage("Error loading data: " + ex.Message);
+        }
+    }
+
+    /// <summary>
+    /// Create the structure for report data table
+    /// </summary>
+    private DataTable CreateReportDataTable()
+    {
+        DataTable dt = new DataTable();
+        
+        // Define columns with proper data types
+        dt.Columns.Add("ID", typeof(int));
+        dt.Columns.Add("Item Code", typeof(string));
+        dt.Columns.Add("Item Description", typeof(string));
+        dt.Columns.Add("Unit", typeof(string));
+        dt.Columns.Add("Financial Year", typeof(string));
+        dt.Columns.Add("PO Number", typeof(string));
+        dt.Columns.Add("Rate", typeof(decimal));
+        dt.Columns.Add("Discount (%)", typeof(decimal));
+        dt.Columns.Add("Excise", typeof(string));
+        dt.Columns.Add("Supplier Name", typeof(string));
+        dt.Columns.Add("Supplier ID", typeof(string));
+        dt.Columns.Add("Indirect Cost", typeof(decimal));
+        dt.Columns.Add("Direct Cost", typeof(decimal));
+        dt.Columns.Add("VAT", typeof(string));
+        dt.Columns.Add("P&F", typeof(string));
+        dt.Columns.Add("Final Amount", typeof(decimal));
+        
+        return dt;
+    }
+
+    /// <summary>
+    /// Process raw data and populate report DataTable
+    /// </summary>
+    private void ProcessReportData(DataTable sourceData, DataTable reportData)
+    {
+        foreach (DataRow sourceRow in sourceData.Rows)
+        {
+            DataRow reportRow = reportData.NewRow();
+            
+            reportRow["ID"] = Convert.ToInt32(sourceRow["Id"]);
+            reportRow["Item Code"] = GetItemCode(Convert.ToInt32(sourceRow["ItemId"]));
+            reportRow["Item Description"] = sourceRow["ManfDesc"]?.ToString() ?? "";
+            reportRow["Unit"] = sourceRow["Symbol"]?.ToString() ?? "";
+            reportRow["Financial Year"] = sourceRow["FinYear"]?.ToString() ?? "";
+            reportRow["PO Number"] = GetPONumber(Convert.ToInt32(sourceRow["POId"]));
+            reportRow["Rate"] = Convert.ToDecimal(sourceRow["Rate"] ?? 0);
+            reportRow["Discount (%)"] = Convert.ToDecimal(sourceRow["Discount"] ?? 0);
+            reportRow["Excise"] = sourceRow["ExciseTerms"]?.ToString() ?? "";
+            
+            // Get supplier information
+            var supplierInfo = GetSupplierInfo(Convert.ToInt32(sourceRow["ItemId"]));
+            reportRow["Supplier Name"] = supplierInfo.Name;
+            reportRow["Supplier ID"] = supplierInfo.Code;
+            
+            reportRow["Indirect Cost"] = Convert.ToDecimal(sourceRow["IndirectCost"] ?? 0);
+            reportRow["Direct Cost"] = Convert.ToDecimal(sourceRow["DirectCost"] ?? 0);
+            reportRow["VAT"] = sourceRow["VATTerms"]?.ToString() ?? "";
+            reportRow["P&F"] = sourceRow["Terms"]?.ToString() ?? "";
+            
+            // Calculate final amount (Rate - Discount + Costs)
+            decimal rate = Convert.ToDecimal(sourceRow["Rate"] ?? 0);
+            decimal discount = Convert.ToDecimal(sourceRow["Discount"] ?? 0);
+            decimal indirectCost = Convert.ToDecimal(sourceRow["IndirectCost"] ?? 0);
+            decimal directCost = Convert.ToDecimal(sourceRow["DirectCost"] ?? 0);
+            
+            decimal finalAmount = rate - (rate * discount / 100) + indirectCost + directCost;
+            reportRow["Final Amount"] = finalAmount;
+            
+            reportData.Rows.Add(reportRow);
+        }
+    }
+
+    /// <summary>
+    /// Configure the modern report viewer with data and formatting
+    /// </summary>
+    private void ConfigureReportViewer(DataTable reportData)
+    {
+        // Set custom column headers (optional - for better display names)
+        string[] columnHeaders = {
+            "ID", "Item Code", "Item Description", "Unit", "Financial Year", 
+            "PO Number", "Rate", "Discount (%)", "Excise", "Supplier Name", 
+            "Supplier ID", "Indirect Cost", "Direct Cost", "VAT", "P&F", "Final Amount"
+        };
+        
+        // Set column widths (optional - for better formatting)
+        string[] columnWidths = {
+            "5%", "8%", "15%", "5%", "8%", "8%", "8%", "8%", "8%", 
+            "12%", "8%", "8%", "8%", "6%", "6%", "10%"
+        };
+        
+        // Configure and display the report
+        modernReportViewer1.SetReportData(
+            reportData, 
+            "Rate Register Report - " + DateTime.Now.ToString("dd/MM/yyyy"), 
+            columnHeaders, 
+            columnWidths
+        );
+        
+        modernReportViewer1.Visible = true;
+    }
+
+    /// <summary>
+    /// Get item code by item ID
+    /// </summary>
+    private string GetItemCode(int itemId)
+    {
+        try
+        {
+            string query = "SELECT ItemCode FROM tblDG_Item_Master WHERE Id = @ItemId";
+            using (SqlCommand cmd = new SqlCommand(query, con))
+            {
+                cmd.Parameters.AddWithValue("@ItemId", itemId);
+                if (con.State != ConnectionState.Open) con.Open();
+                object result = cmd.ExecuteScalar();
+                return result?.ToString() ?? "";
+            }
+        }
+        catch
+        {
+            return "";
+        }
+        finally
+        {
+            if (con.State == ConnectionState.Open) con.Close();
+        }
+    }
+
+    /// <summary>
+    /// Get PO number by PO ID
+    /// </summary>
+    private string GetPONumber(int poId)
+    {
+        try
+        {
+            string query = "SELECT PONo FROM tblMM_PO_Header WHERE Id = @POId";
+            using (SqlCommand cmd = new SqlCommand(query, con))
+            {
+                cmd.Parameters.AddWithValue("@POId", poId);
+                if (con.State != ConnectionState.Open) con.Open();
+                object result = cmd.ExecuteScalar();
+                return result?.ToString() ?? "";
+            }
+        }
+        catch
+        {
+            return "";
+        }
+        finally
+        {
+            if (con.State == ConnectionState.Open) con.Close();
+        }
+    }
+
+    /// <summary>
+    /// Get supplier information
+    /// </summary>
+    private (string Name, string Code) GetSupplierInfo(int itemId)
+    {
+        try
+        {
+            string query = @"
+                SELECT s.SupplierName, s.SupplierId 
+                FROM tblMM_Supplier_master s
+                INNER JOIN tblMM_Rate_Register r ON s.SupplierId = r.SupplierId
+                WHERE r.ItemId = @ItemId";
+            
+            using (SqlCommand cmd = new SqlCommand(query, con))
+            {
+                cmd.Parameters.AddWithValue("@ItemId", itemId);
+                if (con.State != ConnectionState.Open) con.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return (reader["SupplierName"]?.ToString() ?? "", reader["SupplierId"]?.ToString() ?? "");
+                    }
+                }
+            }
+        }
+        catch
+        {
+            // Return empty values on error
+        }
+        finally
+        {
+            if (con.State == ConnectionState.Open) con.Close();
+        }
+        
+        return ("", "");
+    }
+
+    /// <summary>
+    /// Show error message to user
+    /// </summary>
+    private void ShowErrorMessage(string message)
+    {
+        ClientScript.RegisterStartupScript(this.GetType(), "ErrorAlert", 
+            $"alert('{message.Replace("'", "\\'")}');", true);
+    }
+
+    #endregion
+}

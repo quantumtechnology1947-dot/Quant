@@ -1,0 +1,345 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Transactions/OfficeStaff_Edit.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="OfficeStaff_Edit.aspx.cs" Inherits="Module_HR_Transactions_OfficeStaff_Edit" Title="ERP" Theme="Default" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style2
+        {
+            width: 100%;
+        }
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+    <table class="style2">
+    <tr>
+            <td align="left" valign="middle" 
+                style="background:url(../../../images/hdbg.JPG)" height="21" 
+                class="fontcsswhite"><b>&nbsp;Staff - Edit</b></td>
+        </tr>
+        <tr>
+             <td align="left">
+        
+            <asp:DropDownList ID="DrpField" runat="server" 
+                onselectedindexchanged="DrpField_SelectedIndexChanged" AutoPostBack="True" 
+                CssClass="box3">
+              <%--  <asp:ListItem>Select</asp:ListItem>--%>
+               <asp:ListItem Value="0">Employee Name</asp:ListItem>
+               <asp:ListItem Value="1">Dept Name</asp:ListItem>
+               <asp:ListItem Value="2">BG Group </asp:ListItem>
+                               
+            </asp:DropDownList>
+            &nbsp;<asp:TextBox ID="TxtMrs" runat="server" Width="150px" CssClass="box3"></asp:TextBox>
+            &nbsp;<asp:TextBox ID="TxtEmpName" runat="server" Width="350px" CssClass="box3"></asp:TextBox>
+                  
+        <cc1:AutoCompleteExtender ID="TxtEmpName_AutoCompleteExtender" runat="server" 
+                                DelimiterCharacters="" Enabled="True" ServiceMethod="GetCompletionList" 
+                                ServicePath="" TargetControlID="TxtEmpName" UseContextKey="True"
+                                 CompletionInterval="100" CompletionSetCount="2" FirstRowSelected="True" MinimumPrefixLength="1" ShowOnlyCurrentWordInCompletionListItem="True" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                            </cc1:AutoCompleteExtender>
+        
+            &nbsp;&nbsp;&nbsp;
+        
+                    
+            <asp:Button ID="Button1" runat="server" CssClass="redbox" 
+                onclick="Button1_Click" Text="Search" />
+            
+        
+            &nbsp;
+                 <asp:Label ID="Label2" runat="server" Font-Bold="True" ForeColor="Red"></asp:Label>
+            
+        
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+
+    <asp:GridView ID="GridView2" runat="server" 
+        CssClass="yui-datatable-theme" AutoGenerateColumns="False" 
+        AllowPaging="True" Width="99%" onpageindexchanging="GridView2_PageIndexChanging" 
+                    onselectedindexchanged="GridView2_SelectedIndexChanged" PageSize="20">
+        <PagerSettings PageButtonCount="40" />
+      <Columns>
+      <asp:TemplateField HeaderText="SN" ItemStyle-HorizontalAlign="Center"><ItemTemplate> <%# Container.DataItemIndex + 1%> 
+                        </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Right" Width="4%"></ItemStyle>
+                        </asp:TemplateField>
+          <asp:HyperLinkField DataNavigateUrlFields="EmpId" 
+              DataNavigateUrlFormatString="~/Module/HR/Transactions/OfficeStaff_Edit_Details.aspx?EmpId={0}&ModId=12&SubModId=24" 
+              NavigateUrl="~/Module/HR/Transactions/OfficeStaff_Edit_Details.aspx" 
+              Text="Select" >
+              
+                <ItemStyle HorizontalAlign="Center" />
+          </asp:HyperLinkField>
+              
+                <asp:TemplateField HeaderText="Fin Year">
+                <ItemTemplate>
+                <asp:Label ID="lblFinYear" runat="server" Text='<%# Eval("FinYear") %>'></asp:Label>
+                </ItemTemplate>
+                <ItemStyle HorizontalAlign="Center" />
+                </asp:TemplateField>
+          <asp:BoundField DataField="UserId" HeaderText="UserId" InsertVisible="False" 
+              ReadOnly="True" SortExpression="UserId" Visible="False" />
+          <asp:BoundField DataField="EmpId" HeaderText="Emp Id" SortExpression="EmpId" >
+              <ItemStyle HorizontalAlign="Center" />
+          </asp:BoundField>
+          <asp:BoundField DataField="EmployeeName" HeaderText="Emp Name" 
+              SortExpression="EmployeeName">
+              <ItemStyle HorizontalAlign="Left" Width="25%" />
+          </asp:BoundField>
+          <asp:BoundField DataField="DeptName" HeaderText="Dept Name" 
+              SortExpression="DeptName" >
+              <ItemStyle HorizontalAlign="Center" />
+          </asp:BoundField>
+          <asp:BoundField DataField="BGgroup" HeaderText="BG Group" 
+              SortExpression="BGgroup" >
+              <ItemStyle HorizontalAlign="Center" />
+          </asp:BoundField>
+          <asp:BoundField DataField="Designation" HeaderText="Designation" 
+              SortExpression="Designation" >
+              <ItemStyle HorizontalAlign="Center" />
+            </asp:BoundField>
+          <asp:BoundField DataField="MobileNo" HeaderText="Mobile No" 
+              SortExpression="MobileNo" >
+              <ItemStyle HorizontalAlign="Center" />
+          </asp:BoundField>
+          <asp:BoundField DataField="JoiningDate" HeaderText="Joining Date" 
+              SortExpression="JoiningDate" >
+              <ItemStyle HorizontalAlign="Center" />
+          </asp:BoundField>
+          <asp:BoundField DataField="ResignationDate" HeaderText="Resignation Date" 
+              SortExpression="ResignationDate" >
+              <ItemStyle HorizontalAlign="Center" />
+          </asp:BoundField>
+          
+      </Columns>
+       <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+      
+    </asp:GridView>
+    
+            </td>
+        </tr>
+    </table>
+    
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/HR/Transactions/OfficeStaff_Edit.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_HR_Transactions_OfficeStaff_Edit : System.Web.UI.Page
+{
+     clsFunctions fun = new clsFunctions();
+    
+     int CompId=0;
+     string co = "";
+     string id = "";
+     string FyId = "";
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            FyId = Session["finyear"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+            Label2.Text = "";
+            if (!IsPostBack)
+            {
+                TxtMrs.Visible = false;
+                this.binddata(co, id);
+            }
+
+            if(!string.IsNullOrEmpty(Request.QueryString["msg"]))
+            {
+                Label2.Text = Request.QueryString["msg"].ToString();
+            }
+        }
+        catch(Exception Ex )
+        {
+        }
+
+    }
+    public void binddata(string Search, string EmpId)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        try
+        {
+            string x = "";
+            string y = "";
+            if (DrpField.SelectedValue == "0")
+            {
+                if (TxtEmpName.Text != "")
+                {
+                    y = " AND EmpId='" + fun.getCode(TxtEmpName.Text) + "'";
+                }
+            }
+
+            if (DrpField.SelectedValue == "Select")
+            {
+                TxtMrs.Visible = true;
+                //TxtMrs.Enabled = false;
+                TxtEmpName.Visible = false;
+            }
+            //else if(DrpField.SelectedValue != "Select")
+            //{
+            //    TxtMrs.Enabled = true;
+            //}
+
+            if (DrpField.SelectedValue == "1")
+            {
+                if (TxtMrs.Text != "")
+                {
+                    string sqlDept = fun.select("Id", "tblHR_Departments", "Description='" + TxtMrs.Text + "'");
+                    SqlCommand cmdDept = new SqlCommand(sqlDept, con);
+                    SqlDataAdapter daDept = new SqlDataAdapter(cmdDept);
+                    DataSet DSDept = new DataSet();
+                    daDept.Fill(DSDept);
+                    x = " AND Department='" + DSDept.Tables[0].Rows[0]["Id"].ToString() + "'";
+                }
+            }
+            else if (DrpField.SelectedValue == "2")
+            {
+                if (TxtMrs.Text != "")
+                {
+                    string sqlGrp = fun.select("Id", "BusinessGroup", "Symbol='" + TxtMrs.Text + "'");
+                    SqlCommand cmdGrp = new SqlCommand(sqlGrp, con);
+                    SqlDataAdapter daGrp = new SqlDataAdapter(cmdGrp);
+                    DataSet DSGrp = new DataSet();
+                    daGrp.Fill(DSGrp);
+                    if (DSGrp.Tables[0].Rows.Count > 0)
+                    {
+
+                        x = " AND BGGroup='" + DSGrp.Tables[0].Rows[0]["Id"].ToString() + "'";
+                    }
+                }
+            }
+            SqlDataAdapter da = new SqlDataAdapter("Sp_Staff_Grid", con);
+            da.SelectCommand.CommandType = CommandType.StoredProcedure;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@CompId", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@CompId"].Value = CompId;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@FinId", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@FinId"].Value = FyId;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@x", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@x"].Value = x;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@y", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@y"].Value = y;            
+            DataSet DSitem = new DataSet();
+            da.Fill(DSitem);
+            GridView2.DataSource = DSitem;
+            GridView2.DataBind();           
+            con.Close();
+        }
+        catch (Exception ex)
+        {
+       }
+    }
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            string CustId = fun.getCode(TxtEmpName.Text);
+            this.binddata(TxtMrs.Text, CustId);
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    protected void DrpField_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (DrpField.SelectedValue == "0")
+        {
+            TxtMrs.Visible = false;
+            TxtEmpName.Visible = true;
+            TxtEmpName.Text = "";
+            this.binddata(co,id);
+        }
+        else
+        {
+            TxtMrs.Visible = true;
+            TxtMrs.Text = "";
+            TxtEmpName.Visible = false;
+            this.binddata(co, id);
+        }
+    }
+
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] GetCompletionList(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        con.Open();
+        int CompId = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        string cmdStr = fun.select("EmpId,EmployeeName", "tblHR_OfficeStaff","CompId='"+CompId+"'");
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds, "tblHR_OfficeStaff");
+        con.Close();
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                //if (main.Length == 10)
+                //    break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }
+
+
+    protected void GridView2_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView2.PageIndex = e.NewPageIndex;
+        this.binddata(co, id);
+    }
+}

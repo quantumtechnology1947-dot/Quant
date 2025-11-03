@@ -1,0 +1,399 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Transactions/CustomerChallan_Print_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="CustomerChallan_Print_Details.aspx.cs" Inherits="Module_Inventory_Transactions_CustomerChallan_Print_Details" Title="ERP"  Theme="Default"  %>
+
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    </asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+    <script type="text/javascript">
+        function OnChanged(sender, args)
+        {
+            ServerUtilities.SetTabIndex(sender.get_activeTabIndex());
+        }
+    </script>
+    
+      <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" 
+                    AutoPostBack="true"
+                    Width="100%" 
+       >
+                    <cc1:TabPanel runat="server" HeaderText="Customer Challan" ID="Add">                    
+<ContentTemplate><asp:Panel ID="Panel2" ScrollBars="Auto" runat="server"><table align="left" cellpadding="0" cellspacing="0" width="100%"><tr><td height="5px" ></td></tr><tr><td align="left"  valign="top"><table align="left" cellpadding="0" cellspacing="0" width="100%" ><tr><td valign="top" align="center"  ><asp:Panel ID="Panel1" ScrollBars="Auto" Height="430px" runat="server"><CR:CrystalReportViewer 
+        ID="CrystalReportViewer1" runat="server" 
+                    AutoDataBind="True" EnableDatabaseLogonPrompt="False" 
+                    EnableParameterPrompt="False" ReportSourceID="CrystalReportSource1" HasCrystalLogo="False"
+                    DisplayGroupTree="False" /><CR:CrystalReportSource ID="CrystalReportSource1" runat="server"><Report FileName="Module\Inventory\Transactions\Reports\CustomerChallan.rpt"></Report></CR:CrystalReportSource></asp:Panel></td></tr><tr><td valign="top" align="center"  ><asp:Button ID="Btncancel"  runat="server"  CssClass="redbox" 
+                                            Text="Cancel" onclick="Btncancel_Click"  /></td></tr></table></td></tr></table></asp:Panel></ContentTemplate></cc1:TabPanel>
+    
+       <cc1:TabPanel ID="View" runat="server" HeaderText="Clear Challan">
+                    <ContentTemplate><asp:Panel ID="Panel3" ScrollBars="Auto" runat="server"><table align="left" width="100%" cellpadding="0" cellspacing="0" ><tr><td height="5px" ></td></tr><tr><td align="left"  valign="top"><table align="left" cellpadding="0" width="100%" cellspacing="0" ><tr><td valign="top" align="center"  ><asp:Panel ID="Panel4" ScrollBars="Auto" Height="430px" runat="server"><CR:CrystalReportViewer ID="CrystalReportViewer2" runat="server" 
+                    AutoDataBind="True" EnableDatabaseLogonPrompt="False" HasCrystalLogo="False"
+                    EnableParameterPrompt="False" ReportSourceID="CrystalReportSource2" 
+                    DisplayGroupTree="False"  /><CR:CrystalReportSource ID="CrystalReportSource2" runat="server"><Report FileName="Module\Inventory\Transactions\Reports\CustomerChallan_Clear.rpt"></Report></CR:CrystalReportSource></asp:Panel></td></tr><tr><td valign="top" align="center"  >&#160;<asp:Button ID="BtnCancel1"  runat="server"  CssClass="redbox" 
+                                            Text="Cancel" onclick="BtnCancel1_Click"  /></td></tr></table></td></tr></table></asp:Panel>
+                    </ContentTemplate>
+                    </cc1:TabPanel>
+    </cc1:TabContainer>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Transactions/CustomerChallan_Print_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using CrystalDecisions.CrystalReports.Engine;
+using System.Data.SqlClient;
+
+public partial class Module_Inventory_Transactions_CustomerChallan_Print_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    string sId = "";
+    int CompId = 0;
+    int fyid = 0;
+    string supid = "";
+    string str = "";
+    SqlConnection con;
+    int id = 0;
+    string GenBy = "";
+    string DelivTo = "";
+    string DelAdd = "";
+    string Person = "";
+    string ContactNo = "";
+    string GenBy1 = "";
+    string DelivTo1 = "";
+    string DelAdd1 = "";
+    string Person1 = "";
+    string ContactNo1 = "";
+    ReportDocument cryRpt = new ReportDocument();
+    ReportDocument cryRpt2 = new ReportDocument();
+
+    string Key = string.Empty;
+    string Key1 = string.Empty;
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        try
+        {
+
+            CompId = Convert.ToInt32(Session["compid"]);
+            fyid = Convert.ToInt32(Session["finyear"]);
+            sId = Session["username"].ToString();
+            id = Convert.ToInt32(Request.QueryString["Id"]);
+            str = fun.Connection();
+            con = new SqlConnection(str);
+
+            Key = Request.QueryString["Key"].ToString();
+            Key1 = Request.QueryString["Key1"].ToString();
+
+            if (!IsPostBack)
+            {
+
+                this.fillGrid();
+                this.LoadGrid();
+            }
+
+            else
+            {
+
+                Key = Request.QueryString["Key"].ToString();
+                ReportDocument doc = (ReportDocument)Session[Key];
+                CrystalReportViewer1.ReportSource = doc;
+
+
+                Key1 = Request.QueryString["Key1"].ToString();
+                ReportDocument doc2 = (ReportDocument)Session[Key1];
+                CrystalReportViewer2.ReportSource = doc2;
+            }
+
+        }
+        catch (Exception ex)
+        {
+        }
+
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        cryRpt = new ReportDocument();
+        cryRpt2 = new ReportDocument();
+    }
+
+   
+
+    public void fillGrid()
+    {
+      try
+        {
+            
+
+            // string connStr = fun.Connection();
+            //SqlConnection con = new SqlConnection(connStr);
+          
+            DataTable dt = new DataTable();
+            string StrSql = "select tblInv_Customer_Challan_Master.CompId,tblInv_Customer_Challan_Master.CustomerId,tblInv_Customer_Challan_Master.SessionId,tblInv_Customer_Challan_Master.SysTime,tblInv_Customer_Challan_Details.Id, tblInv_Customer_Challan_Master.WONo,tblInv_Customer_Challan_Master.CCNo,   tblInv_Customer_Challan_Details.ChallanQty,  tblDG_Item_Master.ItemCode, tblDG_Item_Master.ManfDesc, Unit_Master.Symbol,tblInv_Customer_Challan_Master.SysDate As CCDate FROM         tblDG_Item_Master INNER JOIN Unit_Master ON tblDG_Item_Master.UOMBasic = Unit_Master.Id INNER JOIN                       tblInv_Customer_Challan_Details ON tblDG_Item_Master.Id = tblInv_Customer_Challan_Details.ItemId INNER JOIN                       tblInv_Customer_Challan_Master ON tblInv_Customer_Challan_Details.MId = tblInv_Customer_Challan_Master.Id AND tblInv_Customer_Challan_Master.CompId='" + CompId + "' AND tblInv_Customer_Challan_Details.MId='" + id + "' ";
+
+            SqlCommand Cmd = new SqlCommand(StrSql, con);
+            SqlDataAdapter Da = new SqlDataAdapter(Cmd);
+            DataSet DSSql = new DataSet();
+            Da.Fill(DSSql);
+
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("CCNo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("CCDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Description", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("UOM", typeof(string)));          
+            dt.Columns.Add(new System.Data.DataColumn("ChallanQty", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("SysTime", typeof(string)));          
+            dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));
+
+
+            DataSet Cust = new DataSet();
+            DataRow dr;
+
+
+            for (int i = 0; i < DSSql.Tables[0].Rows.Count; i++)
+            {
+                dr = dt.NewRow();
+
+
+
+                dr[0] = DSSql.Tables[0].Rows[i]["Id"].ToString();
+                dr[1] = DSSql.Tables[0].Rows[i]["WONo"].ToString();
+                dr[2] = DSSql.Tables[0].Rows[i]["CCNo"].ToString();
+                dr[3] = fun.FromDate(DSSql.Tables[0].Rows[i]["CCDate"].ToString());
+                dr[4] = DSSql.Tables[0].Rows[i]["ItemCode"].ToString();
+                dr[5] = DSSql.Tables[0].Rows[i]["ManfDesc"].ToString();
+                dr[6] = DSSql.Tables[0].Rows[i]["Symbol"].ToString();
+                dr[7] = DSSql.Tables[0].Rows[i]["ChallanQty"].ToString();
+                dr[8] = DSSql.Tables[0].Rows[i]["SysTime"].ToString();
+                dr[9] = DSSql.Tables[0].Rows[i]["CompId"].ToString();
+            
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+               
+            }
+
+            Cust.Tables.Add(dt);
+            Cust.AcceptChanges();
+
+            DataSet xsd = new CustChallan();
+            xsd.Tables[0].Merge(Cust.Tables[0]);
+            xsd.AcceptChanges();
+            //cryRpt = new ReportDocument();
+            cryRpt.Load(Server.MapPath("~/Module/Inventory/Transactions/Reports/CustomerChallan.rpt"));
+            cryRpt.SetDataSource(xsd);
+
+            string sql2 = fun.select("Title+'. '+EmployeeName As EmpName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + DSSql.Tables[0].Rows[0]["SessionId"] + "'");
+
+            SqlCommand cmd2 = new SqlCommand(sql2, con);
+            SqlDataAdapter da2 = new SqlDataAdapter(cmd2);
+            DataSet DS2 = new DataSet();
+            da2.Fill(DS2);
+
+            if (DS2.Tables[0].Rows.Count > 0)
+            {
+                GenBy = DS2.Tables[0].Rows[0]["EmpName"].ToString();
+            }
+
+
+
+            string cmdStr = fun.select("CustomerName+'['+CustomerId+']' As CustName,RegdAddress,ContactPerson,ContactNo", "SD_Cust_master", "CompId='" + CompId + "' And CustomerId='" + DSSql.Tables[0].Rows[0]["CustomerId"] + "' ");
+            SqlDataAdapter da3 = new SqlDataAdapter(cmdStr, con);
+            DataSet ds = new DataSet();
+            da3.Fill(ds, "SD_Cust_master");
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                DelivTo = ds.Tables[0].Rows[0]["CustName"].ToString();
+                DelAdd = ds.Tables[0].Rows[0]["RegdAddress"].ToString();
+                Person = ds.Tables[0].Rows[0]["ContactPerson"].ToString();
+                ContactNo = ds.Tables[0].Rows[0]["ContactNo"].ToString();
+            }
+
+           
+            string Address = fun.CompAdd(CompId);
+            cryRpt.SetParameterValue("Address", Address);
+            cryRpt.SetParameterValue("GenBy", GenBy);
+            cryRpt.SetParameterValue("DelivTo", DelivTo);
+            cryRpt.SetParameterValue("DelAdd", DelAdd);
+            cryRpt.SetParameterValue("Person", Person);
+            cryRpt.SetParameterValue("ContactNo", ContactNo);
+            CrystalReportViewer1.ReportSource = cryRpt;
+            Session[Key] = cryRpt;
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+    public void LoadGrid()
+    {
+
+        try
+        {
+
+
+            // string connStr = fun.Connection();
+            //SqlConnection con = new SqlConnection(connStr);
+
+            DataTable dt = new DataTable();
+            string StrSql = "SELECT  tblInv_Customer_Challan_Clear.SysDate,tblInv_Customer_Challan_Clear.CompId,tblInv_Customer_Challan_Clear.SysTime,tblDG_Item_Master.ManfDesc ,tblDG_Item_Master.ItemCode,Unit_Master.Symbol,tblInv_Customer_Challan_Details.ItemId,tblInv_Customer_Challan_Master.WONo,tblInv_Customer_Challan_Master.CCNo,tblInv_Customer_Challan_Master.CustomerId,tblInv_Customer_Challan_Details.ChallanQty,tblInv_Customer_Challan_Clear.Id,tblInv_Customer_Challan_Clear.DId,tblInv_Customer_Challan_Clear.ClearQty ,tblInv_Customer_Challan_Clear.CompId,tblInv_Customer_Challan_Clear.SessionId,tblInv_Customer_Challan_Clear.SysTime FROM  tblDG_Item_Master  INNER JOIN    tblInv_Customer_Challan_Details On       tblInv_Customer_Challan_Details.ItemId = tblDG_Item_Master.Id  INNER JOIN tblInv_Customer_Challan_Clear ON tblInv_Customer_Challan_Clear.DId= tblInv_Customer_Challan_Details.Id  INNER JOIN Unit_Master ON  Unit_Master.Id=tblDG_Item_Master.UOMBasic INNER JOIN tblInv_Customer_Challan_Master ON tblInv_Customer_Challan_Master.Id = tblInv_Customer_Challan_Details.MId  AND tblInv_Customer_Challan_Clear.CompId='" + CompId + "' AND tblInv_Customer_Challan_Master.Id='" + id + "' And tblInv_Customer_Challan_Clear.FinYearId<='" + fyid + "'";
+
+            SqlCommand Cmd = new SqlCommand(StrSql, con);
+            SqlDataAdapter Da = new SqlDataAdapter(Cmd);
+            DataSet DSSql = new DataSet();
+            Da.Fill(DSSql);
+
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("CCNo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("SysDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Description", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("UOM", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ChallanQty", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("ClearQty", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("SysTime", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));
+
+
+            DataSet Clear = new DataSet();
+            DataRow dr;
+
+
+            for (int i = 0; i < DSSql.Tables[0].Rows.Count; i++)
+            {
+                dr = dt.NewRow();
+                dr[0] = DSSql.Tables[0].Rows[i]["Id"].ToString();
+                dr[1] = DSSql.Tables[0].Rows[i]["WONo"].ToString();
+                dr[2] = DSSql.Tables[0].Rows[i]["CCNo"].ToString();
+                dr[3] = fun.FromDate(DSSql.Tables[0].Rows[i]["SysDate"].ToString());
+                dr[4] = DSSql.Tables[0].Rows[i]["ItemCode"].ToString();
+                dr[5] = DSSql.Tables[0].Rows[i]["ManfDesc"].ToString();
+                dr[6] = DSSql.Tables[0].Rows[i]["Symbol"].ToString();
+                dr[7] = DSSql.Tables[0].Rows[i]["ChallanQty"].ToString();
+                dr[8] = DSSql.Tables[0].Rows[i]["ClearQty"].ToString();
+                dr[9] = DSSql.Tables[0].Rows[i]["SysTime"].ToString();
+                dr[10] = DSSql.Tables[0].Rows[i]["CompId"].ToString();
+
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+
+            }
+
+            Clear.Tables.Add(dt);
+            Clear.AcceptChanges();
+
+            DataSet xsd = new CustClear();
+            xsd.Tables[0].Merge(Clear.Tables[0]);
+            xsd.AcceptChanges();
+
+            cryRpt2.Load(Server.MapPath("~/Module/Inventory/Transactions/Reports/CustomerChallan_Clear.rpt"));
+            cryRpt2.SetDataSource(xsd);
+
+            if (DSSql.Tables[0].Rows.Count > 0)
+            {
+                string sql2 = fun.select("Title+'. '+EmployeeName As EmpName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + DSSql.Tables[0].Rows[0]["SessionId"] + "'");
+
+                SqlCommand cmd2 = new SqlCommand(sql2, con);
+                SqlDataAdapter da2 = new SqlDataAdapter(cmd2);
+                DataSet DS2 = new DataSet();
+                da2.Fill(DS2);
+
+                if (DS2.Tables[0].Rows.Count > 0)
+                {
+                    GenBy1 = DS2.Tables[0].Rows[0]["EmpName"].ToString();
+                }
+
+
+                string cmdStr = fun.select("CustomerName+'['+CustomerId+']' As CustName,RegdAddress,ContactPerson,ContactNo", "SD_Cust_master", "CompId='" + CompId + "' And CustomerId='" + DSSql.Tables[0].Rows[0]["CustomerId"] + "' ");
+                SqlDataAdapter da3 = new SqlDataAdapter(cmdStr, con);
+                DataSet ds = new DataSet();
+                da3.Fill(ds, "SD_Cust_master");
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    DelivTo1 = ds.Tables[0].Rows[0]["CustName"].ToString();
+                    DelAdd1 = ds.Tables[0].Rows[0]["RegdAddress"].ToString();
+                    Person1 = ds.Tables[0].Rows[0]["ContactPerson"].ToString();
+                    ContactNo1 = ds.Tables[0].Rows[0]["ContactNo"].ToString();
+                }
+            }
+
+
+            string Address = fun.CompAdd(CompId);
+            cryRpt2.SetParameterValue("Address", Address);
+
+            cryRpt2.SetParameterValue("GenBy", GenBy1);
+            cryRpt2.SetParameterValue("DelivTo", DelivTo1);
+            cryRpt2.SetParameterValue("DelAdd", DelAdd1);
+            cryRpt2.SetParameterValue("Person", Person1);
+            cryRpt2.SetParameterValue("ContactNo", ContactNo1);
+            CrystalReportViewer2.ReportSource = cryRpt2;
+            Session[Key1] = cryRpt2;
+
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    protected void BtnCancel1_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/Inventory/Transactions/CustomerChallan_Print.aspx?ModId=9&SubModId=121");
+    }
+    protected void Btncancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/Inventory/Transactions/CustomerChallan_Print.aspx?ModId=9&SubModId=121");
+    }
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        cryRpt.Close();
+        cryRpt.Dispose();
+
+        this.CrystalReportViewer2.Dispose();
+        this.CrystalReportViewer2 = null;
+        cryRpt2.Close();
+        cryRpt2.Dispose();
+        GC.Collect();
+    }
+
+
+}

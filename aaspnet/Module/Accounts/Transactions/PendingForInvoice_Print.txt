@@ -1,0 +1,243 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/PendingForInvoice_Print.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="PendingForInvoice_Print.aspx.cs" Inherits="Module_Accounts_Transactions_PendingForInvoice_Print" Title="ERP"  Theme="Default"%>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+  
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="left" cellpadding="0" cellspacing="0" width ="100%">
+        <tr>
+            <td style="background:url(../../../images/hdbg.JPG); height:21px" class="fontcsswhite" >&nbsp;<b>Pending For Invoice - Print</b></td>
+        </tr>
+        <tr>
+        <td height="25">
+        &nbsp;
+        <asp:DropDownList ID="DropDownList1" runat="server" CssClass="box3" 
+                                onselectedindexchanged="DropDownList1_SelectedIndexChanged" AutoPostBack="True">  
+                                 <asp:ListItem Value="0">All</asp:ListItem>                            
+                                 <asp:ListItem Value="1">Customer Name</asp:ListItem>
+                                 <asp:ListItem Value="2">WO No</asp:ListItem>
+                               
+                            </asp:DropDownList>&nbsp;
+                <asp:TextBox ID="txtCustName" runat="server" CssClass="box3"  Width="350px"></asp:TextBox>
+         
+         <cc1:AutoCompleteExtender ID="txtCustName_AutoCompleteExtender" 
+                    runat="server" CompletionInterval="100" CompletionSetCount="1" 
+                                            DelimiterCharacters="" Enabled="True" FirstRowSelected="True" 
+                                            MinimumPrefixLength="1" ServiceMethod="sql" ServicePath="" 
+                                            ShowOnlyCurrentWordInCompletionListItem="True" 
+                                            TargetControlID="txtCustName" UseContextKey="True" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                </cc1:AutoCompleteExtender> 
+        
+                            
+                            <asp:TextBox ID="txtpoNo" runat="server" Visible="False" CssClass="box3"></asp:TextBox>
+&nbsp;<asp:Button ID="btnSearch" runat="server" CssClass="redbox"  Text="Search" 
+                                onclick="btnSearch_Click" />
+                            
+        </td>
+        </tr>     
+        
+          <tr valign="bottom">  
+           <td align="center" colspan="7">
+             <iframe id="Iframe1"  runat ="server" width="100%" height="400px" frameborder="0" scrolling="auto" ></iframe>
+           </td> 
+        </tr> 
+    </table>
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/PendingForInvoice_Print.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_Accounts_Transactions_PendingForInvoice_Print : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    int FinYearId = 0;
+    int CompId = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        try
+        {
+
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            CompId = Convert.ToInt32(Session["compid"]);
+            if (!Page.IsPostBack)
+            {
+                txtpoNo.Visible = false;
+                txtCustName.Visible = false;
+            }
+
+        }
+        catch (Exception ex) { }
+
+    }
+
+
+    protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (DropDownList1.SelectedValue == "0")
+            {
+                txtpoNo.Visible = false;
+                txtCustName.Visible = false;
+                txtCustName.Text =string.Empty;
+                txtpoNo.Text = string.Empty;
+                Iframe1.Visible = false;
+            }
+            if (DropDownList1.SelectedValue == "1")
+            {
+                txtpoNo.Visible = false;
+                txtCustName.Visible = true;
+                txtCustName.Text = string.Empty;
+                Iframe1.Visible = false;
+            }
+
+            if (DropDownList1.SelectedValue == "2")
+            {
+                txtpoNo.Visible = true;
+                txtCustName.Visible = false;
+                txtpoNo.Text = string.Empty;
+                Iframe1.Visible = false;
+            }
+        }
+
+        catch (Exception ex) { }
+
+    }
+
+
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] sql(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        SqlConnection con = new SqlConnection(connStr);
+        int CompId = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        con.Open();
+        string cmdStr = fun.select("CustomerId,CustomerName", "SD_Cust_master", "CompId='" + CompId + "'");
+        SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+        da.Fill(ds, "SD_Cust_master");
+        con.Close();
+        string[] main = new string[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            if (ds.Tables[0].Rows[i].ItemArray[1].ToString().ToLower().StartsWith(prefixText.ToLower()))
+            {
+                Array.Resize(ref main, main.Length + 1);
+                main[main.Length - 1] = ds.Tables[0].Rows[i].ItemArray[1].ToString() + " [" + ds.Tables[0].Rows[i].ItemArray[0].ToString() + "]";
+                //if (main.Length == 10)
+                //    break;
+            }
+        }
+        Array.Sort(main);
+        return main;
+    }
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+       try
+       {
+           string getRandomKey = fun.GetRandomAlphaNumeric();
+            string C = "";
+            string W = "";
+            if (DropDownList1.SelectedValue.ToString() == "0")
+            {
+                C = string.Empty;
+                W = string.Empty;
+                Iframe1.Attributes.Add("src", "PendingForInvoice_Print_Details.aspx?C=" + C + "&W=" + W + "&Val=" + DropDownList1.SelectedValue + "&Key=" + getRandomKey + "");
+                Iframe1.Visible = true;
+            }
+            if (DropDownList1.SelectedValue.ToString() == "1")
+            {
+                if (txtCustName.Text != string.Empty)
+                {
+                    string CustomerId = fun.getCode(txtCustName.Text);
+                    int CustomerId1 = fun.chkCustomerCode(CustomerId);
+                    if (CustomerId1 == 1) 
+                    {
+                        C = CustomerId;
+                        Iframe1.Attributes.Add("src", "PendingForInvoice_Print_Details.aspx?C=" + C + "&W=" + W + "&Val=" + DropDownList1.SelectedValue + "&Key=" + getRandomKey + "");
+                        Iframe1.Visible = true;
+                    }
+                    else
+                    {
+                        string myStringVariable = string.Empty;
+                        string myStringVariable2 = "Customer is not valid";
+                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable2 + "');", true);
+
+                    }
+                }
+                if (txtCustName.Text == string.Empty)
+                {
+                    string myStringVariable = string.Empty;
+                    string myStringVariable2 = "Customer is not valid";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable2 + "');", true);
+                }
+
+            }
+            if (DropDownList1.SelectedValue.ToString() == "2")
+            {
+                if (txtpoNo.Text != string.Empty)
+                {
+                    if (fun.CheckValidWONo(txtpoNo.Text, CompId, FinYearId) == true)
+                    {
+                        W = txtpoNo.Text;
+                        Iframe1.Attributes.Add("src", "PendingForInvoice_Print_Details.aspx?C=" + C + "&W=" + W + "&Val=" + DropDownList1.SelectedValue + "&Key=" + getRandomKey + "");
+                        Iframe1.Visible = true;
+                    }
+                    else
+                    {
+                        string myStringVariable = string.Empty;
+                        string myStringVariable2 = "WONo is not valid";
+                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable2 + "');", true);
+                    }
+                }
+                if (txtpoNo.Text == string.Empty)
+                {
+                    string myStringVariable = string.Empty;
+                    string myStringVariable2 = "WONo is not valid";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable2 + "');", true);
+                }
+            }
+           
+        }
+       catch (Exception ex) { }
+    }
+
+}

@@ -1,0 +1,1179 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/ProjectManagement/Reports/Componant_Details.aspx.txt ===
+
+<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Componant_Details.aspx.cs" Inherits="Module_ProjectSummary_Componant_Details" Title="ERP" Theme="Default" %>
+<%@ Register TagPrefix="telerik" Namespace="Telerik.Web.UI" Assembly="Telerik.Web.UI" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .style1
+        {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            font-size: 11px;
+            font-style: normal;
+            line-height: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            color: #000000;
+            text-decoration: none;
+            height: 28px;
+        }
+    </style>  
+    <script src="../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table cellpadding="0" cellspacing="0" style="width: 550%" >                             
+    <tr>
+<td align="left" class="style1">&nbsp;<b>Summary Details For WoNo: </b>
+    <asp:Label ID="Label2" runat="server"></asp:Label>
+    &nbsp;&nbsp; 
+    <asp:Button ID="btnCancel" runat="server" CssClass="redbox" 
+        onclick="btnCancel_Click" Text="Cancel" />
+</td>
+    </tr>
+                      
+    <tr>
+<td>
+           
+    <asp:Panel ID="Panel1" runat="server" Width="100%">
+    
+        <telerik:RadTreeList runat="server" ID="RadTreeList1" AllowPaging="True"  HeaderStyle-HorizontalAlign="Center"
+            PageSize="50" Width="100%"   
+            DataKeyNames="CId" OnItemCommand="RadTreeList1_ItemCommand1"  
+            OnPageSizeChanged="RadTreeList1_PageSizeChanged"  OnPageIndexChanged="RadTreeList1_PageIndexChanged"
+            ParentDataKeyNames="PId"
+            AutoGenerateColumns="False"  
+           >       
+            
+         
+            <Columns>            
+                      
+                            <telerik:TreeListBoundColumn DataField="PId" HeaderText="Parent Node" 
+                            UniqueName="PId" Visible="false" />
+                        <telerik:TreeListBoundColumn DataField="CId"   HeaderText="Assembly" 
+                            UniqueName="CId" Visible="false"/> 
+                       <telerik:TreeListBoundColumn DataField="WONo" HeaderText="WorkOrder" 
+                            UniqueName="WONo"  Visible="false"/>
+                            <telerik:TreeListBoundColumn DataField="ItemId" HeaderText="ItemId" 
+                            UniqueName="ItemId"  Visible="False"/> 
+                           <telerik:TreeListBoundColumn DataField="ItemCode" HeaderText="Item Code" 
+                            UniqueName="ItemCode"  HeaderStyle-Width="4%" Visible="true"/> 
+                            
+                            
+                            <telerik:TreeListBoundColumn DataField="ManfDesc" HeaderText="Manf. Desc" 
+                            UniqueName="ManfDesc"  HeaderStyle-Width="8%"  Visible="true"/>                           
+                            <telerik:TreeListBoundColumn DataField="UOM" HeaderText="UOM" 
+                            UniqueName="UOM" ItemStyle-HorizontalAlign="Center"  Visible="true"/>
+                                                       
+                            <telerik:TreeListBoundColumn DataField="UnitQty" HeaderText="Quantity" 
+                            UniqueName="UnitQty" ItemStyle-HorizontalAlign="Right"  Visible="true"/>
+                            <telerik:TreeListBoundColumn DataField="BOMQty" HeaderText="BOMQty" 
+                            UniqueName="BOMQty" ItemStyle-HorizontalAlign="Right"  Visible="true"/>
+                         <telerik:TreeListBoundColumn DataField="Weld" HeaderText="Weldments" 
+                            UniqueName="Weld" ItemStyle-HorizontalAlign="Right"  Visible="true"/>
+                             <telerik:TreeListBoundColumn DataField="LH" HeaderText="LH" 
+                            UniqueName="LH" ItemStyle-HorizontalAlign="Right" Visible="true"/>
+                            <telerik:TreeListBoundColumn DataField="RH" HeaderText="RH" 
+                            UniqueName="RH"  ItemStyle-HorizontalAlign="Right" Visible="true"/> 
+                            <telerik:TreeListBoundColumn DataField="PLNo"  HeaderText="PLNo" 
+                            UniqueName="PLNo" ItemStyle-HorizontalAlign="Center" Visible="true"/>                             
+                                           
+                            <telerik:TreeListBoundColumn DataField="PLDate"  HeaderText="Planning Date" 
+                            UniqueName="PLDate" ItemStyle-HorizontalAlign="Center" Visible="true" />
+                        <telerik:TreeListBoundColumn DataField="PLGenBy"  HeaderText="Plan.By" 
+                            UniqueName="PLGenBy" Visible="true"/> 
+                            <telerik:TreeListBoundColumn DataField="PLId"  HeaderText="Plan.Id" 
+                            UniqueName="PLId" Visible="false"/>
+                             <telerik:TreeListBoundColumn DataField="PRNo"  HeaderText="PRNO" 
+                            UniqueName="PRNo" ItemStyle-HorizontalAlign="Center" Visible="true"/> 
+                            <telerik:TreeListBoundColumn DataField="PRDate"  HeaderText="PR Date" 
+                            UniqueName="PRDate" ItemStyle-HorizontalAlign="Center" Visible="true" />
+                        <telerik:TreeListBoundColumn DataField="PRGenBy"  HeaderText="PR.By" 
+                            UniqueName="PRGenBy" Visible="true"/> 
+                            <telerik:TreeListBoundColumn DataField="PRSupplier"  HeaderText="Supplier" 
+                            UniqueName="PRSupplier" Visible="true"/> 
+                            <telerik:TreeListBoundColumn DataField="PRQty"  HeaderText="PR.Qty" 
+                            UniqueName="PRQty" ItemStyle-HorizontalAlign="Right" Visible="true"/> 
+                            <telerik:TreeListBoundColumn DataField="PRId"  HeaderText="PR.Id" 
+                            UniqueName="PRId" Visible="false"/> 
+                             <telerik:TreeListBoundColumn DataField="PONo"  HeaderText="PONO" 
+                            UniqueName="PONo" ItemStyle-HorizontalAlign="Center" Visible="true"/>              
+                            <telerik:TreeListBoundColumn DataField="PODate"  HeaderText="PO Date" 
+                            UniqueName="PODate" ItemStyle-HorizontalAlign="Center" Visible="true" />
+                        <telerik:TreeListBoundColumn DataField="POGenBy"  HeaderText="PO.By" 
+                            UniqueName="POGenBy" Visible="true"/> 
+                            <telerik:TreeListBoundColumn DataField="POSupplier"  HeaderText="Supplier" 
+                            UniqueName="POSupplier" Visible="true"/> 
+                            <telerik:TreeListBoundColumn DataField="POQty"  HeaderText="PO.Qty" 
+                            UniqueName="POQty" ItemStyle-HorizontalAlign="Right" Visible="true"/> 
+                            <telerik:TreeListBoundColumn DataField="POId"  HeaderText="PO.Id" 
+                            UniqueName="POId" Visible="false"/>
+                            <telerik:TreeListBoundColumn DataField="POCheckDt"  HeaderText="PO Check Dt" 
+                            UniqueName="POCheckDt" ItemStyle-HorizontalAlign="Center" Visible="true"/> 
+                            <telerik:TreeListBoundColumn DataField="POApproveDt"  HeaderText="PO Approve Dt" 
+                            UniqueName="POApproveDt" ItemStyle-HorizontalAlign="Center" Visible="true"/> 
+                            <telerik:TreeListBoundColumn DataField="POAuthDt"  HeaderText="PO Auth Dt" 
+                            UniqueName="POAuthDt" ItemStyle-HorizontalAlign="Center" Visible="true"/> 
+                            <telerik:TreeListBoundColumn DataField="GINNo"  HeaderText="GINNo" 
+                            UniqueName="GINNo" ItemStyle-HorizontalAlign="Center" Visible="true"/>               
+                            <telerik:TreeListBoundColumn DataField="GINDate"  HeaderText="GIN Date" 
+                            UniqueName="GINDate" ItemStyle-HorizontalAlign="Center" Visible="true" />
+                        <telerik:TreeListBoundColumn DataField="GINGenBy"  HeaderText="GIN GenBy" 
+                            UniqueName="GINGenBy" Visible="true"/> 
+                            <telerik:TreeListBoundColumn DataField="GINQty"  HeaderText="GIN Qty" 
+                            UniqueName="GINQty" ItemStyle-HorizontalAlign="Right" Visible="true"/>                             
+                            <telerik:TreeListBoundColumn DataField="GINId"  HeaderText="GIN.Id" 
+                            UniqueName="GINId" Visible="false"/>                              
+                            <telerik:TreeListBoundColumn DataField="GRRNo"  HeaderText="GRRNo" 
+                            UniqueName="GRRNo" ItemStyle-HorizontalAlign="Center" Visible="true"/>            
+                            <telerik:TreeListBoundColumn DataField="GRRDate"  HeaderText="GRR Date" 
+                            UniqueName="GRRDate" ItemStyle-HorizontalAlign="Center" Visible="true" />
+                        <telerik:TreeListBoundColumn DataField="GRRGenBy"  HeaderText="GRR GenBy" 
+                            UniqueName="GRRGenBy" Visible="true"/> 
+                            <telerik:TreeListBoundColumn DataField="GRRQty"  HeaderText="GRR Qty" 
+                            UniqueName="GRRQty" ItemStyle-HorizontalAlign="Right" Visible="true"/>                              
+                            <telerik:TreeListBoundColumn DataField="GRRId"  HeaderText="GRR.Id" 
+                            UniqueName="GRRId" Visible="false"/>                            
+                            <telerik:TreeListBoundColumn DataField="GQNNo"   HeaderText="GQNNo" 
+                            UniqueName="GQNNo" ItemStyle-HorizontalAlign="Center" Visible="true"/> 
+                            <telerik:TreeListBoundColumn DataField="GQNDate"  HeaderText="GQN Date" 
+                            UniqueName="GQNDate" ItemStyle-HorizontalAlign="Center" Visible="true" />
+                        <telerik:TreeListBoundColumn DataField="GQNGenBy"  HeaderText="GQN GenBy" 
+                            UniqueName="GQNGenBy" Visible="true"/> 
+                            <telerik:TreeListBoundColumn DataField="GQNQty"  HeaderText="GQN Qty" 
+                            UniqueName="GQNQty" ItemStyle-HorizontalAlign="Right" Visible="true"/>                              
+                            <telerik:TreeListBoundColumn DataField="GQNId"  HeaderText="GQN.Id" 
+                            UniqueName="GQNId" Visible="false"/>                             
+                            <telerik:TreeListBoundColumn DataField="GSNNo"  HeaderText="GSNNo" 
+                            UniqueName="GSNNo" ItemStyle-HorizontalAlign="Center" Visible="true"/>               
+                            <telerik:TreeListBoundColumn DataField="GSNDate"  HeaderText="GSN Date" 
+                            UniqueName="GSNDate" ItemStyle-HorizontalAlign="Center" Visible="true" />
+                        <telerik:TreeListBoundColumn DataField="GSNGenBy"  HeaderText="GSN GenBy" 
+                            UniqueName="GSNGenBy" Visible="true"/> 
+                            <telerik:TreeListBoundColumn DataField="GSNQty"  HeaderText="GSN Qty" 
+                            UniqueName="GSNQty" ItemStyle-HorizontalAlign="Right" Visible="true"/>                              
+                            <telerik:TreeListBoundColumn DataField="GSNId"  HeaderText="GSN.Id" 
+                            UniqueName="GSNId" Visible="false"/>                             
+                            <telerik:TreeListBoundColumn DataField="WISNo"  HeaderText="WISNo" 
+                            UniqueName="WISNo" ItemStyle-HorizontalAlign="Center" Visible="true"/>               
+                            <telerik:TreeListBoundColumn DataField="WISDate"  HeaderText="WIS Date" 
+                            UniqueName="WISDate" ItemStyle-HorizontalAlign="Center" Visible="true" />
+                        <telerik:TreeListBoundColumn DataField="WISGenBy"  HeaderText="WIS GenBy" 
+                            UniqueName="WISGenBy" Visible="true"/> 
+                            <telerik:TreeListBoundColumn DataField="WISQty"  HeaderText="WIS Qty" 
+                            UniqueName="WISQty" ItemStyle-HorizontalAlign="Right" Visible="true"/> 
+                            
+                            <telerik:TreeListBoundColumn DataField="MINNo"  HeaderText="MINNo" 
+                            UniqueName="MINNo" ItemStyle-HorizontalAlign="Center" Visible="true"/>               
+                            <telerik:TreeListBoundColumn DataField="MINDate"  HeaderText="MIN Date" 
+                            UniqueName="MINDate" ItemStyle-HorizontalAlign="Center" Visible="true" />
+                        <telerik:TreeListBoundColumn DataField="MINGenBy"  HeaderText="MIN GenBy" 
+                            UniqueName="MINGenBy" Visible="true"/> 
+                            <telerik:TreeListBoundColumn DataField="MINQty"  HeaderText="MIN Qty" 
+                            UniqueName="MINQty" ItemStyle-HorizontalAlign="Right" Visible="true"/>                               
+                             
+                             <telerik:TreeListBoundColumn DataField="ShortageQty"  HeaderText="Shortage Qty" 
+                            UniqueName="ShortageQty" ItemStyle-HorizontalAlign="Right" Visible="true"/> 
+                            <telerik:TreeListBoundColumn DataField="Progress"  HeaderText="Progress(%)" 
+                            UniqueName="Progress" ItemStyle-HorizontalAlign="Center" Visible="true"/>   
+            </Columns>
+            
+
+<ClientSettings>
+<Selecting AllowItemSelection="True"></Selecting>
+
+</ClientSettings>
+
+            <PagerStyle CssClass="fontcss" />
+            
+            <HeaderStyle Font-Bold="True" CssClass="fontcss" />
+            
+            <SelectedItemStyle CssClass="fontcss" />
+            
+            <PagerTemplate>
+                <table width="15%">
+                    <tr>
+                        <td align="center" width="7%">
+<asp:Button ID="btnPageFirst" runat="server" Text=" " CssClass="rtlPageFirst" CommandName="Page"
+CommandArgument="First" />
+<asp:Button ID="btnPagePrev" runat="server" Text=" " CssClass="rtlPagePrev" CommandName="Page"
+CommandArgument="Prev" /> 
+                        </td>
+                        <td align="center" width="4%">
+                        <%# (int)DataBinder.Eval(Container, "Paging.CurrentPageIndex") + 1 %>
+                        </td>
+                        <td align="center" width="8%">
+                        <asp:Panel runat="server" ID="TreeListPagerPlaceHolder" />
+<asp:Button ID="btnPageNext" runat="server" Text=" " CssClass="rtlPageNext" CommandName="Page"
+CommandArgument="Next" />
+<asp:Button ID="btnPageLast" runat="server" Text=" " CssClass="rtlPageLast" CommandName="Page"
+CommandArgument="Last" />
+
+
+        </td>
+        <td align="left">
+                Displaying page
+                <%# (int)DataBinder.Eval(Container, "Paging.CurrentPageIndex") + 1 %>
+                of
+                <%# (int)DataBinder.Eval(Container, "Paging.PageCount") %>
+                / Items
+                <%# (int)DataBinder.Eval(Container, "Paging.FirstIndexInPage") + 1 %>
+                to
+                <%# (int)DataBinder.Eval(Container, "Paging.LastIndexInPage") + 1 %>
+                of
+                <%# DataBinder.Eval(Container, "Paging.DataSourceCount")%>
+        </td>
+        <td>
+        
+                    </tr>
+                </table>
+            </PagerTemplate>
+            
+        </telerik:RadTreeList>  
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <br />
+   </asp:Panel>
+    </td>
+</tr>  
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/ProjectManagement/Reports/Componant_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using Telerik.Web.UI;
+using System.Collections.Generic;
+
+public partial class Module_ProjectSummary_Componant_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    public int pid = 0;
+    public int cid = 0;
+    public int ItemId = 0;
+    public string wonosrc = "";
+    public string wonodest = "";
+    int CompId = 0;
+    string sId = "";
+    int FinYearId = 0;   
+    DataTable DT = new DataTable();
+    DataRow DR;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+       try
+        {
+            sId = Session["username"].ToString();
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            if (!String.IsNullOrEmpty(Request.QueryString["WONO"]))
+            {
+            wonosrc = Request.QueryString["WONO"].ToString();
+            }
+            if (!String.IsNullOrEmpty(Request.QueryString["PID"]))
+            {
+                pid = Convert.ToInt32(Request.QueryString["PID"]);
+            }
+            if (!String.IsNullOrEmpty(Request.QueryString["CID"]))
+            {
+                cid = Convert.ToInt32(Request.QueryString["CID"]);
+            }
+            if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
+            {
+                ItemId = Convert.ToInt32(Request.QueryString["Id"]);
+            }
+            
+            Label2.Text = wonosrc;            
+            
+            if (!Page.IsPostBack)
+            {
+
+                this.getColoumn();
+                RadTreeList1.DataSource = this.getPrintnode(cid, wonosrc, CompId);
+                RadTreeList1.DataBind();
+                RadTreeList1.ExpandAllItems();                
+                this.DataBind();               
+            }
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }   
+
+    public void getColoumn()
+    {
+        DT.Columns.Add("PId", typeof(int));//0
+        DT.Columns.Add("CId", typeof(int));//1
+        DT.Columns.Add("ItemId", typeof(int));//2
+        DT.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));//3
+        DT.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));//4
+        DT.Columns.Add(new System.Data.DataColumn("ManfDesc", typeof(string)));//5
+        DT.Columns.Add(new System.Data.DataColumn("UOM", typeof(string)));//6
+        DT.Columns.Add(new System.Data.DataColumn("UnitQty", typeof(double)));//7
+        DT.Columns.Add(new System.Data.DataColumn("BOMQty", typeof(string)));//8
+        DT.Columns.Add(new System.Data.DataColumn("Weld", typeof(string)));//9
+        DT.Columns.Add(new System.Data.DataColumn("LH", typeof(string)));//10
+        DT.Columns.Add(new System.Data.DataColumn("RH", typeof(string)));//11
+        DT.Columns.Add(new System.Data.DataColumn("PLNo", typeof(string)));//12
+        DT.Columns.Add(new System.Data.DataColumn("PLDate", typeof(string)));//13
+        DT.Columns.Add(new System.Data.DataColumn("PLGenBy", typeof(string)));//14
+        DT.Columns.Add(new System.Data.DataColumn("PLId", typeof(string)));       //15 
+        DT.Columns.Add(new System.Data.DataColumn("PRNo", typeof(string)));//16
+        DT.Columns.Add(new System.Data.DataColumn("PRDate", typeof(string)));//17
+        DT.Columns.Add(new System.Data.DataColumn("PRGenBy", typeof(string)));//18
+        DT.Columns.Add(new System.Data.DataColumn("PRSupplier", typeof(string)));//19
+        DT.Columns.Add(new System.Data.DataColumn("PRQty", typeof(string)));//20
+        DT.Columns.Add(new System.Data.DataColumn("PRId", typeof(string)));//21
+        DT.Columns.Add(new System.Data.DataColumn("PONo", typeof(string)));//22
+        DT.Columns.Add(new System.Data.DataColumn("PODate", typeof(string)));//23
+        DT.Columns.Add(new System.Data.DataColumn("POGenBy", typeof(string)));//24
+        DT.Columns.Add(new System.Data.DataColumn("POSupplier", typeof(string)));//25
+        DT.Columns.Add(new System.Data.DataColumn("POQty", typeof(string)));//26
+        DT.Columns.Add(new System.Data.DataColumn("POId", typeof(string)));//27
+        DT.Columns.Add(new System.Data.DataColumn("POCheckDt", typeof(string)));//28
+        DT.Columns.Add(new System.Data.DataColumn("POApproveDt", typeof(string)));//29
+        DT.Columns.Add(new System.Data.DataColumn("POAuthDt", typeof(string)));//30
+        DT.Columns.Add(new System.Data.DataColumn("GINNo", typeof(string)));//31
+        DT.Columns.Add(new System.Data.DataColumn("GINDate", typeof(string)));//32
+        DT.Columns.Add(new System.Data.DataColumn("GINGenBy", typeof(string)));//33
+        DT.Columns.Add(new System.Data.DataColumn("GINQty", typeof(string)));//34
+        DT.Columns.Add(new System.Data.DataColumn("GINId", typeof(string)));//35
+        DT.Columns.Add(new System.Data.DataColumn("GRRNo", typeof(string)));//36
+        DT.Columns.Add(new System.Data.DataColumn("GRRDate", typeof(string)));//37
+        DT.Columns.Add(new System.Data.DataColumn("GRRGenBy", typeof(string)));//38
+        DT.Columns.Add(new System.Data.DataColumn("GRRQty", typeof(string)));//39
+        DT.Columns.Add(new System.Data.DataColumn("GRRId", typeof(string)));//40
+        DT.Columns.Add(new System.Data.DataColumn("GQNNo", typeof(string)));//41
+        DT.Columns.Add(new System.Data.DataColumn("GQNDate", typeof(string)));//42
+        DT.Columns.Add(new System.Data.DataColumn("GQNGenBy", typeof(string)));//43
+        DT.Columns.Add(new System.Data.DataColumn("GQNQty", typeof(string)));//44
+        DT.Columns.Add(new System.Data.DataColumn("GQNId", typeof(string)));//45
+        DT.Columns.Add(new System.Data.DataColumn("GSNNo", typeof(string)));//46
+        DT.Columns.Add(new System.Data.DataColumn("GSNDate", typeof(string)));//47
+        DT.Columns.Add(new System.Data.DataColumn("GSNGenBy", typeof(string)));//48
+        DT.Columns.Add(new System.Data.DataColumn("GSNQty", typeof(string)));//49
+        DT.Columns.Add(new System.Data.DataColumn("GSNId", typeof(string)));//50
+        DT.Columns.Add(new System.Data.DataColumn("WISNo", typeof(string)));//51
+        DT.Columns.Add(new System.Data.DataColumn("WISDate", typeof(string)));  //52      
+        DT.Columns.Add(new System.Data.DataColumn("WISGenBy", typeof(string)));//53
+        DT.Columns.Add(new System.Data.DataColumn("WISQty", typeof(string)));//54        
+        DT.Columns.Add(new System.Data.DataColumn("ShortageQty", typeof(double)));//55
+        DT.Columns.Add(new System.Data.DataColumn("Progress", typeof(string)));//56
+
+        DT.Columns.Add(new System.Data.DataColumn("MINNo", typeof(string)));//57
+        DT.Columns.Add(new System.Data.DataColumn("MINDate", typeof(string)));  //58      
+        DT.Columns.Add(new System.Data.DataColumn("MINGenBy", typeof(string)));//59
+        DT.Columns.Add(new System.Data.DataColumn("MINQty", typeof(string)));//60    
+    }
+
+    
+    public DataTable getPrintnode(int node, string wono, int compid)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+
+       try
+        {
+            DataSet DS = new DataSet(); 
+            con.Open();
+
+            string getparent2 = fun.select("tblDG_BOM_Master.ItemId,tblDG_Item_Master.ItemCode,tblDG_BOM_Master.Qty,tblDG_BOM_Master.PId,tblDG_BOM_Master.CId,tblDG_BOM_Master.Weldments,tblDG_BOM_Master.LH,tblDG_BOM_Master.RH,Unit_Master.Symbol,tblDG_Item_Master.ManfDesc", "tblDG_BOM_Master,tblDG_Item_Master,Unit_Master", "tblDG_BOM_Master.CId='" + node + "' And tblDG_BOM_Master.WONo='" + wonosrc + "'And tblDG_BOM_Master.CompId='" + CompId + "' AND Unit_Master.Id=tblDG_Item_Master.UOMBasic AND tblDG_BOM_Master.ItemId=tblDG_Item_Master.Id AND tblDG_BOM_Master.ItemId=tblDG_Item_Master.Id");            
+            SqlCommand checkparent2 = new SqlCommand(getparent2, con);
+            SqlDataAdapter daparent2 = new SqlDataAdapter(checkparent2);
+            DataSet dsparent2 = new DataSet();
+            daparent2.Fill(dsparent2);
+            DR = DT.NewRow();
+           
+            DR[0] = dsparent2.Tables[0].Rows[0]["PId"].ToString();
+            DR[1] = dsparent2.Tables[0].Rows[0]["CId"].ToString();            
+            DR[2] = dsparent2.Tables[0].Rows[0]["ItemId"].ToString();
+            DR[3] = wono;
+            DR[4] = dsparent2.Tables[0].Rows[0]["ItemCode"].ToString();
+            DR[5] = dsparent2.Tables[0].Rows[0]["ManfDesc"].ToString();
+            DR[6] = dsparent2.Tables[0].Rows[0]["Symbol"].ToString();
+            DR[7] = Convert.ToDouble(decimal.Parse(dsparent2.Tables[0].Rows[0]["Qty"].ToString()).ToString("N3"));
+            DR[8] = Convert.ToDouble(decimal.Parse(fun.BOMRecurQty(wono, Convert.ToInt32(dsparent2.Tables[0].Rows[0]["PId"]), node, 1, CompId, FinYearId).ToString()).ToString("N3"));
+            DR[9] = Convert.ToInt32(dsparent2.Tables[0].Rows[0]["Weldments"]);
+            DR[10] = Convert.ToInt32(dsparent2.Tables[0].Rows[0]["LH"]);
+            DR[11] = Convert.ToInt32(dsparent2.Tables[0].Rows[0]["RH"]);
+
+            ///  Get MIN Qty 
+            ///  
+            string SqlMin = fun.select("tblInv_MaterialIssue_Master.MINNo,tblInv_MaterialIssue_Master.SysDate,tblInv_MaterialIssue_Master.SessionId ,tblInv_MaterialIssue_Details.IssueQty", "tblInv_MaterialIssue_Details,tblInv_MaterialIssue_Master,tblInv_MaterialRequisition_Master,tblInv_MaterialRequisition_Details", " tblInv_MaterialIssue_Master.Id=tblInv_MaterialIssue_Details.MId AND tblInv_MaterialIssue_Master.CompId='" + CompId + "' And tblInv_MaterialRequisition_Master.Id=tblInv_MaterialRequisition_Details.MId AND tblInv_MaterialRequisition_Master.Id=tblInv_MaterialIssue_Master.MRSId And tblInv_MaterialRequisition_Details.Id=tblInv_MaterialIssue_Details.MRSId And tblInv_MaterialRequisition_Details.ItemId='" + dsparent2.Tables[0].Rows[0]["ItemId"].ToString() + "' And tblInv_MaterialRequisition_Details.WONo='" + wono + "'   ");
+
+           SqlCommand CmdMIn = new SqlCommand(SqlMin, con);
+           SqlDataAdapter daMIN = new SqlDataAdapter(CmdMIn);
+           DataSet DSMin = new DataSet();
+           daMIN.Fill(DSMin);
+           double MINQty = 0;
+           for (int min = 0; min < DSMin.Tables[0].Rows.Count; min++)
+           {
+               string strEmp = fun.select("Title+'.'+EmployeeName As EmpLoyeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + DSMin.Tables[0].Rows[min]["SessionId"] + "'");
+
+               SqlCommand cmdEmp = new SqlCommand(strEmp, con);
+               SqlDataAdapter daEmp = new SqlDataAdapter(cmdEmp);
+               DataSet DSEmp = new DataSet();
+               daEmp.Fill(DSEmp);
+               if (DSEmp.Tables[0].Rows.Count > 0)
+               {
+
+                   DR[59] += DSEmp.Tables[0].Rows[0]["EmpLoyeeName"].ToString() + "<br>";
+               }
+               DR[57] += DSMin.Tables[0].Rows[min]["MINNo"].ToString() + "<br>";
+               DR[58] += fun.FromDateDMY(DSMin.Tables[0].Rows[min]["SysDate"].ToString()) + "<br>";
+               DR[60] += DSMin.Tables[0].Rows[min]["IssueQty"].ToString() + "<br>";
+
+               MINQty = Convert.ToDouble(decimal.Parse(DSMin.Tables[0].Rows[min]["IssueQty"].ToString()).ToString("N3"));
+
+           }
+           
+
+
+            //Cal. BOM Qty
+
+            double TotShortQty = 0;
+            double TotbalQty = 0;
+            TotbalQty = Convert.ToDouble(decimal.Parse(fun.BOMRecurQty(wono, Convert.ToInt32(dsparent2.Tables[0].Rows[0]["PId"]), node, 1, CompId, FinYearId).ToString()).ToString("N3"));         
+
+            //Cal. Total WIS Issued Qty
+            double TotIssueQty = 0;
+            string TWISQtySql = fun.select("sum(tblInv_WIS_Details.IssuedQty) as sum_IssuedQty", "tblInv_WIS_Master,tblInv_WIS_Details", "tblInv_WIS_Master.Id=tblInv_WIS_Details.MId AND tblInv_WIS_Master.WONo='" + wonosrc + "' AND tblInv_WIS_Master.CompId='" + CompId + "' AND tblInv_WIS_Details.ItemId='" + dsparent2.Tables[0].Rows[0]["ItemId"].ToString() + "' AND tblInv_WIS_Details.PId='" + dsparent2.Tables[0].Rows[0]["PId"].ToString() + "' AND tblInv_WIS_Details.CId='" + dsparent2.Tables[0].Rows[0]["CId"].ToString() + "'");            
+            SqlCommand TWISQtycmd = new SqlCommand(TWISQtySql, con);
+            SqlDataAdapter TWISQtyDr = new SqlDataAdapter(TWISQtycmd);
+            DataSet TWISQtyDs = new DataSet();
+            TWISQtyDr.Fill(TWISQtyDs);
+            
+            if (TWISQtyDs.Tables[0].Rows[0]["sum_IssuedQty"] != DBNull.Value && TWISQtyDs.Tables[0].Rows.Count > 0)
+            {
+                TotIssueQty = Convert.ToDouble(decimal.Parse(TWISQtyDs.Tables[0].Rows[0][0].ToString()).ToString("N3"));
+                
+            }
+            TotShortQty=TotbalQty-(TotIssueQty+MINQty);
+            DR[55] = TotShortQty;
+            //progress
+            double TotWM1 = 0;
+            TotWM1 = Math.Round((((TotIssueQty+MINQty) * 100) / TotbalQty), 2);
+            DR[56] = TotWM1;
+
+            //WIS
+
+            string sqlWIS = fun.select("tblInv_WIS_Details.IssuedQty,tblInv_WIS_Master.SessionId,tblInv_WIS_Master.SysDate,tblInv_WIS_Details.WISNo,tblInv_WIS_Master.Id", "tblInv_WIS_Details,tblInv_WIS_Master", " tblInv_WIS_Details.ItemId='" + dsparent2.Tables[0].Rows[0]["ItemId"].ToString() + "' AND tblInv_WIS_Master.WONo='" + wonosrc + "' AND tblInv_WIS_Details.PId='" + dsparent2.Tables[0].Rows[0]["PId"].ToString() + "' And tblInv_WIS_Details.CId='" + dsparent2.Tables[0].Rows[0]["CId"].ToString() + "' and tblInv_WIS_Master.CompId='"+CompId+"' And tblInv_WIS_Details.MId=tblInv_WIS_Master.Id ");
+            SqlCommand Cmdgrid = new SqlCommand(sqlWIS, con);
+            SqlDataAdapter dagrid = new SqlDataAdapter(Cmdgrid);
+            DataSet DSWIS = new DataSet();
+            dagrid.Fill(DSWIS);
+            
+            for (int wis = 0; wis < DSWIS.Tables[0].Rows.Count; wis++)
+            {
+                string strEmp = fun.select("Title+'.'+EmployeeName As EmpLoyeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + DSWIS.Tables[0].Rows[wis]["SessionId"] + "'");
+
+                SqlCommand cmdEmp = new SqlCommand(strEmp, con);
+                SqlDataAdapter daEmp = new SqlDataAdapter(cmdEmp);
+                DataSet DSEmp = new DataSet();
+                daEmp.Fill(DSEmp);
+                if (DSEmp.Tables[0].Rows.Count > 0)
+                {
+
+                    DR[53] += DSEmp.Tables[0].Rows[0]["EmpLoyeeName"].ToString() + "<br>";
+                }
+                DR[51] += DSWIS.Tables[0].Rows[wis]["WISNo"].ToString() + "<br>";
+                DR[52] += fun.FromDateDMY(DSWIS.Tables[0].Rows[wis]["SysDate"].ToString()) + "<br>";
+                DR[54] += Convert.ToDouble(decimal.Parse(DSWIS.Tables[0].Rows[wis]["IssuedQty"].ToString()).ToString("N3")) + "<br>";
+                
+
+            }
+
+            string getPlanDtls = fun.select("Id,SysDate,PLNo,SessionId,SupplierId,CompDate,ItemId,Type", "tblMP_Material_Master", "ItemId='" + dsparent2.Tables[0].Rows[0]["ItemId"].ToString() + "'AND CompId='" + CompId + "' AND PId='" + pid + "' AND CId='" + cid + "'");            
+            SqlCommand checkPlanDtls = new SqlCommand(getPlanDtls, con);
+            SqlDataAdapter daPlanDtls = new SqlDataAdapter(checkPlanDtls);
+            DataSet dsPlanDtls = new DataSet();
+            daPlanDtls.Fill(dsPlanDtls);
+            for (int j = 0; j < dsPlanDtls.Tables[0].Rows.Count;j++ )
+            {
+                
+                if (dsPlanDtls.Tables[0].Rows.Count > 0)
+                {
+                    string strEmp = fun.select("Title+'.'+EmployeeName As EmpLoyeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + dsPlanDtls.Tables[0].Rows[j]["SessionId"] + "'");
+
+                    SqlCommand cmdEmp = new SqlCommand(strEmp, con);
+                    SqlDataAdapter daEmp = new SqlDataAdapter(cmdEmp);
+                    DataSet DSEmp = new DataSet();
+                    daEmp.Fill(DSEmp);
+                    if (DSEmp.Tables[0].Rows.Count > 0)
+                    {
+
+                        DR[14] += DSEmp.Tables[0].Rows[0]["EmpLoyeeName"].ToString()+"<br>";
+                    }
+                    DR[12] += dsPlanDtls.Tables[0].Rows[j]["PLNo"].ToString() + "<br>";
+                    DR[13] += fun.FromDateDMY(dsPlanDtls.Tables[0].Rows[j]["SysDate"].ToString()) + "<br>";
+                    DR[15] += dsPlanDtls.Tables[0].Rows[j]["Id"].ToString() + "<br>";
+
+                    // PR
+
+                    string sqlPR = fun.select("tblMM_PR_Details.Qty,tblMM_PR_Details.SupplierId,tblMM_PR_Master.PRNo,tblMM_PR_Details.Id,tblMM_PR_Master.SysDate,tblMM_PR_Master.SessionId", "tblMM_PR_Master,tblMM_PR_Details", "tblMM_PR_Details.ItemId='" + dsPlanDtls.Tables[0].Rows[j]["ItemId"].ToString() + "' AND tblMM_PR_Master.PRNo=tblMM_PR_Details.PRNo AND tblMM_PR_Master.Id=tblMM_PR_Details.MId AND tblMM_PR_Master.WONo='" + wonosrc + "' AND tblMM_PR_Master.CompId='" + CompId + "' AND tblMM_PR_Details.PId='" + pid + "' AND tblMM_PR_Details.CId='" + cid + "'");
+                    SqlCommand cmdPR = new SqlCommand(sqlPR, con);
+                    SqlDataAdapter daPR = new SqlDataAdapter(cmdPR);
+                    DataSet DSPR = new DataSet();
+                    daPR.Fill(DSPR);
+                   
+                    for (int x = 0; x < DSPR.Tables[0].Rows.Count;x++ )
+                    {
+                       
+                        if (DSPR.Tables[0].Rows.Count > 0)
+                        {
+
+                            string strEmp1 = fun.select("Title+'.'+EmployeeName As EmpLoyeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + DSPR.Tables[0].Rows[x]["SessionId"] + "'");
+
+                            SqlCommand cmdEmp1 = new SqlCommand(strEmp1, con);
+                            SqlDataAdapter daEmp1 = new SqlDataAdapter(cmdEmp1);
+                            DataSet DSEmp1 = new DataSet();
+                            daEmp1.Fill(DSEmp1);
+                            if (DSEmp1.Tables[0].Rows.Count > 0)
+                            {
+
+                                DR[18] += DSEmp1.Tables[0].Rows[0]["EmpLoyeeName"].ToString()+"<br>";
+                            }
+
+                            DR[16] += DSPR.Tables[0].Rows[x]["PRNo"].ToString() + "<br>";
+                            DR[17] += fun.FromDateDMY(DSPR.Tables[0].Rows[x]["SysDate"].ToString()) + "<br>";
+
+                            string strSup = fun.select("SupplierName", "tblMM_Supplier_master", "CompId='" + CompId + "' AND SupplierId='" + DSPR.Tables[0].Rows[x]["SupplierId"] + "'");
+
+                            SqlCommand cmdSup = new SqlCommand(strSup, con);
+                            SqlDataAdapter daSup = new SqlDataAdapter(cmdSup);
+                            DataSet DSSup = new DataSet();
+                            daSup.Fill(DSSup);
+                            if (DSSup.Tables[0].Rows.Count > 0)
+                            {
+                                DR[19] += DSSup.Tables[0].Rows[x]["SupplierName"].ToString() + "<br>";
+                            }
+                            DR[20] += DSPR.Tables[0].Rows[x]["Qty"].ToString() + "<br>";
+                            DR[21] += DSPR.Tables[0].Rows[x]["Id"].ToString() + "<br>";
+
+                            // PO
+
+                            string StrPO = fun.select("tblMM_PO_Details.Id,tblMM_PO_Details.Qty,tblMM_PO_Master.PONo,tblMM_PO_Master.SysDate,tblMM_PO_Master.SupplierId,tblMM_PO_Master.SessionId,tblMM_PO_Master.CheckedDate,tblMM_PO_Master.ApproveDate,tblMM_PO_Master.AuthorizeDate", "tblMM_PO_Master,tblMM_PO_Details", "tblMM_PO_Details.PRId='" + DSPR.Tables[0].Rows[x]["Id"].ToString() + "' AND tblMM_PO_Master.PONo=tblMM_PO_Details.PONo AND tblMM_PO_Master.CompId='" + CompId + "' AND tblMM_PO_Master.Id=tblMM_PO_Details.MId");
+                            SqlCommand cmddt = new SqlCommand(StrPO, con);
+                            SqlDataAdapter dadt = new SqlDataAdapter(cmddt);
+                            DataSet dsdt = new DataSet();
+                            dadt.Fill(dsdt);
+                           
+                            for (int c = 0; c < dsdt.Tables[0].Rows.Count;c++ )
+                            {
+                                if (dsdt.Tables[0].Rows.Count > 0)
+                                {
+
+                                    string strEmpPO = fun.select("Title+'.'+EmployeeName As EmpLoyeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + dsdt.Tables[0].Rows[c]["SessionId"] + "'");
+
+                                    SqlCommand cmdEmpPO = new SqlCommand(strEmpPO, con);
+                                    SqlDataAdapter daEmpPO = new SqlDataAdapter(cmdEmpPO);
+                                    DataSet DSEmpPO = new DataSet();
+                                    daEmpPO.Fill(DSEmpPO);
+                                    if (DSEmpPO.Tables[0].Rows.Count > 0)
+                                    {
+
+                                        DR[24] += DSEmpPO.Tables[0].Rows[c]["EmpLoyeeName"].ToString()+"<br>";
+                                    }
+
+                                    DR[22] += dsdt.Tables[0].Rows[c]["PONo"].ToString() + "<br>";
+                                    DR[23] += fun.FromDateDMY(dsdt.Tables[0].Rows[c]["SysDate"].ToString()) + "<br>";
+
+                                    string strSupPO = fun.select("SupplierName", "tblMM_Supplier_master", "CompId='" + CompId + "' AND SupplierId='" + dsdt.Tables[0].Rows[c]["SupplierId"] + "'");
+
+                                    SqlCommand cmdSupPO = new SqlCommand(strSupPO, con);
+                                    SqlDataAdapter daSupPO = new SqlDataAdapter(cmdSupPO);
+                                    DataSet DSSupPO = new DataSet();
+                                    daSup.Fill(DSEmpPO);
+                                    if (DSSup.Tables[0].Rows.Count > 0)
+                                    {
+                                        DR[25] += DSSup.Tables[0].Rows[0]["SupplierName"].ToString() + "<br>";
+                                    }
+                                    DR[26] += dsdt.Tables[0].Rows[c]["Qty"].ToString() + "<br>";
+                                    DR[27] += dsdt.Tables[0].Rows[c]["Id"].ToString() + "<br>";
+                                    DR[28] += fun.FromDateDMY(dsdt.Tables[0].Rows[c]["CheckedDate"].ToString()) + "<br>";
+                                    DR[29] += fun.FromDateDMY(dsdt.Tables[0].Rows[c]["ApproveDate"].ToString()) + "<br>";
+                                    DR[30] += fun.FromDateDMY(dsdt.Tables[0].Rows[c]["AuthorizeDate"].ToString()) + "<br>";
+
+
+                                    /// GIN
+                                    string StrGIN = fun.select("tblInv_Inward_Master.GINNo,tblInv_Inward_Master.Id,tblInv_Inward_Master.SysDate,tblInv_Inward_Master.Sessionid,tblInv_Inward_Details.ReceivedQty", "tblInv_Inward_Master,tblInv_Inward_Details", "tblInv_Inward_Master.GINNo=tblInv_Inward_Details.GINNo AND tblInv_Inward_Master.PONo='" + dsdt.Tables[0].Rows[c]["PONo"].ToString() + "' AND tblInv_Inward_Master.CompId='" + CompId + "' AND tblInv_Inward_Details.POId='" + dsdt.Tables[0].Rows[c]["Id"].ToString() + "' AND tblInv_Inward_Master.Id=tblInv_Inward_Details.GINId");
+                                    SqlCommand cmdGIN = new SqlCommand(StrGIN, con);
+                                    SqlDataAdapter daGIN = new SqlDataAdapter(cmdGIN);
+                                    DataSet DSGIN = new DataSet();
+                                    daGIN.Fill(DSGIN);
+
+                                   
+                                    for (int l = 0; l < DSGIN.Tables[0].Rows.Count; l++)
+                                    {
+                                        if (DSGIN.Tables[0].Rows.Count > 0)
+                                        {
+                                            string strEmpGIN = fun.select("Title+'.'+EmployeeName As EmpLoyeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + DSGIN.Tables[0].Rows[l]["SessionId"] + "'");
+
+                                            SqlCommand cmdEmpGIN = new SqlCommand(strEmpGIN, con);
+                                            SqlDataAdapter daEmpGIN = new SqlDataAdapter(cmdEmpGIN);
+                                            DataSet DSEmpGIN = new DataSet();
+                                            daEmpGIN.Fill(DSEmpGIN);
+                                            if (DSEmpGIN.Tables[0].Rows.Count > 0)
+                                            {
+
+                                                DR[33] += DSEmpGIN.Tables[0].Rows[0]["EmpLoyeeName"].ToString() + "<br>";
+                                            }
+
+                                            DR[31] += DSGIN.Tables[0].Rows[l]["GINNo"].ToString() + "<br>";
+                                            DR[32] += fun.FromDateDMY(DSGIN.Tables[0].Rows[l]["SysDate"].ToString()) + "<br>";
+                                            DR[34] += DSGIN.Tables[0].Rows[l]["ReceivedQty"].ToString() + "<br>";
+                                            DR[35] += DSGIN.Tables[0].Rows[l]["Id"].ToString() + "<br>";
+
+                                            ///GSN                                 
+                                            string StrGSN = fun.select("tblinv_MaterialServiceNote_Details.ReceivedQty,tblinv_MaterialServiceNote_Master.SessionId,tblinv_MaterialServiceNote_Master.Id,tblinv_MaterialServiceNote_Master.SysDate,tblinv_MaterialServiceNote_Master.GSNNo", "tblinv_MaterialServiceNote_Master,tblinv_MaterialServiceNote_Details", " tblinv_MaterialServiceNote_Master.Id=tblinv_MaterialServiceNote_Details.MId AND tblinv_MaterialServiceNote_Master.CompId ='" + CompId + "'AND tblinv_MaterialServiceNote_Master.GINId='" + DSGIN.Tables[0].Rows[l]["Id"].ToString() + "' AND tblinv_MaterialServiceNote_Master.GINNo='" + DSGIN.Tables[0].Rows[l]["GINNo"].ToString() + "' ");
+                                            SqlCommand cmdGSN = new SqlCommand(StrGSN, con);
+                                            SqlDataAdapter daGSN = new SqlDataAdapter(cmdGSN);
+                                            DataSet DSGSN = new DataSet();
+                                            daGSN.Fill(DSGSN);
+                                            for (int s = 0; s < DSGSN.Tables[0].Rows.Count; s++)
+                                            {
+                                                if (DSGSN.Tables[0].Rows.Count > 0)
+                                                {
+                                                    string strEmpGSN = fun.select("Title+'.'+EmployeeName As EmpLoyeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + DSGSN.Tables[0].Rows[s]["SessionId"] + "'");
+
+                                                    SqlCommand cmdEmpGSN = new SqlCommand(strEmpGSN, con);
+                                                    SqlDataAdapter daEmpGSN = new SqlDataAdapter(cmdEmpGSN);
+                                                    DataSet DSEmpGSN = new DataSet();
+                                                    daEmpGSN.Fill(DSEmpGSN);
+                                                    if (DSEmpGSN.Tables[0].Rows.Count > 0)
+                                                    {
+
+                                                        DR[48] += DSEmpGSN.Tables[0].Rows[0]["EmpLoyeeName"].ToString() + "<br>";
+                                                    }
+
+                                                    DR[46] += DSGSN.Tables[0].Rows[s]["GSNNo"].ToString() + "<br>";
+                                                    DR[47] += fun.FromDateDMY(DSGSN.Tables[0].Rows[s]["SysDate"].ToString()) + "<br>";
+                                                    DR[49] += DSGSN.Tables[0].Rows[s]["ReceivedQty"].ToString() + "<br>";
+                                                    DR[50] +=DSGSN.Tables[0].Rows[s]["Id"].ToString() + "<br>";
+                                                }
+
+                                            }
+
+                                            ///GRR
+                                            string StrGRR = fun.select("tblinv_MaterialReceived_Details.ReceivedQty,tblinv_MaterialReceived_Master.SessionId,tblinv_MaterialReceived_Details.Id,tblinv_MaterialReceived_Master.SysDate,tblinv_MaterialReceived_Master.GRRNo", "tblinv_MaterialReceived_Master,tblinv_MaterialReceived_Details", " tblinv_MaterialReceived_Master.Id=tblinv_MaterialReceived_Details.MId AND tblinv_MaterialReceived_Master.CompId ='" + CompId + "'AND tblinv_MaterialReceived_Master.GINId='" + DSGIN.Tables[0].Rows[l]["Id"].ToString() + "' AND tblinv_MaterialReceived_Master.GINNo='" + DSGIN.Tables[0].Rows[l]["GINNo"].ToString() + "' ");
+                                            SqlCommand cmdGRR = new SqlCommand(StrGRR, con);
+                                            SqlDataAdapter daGRR = new SqlDataAdapter(cmdGRR);
+                                            DataSet DSGRR = new DataSet();
+                                            daGRR.Fill(DSGRR);                                           
+                                            for (int m = 0; m < DSGRR.Tables[0].Rows.Count; m++)
+                                            {
+                                                if (DSGRR.Tables[0].Rows.Count > 0)
+                                                {
+                                                    string strEmpGRR = fun.select("Title+'.'+EmployeeName As EmpLoyeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + DSGRR.Tables[0].Rows[m]["SessionId"] + "'");
+
+                                                    SqlCommand cmdEmpGRR = new SqlCommand(strEmpGRR, con);
+                                                    SqlDataAdapter daEmpGRR = new SqlDataAdapter(cmdEmpGRR);
+                                                    DataSet DSEmpGRR = new DataSet();
+                                                    daEmpGRR.Fill(DSEmpGRR);
+                                                    if (DSEmpGRR.Tables[0].Rows.Count > 0)
+                                                    {
+
+                                                        DR[38] += DSEmpGRR.Tables[0].Rows[0]["EmpLoyeeName"].ToString()+"<br>";
+                                                    }
+
+                                                    DR[36] += DSGRR.Tables[0].Rows[m]["GRRNo"].ToString() + "<br>";
+                                                    DR[37] += fun.FromDateDMY(DSGRR.Tables[0].Rows[m]["SysDate"].ToString()) + "<br>";
+                                                    DR[39] += DSGRR.Tables[0].Rows[m]["ReceivedQty"].ToString() + "<br>";
+                                                    DR[40] +=DSGRR.Tables[0].Rows[m]["Id"].ToString() + "<br>";
+                                                    // GQN
+
+                                                    string StrGQN = fun.select("tblQc_MaterialQuality_Master.Id,tblQc_MaterialQuality_Details.AcceptedQty,tblQc_MaterialQuality_Master.GQNNo,tblQc_MaterialQuality_Master.SysDate,tblQc_MaterialQuality_Master.SessionId", "tblQc_MaterialQuality_Master,tblQc_MaterialQuality_Details", "tblQc_MaterialQuality_Master.CompId='" + CompId + "' AND tblQc_MaterialQuality_Master.Id=tblQc_MaterialQuality_Details.MId AND tblQc_MaterialQuality_Details.GRRId='" + DSGRR.Tables[0].Rows[m]["Id"].ToString() + "' AND tblQc_MaterialQuality_Master.GRRNo='" + DSGRR.Tables[0].Rows[m]["GRRNo"].ToString() + "'");
+                                                    
+                                                    SqlCommand cmdGQN = new SqlCommand(StrGQN, con);
+                                                    SqlDataAdapter daGQN = new SqlDataAdapter(cmdGQN);
+                                                    DataSet DSGQN = new DataSet();
+                                                    daGQN.Fill(DSGQN);
+                                                   
+                                                    for (int n = 0; n < DSGQN.Tables[0].Rows.Count; n++)
+                                                    {
+                                                        if (DSGQN.Tables[0].Rows.Count > 0)
+                                                        {
+                                                            string strEmpGQN = fun.select("Title+'.'+EmployeeName As EmpLoyeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + DSGQN.Tables[0].Rows[n]["SessionId"] + "'");
+
+                                                            SqlCommand cmdEmpGQN = new SqlCommand(strEmpGQN, con);
+                                                            SqlDataAdapter daEmpGQN = new SqlDataAdapter(cmdEmpGQN);
+                                                            DataSet DSEmpGQN = new DataSet();
+                                                            daEmpGQN.Fill(DSEmpGQN);
+                                                            if (DSEmpGQN.Tables[0].Rows.Count > 0)
+                                                            {
+
+                                                                DR[43] += DSEmpGQN.Tables[0].Rows[0]["EmpLoyeeName"].ToString() + "<br>";
+                                                            }
+                                                            
+                                                            DR[41] += DSGQN.Tables[0].Rows[n]["GQNNo"].ToString() + "<br>";
+                                                            DR[42] += fun.FromDateDMY(DSGQN.Tables[0].Rows[n]["SysDate"].ToString()) + "<br>";
+                                                            DR[44] += DSGQN.Tables[0].Rows[n]["AcceptedQty"].ToString() + "<br>";
+                                                            DR[45] += DSGQN.Tables[0].Rows[n]["Id"].ToString() + "<br>";
+
+                                                        }
+                                                    }
+                                                }
+
+                                            }
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+            DT.Rows.Add(DR);
+            string getparent = fun.select("tblDG_BOM_Master.ItemId,tblDG_BOM_Master.CId,tblDG_Item_Master.ItemCode,tblDG_BOM_Master.PId,tblDG_BOM_Master.Qty,tblDG_BOM_Master.Weldments,tblDG_BOM_Master.LH,tblDG_BOM_Master.RH,Unit_Master.Symbol,tblDG_Item_Master.ManfDesc", "tblDG_BOM_Master,tblDG_Item_Master,Unit_Master", "tblDG_BOM_Master.PId='" + dsparent2.Tables[0].Rows[0]["CId"].ToString() + "' And tblDG_BOM_Master.WONo='" + wonosrc + "'And tblDG_BOM_Master.CompId='" + CompId + "' AND Unit_Master.Id=tblDG_Item_Master.UOMBasic AND tblDG_BOM_Master.ItemId=tblDG_Item_Master.Id AND tblDG_BOM_Master.ItemId=tblDG_Item_Master.Id");
+            SqlCommand checkparent = new SqlCommand(getparent, con);
+            SqlDataAdapter daparent = new SqlDataAdapter(checkparent);
+            DataSet dsparent = new DataSet();
+            daparent.Fill(dsparent);
+            for (int h = 0; h < dsparent.Tables[0].Rows.Count; h++)
+            {
+                DR = DT.NewRow();
+
+                DR[0] = dsparent.Tables[0].Rows[h]["PId"].ToString();
+                DR[1] = dsparent.Tables[0].Rows[h]["CId"].ToString();
+                DR[2] = dsparent.Tables[0].Rows[h]["ItemId"].ToString();
+                DR[3] = wono;
+                DR[4] = dsparent.Tables[0].Rows[h]["ItemCode"].ToString();
+                DR[5] = dsparent.Tables[0].Rows[h]["ManfDesc"].ToString();
+                DR[6] = dsparent.Tables[0].Rows[h]["Symbol"].ToString();
+                DR[7] = Convert.ToDouble(decimal.Parse(dsparent.Tables[0].Rows[h]["Qty"].ToString()).ToString("N3"));
+                DR[8] = Convert.ToDouble(decimal.Parse(fun.BOMRecurQty(wono, Convert.ToInt32(dsparent.Tables[0].Rows[h]["PId"]), Convert.ToInt32(dsparent.Tables[0].Rows[h]["CId"]), 1, CompId, FinYearId).ToString()).ToString("N3"));
+                DR[9] = Convert.ToInt32(dsparent.Tables[0].Rows[h]["Weldments"]);
+                DR[10] = Convert.ToInt32(dsparent.Tables[0].Rows[h]["LH"]);
+                DR[11] = Convert.ToInt32(dsparent.Tables[0].Rows[h]["RH"]);
+
+                /// 
+
+                  //Get MIN Qty 
+                  
+                string SqlMin1 = fun.select("tblInv_MaterialIssue_Master.MINNo,tblInv_MaterialIssue_Master.SysDate,tblInv_MaterialIssue_Master.SessionId ,tblInv_MaterialIssue_Details.IssueQty", "tblInv_MaterialIssue_Details,tblInv_MaterialIssue_Master,tblInv_MaterialRequisition_Master,tblInv_MaterialRequisition_Details", " tblInv_MaterialIssue_Master.Id=tblInv_MaterialIssue_Details.MId AND tblInv_MaterialIssue_Master.CompId='" + CompId + "' And tblInv_MaterialRequisition_Master.Id=tblInv_MaterialRequisition_Details.MId AND tblInv_MaterialRequisition_Master.Id=tblInv_MaterialIssue_Master.MRSId And tblInv_MaterialRequisition_Details.Id=tblInv_MaterialIssue_Details.MRSId And tblInv_MaterialRequisition_Details.ItemId='" + dsparent.Tables[0].Rows[h]["ItemId"].ToString() + "' And tblInv_MaterialRequisition_Details.WONo='" + wono + "'   ");
+
+                SqlCommand CmdMIn1 = new SqlCommand(SqlMin1, con);
+                SqlDataAdapter daMIN1 = new SqlDataAdapter(CmdMIn1);
+                DataSet DSMin1 = new DataSet();
+                daMIN1.Fill(DSMin1);
+                double MINQty1 = 0;
+                for (int min1 = 0; min1 < DSMin1.Tables[0].Rows.Count; min1++)
+                {
+                    string strEmp = fun.select("Title+'.'+EmployeeName As EmpLoyeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + DSMin1.Tables[0].Rows[min1]["SessionId"] + "'");
+
+                    SqlCommand cmdEmp = new SqlCommand(strEmp, con);
+                    SqlDataAdapter daEmp = new SqlDataAdapter(cmdEmp);
+                    DataSet DSEmp = new DataSet();
+                    daEmp.Fill(DSEmp);
+                    if (DSEmp.Tables[0].Rows.Count > 0)
+                    {
+
+                        DR[59] += DSEmp.Tables[0].Rows[0]["EmpLoyeeName"].ToString() + "<br>";
+                    }
+                    DR[57] += DSMin1.Tables[0].Rows[min1]["MINNo"].ToString() + "<br>";
+                    DR[58] += fun.FromDateDMY(DSMin1.Tables[0].Rows[min1]["SysDate"].ToString()) + "<br>";
+                    DR[60] += DSMin1.Tables[0].Rows[min1]["IssueQty"].ToString() + "<br>";
+
+                    MINQty1 = Convert.ToDouble(decimal.Parse(DSMin1.Tables[0].Rows[min1]["IssueQty"].ToString()).ToString("N3"));
+                }
+           
+
+
+
+                //Cal. BOM Qty
+                double TotbalQty1 = 0;
+                TotbalQty1 = Convert.ToDouble(DR[8]);
+
+                //Cal. Total WIS Issued Qty
+                double TotIssueQty1 = 0;
+                string TWISQtySql1 = fun.select("sum(tblInv_WIS_Details.IssuedQty) as sum_IssuedQty", "tblInv_WIS_Master,tblInv_WIS_Details", "tblInv_WIS_Master.Id=tblInv_WIS_Details.MId AND tblInv_WIS_Master.WONo='" + wonosrc + "' AND tblInv_WIS_Master.CompId='" + CompId + "' AND tblInv_WIS_Details.ItemId='" + dsparent.Tables[0].Rows[h]["ItemId"].ToString() + "' AND tblInv_WIS_Details.PId='" + dsparent.Tables[0].Rows[h]["PId"].ToString() + "' AND tblInv_WIS_Details.CId='" + dsparent.Tables[0].Rows[h]["CId"].ToString() + "'");
+                SqlCommand TWISQtycmd1 = new SqlCommand(TWISQtySql1, con);
+                SqlDataAdapter TWISQtyDr1 = new SqlDataAdapter(TWISQtycmd1);
+                DataSet TWISQtyDs1 = new DataSet();
+                TWISQtyDr1.Fill(TWISQtyDs1);
+                if (TWISQtyDs1.Tables[0].Rows[0]["sum_IssuedQty"] != DBNull.Value && TWISQtyDs1.Tables[0].Rows.Count > 0)
+                {
+                    TotIssueQty1 = Convert.ToDouble(decimal.Parse(TWISQtyDs1.Tables[0].Rows[0][0].ToString()).ToString("N3"));
+                }
+                double ShortageQty = 0;
+                ShortageQty = Convert.ToDouble(decimal.Parse((TotbalQty1 - TotIssueQty1 + MINQty1).ToString()).ToString("N3"));
+                DR[55] = ShortageQty;
+                //progress
+                double TotWM = 0;
+                TotWM = Convert.ToDouble(decimal.Parse((((TotIssueQty1 + MINQty1) * 100) / TotbalQty1).ToString()).ToString("N3"));
+                DR[56] = TotWM;
+                //WIS
+                string sqlWIS1 = fun.select("tblInv_WIS_Details.IssuedQty,tblInv_WIS_Master.SessionId,tblInv_WIS_Master.SysDate,tblInv_WIS_Details.WISNo,tblInv_WIS_Master.Id", "tblInv_WIS_Details,tblInv_WIS_Master", " tblInv_WIS_Details.ItemId='" + dsparent.Tables[0].Rows[h]["ItemId"].ToString() + "' AND tblInv_WIS_Master.WONo='" + wonosrc + "' AND tblInv_WIS_Details.CId='" + dsparent.Tables[0].Rows[h]["CId"].ToString() + "'  And tblInv_WIS_Details.MId=tblInv_WIS_Master.Id  AND tblInv_WIS_Master.CompId='" + CompId + "'");
+                SqlCommand Cmdgrid1 = new SqlCommand(sqlWIS1, con);
+                SqlDataAdapter dagrid1 = new SqlDataAdapter(Cmdgrid1);
+                DataSet DSWIS1 = new DataSet();
+                dagrid1.Fill(DSWIS1);
+
+                for (int wis = 0; wis < DSWIS1.Tables[0].Rows.Count; wis++)
+                {
+
+                    string strEmp = fun.select("Title+'.'+EmployeeName As EmpLoyeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + DSWIS1.Tables[0].Rows[wis]["SessionId"] + "'");
+                    SqlCommand cmdEmp = new SqlCommand(strEmp, con);
+                    SqlDataAdapter daEmp = new SqlDataAdapter(cmdEmp);
+                    DataSet DSEmp = new DataSet();
+                    daEmp.Fill(DSEmp);
+                    if (DSEmp.Tables[0].Rows.Count > 0)
+                    {
+                        DR[53] += DSEmp.Tables[0].Rows[0]["EmpLoyeeName"].ToString() + "<br>";
+                    }
+                    DR[51] += DSWIS1.Tables[0].Rows[wis]["WISNo"].ToString() + "<br>";
+                    DR[52] += fun.FromDateDMY(DSWIS1.Tables[0].Rows[wis]["SysDate"].ToString()) + "<br>";
+                    DR[54] += DSWIS1.Tables[0].Rows[wis]["IssuedQty"].ToString() + "<br>";
+                }              
+
+                string StrgetType = fun.select("Id,SysDate,PLNo,SessionId,SupplierId,CompDate,ItemId,Type", "tblMP_Material_Master", "ItemId='" + dsparent2.Tables[0].Rows[0]["ItemId"].ToString() + "'AND CompId='" + CompId + "' AND PId='" + pid + "' AND CId='" + cid + "'");
+                SqlCommand cmdgetType = new SqlCommand(StrgetType, con);
+                SqlDataAdapter dagetType = new SqlDataAdapter(cmdgetType);
+                DataSet dsgetType = new DataSet();
+                dagetType.Fill(dsgetType);
+                string getPlanDtls1 = "";
+                int a = 0;               
+                if (dsgetType.Tables[0].Rows[0]["Type"].ToString() == "0")
+                {
+                    getPlanDtls1 = fun.select("Id,SysDate,PLNo,SessionId,SupplierId,CompDate,ItemId", "tblMP_Material_Master", "ItemId='" + dsparent.Tables[0].Rows[h]["ItemId"].ToString() + "' AND CId='" + dsparent.Tables[0].Rows[h]["CId"].ToString() + "'AND CompId='" + CompId + "'"); 
+                    a = 1;
+                }
+                else
+                {
+                    getPlanDtls1 = fun.select("*", "tblMP_Material_RawMaterial,tblMP_Material_Master", "tblMP_Material_RawMaterial.ItemId='" + dsparent.Tables[0].Rows[h]["ItemId"].ToString() + "' AND tblMP_Material_RawMaterial.CId='" + dsparent.Tables[0].Rows[h]["CId"].ToString() + "'AND tblMP_Material_Master.CompId='" + CompId + "' AND tblMP_Material_Master.Id=tblMP_Material_RawMaterial.MId");                   
+                } 
+                SqlCommand checkPlanDtls1 = new SqlCommand(getPlanDtls1, con);
+                SqlDataAdapter daPlanDtls1 = new SqlDataAdapter(checkPlanDtls1);
+                DataSet dsPlanDtls1 = new DataSet();
+                daPlanDtls1.Fill(dsPlanDtls1);
+                for (int pl = 0; pl < dsPlanDtls1.Tables[0].Rows.Count; pl++)
+                {
+                    if (dsPlanDtls1.Tables[0].Rows.Count > 0)
+                    {
+                        if(a==1)
+                        {
+                        string strEmp = fun.select("Title+'.'+EmployeeName As EmpLoyeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + dsPlanDtls1.Tables[0].Rows[pl]["SessionId"] + "'");
+
+                        SqlCommand cmdEmp = new SqlCommand(strEmp, con);
+                        SqlDataAdapter daEmp = new SqlDataAdapter(cmdEmp);
+                        DataSet DSEmp = new DataSet();
+                        daEmp.Fill(DSEmp);
+                        if (DSEmp.Tables[0].Rows.Count > 0)
+                        {
+
+                            DR[14] += DSEmp.Tables[0].Rows[0]["EmpLoyeeName"].ToString() + "<br>";
+                        }
+                        DR[12] += dsPlanDtls1.Tables[0].Rows[pl]["PLNo"].ToString() + "<br>";
+                        DR[13] += fun.FromDateDMY(dsPlanDtls1.Tables[0].Rows[pl]["SysDate"].ToString()) + "<br>";
+                        DR[15] += dsPlanDtls1.Tables[0].Rows[pl]["Id"].ToString() + "<br>";
+                        }
+                        // PR
+                        string sqlPR1 = fun.select("tblMM_PR_Details.Qty,tblMM_PR_Details.SupplierId,tblMM_PR_Master.PRNo,tblMM_PR_Details.Id,tblMM_PR_Master.SysDate,tblMM_PR_Master.SessionId", "tblMM_PR_Master,tblMM_PR_Details", "tblMM_PR_Details.ItemId='" + dsPlanDtls1.Tables[0].Rows[pl]["ItemId"].ToString() + "' AND tblMM_PR_Master.PRNo=tblMM_PR_Details.PRNo AND tblMM_PR_Master.Id=tblMM_PR_Details.MId AND tblMM_PR_Master.WONo='" + wonosrc + "' AND tblMM_PR_Master.CompId='" + CompId + "'AND CId='" + dsparent.Tables[0].Rows[h]["CId"].ToString() + "'");
+                        SqlCommand cmdPR1 = new SqlCommand(sqlPR1, con);
+                        SqlDataAdapter daPR1 = new SqlDataAdapter(cmdPR1);
+                        DataSet DSPR1 = new DataSet();
+                        daPR1.Fill(DSPR1);
+                        
+                        for (int pr = 0; pr < DSPR1.Tables[0].Rows.Count; pr++)
+                        {
+                            if (DSPR1.Tables[0].Rows.Count > 0)
+                            {
+                                string strEmp1 = fun.select("Title+'.'+EmployeeName As EmpLoyeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + DSPR1.Tables[0].Rows[pr]["SessionId"] + "'");
+
+                                SqlCommand cmdEmp1 = new SqlCommand(strEmp1, con);
+                                SqlDataAdapter daEmp1 = new SqlDataAdapter(cmdEmp1);
+                                DataSet DSEmp1 = new DataSet();
+                                daEmp1.Fill(DSEmp1);
+                                if (DSEmp1.Tables[0].Rows.Count > 0)
+                                {
+
+                                    DR[18] += DSEmp1.Tables[0].Rows[0]["EmpLoyeeName"].ToString() + "<br>";
+                                }
+
+                                DR[16] += DSPR1.Tables[0].Rows[pr]["PRNo"].ToString() + "<br>";
+                                DR[17] += fun.FromDateDMY(DSPR1.Tables[0].Rows[pr]["SysDate"].ToString()) + "<br>";
+
+                                string strSup1 = fun.select("SupplierName", "tblMM_Supplier_master", "CompId='" + CompId + "' AND SupplierId='" + DSPR1.Tables[0].Rows[pr]["SupplierId"] + "'");
+
+                                SqlCommand cmdSup1 = new SqlCommand(strSup1, con);
+                                SqlDataAdapter daSup1 = new SqlDataAdapter(cmdSup1);
+                                DataSet DSSup1 = new DataSet();
+                                daSup1.Fill(DSSup1);
+                                if (DSSup1.Tables[0].Rows.Count > 0)
+                                {
+                                    DR[19] += DSSup1.Tables[0].Rows[0]["SupplierName"].ToString() + "<br>";
+                                }
+                                DR[20] += DSPR1.Tables[0].Rows[pr]["Qty"].ToString() + "<br>";
+                                DR[21] += DSPR1.Tables[0].Rows[pr]["Id"].ToString() + "<br>";
+
+
+                                // PO
+
+                                string StrPO1 = fun.select("tblMM_PO_Master.Id,tblMM_PO_Details.Qty,tblMM_PO_Master.PONo,tblMM_PO_Master.SysDate,tblMM_PO_Master.SupplierId,tblMM_PO_Master.SessionId,tblMM_PO_Master.CheckedDate,tblMM_PO_Master.ApproveDate,tblMM_PO_Master.AuthorizeDate", "tblMM_PO_Master,tblMM_PO_Details", "tblMM_PO_Details.PRId='" + DSPR1.Tables[0].Rows[pr]["Id"].ToString() + "' AND tblMM_PO_Master.PONo=tblMM_PO_Details.PONo AND tblMM_PO_Master.CompId='" + CompId + "' AND tblMM_PO_Master.Id=tblMM_PO_Details.MId");
+                                                               
+                                SqlCommand cmddt1 = new SqlCommand(StrPO1, con);
+                                SqlDataAdapter dadt1 = new SqlDataAdapter(cmddt1);
+                                DataSet dsdt1 = new DataSet();
+                                dadt1.Fill(dsdt1);                               
+                                for (int po = 0; po < dsdt1.Tables[0].Rows.Count; po++)
+                                {
+                                    if (dsdt1.Tables[0].Rows.Count > 0)
+                                    {
+
+                                        string strEmpPO1 = fun.select("Title+'.'+EmployeeName As EmpLoyeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + dsdt1.Tables[0].Rows[po]["SessionId"] + "'");
+
+                                        SqlCommand cmdEmpPO1 = new SqlCommand(strEmpPO1, con);
+                                        SqlDataAdapter daEmpPO1 = new SqlDataAdapter(cmdEmpPO1);
+                                        DataSet DSEmpPO1 = new DataSet();
+                                        daEmpPO1.Fill(DSEmpPO1);
+                                        if (DSEmpPO1.Tables[0].Rows.Count > 0)
+                                        {
+
+                                            DR[24] += DSEmpPO1.Tables[0].Rows[0]["EmpLoyeeName"].ToString() + "<br>";
+                                        }
+
+                                        DR[22] += dsdt1.Tables[0].Rows[po]["PONo"].ToString() + "<br>";
+                                        DR[23] += fun.FromDateDMY(dsdt1.Tables[0].Rows[po]["SysDate"].ToString()) + "<br>";
+
+                                        string strSupPO1 = fun.select("SupplierName", "tblMM_Supplier_master", "CompId='" + CompId + "' AND SupplierId='" + dsdt1.Tables[0].Rows[po]["SupplierId"] + "'");
+
+                                        SqlCommand cmdSupPO1 = new SqlCommand(strSupPO1, con);
+                                        SqlDataAdapter daSupPO1 = new SqlDataAdapter(cmdSupPO1);
+                                        DataSet DSSupPO1 = new DataSet();
+                                        daSup1.Fill(DSEmpPO1);
+                                        if (DSSup1.Tables[0].Rows.Count > 0)
+                                        {
+                                            DR[25] += DSSup1.Tables[0].Rows[0]["SupplierName"].ToString() + "<br>";
+                                        }
+                                        DR[26] += dsdt1.Tables[0].Rows[po]["Qty"].ToString() + "<br>";
+                                        DR[27] += dsdt1.Tables[0].Rows[po]["Id"].ToString() + "<br>";
+                                        DR[28] += fun.FromDateDMY(dsdt1.Tables[0].Rows[po]["CheckedDate"].ToString()) + "<br>";
+                                        DR[29] += fun.FromDateDMY(dsdt1.Tables[0].Rows[po]["ApproveDate"].ToString()) + "<br>";
+                                        DR[30] += fun.FromDateDMY(dsdt1.Tables[0].Rows[po]["AuthorizeDate"].ToString()) + "<br>";
+
+                                        /// GIN
+                                        string StrGIN = fun.select("tblInv_Inward_Master.GINNo,tblInv_Inward_Master.Id,tblInv_Inward_Master.SysDate,tblInv_Inward_Master.Sessionid,tblInv_Inward_Details.ReceivedQty", "tblInv_Inward_Master,tblInv_Inward_Details", "tblInv_Inward_Master.GINNo=tblInv_Inward_Details.GINNo AND tblInv_Inward_Master.PONo='" + dsdt1.Tables[0].Rows[po]["PONo"].ToString() + "' AND tblInv_Inward_Master.CompId='" + CompId + "' AND tblInv_Inward_Details.POId='" + dsdt1.Tables[0].Rows[po]["Id"].ToString() + "' AND tblInv_Inward_Master.Id=tblInv_Inward_Details.GINId");
+                                        SqlCommand cmdGIN = new SqlCommand(StrGIN, con);
+                                        SqlDataAdapter daGIN = new SqlDataAdapter(cmdGIN);
+                                        DataSet DSGIN = new DataSet();
+                                        daGIN.Fill(DSGIN);
+                                        for (int l = 0; l < DSGIN.Tables[0].Rows.Count; l++)
+                                        {
+                                            if (DSGIN.Tables[0].Rows.Count > 0)
+                                            {
+                                                string strEmpGIN = fun.select("Title+'.'+EmployeeName As EmpLoyeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + DSGIN.Tables[0].Rows[l]["SessionId"] + "'");
+
+                                                SqlCommand cmdEmpGIN = new SqlCommand(strEmpGIN, con);
+                                                SqlDataAdapter daEmpGIN = new SqlDataAdapter(cmdEmpGIN);
+                                                DataSet DSEmpGIN = new DataSet();
+                                                daEmpGIN.Fill(DSEmpGIN);
+                                                if (DSEmpGIN.Tables[0].Rows.Count > 0)
+                                                {
+
+                                                    DR[33] += DSEmpGIN.Tables[0].Rows[0]["EmpLoyeeName"].ToString() + "<br>";
+                                                }
+
+                                                DR[31] += DSGIN.Tables[0].Rows[l]["GINNo"].ToString() + "<br>";
+                                                DR[32] += fun.FromDateDMY(DSGIN.Tables[0].Rows[l]["SysDate"].ToString()) + "<br>";
+                                                DR[34] += DSGIN.Tables[0].Rows[l]["ReceivedQty"].ToString() + "<br>";
+                                                DR[35] += DSGIN.Tables[0].Rows[l]["Id"].ToString() + "<br>";
+                                                ///GSN                                 
+                                                string StrGSN = fun.select("tblinv_MaterialServiceNote_Details.ReceivedQty,tblinv_MaterialServiceNote_Master.SessionId,tblinv_MaterialServiceNote_Master.Id,tblinv_MaterialServiceNote_Master.SysDate,tblinv_MaterialServiceNote_Master.GSNNo", "tblinv_MaterialServiceNote_Master,tblinv_MaterialServiceNote_Details", " tblinv_MaterialServiceNote_Master.Id=tblinv_MaterialServiceNote_Details.MId AND tblinv_MaterialServiceNote_Master.CompId ='" + CompId + "'AND tblinv_MaterialServiceNote_Master.GINId='" + DSGIN.Tables[0].Rows[l]["Id"].ToString() + "' AND tblinv_MaterialServiceNote_Master.GINNo='" + DSGIN.Tables[0].Rows[l]["GINNo"].ToString() + "' ");
+                                                SqlCommand cmdGSN = new SqlCommand(StrGSN, con);
+                                                SqlDataAdapter daGSN = new SqlDataAdapter(cmdGSN);
+                                                DataSet DSGSN = new DataSet();
+                                                daGSN.Fill(DSGSN);
+                                                for (int s = 0; s < DSGSN.Tables[0].Rows.Count; s++)
+                                                {
+                                                    if (DSGSN.Tables[0].Rows.Count > 0)
+                                                    {
+                                                        string strEmpGSN = fun.select("Title+'.'+EmployeeName As EmpLoyeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + DSGSN.Tables[0].Rows[s]["SessionId"] + "'");
+
+                                                        SqlCommand cmdEmpGSN = new SqlCommand(strEmpGSN, con);
+                                                        SqlDataAdapter daEmpGSN = new SqlDataAdapter(cmdEmpGSN);
+                                                        DataSet DSEmpGSN = new DataSet();
+                                                        daEmpGSN.Fill(DSEmpGSN);
+                                                        if (DSEmpGSN.Tables[0].Rows.Count > 0)
+                                                        {
+
+                                                            DR[48] += DSEmpGSN.Tables[0].Rows[0]["EmpLoyeeName"].ToString() + "<br>";
+                                                        }
+
+                                                        DR[46] += DSGSN.Tables[0].Rows[s]["GSNNo"].ToString() + "<br>";
+                                                        DR[47] += fun.FromDateDMY(DSGSN.Tables[0].Rows[s]["SysDate"].ToString()) + "<br>";
+                                                        DR[49] += DSGSN.Tables[0].Rows[s]["ReceivedQty"].ToString() + "<br>";
+                                                        DR[50] += DSGSN.Tables[0].Rows[s]["Id"].ToString() + "<br>";
+                                                    }
+
+                                                }
+
+                                                ///GRR
+                                                string StrGRR = fun.select("tblinv_MaterialReceived_Details.ReceivedQty,tblinv_MaterialReceived_Master.SessionId,tblinv_MaterialReceived_Details.Id,tblinv_MaterialReceived_Master.SysDate,tblinv_MaterialReceived_Master.GRRNo", "tblinv_MaterialReceived_Master,tblinv_MaterialReceived_Details", " tblinv_MaterialReceived_Master.Id=tblinv_MaterialReceived_Details.MId AND tblinv_MaterialReceived_Master.CompId ='" + CompId + "'AND tblinv_MaterialReceived_Master.GINId='" + DSGIN.Tables[0].Rows[l]["Id"].ToString() + "' AND tblinv_MaterialReceived_Master.GINNo='" + DSGIN.Tables[0].Rows[l]["GINNo"].ToString() + "' ");
+                                                SqlCommand cmdGRR = new SqlCommand(StrGRR, con);
+                                                SqlDataAdapter daGRR = new SqlDataAdapter(cmdGRR);
+                                                DataSet DSGRR = new DataSet();
+                                                daGRR.Fill(DSGRR);
+                                                for (int m = 0; m < DSGRR.Tables[0].Rows.Count; m++)
+                                                {
+                                                    if (DSGRR.Tables[0].Rows.Count > 0)
+                                                    {
+                                                        string strEmpGRR = fun.select("Title+'.'+EmployeeName As EmpLoyeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + DSGRR.Tables[0].Rows[m]["SessionId"] + "'");
+
+                                                        SqlCommand cmdEmpGRR = new SqlCommand(strEmpGRR, con);
+                                                        SqlDataAdapter daEmpGRR = new SqlDataAdapter(cmdEmpGRR);
+                                                        DataSet DSEmpGRR = new DataSet();
+                                                        daEmpGRR.Fill(DSEmpGRR);
+                                                        if (DSEmpGRR.Tables[0].Rows.Count > 0)
+                                                        {
+
+                                                            DR[38] += DSEmpGRR.Tables[0].Rows[0]["EmpLoyeeName"].ToString() + "<br>";
+                                                        }
+
+                                                        DR[36] += DSGRR.Tables[0].Rows[m]["GRRNo"].ToString() + "<br>";
+                                                        DR[37] += fun.FromDateDMY(DSGRR.Tables[0].Rows[m]["SysDate"].ToString()) + "<br>";
+                                                        DR[39] += DSGRR.Tables[0].Rows[m]["ReceivedQty"].ToString() + "<br>";
+                                                        DR[40] += DSGRR.Tables[0].Rows[m]["Id"].ToString() + "<br>";
+                                                        // GQN
+                                                        string StrGQN = fun.select("tblQc_MaterialQuality_Master.Id,tblQc_MaterialQuality_Details.AcceptedQty,tblQc_MaterialQuality_Master.GQNNo,tblQc_MaterialQuality_Master.SysDate,tblQc_MaterialQuality_Master.SessionId", "tblQc_MaterialQuality_Master,tblQc_MaterialQuality_Details", "tblQc_MaterialQuality_Master.CompId='" + CompId + "' AND tblQc_MaterialQuality_Master.Id=tblQc_MaterialQuality_Details.MId AND tblQc_MaterialQuality_Details.GRRId='" + DSGRR.Tables[0].Rows[m]["Id"].ToString() + "' AND tblQc_MaterialQuality_Master.GRRNo='" + DSGRR.Tables[0].Rows[m]["GRRNo"].ToString() + "'");
+                                                        SqlCommand cmdGQN = new SqlCommand(StrGQN, con);
+                                                        SqlDataAdapter daGQN = new SqlDataAdapter(cmdGQN);
+                                                        DataSet DSGQN = new DataSet();
+                                                        daGQN.Fill(DSGQN);
+
+                                                        for (int n = 0; n < DSGQN.Tables[0].Rows.Count; n++)
+                                                        {
+                                                            if (DSGQN.Tables[0].Rows.Count > 0)
+                                                            {
+                                                                string strEmpGQN = fun.select("Title+'.'+EmployeeName As EmpLoyeeName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + DSGQN.Tables[0].Rows[n]["SessionId"] + "'");
+
+                                                                SqlCommand cmdEmpGQN = new SqlCommand(strEmpGQN, con);
+                                                                SqlDataAdapter daEmpGQN = new SqlDataAdapter(cmdEmpGQN);
+                                                                DataSet DSEmpGQN = new DataSet();
+                                                                daEmpGQN.Fill(DSEmpGQN);
+                                                                if (DSEmpGQN.Tables[0].Rows.Count > 0)
+                                                                {
+
+                                                                    DR[43] += DSEmpGQN.Tables[0].Rows[0]["EmpLoyeeName"].ToString() + "<br>";
+                                                                }
+
+                                                                DR[41] += DSGQN.Tables[0].Rows[n]["GQNNo"].ToString() + "<br>";
+                                                                DR[42] += fun.FromDateDMY(DSGQN.Tables[0].Rows[n]["SysDate"].ToString()) + "<br>";
+                                                                DR[44] += DSGQN.Tables[0].Rows[n]["AcceptedQty"].ToString() + "<br>";
+                                                                DR[45] += DSGQN.Tables[0].Rows[n]["Id"].ToString() + "<br>";
+
+                                                            }
+                                                        }
+                                                    }
+
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                DT.Rows.Add(DR);
+                DataSet DS2 = new DataSet();
+                string cmdStr2 = fun.select("tblDG_BOM_Master.ItemId,tblDG_Item_Master.ItemCode,tblDG_BOM_Master.Qty,tblDG_BOM_Master.CId,tblDG_BOM_Master.Weldments,tblDG_BOM_Master.LH,tblDG_BOM_Master.RH,Unit_Master.Symbol,tblDG_Item_Master.ManfDesc", "tblDG_BOM_Master,tblDG_Item_Master,Unit_Master", "tblDG_BOM_Master.PId=" + dsparent.Tables[0].Rows[h]["CId"] + "And tblDG_BOM_Master.WONo='" + wonosrc + "'And tblDG_BOM_Master.CompId='" + CompId + "'AND Unit_Master.Id=tblDG_Item_Master.UOMBasic AND tblDG_BOM_Master.ItemId=tblDG_Item_Master.Id AND tblDG_BOM_Master.ItemId=tblDG_Item_Master.Id");
+
+                SqlCommand cmd2 = new SqlCommand(cmdStr2, con);
+                SqlDataAdapter da2 = new SqlDataAdapter(cmd2);
+                da2.Fill(DS2);
+
+                if (DS2.Tables[0].Rows.Count > 0)
+                {
+                    for (int j1 = 0; j1 < DS2.Tables[0].Rows.Count; j1++)
+                    {
+                        this.getPrintnode(Convert.ToInt32(DS2.Tables[0].Rows[j1]["CId"]), wonosrc, CompId);
+                    }
+                }  
+            }
+
+            DT.AcceptChanges();
+            return DT;
+        }
+
+       catch (Exception x)
+        {
+        }
+        finally
+        {
+            con.Close();
+        }
+        return DT;
+    } 
+
+    
+
+    protected void RadTreeList1_PageIndexChanged(object source, Telerik.Web.UI.TreeListPageChangedEventArgs e)
+    {
+        RadTreeList1.CurrentPageIndex = e.NewPageIndex;
+        this.getColoumn();
+        RadTreeList1.DataSource = this.getPrintnode(cid, wonosrc, CompId);
+        RadTreeList1.DataBind();
+    }
+    protected void RadTreeList1_PageSizeChanged(object source, Telerik.Web.UI.TreeListPageSizeChangedEventArgs e)
+    {
+        this.getColoumn();
+        RadTreeList1.DataSource = this.getPrintnode(cid, wonosrc, CompId);
+        RadTreeList1.DataBind();
+    }
+
+    protected void Page_PreRender(object sender, EventArgs e)
+    {      
+                    
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("ProjectSummary_Details.aspx?WONo="+wonosrc+"&ModId=&SubModId=");
+    }
+
+
+    protected void RadTreeList1_ItemCommand1(object sender, TreeListCommandEventArgs e)
+    {
+
+        if (e.CommandName == RadTreeList.ExpandCollapseCommandName)
+        {
+            this.getColoumn();
+            RadTreeList1.DataSource = this.getPrintnode(cid, wonosrc, CompId);
+            RadTreeList1.DataBind();
+        }   
+    }
+
+
+}

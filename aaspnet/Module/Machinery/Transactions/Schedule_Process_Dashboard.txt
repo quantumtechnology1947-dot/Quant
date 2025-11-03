@@ -1,0 +1,287 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Machinery/Transactions/Schedule_Process_Dashboard.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Schedule_Process_Dashboard.aspx.cs" Inherits="Module_Machinery_Transactions_Schedule_Process_Dashboard" Title="ERP" Theme="Default" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+<script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+<table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)" colspan="2">
+        &nbsp;<b>Machinary - Dashboard</b></td>
+        </tr>
+        <tr>
+            <td valign="top" colspan="2">
+<table align="left" cellpadding="0" 
+            cellspacing="0" width="100%" ><tr>
+        <td 
+            valign="middle" align="center" height="25">&nbsp;&nbsp;<b>Machine Name :</b> <asp:Label ID="lblMachine" runat="server" 
+            style="font-weight: 700"></asp:Label>
+        </td></tr><tr><td  
+            valign="top" align="center">
+        <asp:GridView ID="GridView2" runat="server" AllowPaging="True" 
+                    AutoGenerateColumns="False" CssClass="yui-datatable-theme" 
+                    OnPageIndexChanging="GridView2_PageIndexChanging" 
+                    OnRowCommand="GridView2_RowCommand" PageSize="15" Width="40%"><FooterStyle Font-Bold="False" /><Columns>
+                    
+                    <asp:TemplateField HeaderText="SN">
+                                                    <ItemTemplate>
+                                                        <%# Container.DataItemIndex + 1%>
+                                                    </ItemTemplate>
+                                                    <ItemStyle HorizontalAlign="Right" Width="1%" />
+                                                </asp:TemplateField>
+                                                
+                    <asp:TemplateField HeaderText="Id" Visible="False">
+                        <ItemTemplate>
+                            <asp:Label ID="lblId" runat="server" Text='<%# Bind("Id") %>'></asp:Label>
+                        </ItemTemplate>                                                                       
+                         <ItemStyle VerticalAlign="Top" />
+                    </asp:TemplateField>
+               
+               <asp:TemplateField HeaderText="Machine Id" Visible="false">
+                        <ItemTemplate>
+                            <asp:Label ID="lblMachineId" runat="server" Text='<%# Bind("MachineId") %>'></asp:Label>
+                        </ItemTemplate>                                                                       
+                         <ItemStyle VerticalAlign="Top" />
+                    </asp:TemplateField> 
+                    
+                    
+                                                <asp:TemplateField HeaderText="Process" >
+                        <ItemTemplate>
+                        
+                                                       <asp:LinkButton ID="LinkButton1" CommandName="Sel" Text='<%# Bind("Process") %>' runat="server"></asp:LinkButton>
+                        </ItemTemplate>
+                        <ItemStyle HorizontalAlign="left" Width="7%" />
+                    </asp:TemplateField>
+                                                
+                    <%--<asp:TemplateField HeaderText="Shift" Visible="true">
+                        <ItemTemplate>
+                            <asp:Label ID="lblShift" runat="server" Text='<%# Bind("Shift") %>'></asp:Label>
+                        </ItemTemplate>                                                                       
+                        <ItemStyle VerticalAlign="Top" Width="4%" HorizontalAlign="Center" />
+                    </asp:TemplateField> 
+                    <asp:TemplateField HeaderText="Batch No" Visible="true">
+                        <ItemTemplate>
+                            <asp:Label ID="lblBatchNo" runat="server" Text='<%# Bind("BatchNo") %>'></asp:Label>
+                        </ItemTemplate>                                                                       
+                         <ItemStyle VerticalAlign="Top" Width="5%" HorizontalAlign="Center" />
+                    </asp:TemplateField>--%>
+                    
+                    
+                </Columns><EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                    </asp:GridView>
+                    </td></tr><tr>
+        <td class="fontcss" 
+            valign="bottom" align="center" height="25">
+            
+            
+            <asp:Button ID="btnCancel" runat="server" CssClass="redbox" 
+                onclick="btnCancel_Click" Text="Cancel" />
+        </td>
+                    </tr>                    
+                    </table>
+    </td>    
+    </tr>    
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Machinery/Transactions/Schedule_Process_Dashboard.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_Machinery_Transactions_Schedule_Process_Dashboard : System.Web.UI.Page
+{
+
+    clsFunctions fun = new clsFunctions();
+    string connStr = "";
+    SqlConnection con;
+    int CompId = 0;
+    string sId = "";
+    string MachinId = "";
+    int FinYearId = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            CompId = Convert.ToInt32(Session["compid"]);
+            sId = Session["username"].ToString();
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            if (!string.IsNullOrEmpty(Request.QueryString["Id"].ToString()))
+            {
+                MachinId = Request.QueryString["Id"].ToString();
+            }
+
+            if (!Page.IsPostBack)
+            {
+                string sqlBom = fun.select("tblDG_Item_Master.ManfDesc", " tblDG_Item_Master",
+    " tblDG_Item_Master.Id='" + Convert.ToInt32(MachinId) + "' And tblDG_Item_Master.CompId='" + CompId + "'And tblDG_Item_Master.FinYearId<='" + FinYearId + "' ");
+                SqlCommand cmdBom = new SqlCommand(sqlBom, con);
+                DataSet DSBom = new DataSet();
+                SqlDataAdapter DABom = new SqlDataAdapter(cmdBom);
+                DABom.Fill(DSBom);
+
+                if (DSBom.Tables[0].Rows.Count > 0)
+                {
+                    lblMachine.Text = DSBom.Tables[0].Rows[0]["ManfDesc"].ToString();
+                }
+                this.fillGrid();
+            }
+        }
+        catch(Exception ex)
+        {
+        }
+
+    }
+    protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView2.PageIndex = e.NewPageIndex;
+        this.fillGrid();
+    }
+    public void fillGrid()
+    {
+        
+           
+        try
+        {
+            //string sql = fun.select("tblMS_JobSchedule_Details.Id,tblMS_JobSchedule_Details.MachineId,tblMS_JobSchedule_Details.Shift,tblMS_JobSchedule_Details.BatchNo,tblMS_JobSchedule_Details.Process", "tblMS_JobSchedule_Details,tblMS_JobShedule_Master", "MachineId='" + MachinId + "' And tblMS_JobShedule_Master.Id=tblMS_JobSchedule_Details.MId ");
+            //SqlCommand cmd = new SqlCommand(sql, con);
+            //DataSet DS3 = new DataSet();   
+            //SqlDataAdapter DA2 = new SqlDataAdapter(cmd);
+            //DA2.Fill(DS3);
+            string sqlms = fun.select("Id", "tblMS_Master", " ItemId='" + MachinId + "'");
+                    SqlCommand cmdms = new SqlCommand(sqlms, con);
+                    SqlDataAdapter dams = new SqlDataAdapter(cmdms);
+                    DataSet dsms = new DataSet();
+                    dams.Fill(dsms);
+             DataTable dt = new DataTable();
+            dt.Columns.Add("Id", typeof(int));
+            dt.Columns.Add("MachineId", typeof(int));            
+            dt.Columns.Add("Process", typeof(string));
+           // dt.Columns.Add("Shift", typeof(string));
+           // dt.Columns.Add("BatchNo", typeof(string));            
+            DataRow dr;
+
+            if (dsms.Tables[0].Rows.Count > 0)
+            {
+                string sqlPro = fun.select("tblPln_Process_Master.Id,tblPln_Process_Master.ProcessName", "tblMS_Process,tblPln_Process_Master", "tblMS_Process.MId='" + dsms.Tables[0].Rows[0][0].ToString() + "' AND tblPln_Process_Master.Id=tblMS_Process.PId");
+                SqlCommand cmdPro = new SqlCommand(sqlPro, con);
+                SqlDataAdapter daPro = new SqlDataAdapter(cmdPro);
+                DataSet dsPro = new DataSet();
+                daPro.Fill(dsPro);
+
+                for (int k = 0; k < dsPro.Tables[0].Rows.Count; k++)
+                {
+
+                    dr = dt.NewRow();
+                    dr[0] = Convert.ToInt32(dsPro.Tables[0].Rows[k]["Id"]);
+                    dr[1] = MachinId;
+
+
+                    //if (DS3.Tables[0].Rows[k]["Shift"].ToString() == "0")
+                    //{
+                    //    dr[3] = "Day";
+                    //}
+
+                    //else
+                    //{
+                    //    dr[3] = "Night";
+                    //}
+                    //string sqlpro = fun.select("ProcessName", "tblPln_Process_Master", "Id='" + DS3.Tables[0].Rows[k]["Process"].ToString() + "'");
+                    //SqlDataAdapter dapro = new SqlDataAdapter(sqlpro, con);
+                    //DataSet DSpro = new DataSet();
+                    //dapro.Fill(DSpro, "tblPln_Process_Master");
+                    //if (DSpro.Tables[0].Rows.Count > 0)
+                    {
+                        dr[2] = dsPro.Tables[0].Rows[k]["ProcessName"].ToString();
+                    }
+                    //dr[4] = DS3.Tables[0].Rows[k]["BatchNo"].ToString(); 
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+            }
+            GridView2.DataSource = dt;
+            GridView2.DataBind();
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+    }
+    protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            if (e.CommandName == "Sel")
+            {
+
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                int Proid = 0;
+                Proid = Convert.ToInt32(((Label)row.FindControl("lblId")).Text);
+                int Machinid = 0;
+                Machinid = Convert.ToInt32(((Label)row.FindControl("lblMachineId")).Text);
+                if (Proid != 0 && Machinid != 0)
+                {
+                    Response.Redirect("~/Module/Machinery/Transactions/Schedule_Dashboard.aspx?ProcessId=" + Proid + "&MachineId=" + MachinId + "&ModId=15&SubModId=70");
+                }
+            }
+        }
+        catch (Exception es)
+        {
+        }
+
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/Machinery/Transactions/Schedule_Machine_Dashboard.aspx?ModId=15&SubModId=70");
+    }
+}

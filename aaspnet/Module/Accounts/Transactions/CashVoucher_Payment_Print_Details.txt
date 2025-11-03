@@ -1,0 +1,263 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/CashVoucher_Payment_Print_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="CashVoucher_Payment_Print_Details.aspx.cs" Inherits="Module_Accounts_Transactions_CashVoucher_Payment_Print_Details" Title="ERP" Theme="Default" %>
+
+<%@ Register Assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"
+    Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
+
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+<link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+<link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+<script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+<script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">         
+          
+          
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+   
+   <table width="100%">
+   <tr>
+      <td align="center">
+        <asp:Panel ID="Panel1" runat="server" ScrollBars="Auto" Height="454" Width="100%">
+        
+<CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" HasCrystalLogo="False"
+        AutoDataBind="True" Width="400px" ReportSourceID="CrystalReportSource1" 
+                DisplayGroupTree="False" EnableDatabaseLogonPrompt="False" 
+                EnableParameterPrompt="False" />
+        <CR:CrystalReportSource ID="CrystalReportSource1" runat="server" >
+            <Report FileName="Module\Accounts\Reports\CashVoucher_Payment.rpt">
+            </Report>
+        
+        </CR:CrystalReportSource>   
+       </asp:Panel>
+    </td>
+   </tr>
+   
+   
+   
+   <tr>
+   <td  align="center" style="height:25px; ">   
+       <asp:Button ID="btnCancel" runat="server" CssClass="redbox" Text="Cancel" 
+           onclick="btnCancel_Click" /></td>
+   </tr>
+   
+   </table>     
+    
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/CashVoucher_Payment_Print_Details.aspx.cs ===
+
+﻿
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.CrystalReports.ViewerObjectModel;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Text.RegularExpressions;
+
+public partial class Module_Accounts_Transactions_CashVoucher_Payment_Print_Details : System.Web.UI.Page
+{
+
+    clsFunctions fun = new clsFunctions();
+    private ReportDocument report = new ReportDocument();
+    int cId = 0;
+    string Key = string.Empty;
+    int CVPId = 0;
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        string connStr1 = fun.Connection();
+        SqlConnection myConnection = new SqlConnection(connStr1);
+        myConnection.Open();
+        cId = Convert.ToInt32(Session["compid"]);
+        Key = Request.QueryString["Key"].ToString();
+        CVPId = Convert.ToInt32(Request.QueryString["CVPId"]);
+        try
+        {
+            if (!IsPostBack)
+            {
+                DataTable dt = new DataTable();
+
+                string selectQuery = fun.select("tblACC_CashVoucher_Payment_Master.Id, tblACC_CashVoucher_Payment_Master.SysDate,tblACC_CashVoucher_Payment_Master.CompId,tblACC_CashVoucher_Payment_Master.CVPNo,tblACC_CashVoucher_Payment_Master.PaidTo,tblACC_CashVoucher_Payment_Master.ReceivedBy,tblACC_CashVoucher_Payment_Master.CodeType,tblACC_CashVoucher_Payment_Details.BillNo,tblACC_CashVoucher_Payment_Details.BillDate,tblACC_CashVoucher_Payment_Details.PONo,tblACC_CashVoucher_Payment_Details.PODate,tblACC_CashVoucher_Payment_Details.Particulars,tblACC_CashVoucher_Payment_Details.WONo,tblACC_CashVoucher_Payment_Details.BGGroup,tblACC_CashVoucher_Payment_Details.AcHead,tblACC_CashVoucher_Payment_Details.Amount,tblACC_CashVoucher_Payment_Details.BudgetCode,tblACC_CashVoucher_Payment_Details.PVEVNo", "tblACC_CashVoucher_Payment_Master, tblACC_CashVoucher_Payment_Details", "tblACC_CashVoucher_Payment_Details.MId=tblACC_CashVoucher_Payment_Master.Id AND tblACC_CashVoucher_Payment_Master.Id='" + CVPId + "' AND tblACC_CashVoucher_Payment_Master.CompId='" + cId + "'");
+
+                SqlCommand myCommand = new SqlCommand(selectQuery, myConnection);
+                SqlDataAdapter ad = new SqlDataAdapter(myCommand);
+                DataSet ds = new DataSet();
+                ad.Fill(ds);
+                dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));//0
+                dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));//1
+                dt.Columns.Add(new System.Data.DataColumn("SysDate", typeof(string)));//2
+                dt.Columns.Add(new System.Data.DataColumn("CVPNo", typeof(string)));//3
+                dt.Columns.Add(new System.Data.DataColumn("PaidTo", typeof(string)));//4
+                dt.Columns.Add(new System.Data.DataColumn("ReceivedBy", typeof(string)));//5
+                //------
+                dt.Columns.Add(new System.Data.DataColumn("BillNo", typeof(string)));//6
+                dt.Columns.Add(new System.Data.DataColumn("BillDate", typeof(string)));//7
+                dt.Columns.Add(new System.Data.DataColumn("PONo", typeof(string)));//8
+                dt.Columns.Add(new System.Data.DataColumn("PODate", typeof(string)));//9
+                dt.Columns.Add(new System.Data.DataColumn("Particulars", typeof(string)));//10
+                dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));//11
+                dt.Columns.Add(new System.Data.DataColumn("BGGroup", typeof(string)));//12
+                dt.Columns.Add(new System.Data.DataColumn("BudgetCode", typeof(string)));//13
+                dt.Columns.Add(new System.Data.DataColumn("AcHead", typeof(string)));//14
+                dt.Columns.Add(new System.Data.DataColumn("PVEVNo", typeof(string)));//15
+                dt.Columns.Add(new System.Data.DataColumn("Amount", typeof(double)));//16
+
+                DataRow dr;
+
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    dr = dt.NewRow();
+                    dr[0] = Convert.ToInt32(ds.Tables[0].Rows[i]["Id"]);
+                    dr[1] = Convert.ToInt32(ds.Tables[0].Rows[i]["CompId"]);
+                    dr[2] = fun.FromDate(ds.Tables[0].Rows[i]["SysDate"].ToString());
+                    dr[3] = ds.Tables[0].Rows[i]["CVPNo"].ToString();
+                    dr[4] = ds.Tables[0].Rows[i]["PaidTo"].ToString();
+
+                    int types = 0;
+                    string EType = string.Empty;
+                    types = Convert.ToInt32(ds.Tables[0].Rows[i]["CodeType"].ToString());
+                    string sql2 = "";
+                    if (types == 1)
+                    {
+                        EType = "Employee";
+                        sql2 = fun.select("Title+'. '+EmployeeName As EmpName", "tblHR_OfficeStaff", "CompId='" + cId + "' AND EmpId='" + ds.Tables[0].Rows[i]["Receivedby"] + "'");
+                    }
+                    else if (types == 2)
+                    {
+                        EType = "Customer";
+                        sql2 = fun.select("CustomerName+'[ '+CustomerId+']'  As EmpName", "SD_Cust_master", "CompId='" + cId + "' AND CustomerId='" + ds.Tables[0].Rows[i]["Receivedby"] + "'");
+                    }
+                    else if (types == 3)
+                    {
+                        EType = "Supplier";
+                        sql2 = fun.select("SupplierName+'[ '+SupplierId+']'  As  EmpName", "tblMM_Supplier_master", "CompId='" + cId + "' AND SupplierId='" + ds.Tables[0].Rows[i]["Receivedby"] + "'");
+                    }
+
+                    SqlCommand cmd2 = new SqlCommand(sql2, myConnection);
+                    SqlDataAdapter da2 = new SqlDataAdapter(cmd2);
+                    DataSet DS2 = new DataSet();
+                    da2.Fill(DS2);
+                    dr[5] = DS2.Tables[0].Rows[0]["EmpName"].ToString() + " [ " + EType+" ]";
+
+                    //-----
+                    dr[6] = ds.Tables[0].Rows[i]["BillNo"].ToString();
+                    dr[7] = fun.FromDate(ds.Tables[0].Rows[i]["BillDate"].ToString());
+                    dr[8] = ds.Tables[0].Rows[i]["PONo"].ToString();
+                    dr[9] = fun.FromDate(ds.Tables[0].Rows[i]["PODate"].ToString());
+                    dr[10] = ds.Tables[0].Rows[i]["Particulars"].ToString();
+                    dr[11] = ds.Tables[0].Rows[i]["WONo"].ToString();
+
+                    string BGGroup = "NA";
+                    string BudgetCode = "NA";
+                    string AccHead = "NA";
+                     
+                    string cmdStrGroup = fun.select("Symbol", "BusinessGroup", "Id='" + ds.Tables[0].Rows[i]["BGGroup"].ToString() + "'");
+                    SqlCommand cmdGroup = new SqlCommand(cmdStrGroup, myConnection);
+                    SqlDataAdapter DAGroup = new SqlDataAdapter(cmdGroup);
+                    DataSet DSGroup = new DataSet();
+                    DAGroup.Fill(DSGroup, "BusinessGroup");
+                    if (DSGroup.Tables[0].Rows.Count > 0)
+                    {
+                        BGGroup = DSGroup.Tables[0].Rows[0]["Symbol"].ToString();
+                    }
+
+                    string strBudgetCode = fun.select("Symbol", "tblMIS_BudgetCode", "Id='" + ds.Tables[0].Rows[i]["BudgetCode"].ToString() + "'");
+                    SqlCommand cmdBudgetCode = new SqlCommand(strBudgetCode, myConnection);
+                    SqlDataAdapter DABudgetCode = new SqlDataAdapter(cmdBudgetCode);
+                    DataSet DSBudgetCode = new DataSet();
+                    DABudgetCode.Fill(DSBudgetCode, "tblMIS_BudgetCode");
+                    if (DSBudgetCode.Tables[0].Rows.Count > 0)
+                    {
+                        BudgetCode = DSBudgetCode.Tables[0].Rows[0]["Symbol"].ToString();
+                    }
+
+                    string cmdStrLabour = fun.select("Symbol", " AccHead ", "Id='" + ds.Tables[0].Rows[i]["AcHead"].ToString() + "'");
+                    SqlCommand cmdLabour = new SqlCommand(cmdStrLabour, myConnection);
+                    SqlDataAdapter DALabour = new SqlDataAdapter(cmdLabour);
+                    DataSet DSLabour = new DataSet();
+                    DALabour.Fill(DSLabour, "AccHead");
+                    if (DSLabour.Tables[0].Rows.Count > 0)
+                    {
+                        AccHead = DSLabour.Tables[0].Rows[0]["Symbol"].ToString();
+                    }
+
+                    dr[12] = BGGroup;
+                    dr[13] = BudgetCode;
+                    dr[14] = AccHead;
+                    dr[15] = ds.Tables[0].Rows[i]["PVEVNo"].ToString();
+                    dr[16] =Convert.ToDouble( ds.Tables[0].Rows[i]["Amount"].ToString());
+
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+
+                DataSet xsdds = new CashVoucher_Payment();
+                xsdds.Tables[0].Merge(dt);
+                xsdds.AcceptChanges();
+                report = new ReportDocument();
+                report.Load(Server.MapPath("~/Module/Accounts/Reports/CashVoucher_Payment.rpt"));
+                report.SetDataSource(xsdds);
+
+                // For Address
+                string Address = fun.CompAdd(cId);
+                report.SetParameterValue("Address", Address);
+                CrystalReportViewer1.ReportSource = report;
+                Session[Key] = report;
+
+            }
+            else
+            {
+                ReportDocument doc = (ReportDocument)Session[Key];
+                CrystalReportViewer1.ReportSource = doc;
+            }
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            myConnection.Close();
+        }
+    }
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        report.Close();
+        report.Dispose();
+        GC.Collect();
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        report = new ReportDocument();
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Module/Accounts/Transactions/CashVoucher_Print.aspx?ModId=11&SubModId=113");
+    }
+  
+}
+

@@ -1,0 +1,1110 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Masters/ItemMaster_Edit_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ItemMaster_Edit_Details.aspx.cs" Inherits="Module_Design_Masters_ItemMaster_Edit_Details" Title="ERP" Theme="Default"  %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style18
+        {
+        }
+        .style19
+        {
+            color: #CC0000;
+        }
+        </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG); " height="21" class="fontcsswhite"><b>&nbsp;Item Master - Edit</b></td>
+        </tr>
+        <tr>
+            <td>
+                <table cellpadding="2" cellspacing="2" style="width: 100%">
+                    <tr>
+                        <td class="style18">
+                             <asp:Panel ID="Panel1" ScrollBars="Auto" runat="server">
+                          
+                            <table align="left" cellpadding="0" cellspacing="0" width="1024">
+                                <tr>
+                                    <td height="27" valign="middle">
+                                        &nbsp;</td>
+                                    <td height="27" valign="middle" width="12%">
+                                        <asp:Label ID="Label2" runat="server" Text="Category"></asp:Label>
+                                    </td>
+                                    <td valign="middle" width="35%" colspan="2">
+                                        <asp:DropDownList ID="DrpCategory" runat="server" AutoPostBack="True" 
+                                            CssClass="box3" OnSelectedIndexChanged="DrpCategory_SelectedIndexChanged" 
+                                            Enabled="False" Width="150px">
+                                        </asp:DropDownList>
+                                    </td>
+                                    <td>
+                                        &nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td height="27" valign="middle">
+                                        &nbsp;</td>
+                                    <td height="27" valign="middle" width="12%">
+                                        <asp:Label ID="Label4" runat="server" Text="Part No"></asp:Label>
+                                    </td>
+                                    <td valign="middle" colspan="2" height="25px">
+                                        <asp:TextBox ID="TxtPartNo" runat="server" CssClass="box3" Enabled="False"></asp:TextBox>
+                                        <span>Ex.: xxxx-xxx-xxx</span><span class="style19">&nbsp;</span></td>
+                                    <td style="width: 70%" valign="middle">
+                                        &nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td valign="top">
+                                        &nbsp;</td>
+                                    <td valign="top">
+                                        <asp:Label ID="Label7" runat="server">Description</asp:Label>
+                                    </td>
+                                    <td colspan="3">
+                                        <asp:TextBox ID="TxtManfDesc" runat="server" CssClass="box3" Rows="3" 
+                                            TextMode="MultiLine" Width="500px"></asp:TextBox>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" 
+                                            ControlToValidate="TxtManfDesc" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="middle" height="25px">
+                                        &nbsp;</td>
+                                    <td height="25px" valign="middle">
+                                        <asp:Label ID="Label9" runat="server" Text="UOM"></asp:Label>
+                                    </td>
+                                    <td valign="middle" height="25px">
+                                        <asp:DropDownList ID="DrpUOMBasic" runat="server" CssClass="box3">
+                                        </asp:DropDownList>
+                                        <asp:RequiredFieldValidator ID="ReqUOM" runat="server" 
+                                            ControlToValidate="DrpUOMBasic" ErrorMessage="*" InitialValue="Select" 
+                                            ValidationGroup="A"></asp:RequiredFieldValidator>
+                                    </td>
+                                    <td valign="middle" height="25px">
+                                        <asp:Label ID="Label19" runat="server" Text="UOM Conv."></asp:Label>
+                                    </td>
+                                    <td valign="middle" height="25px">
+                                        <asp:RadioButtonList ID="RadioButtonList1" runat="server" 
+                                            RepeatDirection="Horizontal">
+                                            <asp:ListItem Value="1">Yes</asp:ListItem>
+                                            <asp:ListItem Selected="True" Value="0">No</asp:ListItem>
+                                        </asp:RadioButtonList>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="middle" height="25px" style="margin-left: 80px">
+                                        &nbsp;</td>
+                                    <td height="25px" style="margin-left: 80px" valign="middle">
+                                        <asp:Label ID="Label13" runat="server" Text="Stock Qty"></asp:Label>
+                                    </td>
+                                    <td valign="middle" height="25px">
+                                        <asp:TextBox ID="TxtStockQty" runat="server" CssClass="box3" 
+                                            onblue="if(isNaN(this.value)==true) { this.value=''; }" 
+                                            onfocus="if(isNaN(this.value)==true) { this.value=''; }" 
+                                            onkeyup="if(isNaN(this.value)==true) { this.value=''; }" Enabled="False"> 0</asp:TextBox>
+                                        <asp:RegularExpressionValidator ID="RegStkQty" runat="server" 
+                                            ControlToValidate="TxtStockQty" ErrorMessage="*" 
+                                            ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="A"></asp:RegularExpressionValidator>
+                                    </td>
+                                    <td valign="middle" height="25px">
+                                        <asp:Label ID="Label20" runat="server">Class</asp:Label>
+                                    </td>
+                                    <td valign="middle" height="25px">
+                                        <asp:DropDownList ID="drpclass" runat="server" CssClass="box3" 
+                                            DataSourceID="SqlDataSource2" DataTextField="Class" DataValueField="Id">
+                                        </asp:DropDownList>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="middle" height="25px">
+                                        &nbsp;</td>
+                                    <td height="25px" valign="middle">
+                                        <asp:Label ID="Label11" runat="server" Text="Min Order Qty"></asp:Label>
+                                    </td>
+                                    <td valign="middle" height="25px">
+                                        <asp:TextBox ID="TxtMinorderQty" runat="server" CssClass="box3" 
+                                            onblue="if(isNaN(this.value)==true) { this.value=''; }" 
+                                            onfocus="if(isNaN(this.value)==true) { this.value=''; }" 
+                                            onkeyup="if(isNaN(this.value)==true) { this.value=''; }">1</asp:TextBox>
+                                        <asp:RegularExpressionValidator ID="RegStkQty2" runat="server" 
+                                            ControlToValidate="TxtMinorderQty" ErrorMessage="*" 
+                                            ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="A"></asp:RegularExpressionValidator>
+                                    </td>
+                                    <td valign="middle" height="25px">
+                                        <asp:Label ID="Label22" runat="server">Inspection Days</asp:Label>
+                                    </td>
+                                    <td valign="top" height="25px">
+                                        <asp:TextBox ID="txtInspdays" runat="server" CssClass="box3">0</asp:TextBox>
+                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" 
+                                            ControlToValidate="txtInspdays" ErrorMessage="*" 
+                                            ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="A"></asp:RegularExpressionValidator>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="middle">
+                                        &nbsp;</td>
+                                    <td valign="middle">
+                                        <asp:Label ID="Label12" runat="server" Text="Min Stock Qty"></asp:Label>
+                                    </td>
+                                    <td valign="middle" height="25px">
+                                        <asp:TextBox ID="TxtMinStockQty" runat="server" CssClass="box3" 
+                                            onblue="if(isNaN(this.value)==true) { this.value=''; }" 
+                                            onfocus="if(isNaN(this.value)==true) { this.value=''; }" 
+                                            onkeyup="if(isNaN(this.value)==true) { this.value=''; }">1</asp:TextBox>
+                                        <asp:RegularExpressionValidator ID="RegStkQty1" runat="server" 
+                                            ControlToValidate="TxtMinStockQty" ErrorMessage="*" 
+                                            ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="A"></asp:RegularExpressionValidator>
+                                    </td>
+                                    <td valign="middle">
+                                        <asp:Label ID="Label14" runat="server" Text="Store Location"></asp:Label>
+                                    </td>
+                                    <td valign="middle" height="25px">
+                                        <asp:DropDownList ID="DrpLocation" runat="server" CssClass="box3">
+                                        </asp:DropDownList>
+                                        <asp:RequiredFieldValidator ID="ReqLoc" runat="server" 
+                                            ControlToValidate="DrpLocation" ErrorMessage="*" InitialValue="Select" 
+                                            ValidationGroup="A"></asp:RequiredFieldValidator>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="middle">
+                                        &nbsp;</td>
+                                    <td valign="middle">
+                                        <asp:Label ID="Label18" runat="server" Text="Opening Bal Qty"></asp:Label>
+                                    </td>
+                                    <td valign="middle">
+                                        <asp:TextBox ID="TxtOpeningBalQty" runat="server" CssClass="box3" 
+                                            onblue="if(isNaN(this.value)==true) { this.value=''; }" 
+                                            onfocus="if(isNaN(this.value)==true) { this.value=''; }" 
+                                            onkeyup="if(isNaN(this.value)==true) { this.value=''; }" Enabled="False">0</asp:TextBox>
+                                        <asp:RegularExpressionValidator ID="RegStkQty0" runat="server" 
+                                            ControlToValidate="TxtOpeningBalQty" ErrorMessage="*" 
+                                            ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="A"></asp:RegularExpressionValidator>
+                                    </td>
+                                    <td valign="middle">
+                                        <asp:Label ID="Label17" runat="server" Text="Opening Bal Date"></asp:Label>
+                                    </td>
+                                    <td valign="middle" height="25px">
+                                        <asp:TextBox ID="TxtOpeningBalDate" runat="server" CssClass="box3" 
+                                            Enabled="False"></asp:TextBox>
+                                        <cc1:CalendarExtender ID="TxtOpeningBalDate_CalendarExtender" runat="server"  CssClass="cal_Theme2" PopupPosition="TopRight"
+                                            Enabled="True" Format="dd-MM-yyyy" TargetControlID="TxtOpeningBalDate">
+                                        </cc1:CalendarExtender>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="middle">
+                                        &nbsp;</td>
+                                    <td valign="middle">
+                                        <asp:Label ID="Label21" runat="server">Lead Days</asp:Label>
+                                    </td>
+                                    <td valign="middle" height="25px">
+                                        <asp:TextBox ID="txtleaddays" runat="server" CssClass="box3">0</asp:TextBox>
+                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" 
+                                            ControlToValidate="txtleaddays" ErrorMessage="*" 
+                                            ValidationExpression="^\d{1,15}(\.\d{0,3})?$" ValidationGroup="A"></asp:RegularExpressionValidator>
+                                    </td>
+                                    <td valign="middle">
+                                        <asp:Label ID="Label23" runat="server" Text="Import/Local"></asp:Label>
+                                    </td>
+                                    <td valign="middle" height="25px">
+                                        <asp:RadioButtonList ID="RadioButtonList2" runat="server" 
+                                            RepeatDirection="Horizontal">
+                                            <asp:ListItem Value="1">Yes</asp:ListItem>
+                                            <asp:ListItem Selected="True" Value="0">No</asp:ListItem>
+                                        </asp:RadioButtonList>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="middle" height="25px">
+                                        &nbsp;</td>
+                                    <td height="25px" valign="middle">
+                                        <asp:Label ID="Label24" runat="server" Text="Excise Applicable"></asp:Label>
+                                    </td>
+                                    <td valign="middle" height="25px">
+                                        <asp:RadioButtonList ID="RadioButtonList3" runat="server" 
+                                            RepeatDirection="Horizontal">
+                                            <asp:ListItem Value="1"> Yes</asp:ListItem>
+                                            <asp:ListItem Selected="True" Value="0">No</asp:ListItem>
+                                        </asp:RadioButtonList>
+                                    </td>
+                                    <td valign="middle" height="25px">
+                                        <asp:Label ID="Label16" runat="server" Text="Absolute"></asp:Label>
+                                    </td>
+                                    <td valign="middle" height="25px">
+                                        <asp:CheckBox ID="CheckAbsolute" runat="server" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="middle" height="25px">
+                                        &nbsp;</td>
+                                    <td height="25px" valign="middle">
+                                        <asp:Label ID="Label25" runat="server" Text="Attachment"></asp:Label>
+                                    </td>
+                                    <td valign="middle" height="25px">
+                                        <asp:FileUpload ID="FileUpload3" runat="server" />
+                                        <asp:Label ID="lbldownload" runat="server" Text=""></asp:Label>
+                                       
+                                        <asp:ImageButton ID="imgUpload0" runat="server" ImageUrl="~/images/cross.gif" 
+                                            onclick="imgUpload0_Click" style="width: 13px" Visible="False" 
+                                            Width="16px" />
+                                    </td>
+                                    <td height="25px" valign="middle">
+                                        Buyer
+                                    </td>
+                                    <td valign="top" height="25px">
+                                        <asp:DropDownList ID="DrpBuyer" runat="server" AutoPostBack="True" 
+                                            DataSourceID="SqlDataSource3" DataTextField="EmpName" DataValueField="Id" 
+                                            >
+                                        </asp:DropDownList>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="middle">
+                                        &nbsp;</td>
+                                    <td valign="middle">
+                                        <asp:Label ID="Label15" runat="server" Text="Image"></asp:Label>
+                                    </td>
+                                    <td valign="bottom" height="25px">
+                                        <asp:FileUpload ID="FileUpload1" runat="server" />
+                                        <asp:Label ID="lbluploadImg" runat="server"></asp:Label>
+                                        <asp:ImageButton ID="imgUpload" runat="server" ImageUrl="~/images/cross.gif" 
+                                            onclick="imgUpload_Click" Visible="False" Width="16px" />
+                                    </td>
+                                    <td height="25px" valign="middle">
+                                        <asp:Label ID="lblAHId" runat="server" Text="A/C Head"> </asp:Label>
+                                    </td>
+                                    <td valign="top">
+                                       
+                                        <table align="left" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td width="42%">
+                                                    <asp:RadioButtonList ID="RadioButtonList4" runat="server" AutoPostBack="True" 
+                                                        onselectedindexchanged="RadioButtonList4_SelectedIndexChanged" 
+                                                        RepeatDirection="Horizontal">
+                                                        <asp:ListItem Value="1">Labour</asp:ListItem>
+                                                        <asp:ListItem Value="2">With Material</asp:ListItem>
+                                                        <asp:ListItem Value="3">Expenses</asp:ListItem>
+                                                        <asp:ListItem Value="4">Service Provider</asp:ListItem>
+                                                    </asp:RadioButtonList>
+                                                </td>
+                                                <td>
+                                                    <asp:DropDownList ID="DrpAChead" runat="server" AutoPostBack="True" 
+                                                        CssClass="box3">
+                                                    </asp:DropDownList>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                       
+                                    </td>
+                                </tr>
+                            </table>
+                          </asp:Panel> </td>
+                    </tr>
+                    <tr>
+                        <td class="style18" align="center">
+&nbsp;&nbsp;&nbsp;<asp:Button ID="BtnUpdate" runat="server" onclick="BtnUpdate_Click"   OnClientClick=" return confirmationUpdate()" 
+                    Text="Update" CssClass="redbox" ValidationGroup="A" />
+            &nbsp;<asp:Button ID="BtnCancel" runat="server" onclick="BtnCancel_Click" 
+                    Text="Cancel" CssClass="redbox" />
+                            <asp:SqlDataSource ID="SqlDataSource3" runat="server" 
+                                            ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                                            ProviderName="System.Data.SqlClient" 
+                                            
+                                            SelectCommand="SELECT [tblMM_Buyer_Master].[Id], [tblMM_Buyer_Master].[Category]+Convert(varchar,[tblMM_Buyer_Master].[Nos])+'-'+[tblHR_OfficeStaff].[EmployeeName]+'['+[tblMM_Buyer_Master].[EmpId]+']' As EmpName FROM [tblMM_Buyer_Master],[tblHR_OfficeStaff] where [tblHR_OfficeStaff].[EmpId]=[tblMM_Buyer_Master].[EmpId]">
+                                        </asp:SqlDataSource>
+                                       
+                                        <asp:SqlDataSource ID="SqlDataSource2" runat="server" 
+                                            ConnectionString="<%$ connectionStrings:LocalSqlServer %>" 
+                                            ProviderName="System.Data.SqlClient" 
+                                            SelectCommand="SELECT * FROM [tblDG_Item_Class] where [Id]!=0"></asp:SqlDataSource>
+                                       
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+           
+                <asp:Panel ID="Panel2" ScrollBars="Auto"  Height="81px"  runat="server">
+                <br />                              
+                <asp:GridView ID="GridView2" runat="server" CssClass="yui-datatable-theme" 
+                    AllowPaging="True" AutoGenerateColumns="False" OnPageIndexChanging="GridView2_PageIndexChanging" 
+                    Width="120%">
+                    <Columns>                    
+                    <asp:TemplateField HeaderText="SN" ItemStyle-HorizontalAlign="Right"><ItemTemplate><%# Container.DataItemIndex+1 %></ItemTemplate>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Id" Visible="false">
+                        <ItemTemplate>
+                        <asp:Label ID="id" runat="server" Text='<%# Eval("Id") %>'></asp:Label>
+                        </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Category">
+                        <ItemTemplate>
+                        <asp:Label ID="category" runat="server" Text='<%# Eval("Category") %>'></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle Width="7%" />
+                        </asp:TemplateField>                        
+                         
+                        <asp:TemplateField HeaderText="Item Code">
+                        <ItemTemplate>
+                        <asp:Label ID="itemcode" runat="server" Text='<%# Eval("ItemCode") %>'></asp:Label>
+                        </ItemTemplate>
+                        <ItemStyle Width="10%" HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText=" Description">
+                        <ItemTemplate>
+                        <asp:Label ID="manfdesc" runat="server" Text='<%# Eval("ManfDesc") %>'></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle Width="13%" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="UOM ">
+                        <ItemTemplate>
+                        <asp:Label ID="uomBasic" runat="server" Text='<%# Eval("UOMBasic") %>'></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>                         
+                         <asp:TemplateField HeaderText="Min Order Qty">
+                        <ItemTemplate>
+                        <asp:Label ID="minOrderQty" runat="server" Text='<%# Eval("MinOrderQty") %>'></asp:Label>
+                        </ItemTemplate>
+                             <ItemStyle HorizontalAlign="Right" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Min Stock Qty">
+                        <ItemTemplate>
+                        <asp:Label ID="minStockQty" runat="server" Text='<%# Eval("MinStockQty") %>'></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Stock Qty">
+                        <ItemTemplate>
+                        <asp:Label ID="stockQty" runat="server" Text='<%# Eval("StockQty") %>'></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Right" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Location">
+                        <ItemTemplate>
+                        <asp:Label ID="location" runat="server" Text='<%# Eval("Location") %>'></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Open Bal Date">
+                        <ItemTemplate>                       
+                        <asp:Label ID="openBalDate" runat="server" Text='<%# Eval("OpenBalDate") %>'></asp:Label>
+                        </ItemTemplate>                            
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Opening Bal Qty">
+                        <ItemTemplate>
+                        <asp:Label ID="openingBalQty" runat="server" Text='<%# Eval("OpeningBalQty") %>'></asp:Label>
+                        </ItemTemplate>
+                        <ItemStyle HorizontalAlign="Right" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Absolute">
+                        <ItemTemplate>                        
+                         <asp:Label ID="absolute" runat="server" Text='<%# Eval("Absolute") %>'></asp:Label>
+                        </ItemTemplate>
+                        <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                         
+                        <asp:TemplateField HeaderText="Excise">
+                        <ItemTemplate>
+                        <asp:Label ID="lblExcise" runat="server" Text='<%# Eval("Excise") %>'></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Import & Local">
+                        <ItemTemplate>
+                        <asp:Label ID="lblImportLocal" runat="server" Text='<%# Eval("ImportLocal") %>'></asp:Label>
+                        </ItemTemplate>
+                        <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="UOM Conv.">
+                        <ItemTemplate>
+                        <asp:Label ID="uomConFact" runat="server" Text='<%# Eval("UOMConFact") %>'></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                                    
+                                    <asp:TemplateField HeaderText="A/C Head">
+                        <ItemTemplate>
+                        <asp:Label ID="lblACHead" runat="server" Text='<%# Eval("AHId") %>'></asp:Label>
+                        </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                                    
+                    </Columns>
+                   <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                </asp:GridView>
+                
+                </asp:Panel>
+                </td>
+        </tr>
+        
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Design/Masters/ItemMaster_Edit_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.IO;
+using System.Security.Cryptography;
+public partial class Module_Design_Masters_ItemMaster_Edit_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    
+    DataSet DS1 = new DataSet();
+    int CompId = 0;
+    int id = 0;
+    string sId = "";
+    int FinYearId = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        con.Open();
+        try
+        {
+            id = Convert.ToInt32((Request.QueryString["ItemId"]));
+            CompId=Convert.ToInt32(Session["compid"]);
+            sId = Session["username"].ToString();            
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            TxtOpeningBalDate.Attributes.Add("readonly", "readonly");
+            if (!IsPostBack)
+            {
+                string StrCat = fun.select("CId,Symbol+'-'+CName as cat", "tblDG_Category_Master", "CompId='" + CompId + "'");
+                SqlCommand Cmdcategory = new SqlCommand(StrCat, con); 
+                SqlDataAdapter DAcategory = new SqlDataAdapter(Cmdcategory);
+                DAcategory.Fill(DS1, "tblDG_Category_Master");
+                DrpCategory.DataSource = DS1.Tables["tblDG_Category_Master"];
+                DrpCategory.DataTextField = "cat";
+                DrpCategory.DataValueField = "CId";
+                DrpCategory.DataBind();
+                DrpCategory.Items.Insert(0, "Select");
+
+                string sql1 = fun.select("tblDG_Item_Master.Id,tblDG_Item_Master.Buyer,tblDG_Item_Master.PartNo,tblDG_Item_Master.Excise ,tblDG_Item_Master.ImportLocal,tblDG_Item_Master.ManfDesc,tblDG_Item_Master.CId,tblDG_Item_Master.UOMBasic,tblDG_Item_Master.MinOrderQty ,tblDG_Item_Master.MinStockQty,tblDG_Item_Master.StockQty ,REPLACE(CONVERT(varchar, CONVERT(datetime, SUBSTRING( tblDG_Item_Master.OpeningBalDate , CHARINDEX('-',tblDG_Item_Master.OpeningBalDate ) + 1, 2) + '-' + LEFT(tblDG_Item_Master.OpeningBalDate,CHARINDEX('-',tblDG_Item_Master.OpeningBalDate) - 1) + '-' + RIGHT(tblDG_Item_Master.OpeningBalDate, CHARINDEX('-', REVERSE(tblDG_Item_Master.OpeningBalDate)) - 1)), 103), '/', '-') AS  OpenBalDate  ,tblDG_Item_Master.OpeningBalQty ,tblDG_Item_Master.Absolute,tblDG_Item_Master.UOMConFact,tblDG_Item_Master.FileName,tblDG_Item_Master.Location,tblDG_Item_Master.AttName,Class", "tblDG_Item_Master", "tblDG_Item_Master.Id='" + id + "'And CompId='" + CompId + "'");
+                SqlCommand Cmd = new SqlCommand(sql1, con);
+                SqlDataAdapter DA = new SqlDataAdapter(Cmd);
+                DataSet DS = new DataSet();
+                DA.Fill(DS);
+                if (DS.Tables[0].Rows.Count > 0)
+                {
+                    DrpCategory.SelectedValue = DS.Tables[0].Rows[0]["CId"].ToString();
+                    if (DS.Tables[0].Rows[0]["Buyer"]!=DBNull.Value)
+                    {
+                      DrpBuyer.SelectedValue = DS.Tables[0].Rows[0]["Buyer"].ToString();
+                    }
+                    TxtPartNo.Text = DS.Tables[0].Rows[0]["PartNo"].ToString();
+                    TxtManfDesc.Text = DS.Tables[0].Rows[0]["ManfDesc"].ToString();                    
+                    fun.drpunit(DrpUOMBasic);                    
+                    DrpUOMBasic.SelectedValue = DS.Tables[0].Rows[0]["UOMBasic"].ToString(); 
+                    TxtMinorderQty.Text = DS.Tables[0].Rows[0]["MinOrderQty"].ToString();
+                    TxtMinStockQty.Text = DS.Tables[0].Rows[0]["MinStockQty"].ToString();
+                    TxtStockQty.Text = DS.Tables[0].Rows[0]["StockQty"].ToString();
+                    fun.drpLocat(DrpLocation);
+                    string sql4 = fun.select("Id", "tblDG_Location_Master", "Id='" + DS.Tables[0].Rows[0]["Location"].ToString() + "'");
+                    SqlCommand Cmd4 = new SqlCommand(sql4, con);
+                    SqlDataAdapter DA4 = new SqlDataAdapter(Cmd4);
+                    DataSet DS4 = new DataSet();
+                    DA4.Fill(DS4);
+
+                    if (DS4.Tables[0].Rows.Count > 0)
+                    {
+                        DrpLocation.SelectedValue = DS4.Tables[0].Rows[0]["Id"].ToString();
+                    } 
+
+                    int abs = Convert.ToInt32(DS.Tables[0].Rows[0]["Absolute"].ToString());
+
+                    if (abs > 0)
+                    {
+                        CheckAbsolute.Checked = true;
+                    }
+
+                    TxtOpeningBalDate.Text = DS.Tables[0].Rows[0]["OpenBalDate"].ToString();
+                    TxtOpeningBalQty.Text = DS.Tables[0].Rows[0]["OpeningBalQty"].ToString();
+                    if (DS.Tables[0].Rows[0]["UOMConFact"] != DBNull.Value)
+                    {
+                        if (DS.Tables[0].Rows[0]["UOMConFact"].ToString() == "1")
+                        {
+                            RadioButtonList1.SelectedValue = "1";
+                           
+                        }
+                        else
+                        {
+                            RadioButtonList1.SelectedValue = "0";
+
+                            
+                        }
+                    }
+
+                    // for Class
+
+                    if (DS.Tables[0].Rows[0]["Class"] != DBNull.Value && DS.Tables[0].Rows[0]["Class"].ToString() != "")
+                    {
+                        if (DS.Tables[0].Rows[0]["Class"].ToString() != "0")
+                        {
+                            drpclass.SelectedValue = DS.Tables[0].Rows[0]["Class"].ToString();
+                        }
+                        else
+                        {
+                            drpclass.Items.Insert(0, "NA");
+                           
+                            
+                        }
+                    }
+                    if (DS.Tables[0].Rows[0]["Excise"] != DBNull.Value)
+                    {
+                        if (DS.Tables[0].Rows[0]["Excise"].ToString() == "1")
+                        {
+                            RadioButtonList3.SelectedValue = "1";
+
+                        }
+                        else
+                        {
+                            RadioButtonList3.SelectedValue = "0";
+
+
+                        }
+                    }
+
+
+                    if (DS.Tables[0].Rows[0]["ImportLocal"] != DBNull.Value)
+                    {
+                        if (DS.Tables[0].Rows[0]["ImportLocal"].ToString() == "1")
+                        {
+                            RadioButtonList2.SelectedValue = "1";
+
+                        }
+                        else
+                        {
+                            RadioButtonList2.SelectedValue = "0";
+
+                        }
+                    }
+                    imgUpload.Visible = false;
+                    FileUpload1.Visible = true;
+                    if (DS.Tables[0].Rows[0]["FileName"].ToString() != "" && DS.Tables[0].Rows[0]["FileName"] != DBNull.Value)
+                    {
+                        imgUpload.Visible = true;
+                        lbluploadImg.Text = "&nbsp;<a href='../../../Controls/DownloadFile.aspx?Id=" + id + "&tbl=tblDG_Item_Master&qfd=FileData&qfn=FileName&qct=ContentType'>" + DS.Tables[0].Rows[0]["FileName"].ToString() + "</a>";
+                        FileUpload1.Visible = false;
+                    }
+
+                    imgUpload0.Visible = false;
+                    FileUpload3.Visible = true;
+                    if (DS.Tables[0].Rows[0]["AttName"].ToString() != "" && DS.Tables[0].Rows[0]["AttName"] != DBNull.Value)
+                    {
+                        imgUpload0.Visible = true;
+                       
+                        lbldownload.Text = "&nbsp;<a href='../../../Controls/DownloadFile.aspx?Id=" + id + "&tbl=tblDG_Item_Master&qfd=AttData&qfn=AttName&qct=AttContentType'>" + DS.Tables[0].Rows[0]["AttName"].ToString() + "</a>";
+                        FileUpload3.Visible = false;
+                    }
+                }
+
+                if (DS.Tables[0].Rows[0]["CId"] != DBNull.Value)
+                {
+                    //For A/c Head 
+
+                    string StrcmdAcid = fun.select("AHId", " tblDG_Item_Master ", " Id='" + id + "' ");
+                    SqlCommand cmdAcid = new SqlCommand(StrcmdAcid, con);
+                    SqlDataAdapter DAAcid = new SqlDataAdapter(cmdAcid);
+                    DataSet DSAcid = new DataSet();
+                    DAAcid.Fill(DSAcid);
+                    if (DSAcid.Tables[0].Rows.Count > 0 && DSAcid.Tables[0].Rows[0][0] != DBNull.Value)
+                    {
+                        int acid = Convert.ToInt32(DSAcid.Tables[0].Rows[0][0].ToString());
+
+                        string StrcmdAcCat = fun.select("Category", " AccHead ", "Id='" + acid + "'");
+                        SqlCommand cmdAcCat = new SqlCommand(StrcmdAcCat, con);
+                        SqlDataAdapter DAAcCat = new SqlDataAdapter(cmdAcCat);
+                        DataSet DSAcCat = new DataSet();
+                        DAAcCat.Fill(DSAcCat);
+                        if (DSAcCat.Tables[0].Rows.Count > 0)
+                        {
+                            string acCategory = DSAcCat.Tables[0].Rows[0][0].ToString();
+                            if (acCategory == "Labour")
+                            {
+
+                                RadioButtonList4.SelectedValue = "1";
+                                fun.AcHead(DrpAChead, 1);
+                            }
+                            else if(acCategory=="With Material")
+                            {
+
+                                RadioButtonList4.SelectedValue = "2";
+                                fun.AcHead(DrpAChead, 2);
+                            }
+
+                            else if(acCategory =="Expenses")
+                            {
+
+                                RadioButtonList4.SelectedValue = "3";
+                                fun.AcHead(DrpAChead, 3);
+                            }
+                            else if (acCategory == "Service Material")
+                            {
+
+                                RadioButtonList4.SelectedValue = "4";
+                                fun.AcHead(DrpAChead, 4);
+                            }
+                        }
+                        DrpAChead.SelectedValue = DSAcid.Tables[0].Rows[0][0].ToString();
+                    }
+
+                }
+
+                else
+                {
+                    lblAHId.Enabled = false;
+                    RadioButtonList4.Enabled = false;
+                    DrpAChead.Enabled = false;
+                    drpclass.Enabled = false;
+                    
+                    RadioButtonList1.Enabled = false;
+                    RadioButtonList2.Enabled = false;
+                    RadioButtonList3.Enabled = false;
+                    TxtStockQty.Enabled = false;
+                    TxtMinorderQty.Enabled = false;
+                    TxtMinStockQty.Enabled = false;
+                    txtInspdays.Enabled = false;
+                    txtleaddays.Enabled = false;
+                    TxtOpeningBalDate.Enabled = false;
+                    TxtOpeningBalQty.Enabled = false;
+                    CheckAbsolute.Enabled = false;
+                    DrpBuyer.Enabled = false;
+                    DrpLocation.Enabled = false;
+                }
+               
+            }
+            this.Fillgrid();
+           
+           
+        }
+       catch (Exception ex)
+        {
+        }
+       finally
+        {
+            con.Close();
+        }
+
+
+    }
+
+    public void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView2.PageIndex = e.NewPageIndex;
+        this.Fillgrid();
+    }
+
+  
+
+    public void Fillgrid()
+    {
+        
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        DataTable dt = new DataTable();
+
+        try
+        {
+
+            string item = fun.select("Id,ItemCode,ImportLocal,ManfDesc,Excise,MinOrderQty,MinStockQty,StockQty,REPLACE(CONVERT(varchar, CONVERT(datetime, SUBSTRING( tblDG_Item_Master.OpeningBalDate , CHARINDEX('-',tblDG_Item_Master.OpeningBalDate ) + 1, 2) + '-' + LEFT(tblDG_Item_Master.OpeningBalDate,CHARINDEX('-',tblDG_Item_Master.OpeningBalDate) - 1) + '-' + RIGHT(tblDG_Item_Master.OpeningBalDate, CHARINDEX('-', REVERSE(tblDG_Item_Master.OpeningBalDate)) - 1)), 103), '/', '-') AS  OpenBalDate,OpeningBalQty,Absolute,UOMConFact,CId,UOMBasic,Location,AHId", "tblDG_Item_Master", "Id='" + id + "'And CompId='" + CompId + "' And FinYearId<='" + FinYearId + "'Order By Id Desc");           
+           
+            SqlCommand Cmditem = new SqlCommand(item, con);
+            SqlDataAdapter DAitem = new SqlDataAdapter(Cmditem);
+            DataSet DSitem = new DataSet();
+            DAitem.Fill(DSitem);
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));///0
+            dt.Columns.Add(new System.Data.DataColumn("Category", typeof(string)));///1
+            dt.Columns.Add(new System.Data.DataColumn("Excise", typeof(string)));//2
+            dt.Columns.Add(new System.Data.DataColumn("ImportLocal", typeof(string)));//3
+            dt.Columns.Add(new System.Data.DataColumn("ManfDesc", typeof(string))); //4          
+            dt.Columns.Add(new System.Data.DataColumn("UOMBasic", typeof(string)));//5           
+            dt.Columns.Add(new System.Data.DataColumn("MinOrderQty", typeof(double)));//6
+            dt.Columns.Add(new System.Data.DataColumn("MinStockQty", typeof(double)));//7
+            dt.Columns.Add(new System.Data.DataColumn("StockQty", typeof(double)));//8
+            dt.Columns.Add(new System.Data.DataColumn("Location", typeof(string)));//9
+            dt.Columns.Add(new System.Data.DataColumn("Absolute", typeof(string)));//10
+            dt.Columns.Add(new System.Data.DataColumn("OpenBalDate", typeof(string)));//11
+            dt.Columns.Add(new System.Data.DataColumn("OpeningBalQty", typeof(double)));//12
+            dt.Columns.Add(new System.Data.DataColumn("UOMConFact", typeof(string)));//13
+            dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));//14
+            dt.Columns.Add(new System.Data.DataColumn("AHId", typeof(string)));//15
+            DataRow dr;
+            for (int i = 0; i < DSitem.Tables[0].Rows.Count; i++)
+            {
+                 
+                dr = dt.NewRow();
+                string cat = fun.select("Symbol+'-'+CName as Category ", "tblDG_Category_Master", "CId='" + DSitem.Tables[0].Rows[i]["CId"] + "'And CompId='" + CompId + "'");
+                SqlCommand Cmdcat = new SqlCommand(cat, con);
+                SqlDataAdapter DAcat = new SqlDataAdapter(Cmdcat);
+                DataSet DScat = new DataSet();
+                DAcat.Fill(DScat);
+
+                // for AHId
+                string StrcmdAcCat = fun.select(" '['+Symbol+'] '+Description AS Head,Id ", " AccHead ", "Id='" + DSitem.Tables[0].Rows[i]["AHId"].ToString() + "'");                
+                SqlCommand cmdAcCat = new SqlCommand(StrcmdAcCat, con);
+                SqlDataAdapter DAAcCat = new SqlDataAdapter(cmdAcCat);
+                DataSet DSAcCat = new DataSet();
+                DAAcCat.Fill(DSAcCat);
+                if (DSAcCat.Tables[0].Rows.Count > 0)
+                {
+                    dr[15] = DSAcCat.Tables[0].Rows[0]["Head"].ToString();
+                }
+                else
+                {
+                    dr[15] = "NA";
+                }
+                string unit1 = fun.select("Symbol As UOMBasic ", "Unit_Master", "Id='" + DSitem.Tables[0].Rows[i]["UOMBasic"] + "'");
+
+                SqlCommand Cmdunit1 = new SqlCommand(unit1, con);
+
+                SqlDataAdapter DAunit1 = new SqlDataAdapter(Cmdunit1);
+                DataSet DSunit1 = new DataSet();
+                DAunit1.Fill(DSunit1);                
+
+                string loc = fun.select("LocationLabel+'-'+tblDG_Location_Master.LocationNo As Location ", "tblDG_Location_Master", "Id='" + DSitem.Tables[0].Rows[i]["Location"] + "'");
+
+                SqlCommand Cmdloc = new SqlCommand(loc, con);
+
+                SqlDataAdapter DAloc = new SqlDataAdapter(Cmdloc);
+                DataSet DSloc = new DataSet();
+                DAloc.Fill(DSloc);                
+
+                // For Id
+
+                dr[0] = DSitem.Tables[0].Rows[i]["Id"];
+                if (DScat.Tables[0].Rows.Count > 0)
+                {
+                    dr[1] = DScat.Tables[0].Rows[0]["Category"].ToString();
+                }
+
+                if (DSitem.Tables[0].Rows[i]["Excise"].ToString() != "0")
+                {
+                    dr[2] ="Yes";
+                }
+                else
+                {
+                    dr[2] = "NO";
+                }
+                if (DSitem.Tables[0].Rows[i]["ImportLocal"].ToString() != "0")
+                {
+                    dr[3] = "Yes";
+                }
+                else
+                {
+                    dr[3] = "NO";
+                }
+
+                dr[4] = DSitem.Tables[0].Rows[i]["ManfDesc"].ToString();              
+
+                dr[5] = DSunit1.Tables[0].Rows[0]["UOMBasic"].ToString();
+               
+                dr[6] =Convert.ToDouble(decimal.Parse(( DSitem.Tables[0].Rows[i]["MinOrderQty"]).ToString()).ToString("N3"));
+
+                dr[7] = Convert.ToDouble(decimal.Parse((DSitem.Tables[0].Rows[i]["MinStockQty"]).ToString()).ToString("N3"));
+                dr[8] = Convert.ToDouble(decimal.Parse((DSitem.Tables[0].Rows[i]["StockQty"]).ToString()).ToString("N3"));
+                if (DSloc.Tables[0].Rows.Count > 0)
+                {
+                    dr[9] = DSloc.Tables[0].Rows[0]["Location"].ToString();
+                }
+                else
+                {
+                    dr[9] = "NA";
+                }
+
+                if (DSitem.Tables[0].Rows[i]["Absolute"].ToString() != "0")
+                {
+                    dr[10] = "Yes";
+                }
+                else
+                {
+                    dr[10] = "NO";
+                }
+                dr[11] = DSitem.Tables[0].Rows[i]["OpenBalDate"].ToString();
+                dr[12] = Convert.ToDouble(decimal.Parse((DSitem.Tables[0].Rows[i]["OpeningBalQty"]).ToString()).ToString("N3"));
+                
+                if (DSitem.Tables[0].Rows[i]["UOMConFact"].ToString() != "0")
+                {
+                    dr[13] = "Yes";
+                }
+                else
+                {
+                    dr[13] = "NO";
+                }
+                
+                dr[14] = DSitem.Tables[0].Rows[i]["ItemCode"].ToString();
+
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+            }
+
+            GridView2.DataSource = dt;
+            GridView2.DataBind();
+
+        }
+        catch(Exception ex)
+
+        {
+
+        }
+
+    }
+    protected void DrpCategory_SelectedIndexChanged(object sender, EventArgs e)
+    { 
+        
+    }
+
+    protected void BtnUpdate_Click(object sender, EventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        con.Open();
+        try
+        {
+
+            if (FileUpload1.Visible == true)
+            {
+                byte[] pic = new byte[0];
+                int len = FileUpload1.PostedFile.ContentLength;
+                string ContentType = "";
+                System.IO.MemoryStream stream = new MemoryStream();
+                string Fname = "";
+                int imageHeight = 0;
+                int imageWidth = 0;
+                Bitmap bitmap;
+                System.Drawing.Image imageToBeResized;
+                if (len > 0)
+                {
+                    ContentType = FileUpload1.PostedFile.ContentType;
+                    imageToBeResized = System.Drawing.Image.FromStream(FileUpload1.PostedFile.InputStream);
+                    imageHeight = imageToBeResized.Height;
+                    imageWidth = imageToBeResized.Width;
+                    int maxWidth = 135;
+                    imageHeight = 62;
+                    imageWidth = maxWidth;
+                    bitmap = new Bitmap(imageToBeResized, imageWidth, imageHeight);
+                    bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    stream.Position = 0;
+                    pic = new byte[len];
+                    stream.Read(pic, 0, len);
+                    Fname = System.IO.Path.GetFileNameWithoutExtension(FileUpload1.PostedFile.FileName);
+                }
+                string updateStr = fun.update("tblDG_Item_Master", "tblDG_Item_Master.FileSize='" + len + "',tblDG_Item_Master.FileData=@pic,tblDG_Item_Master.ContentType='" + ContentType + "',tblDG_Item_Master.FileName='" + Fname + "'", "tblDG_Item_Master.Id='" + id + "' And tblDG_Item_Master.CompId='" + CompId + "'");
+                
+                SqlCommand cmd = new SqlCommand(updateStr, con);               
+                cmd.Parameters.AddWithValue("@pic", pic);
+                cmd.ExecuteNonQuery();               
+
+            }
+
+            if (FileUpload3.Visible == true)
+            {
+                string AttName = "";
+                double AttSize = 0;
+                string AttContentType = "";
+                HttpPostedFile mycv = FileUpload3.PostedFile;
+                Byte[] AttData = null;
+
+                if (FileUpload3.PostedFile != null)
+                {
+                    Stream fscv = FileUpload3.PostedFile.InputStream;
+                    BinaryReader brcv = new BinaryReader(fscv);
+                    AttData = brcv.ReadBytes((Int32)fscv.Length);
+                    AttName = Path.GetFileName(mycv.FileName);
+                    AttSize = AttData.Length;
+                    AttContentType = mycv.ContentType;
+                    string updateAtt = fun.update("tblDG_Item_Master", "tblDG_Item_Master.AttSize='" + AttSize + "',tblDG_Item_Master.AttContentType='" + AttContentType + "',tblDG_Item_Master.AttData=@AttData,tblDG_Item_Master.AttName='" + AttName + "'", "tblDG_Item_Master.Id='" + id + "'And tblDG_Item_Master.CompId='" + CompId + "'");
+
+                    SqlCommand cmd = new SqlCommand(updateAtt, con);                   
+                    cmd.Parameters.AddWithValue("@AttData", AttData);
+                    cmd.ExecuteNonQuery();
+                    
+                }
+
+            }
+
+ string sql1 = fun.select("tblDG_Item_Master.Id,tblDG_Item_Master.CId", "tblDG_Item_Master", "tblDG_Item_Master.Id='" + id + "'And CompId='" + CompId + "'");
+                SqlCommand Cmd = new SqlCommand(sql1, con);
+                SqlDataAdapter DA = new SqlDataAdapter(Cmd);
+                DataSet DS = new DataSet();
+                DA.Fill(DS);
+                
+                if (DS.Tables[0].Rows.Count > 0)
+                {
+                    string CDate = fun.getCurrDate();
+                    string CTime = fun.getCurrTime();
+                   
+                    if (DS.Tables[0].Rows[0]["CId"] != DBNull.Value)
+                    {
+                       
+                       
+                        if (DrpUOMBasic.SelectedValue != "Select" && DrpLocation.SelectedValue != "Select" && fun.NumberValidationQty(TxtStockQty.Text) == true && fun.NumberValidationQty(TxtOpeningBalQty.Text) == true && fun.NumberValidationQty(TxtMinorderQty.Text) == true && fun.NumberValidationQty(TxtMinStockQty.Text) == true && fun.DateValidation(TxtOpeningBalDate.Text) == true)
+                        {
+
+                            
+                            string dateStr = fun.ToDateDMY(TxtOpeningBalDate.Text);
+                            string AHId = "";
+                            if (DrpAChead.Visible == true)
+                            {
+                                AHId = DrpAChead.SelectedValue;
+                            }
+                            int abs;
+                            if (CheckAbsolute.Checked == true)
+                            {
+                                abs = 1;
+                            }
+                            else
+                            {
+                                abs = 0;
+                            }                           
+                            string updateStr = fun.update("tblDG_Item_Master", "tblDG_Item_Master.SysDate='" + CDate + "',tblDG_Item_Master.SysTime='" + CTime + "',tblDG_Item_Master.CompId='" + CompId + "',tblDG_Item_Master.finYearId='" + FinYearId + "',tblDG_Item_Master.SessionId='" + sId.ToString() + "',tblDG_Item_Master.ManfDesc='" + TxtManfDesc.Text + "',tblDG_Item_Master.UOMBasic='" + DrpUOMBasic.SelectedValue + "',tblDG_Item_Master.MinOrderQty='" +Convert.ToDouble( decimal.Parse((TxtMinorderQty.Text).ToString()).ToString("N3")) + "',tblDG_Item_Master.MinStockQty='" +Convert.ToDouble( decimal.Parse((TxtMinStockQty.Text).ToString()).ToString("N3")) + "',tblDG_Item_Master.StockQty='" +Convert.ToDouble( decimal.Parse((TxtStockQty.Text).ToString()).ToString("N3") )+ "' ,tblDG_Item_Master.Location='" + DrpLocation.SelectedValue + "',tblDG_Item_Master.OpeningBalDate='" + dateStr + "',tblDG_Item_Master.OpeningBalQty='" +Convert.ToDouble( decimal.Parse((TxtOpeningBalQty.Text).ToString()).ToString("N3")) + "' ,tblDG_Item_Master.Absolute='" + abs + "',tblDG_Item_Master.UOMConFact='" + RadioButtonList1.SelectedValue + "',tblDG_Item_Master.Excise='" + RadioButtonList3.SelectedValue + "',tblDG_Item_Master.ImportLocal='" + RadioButtonList2.SelectedValue + "',Buyer='" + DrpBuyer.SelectedValue + "',AHId='" + AHId + "',Class='"+drpclass.SelectedValue+"'", "tblDG_Item_Master.Id='" + id + "'And tblDG_Item_Master.CompId='" + CompId + "'");
+                            SqlCommand cmd = new SqlCommand(updateStr, con);
+                            cmd.ExecuteNonQuery();                                                    
+                            Page.Response.Redirect(Page.Request.Url.ToString(), true);
+                        }
+                    }
+
+                    else
+                    {
+                        
+                        if (DrpUOMBasic.SelectedValue != "Select" && TxtManfDesc.Text != "")
+                        {
+                            
+                            string updateStr = fun.update("tblDG_Item_Master", "tblDG_Item_Master.SysDate='" + CDate + "',tblDG_Item_Master.SysTime='" + CTime + "',tblDG_Item_Master.CompId='" + CompId + "',tblDG_Item_Master.finYearId='" + FinYearId + "',tblDG_Item_Master.SessionId='" + sId.ToString() + "',tblDG_Item_Master.ManfDesc='" + TxtManfDesc.Text + "',tblDG_Item_Master.UOMBasic='" + DrpUOMBasic.SelectedValue + "'", "tblDG_Item_Master.Id='" + id + "'And tblDG_Item_Master.CompId='" + CompId + "'");
+                            SqlCommand cmd = new SqlCommand(updateStr, con);
+                            cmd.ExecuteNonQuery();                                                    
+                            Page.Response.Redirect(Page.Request.Url.ToString(), true);
+
+                        }
+                    }
+                }
+
+
+        }
+        catch (Exception ex)
+        {
+        }
+
+        finally
+        {
+            con.Close();
+
+        }
+
+    }
+
+    
+    protected void BtnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("ItemMaster_Edit.aspx?ModId=3&SubModId=21");
+    }
+
+
+
+    protected void imgUpload_Click(object sender, ImageClickEventArgs e)
+    {
+       try
+        {
+            string connStr2 = fun.Connection();
+            SqlConnection con2 = new SqlConnection(connStr2);
+            con2.Open();
+            string sql2 = fun.update("tblDG_Item_Master", "FileName=NULL,FileData=NULL,FileSize=NULL,ContentType=NULL", "Id='" + id + "' And CompId='" + CompId + "'");
+            SqlCommand cmd = new SqlCommand(sql2, con2);
+            cmd.ExecuteNonQuery();
+            con2.Close();
+            Page.Response.Redirect(Page.Request.Url.ToString(), true);
+        }
+        catch (Exception es)
+        {
+
+        }       
+    }
+
+    protected void imgUpload0_Click(object sender, ImageClickEventArgs e)
+    {
+        try
+        {
+            string connStr2 = fun.Connection();
+            SqlConnection con2 = new SqlConnection(connStr2);
+            con2.Open();
+            string sql2 = fun.update("tblDG_Item_Master", "AttName=NULL,AttData=NULL,AttSize=NULL,AttContentType=NULL", "Id='" + id + "' And CompId='" + CompId + "'");
+            SqlCommand cmd = new SqlCommand(sql2, con2);
+            cmd.ExecuteNonQuery();
+            con2.Close();            
+            Page.Response.Redirect(Page.Request.Url.ToString(), true);
+        }
+        catch (Exception es)
+        {
+
+        }       
+
+    }
+
+    protected void RadioButtonList4_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (RadioButtonList4.SelectedValue == "1")
+        {
+            fun.AcHead(DrpAChead, 1);
+        }
+        else if (RadioButtonList4.SelectedValue == "2")
+        {
+            fun.AcHead(DrpAChead, 2);
+        }
+        else if (RadioButtonList4.SelectedValue == "3")
+        {
+            fun.AcHead(DrpAChead, 3);
+        }
+
+         else if (RadioButtonList4.SelectedValue == "4")
+        {
+            fun.AcHead(DrpAChead, 4);
+        }
+    }
+   
+}

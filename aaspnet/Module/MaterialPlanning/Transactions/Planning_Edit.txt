@@ -1,0 +1,688 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialPlanning/Transactions/Planning_Edit.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Planning_Edit.aspx.cs" Inherits="Module_MaterialPlanning_Transactions_Planning_Edit" Title="ERP"  Theme ="Default" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+ <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+<table width="100%" align="center" cellpadding="0" cellspacing="0" Class="fontcss">
+        <tr>
+            <td>
+                <table width="100%" align="center" cellpadding="0" cellspacing="0">
+                    <tr >                   
+                        <td height="21px" style="background:url(../../../images/hdbg.JPG)"  class="fontcsswhite" >&nbsp;<strong>Material Planning- Edit</strong></td>
+                    </tr>   
+              </table>
+                
+                <table width="100%" align="center" cellpadding="0" cellspacing="0">
+                    <tr>
+        <td align="left" height="25" >
+        
+          
+            <asp:DropDownList ID="DrpField" runat="server" 
+                 AutoPostBack="True" 
+                CssClass="box3" onselectedindexchanged="DrpField_SelectedIndexChanged">
+                <asp:ListItem Value="0">Select</asp:ListItem>
+                <asp:ListItem Value="1">Supplier Name</asp:ListItem>
+               <asp:ListItem Value="2">PL No</asp:ListItem>
+             
+            </asp:DropDownList>
+         
+            <asp:TextBox ID="Txtsearch" runat="server" Width="150px" CssClass="box3"></asp:TextBox>
+           
+           
+        
+              <asp:TextBox ID="txtCustName" runat="server" Width="300px"></asp:TextBox>
+         
+            
+              <cc1:AutoCompleteExtender ID="txtCustName_AutoCompleteExtender" runat="server" 
+                                DelimiterCharacters="" Enabled="True" ServiceMethod="GetCompletionList" 
+                                ServicePath="" TargetControlID="txtCustName" UseContextKey="True"
+                                 CompletionInterval="100" CompletionSetCount="2" FirstRowSelected="True" MinimumPrefixLength="1" ShowOnlyCurrentWordInCompletionListItem="True" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                            </cc1:AutoCompleteExtender>
+           
+           
+        
+              &nbsp;<asp:Button ID="Button1" runat="server" CssClass="redbox" 
+                onclick="Button1_Click" Text="Search" />
+            
+        
+        
+              </td>
+        </tr>
+
+             <tr>
+            <td width="100%">                     
+  
+                     <asp:GridView ID="GridView1"  runat="server" 
+                    AllowPaging="True"  CssClass="yui-datatable-theme"
+                    AllowSorting="True" AutoGenerateColumns="False"
+                    DataKeyNames="PLNo" RowStyle-HorizontalAlign ="Center"
+     
+                     Width="100%" 
+                         onrowcommand="GridView1_RowCommand" 
+                         onpageindexchanging="GridView1_PageIndexChanging" 
+                         onrowdatabound="GridView1_RowDataBound" 
+                         onselectedindexchanged="GridView1_SelectedIndexChanged" PageSize="15" >
+           
+<RowStyle HorizontalAlign="Center"></RowStyle>
+           
+            <Columns>
+              <asp:TemplateField HeaderText="SN">
+                                    <ItemTemplate><%#Container.DataItemIndex+1  %></ItemTemplate>
+                                    <HeaderStyle Font-Size="10pt" />
+                                    <ItemStyle HorizontalAlign="Right" VerticalAlign="Top" />
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Id" SortExpression="Id" Visible="false">                           <ItemTemplate>
+              <asp:Label ID="lblId" runat="server" Text='<%#Eval("Id") %>'> </asp:Label>
+              </ItemTemplate>
+                                    </asp:TemplateField>
+                                       <asp:TemplateField >
+                         <ItemTemplate>
+                     <asp:LinkButton  runat="server"   CommandName="Sel" Text="Select" ID="btnSel"  />
+                        </ItemTemplate>
+                                         <ItemStyle HorizontalAlign="Center" Width="4%" />
+                        </asp:TemplateField>
+                        
+                          <asp:TemplateField >
+                         <ItemTemplate>
+                     <asp:LinkButton  runat="server" Visible="false"  CommandName="edt" OnClientClick="return confirmationUpdate();" Text="Edit" ID="btnEdit"  />  
+         <asp:LinkButton  runat="server"    Visible="false"  CommandName="save" Text="Save" ValidationGroup="abc"  ID="btnSave"  />
+         <asp:LinkButton  runat="server"    Visible="false"  CommandName="Cancel" Text="cancel" ID="btnCancel"  />
+                             <asp:Label ID="lblPR" runat="server" Text="PR" Visible="false"></asp:Label>
+                        </ItemTemplate>
+                                         <ItemStyle HorizontalAlign="Center" Width="6%" />
+                        </asp:TemplateField>
+                                              
+                                    
+                                    
+                                    
+                                    
+              <asp:TemplateField HeaderText="FinYear">
+                         <ItemTemplate>
+                        <asp:Label ID="lblFinYear" runat="server" Text='<%#Eval("FinYear") %>'></asp:Label>
+                        </ItemTemplate>
+                                         <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField HeaderText="PL No">
+                                    <ItemTemplate>
+                                    <asp:Label ID="lblPLNo" runat="server" Text='<%# Eval("PLNo") %>'></asp:Label>
+                                                </ItemTemplate>
+                                    <HeaderStyle HorizontalAlign="Center" />
+                                    <ItemStyle Width="10%" HorizontalAlign="Center" />
+                                    </asp:TemplateField>            
+                        
+                        
+                        <asp:TemplateField HeaderText="WO No">
+                                    <ItemTemplate>
+                                    <asp:Label ID="lblWONo" runat="server" Text='<%# Eval("WONo") %>'></asp:Label>
+                                                </ItemTemplate>
+                                    <HeaderStyle HorizontalAlign="Center" />
+                                    <ItemStyle Width="10%" HorizontalAlign="Center" />
+                                    </asp:TemplateField>            
+                        
+                        
+                        
+                       
+                       <asp:TemplateField HeaderText="SupplierName">
+                                    <ItemTemplate>
+                                    <asp:Label ID="lblsupl" runat="server" Text='<%# Eval("SupplierName") %>'></asp:Label>
+          <asp:TextBox ID="txtSupName" Visible="false"  Text='<%# Eval("SupplierName") %>'  runat="server" Width="75%"></asp:TextBox>
+          <asp:RequiredFieldValidator ID="ReqSupNm" ValidationGroup="abc" runat="server"  ControlToValidate="txtSupName" ErrorMessage="*"></asp:RequiredFieldValidator>
+            
+              <cc1:AutoCompleteExtender ID="txtSupName_AutoCompleteExtender" runat="server" 
+                                DelimiterCharacters="" Enabled="True" ServiceMethod="GetCompletionList" 
+                                ServicePath="" TargetControlID="txtSupName" UseContextKey="True"
+                                 CompletionInterval="100" CompletionSetCount="2" FirstRowSelected="True" MinimumPrefixLength="1" ShowOnlyCurrentWordInCompletionListItem="True" CompletionListItemCssClass="bg" CompletionListHighlightedItemCssClass="bgtext" CompletionListCssClass="almt">
+                            </cc1:AutoCompleteExtender>
+           
+                                                </ItemTemplate>
+                                    <HeaderStyle HorizontalAlign="Center" />
+                                    <ItemStyle Width="40%" HorizontalAlign="Left" />
+                                  
+                                    
+                                    </asp:TemplateField>              
+            <asp:TemplateField HeaderText="Comp Date"  >
+                                    <ItemTemplate>
+                                    <asp:Label ID="lblCompDate"   runat="server" Text='<%# Eval("CompDate") %>'></asp:Label>
+          <asp:TextBox  ID="TxtCompDate" Visible ="false" Text='<%# Eval("CompDate") %>' Width="90%"  runat="server" ></asp:TextBox>
+          <asp:RequiredFieldValidator ID="ReqCompDt" ValidationGroup="abc" runat="server"  ControlToValidate="TxtCompDate" ErrorMessage="*"></asp:RequiredFieldValidator>
+           <cc1:CalendarExtender ID="CalendarExtender1"  Format="dd-MM-yyyy" PopupPosition="BottomRight"  Animated="True"  TargetControlID="TxtCompDate" runat="server"></cc1:CalendarExtender>
+           
+           <asp:RegularExpressionValidator ID="RegularExpressionValidatorTxtCompDate1" runat="server" ControlToValidate="TxtCompDate" ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$"  ValidationGroup="abc"  ErrorMessage="*">
+                                      </asp:RegularExpressionValidator> 
+                                                </ItemTemplate>
+                                    <HeaderStyle HorizontalAlign="Center" />
+                                    <ItemStyle Width="10%" HorizontalAlign="Center" />
+                                    
+                                    </asp:TemplateField>              
+                 <asp:TemplateField HeaderText="PId" Visible="false">
+                                    <ItemTemplate>
+                                    <asp:Label ID="lblPid" runat="server" Text='<%# Eval("PId") %>'></asp:Label>
+                                                </ItemTemplate>
+                                    <HeaderStyle HorizontalAlign="Center" />
+                                    <ItemStyle  HorizontalAlign="Center" />
+                                    </asp:TemplateField>   
+                                     <asp:TemplateField HeaderText="CId" Visible="false">
+                                    <ItemTemplate>
+                                    <asp:Label ID="lblCid" runat="server" Text='<%# Eval("CId") %>'></asp:Label>
+                                                </ItemTemplate>
+                                    <HeaderStyle HorizontalAlign="Center" />
+                                    <ItemStyle  HorizontalAlign="Center" />
+                                    </asp:TemplateField> 
+                                    
+                                    <asp:TemplateField HeaderText="ItemId" Visible="false">
+                                    <ItemTemplate>
+                                    <asp:Label ID="lblItem" runat="server" Text='<%# Eval("ItemId") %>'></asp:Label>
+                                                </ItemTemplate>
+                                    <HeaderStyle HorizontalAlign="Center" />
+                                    <ItemStyle  HorizontalAlign="Center" />
+                                    </asp:TemplateField>         
+                                    
+            
+            
+            
+ 
+            </Columns> 
+            <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+           
+      </asp:GridView>
+                    </td>
+             </tr>
+              </table>
+            </td>
+        </tr>
+        
+        </table>
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialPlanning/Transactions/Planning_Edit.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_MaterialPlanning_Transactions_Planning_Edit : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    int CompId = 0;
+    int FinYearId = 0;
+    string No = "";
+    string Suid = "";
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            CompId = Convert.ToInt32(Session["compid"]);
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            if (!IsPostBack)
+            {
+                txtCustName.Visible = false;
+                this.fillgrid(No, Suid);
+               
+            }
+            this.validateText();
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+    }
+
+    public void fillgrid(string no, string SuId)
+    {
+        string str = fun.Connection();
+        SqlConnection con = new SqlConnection(str);
+        try
+        {
+
+            con.Open();
+
+            string x = "";
+            if (DrpField.SelectedValue == "2")
+            {
+                if (Txtsearch.Text != "")
+                {
+                    x = " AND PLNo='" + Txtsearch.Text + "'";
+                }
+            }
+            string y = "";
+            if (DrpField.SelectedValue == "1")
+            {
+                if (txtCustName.Text != "")
+                {
+                    string supplierCode = fun.getCode(txtCustName.Text);
+                    if (!string.IsNullOrEmpty(supplierCode))
+                    {
+                        y = " AND SupplierId='" + supplierCode + "'";
+                    }
+                    else
+                    {
+                        // If extraction failed, try to search by supplier name
+                        string supplierName = txtCustName.Text;
+                        if (supplierName.Contains("["))
+                        {
+                            supplierName = supplierName.Substring(0, supplierName.IndexOf("[")).Trim();
+                        }
+                        y = " AND tblMP_Material_Master.SupplierId IN (SELECT SupplierId FROM tblMM_Supplier_master WHERE SupplierName LIKE '%" + supplierName + "%' AND CompId='" + CompId + "')";
+                    }
+                }
+            }
+
+            string sql = fun.select("*", "tblMP_Material_Master", "CompId='" + CompId + "' and FinYearId<='" + FinYearId + "'" + x + y + "Order By Id Desc");
+            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet DS = new DataSet();
+            da.Fill(DS);
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+            dt.Columns.Add(new System.Data.DataColumn("FinYear", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("SupplierName", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("SupplierId", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("PLNo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("CompDate", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("PId", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("CId", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("ItemId", typeof(string)));
+
+
+            DataRow dr;
+            for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
+            {
+                dr = dt.NewRow();
+                if (DS.Tables[0].Rows.Count > 0)
+                {
+                    string sqlcust = fun.select("SupplierName,SupplierId", "tblMM_Supplier_master", "SupplierId='" + DS.Tables[0].Rows[i]["SupplierId"].ToString() + "' AND CompId='"+CompId+"'");
+                    SqlCommand cmdcust = new SqlCommand(sqlcust, con);
+                    SqlDataAdapter dacust = new SqlDataAdapter(cmdcust);
+                    DataSet DScust = new DataSet();
+                    dacust.Fill(DScust);
+                    if (DS.Tables[0].Rows[i]["SupplierId"] != DBNull.Value)
+                    {
+                        dr[3] = DS.Tables[0].Rows[i]["SupplierId"].ToString();
+                        if (DScust.Tables[0].Rows.Count>0)
+                        {
+                        dr[2] = DScust.Tables[0].Rows[0]["SupplierName"].ToString() + "[" + DScust.Tables[0].Rows[0]["SupplierId"].ToString() + "]";
+                        }
+
+                    }
+
+                    if (DS.Tables[0].Rows[i]["CompDate"] != DBNull.Value)
+                    {
+                        dr[6] = fun.FromDateDMY(DS.Tables[0].Rows[i]["CompDate"].ToString());
+                    }
+
+                    string sqlFin = fun.select("FinYear", "tblFinancial_master", "FinYearId='" + DS.Tables[0].Rows[i]["FinYearId"] + "'AND CompId='" + CompId + "'");
+                    SqlCommand cmdFinYr = new SqlCommand(sqlFin, con);
+                    SqlDataAdapter daFin = new SqlDataAdapter(cmdFinYr);
+                    DataSet DSFin = new DataSet();
+                    daFin.Fill(DSFin);
+                    
+                    dr[0] = DS.Tables[0].Rows[i]["Id"].ToString();
+
+                    if (DSFin.Tables[0].Rows.Count>0)
+                    {
+                    dr[1] = DSFin.Tables[0].Rows[0]["FinYear"].ToString();
+                    }
+                    dr[4] = DS.Tables[0].Rows[i]["PLNo"].ToString();
+                    dr[5] = DS.Tables[0].Rows[i]["WONo"].ToString();
+                    dr[7] = DS.Tables[0].Rows[i]["PId"].ToString();
+                    dr[8] = DS.Tables[0].Rows[i]["CId"].ToString();
+                    dr[9] = DS.Tables[0].Rows[i]["ItemId"].ToString();
+
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+
+                }
+            }
+
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
+            this.disableEdit();
+            // Code to disable delete button on grid 
+            //for (int j = 0; j < DS.Tables[0].Rows.Count; j++)
+            //{
+            //    if (DS.Tables[0].Rows[j]["SupplierId"] != DBNull.Value)
+            //    {
+            //        if (this.disableEdit() > 0)
+            //        {
+            //            ((LinkButton)GridView1.Rows[j].FindControl("btnEdit")).Visible = false;
+            //            ((Label)GridView1.Rows[j].FindControl("lblPR")).Visible = true;
+            //        }
+            //        else
+            //        {
+            //            ((LinkButton)GridView1.Rows[j].FindControl("btnEdit")).Visible = true;
+            //            ((Label)GridView1.Rows[j].FindControl("lblPR")).Visible = false;
+            //        }
+
+            //        ((LinkButton)GridView1.Rows[j].FindControl("btnSel")).Visible = false;
+            //    }
+            //    else
+            //    {                    
+            //        ((LinkButton)GridView1.Rows[j].FindControl("btnEdit")).Visible = false;
+            //        ((LinkButton)GridView1.Rows[j].FindControl("btnSel")).Visible = true;
+            //    }
+            //} 
+            
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+    }
+
+
+    public void disableEdit()
+    {
+
+        try
+        {
+            string str = fun.Connection();
+            SqlConnection con = new SqlConnection(str);
+           
+            foreach (GridViewRow grv in GridView1.Rows)
+            {
+                string Wono = ((Label)grv.FindControl("lblWONo")).Text;
+                string Item = ((Label)grv.FindControl("lblItem")).Text;
+                string Pid = ((Label)grv.FindControl("lblPid")).Text;
+                string Cid = ((Label)grv.FindControl("lblCid")).Text;
+                string Supplier = ((Label)grv.FindControl("lblsupl")).Text;
+
+                string StrSql2 = fun.select("tblMM_PR_Details.Id", "tblMM_PR_Master,tblMM_PR_Details", " tblMM_PR_Master.PRNo=tblMM_PR_Details.PRNo AND tblMM_PR_Master.Id=tblMM_PR_Details.MId AND tblMM_PR_Master.CompId='" + CompId + "' AND tblMM_PR_Details.PId='" + Pid + "'AND tblMM_PR_Details.ItemId='" + Item + "' AND tblMM_PR_Master.WONo='" + Wono + "' AND tblMM_PR_Details.CId='" + Cid + "'");
+
+                SqlCommand cmdsupId2 = new SqlCommand(StrSql2, con);
+                SqlDataAdapter dasupId2 = new SqlDataAdapter(cmdsupId2);
+                DataSet DSSql2 = new DataSet();
+                dasupId2.Fill(DSSql2);
+
+                if (Supplier != "")
+                {
+                    if (DSSql2.Tables[0].Rows.Count > 0)
+                    {
+                        ((LinkButton)grv.FindControl("btnEdit")).Visible = false;
+                        ((Label)grv.FindControl("lblPR")).Visible = true;
+                        ((LinkButton)grv.FindControl("btnSel")).Visible = false;
+                    }
+                    else
+                    {
+                        ((LinkButton)grv.FindControl("btnEdit")).Visible = true;
+                        ((Label)grv.FindControl("lblPR")).Visible = false;
+                        ((LinkButton)grv.FindControl("btnSel")).Visible = false;
+                    }
+                        
+                }
+                else
+                {
+                    ((LinkButton)grv.FindControl("btnEdit")).Visible = false;
+                    ((Label)grv.FindControl("lblPR")).Visible = false;
+                    ((LinkButton)grv.FindControl("btnSel")).Visible = true;
+                }                
+                
+            }
+        }
+        catch (Exception ep)
+        {
+        }
+       
+    }
+    protected void DrpField_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (DrpField.SelectedValue == "1")
+            {
+                Txtsearch.Visible = false;
+                txtCustName.Visible = true;
+                txtCustName.Text = "";
+                this.fillgrid(No, Suid);
+
+            }
+            else
+            {
+                Txtsearch.Visible = true;
+                Txtsearch.Text = "";
+                txtCustName.Visible = false;
+                this.fillgrid(No, Suid);
+
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+    }
+
+    public void validateText()
+    {
+
+        try
+        {
+            foreach (GridViewRow grv in GridView1.Rows)
+            {
+                if (((LinkButton)grv.FindControl("btnSave")).Visible == true)
+                {
+                    ((RequiredFieldValidator)grv.FindControl("ReqSupNm")).Visible = true;
+                    ((RequiredFieldValidator)grv.FindControl("ReqCompDt")).Visible = true;
+
+                }
+                else
+                {
+                    ((RequiredFieldValidator)grv.FindControl("ReqSupNm")).Visible = false;
+                    ((RequiredFieldValidator)grv.FindControl("ReqCompDt")).Visible = false;
+                }
+
+            }            
+        }
+
+        catch (Exception ex)
+        {
+        }
+
+    }
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            string custid = "";
+            if (DrpField.SelectedValue == "1" && !string.IsNullOrEmpty(txtCustName.Text))
+            {
+                custid = fun.getCode(txtCustName.Text);
+                if (string.IsNullOrEmpty(custid))
+                {
+                    // Just pass the text and let fillgrid handle it properly
+                    custid = txtCustName.Text;
+                }
+            }
+            this.fillgrid(Txtsearch.Text, custid);
+        }
+        catch (Exception ex)
+        {
+            // Consider adding some error handling here
+        }
+    }
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        try
+        {
+            
+            GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+            string pln = (((Label)row.FindControl("lblPLNo")).Text);
+            string Id = (((Label)row.FindControl("lblId")).Text);
+        
+            con.Open();            
+            if (e.CommandName == "Sel")
+            {
+                
+                Response.Redirect("Planning_Edit_Details.aspx?plno=" + pln + "&MId="+Id+"&ModId=4&SubModId=33");
+
+            }
+            if (e.CommandName == "edt")
+            {
+               
+                string Sqlmaster = fun.select("SupplierId", "tblMP_Material_Master", "PLNo='" + pln + "' And CompId='" + CompId + "' And Id='"+Id+"' ");
+                SqlCommand cmd = new SqlCommand(Sqlmaster,con);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataSet DS = new DataSet();
+                da.Fill(DS);
+                for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
+                {
+
+                    if (DS.Tables[0].Rows.Count > 0 && DS.Tables[0].Rows[i]["SupplierId"] != DBNull.Value)
+                    {
+                        ((TextBox)row.FindControl("txtSupName")).Visible = true;
+                        ((TextBox)row.FindControl("TxtCompDate")).Visible = true;
+                        ((Label)row.FindControl("lblCompDate")).Visible = false;
+                        ((Label)row.FindControl("lblsupl")).Visible = false;
+                        ((LinkButton)row.FindControl("btnSave")).Visible = true;
+                        ((LinkButton)row.FindControl("btnCancel")).Visible = true;
+                        ((LinkButton)row.FindControl("btnEdit")).Visible = false;
+                    }
+
+                    else
+                    {
+                        ((LinkButton)row.FindControl("btnSave")).Visible = false;
+                        ((LinkButton)row.FindControl("btnCancel")).Visible = false;
+                        ((LinkButton)row.FindControl("btnEdit")).Visible = true;
+                    }
+                }           
+            }
+
+            if (e.CommandName == "save")
+            {
+                string CurrDate = fun.getCurrDate();
+                string CurrTime = fun.getCurrTime();
+                string cdate =fun.FromDate((((TextBox)row.FindControl("TxtCompDate")).Text));
+                string supplier = fun.getCode((((TextBox)row.FindControl("txtSupName")).Text));
+                if (cdate != "" && supplier != "" && fun.DateValidation((((TextBox)row.FindControl("TxtCompDate")).Text)) == true)
+                {
+                string sql = fun.update("tblMP_Material_Master", "SupplierId='" + supplier + "',CompDate='" + cdate + "',SysDate='"+CurrDate+"',SysTime='"+CurrTime+"'", "PLNO='" + pln + "' AND Id='"+Id+"'");
+                SqlCommand cmd = new SqlCommand(sql,con);
+                cmd.ExecuteNonQuery();
+                Response.Redirect(Page.Request.Url.ToString(), true);
+                }
+
+            }
+
+            if (e.CommandName == "Cancel")
+            {
+              Response.Redirect(Page.Request.Url.ToString(), true);
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+    }
+   
+
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] GetCompletionList(string prefixText, int count, string contextKey)
+    {
+        clsFunctions fun = new clsFunctions();
+        string connStr = fun.Connection();
+        DataSet ds = new DataSet();
+        int CompId = Convert.ToInt32(HttpContext.Current.Session["compid"]);
+        SqlConnection con = new SqlConnection(connStr);
+        try
+        {
+            con.Open();
+            // Modified query to support partial matches within the supplier name
+            string cmdStr = fun.select("SupplierId,SupplierName", "tblMM_Supplier_master", "CompId='" + CompId + "' AND SupplierName LIKE '%" + prefixText + "%'");
+            SqlDataAdapter da = new SqlDataAdapter(cmdStr, con);
+            da.Fill(ds, "tblMM_Supplier_master");
+            
+            string[] main = new string[0];
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                main = new string[ds.Tables[0].Rows.Count];
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    main[i] = ds.Tables[0].Rows[i]["SupplierName"].ToString() + " [" + ds.Tables[0].Rows[i]["SupplierId"].ToString() + "]";
+                }
+                Array.Sort(main);
+            }
+            return main;
+        }
+        catch (Exception ex)
+        {
+            // Return empty array in case of exception
+            return new string[0];
+        }
+        finally
+        {
+            if (con.State == ConnectionState.Open)
+                con.Close();
+        }
+    }
+    protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridView1.PageIndex = e.NewPageIndex;
+        this.fillgrid(No, Suid);
+    }
+
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        this.validateText();
+    }
+    protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+}

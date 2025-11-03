@@ -1,0 +1,403 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Reports/OverallRating.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="OverallRating.aspx.cs" Inherits="Module_MaterialManagement_Reports_OverallRating" Title="ERP"   Theme="Default" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+    .style2
+    {
+        width: 100%;
+        float: left;
+    } 
+    
+</style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="left" cellpadding="0" cellspacing="0" class="style2">
+        <tr> 
+            <td height="20" align="left" valign="middle"  scope="col" class="fontcsswhite" 
+                style="background:url(../../../images/hdbg.JPG)">
+        &nbsp;<b>Overall Supplier Rating</b></td>
+        </tr>
+        <tr>
+            <td>
+   
+    
+    <CR:CrystalReportViewer ID="CrystalReportViewer1"  
+        ReportSourceID="VendorRating"  EnableDatabaseLogonPrompt="False" HasCrystalLogo="False"
+        ReuseParameterValuesOnRefresh="True" runat="server" 
+    AutoDataBind="True" DisplayGroupTree="False" />
+    <CR:CrystalReportSource ID="VendorRating"  runat="server">
+        <Report FileName="Module\MaterialManagement\Reports\OverallRating.rpt">
+        </Report>
+    </CR:CrystalReportSource> 
+    </td>
+    </tr>
+              
+        <tr>
+            <td align="center" height="25">
+            <asp:Button ID="Button1" runat="server" CssClass="redbox" Text="Cancel" onclick="Button1_Click"/>
+                            
+             </td>
+             </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MaterialManagement/Reports/OverallRating.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+
+public partial class Module_MaterialManagement_Reports_OverallRating : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    int CompId = 0;
+    int FinYearId = 0;
+    int Item = 0;
+    string SId = "";
+    string SupplId = "";
+    string Fd = "";
+    string Td = "";
+    string Category = "";
+    string x = "";
+    string Key = string.Empty;
+    ReportDocument cryRpt = new ReportDocument();
+    protected void Page_Init(object sender, EventArgs e)
+    {
+
+        CompId = Convert.ToInt32(Session["compid"]);
+        FinYearId = Convert.ToInt32(Session["finyear"]);
+        SId = Session["username"].ToString();
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        SupplId = Request.QueryString["SupCode"];
+        Fd = Request.QueryString["FD"];
+        Td = Request.QueryString["TD"];
+        Key = Request.QueryString["Key"].ToString();
+        if (!IsPostBack)
+        {
+            DataTable dt = new DataTable();
+            DataRow dr;
+            con.Open();
+           try
+            {
+                dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("ManfDesc", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("UOMBasic", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("RecedQty", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("NormalAccQty", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("DeviatedQty", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("SegregatedQty", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("RejectedQty", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("SupId", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));
+                dt.Columns.Add(new System.Data.DataColumn("Delrate", typeof(double)));//10
+                dt.Columns.Add(new System.Data.DataColumn("OverallRating", typeof(double)));//11
+                dt.Columns.Add(new System.Data.DataColumn("Rating", typeof(double)));//12
+                string ItemCode = "";
+                string ManfDesc = "";
+                string UOMBasic = "";
+                double SPRSup = 0;
+
+                string StrSup = fun.select(" Distinct(SupplierId)", "tblMM_PO_Master,tblMM_PO_Details", " tblMM_PO_Master.PONo=tblMM_PO_Details.PONo AND tblMM_PO_Master.CompId='" + CompId + "' AND tblMM_PO_Master.Id=tblMM_PO_Details.MId   order by SupplierId ASC   ");
+
+                SqlCommand cmdSup = new SqlCommand(StrSup, con);
+                SqlDataAdapter daSup = new SqlDataAdapter(cmdSup);
+                DataSet dsSup = new DataSet();
+                daSup.Fill(dsSup);
+
+                for (int m = 0; m < dsSup.Tables[0].Rows.Count; m++)
+                {
+                    dr = dt.NewRow();
+                    double Count = 0;
+                    double Count1 = 0;
+
+                    string StrSup3 = fun.select(" count(tblMM_SPR_Details.ItemId) As Counts", "tblMM_SPR_Details", " tblMM_SPR_Details.SupplierId='" + dsSup.Tables[0].Rows[m]["SupplierId"].ToString() + "'");
+
+                    SqlCommand cmdSup3 = new SqlCommand(StrSup3, con);
+                    SqlDataAdapter daSup3 = new SqlDataAdapter(cmdSup3);
+                    DataSet dsSup3 = new DataSet();
+                    daSup3.Fill(dsSup3);
+
+                    if (dsSup3.Tables[0].Rows.Count > 0)
+                    {
+
+                        Count = Convert.ToDouble(dsSup3.Tables[0].Rows[0]["Counts"]);
+
+                    }
+
+                    string StrSup4 = fun.select(" count(tblMM_PR_Details.ItemId) As Counts", "tblMM_PR_Details", " tblMM_PR_Details.SupplierId='" + dsSup.Tables[0].Rows[m]["SupplierId"].ToString() + "'");
+
+                    SqlCommand cmdSup4 = new SqlCommand(StrSup4, con);
+                    SqlDataAdapter daSup4 = new SqlDataAdapter(cmdSup4);
+                    DataSet dsSup4 = new DataSet();
+                    daSup4.Fill(dsSup4);
+
+                    if (dsSup4.Tables[0].Rows.Count > 0)
+                    {
+
+                        Count1 = Convert.ToDouble(dsSup4.Tables[0].Rows[0]["Counts"]);
+
+                    }
+
+
+                    string sqlflag = "Select tblMM_PO_Master.Id, tblMM_PO_Master.PRSPRFlag, tblMM_PO_Master.SupplierId, tblMM_PO_Details.PONo, tblMM_PO_Details.PRNo, tblMM_PO_Details.PRId,tblMM_PO_Details.SPRNo, tblMM_PO_Details.SPRId from tblMM_PO_Master INNER JOIN tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId And  tblMM_PO_Master.CompId='" + CompId + "'     And tblMM_PO_Master.SupplierId='" + dsSup.Tables[0].Rows[m]["SupplierId"].ToString() + "' And tblMM_PO_Details.DelDate  between '" + fun.FromDate(Fd) + "' And '" + fun.FromDate(Td) + "'  ";
+
+                    SqlCommand cmd = new SqlCommand(sqlflag, con);
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataSet DS = new DataSet();
+                    da.Fill(DS);
+
+                    if (DS.Tables[0].Rows.Count > 0)
+                    {
+
+                        if (DS.Tables[0].Rows[0]["PRSPRFlag"].ToString() == "1")
+                        {
+                            string sql = "  SELECT   tblMM_PO_Master.CompId,  tblMM_SPR_Details.ItemId, tblMM_PO_Details.DelDate, tblMM_PO_Details.Qty, tblQc_MaterialQuality_Details.DeviatedQty,tblQc_MaterialQuality_Details.SegregatedQty,tblQc_MaterialQuality_Details.RejectedQty,tblQc_MaterialQuality_Details.NormalAccQty,tblQc_MaterialQuality_Master.SysDate,tblMM_PO_Master.SupplierId FROM         tblinv_MaterialReceived_Details INNER JOIN tblinv_MaterialReceived_Master ON tblinv_MaterialReceived_Details.MId = tblinv_MaterialReceived_Master.Id INNER JOIN  tblInv_Inward_Master INNER JOIN   tblInv_Inward_Details ON tblInv_Inward_Master.Id = tblInv_Inward_Details.GINId INNER JOIN       tblMM_PO_Master INNER JOIN    tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId INNER JOIN   tblMM_SPR_Details INNER JOIN  tblMM_SPR_Master ON tblMM_SPR_Details.MId = tblMM_SPR_Master.Id ON tblMM_PO_Details.SPRId = tblMM_SPR_Details.Id INNER JOIN   tblMM_Supplier_master ON tblMM_SPR_Details.SupplierId = tblMM_Supplier_master.SupplierId AND      tblMM_PO_Master.SupplierId = tblMM_Supplier_master.SupplierId ON tblInv_Inward_Details.POId = tblMM_PO_Details.Id ON                       tblinv_MaterialReceived_Details.POId = tblInv_Inward_Details.POId AND tblinv_MaterialReceived_Master.GINId = tblInv_Inward_Master.Id INNER JOIN  tblQc_MaterialQuality_Master INNER JOIN tblQc_MaterialQuality_Details ON tblQc_MaterialQuality_Master.Id = tblQc_MaterialQuality_Details.MId ON  tblinv_MaterialReceived_Details.Id = tblQc_MaterialQuality_Details.GRRId  And tblMM_PO_Master.SupplierId='" + dsSup.Tables[0].Rows[m]["SupplierId"].ToString() + "'    ";
+
+                            SqlCommand cmd1 = new SqlCommand(sql, con);
+                            SqlDataAdapter daSup1 = new SqlDataAdapter(cmd1);
+                            DataSet dsSup1 = new DataSet();
+                            daSup1.Fill(dsSup1);
+                            double RecQty = 0;
+                            double AccQty = 0;
+                            double DevQty = 0;
+                            double SegQty = 0;
+                            double RejQty = 0;
+                            double DelRate = 0;
+                            double CalDateDiff = 0;
+                            DateTime PODelDate = new DateTime();
+                            DateTime GQNDelDate = new DateTime();
+                            TimeSpan TimeDel = new TimeSpan();
+                            DateTime ExtDate = new DateTime();
+                            int poid = 0;
+                            double rating = 0;
+                            double orating = 0;
+
+                            for (int i = 0; i < dsSup1.Tables[0].Rows.Count; i++)
+                            {
+
+
+                                RecQty = Convert.ToDouble(decimal.Parse(dsSup1.Tables[0].Rows[i]["Qty"].ToString()).ToString("N3"));
+                                AccQty = Convert.ToDouble(decimal.Parse(dsSup1.Tables[0].Rows[i]["NormalAccQty"].ToString()).ToString("N3"));
+                                DevQty = Convert.ToDouble(decimal.Parse(dsSup1.Tables[0].Rows[i]["DeviatedQty"].ToString()).ToString("N3"));
+                                SegQty = Convert.ToDouble(decimal.Parse(dsSup1.Tables[0].Rows[i]["SegregatedQty"].ToString()).ToString("N3"));
+                                RejQty = Convert.ToDouble(decimal.Parse(dsSup1.Tables[0].Rows[i]["RejectedQty"].ToString()).ToString("N3"));
+                                dr[4] = AccQty;
+                                dr[5] = DevQty;
+                                dr[6] = SegQty;
+                                rating += Convert.ToDouble(decimal.Parse(((((AccQty * 1) + (DevQty * 0.70) + (SegQty * 0.50)) * 100) / (RecQty)).ToString()).ToString("N3"));
+                                GQNDelDate = Convert.ToDateTime(dsSup1.Tables[0].Rows[i]["SysDate"].ToString());
+                                dr[7] = RejQty;
+
+                                PODelDate = Convert.ToDateTime(dsSup1.Tables[0].Rows[i]["DelDate"].ToString());
+                                TimeDel = (PODelDate - GQNDelDate);
+
+                                CalDateDiff = Convert.ToDouble(Math.Round((TimeDel.TotalDays * 1.1), 0));
+                                ExtDate = GQNDelDate.AddDays(CalDateDiff);
+                                if (ExtDate >= PODelDate)
+                                {
+                                    DelRate += 100;
+                                }
+                                else
+                                {
+                                    DelRate += 0;
+                                }
+                                dr[10] = (DelRate / Count);
+
+                                dr[0] = "122232";
+                                dr[1] = "klkkl";
+                                dr[2] = "55";
+                                dr[3] = 5;
+                                dr[9] = Convert.ToInt32(dsSup1.Tables[0].Rows[i]["CompId"]);
+
+                                orating = Convert.ToDouble(decimal.Parse(((rating * 0.6) + (DelRate * 0.4)).ToString()).ToString("N3"));
+                                dr[11] = Convert.ToDouble(decimal.Parse((orating / Count).ToString()).ToString("N3"));
+                                dr[12] = Math.Round(rating / Count);
+
+
+                            }
+                            dr[8] = dsSup.Tables[0].Rows[m]["SupplierId"].ToString();
+                            dt.Rows.Add(dr);
+                            dt.AcceptChanges();
+
+                        }
+
+
+
+                        else if (DS.Tables[0].Rows[0]["PRSPRFlag"].ToString() == "0")
+                        {
+                            string sql = "  SELECT   tblMM_PO_Master.CompId,  tblMM_PR_Details.ItemId, tblMM_PO_Details.DelDate, tblMM_PO_Details.Qty, tblQc_MaterialQuality_Details.DeviatedQty,tblQc_MaterialQuality_Details.SegregatedQty,tblQc_MaterialQuality_Details.RejectedQty,tblQc_MaterialQuality_Details.NormalAccQty,tblQc_MaterialQuality_Master.SysDate,tblMM_PO_Master.SupplierId FROM         tblinv_MaterialReceived_Details INNER JOIN tblinv_MaterialReceived_Master ON tblinv_MaterialReceived_Details.MId = tblinv_MaterialReceived_Master.Id INNER JOIN  tblInv_Inward_Master INNER JOIN   tblInv_Inward_Details ON tblInv_Inward_Master.Id = tblInv_Inward_Details.GINId INNER JOIN       tblMM_PO_Master INNER JOIN    tblMM_PO_Details ON tblMM_PO_Master.Id = tblMM_PO_Details.MId INNER JOIN   tblMM_PR_Details INNER JOIN  tblMM_PR_Master ON tblMM_PR_Details.MId = tblMM_PR_Master.Id ON tblMM_PO_Details.PRId = tblMM_PR_Details.Id INNER JOIN   tblMM_Supplier_master ON tblMM_PR_Details.SupplierId = tblMM_Supplier_master.SupplierId AND      tblMM_PO_Master.SupplierId = tblMM_Supplier_master.SupplierId ON tblInv_Inward_Details.POId = tblMM_PO_Details.Id ON                       tblinv_MaterialReceived_Details.POId = tblInv_Inward_Details.POId AND tblinv_MaterialReceived_Master.GINId = tblInv_Inward_Master.Id INNER JOIN  tblQc_MaterialQuality_Master INNER JOIN tblQc_MaterialQuality_Details ON tblQc_MaterialQuality_Master.Id = tblQc_MaterialQuality_Details.MId ON  tblinv_MaterialReceived_Details.Id = tblQc_MaterialQuality_Details.GRRId  And tblMM_PO_Master.SupplierId='" + dsSup.Tables[0].Rows[m]["SupplierId"].ToString() + "'     ";
+
+                            SqlCommand cmd1 = new SqlCommand(sql, con);
+                            SqlDataAdapter daSup1 = new SqlDataAdapter(cmd1);
+                            DataSet dsSup1 = new DataSet();
+                            daSup1.Fill(dsSup1);
+                            double RecQty = 0;
+                            double AccQty = 0;
+                            double DevQty = 0;
+                            double SegQty = 0;
+                            double RejQty = 0;
+                            double DelRate = 0;
+                            double CalDateDiff = 0;
+                            DateTime PODelDate = new DateTime();
+                            DateTime GQNDelDate = new DateTime();
+                            TimeSpan TimeDel = new TimeSpan();
+                            DateTime ExtDate = new DateTime();
+                            int poid = 0;
+                            double rating = 0;
+                            double orating = 0;
+
+                            for (int i = 0; i < dsSup1.Tables[0].Rows.Count; i++)
+                            {
+
+
+                                RecQty = Convert.ToDouble(decimal.Parse(dsSup1.Tables[0].Rows[i]["Qty"].ToString()).ToString("N3"));
+                                AccQty = Convert.ToDouble(decimal.Parse(dsSup1.Tables[0].Rows[i]["NormalAccQty"].ToString()).ToString("N3"));
+                                DevQty = Convert.ToDouble(decimal.Parse(dsSup1.Tables[0].Rows[i]["DeviatedQty"].ToString()).ToString("N3"));
+                                SegQty = Convert.ToDouble(decimal.Parse(dsSup1.Tables[0].Rows[i]["SegregatedQty"].ToString()).ToString("N3"));
+                                RejQty = Convert.ToDouble(decimal.Parse(dsSup1.Tables[0].Rows[i]["RejectedQty"].ToString()).ToString("N3"));
+                                dr[4] = AccQty;
+                                dr[5] = DevQty;
+                                dr[6] = SegQty;
+                                rating += Convert.ToDouble(decimal.Parse(((((AccQty * 1) + (DevQty * 0.70) + (SegQty * 0.50)) * 100) / (RecQty)).ToString()).ToString("N3"));
+                                GQNDelDate = Convert.ToDateTime(dsSup1.Tables[0].Rows[i]["SysDate"].ToString());
+                                dr[7] = RejQty;
+
+                                PODelDate = Convert.ToDateTime(dsSup1.Tables[0].Rows[i]["DelDate"].ToString());
+                                TimeDel = (PODelDate - GQNDelDate);
+
+                                CalDateDiff = Convert.ToDouble(Math.Round((TimeDel.TotalDays * 1.1), 0));
+                                ExtDate = GQNDelDate.AddDays(CalDateDiff);
+                                if (ExtDate >= PODelDate)
+                                {
+                                    DelRate += 100;
+                                }
+                                else
+                                {
+                                    DelRate += 0;
+                                }
+                                dr[10] = (DelRate / Count1);
+
+                                dr[0] = "122232";
+                                dr[1] = "klkkl";
+                                dr[2] = "55";
+                                dr[3] = 5;
+                                dr[9] = Convert.ToInt32(dsSup1.Tables[0].Rows[i]["CompId"]);
+
+
+
+
+
+
+                                orating = Convert.ToDouble(decimal.Parse(((rating * 0.6) + (DelRate * 0.4)).ToString()).ToString("N3"));
+                                dr[11] = Convert.ToDouble(decimal.Parse((orating / Count1).ToString()).ToString("N3"));
+                                //Response.Write(Convert.ToDouble(decimal.Parse((orating / Count).ToString()).ToString("N3")));
+                                dr[12] = Math.Round(rating / Count1);
+
+
+                            }
+                            dr[8] = dsSup.Tables[0].Rows[m]["SupplierId"].ToString();
+                            dt.Rows.Add(dr);
+                            dt.AcceptChanges();
+
+
+                        }
+
+
+                    }
+
+                }
+
+
+
+
+                DataSet dSXsd = new VendorRating();
+              
+                dSXsd.Tables[0].Merge(dt);
+                dSXsd.AcceptChanges();
+
+                cryRpt.Load(Server.MapPath("~/Module/MaterialManagement/Reports/OverallRating.rpt"));
+                cryRpt.SetDataSource(dSXsd);
+                // For Address
+                string Address = fun.CompAdd(CompId);
+                cryRpt.SetParameterValue("Address", Address);
+                cryRpt.SetParameterValue("ManfDesc", ManfDesc);
+                cryRpt.SetParameterValue("ItemCode", ItemCode);
+                cryRpt.SetParameterValue("UOM", UOMBasic);
+                CrystalReportViewer1.ReportSource = cryRpt;
+                Session[Key] = cryRpt;
+               
+
+            }
+            catch (Exception ex) { }
+           finally
+           {
+               con.Close();
+               con.Dispose();
+           }
+        }
+
+        else
+        {
+            Key = Request.QueryString["Key"].ToString();
+            ReportDocument doc = (ReportDocument)Session[Key];
+            CrystalReportViewer1.ReportSource = doc;
+           
+        }
+    }
+
+
+
+
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        cryRpt = new ReportDocument();
+    }
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("VendorRating.aspx");
+    }
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        cryRpt.Close();
+        cryRpt.Dispose();
+        GC.Collect();
+    }
+}

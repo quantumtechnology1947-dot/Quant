@@ -1,0 +1,464 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/ProjectManagement/Transactions/ManPowerPlanning_Print_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#"  AutoEventWireup="true" CodeFile="ManPowerPlanning_Print_Details.aspx.cs" Inherits="Module_ProjectManagement_Transactions_ManPowerPlanning_Print_Details" Title="ERP"  Theme="Default"  %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ Register Assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"
+    Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div style="width:auto;">  
+ 
+            
+ <table align="Left" cellpadding="0" cellspacing="0">
+                <tr >
+<td align="Left">
+    
+        <CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" HasCrystalLogo="False"
+        AutoDataBind="true" EnableDatabaseLogonPrompt="False" 
+        EnableParameterPrompt="False" ReportSourceID="CrystalReportSource1"  DisplayGroupTree="False"/>
+        <CR:CrystalReportSource ID="CrystalReportSource1" runat="server">
+            <Report FileName="Module\ProjectManagement\Transactions\Reports\ManPowerPlanning.rpt">
+            </Report>
+        </CR:CrystalReportSource>
+    
+</td>
+</tr>
+
+</table>            
+    </div>
+    </form>
+</body>
+
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/ProjectManagement/Transactions/ManPowerPlanning_Print_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+
+public partial class Module_ProjectManagement_Transactions_ManPowerPlanning_Print_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    SqlConnection con;
+    ReportDocument cryRpt = new ReportDocument();
+    
+    string sId = "";
+    int FinYearId = 0;
+    int CompId = 0;   
+    string connStr = "";
+    string Id = "";
+    string x = "";
+    string y = "";
+    string z = "";
+    string r = "";
+    string date = "";
+    string Key = string.Empty;
+    string w = string.Empty;
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        try
+        {
+            connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+
+            Key = Request.QueryString["Key"].ToString();
+            sId = Session["username"].ToString();
+            FinYearId = Convert.ToInt32(Session["finyear"]);
+            CompId = Convert.ToInt32(Session["compid"]);
+
+            x = Request.QueryString["x"].ToString();
+            y = Request.QueryString["y"].ToString();
+            w = Request.QueryString["w"].ToString();
+            z = Request.QueryString["z"].ToString();
+            r = Request.QueryString["r"].ToString();
+            date = Request.QueryString["Date"].ToString();
+
+            DataSet MPP = new DataSet();
+            DataTable dt = new DataTable();
+            DataTable dt2 = new DataTable();
+
+            if (!IsPostBack)
+            {
+                con.Open();
+                dt.Columns.Add(new System.Data.DataColumn("EmployeeName", typeof(string)));//0
+                dt.Columns.Add(new System.Data.DataColumn("EmpId", typeof(string)));//1
+                dt.Columns.Add(new System.Data.DataColumn("Designation", typeof(string)));//2
+                dt.Columns.Add(new System.Data.DataColumn("Date", typeof(string)));//3
+                dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));//4
+                dt.Columns.Add(new System.Data.DataColumn("Dept", typeof(string)));//5
+                dt.Columns.Add(new System.Data.DataColumn("Types", typeof(string)));//6
+                dt.Columns.Add(new System.Data.DataColumn("Id", typeof(Int32)));//7
+
+                dt2.Columns.Add(new System.Data.DataColumn("EquipNo", typeof(string)));//0
+                dt2.Columns.Add(new System.Data.DataColumn("Description", typeof(string)));//1
+                dt2.Columns.Add(new System.Data.DataColumn("Cate", typeof(string)));//2
+                dt2.Columns.Add(new System.Data.DataColumn("SubCate", typeof(string)));//3
+                dt2.Columns.Add(new System.Data.DataColumn("Planned", typeof(string)));//4
+                dt2.Columns.Add(new System.Data.DataColumn("Actual", typeof(string)));//5
+                dt2.Columns.Add(new System.Data.DataColumn("Hrs", typeof(double)));//6
+                dt2.Columns.Add(new System.Data.DataColumn("MId", typeof(Int32)));//7
+
+                DataRow dr;
+                DataRow dr2;
+
+                string sql = fun.select("*", "tblPM_ManPowerPlanning", " CompId='" + CompId + "'" + x + w + z + r + date + " Order by Date ASC");
+                SqlCommand cmd = new SqlCommand(sql, con);
+                SqlDataReader xrdr = cmd.ExecuteReader();
+
+                // Master Data
+
+                while (xrdr.Read())
+                {
+                    dr = dt.NewRow();
+
+                    string sql1 = "SELECT OfferId,Title+'. '+EmployeeName As EmpName, tblHR_Designation.Type FROM tblHR_OfficeStaff INNER JOIN tblHR_Designation ON tblHR_OfficeStaff.Designation = tblHR_Designation.Id AND tblHR_OfficeStaff.EmpId='" + xrdr["EmpId"].ToString() + "'" + y;
+                    SqlCommand cmd1 = new SqlCommand(sql1, con);
+                    SqlDataReader DS1 = cmd1.ExecuteReader();
+                    DS1.Read();
+
+                    dr[0] = DS1["EmpName"].ToString();
+                    dr[1] = xrdr["EmpId"].ToString();
+                    dr[2] = DS1["Type"].ToString();
+                    dr[3] = fun.FromDateDMY(xrdr["Date"].ToString());
+
+                    string wono = "";
+
+                    if (xrdr["WONo"] != DBNull.Value && xrdr["WONo"].ToString() != "")
+                    {
+                        wono = xrdr["WONo"].ToString();
+                    }
+                    else
+                    {
+                        wono = "NA";
+                    }
+
+                    dr[4] = wono;
+
+                    string sqlDept = fun.select("Symbol", "BusinessGroup", "Id='" + xrdr["Dept"] + "'");
+                    SqlCommand cmdDept = new SqlCommand(sqlDept, con);
+                    SqlDataReader DSDept = cmdDept.ExecuteReader();
+                    DSDept.Read();
+
+                    string dept = "";
+
+                    if (DSDept.HasRows == true)
+                    {
+                        dept = DSDept["Symbol"].ToString();
+                    }
+                    else
+                    {
+                        dept = "NA";
+                    }
+                    dr[5] = dept;
+
+                    switch (Convert.ToInt32(xrdr["Types"]))
+                    {
+                        case 1:
+                            dr[6] = "Present";
+                            break;
+                        case 2:
+                            dr[6] = "Absent";
+                            break;
+                        case 3:
+                            dr[6] = "Onsite";
+                            break;
+                        case 4:
+                            dr[6] = "PL";
+                            break;
+                    }
+
+                    dr[7] = Convert.ToInt32(xrdr["Id"]);
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+
+                    string sql2 = "SELECT  tblPM_ManPowerPlanning_Details.EquipId,tblPM_ManPowerPlanning_Details.PlannedDesc,tblPM_ManPowerPlanning_Details.ActualDesc,tblPM_ManPowerPlanning_Details.Hour,tblPM_ManPowerPlanning_Details.MId,tblMIS_BudgetHrs_Field_Category.Category, tblMIS_BudgetHrs_Field_SubCategory.SubCategory FROM  tblPM_ManPowerPlanning_Details INNER JOIN tblMIS_BudgetHrs_Field_Category ON tblPM_ManPowerPlanning_Details.Category = tblMIS_BudgetHrs_Field_Category.Id INNER JOIN tblMIS_BudgetHrs_Field_SubCategory ON tblPM_ManPowerPlanning_Details.SubCategory = tblMIS_BudgetHrs_Field_SubCategory.Id AND tblMIS_BudgetHrs_Field_Category.Id = tblMIS_BudgetHrs_Field_SubCategory.MId AND tblPM_ManPowerPlanning_Details.MId='" + xrdr["Id"] + "'";
+
+                    SqlCommand cmd2 = new SqlCommand(sql2, con);
+                    SqlDataReader xrdr2 = cmd2.ExecuteReader();
+
+                    while (xrdr2.Read())
+                    {
+                        dr2 = dt2.NewRow();
+
+                        string sql3 = fun.select("*", "tblDG_Item_Master", "Id='" + xrdr2["EquipId"] + "'");
+                        SqlCommand cmd3 = new SqlCommand(sql3, con);
+                        SqlDataReader xrdr3 = cmd3.ExecuteReader();
+                        xrdr3.Read();
+
+                        dr2[0] = xrdr3["ItemCode"].ToString();
+                        dr2[1] = xrdr3["ManfDesc"].ToString();
+                        dr2[2] = xrdr2["Category"].ToString();
+                        dr2[3] = xrdr2["SubCategory"].ToString();
+                        dr2[4] = xrdr2["PlannedDesc"].ToString();
+                        dr2[5] = xrdr2["ActualDesc"].ToString();
+                        dr2[6] = Convert.ToDouble(xrdr2["Hour"]);
+                        dr2[7] = Convert.ToInt32(xrdr2["MId"]);
+
+                        dt2.Rows.Add(dr2);
+                        dt2.AcceptChanges();
+                    }
+                }
+
+                // Details Data
+
+                MPP.Tables.Add(dt);
+                DataSet xsdds = new ManPlan();
+                xsdds.Tables[0].Merge(MPP.Tables[0]);
+                xsdds.Tables[1].Merge(dt2);
+                xsdds.AcceptChanges();
+
+                cryRpt = new ReportDocument();
+                cryRpt.Load(Server.MapPath("~/Module/ProjectManagement/Transactions/Reports/ManPowerPlanning.rpt"));
+                cryRpt.SetDataSource(xsdds);
+
+                // For Address
+                string Address = fun.CompAdd(CompId);
+                cryRpt.SetParameterValue("Address", Address);
+                CrystalReportViewer1.ReportSource = cryRpt;
+                Session[Key] = cryRpt;
+            }
+            else
+            {
+                Key = Request.QueryString["Key"].ToString();
+                ReportDocument doc = (ReportDocument)Session[Key];
+                CrystalReportViewer1.ReportSource = doc;
+            }
+
+        }
+        catch (Exception et)
+        {
+
+        }
+
+    }
+
+    //protected void Page_Init(object sender, EventArgs e)
+    //{
+    //    connStr = fun.Connection();
+    //    con = new SqlConnection(connStr);
+    //    DataSet MPP = new DataSet();
+    //    DataTable dt = new DataTable();
+
+    //    try
+    //    {
+    //        x = Request.QueryString["x"].ToString();
+    //        y = Request.QueryString["y"].ToString();
+    //        w = Request.QueryString["w"].ToString();
+    //        z = Request.QueryString["z"].ToString();
+    //        r = Request.QueryString["r"].ToString();
+    //        date = Request.QueryString["Date"].ToString();
+    //        Key = Request.QueryString["Key"].ToString();
+    //        sId = Session["username"].ToString();
+    //        FinYearId = Convert.ToInt32(Session["finyear"]);
+    //        CompId = Convert.ToInt32(Session["compid"]);
+
+
+    //        if (!IsPostBack)
+    //        {
+    //            con.Open();
+    //            dt.Columns.Add(new System.Data.DataColumn("EmployeeName", typeof(string)));
+    //            dt.Columns.Add(new System.Data.DataColumn("EmpId", typeof(string)));
+    //            dt.Columns.Add(new System.Data.DataColumn("Designation", typeof(string)));
+    //            dt.Columns.Add(new System.Data.DataColumn("Date", typeof(string)));
+    //            dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));
+    //            dt.Columns.Add(new System.Data.DataColumn("Dept", typeof(string)));
+    //            dt.Columns.Add(new System.Data.DataColumn("Types", typeof(string)));
+    //            dt.Columns.Add(new System.Data.DataColumn("Description", typeof(string)));
+    //            dt.Columns.Add(new System.Data.DataColumn("TotHours", typeof(double)));
+    //            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(int)));
+    //            dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));
+    //            dt.Columns.Add(new System.Data.DataColumn("Hours", typeof(double)));
+    //            dt.Columns.Add(new System.Data.DataColumn("Total", typeof(double)));
+    //            dt.Columns.Add(new System.Data.DataColumn("AmendmentNo", typeof(string)));
+    //            dt.Columns.Add(new System.Data.DataColumn("ActualDesc", typeof(string)));
+    //            DataRow dr;
+
+    //            string sql = fun.select("*", "tblPM_ManPowerPlanning", " CompId='" + CompId + "'" + x + w + z + r + date);
+    //            SqlCommand cmd = new SqlCommand(sql, con);
+    //            SqlDataReader xrdr = cmd.ExecuteReader();
+
+    //            while (xrdr.Read())
+    //            {
+    //                double empSalary = 0;
+    //                double totalHrs = 0;
+    //                double totalhrsrate = 0;
+    //                double DutyHrs = 0;
+    //                dr = dt.NewRow();
+    //                string sql1 = fun.select("Title,EmployeeName,Designation,OfferId", "tblHR_OfficeStaff", "  tblHR_OfficeStaff.EmpId='" + xrdr["EmpId"].ToString() + "'" + y);
+    //                SqlCommand cmd1 = new SqlCommand(sql1, con);
+    //                SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+    //                DataSet DS1 = new DataSet();
+    //                da1.Fill(DS1);
+
+    //                if (DS1.Tables[0].Rows.Count > 0)
+    //                {
+
+    //                    string sql22 = fun.select("tblHR_Offer_Master.Salary,tblHR_DutyHour.Hours", "tblHR_Offer_Master,tblHR_OfficeStaff,tblHR_DutyHour", "tblHR_Offer_Master.OfferId=tblHR_OfficeStaff.OfferId   And tblHR_Offer_Master.CompId='" + CompId + "'  And  tblHR_Offer_Master.OfferId='" + DS1.Tables[0].Rows[0]["OfferId"].ToString() + "' And tblHR_DutyHour.Id=tblHR_Offer_Master.DutyHrs ");
+    //                    SqlCommand cmd22 = new SqlCommand(sql22, con);
+    //                    SqlDataAdapter da22 = new SqlDataAdapter(cmd22);
+    //                    DataSet DS22 = new DataSet();
+    //                    da22.Fill(DS22);
+    //                    empSalary = Convert.ToDouble(DS22.Tables[0].Rows[0]["Salary"].ToString());
+    //                    DutyHrs = Convert.ToDouble(DS22.Tables[0].Rows[0]["Hours"].ToString());
+    //                    dr[0] = DS1.Tables[0].Rows[0]["Title"].ToString() + ". " + DS1.Tables[0].Rows[0]["EmployeeName"].ToString();
+    //                    dr[1] = xrdr["EmpId"].ToString();
+
+    //                    string sql2 = fun.select("tblHR_Designation.Symbol+ '-' + tblHR_Designation.Type AS Designation", "tblHR_Designation", " tblHR_Designation.Id='" + DS1.Tables[0].Rows[0]["Designation"].ToString() + "'");
+
+    //                    SqlCommand cmd2 = new SqlCommand(sql2, con);
+    //                    SqlDataAdapter da2 = new SqlDataAdapter(cmd2);
+    //                    DataSet DS2 = new DataSet();
+    //                    da2.Fill(DS2);
+    //                    dr[2] = DS2.Tables[0].Rows[0]["Designation"].ToString();
+    //                    dr[3] = fun.FromDateDMY(xrdr["Date"].ToString());
+    //                    string a = fun.FromDateDMY(xrdr["Date"].ToString());
+    //                    string[] b = a.Split('-');
+    //                    string m = b[1];
+    //                    string yr = b[2];
+    //                    int mnth = Convert.ToInt32(m);
+    //                    int year = Convert.ToInt32(yr);
+    //                    double totaldays = System.DateTime.DaysInMonth(year, mnth);
+    //                    string wono = "";
+    //                    if (xrdr["WONo"] != DBNull.Value && xrdr["WONo"].ToString() != "")
+    //                    {
+    //                        wono = xrdr["WONo"].ToString();
+    //                    }
+
+    //                    else
+    //                    {
+    //                        wono = "NA";
+    //                    }
+
+    //                    dr[4] = wono;
+    //                    string sqlDept = fun.select("Symbol", "BusinessGroup", "Id='" + xrdr["Dept"] + "'");
+    //                    SqlCommand cmdDept = new SqlCommand(sqlDept, con);
+    //                    SqlDataAdapter daDept = new SqlDataAdapter(cmdDept);
+    //                    DataSet DSDept = new DataSet();
+    //                    daDept.Fill(DSDept);
+    //                    string dept = "";
+    //                    if (DSDept.Tables[0].Rows.Count > 0)
+    //                    {
+    //                        dept = DSDept.Tables[0].Rows[0]["Symbol"].ToString();
+    //                    }
+
+    //                    else
+    //                    {
+    //                        dept = "NA";
+    //                    }
+    //                    dr[5] = dept;
+    //                    switch (Convert.ToInt32(xrdr["Types"]))
+    //                    {
+    //                        case 1:
+    //                            dr[6] = "Present";
+    //                            break;
+    //                        case 2:
+    //                            dr[6] = "Absent";
+    //                            break;
+    //                        case 3:
+    //                            dr[6] = "Onsite";
+    //                            break;
+    //                        case 4:
+    //                            dr[6] = "PL";
+    //                            break;
+    //                    }
+
+    //                    dr[7] = xrdr["Description"].ToString();
+    //                    if (xrdr["Hours"] != DBNull.Value)
+    //                    {
+    //                        dr[8] = Math.Round(Convert.ToDouble(xrdr["Hours"]), 2);
+    //                        totalHrs = Convert.ToDouble(xrdr["Hours"]);
+    //                    }
+    //                    else
+    //                    {
+    //                        dr[8] = 0;
+    //                    }
+    //                    totalhrsrate = empSalary / (totaldays * DutyHrs);
+    //                    dr[9] = xrdr["Id"].ToString();
+    //                    dr[10] = xrdr["CompId"].ToString();
+    //                    dr[11] = totalhrsrate;
+    //                    dr[12] = totalhrsrate * totalHrs;
+    //                    if (xrdr["AmendmentNo"].ToString() != "0")
+    //                    {
+    //                        dr[13] = xrdr["AmendmentNo"].ToString();
+    //                    }
+    //                    else
+    //                    {
+    //                        dr[13] = " 0 ";
+    //                    }
+
+    //                    dr[14] = xrdr["ActualDesc"].ToString();
+    //                    dt.Rows.Add(dr);
+    //                    dt.AcceptChanges();
+
+    //                }
+    //            }
+    //            MPP.Tables.Add(dt);
+    //            DataSet xsdds = new ManPlan();
+    //            xsdds.Tables[0].Merge(MPP.Tables[0]);
+    //            xsdds.AcceptChanges();
+    //            cryRpt = new ReportDocument();
+    //            cryRpt.Load(Server.MapPath("~/Module/ProjectManagement/Transactions/Reports/ManPowerPlanning.rpt"));
+    //            cryRpt.SetDataSource(xsdds);
+    //            // For Address
+    //            string Address = fun.CompAdd(CompId);
+    //            cryRpt.SetParameterValue("Address", Address);
+    //            CrystalReportViewer1.ReportSource = cryRpt;
+    //            Session[Key] = cryRpt;
+    //        }
+
+    //        else
+    //        {
+    //            Key = Request.QueryString["Key"].ToString();
+    //            ReportDocument doc = (ReportDocument)Session[Key];
+    //            CrystalReportViewer1.ReportSource = doc;
+    //        }
+    //    }
+    //    catch (Exception ex) { }
+
+    //    finally
+    //    {
+    //        MPP.Clear();
+    //        MPP.Dispose();
+    //        dt.Clear();
+    //        dt.Dispose();
+    //        con.Close();
+    //        con.Dispose();
+
+    //    }
+    //}
+    
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        cryRpt = new ReportDocument();
+    }
+    
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        cryRpt.Close();
+        cryRpt.Dispose();
+        GC.Collect();
+    }
+        
+}

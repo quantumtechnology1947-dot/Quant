@@ -1,0 +1,408 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/ProjectManagement/Transactions/OnSiteAttendance_New.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="OnSiteAttendance_New.aspx.cs" Inherits="Module_ProjectManagement_Transactions_OnSiteAttendance_New" Theme="Default" Title="ERP" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<%@ Register assembly="TimePicker" namespace="MKB.TimePicker" tagprefix="MKB" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+<link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+<link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+<script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+<script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style3
+        {
+            width: 100%;
+        }
+        .style4
+        {
+            height: 25px;
+        }
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table cellpadding="0" cellspacing="0" class="style3">
+        
+        <tr>
+            <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="25" class="fontcsswhite"><b>&nbsp;Attendance Onsite Details for  Date:<asp:Label ID="Label3" runat="server"
+                    Text="Label"></asp:Label>  </b></td>
+        </tr>
+        <tr>
+            <td>
+                &nbsp;</td>
+        </tr>
+        <tr>
+            <td class="style4">
+                <asp:Panel ID="Panel1" runat="server">
+                    <table class="style3">
+                        <tr>
+                            <td width="18% ">
+                                </td>
+                            <td align="right" width="10%">
+                                &nbsp;<b>Select Date :&nbsp;</b></td>
+                            <td width="15%">
+                                <asp:TextBox ID="textChequeDate" runat="server" CssClass="box3" Width="80px"></asp:TextBox>
+                                <cc1:CalendarExtender ID="textDelDate_CalendarExtender" runat="server" 
+CssClass="cal_Theme2" PopupPosition="BottomRight"
+                                    Enabled="True" Format="dd-MM-yyyy" TargetControlID="textChequeDate">
+                                </cc1:CalendarExtender>
+                                <asp:RequiredFieldValidator ID="ReqDelDate" runat="server" 
+                                    ControlToValidate="textChequeDate" ErrorMessage="*" ValidationGroup="B"></asp:RequiredFieldValidator>
+                                <asp:RegularExpressionValidator ID="RegDelverylDate" runat="server" 
+                                    ControlToValidate="textChequeDate" ErrorMessage="*" 
+                                    ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                                    ValidationGroup="B"></asp:RegularExpressionValidator>
+                            </td>
+                            <td align="right" width="15%">
+                                <b>Select BG Group :</b></td>
+                            <td width="10%">
+                                <asp:DropDownList ID="drpGroupF" runat="server" DataSourceID="SqlDataBG" 
+                                    DataTextField="Symbol" DataValueField="Id">
+                                </asp:DropDownList>
+                            </td>
+                            <td width="10%">
+                                <asp:Button ID="btnProceed" runat="server" CssClass="redbox" Text="Search" 
+                                    ValidationGroup="B" onclick="btnProceed_Click" />
+                            </td>
+                            <td>
+                                &nbsp;</td>
+                        </tr>
+                    </table>
+                </asp:Panel>
+            </td>
+        </tr>
+        <tr>
+            <td height="10px">
+                &nbsp;</td>
+        </tr>
+        
+        <tr>
+            <td >
+                <asp:Panel ID="Panel5" runat="server" Height="380px" ScrollBars="Auto">
+                    <asp:GridView ID="GridView4" runat="server" AutoGenerateColumns="False" 
+                        CssClass="yui-datatable-theme" DataKeyNames="UserID" 
+                        onrowcommand="GridView4_RowCommand" ShowFooter="false" Width="100%">
+                        <Columns>
+                            <asp:TemplateField HeaderText="SN" SortExpression="Id">
+                                <ItemTemplate>
+                                    <%#Container.DataItemIndex+1  %>
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Right" Width="2%" />
+                            </asp:TemplateField>
+                            <asp:TemplateField>
+                                <ItemTemplate>
+                                    <asp:CheckBox ID="ck"  runat="server" />
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Center" Width="1%" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Id" Visible="False">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblId" runat="server" Text='<%#Eval("UserID") %>'> </asp:Label>
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Left" Width="3%" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Name Of Employee">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblEmp" runat="server" Text='<%#Eval("EmpName") %>'>
+                                    </asp:Label>
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Left" Width="12%" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="BG Group">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblBG" runat="server" Text='<%#Eval("BG") %>'> </asp:Label>
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Center" Width="3%" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Shift">
+                                <ItemTemplate>
+                                    <%--<asp:Label ID="lblShift" runat="server" Text='<%#Bind("Shift") %>'>
+                                    </asp:Label>--%>
+                                    <asp:RadioButtonList 
+                                ID="RadioButtonShift" runat="server" AutoPostBack="false" RepeatDirection="Horizontal">
+                                <asp:ListItem Value="0" Selected="True"> Day </asp:ListItem><asp:ListItem Value="1"> 
+                                Night </asp:ListItem></asp:RadioButtonList>
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Center" Width="6%" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Status">
+                                <ItemTemplate>
+                                    <asp:RadioButtonList 
+                                ID="RadioButtonStatus" runat="server" AutoPostBack="false" RepeatDirection="Horizontal">
+                                <asp:ListItem Value="0" Selected="True"> Present </asp:ListItem><asp:ListItem Value="1"> 
+                                Absent </asp:ListItem></asp:RadioButtonList>
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Left" Width="6%" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="If On Site">
+                                <ItemTemplate>
+                                    <asp:TextBox ID="txtOnsite" TextMode="MultiLine"  runat="server" CssClass="box3" Height="40px" Width="97%">
+                                    </asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="ReqtxtOnsite" ValidationGroup="A" runat="server" 
+                                        ControlToValidate="txtOnsite" ErrorMessage="*" >
+                                    </asp:RequiredFieldValidator>
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Left" Width="10%" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Shift Hrs">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblHours" runat="server" Text='<%#Eval("Hours") %>'>
+                                    </asp:Label>
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Center" Width="3%" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="From Time">
+                                <ItemTemplate>
+                                   <MKB:TimeSelector ID="FTime" runat="server" AmPm="AM" Width="100%" MinuteIncrement="1"></MKB:TimeSelector>
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="center" Width="7%" />
+                            </asp:TemplateField>
+                        </Columns>
+                        <EmptyDataTemplate>
+                            <table class="fontcss" width="100%">
+                                <tr>
+                                    <td align="center">
+                                        <asp:Label ID="Label1" runat="server" Font-Size="Larger" ForeColor="maroon" 
+                                            Text="No data to display !"> </asp:Label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </EmptyDataTemplate>
+                    </asp:GridView>
+                    <br />
+                </asp:Panel>
+            </td>
+        </tr>
+        
+        <tr>
+            <td align="center" height="25px" valign="bottom">
+                <asp:Button ID="btnAdd" runat="server" CssClass="redbox" onclick="btnAdd_Click" 
+                    onclientclick="return confirmationAdd()" Text="Proceed" ValidationGroup="A" />
+            </td>
+        </tr>
+        
+        <tr>
+            <td>
+                <asp:SqlDataSource ID="SqlDataBG" runat="server" 
+                    ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+                    ProviderName="System.Data.SqlClient" 
+                    SelectCommand="SELECT * FROM [BusinessGroup]"></asp:SqlDataSource>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/ProjectManagement/Transactions/OnSiteAttendance_New.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using MKB.TimePicker;
+
+public partial class Module_ProjectManagement_Transactions_OnSiteAttendance_New : System.Web.UI.Page
+{
+
+    string connStr = "";
+    SqlConnection con ;
+    clsFunctions fun = new clsFunctions();
+    int CompId = 0;
+    int FinYearId = 0;
+    string sId = "";
+    string CDate = "";
+    string CTime = "";    
+    protected void Page_Load(object sender, EventArgs e)
+    {
+         try
+        { 
+         connStr = fun.Connection();
+         con = new SqlConnection(connStr);
+         Label3.Text = textChequeDate.Text;
+         CompId = Convert.ToInt32(Session["compid"]);
+         FinYearId = Convert.ToInt32(Session["finyear"]);
+         sId = Session["username"].ToString();
+         CDate = fun.getCurrDate();
+         CTime = fun.getCurrTime();
+
+         textChequeDate.Attributes.Add("readonly", "readonly");
+
+        if(!IsPostBack)
+        {
+            this.FillGrid(0);
+        }
+        }
+
+         catch (Exception ex)
+        { }
+    }
+
+    public void FillGrid(int value)
+    {
+        try
+        {   
+            SqlDataAdapter da = new SqlDataAdapter("GetBGEmp", con);
+            da.SelectCommand.CommandType = CommandType.StoredProcedure;
+            da.SelectCommand.Parameters.Add(new SqlParameter("@BG", SqlDbType.VarChar));
+            da.SelectCommand.Parameters.Add(new SqlParameter("@CompId", SqlDbType.VarChar));
+            da.SelectCommand.Parameters.Add(new SqlParameter("@OnSiteDate", SqlDbType.VarChar));
+            da.SelectCommand.Parameters["@BG"].Value = value;
+            da.SelectCommand.Parameters["@CompId"].Value = CompId;
+            da.SelectCommand.Parameters["@OnSiteDate"].Value = fun.FromDate(textChequeDate.Text).ToString();           
+            DataSet DSitem = new DataSet();
+            da.Fill(DSitem);
+            GridView4.DataSource = DSitem;
+            GridView4.DataBind();
+            this.GetValidate();
+        }
+        catch (Exception ex)
+        {
+    
+        }
+    }
+
+    public void GetValidate()
+    {
+       try
+        {
+            foreach (GridViewRow grv in GridView4.Rows)
+            {
+                if (((CheckBox)grv.FindControl("ck")).Checked == true)
+                {
+                    ((RequiredFieldValidator)grv.FindControl("ReqtxtOnsite")).Visible = true;                    
+                }
+                else
+                {
+                    ((RequiredFieldValidator)grv.FindControl("ReqtxtOnsite")).Visible = false;                    
+                }               
+            }
+        }
+       catch (Exception ex) { }
+    }
+
+    protected void GridView4_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+
+    }
+
+    protected void btnProceed_Click(object sender, EventArgs e)
+    {
+        this.FillGrid(Convert.ToInt32(drpGroupF.SelectedValue));
+    }
+
+    protected void btnAdd_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            //Check the date for 24 hrs or 48 hrs in case of holiday.
+
+            DateTime SysDt = Convert.ToDateTime(String.Format("{0:MM-dd-yyyy}", DateTime.Now));
+            DateTime EnteredDt = Convert.ToDateTime(String.Format("{0:MM-dd-yyyy}", fun.FromDateMDY(textChequeDate.Text)));
+
+//-------------------------------------------------------------------------------
+
+            if (EnteredDt >= SysDt)
+            {              
+                int y = 0;
+                int x = 0;
+                int k = 0;
+
+                foreach (GridViewRow grv in GridView4.Rows)
+                {
+                    if (((CheckBox)grv.FindControl("ck")).Checked == true)
+                    {
+                        x++;
+                        if (((CheckBox)grv.FindControl("ck")).Checked == true && ((TextBox)grv.FindControl("txtOnsite")).Text != "" && textChequeDate.Text != "" && fun.DateValidation(textChequeDate.Text) == true)
+                        {
+                            y++;
+                        }
+                    }
+                }
+
+                if (x == y && y > 0)
+                {
+                    foreach (GridViewRow grv in GridView4.Rows)
+                    {
+                        if (((CheckBox)grv.FindControl("ck")).Checked == true && ((TextBox)grv.FindControl("txtOnsite")).Text != "")
+                        {
+                            string EmpCode = fun.getCode(((Label)grv.FindControl("lblEmp")).Text);
+                            int EmpSupId = fun.chkEmpCustSupplierCode(EmpCode, 1, CompId);
+                            int rad = Convert.ToInt32(((RadioButtonList)grv.FindControl("RadioButtonShift")).SelectedValue);
+                            int Status = Convert.ToInt32(((RadioButtonList)grv.FindControl("RadioButtonStatus")).SelectedValue);
+                            string onSite = ((TextBox)grv.FindControl("txtOnsite")).Text;
+                            string FromTime = ((TimeSelector)grv.FindControl("FTime")).Hour.ToString("D2") + ":" + ((TimeSelector)grv.FindControl("FTime")).Minute.ToString("D2") + ":" + ((TimeSelector)grv.FindControl("FTime")).Second.ToString("D2") + " " + ((TimeSelector)grv.FindControl("FTime")).AmPm.ToString();
+
+                            string OnSiteDate = fun.FromDate(textChequeDate.Text);
+                            string CheckExist = "Select * from tblOnSiteAttendance_Master where CompId='" + CompId + "' And OnSiteDate='" + OnSiteDate + "' And EmpId='" + EmpCode + "'";
+
+                            SqlCommand cmdCheck = new SqlCommand(CheckExist, con);
+                            SqlDataAdapter daCheck = new SqlDataAdapter(cmdCheck);
+                            DataSet DSCheck = new DataSet();
+                            daCheck.Fill(DSCheck);
+
+                            if (DSCheck.Tables[0].Rows.Count == 0)
+                            {
+                                SqlCommand exeme2 = new SqlCommand(fun.insert("tblOnSiteAttendance_Master", "CompId,SessionId,SysDate,SysTime,OnSiteDate,EmpId,Shift,Status,Onsite,FromTime,FinYearId", "'" + CompId + "','" + sId + "','" + CDate + "','" + CTime + "','" + OnSiteDate + "','" + EmpCode + "','" + rad + "','" + Status + "','" + onSite + "','" + FromTime + "','" + FinYearId + "'"), con);
+
+                                con.Open();
+                                exeme2.ExecuteNonQuery();
+                                con.Close();
+
+                                k++;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    string myStringVariable = string.Empty;
+                    myStringVariable = "Invalid input data.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable + "');", true);
+                }
+                if (k > 0)
+                {
+                    this.FillGrid(Convert.ToInt32(drpGroupF.SelectedValue));
+                }
+                else
+                {
+                    this.FillGrid(Convert.ToInt32(drpGroupF.SelectedValue));
+                    this.GetValidate();
+                }
+            }
+            else
+            {
+                string myStringVariable = string.Empty;
+                myStringVariable = "Invalid date!";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + myStringVariable + "');", true);
+            }
+            //---------------------------------------------------------------------------------
+        }
+        catch (Exception ex) { }
+        finally
+        { 
+
+        }       
+    }
+}

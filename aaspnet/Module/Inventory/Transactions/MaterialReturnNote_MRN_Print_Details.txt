@@ -1,0 +1,250 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Transactions/MaterialReturnNote_MRN_Print_Details.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="MaterialReturnNote_MRN_Print_Details.aspx.cs" Inherits="Module_Inventory_Transactions_MaterialReturnNote_MRN_Print_Details" Title="ERP" Theme="Default" %>
+
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+     <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style2
+        {
+            height: 25px;
+        }
+        .style3
+        {
+            height: 28px;
+        }
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+
+ <table class="style2" width="100%" cellpadding="0" cellspacing="0">
+         <tr>
+                <td align="left" valign="middle" style="background:url(../../../images/hdbg.JPG)" height="21" class="fontcsswhite"><b>&nbsp;Material Return Note [MRN] - Print</b></td>
+           </tr>
+        <tr>
+            <td align="center" >
+                <asp:Panel ID="Panel1" runat="server" Width="100%" Height="445" ScrollBars="Auto">
+                
+                <CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" 
+                    AutoDataBind="true" EnableDatabaseLogonPrompt="False"  HasCrystalLogo="False"
+                    EnableParameterPrompt="False" ReportSourceID="CrystalReportSource1" 
+                    DisplayGroupTree="False" />
+                <CR:CrystalReportSource ID="CrystalReportSource1" runat="server">
+                    <Report FileName="Module\Inventory\Transactions\Reports\MRN_Print.rpt">
+                    </Report>
+                </CR:CrystalReportSource>
+                
+                </asp:Panel>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" class="style3">
+                    <asp:Button ID="btnCancel" runat="server" Text="Cancel" 
+                         CssClass="redbox" onclick="btnCancel_Click" />
+                </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Inventory/Transactions/MaterialReturnNote_MRN_Print_Details.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+
+public partial class Module_Inventory_Transactions_MaterialReturnNote_MRN_Print_Details : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    DataSet DS = new DataSet();
+    string MRNNo = "";
+    string FyId = "";
+    int CompId = 0;
+    string MId = "";
+    ReportDocument cryRpt = new ReportDocument();
+    string Key = string.Empty;
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        Key = Request.QueryString["Key"].ToString();
+        if (!IsPostBack)
+        {
+
+            string connStr = fun.Connection();
+            SqlConnection con = new SqlConnection(connStr);
+            con.Open();
+            DataTable dt = new DataTable();
+            DataSet Mrn = new DataSet(); 
+            try
+            {
+                MId = Request.QueryString["Id"].ToString();
+                MRNNo = Request.QueryString["MRNNo"].ToString();
+                CompId = Convert.ToInt32(Session["compid"]);
+                FyId = Request.QueryString["FyId"].ToString();
+                SqlCommand Cmdgrid = new SqlCommand(fun.select("tblInv_MaterialReturn_Details.Id,tblInv_MaterialReturn_Details.MRNNo,tblInv_MaterialReturn_Details.ItemId,tblInv_MaterialReturn_Details.DeptId,tblInv_MaterialReturn_Details.WONo,tblInv_MaterialReturn_Details.RetQty,tblInv_MaterialReturn_Details.Remarks", "tblInv_MaterialReturn_Details,tblInv_MaterialReturn_Master", "tblInv_MaterialReturn_Master.Id='" + MId + "' AND tblInv_MaterialReturn_Master.MRNNo=tblInv_MaterialReturn_Details.MRNNo AND tblInv_MaterialReturn_Master.Id=tblInv_MaterialReturn_Details.MId AND tblInv_MaterialReturn_Master.CompId='" + CompId + "'"), con); 
+                SqlDataReader rdr = Cmdgrid.ExecuteReader();                
+                dt.Columns.Add(new System.Data.DataColumn("Id", typeof(Int32)));
+                dt.Columns.Add(new System.Data.DataColumn("MRNNo", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("ItemCode", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("PurchDesc", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("UOM", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("Symbol", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("WONo", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("RetQty", typeof(double)));
+                dt.Columns.Add(new System.Data.DataColumn("Remarks", typeof(string)));
+                dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));
+                DataRow dr;
+                              
+                while(rdr.Read())
+                {
+                    dr = dt.NewRow();
+                    dr[0] = Convert.ToInt32(rdr["Id"]);
+                    dr[1] = (rdr["MRNNo"].ToString());
+                    SqlCommand cmditem = new SqlCommand(fun.select("Id,ItemCode,ManfDesc,UOMBasic", "tblDG_Item_Master", "Id='" + Convert.ToInt32(rdr["ItemId"]) + "' AND CompId='" + CompId + "'"), con);
+                    DataSet dsitem = new DataSet();
+                    SqlDataAdapter daitem = new SqlDataAdapter(cmditem);
+                    daitem.Fill(dsitem);
+                    if (dsitem.Tables[0].Rows.Count > 0)
+                    {
+                        SqlCommand cmdunit = new SqlCommand(fun.select("Symbol As UOM", "Unit_Master", "Id='" + Convert.ToInt32(dsitem.Tables[0].Rows[0]["UOMBasic"]) + "'"), con);
+                        DataSet dsunit = new DataSet();
+                        SqlDataAdapter daunit = new SqlDataAdapter(cmdunit);
+                        daunit.Fill(dsunit);
+
+                        dr[2] = fun.GetItemCode_PartNo(CompId, Convert.ToInt32(rdr["ItemId"].ToString()));
+                        dr[3] = dsitem.Tables[0].Rows[0]["ManfDesc"].ToString();
+                        if (dsunit.Tables[0].Rows.Count > 0)
+                        {
+                            dr[4] = dsunit.Tables[0].Rows[0]["UOM"].ToString();
+                        }
+                    }
+                    if (rdr["DeptId"].ToString() == "1")
+                    {
+                        dr[5] = "NA";
+                        dr[6] = rdr["WONo"].ToString();
+                    }
+                    else
+                    {
+                        string dept = fun.select("Symbol", "BusinessGroup", "Id='" + Convert.ToInt32(rdr["DeptId"]) + "'");
+                        SqlCommand cmddpt = new SqlCommand(dept, con);
+                        DataSet ds = new DataSet();
+                        SqlDataAdapter dadpt = new SqlDataAdapter(cmddpt);
+                        dadpt.Fill(ds);
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            dr[5] = ds.Tables[0].Rows[0]["Symbol"].ToString();
+                            dr[6] = "NA";
+                        }
+                    }
+                    dr[7] = Convert.ToDouble(decimal.Parse((rdr["RetQty"]).ToString()).ToString("N3"));
+                    dr[8] = rdr["Remarks"].ToString();
+                    dr[9] = CompId;
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+
+                Mrn.Tables.Add(dt);
+                DataSet xsdds = new MRS();
+                xsdds.Tables[0].Merge(Mrn.Tables[0]);
+                xsdds.AcceptChanges();
+                cryRpt = new ReportDocument();
+                cryRpt.Load(Server.MapPath("~/Module/Inventory/Transactions/Reports/MRN_Print.rpt"));
+                cryRpt.SetDataSource(xsdds);
+
+                // For MRS Date
+                string sqlMRNDate = fun.select("SessionId,SysDate", "tblInv_MaterialReturn_Master", "Id='" + MId + "' AND CompId='" + CompId + "' ");
+                SqlCommand cmdMRNDate = new SqlCommand(sqlMRNDate, con);
+                SqlDataAdapter daMRNDate = new SqlDataAdapter(cmdMRNDate);
+                DataSet DSMRNDate = new DataSet();
+                daMRNDate.Fill(DSMRNDate);
+                if (DSMRNDate.Tables[0].Rows.Count > 0)
+                {
+                    string MRNDate = fun.FromDateDMY(DSMRNDate.Tables[0].Rows[0]["SysDate"].ToString());
+                    cryRpt.SetParameterValue("MRNDate", MRNDate);
+                }
+                // For Gen By.
+                string sqlGenBy = fun.select("Title+'. '+EmployeeName As EmpName", "tblHR_OfficeStaff", "CompId='" + CompId + "' AND EmpId='" + DSMRNDate.Tables[0].Rows[0]["SessionId"] + "'");
+                SqlCommand cmdGenBy = new SqlCommand(sqlGenBy, con);
+                SqlDataAdapter daGenBy = new SqlDataAdapter(cmdGenBy);
+                DataSet DSGenBy = new DataSet();
+                daGenBy.Fill(DSGenBy);
+                if (DSGenBy.Tables[0].Rows.Count > 0)
+                {
+                    string GenBy = DSGenBy.Tables[0].Rows[0]["EmpName"].ToString();
+                    cryRpt.SetParameterValue("GenBy", GenBy);
+                }
+                // For Address
+                string Address = fun.CompAdd(CompId);
+                cryRpt.SetParameterValue("Address", Address);
+                CrystalReportViewer1.ReportSource = cryRpt;
+                Session[Key] = cryRpt;
+            }
+            catch (Exception ex) { }
+            finally
+            {
+                dt.Clear();
+                dt.Dispose();
+                Mrn.Clear();
+                Mrn.Dispose();
+                con.Close();
+                con.Dispose();
+            }
+
+            
+        }
+
+        else
+        {
+            ReportDocument doc = (ReportDocument)Session[Key];
+            CrystalReportViewer1.ReportSource = doc;
+        }
+    }
+
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        cryRpt = new ReportDocument();
+        
+    }
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer1.Dispose();
+        this.CrystalReportViewer1 = null;
+        cryRpt.Close();
+        cryRpt.Dispose();
+        GC.Collect();
+    }
+
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("MaterialReturnNote_MRN_Print.aspx?MRNNo=" + MRNNo + "&ModId=9&SubModId=48");
+    }
+}

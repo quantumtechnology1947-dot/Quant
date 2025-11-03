@@ -1,0 +1,639 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MIS/Reports/Excise_VAT_CST_Compute.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Excise_VAT_CST_Compute.aspx.cs" Inherits="Module_MIS_Reports_Excise_VAT_CST_Compute" Culture="en-GB" Title="ERP" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<%@ Register assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+<link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+<script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="center" cellpadding="0" cellspacing="0" width="100%">
+        
+        <tr >
+            <td valign="top">
+                <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" 
+                    Width="100%" AutoPostBack="True" ScrollBars="Auto" >
+                    <cc1:TabPanel runat="server" HeaderText="TabPanel1" ID="TabPanel1">
+                        <HeaderTemplate>Excise/VAT/CST Computation
+                    </HeaderTemplate>
+<ContentTemplate>  
+ <table class="fontcss" width="100%" cellpadding="0" cellspacing="0">
+                             <tr>
+                    <td align="left">
+                        <b>&nbsp;&nbsp;Date From: </b>
+                        <asp:TextBox ID="TextBox3" runat="server" CssClass="box3" Width="100px"></asp:TextBox>
+                        <cc1:CalendarExtender CssClass="cal_Theme2" ID="CalendarExtender3" runat="server" 
+                            Enabled="True" Format="dd-MM-yyyy" TargetControlID="TextBox3">
+                        </cc1:CalendarExtender>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" 
+                            ControlToValidate="TextBox3" ErrorMessage="*" ValidationGroup="a2"></asp:RequiredFieldValidator>
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator5" runat="server" 
+                            ControlToValidate="TextBox3" ErrorMessage="*" 
+                            ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                            ValidationGroup="a2"></asp:RegularExpressionValidator>
+                        &nbsp;-&nbsp; <b>To:</b>
+                        <asp:TextBox ID="TextBox4" runat="server" CssClass="box3" Width="100px"></asp:TextBox>
+                        <cc1:CalendarExtender CssClass="cal_Theme2" ID="CalendarExtender4" runat="server" 
+                            Enabled="True" Format="dd-MM-yyyy" TargetControlID="TextBox4">
+                        </cc1:CalendarExtender>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" 
+                            ControlToValidate="TextBox4" ErrorMessage="*" ValidationGroup="a2"></asp:RequiredFieldValidator>
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator6" runat="server" 
+                            ControlToValidate="TextBox4" ErrorMessage="*" 
+                            ValidationExpression="^([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.][0-9]{4}$" 
+                            ValidationGroup="a2"></asp:RegularExpressionValidator>
+                       
+                       
+                        <b>
+                        <asp:Button ID="Btnsearch1" runat="server" ValidationGroup="a2" CssClass="redbox" 
+                            OnClick="Btnsearch1_Click" Text="Search" />
+                        </b>
+                        <asp:CompareValidator ID="CompareValidator3" runat="server" 
+                    ControlToCompare="TextBox4" ControlToValidate="TextBox3" 
+                    ErrorMessage="Invalid selected date range." 
+                    Operator="LessThanEqual" Type="Date" ValidationGroup="a1"></asp:CompareValidator>
+                <asp:Label ID="Label2" runat="server" ForeColor="Red" 
+                    Visible="False" ></asp:Label>
+                        
+                        </td>
+                </tr>
+                             <tr>
+                                 <td align="left">                                    
+                                     
+                                 <asp:Panel ID="Panel2" Width="100%" Height="410px" runat="server" ScrollBars="Auto">
+                                     <asp:GridView ID="GridView1" runat="server">
+                                     </asp:GridView>
+                  
+                  
+                  
+                                  <CR:CrystalReportSource ID="CrystalReportSource3"   runat="server">
+                        <Report FileName="~/Module/MIS/Reports/Ex_Vat_CST_Computation.rpt">
+                        </Report>
+                    </CR:CrystalReportSource>
+                    <CR:CrystalReportViewer ID="CrystalReportViewer3" EnableDrillDown="False"  Visible="False" 
+                    runat="server" AutoDataBind="True" ReportSourceID="CrystalReportSource3" HasCrystalLogo="False"
+                    DisplayGroupTree="False" EnableDatabaseLogonPrompt="False" 
+                    EnableParameterPrompt="False" />
+                                 </asp:Panel>
+                                 </td>
+                             </tr>
+                </table>
+
+</ContentTemplate>
+</cc1:TabPanel>             
+                </cc1:TabContainer>
+            </td>
+        </tr>
+        </table>
+
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/MIS/Reports/Excise_VAT_CST_Compute.aspx.cs ===
+
+﻿ using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using CrystalDecisions.CrystalReports.Engine;
+using System.Data.SqlClient;
+using System.Collections.Generic;
+using System.Reflection;
+
+public partial class Module_MIS_Reports_Excise_VAT_CST_Compute : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    ReportDocument cryRpt2 = new ReportDocument();
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        try
+        {
+            if (!IsPostBack)
+            {
+                DateTime x = this.FirstDateInLastMonth();
+                string strtDate = x.Date.ToShortDateString().Replace('/', '-');
+                DateTime x2 = this.LastDateInLastMonth();
+                string EndDate = x2.Date.ToShortDateString().Replace('/', '-');
+                TextBox3.Text = strtDate;
+                TextBox4.Text = EndDate;
+                this.cryrpt_create2();
+
+            }
+            else
+            {
+                
+                ReportDocument doc2 = (ReportDocument)Session["ReportDocument2"];              
+                CrystalReportViewer3.ReportSource = doc2;
+            }
+
+        }
+        catch (Exception ex)
+        {
+        }
+
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        cryRpt2 = new ReportDocument();
+    }
+    protected void Btnsearch1_Click(object sender, EventArgs e)
+    {
+        this.cryrpt_create2();
+    }
+
+    public void cryrpt_create2()
+    {
+        string connStr = fun.Connection();
+        SqlConnection con = new SqlConnection(connStr);
+        con.Open();
+        DataTable dt = new DataTable();
+        DataTable dt2 = new DataTable();
+        DataTable dt3 = new DataTable();
+        DataTable dt4 = new DataTable();
+        DataTable dt5 = new DataTable();
+        DataTable dt6 = new DataTable();
+        DataTable targetDt = new DataTable();
+        DataTable targetDt2 = new DataTable();
+        DataTable targetDt3 = new DataTable();
+        DataTable targetDt4 = new DataTable();
+        DataTable targetDt5 = new DataTable();
+        DataTable targetDt6 = new DataTable();
+        try
+        {
+
+           string wordsRem = string.Empty;
+           int FinYearId = Convert.ToInt32(Session["finyear"]);
+           int CompId = Convert.ToInt32(Session["compid"]);
+           string Fdate = TextBox3.Text;
+           string Tdate = TextBox4.Text;
+           SqlCommand Cmdgrid1 = new SqlCommand("SELECT sum(tblACC_BillBooking_Details.ExStBasic)as exba,sum(tblACC_BillBooking_Details.ExStEducess)as edu,sum(tblACC_BillBooking_Details.ExStShecess)as she,  sum(tblACC_BillBooking_Details.VAT)as vat1,sum(tblACC_BillBooking_Details.CST)as cst,tblMM_PO_Details.VAT,tblMM_PO_Details.ExST FROM tblACC_BillBooking_Details INNER JOIN tblACC_BillBooking_Master ON tblACC_BillBooking_Details.MId = tblACC_BillBooking_Master.Id INNER JOIN  tblQc_MaterialQuality_Details ON tblACC_BillBooking_Details.GQNId = tblQc_MaterialQuality_Details.Id INNER JOIN tblMM_PO_Details ON tblACC_BillBooking_Details.PODId = tblMM_PO_Details.Id  INNER JOIN tblMM_PO_Master ON tblMM_PO_Details.MId = tblMM_PO_Master.Id AND tblMM_PO_Master.SupplierId!='S0098' And  tblACC_BillBooking_Master.CompId='" + CompId + "'  AND  tblACC_BillBooking_Master.SysDate between '" + fun.FromDate(Fdate) + "' And '" + fun.FromDate(Tdate) + "' Group by tblMM_PO_Details.ExST,tblMM_PO_Details.VAT,tblACC_BillBooking_Details.MId", con);
+
+//SqlCommand Cmdgrid1 = new SqlCommand("SELECT sum(tblACC_BillBooking_Details.ExStBasic)as exba,sum(tblACC_BillBooking_Details.ExStEducess)as edu,sum(tblACC_BillBooking_Details.ExStShecess)as she,  sum(tblACC_BillBooking_Details.VAT)as vat1,sum(tblACC_BillBooking_Details.CST)as cst,tblMM_PO_Details.VAT,tblMM_PO_Details.ExST FROM tblACC_BillBooking_Details INNER JOIN tblACC_BillBooking_Master ON tblACC_BillBooking_Details.MId = tblACC_BillBooking_Master.Id INNER JOIN  tblQc_MaterialQuality_Details ON tblACC_BillBooking_Details.GQNId = tblQc_MaterialQuality_Details.Id INNER JOIN tblMM_PO_Details ON tblACC_BillBooking_Details.PODId = tblMM_PO_Details.Id  And  tblACC_BillBooking_Master.CompId='" + CompId + "'  AND  tblACC_BillBooking_Master.SysDate between '" + fun.FromDate(Fdate) + "' And '" + fun.FromDate(Tdate) + "' Group by tblMM_PO_Details.ExST,tblMM_PO_Details.VAT,tblACC_BillBooking_Details.MId", con);
+
+
+            SqlDataAdapter dagrid1 = new SqlDataAdapter(Cmdgrid1);
+            DataSet dsrs1 = new DataSet();
+            dagrid1.Fill(dsrs1);
+            SqlCommand Cmdgrid = new SqlCommand("SELECT sum(tblACC_BillBooking_Details.ExStBasic)as exba,sum(tblACC_BillBooking_Details.ExStEducess)as edu,sum(tblACC_BillBooking_Details.ExStShecess)as she,  sum(tblACC_BillBooking_Details.VAT)as vat1,sum(tblACC_BillBooking_Details.CST)as cst,tblMM_PO_Details.ExST,tblMM_PO_Details.VAT FROM tblACC_BillBooking_Details INNER JOIN tblACC_BillBooking_Master ON tblACC_BillBooking_Details.MId = tblACC_BillBooking_Master.Id INNER JOIN  tblinv_MaterialServiceNote_Details ON tblACC_BillBooking_Details.GSNId =tblinv_MaterialServiceNote_Details.Id INNER JOIN tblMM_PO_Details ON tblACC_BillBooking_Details.PODId =tblMM_PO_Details.Id  INNER JOIN tblMM_PO_Master ON tblMM_PO_Details.MId = tblMM_PO_Master.Id AND tblMM_PO_Master.SupplierId!='S0098' And  tblACC_BillBooking_Master.CompId='" + CompId + "' AND  tblACC_BillBooking_Master.SysDate between '" + fun.FromDate(Fdate) + "'  And '" + fun.FromDate(Tdate) + "' Group by tblMM_PO_Details.ExST,tblMM_PO_Details.VAT, tblACC_BillBooking_Details.MId", con);
+            
+         //   SqlCommand Cmdgrid = new SqlCommand("SELECT sum(tblACC_BillBooking_Details.ExStBasic)as exba,sum(tblACC_BillBooking_Details.ExStEducess)as edu,sum(tblACC_BillBooking_Details.ExStShecess)as she,  sum(tblACC_BillBooking_Details.VAT)as vat1,sum(tblACC_BillBooking_Details.CST)as cst,tblMM_PO_Details.ExST,tblMM_PO_Details.VAT FROM tblACC_BillBooking_Details INNER JOIN tblACC_BillBooking_Master ON tblACC_BillBooking_Details.MId = tblACC_BillBooking_Master.Id INNER JOIN  tblinv_MaterialServiceNote_Details ON tblACC_BillBooking_Details.GSNId =tblinv_MaterialServiceNote_Details.Id INNER JOIN tblMM_PO_Details ON tblACC_BillBooking_Details.PODId =tblMM_PO_Details.Id And  tblACC_BillBooking_Master.CompId='" + CompId + "' AND  tblACC_BillBooking_Master.SysDate between '" + fun.FromDate(Fdate) + "'  And '" + fun.FromDate(Tdate) + "' Group by tblMM_PO_Details.ExST,tblMM_PO_Details.VAT, tblACC_BillBooking_Details.MId", con);
+            SqlDataAdapter dagrid = new SqlDataAdapter(Cmdgrid);
+            DataSet dsrs = new DataSet();
+            dagrid.Fill(dsrs);
+            dsrs.Tables[0].Merge(dsrs1.Tables[0]);           
+            dt.Columns.Add(new System.Data.DataColumn("CompId", typeof(int)));//1              
+            dt.Columns.Add(new System.Data.DataColumn("VATerms", typeof(string)));//2 
+            dt.Columns.Add(new System.Data.DataColumn("VATAmt", typeof(double)));//3
+            dt2.Columns.Add(new System.Data.DataColumn("CSTTerms", typeof(string)));//4
+            dt2.Columns.Add(new System.Data.DataColumn("CSTAmt", typeof(double)));//5
+            dt3.Columns.Add(new System.Data.DataColumn("ExciseTerm", typeof(string)));//6
+            dt3.Columns.Add(new System.Data.DataColumn("ExBasicAmt", typeof(double)));//7            
+            dt4.Columns.Add(new System.Data.DataColumn("VATTerm", typeof(string)));
+            dt4.Columns.Add(new System.Data.DataColumn("Amt", typeof(double)));//2            
+            dt5.Columns.Add(new System.Data.DataColumn("CSTTerm", typeof(string)));
+            dt5.Columns.Add(new System.Data.DataColumn("CSTAmt", typeof(double)));//5
+            dt6.Columns.Add(new System.Data.DataColumn("EXTerm", typeof(string)));
+            dt6.Columns.Add(new System.Data.DataColumn("EXAmt", typeof(double)));//7 
+            DataSet Purchase_Vat = new DataSet();
+            DataRow dr;
+            DataRow dr2;
+            DataRow dr3;
+            DataRow dr4;
+            DataRow dr5;
+            DataRow dr6;             
+            double VATGrossTotal = 0;  
+            for (int i = 0; i < dsrs.Tables[0].Rows.Count; i++)
+            {
+                double Total = 0;
+                double TotalExcise = 0;
+                dr = dt.NewRow();
+                dr2 = dt2.NewRow();
+                dr3 = dt3.NewRow(); 
+                dr[0] = CompId;                
+                double VatCst = 0;
+                string Strvat = fun.select("Terms,Value,IsVAT,IsCST", "tblVAT_Master", "Id='" + dsrs.Tables[0].Rows[i]["VAT"].ToString() + "'");
+                SqlCommand cmdvat = new SqlCommand(Strvat, con);
+                SqlDataAdapter davat = new SqlDataAdapter(cmdvat);
+                DataSet DSvat = new DataSet();
+                davat.Fill(DSvat);
+
+                if (DSvat.Tables[0].Rows[0]["IsVAT"].ToString() == "1")
+                {
+
+                    VatCst = Convert.ToDouble(dsrs.Tables[0].Rows[i]["vat1"]);
+                }
+                else if (DSvat.Tables[0].Rows[0]["IsCST"].ToString() == "1")
+                {
+
+                    VatCst = Convert.ToDouble(dsrs.Tables[0].Rows[i]["cst"]);
+                }
+                else if (DSvat.Tables[0].Rows[0]["IsVAT"].ToString() == "0" && DSvat.Tables[0].Rows[0]["IsCST"].ToString() == "0")
+                {
+
+                    VatCst = Convert.ToDouble(dsrs.Tables[0].Rows[i]["vat1"]);
+                }
+
+                Total = VatCst; 
+                TotalExcise = Convert.ToDouble(dsrs.Tables[0].Rows[i]["exba"]) + Convert.ToDouble(dsrs.Tables[0].Rows[i]["edu"]) + Convert.ToDouble(dsrs.Tables[0].Rows[i]["she"]);
+
+                string Strex = fun.select("Terms", "tblExciseser_Master", "Id='" + dsrs.Tables[0].Rows[i]["ExST"].ToString() + "'");
+                SqlCommand cmdex = new SqlCommand(Strex, con);
+                SqlDataAdapter daex = new SqlDataAdapter(cmdex);
+                DataSet DSx = new DataSet();
+                daex.Fill(DSx);
+               
+                if (DSx.Tables[0].Rows.Count > 0)
+                {
+                    dr3[0] = DSx.Tables[0].Rows[0]["Terms"].ToString();
+                    dr3[1] = TotalExcise;                   
+                    dt3.Rows.Add(dr3);
+                    dt3.AcceptChanges();
+                }           
+
+                if (DSvat.Tables[0].Rows[0]["IsCST"].ToString() == "0")
+                {
+                    dr[1] = DSvat.Tables[0].Rows[0]["Terms"].ToString();
+                    dr[2] = Total;                    
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();                    
+                }
+                else
+                {
+                    dr2[0] = DSvat.Tables[0].Rows[0]["Terms"].ToString();
+                    dr2[1] = Total;                   
+                    dt2.Rows.Add(dr2);
+                    dt2.AcceptChanges();
+                }
+                
+            }            
+            if (dt.Rows.Count > 0 )
+            {
+                var grpbyfilter = from row in dt.AsEnumerable()
+                                  group row by new
+                                  {
+                                      y = row.Field<string>("VATerms")
+
+                                  } into grp
+                                  let row1 = grp.First()
+                                  select new
+                                  {
+                                      CompId = row1.Field<Int32>("CompId"),
+                                      VATerms = row1.Field<string>("VATerms"),
+                                      VATAmt = grp.Sum(r => r.Field<double>("VATAmt"))
+
+                                  };
+               
+                targetDt = LINQToDataTable(grpbyfilter);                
+            }
+
+            if (dt2.Rows.Count > 0)
+            {
+
+                var grpbyfilter2 = from row2 in dt2.AsEnumerable()
+                                   group row2 by new
+                                   {
+                                       y = row2.Field<string>("CSTTerms")
+                                   } into grp2
+                                   let row12 = grp2.First()
+                                   select new
+                                   {
+                                       CSTerms = row12.Field<string>("CSTTerms"),
+                                       CSTAmt = grp2.Sum(r => r.Field<double>("CSTAmt"))
+
+                                   };
+
+                targetDt2 = LINQToDataTable(grpbyfilter2);
+            }
+
+
+            if (dt3.Rows.Count > 0)
+            {
+                
+                var grpbyfilter2 = from row2 in dt3.AsEnumerable()
+                                   group row2 by new
+                                   {
+                                       y = row2.Field<string>("ExciseTerm")
+
+                                   } into grp2
+                                   let row12 = grp2.First()
+                                   select new
+                                   {
+                                       ExciseTerm = row12.Field<string>("ExciseTerm"),
+                                       ExBasicAmt = grp2.Sum(r => r.Field<double>("ExBasicAmt"))
+
+                                   };
+
+                targetDt3 = LINQToDataTable(grpbyfilter2);
+            }
+
+
+            ////////////////  Sales             
+                      
+            {
+
+
+                string Sql2 = "Select ((ReqQty*AmtInPer/100)*Rate) as Amt,PFType,PF,FreightType,Freight,CENVAT,CST,VAT from tblACC_SalesInvoice_Details,tblACC_SalesInvoice_Master where tblACC_SalesInvoice_Details.MId=tblACC_SalesInvoice_Master.Id And CompId='" + CompId + "' And  tblACC_SalesInvoice_Master.DateOfIssueInvoice Between '" + fun.FromDate(Fdate) + "' And '" + fun.FromDate(Tdate) + "' order by tblACC_SalesInvoice_Master.Id ";
+                SqlCommand Cmdgrid2 = new SqlCommand(Sql2, con);
+                SqlDataAdapter dagrid2 = new SqlDataAdapter(Cmdgrid2);
+                DataSet dsrs2 = new DataSet();
+                dagrid2.Fill(dsrs2);               
+                int cnt = 0;
+                 cnt = dsrs2.Tables[0].Rows.Count;
+                for (int k = 0; k < dsrs2.Tables[0].Rows.Count; k++)
+                {
+
+                    dr4 = dt4.NewRow();
+                    dr5 = dt5.NewRow();
+                    dr6 = dt6.NewRow();
+                    double BasicAmt = 0;
+                    double Pf = 0;
+                    double Fright = 0;
+                    double Excise = 0;                    
+                    double Amt = 0; 
+                    BasicAmt = Convert.ToDouble(dsrs2.Tables[0].Rows[k]["Amt"]);
+                    if (Convert.ToInt32(dsrs2.Tables[0].Rows[k]["PFType"]) == 0)
+                    {
+                        Pf = Convert.ToDouble(dsrs2.Tables[0].Rows[k]["PF"]);                       
+                    }
+                    else
+                    {
+                        Pf = (BasicAmt) * Convert.ToDouble(dsrs2.Tables[0].Rows[k]["PF"]) / 100;
+                    }
+
+                    if (Convert.ToInt32(dsrs2.Tables[0].Rows[k]["FreightType"]) == 0)
+                    {
+                        Fright = Convert.ToDouble(dsrs2.Tables[0].Rows[k]["Freight"]); 
+                    }
+                    else
+                    {
+                        Fright = ((BasicAmt) * Convert.ToDouble(dsrs2.Tables[0].Rows[k]["Freight"]) / 100);
+                    }
+                    double y = 0;
+                    y = Pf / cnt;                    
+                    Amt = BasicAmt + y;
+                    // CENVAT  
+                    string sqlCENVAT = fun.select("*", "tblExciseser_Master", "Id='" + dsrs2.Tables[0].Rows[k]["CENVAT"] + "'");
+                    SqlCommand cmdCENVAT = new SqlCommand(sqlCENVAT, con);
+                    SqlDataAdapter DACENVAT = new SqlDataAdapter(cmdCENVAT);
+                    DataSet DSCENVAT = new DataSet();
+                    DACENVAT.Fill(DSCENVAT);
+                    if (DSCENVAT.Tables[0].Rows.Count > 0)
+                    {
+                        Excise = (Amt * Convert.ToDouble(DSCENVAT.Tables[0].Rows[0]["Value"]) / 100);
+                        dr6[0] = DSCENVAT.Tables[0].Rows[0]["Terms"].ToString();
+                        dr6[1] = Excise;
+                        dt6.Rows.Add(dr6);
+                        dt6.AcceptChanges();                       
+                    }
+                   
+                    double x = 0;
+                    x = Fright / cnt; 
+                    double Amt2 = 0;
+                    double Amt3 = 0;
+                    Amt2 = Amt + Excise;                    
+                    //Sales Tax
+                    if (dsrs2.Tables[0].Rows[k]["VAT"].ToString() != "0")
+                    {
+                        
+                        string StrVC = fun.select("Value,Terms", "tblVAT_Master", "Id='" + dsrs2.Tables[0].Rows[k]["VAT"].ToString() + "'");
+                        SqlCommand CmdVC = new SqlCommand(StrVC, con);
+                        SqlDataAdapter DaVC = new SqlDataAdapter(CmdVC);
+                        DataSet DSVC = new DataSet();
+                        DaVC.Fill(DSVC, "tblVAT_Master");
+                        Amt3 = (Amt2 + x) * Convert.ToDouble(DSVC.Tables[0].Rows[0]["Value"]) / 100;
+                        VATGrossTotal += Math.Round(Amt3,2);                        
+                        dr4[0] = DSVC.Tables[0].Rows[0]["Terms"].ToString();
+                        dr4[1] = Math.Round(Amt3, 2);
+                        dt4.Rows.Add(dr4);
+                        dt4.AcceptChanges();
+                    }
+                    else if (dsrs2.Tables[0].Rows[k]["CST"].ToString() != "0")
+                    {
+                        
+                        string StrVC = fun.select("*", "tblVAT_Master", "Id='" + dsrs2.Tables[0].Rows[k]["CST"].ToString() + "'");
+                        SqlCommand CmdVC = new SqlCommand(StrVC, con);
+                        SqlDataAdapter DaVC = new SqlDataAdapter(CmdVC);
+                        DataSet DSVC = new DataSet();
+                        DaVC.Fill(DSVC, "tblVAT_Master");
+                        Amt3 = (Amt2 * Convert.ToDouble(DSVC.Tables[0].Rows[0]["Value"]) / 100) + x;
+                        dr5[0] = DSVC.Tables[0].Rows[0]["Terms"].ToString();
+                        dr5[1] = Amt3;
+                        dt5.Rows.Add(dr5);
+                        dt5.AcceptChanges();  
+                    }  
+                                      
+                }
+            }
+
+            if (dt4.Rows.Count > 0)
+            {
+               
+                var grpbyfilter = from row in dt4.AsEnumerable()
+                                  group row by new
+                                  {
+                                      y = row.Field<string>("VATTerm"),
+                                     
+
+                                  } into grp
+                                  let row1 = grp.First()
+                                  select new
+                                  {                                      
+                                      VatTerm = row1.Field<string>("VATTerm"),
+                                      Amt = grp.Sum(r => r.Field<double>("Amt"))
+                                      
+                                  };
+
+                 targetDt4 = LINQToDataTable(grpbyfilter);
+                 
+            }
+
+            if (dt5.Rows.Count > 0)
+            {
+
+                var grpbyfilter = from row in dt5.AsEnumerable()
+                                  group row by new
+                                  {
+                                      y = row.Field<string>("CSTTerm"),
+
+
+                                  } into grp
+                                  let row1 = grp.First()
+                                  select new
+                                  {
+                                      CSTTerm = row1.Field<string>("CSTTerm"),
+                                      CSTAmt = grp.Sum(r => r.Field<double>("CSTAmt"))
+
+                                  };
+
+                targetDt5= LINQToDataTable(grpbyfilter);               
+            }
+
+            if (dt6.Rows.Count > 0)
+            {
+
+                var grpbyfilter = from row in dt6.AsEnumerable()
+                                  group row by new
+                                  {
+                                      y = row.Field<string>("EXTerm"),
+
+
+                                  } into grp
+                                  let row1 = grp.First()
+                                  select new
+                                  {
+                                      EXTerm = row1.Field<string>("EXTerm"),
+                                      EXAmt = grp.Sum(r => r.Field<double>("EXAmt"))
+
+                                  };
+
+                targetDt6 = LINQToDataTable(grpbyfilter);
+            }
+
+
+            if (targetDt.Rows.Count > 0 || targetDt2.Rows.Count > 0 || targetDt3.Rows.Count > 0 || targetDt4.Rows.Count > 0 || targetDt5.Rows.Count > 0||targetDt6.Rows.Count > 0)
+            {
+
+                
+                CrystalReportViewer3.Visible = true;
+                Label2.Visible = false;                
+                DataSet xsd = new EX_VAT_CST_Compute();
+                xsd.Tables[0].Merge(targetDt);
+                xsd.Tables[1].Merge(targetDt2);
+                xsd.Tables[2].Merge(targetDt3);
+                xsd.Tables[3].Merge(targetDt4);
+                xsd.Tables[4].Merge(targetDt5);
+                xsd.Tables[5].Merge(targetDt6); 
+                cryRpt2 = new ReportDocument();
+                cryRpt2.Load(Server.MapPath("~/Module/MIS/Reports/Ex_Vat_CST_Computation.rpt"));
+                cryRpt2.SetDataSource(xsd);               
+                string Address = fun.CompAdd(CompId);
+                cryRpt2.SetParameterValue("Address", Address);
+                cryRpt2.SetParameterValue("FDate", Fdate);
+                cryRpt2.SetParameterValue("TDate", Tdate);
+                cryRpt2.SetParameterValue("VATGrossTotal", VATGrossTotal);                
+                CrystalReportViewer3.ReportSource = cryRpt2;
+                Session["ReportDocument2"] = cryRpt2;
+            }
+            else
+            {
+
+                Label2.Visible = true;
+                Label2.Text = "No record found!";
+                CrystalReportViewer3.Visible = false;
+
+            }
+
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+            con.Dispose();
+            dt.Dispose();
+            dt2.Dispose();
+            dt3.Dispose();
+            dt4.Dispose();
+            dt5.Dispose();
+            dt6.Dispose();
+            targetDt.Dispose();
+            targetDt2.Dispose();
+            targetDt3.Dispose();
+            targetDt4.Dispose();
+            targetDt5.Dispose();
+            targetDt6.Dispose();
+            GC.Collect();
+        }
+        
+    }
+
+   
+    public DataTable LINQToDataTable<T>(IEnumerable<T> varlist)
+    {
+        DataTable dtReturns = new DataTable();
+        PropertyInfo[] oProps = null;
+        if (varlist == null)
+        {
+            return dtReturns;
+        }
+        foreach (T rec in varlist)
+        {
+            if (oProps == null)
+            {
+                oProps = ((Type)rec.GetType()).GetProperties();
+                foreach (PropertyInfo pi in oProps)
+                {
+                    Type colType = pi.PropertyType;
+                    if ((colType.IsGenericType) && (colType.GetGenericTypeDefinition() == typeof(Nullable<>)))
+                    {
+                        colType = colType.GetGenericArguments()[0];
+                    }
+                    dtReturns.Columns.Add(new DataColumn(pi.Name, colType));
+                }
+            }
+
+            DataRow dr = dtReturns.NewRow();
+
+            foreach (PropertyInfo pi in oProps)
+            {
+                dr[pi.Name] = pi.GetValue(rec, null) == null ? DBNull.Value : pi.GetValue(rec, null);
+            }
+
+            dtReturns.Rows.Add(dr);
+        }
+        return dtReturns;
+    }
+
+    public DateTime FirstDateInLastMonth()
+    {
+        return new DateTime(DateTime.Now.Year, (DateTime.Now.Month-1), 1);
+    }
+
+    public DateTime LastDateInLastMonth()
+    {
+        DateTime FirstDateOfMonth = new DateTime(DateTime.Now.Year, (DateTime.Now.Month-1), 1);
+        return FirstDateOfMonth.AddMonths(1).AddDays(-1);
+    }
+
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        this.CrystalReportViewer3.Dispose();
+        this.CrystalReportViewer3 = null;
+        //cryRpt2.Close();
+        //cryRpt2.Dispose();
+        GC.Collect();
+    }
+}

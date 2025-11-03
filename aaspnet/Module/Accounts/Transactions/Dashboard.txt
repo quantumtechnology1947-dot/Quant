@@ -1,0 +1,203 @@
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/Dashboard.aspx.txt ===
+
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Dashboard.aspx.cs" Inherits="Module_Accounts_Transactions_Dashboard" Title="ERP" Theme="Default" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+    <link href="../../../Css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../../../Css/yui-datatable.css" rel="stylesheet" type="text/css" />
+    <script src="../../../Javascript/loadingNotifier.js" type="text/javascript"></script>
+    <script src="../../../Javascript/PopUpMsg.js" type="text/javascript"></script>
+   
+    
+    <style type="text/css">
+        .style2
+        {
+            height: 24px;
+        }
+    </style>
+   
+    
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cp3" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cp1" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cp2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="ContentPlaceHolder3" Runat="Server">
+    <table align="left" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td>
+                <table cellpadding="0" cellspacing="0" width="60%" class="box3">
+                    <tr>
+                        <td colspan="4" style="background:url(../../../images/hdbg.JPG); height:21px" 
+                            class="fontcsswhite" >&nbsp;<b>Status</b></td>
+                    </tr>  
+                     <tr>
+    <td align="left">
+     <asp:Panel ID="Panel1" runat="server" Height="470px" 
+                    ScrollBars="Auto">
+                    <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" 
+                        DataKeyNames="Id" 
+                        CssClass="yui-datatable-theme" Width="100%" 
+                        >
+                        <Columns>
+                                                       
+                           
+                            <asp:TemplateField HeaderText="SN" ItemStyle-HorizontalAlign="Right">
+                                <ItemTemplate>
+                                    <%#Container.DataItemIndex+1%>
+                                </ItemTemplate>
+                                <HeaderStyle Font-Size="10pt" />
+                                <ItemStyle HorizontalAlign="Right" VerticalAlign="Top" Width="2%" />
+                            </asp:TemplateField>
+                            
+                            <asp:BoundField DataField="Id" HeaderText="Id" InsertVisible="False" 
+                                ReadOnly="True" SortExpression="Id" Visible="False" />
+                            <asp:TemplateField HeaderText=" " >
+                                <ItemTemplate>
+                                    <asp:Label ID="Label1" runat="server" Text='<%# Bind("Trans") %>'></asp:Label>
+                                </ItemTemplate>                               
+                                <ItemStyle HorizontalAlign="left" Width="15%" Font-Bold="true" />
+                            </asp:TemplateField>                                                       
+                            <asp:TemplateField HeaderText="Opening Amount" SortExpression="OpAmt">
+                                <ItemTemplate>
+                                    <asp:Label ID="Label3" runat="server" Text='<%# Bind("OpAmt") %>'></asp:Label>
+                                </ItemTemplate>
+                                
+                                <ItemStyle HorizontalAlign="Right" Width="5%" />
+                            </asp:TemplateField>
+                            
+                            <asp:TemplateField HeaderText="Closing Amount" SortExpression="ClAmt">
+                                <ItemTemplate>
+                                    <asp:Label ID="Label3" runat="server" Text='<%# Bind("ClAmt") %>'></asp:Label>
+                                </ItemTemplate>
+                                
+                                <ItemStyle HorizontalAlign="Right" Width="5%" />
+                            </asp:TemplateField>
+                        </Columns>
+                         <EmptyDataTemplate>
+                    <table width="100%" class="fontcss">
+                    <tr>
+                    <td align="center">
+                    <asp:Label ID="Label1" runat="server"  Text="No data to display !" Font-Size="Larger" ForeColor="maroon">
+                    </asp:Label>
+                    </td>
+                    </tr>
+                    </table>
+                    </EmptyDataTemplate>
+                    <FooterStyle Wrap="True">
+                    </FooterStyle>
+                    </asp:GridView>
+                </asp:Panel>
+    </td>
+    </tr>
+                    </table>
+            </td>
+        </tr>
+        
+       
+
+    </table>
+</asp:Content>
+<asp:Content ID="Content8" ContentPlaceHolderID="ContentPlaceHolder4" Runat="Server">
+</asp:Content>
+
+
+
+=== FILE: /Users/shiv/workspace/syncortext/NewERP/Module/Accounts/Transactions/Dashboard.aspx.cs ===
+
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Data.SqlClient;
+
+public partial class Module_Accounts_Transactions_Dashboard : System.Web.UI.Page
+{
+    clsFunctions fun = new clsFunctions();
+    SqlConnection con;
+    int CompId = 0;
+    int FyId = 0;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            string connStr = fun.Connection();
+            con = new SqlConnection(connStr);
+            CompId = Convert.ToInt32(Session["compid"]);
+            FyId = Convert.ToInt32(Session["finyear"]);
+            if (!IsPostBack)
+            {
+                this.FillGrid();
+            }
+        }
+        catch (Exception et)
+        {
+        }
+    }
+
+    public void FillGrid()
+    {
+       try
+        {
+            DataTable dt = new DataTable();
+            string sql = fun.select1("Id,Name", "tblACC_Bank order by OrdNo Asc");
+            SqlCommand cmdsql = new SqlCommand(sql, con);
+            SqlDataAdapter dasql = new SqlDataAdapter(cmdsql);
+            DataSet dssql = new DataSet();
+            dasql.Fill(dssql);
+            dt.Columns.Add(new System.Data.DataColumn("Id", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("Trans", typeof(string)));
+            dt.Columns.Add(new System.Data.DataColumn("OpAmt", typeof(double)));
+            dt.Columns.Add(new System.Data.DataColumn("ClAmt", typeof(double)));
+            DataRow dr;
+
+            for (int d = 0; d < dssql.Tables[0].Rows.Count; d++)
+            {
+                dr = dt.NewRow();
+
+                dr[0] = dssql.Tables[0].Rows[d]["Id"].ToString();
+                dr[1] = dssql.Tables[0].Rows[d]["Name"].ToString();
+                if (dssql.Tables[0].Rows[d]["Name"].ToString() == "Cash")
+                {
+                    dr[2] = fun.getCashOpBalAmt("<", fun.getCurrDate(), CompId, FyId).ToString();
+                    dr[3] = fun.getCashClBalAmt("=", fun.getCurrDate(), CompId, FyId).ToString();
+                }
+                else
+                {
+                    dr[2] = fun.getBankOpBalAmt("<", fun.getCurrDate(), CompId, FyId, Convert.ToInt32(dssql.Tables[0].Rows[d]["Id"])).ToString();
+                    dr[3] = fun.getBankClBalAmt("=", fun.getCurrDate(), CompId, FyId, Convert.ToInt32(dssql.Tables[0].Rows[d]["Id"])).ToString();
+                }
+                dt.Rows.Add(dr);
+                dt.AcceptChanges();
+
+            }
+            GridView2.DataSource = dt;
+            GridView2.DataBind();
+
+        }
+
+        catch (Exception ex)
+        { }
+    }
+    
+
+    
+
+}
